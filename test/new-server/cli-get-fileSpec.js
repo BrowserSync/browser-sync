@@ -84,7 +84,7 @@ describe("Style Injector: transform the files option into useable watchers", fun
 
             it("should return an array of the files", function () {
                 files = setup.getFiles(files, cb);
-                waits(50);
+                waits(100);
                 runs(function () {
                     expect(cb).toHaveBeenCalledWith([file1, file2]);
                 });
@@ -120,7 +120,7 @@ describe("Style Injector: transform the files option into useable watchers", fun
         it("should return files from a single glob string", function () {
 
             files = setup.getFiles("test/fixtures/*.html", cb);
-            waits(50);
+            waits(100);
             runs(function () {
                 expect(cb).toHaveBeenCalledWith([file2, file1, file3]);
             });
@@ -130,7 +130,7 @@ describe("Style Injector: transform the files option into useable watchers", fun
                 "test/fixtures/*.html",
                 "test/fixtures/assets/*.css",
                 "test/fixtures/scss/*.scss"], cb);
-            waits(50);
+            waits(100);
             runs(function () {
                 expect(cb).toHaveBeenCalledWith([file2, file1, file3, css, scss]);
             });

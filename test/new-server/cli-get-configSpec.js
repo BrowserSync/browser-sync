@@ -2,32 +2,38 @@
 
 var module = require('../../lib/index');
 var setup = module.setup;
+
 var configFilePath = "test/fixtures/si-config.js";
+var partialConfigFilePath = "test/fixtures/si-config-partial.js";
 
 var file1 = "test/fixtures/scss/main.scss";
 var file2 = "test/fixtures/assets/style.css";
 
-
-var defaultConfig = {
-    debugInfo: true,
-    files: file2,
-    background: false,
-    defaultConfig: true,
-    reloadFileTypes: ['php', 'html', 'js', 'erb'],
-    injectFileTypes: ['css', 'png', 'jpg', 'svg', 'gif'],
-    host: null,
-    ghostMode: {
-        links: false,
-        forms: false,
-        scroll: false
-    },
-    server: {
-        baseDir: "./"
-    },
-    open: true
-};
+var defaultConfig;
 
 describe("Style Injector: accepting a config file.", function () {
+
+    // reset default config before every test
+    beforeEach(function(){
+        defaultConfig = {
+            debugInfo: true,
+            files: file2,
+            background: false,
+            defaultConfig: true,
+            reloadFileTypes: ['php', 'html', 'js', 'erb'],
+            injectFileTypes: ['css', 'png', 'jpg', 'svg', 'gif'],
+            host: null,
+            ghostMode: {
+                links: false,
+                forms: false,
+                scroll: false
+            },
+            server: {
+                baseDir: "./"
+            },
+            open: true
+        };
+    });
 
     describe("When a config arg is given on command line", function () {
 
@@ -68,18 +74,36 @@ describe("Style Injector: accepting a config file.", function () {
             var argv = {
                 files: file1
             };
-
             var filesArg = setup.getFilesArg(argv, defaultConfig);
-
             expect(filesArg).toBe(file1);
         });
         it("can return the files arg from default config if no command provided", function () {
 
-            var argv = {}; // no command-line args
+            var argv = {};
             var filesArg = setup.getFilesArg(argv, defaultConfig);
 
             expect(filesArg).toBe(file2);
 
+        });
+    });
+
+    describe("merging any given config options with the defaults", function () {
+
+        it("can merge all default config options if not provided in user config", function () {
+
+            var argv = {};
+
+            argv.config = partialConfigFilePath;
+            var config = setup.getConfig(defaultConfig, argv);
+
+            expect(config.ghostMode).toBeDefined();
+            expect(config.open).toBeDefined();
+            expect(config.reloadFileTypes).toBeDefined();
+            expect(config.injectFileTypes).toBeDefined();
+            expect(config.background).toBeDefined();
+            expect(config.debugInfo).toBeDefined();
+            expect(config.host).toBeDefined();
+            expect(config.server).toBeDefined();
         });
     });
 });
