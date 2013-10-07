@@ -74,12 +74,10 @@ describe("Launching a server", function () {
             };
             var server;
 
-            setTimeout(function () {
-                server = styleInjector.launchServer("localhost", ports, options);
-                http.get("http://localhost:" + ports[1] + "/index.html", function (res) {
-                    expect(res.statusCode).toBe(200);
-                });
-            }, 1);
+            server = styleInjector.launchServer("localhost", ports, options);
+            http.get("http://localhost:" + ports[1] + "/index.html", function (res) {
+                expect(res.statusCode).toBe(200);
+            });
 
             waits(10);
 
@@ -95,27 +93,24 @@ describe("Launching a server", function () {
                     injectScripts: true
                 }
             };
-            var server;
-            setTimeout(function () {
-                server = styleInjector.launchServer("localhost", ports, options);
-                http.get("http://localhost:" + ports[1] + "/index.html", function (res) {
-                    res.setEncoding('utf8');
-                    res.on("data", function (chunk) {
 
-                        var expectedMatch1 = "<script src='http://localhost:" + ports[0] + messages.socketIoScript + "'></script>";
-                        var expectedMatch2 = "<script src='http://localhost:" + ports[1] + messages.clientScript + "'></script>"
+            var server = styleInjector.launchServer("localhost", ports, options);
+            http.get("http://localhost:" + ports[1] + "/index.html", function (res) {
+                res.setEncoding('utf8');
+                res.on("data", function (chunk) {
 
-                        expect(chunk.toString().indexOf(expectedMatch1) >= 0).toBe(true);
-                        expect(chunk.toString().indexOf(expectedMatch2) >= 0).toBe(true);
-                    });
+                    var expectedMatch1 = "<script src='http://localhost:" + ports[0] + messages.socketIoScript + "'></script>";
+                    var expectedMatch2 = "<script src='http://localhost:" + ports[1] + messages.clientScript + "'></script>"
+
+                    expect(chunk.toString().indexOf(expectedMatch1) >= 0).toBe(true);
+                    expect(chunk.toString().indexOf(expectedMatch2) >= 0).toBe(true);
                 });
-            }, 1);
+            });
 
             waits(10);
 
             runs(function () {
                 server.close();
-
             });
         });
 
