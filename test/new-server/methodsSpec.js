@@ -18,7 +18,7 @@ describe("Exposed Methods", function () {
 
         it("does not throw if no are options provided", function () {
             expect(function () {
-                var hostIp = styleInjector.getHostIp();
+                styleInjector.getHostIp();
             }).not.toThrow();
         });
 
@@ -27,6 +27,17 @@ describe("Exposed Methods", function () {
                 hostIp: "192.0.0.1"
             });
             expect(hostIp).toBe("192.0.0.1");
+        });
+
+        describe("using localhost as a fallback when no network available", function () {
+            var hostIp;
+
+            beforeEach(function(){
+                hostIp = styleInjector.getHostIp({});
+            });
+            it("can return '0.0.0.0' if no Network IP's are available", function () {
+                expect(hostIp).toBe("0.0.0.0");
+            });
         });
     });
 
