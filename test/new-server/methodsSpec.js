@@ -33,7 +33,7 @@ describe("Exposed Methods", function () {
             var hostIp;
 
             beforeEach(function(){
-                hostIp = styleInjector.getHostIp({});
+                hostIp = styleInjector.getHostIp({detect:false});
             });
             it("can return '0.0.0.0' if no Network IP's are available", function () {
                 expect(hostIp).toBe("0.0.0.0");

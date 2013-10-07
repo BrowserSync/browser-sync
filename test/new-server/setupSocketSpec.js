@@ -49,29 +49,22 @@ describe("setup Socket", function () {
 
         var socket;
 
-        setTimeout(function () {
             socket = clientIo.connect("http://localhost:" + ports[0], {'force new connection':true});
             socket.emit("inputchange", {});
             socket.emit("random", {});
-        }, 200);
 
-        waits(800);
+        waits(100);
 
         runs(function () {
             expect(cb2).toHaveBeenCalled();
             expect(cb).toHaveBeenCalled();
-
         });
     });
     it("can log a new connection", function () {
 
-        var socket;
-
         spyOn(styleInjector, 'logConnection');
 
-        setTimeout(function () {
-            socket = clientIo.connect("http://localhost:" + ports[0], {'force new connection':true});
-        }, 100);
+        var socket = clientIo.connect("http://localhost:" + ports[0], {'force new connection':true});
 
         waits(200);
 

@@ -11,15 +11,7 @@ describe("finding free ports", function () {
 
         var cb = jasmine.createSpy();
 
-        var ports;
-
-        var context = function () {
-
-        };
-
-        setTimeout(function () {
-            ports = methods.getPorts(2, cb, {});
-        }, 10);
+        var ports = methods.getPorts(2, cb, {});
 
         waits(100);
 

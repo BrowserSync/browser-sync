@@ -122,12 +122,10 @@ describe("Launching a server", function () {
                     openBrowser: true
                 }
             };
-            var server;
+
             spyOn(styleInjector, "openBrowser");
 
-            setTimeout(function () {
-                server = styleInjector.launchServer("localhost", ports, options);
-            }, 1);
+            var server = styleInjector.launchServer("localhost", ports, options);
 
             waits(10);
 
@@ -155,11 +153,9 @@ describe("Launching a server", function () {
                     }
                 };
 
-                var server;
 
-                setTimeout(function () {
-                    server = styleInjector.launchServer("localhost", ports, options);
-                }, 1);
+
+                var server = styleInjector.launchServer("localhost", ports, options);
 
                 waits(10);
 
