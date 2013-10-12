@@ -1,6 +1,6 @@
 {
     "name": "style-injector-2",
-    "description": "Live CSS reload & Browser Syncing",
+    "description": "Live CSS Reload & Browser Syncing",
     "version": "0.1.0",
     "homepage": "https://github.com/shakyshane/style-injector",
     "author": {
@@ -31,7 +31,6 @@
         "path": "*",
         "url": "*",
         "open": "*",
-        "async": "~0.2.9",
         "chokidar": "~0.6.2",
         "lodash": "~1.3.1",
         "cli-color": "~0.2.2",

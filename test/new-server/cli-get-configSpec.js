@@ -94,6 +94,7 @@ describe("Style Injector: accepting a config file.", function () {
             var argv = {};
 
             argv.config = partialConfigFilePath;
+
             var config = setup.getConfig(defaultConfig, argv);
 
             expect(config.ghostMode).toBeDefined();

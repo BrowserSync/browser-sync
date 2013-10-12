@@ -10,30 +10,6 @@ var file3 = "test/fixtures/scrolling.html";
 var css = "test/fixtures/assets/style.css";
 var scss = "test/fixtures/scss/main.scss";
 
-var cbFun = function () {};
-
-var config = {
-    urlTransforms: {
-        suffix: null,
-        remove: null
-    },
-    debugInfo: true,
-    background: false,
-    reloadFileTypes: ['php', 'html', 'js', 'erb'],
-    injectFileTypes: ['css', 'png', 'jpg', 'svg', 'gif'],
-    host: null,
-    ghostMode: {
-        links: false,
-        forms: false,
-        scroll: false
-    },
-    server: {
-        baseDir: "./"
-    },
-    open: true
-};
-
-
 describe("Style Injector: transform the files option into useable watchers", function () {
 
     it("can load", function () {

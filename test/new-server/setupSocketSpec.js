@@ -1,11 +1,9 @@
 var si = require("../../lib/style-injector");
 var clientIo = require("socket.io-client");
-var messages = require("../../lib/messages");
 var styleInjector = new si();
 var userOptions = {
     ghostMode: true
 };
-var testFile = "test/fixtures/test.txt";
 
 describe("setup Socket", function () {
 
@@ -35,7 +33,7 @@ describe("setup Socket", function () {
             }
         ];
 
-        io = styleInjector.setupSocket(ports, userOptions);
+        io = styleInjector.setupSocket(ports);
         styleInjector.handleSocketConnection(events, userOptions, styleInjector.handleClientSocketEvent);
 
     });
@@ -64,7 +62,7 @@ describe("setup Socket", function () {
 
         spyOn(styleInjector, 'logConnection');
 
-        var socket = clientIo.connect("http://localhost:" + ports[0], {'force new connection':true});
+        clientIo.connect("http://localhost:" + ports[0], {'force new connection':true});
 
         waits(200);
 

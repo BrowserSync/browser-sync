@@ -1,4 +1,5 @@
 module.exports = {
     files: "test/fixtures/**/*.css",
-    testConfig: true
+    testConfig: true,
+    server:false
 };

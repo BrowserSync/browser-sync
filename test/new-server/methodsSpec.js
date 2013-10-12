@@ -18,7 +18,7 @@ describe("Exposed Methods", function () {
 
         it("does not throw if no are options provided", function () {
             expect(function () {
-                styleInjector.getHostIp();
+                styleInjector.getHostIp({});
             }).not.toThrow();
         });
 

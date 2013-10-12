@@ -1,6 +1,12 @@
 describe("Ghostmode Forms: Submitting", function () {
 
-    var ghost, scope, opt1, opt2, formElem, checkbox, utils;
+    var ghost, scope, opt1, opt2, formElem, checkbox, utils, styleInjector;
+
+
+    // Append the form once for testing submit & reset events
+    formElem = document.createElement("form");
+    formElem.id = "form01";
+    document.getElementsByTagName('body')[0].appendChild(formElem);
 
     beforeEach(function(){
         scope = {
@@ -11,22 +17,21 @@ describe("Ghostmode Forms: Submitting", function () {
         };
         ghost = window.ghost;
         utils = window.ghost.utils;
-
-        formElem = document.createElement("form");
-        formElem.id = "form01";
+        styleInjector = window.styleInjector;
 
         spyOn(ghost, "emitEvent");
     });
 
 
-    it("can emit events wen options are selected", function () {
+    // _todo figure out how to test form submit event.
 
-        document.getElementsByTagName('body')[0].appendChild(formElem);
+    it("can emit the reset event", function () {
 
-        formElem.value = 1;
-        ghost.listeners.formSubmit({target: formElem});
+        styleInjector.initGhostMode({forms:true}, utils, ghost.listeners);
 
-        expect(ghost.emitEvent).toHaveBeenCalledWith('form:submit', { id: "form01"});
+        formElem.reset();
+
+        expect(ghost.emitEvent).toHaveBeenCalledWith('form:reset', { id: "form01"});
 
     });
 });

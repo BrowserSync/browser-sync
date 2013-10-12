@@ -17,6 +17,7 @@ describe("Browser Events:", function () {
             fireOnThis.fireEvent( 'on' + evt, evObj );
         }
     }
+
     var appendsHost = true;
     (function(){
         var elem = document.createElement("link");

@@ -9,7 +9,7 @@ describe("Launching a server", function () {
 
     describe("server for client-side JS", function () {
 
-        var clientScripturl = "http://localhost:" + ports[1] + messages.clientScript;
+        var clientScriptUrl = "http://localhost:" + ports[1] + messages.clientScript;
 
         it("can serve the JS file", function () {
 
@@ -24,7 +24,7 @@ describe("Launching a server", function () {
             setTimeout(function () {
                 server = styleInjector.launchServer("localhost", ports, options);
 
-                http.get(clientScripturl, function (res) {
+                http.get(clientScriptUrl, function (res) {
                     expect(res.statusCode).toBe(200);
                 });
 
@@ -47,14 +47,14 @@ describe("Launching a server", function () {
                     baseDir: "test/fixtures"
                 }
             };
-            setTimeout(function () {
-                server = styleInjector.launchServer("localhost", ports, options);
-                http.get(clientScripturl, function (res) {
-                    res.on("data", function (chunk) {
-                        expect(chunk.toString().indexOf(expectedString)).toBe(0);
-                    });
+
+            server = styleInjector.launchServer("localhost", ports, options);
+
+            http.get(clientScriptUrl, function (res) {
+                res.on("data", function (chunk) {
+                    expect(chunk.toString().indexOf(expectedString)).toBe(0);
                 });
-            }, 1);
+            });
 
             waits(10);
 
@@ -86,6 +86,25 @@ describe("Launching a server", function () {
             });
         });
 
+        it("does not serve static files if server:false", function () {
+            var options = {
+                server: false
+            };
+            var server;
+
+            server = styleInjector.launchServer("localhost", ports, options);
+
+            http.get("http://localhost:" + ports[1], function (res) {
+                expect(res.statusCode).toBe(404);
+            });
+
+            waits(10);
+
+            runs(function () {
+                server.close();
+            });
+        });
+
         it("can append the script tags to the body of html files", function () {
             var options = {
                 server: {
@@ -100,7 +119,7 @@ describe("Launching a server", function () {
                 res.on("data", function (chunk) {
 
                     var expectedMatch1 = "<script src='http://localhost:" + ports[0] + messages.socketIoScript + "'></script>";
-                    var expectedMatch2 = "<script src='http://localhost:" + ports[1] + messages.clientScript + "'></script>"
+                    var expectedMatch2 = "<script src='http://localhost:" + ports[1] + messages.clientScript + "'></script>";
 
                     expect(chunk.toString().indexOf(expectedMatch1) >= 0).toBe(true);
                     expect(chunk.toString().indexOf(expectedMatch2) >= 0).toBe(true);
