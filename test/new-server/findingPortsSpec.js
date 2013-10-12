@@ -16,7 +16,15 @@ describe("finding free ports", function () {
         waits(100);
 
         runs(function () {
-            expect(cb).toHaveBeenCalledWith([3000, 3001]);
+
+            var arg1 = cb.mostRecentCall.args[0][0];
+            var arg2 = cb.mostRecentCall.args[0][1];
+
+            expect(/^(\d){4}$/.test(arg1)).toBe(true);
+            expect(/^(\d){4}$/.test(arg2)).toBe(true);
+
+            expect(arg1 !== arg2).toBe(true);
+
         });
     });
 });
