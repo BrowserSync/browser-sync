@@ -25,8 +25,13 @@ describe("When a Server arg is given on command line", function () {
 
     it("should set the base dir as current for server if not given", function () {
 
+        argv.ghostMode = false;
         var config = setup.getConfig(defaultConfig, argv);
         expect(config.server.baseDir).toBe("./");
+
+        // _todo extract to it's own test
+        expect(config.ghostMode).toBe(false);
+
     });
 
     it("should set the base dir if given", function () {
