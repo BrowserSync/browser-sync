@@ -1,6 +1,6 @@
-var si = require("../../lib/style-injector");
+var si = require("../../lib/browser-sync");
 var clientIo = require("socket.io-client");
-var styleInjector = new si();
+var browserSync = new si();
 var userOptions = {
     ghostMode: true
 };
@@ -33,14 +33,15 @@ describe("setup Socket", function () {
             }
         ];
 
-        io = styleInjector.setupSocket(ports);
-        styleInjector.handleSocketConnection(events, userOptions, styleInjector.handleClientSocketEvent);
+        io = browserSync.setupSocket(ports);
+        browserSync.handleSocketConnection(events, userOptions, browserSync.handleClientSocketEvent);
+
 
     });
 
     it("can start the socket IO server", function () {
         expect(io.sockets).toBeDefined();
-        styleInjector.killSocket();
+        browserSync.killSocket();
     });
 
     it("can listen for client events when ghost mode Enabled", function () {
@@ -60,14 +61,14 @@ describe("setup Socket", function () {
     });
     it("can log a new connection", function () {
 
-        spyOn(styleInjector, 'logConnection');
+        spyOn(browserSync, 'logConnection');
 
         clientIo.connect("http://localhost:" + ports[0], {'force new connection':true});
 
         waits(200);
 
         runs(function () {
-            expect(styleInjector.logConnection).toHaveBeenCalled();
+            expect(browserSync.logConnection).toHaveBeenCalled();
         });
     });
 });

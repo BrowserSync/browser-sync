@@ -93,6 +93,7 @@ describe("Style Injector: transform the files option into useable watchers", fun
         beforeEach(function(){
             cb = jasmine.createSpy();
         });
+
         it("should return files from a single glob string", function () {
 
             files = setup.getFiles("test/fixtures/*.html", cb);
@@ -101,6 +102,7 @@ describe("Style Injector: transform the files option into useable watchers", fun
                 expect(cb).toHaveBeenCalledWith([file2, file1, file3]);
             });
         });
+
         it("should return files from an array of globs", function () {
             files = setup.getFiles([
                 "test/fixtures/*.html",

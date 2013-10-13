@@ -34,8 +34,8 @@ describe("Injecting Styles:", function () {
     var regex = /(style\.css\?rel=\d+)$/;
 
     beforeEach(function(){
-        methods = window.styleInjector;
-        actions = window.styleInjectorActions;
+        methods = window.browserSync;
+        actions = window.browserSyncActions;
         scope = {};
     });
 
@@ -82,7 +82,7 @@ describe("Injecting Styles:", function () {
             document.getElementsByTagName('head')[0].appendChild(domElem2);
 
 
-            var domData = styleInjector.getElems("css");
+            var domData = browserSync.getElems("css");
 
             expect(domData.elems.length).toBe(2);
             expect(domData.attr).toBe("href");

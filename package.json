@@ -1,22 +1,22 @@
 {
-    "name": "style-injector-2",
+    "name": "browser-sync",
     "description": "Live CSS Reload & Browser Syncing",
     "version": "0.1.0",
-    "homepage": "https://github.com/shakyshane/style-injector",
+    "homepage": "https://github.com/shakyshane/browser-sync",
     "author": {
         "name": "Shane Osbourne"
     },
     "repository": {
         "type": "git",
-        "url": "git://github.com/shakyshane/style-injector.git"
+        "url": "git://github.com/shakyshane/browser-sync.git"
     },
     "bugs": {
-        "url": "https://github.com/shakyshane/style-injector/issues"
+        "url": "https://github.com/shakyshane/browser-sync/issues"
     },
     "licenses": [
         {
             "type": "MIT",
-            "url": "https://github.com/shakyshane/style-injector/blob/master/LICENSE-MIT"
+            "url": "https://github.com/shakyshane/browser-sync/blob/master/LICENSE-MIT"
         }
     ],
     "main": "lib/index.js",
@@ -64,6 +64,6 @@
     "keywords": [],
     "preferGlobal": "true",
     "bin": {
-        "style-injector-2": "lib/index.js"
+        "browser-sync": "lib/index.js"
     }
 }

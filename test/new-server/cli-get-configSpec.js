@@ -1,6 +1,8 @@
 'use strict';
 
 var module = require('../../lib/index');
+var dConfig = require('../fixtures/si-default-config');
+var _ = require('lodash');
 var setup = module.setup;
 
 var configFilePath = "test/fixtures/si-config.js";
@@ -13,26 +15,9 @@ var defaultConfig;
 
 describe("Style Injector: accepting a config file.", function () {
 
-    // reset default config before every test
     beforeEach(function(){
-        defaultConfig = {
-            debugInfo: true,
-            files: file2,
-            background: false,
-            defaultConfig: true,
-            reloadFileTypes: ['php', 'html', 'js', 'erb'],
-            injectFileTypes: ['css', 'png', 'jpg', 'svg', 'gif'],
-            host: null,
-            ghostMode: {
-                links: false,
-                forms: false,
-                scroll: false
-            },
-            server: {
-                baseDir: "./"
-            },
-            open: true
-        };
+        // reset default config before every test
+        defaultConfig = _.cloneDeep(dConfig);
     });
 
     describe("When a config arg is given on command line", function () {
@@ -74,14 +59,15 @@ describe("Style Injector: accepting a config file.", function () {
             var argv = {
                 files: file1
             };
+
             var filesArg = setup.getFilesArg(argv, defaultConfig);
             expect(filesArg).toBe(file1);
         });
         it("can return the files arg from default config if no command provided", function () {
 
             var argv = {};
-            var filesArg = setup.getFilesArg(argv, defaultConfig);
 
+            var filesArg = setup.getFilesArg(argv, defaultConfig);
             expect(filesArg).toBe(file2);
 
         });

@@ -50,20 +50,23 @@ describe("Browser Events:", function () {
         spyOn(ghost.listeners, "scroll");
     });
 
+    afterEach(function () {
+        window[ghost.utils.removeEventListener](ghost.utils.prefix + "scroll", ghost.listeners.scroll);
+    });
+
     it("can add scroll Listeners", function () {
 
         ghost.initEvents(scope, ['scroll'], utils, ghost.listeners);
 
         window.scrollTo(0, 100);
 
-        waitsFor(function() {
-            return ghost.listeners.scroll.callCount > 0;
-        }, "The Ajax call timed out.", 0);
+        waits(100);
 
-        runs(function() {
+        runs(function () {
             expect(ghost.listeners.scroll).toHaveBeenCalled();
         });
     });
+
 
     describe("adding Click events", function () {
 

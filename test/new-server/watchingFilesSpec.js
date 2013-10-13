@@ -1,5 +1,5 @@
 var fs = require("fs");
-var si = require("../../lib/style-injector");
+var si = require("../../lib/browser-sync");
 var methods = new si();
 var options = si.options;
 var testFile1 = "test/fixtures/test.txt";

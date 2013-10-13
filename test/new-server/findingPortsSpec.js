@@ -1,4 +1,4 @@
-var si = require("../../lib/style-injector");
+var si = require("../../lib/browser-sync");
 var messages = require("../../lib/messages");
 
 var methods = new si();

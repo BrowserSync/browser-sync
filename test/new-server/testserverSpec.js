@@ -1,5 +1,5 @@
-var si = require("../../lib/style-injector");
-var styleInjector = new si();
+var si = require("../../lib/browser-sync");
+var browserSync = new si();
 var messages = require("../../lib/messages");
 var http = require("http");
 
@@ -22,7 +22,7 @@ describe("Launching a server", function () {
             var server;
 
             setTimeout(function () {
-                server = styleInjector.launchServer("localhost", ports, options);
+                server = browserSync.launchServer("localhost", ports, options);
 
                 http.get(clientScriptUrl, function (res) {
                     expect(res.statusCode).toBe(200);
@@ -48,7 +48,7 @@ describe("Launching a server", function () {
                 }
             };
 
-            server = styleInjector.launchServer("localhost", ports, options);
+            server = browserSync.launchServer("localhost", ports, options);
 
             http.get(clientScriptUrl, function (res) {
                 res.on("data", function (chunk) {
@@ -74,7 +74,7 @@ describe("Launching a server", function () {
             };
             var server;
 
-            server = styleInjector.launchServer("localhost", ports, options);
+            server = browserSync.launchServer("localhost", ports, options);
             http.get("http://localhost:" + ports[1] + "/index.html", function (res) {
                 expect(res.statusCode).toBe(200);
             });
@@ -92,7 +92,7 @@ describe("Launching a server", function () {
             };
             var server;
 
-            server = styleInjector.launchServer("localhost", ports, options);
+            server = browserSync.launchServer("localhost", ports, options);
 
             http.get("http://localhost:" + ports[1], function (res) {
                 expect(res.statusCode).toBe(404);
@@ -113,7 +113,7 @@ describe("Launching a server", function () {
                 }
             };
 
-            var server = styleInjector.launchServer("localhost", ports, options);
+            var server = browserSync.launchServer("localhost", ports, options);
             http.get("http://localhost:" + ports[1] + "/index.html", function (res) {
                 res.setEncoding('utf8');
                 res.on("data", function (chunk) {
@@ -142,14 +142,14 @@ describe("Launching a server", function () {
                 }
             };
 
-            spyOn(styleInjector, "openBrowser");
+            spyOn(browserSync, "openBrowser");
 
-            var server = styleInjector.launchServer("localhost", ports, options);
+            var server = browserSync.launchServer("localhost", ports, options);
 
             waits(10);
 
             runs(function () {
-                expect(styleInjector.openBrowser).toHaveBeenCalledWith("localhost", 3002, options);
+                expect(browserSync.openBrowser).toHaveBeenCalledWith("localhost", 3002, options);
                 server.close();
             });
         });
@@ -158,7 +158,7 @@ describe("Launching a server", function () {
 
             var msgs;
             beforeEach(function(){
-                msgs = styleInjector.getMessages();
+                msgs = browserSync.getMessages();
             });
 
             it("logs when using static server", function () {
@@ -174,7 +174,7 @@ describe("Launching a server", function () {
 
 
 
-                var server = styleInjector.launchServer("localhost", ports, options);
+                var server = browserSync.launchServer("localhost", ports, options);
 
                 waits(10);
 
@@ -193,7 +193,7 @@ describe("Launching a server", function () {
                 var server;
 
                 setTimeout(function () {
-                    server = styleInjector.launchServer("localhost", ports, options);
+                    server = browserSync.launchServer("localhost", ports, options);
                 }, 1);
 
                 waits(10);

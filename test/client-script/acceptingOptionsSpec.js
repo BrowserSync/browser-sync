@@ -9,7 +9,7 @@ describe("Style Injector INIT", function () {
     var methods;
 
     beforeEach(function(){
-        si = window.styleInjector;
+        si = window.browserSync;
         methods = si;
         scope = {};
     });

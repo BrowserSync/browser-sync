@@ -7,6 +7,13 @@ module.exports = function (grunt) {
         nodeunit: {
             files: ['test/**/*_test.js']
         },
+        uglify: {
+            client_script: {
+                files: {
+                    'lib/browser-sync-client.min.js': 'lib/browser-sync-client.js'
+                }
+            }
+        },
         jshint: {
             options: {
                 jshintrc: '.jshintrc'
@@ -29,7 +36,7 @@ module.exports = function (grunt) {
         },
         karma: {
             unit: {
-                configFile: 'test/karma.conf.js',
+                configFile: 'test/karma.conf.js'
 //                singleRun: true
             }
         },
@@ -51,6 +58,7 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-nodeunit');
     grunt.loadNpmTasks('grunt-contrib-jshint');
     grunt.loadNpmTasks('grunt-contrib-watch');
+    grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-jasmine-node');
     grunt.loadNpmTasks('grunt-karma');
 

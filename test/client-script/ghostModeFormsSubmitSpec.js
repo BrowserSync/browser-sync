@@ -1,6 +1,6 @@
 describe("Ghostmode Forms: Submitting", function () {
 
-    var ghost, scope, opt1, opt2, formElem, checkbox, utils, styleInjector;
+    var ghost, scope, opt1, opt2, formElem, checkbox, utils, browserSync;
 
 
     // Append the form once for testing submit & reset events
@@ -17,17 +17,15 @@ describe("Ghostmode Forms: Submitting", function () {
         };
         ghost = window.ghost;
         utils = window.ghost.utils;
-        styleInjector = window.styleInjector;
+        browserSync = window.browserSync;
 
         spyOn(ghost, "emitEvent");
     });
 
-
     // _todo figure out how to test form submit event.
-
     it("can emit the reset event", function () {
 
-        styleInjector.initGhostMode({forms:true}, utils, ghost.listeners);
+        browserSync.initGhostMode({forms:true}, utils, ghost.listeners);
 
         formElem.reset();
 

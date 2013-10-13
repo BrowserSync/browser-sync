@@ -14,8 +14,10 @@ module.exports = function(config) {
 
     // list of files / patterns to load in the browser
     files: [
+        "fixtures/combo.js",
+        "fixtures/helpers.js",
         "client-script/*Spec.js",
-        "../lib/style-injector-client.js"
+        "../lib/browser-sync-client.js"
     ],
 
 
