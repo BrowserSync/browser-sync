@@ -24,7 +24,7 @@ describe("Exposed Methods", function () {
 
         it("can retrieve the correct host IP address if one is already provided in options", function () {
             var hostIp = browserSync.getHostIp({
-                hostIp: "192.0.0.1"
+                host: "192.0.0.1"
             });
             expect(hostIp).toBe("192.0.0.1");
         });
