@@ -36,8 +36,8 @@ module.exports = function (grunt) {
         },
         karma: {
             unit: {
-                configFile: 'test/karma.conf.js'
-//                singleRun: true
+                configFile: 'test/karma.conf.js',
+                singleRun: true
             }
         },
         jasmine_node: {
