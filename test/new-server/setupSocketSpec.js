@@ -48,7 +48,7 @@ describe("setup Socket", function () {
 
         var socket;
 
-            socket = clientIo.connect("http://localhost:" + ports[0], {'force new connection':true});
+            socket = clientIo.connect("http://0.0.0.0:" + ports[0], {'force new connection':true});
             socket.emit("inputchange", {});
             socket.emit("random", {});
 
