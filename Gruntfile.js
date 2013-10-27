@@ -22,7 +22,7 @@ module.exports = function (grunt) {
                 src: 'Gruntfile.js'
             },
             lib: {
-                src: ['lib/**/*.js']
+                src: ['lib/**/*.js', '!lib/browser-sync-client.min.js']
             },
             test: {
                 src: ['test/**/*.js']
