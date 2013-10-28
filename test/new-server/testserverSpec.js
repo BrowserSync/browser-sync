@@ -146,7 +146,7 @@ describe("Launching a server", function () {
 
             var server = browserSync.launchServer("localhost", ports, options);
 
-            waits(10);
+            waits(100);
 
             runs(function () {
                 expect(browserSync.openBrowser).toHaveBeenCalledWith("localhost", 3002, options);

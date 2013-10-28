@@ -52,7 +52,7 @@ describe("setup Socket", function () {
             socket.emit("inputchange", {});
             socket.emit("random", {});
 
-        waits(100);
+        waits(200);
 
         runs(function () {
             expect(cb2).toHaveBeenCalled();
@@ -63,7 +63,7 @@ describe("setup Socket", function () {
 
         spyOn(browserSync, 'logConnection');
 
-        clientIo.connect("http://localhost:" + ports[0], {'force new connection':true});
+        clientIo.connect("http://0.0.0.0:" + ports[0], {'force new connection':true});
 
         waits(200);
 
