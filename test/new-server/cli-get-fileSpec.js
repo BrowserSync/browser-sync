@@ -108,7 +108,7 @@ describe("Style Injector: transform the files option into useable watchers", fun
                 "test/fixtures/*.html",
                 "test/fixtures/assets/*.css",
                 "test/fixtures/scss/*.scss"], cb);
-            waits(100);
+            waits(300);
             runs(function () {
                 expect(cb).toHaveBeenCalledWith([file2, file1, file3, css, scss]);
             });
