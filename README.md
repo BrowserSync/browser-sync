@@ -7,17 +7,19 @@
 2. **Forms** - You fill out a form in one browser, I'll copy the data to all the others.
 3. **Links** - I'll watch your clicks and make all the browser follow you.
 4. **CSS injecting** - I can even watch your CSS files & inject them when they change.
-5. **Live Reload** - I can also watch files like HTML and PHP & when they change I can reload all browsers for you. 
+5. **Live Reload** - I can also watch files like HTML and PHP & when they change I can reload all browsers for you.
 6. **Built-in Server** - Yep, I can serve static files too. (this is the easiest option actually, explained later)
 
 ##When is it useful?
 It's pretty useful when used with a single browser, watching a CSS file for changes & injecting it. But the real power comes when you're building responsive sites and using multiple devices/monitors because it can keep all browsers in sync & make your workflow much faster.
 
+##Using Grunt? There's a [plugin](https://github.com/shakyShane/grunt-browser-sync) for that
+
 ##How to install it?
 ```
 npm install -g browser-sync
 ```
-####If that doesn't work on a mac, try 
+####If that doesn't work on a mac, try
 ```
 sudo npm install -g browser-sync
 ```
@@ -28,7 +30,7 @@ Browser-sync is a command-line tool & the `-g` from the command above makes it a
 ###Examples
 
 ```
-// Watch ALL CSS files in a directory for changes 
+// Watch ALL CSS files in a directory for changes
 browser-sync --files "app/css/*.css"
 ```
 
@@ -64,7 +66,7 @@ module.exports = {
     }
 };
 ```
-Now, if you called the file `config.js`, you'd simple run 
+Now, if you called the file `config.js`, you'd simple run
 
 ```
 browser-sync --config config.js
