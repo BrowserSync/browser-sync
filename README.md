@@ -55,7 +55,7 @@ If you want to, you can provide a config file instead of having to remember all 
 ```
 module.exports = {
     files: "app/css/**/*.css",
-    host: "192.168.1.1"
+    host: "192.168.1.1",
     ghostMode: {
         links: true,
         forms: true,
