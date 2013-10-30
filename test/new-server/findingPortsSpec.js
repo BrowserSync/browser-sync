@@ -13,7 +13,9 @@ describe("finding free ports", function () {
 
         var ports = methods.getPorts(2, cb, {});
 
-        waits(100);
+        waitsFor(function () {
+            return cb.callCount > 0;
+        }, "took too long to get ports", 10000);
 
         runs(function () {
 
