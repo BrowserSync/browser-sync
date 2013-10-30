@@ -149,7 +149,7 @@ describe("Browser-sync: transform the files option into useable watchers", funct
                 "test/fixtures/*.html",
                 "test/fixtures/assets/*.css",
                 "test/fixtures/scss/*.scss"], cb);
-            waits(1000);
+            waits(2000);
             runs(function () {
                 expect(cb).toHaveBeenCalledWith([file2, file1, file3, css, scss]);
             });
