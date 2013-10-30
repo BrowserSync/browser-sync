@@ -86,6 +86,49 @@ describe("Launching a server", function () {
             });
         });
 
+        it("can serve an index.html, or index.htm from root", function () {
+            var options = {
+                server: {
+                    baseDir: "test/fixtures/alt",
+                    index: "index.htm"
+                }
+            };
+
+            var server = browserSync.launchServer("localhost", ports, options);
+
+            http.get("http://localhost:" + ports[1], function (res) {
+                expect(res.statusCode).toBe(200);
+            });
+
+            waits(10);
+
+            runs(function () {
+                server.close();
+            });
+
+        });
+        it("can serve an index.html, or index.htm from root (2)", function () {
+            var options = {
+                server: {
+                    baseDir: "test/fixtures"
+                }
+            };
+            var server;
+
+            server = browserSync.launchServer("localhost", ports, options);
+
+            http.get("http://localhost:" + ports[1], function (res) {
+                expect(res.statusCode).toBe(200);
+            });
+
+            waits(10);
+
+            runs(function () {
+                server.close();
+            });
+
+        });
+
         it("does not serve static files if server:false", function () {
             var options = {
                 server: false
@@ -171,8 +214,6 @@ describe("Launching a server", function () {
                         openBrowser: true
                     }
                 };
-
-
 
                 var server = browserSync.launchServer("localhost", ports, options);
 
