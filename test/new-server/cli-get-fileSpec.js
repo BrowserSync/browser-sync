@@ -10,6 +10,8 @@ var file3 = "test/fixtures/scrolling.html";
 var css = "test/fixtures/assets/style.css";
 var scss = "test/fixtures/scss/main.scss";
 
+var timeoutMsg = "Took too long to access DISK for files";
+
 describe("Browser-sync: transform the files option into useable watchers", function () {
 
     it("can load", function () {
@@ -49,7 +51,9 @@ describe("Browser-sync: transform the files option into useable watchers", funct
 
             files = setup.getFiles("test/fixtures/assets/*.css,test/fixtures/scss/*.scss", cb);
 
-            waits(100);
+            waitsFor(function () {
+                return cb.callCount > 0;
+            }, timeoutMsg, 10000);
 
             runs(function () {
                 expect(cb).toHaveBeenCalledWith([css, scss]);
@@ -70,7 +74,9 @@ describe("Browser-sync: transform the files option into useable watchers", funct
 
             files = setup.getFiles(file1, cb);
 
-            waits(50);
+            waitsFor(function () {
+                return cb.callCount > 0;
+            }, timeoutMsg, 10000);
 
             runs(function () {
                 expect(cb).toHaveBeenCalledWith([file1]);
@@ -81,7 +87,10 @@ describe("Browser-sync: transform the files option into useable watchers", funct
 
             files = setup.getFiles([file1, file2], cb);
 
-            waits(50);
+            waitsFor(function () {
+                return cb.callCount > 0;
+            }, timeoutMsg, 10000);
+
             runs(function () {
                 expect(cb).toHaveBeenCalledWith([file1, file2]);
             });
@@ -101,7 +110,11 @@ describe("Browser-sync: transform the files option into useable watchers", funct
 
             it("should return an array of the files", function () {
                 files = setup.getFiles(files, cb);
-                waits(100);
+
+                waitsFor(function () {
+                    return cb.callCount > 0;
+                }, timeoutMsg, 10000);
+
                 runs(function () {
                     expect(cb).toHaveBeenCalledWith([file1, file2]);
                 });
@@ -118,7 +131,9 @@ describe("Browser-sync: transform the files option into useable watchers", funct
             it("should return an array of the files", function () {
 
                 files = setup.getFiles(files, cb);
-                waits(50);
+                waitsFor(function () {
+                    return cb.callCount > 0;
+                }, "Took too long", 10000);
 
                 runs(function () {
                     expect(cb).toHaveBeenCalledWith(["test/fixtures/index.html"]);
@@ -138,7 +153,11 @@ describe("Browser-sync: transform the files option into useable watchers", funct
         it("should return files from a single glob string", function () {
 
             files = setup.getFiles("test/fixtures/*.html", cb);
-            waits(500);
+
+            waitsFor(function () {
+                return cb.callCount > 0;
+            }, "Took too long to get files", 10000);
+
             runs(function () {
                 expect(cb).toHaveBeenCalledWith([file2, file1, file3]);
             });
@@ -149,7 +168,11 @@ describe("Browser-sync: transform the files option into useable watchers", funct
                 "test/fixtures/*.html",
                 "test/fixtures/assets/*.css",
                 "test/fixtures/scss/*.scss"], cb);
-            waits(2000);
+
+            waitsFor(function () {
+                return cb.callCount > 0;
+            }, "Took too long to get files!", 10000);
+
             runs(function () {
                 expect(cb).toHaveBeenCalledWith([file2, file1, file3, css, scss]);
             });
