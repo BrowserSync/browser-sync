@@ -16,6 +16,47 @@ describe("Browser-sync: transform the files option into useable watchers", funct
         expect(setup).toBeDefined();
     });
 
+    describe("accepting a comma separated lists of files", function () {
+
+        var files;
+        var cb;
+
+        beforeEach(function(){
+            cb = jasmine.createSpy();
+        });
+
+        it("should return an array of files", function () {
+
+            files = setup.getFiles("test/fixtures/assets/style.css,test/fixtures/scss/main.scss", cb);
+
+            waits(100);
+
+            runs(function () {
+                expect(cb).toHaveBeenCalledWith([css, scss]);
+            });
+        });
+    });
+    describe("accepting a comma separated lists of globs", function () {
+
+        var files;
+        var cb;
+
+        beforeEach(function(){
+            cb = jasmine.createSpy();
+        });
+
+        it("should return an array of files", function () {
+
+            files = setup.getFiles("test/fixtures/assets/*.css,test/fixtures/scss/*.scss", cb);
+
+            waits(100);
+
+            runs(function () {
+                expect(cb).toHaveBeenCalledWith([css, scss]);
+            });
+        });
+    });
+
     describe("When getting single files with a string", function () {
 
         var files;
