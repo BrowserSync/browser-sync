@@ -10,7 +10,7 @@ var file3 = "test/fixtures/scrolling.html";
 var css = "test/fixtures/assets/style.css";
 var scss = "test/fixtures/scss/main.scss";
 
-describe("Style Injector: transform the files option into useable watchers", function () {
+describe("Browser-sync: transform the files option into useable watchers", function () {
 
     it("can load", function () {
         expect(setup).toBeDefined();
@@ -97,7 +97,7 @@ describe("Style Injector: transform the files option into useable watchers", fun
         it("should return files from a single glob string", function () {
 
             files = setup.getFiles("test/fixtures/*.html", cb);
-            waits(100);
+            waits(500);
             runs(function () {
                 expect(cb).toHaveBeenCalledWith([file2, file1, file3]);
             });
@@ -108,7 +108,7 @@ describe("Style Injector: transform the files option into useable watchers", fun
                 "test/fixtures/*.html",
                 "test/fixtures/assets/*.css",
                 "test/fixtures/scss/*.scss"], cb);
-            waits(300);
+            waits(500);
             runs(function () {
                 expect(cb).toHaveBeenCalledWith([file2, file1, file3, css, scss]);
             });
