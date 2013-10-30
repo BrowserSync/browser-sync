@@ -92,5 +92,16 @@ describe("Style Injector: accepting a config file.", function () {
             expect(config.host).toBeDefined();
             expect(config.server).toBeDefined();
         });
+        it("can accept the INDEX option on the command line", function () {
+
+            var argv = {
+                index: "index.htm",
+                server: true
+            };
+
+            var config = setup.getConfig(defaultConfig, argv);
+            expect(config.server.index).toBe('index.htm');
+
+        });
     });
 });

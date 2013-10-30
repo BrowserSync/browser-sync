@@ -29,23 +29,33 @@ Browser-sync is a command-line tool & the `-g` from the command above makes it a
 
 ###Examples
 
+Watch ALL CSS files in a directory for changes
 ```
-// Watch ALL CSS files in a directory for changes
 browser-sync --files "app/css/*.css"
 ```
 
+Watch ALL CSS files & HTML files in a directory for changes
 ```
-// Watch ALL CSS files for changes with a server
+browser-sync --files "app/css/*.css, app/*.html"
+```
+
+Watch ALL CSS files for changes with a static server
+```
 browser-sync --files "app/css/*.css" --server
 ```
 
+Watch ALL CSS files for changes with a static server & specify that the base dir should be "app"
 ```
-// Watch ALL CSS files for changes with a server & specify that the base dir should be "app"
 browser-sync --files "app/css/*.css" --server "app"
 ```
 
+Watch ALL CSS files for changes with a static server & specify that the base dir should be "app" & specify the index file (note the missing l)
 ```
-//Watch ALL CSS files for changes with a server & specify that the base dir should be "app" & with browser-sync disabled
+browser-sync --files "app/css/*.css" --server "app" --index "index.htm"
+```
+
+Watch ALL CSS files for changes with a static server & specify that the base dir should be "app" & with browser-sync disabled
+```
 browser-sync --files "app/css/*.css" --server "app" --ghostMode false
 ```
 
