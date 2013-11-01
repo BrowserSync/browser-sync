@@ -38,6 +38,10 @@ module.exports = function (grunt) {
             unit: {
                 configFile: 'test/karma.conf.js',
                 singleRun: true
+            },
+            watch: {
+                configFile: 'test/karma.conf.js',
+                singleRun: false
             }
         },
         jasmine_node: {
@@ -64,6 +68,6 @@ module.exports = function (grunt) {
 
     // Default task.
     grunt.registerTask('default', ['jasmine_node']);
-    grunt.registerTask('test-all', ['karma:unit', 'jasmine_node']);
+    grunt.registerTask('test', ['karma:unit', 'jasmine_node']);
 
 };
