@@ -54,7 +54,7 @@ Watch ALL CSS files for changes with a static server & specify that the base dir
 browser-sync --files "app/css/*.css" --server "app" --index "index.htm"
 ```
 
-Watch ALL CSS files for changes with a static server & specify that the base dir should be "app" & with browser-sync disabled
+Watch ALL CSS files for changes with a static server & specify that the base dir should be "app" & with ghostMode disabled
 ```
 browser-sync --files "app/css/*.css" --server "app" --ghostMode false
 ```
@@ -180,6 +180,45 @@ Now you can use it by calling it from the command-line
 ```
 browser-sync --config anything-you-like.js
 ```
+
+#Contributing
+Fork this repo, clone it and then run
+
+```
+npm install
+```
+###Testing
+Tests are split into two categories: Client & Server
+
+**Client-side tests**
+Client-side tests are located in test/client-script/*
+
+// Run the client-side tests & exit
+```
+grunt karma:unit
+```
+// Run the client-side tests & re-run on every file-change.
+```
+grunt karma:watch
+```
+**Server-side tests**
+Server-side tests are located in test/new-server
+
+// Run the server-side tests & exit
+```
+grunt jasmine_node
+```
+// Run the server-side tests & re-run on every file-change.
+```
+grunt watch
+```
+// Run the server-side tests & client-side tests once & exit.
+```
+grunt test
+```
+
+This is a brand new project so expect bugs & be sure to report them.
+
 ## License
 Copyright (c) 2013 Shane Osbourne
 Licensed under the MIT license.
