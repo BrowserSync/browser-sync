@@ -55,9 +55,10 @@ describe("Injecting Styles:", function () {
         it("Can call the swap file method if an assetURL is provided", function () {
 
             methods.reloadEvent(scope, { assetFileName: "style.css", fileExtension: "css" }, actions);
-            expect(actions.swapFile).toHaveBeenCalled();
+            expect(actions.swapFile).not.toHaveBeenCalled();
         });
     });
+
     describe("Getting Tag names", function () {
 
         it("can get a CSS tagname", function () {
@@ -71,6 +72,12 @@ describe("Injecting Styles:", function () {
     });
 
     describe("getting dom elements from a file extension", function () {
+
+        beforeEach(function(){
+            spyOn(actions, "reloadBrowser");
+            spyOn(actions, "swapFile");
+        });
+
         it("can retrieve dom elements", function () {
 
             var domElem = document.createElement("link");
@@ -86,6 +93,15 @@ describe("Injecting Styles:", function () {
 
             expect(domData.elems.length).toBe(2);
             expect(domData.attr).toBe("href");
+        });
+
+        it("can call swapfile if a match is found", function () {
+            methods.reloadEvent(scope, { assetFileName: "style.css", fileExtension: "css" }, actions);
+            expect(actions.swapFile).toHaveBeenCalled();
+        });
+        it("does NOT call swapfile if a match is not found", function () {
+            methods.reloadEvent(scope, { assetFileName: "style2-not-real.css", fileExtension: "css" }, actions);
+            expect(actions.swapFile).not.toHaveBeenCalled();
         });
     });
 
@@ -174,6 +190,7 @@ describe("Injecting Styles:", function () {
 
         var elem, elem2, transformedElem, expected;
         beforeEach(function(){
+
             elem = document.createElement("link");
             elem.href = "core/style.css";
             document.getElementsByTagName('head')[0].appendChild(elem);
