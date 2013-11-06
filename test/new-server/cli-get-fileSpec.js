@@ -8,6 +8,7 @@ var file2 = "test/fixtures/forms.html";
 var file3 = "test/fixtures/scrolling.html";
 
 var css = "test/fixtures/assets/style.css";
+var css2 = "test/fixtures/assets/print.css";
 var scss = "test/fixtures/scss/main.scss";
 
 var timeoutMsg = "Took too long to access DISK for files";
@@ -56,7 +57,7 @@ describe("Browser-sync: transform the files option into useable watchers", funct
             }, timeoutMsg, 10000);
 
             runs(function () {
-                expect(cb).toHaveBeenCalledWith([css, scss]);
+                expect(cb).toHaveBeenCalledWith([css2, css, scss]);
             });
         });
     });
@@ -174,7 +175,7 @@ describe("Browser-sync: transform the files option into useable watchers", funct
             }, "Took too long to get files!", 10000);
 
             runs(function () {
-                expect(cb).toHaveBeenCalledWith([file2, file1, file3, css, scss]);
+                expect(cb).toHaveBeenCalledWith([file2, file1, file3, css2, css, scss]);
             });
         });
     });
