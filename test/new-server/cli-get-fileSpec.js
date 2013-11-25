@@ -3,180 +3,91 @@
 var module = require('../../lib/index');
 var setup = module.setup;
 
-var file1 = "test/fixtures/index.html";
-var file2 = "test/fixtures/forms.html";
-var file3 = "test/fixtures/scrolling.html";
-
-var css = "test/fixtures/assets/style.css";
-var css2 = "test/fixtures/assets/print.css";
-var scss = "test/fixtures/scss/main.scss";
-
-var timeoutMsg = "Took too long to access DISK for files";
-
 describe("Browser-sync: transform the files option into useable watchers", function () {
 
     it("can load", function () {
         expect(setup).toBeDefined();
     });
 
-    describe("accepting a comma separated lists of files", function () {
+    describe("accepting a comma separated lists of patterns (files)", function () {
 
         var files;
-        var cb;
-
-        beforeEach(function(){
-            cb = jasmine.createSpy();
+        beforeEach(function () {
+            var arg = "test/fixtures/assets/style.css,test/fixtures/scss/main.scss";
+            files = setup.getFiles(arg);
         });
-
-        it("should return an array of files", function () {
-
-            files = setup.getFiles("test/fixtures/assets/style.css,test/fixtures/scss/main.scss", cb);
-
-            waits(100);
-
-            runs(function () {
-                expect(cb).toHaveBeenCalledWith([css, scss]);
-            });
+        it("should return an array of patterns", function () {
+            expect(files.length).toBe(2);
+        });
+        it("should return an array of patterns (2)", function () {
+            expect(files[0]).toBe("test/fixtures/assets/style.css");
+        });
+        it("should return an array of patterns (3)", function () {
+            expect(files[1]).toBe("test/fixtures/scss/main.scss");
         });
     });
     describe("accepting a comma separated lists of globs", function () {
 
         var files;
-        var cb;
 
         beforeEach(function(){
-            cb = jasmine.createSpy();
+            var arg = "test/fixtures/assets/*.css,test/fixtures/scss/*.scss";
+            files = setup.getFiles(arg);
         });
 
-        it("should return an array of files", function () {
-
-            files = setup.getFiles("test/fixtures/assets/*.css,test/fixtures/scss/*.scss", cb);
-
-            waitsFor(function () {
-                return cb.callCount > 0;
-            }, timeoutMsg, 10000);
-
-            runs(function () {
-                expect(cb).toHaveBeenCalledWith([css2, css, scss]);
-            });
+        it("should return an array of file globs", function () {
+            expect(files.length).toBe(2);
+        });
+        it("should return an array of file globs (2)", function () {
+            expect(files[0]).toBe("test/fixtures/assets/*.css");
+        });
+        it("should return an array of file globs (3)", function () {
+            expect(files[1]).toBe("test/fixtures/scss/*.scss");
         });
     });
 
-    describe("When getting single files with a string", function () {
+    describe("accepting a single pattern", function () {
 
-        var files;
-        var cb;
-
+        var files, arg
         beforeEach(function(){
-            cb = jasmine.createSpy();
+            arg = "test/fixtures/assets/*.css";
+            files = setup.getFiles(arg);
         });
-
-        it("should return an array of files even if only 1 file", function () {
-
-            files = setup.getFiles(file1, cb);
-
-            waitsFor(function () {
-                return cb.callCount > 0;
-            }, timeoutMsg, 10000);
-
-            runs(function () {
-                expect(cb).toHaveBeenCalledWith([file1]);
-            });
-        });
-
-        it("should return an array of files if an array given", function () {
-
-            files = setup.getFiles([file1, file2], cb);
-
-            waitsFor(function () {
-                return cb.callCount > 0;
-            }, timeoutMsg, 10000);
-
-            runs(function () {
-                expect(cb).toHaveBeenCalledWith([file1, file2]);
-            });
+        it("should return the pattern", function () {
+            expect(files).toBe(arg);
         });
     });
+    describe("accepting an array of patterns", function () {
 
-    describe("when getting multiple files given as strings", function () {
-
-
-        describe("When the files DO exist", function () {
-
-            var files = [file1, file2];
-            var cb;
-            beforeEach(function(){
-                cb = jasmine.createSpy("callback1");
-            });
-
-            it("should return an array of the files", function () {
-                files = setup.getFiles(files, cb);
-
-                waitsFor(function () {
-                    return cb.callCount > 0;
-                }, timeoutMsg, 10000);
-
-                runs(function () {
-                    expect(cb).toHaveBeenCalledWith([file1, file2]);
-                });
-            });
+        var files, arg
+        beforeEach(function(){
+            arg = ["**/*.css", "*.html"];
+            files = setup.getFiles(arg);
         });
-        describe("When the files DO NOT exist", function () {
-//
-            var files = ["test/fixtures/index.html", "test/fixtures/kittie.html"];
-            var cb;
-            beforeEach(function(){
-                cb = jasmine.createSpy("callback1");
-            });
-
-            it("should return an array of the files", function () {
-
-                files = setup.getFiles(files, cb);
-                waitsFor(function () {
-                    return cb.callCount > 0;
-                }, "Took too long", 10000);
-
-                runs(function () {
-                    expect(cb).toHaveBeenCalledWith(["test/fixtures/index.html"]);
-                });
-            });
+        it("should return the pattern", function () {
+            expect(files).toBe(arg);
         });
     });
+    describe("accepting an array of patterns (2)", function () {
 
-    describe("Getting files from a glob", function () {
-
-        var cb;
-        var files;
+        var files, arg
         beforeEach(function(){
-            cb = jasmine.createSpy();
+            arg = ["**/*.css"];
+            files = setup.getFiles(arg);
         });
-
-        it("should return files from a single glob string", function () {
-
-            files = setup.getFiles("test/fixtures/*.html", cb);
-
-            waitsFor(function () {
-                return cb.callCount > 0;
-            }, "Took too long to get files", 10000);
-
-            runs(function () {
-                expect(cb).toHaveBeenCalledWith([file2, file1, file3]);
-            });
+        it("should return the pattern", function () {
+            expect(files).toBe(arg);
         });
+    });
+    describe("returning false if empty string given", function () {
 
-        it("should return files from an array of globs", function () {
-            files = setup.getFiles([
-                "test/fixtures/*.html",
-                "test/fixtures/assets/*.css",
-                "test/fixtures/scss/*.scss"], cb);
-
-            waitsFor(function () {
-                return cb.callCount > 0;
-            }, "Took too long to get files!", 10000);
-
-            runs(function () {
-                expect(cb).toHaveBeenCalledWith([file2, file1, file3, css2, css, scss]);
-            });
+        var files, arg;
+        beforeEach(function(){
+            arg = "";
+            files = setup.getFiles(arg);
+        });
+        it("should return false", function () {
+            expect(files).toBe(false);
         });
     });
 });
