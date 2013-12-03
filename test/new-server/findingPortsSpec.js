@@ -1,5 +1,6 @@
 var si = require("../../lib/browser-sync");
 var messages = require("../../lib/messages");
+var _ = require("lodash");
 
 var methods = new si();
 
@@ -26,6 +27,8 @@ describe("finding free ports", function () {
             expect(/^(\d){4}$/.test(arg1)).toBe(true);
             expect(/^(\d){4}$/.test(arg2)).toBe(true);
             expect(/^(\d){4}$/.test(arg3)).toBe(true);
+
+            expect(_.uniq([arg1, arg2, arg3]).length).toBe(3);
 
         });
     });
