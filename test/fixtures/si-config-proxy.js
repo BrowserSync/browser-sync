@@ -11,7 +11,7 @@ module.exports = {
         forms: true,
         scroll: true
     },
-    website: {
+    proxy: {
         host: "192.168.0.4",
         port: "8000"
     },
