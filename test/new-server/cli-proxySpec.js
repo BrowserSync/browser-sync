@@ -72,4 +72,56 @@ describe("Browser-sync: using a proxy from command-line", function () {
             expect(config.proxy.port).toBe("80");
         });
     });
+    describe("accepting a full url with protocol", function () {
+        var config;
+        beforeEach(function () {
+            var argv = {
+                proxy: "http://local.dev.com"
+            };
+            config = setup.getConfig(defaultConfig, argv);
+        });
+        it("should default to port 80", function () {
+            expect(config.proxy.host).toBe("local.dev.com");
+            expect(config.proxy.port).toBe("80");
+        });
+    });
+    describe("accepting a full url with protocol + port", function () {
+        var config;
+        beforeEach(function () {
+            var argv = {
+                proxy: "http://local.dev.com:3000"
+            };
+            config = setup.getConfig(defaultConfig, argv);
+        });
+        it("should default to port 80", function () {
+            expect(config.proxy.host).toBe("local.dev.com");
+            expect(config.proxy.port).toBe("3000");
+        });
+    });
+    describe("accepting a url with www", function () {
+        var config;
+        beforeEach(function () {
+            var argv = {
+                proxy: "www.bbc.co.uk"
+            };
+            config = setup.getConfig(defaultConfig, argv);
+        });
+        it("should default to port 80", function () {
+            expect(config.proxy.host).toBe("bbc.co.uk");
+            expect(config.proxy.port).toBe("80");
+        });
+    });
+    describe("Excluding paths", function () {
+        var config;
+        beforeEach(function () {
+            var argv = {
+                proxy: "http://bbc.co.uk/this/sub-path"
+            };
+            config = setup.getConfig(defaultConfig, argv);
+        });
+        it("should default to port 80", function () {
+            expect(config.proxy.host).toBe("bbc.co.uk");
+            expect(config.proxy.port).toBe("80");
+        });
+    });
 });
