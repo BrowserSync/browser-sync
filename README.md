@@ -212,6 +212,16 @@ open: true
 // Stop the browser from automatically opening
 open: false
 ```
+###notify - (default: true)
+Browser-sync will flash a quick message in all connected browsers to confirm that CSS injection has taken place (useful when you're not sure whether the injection worked, or whether your CSS didn't make a difference)
+
+```
+// Tell me when a CSS file was injected
+notify: true
+
+// Don't show any notifications in the browser.
+notify: false
+```
 
 #Full config file example with Server
 Save this as `anything-you-like.js`
@@ -229,7 +239,8 @@ module.exports = {
     server: {
         baseDir: "app"
     },
-    open: false
+    open: false,
+    notify: true
 };
 ```
 #Full config file example with Proxy
@@ -248,7 +259,8 @@ module.exports = {
 	proxy: {
 		host: "local.dev" // your existing vhost setup.
 	},
-    open: false
+    open: true,
+    notify: true
 };
 ```
 
