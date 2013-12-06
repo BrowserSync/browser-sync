@@ -39,8 +39,7 @@ describe("Launching a server", function () {
 
         it("can append the code needed to connect to socketIO", function () {
             var server;
-            var expectedString = "var ___socket___ = io.connect('localhost:" + ports[0] + "');";
-
+            var expectedString = "var ___socket___ = io.connect('http://localhost:" + ports[0] + "');";
 
             var options = {
                 server: {
@@ -52,7 +51,8 @@ describe("Launching a server", function () {
 
             http.get(clientScriptUrl, function (res) {
                 res.on("data", function (chunk) {
-                    expect(chunk.toString().indexOf(expectedString)).toBe(0);
+                    var string = chunk.toString();
+                    expect(string.indexOf(expectedString)).toBe(0);
                 });
             });
 
