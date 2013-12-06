@@ -87,7 +87,7 @@ browser-sync --files "app/css/*.css" --server "app" --ghostMode false
 ```
 
 ###Example config file with proxy
-If you want to, you can provide a config file instead of having to remember all of the command above. Also, a config file allows you to be more specific with options. Here's an example of one that you would put in the root of your project.
+If you want to, you can provide a config file instead of having to remember all of the commands above. Also, a config file allows you to be more specific with options. Here's an example of one that you would put in the root of your project.
 
 ```
 module.exports = {
