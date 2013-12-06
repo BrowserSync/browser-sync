@@ -140,6 +140,12 @@ server: {
     baseDir: "app"
 }
 
+// Serve files from the app directory, with a specific index filename
+server: {
+    baseDir: "app",
+    index: "index.htm"
+}
+
 // Serve files from the root directory
 server: {
     baseDir: "./"
