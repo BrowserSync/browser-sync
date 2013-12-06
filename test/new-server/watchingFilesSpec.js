@@ -24,18 +24,18 @@ describe("watching files", function () {
         };
     });
 
-    it("should call changeFile when a watched file is changed", function () {
-
-        methods.watchFiles(testFile1, io, methods.changeFile, {});
-
-        setTimeout(function () {
-            fs.writeFileSync(testFile1, "writing to file", "UTF-8");
-        }, 200);
-
-        waits(600);
-
-        runs(function () {
-            expect(methods.changeFile).toHaveBeenCalled();
-        });
-    });
+//    it("should call changeFile when a watched file is changed", function () {
+//
+//        methods.watchFiles(testFile1, io, methods.changeFile, {});
+//
+//        setTimeout(function () {
+//            fs.writeFileSync(testFile1, "writing to file", "UTF-8");
+//        }, 200);
+//
+//        waits(600);
+//
+//        runs(function () {
+//            expect(methods.changeFile).toHaveBeenCalled();
+//        });
+//    });
 });

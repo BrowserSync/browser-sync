@@ -4,6 +4,13 @@ module.exports = function (grunt) {
 
     // Project configuration.
     grunt.initConfig({
+        dirs: {
+            assets: "test/fixtures",
+            css: "<%= dirs.assets %>/css",
+            less: "<%= dirs.assets %>/less",
+            scss: "<%= dirs.assets %>/scss",
+            stylus: "<%= dirs.assets %>/stylus"
+        },
         nodeunit: {
             files: ['test/**/*_test.js']
         },
@@ -32,6 +39,14 @@ module.exports = function (grunt) {
             test: {
                 files: ['test/**/*.js', 'lib/**/*.js'],
                 tasks: ['jasmine_node']
+            },
+            sass: {
+                files: ['test/fixtures/scss/bootstrap.scss'],
+                tasks: ['sass']
+            },
+            less: {
+                files: ['test/fixtures/less/bootstrap.less'],
+                tasks: ['less']
             }
         },
         karma: {
@@ -55,6 +70,33 @@ module.exports = function (grunt) {
                 useDotNotation: true,
                 consolidate: true
             }
+        },
+        /**
+         *
+         *
+         * Fixture stuff
+         *
+         */
+        less: {
+            development: {
+                files: {
+                    "<%= dirs.css %>/bootstrap-less.css": "<%= dirs.less %>/bootstrap.less"
+                }
+            }
+        },
+        stylus: {
+            development: {
+                files: {
+                    "<%= dirs.css %>/bootstrap-stylus.css": "<%= dirs.stylus %>/bootstrap.styl"
+                }
+            }
+        },
+        sass: {
+            development: {
+                files: {
+                    "<%= dirs.css %>/bootstrap-scss.css": "<%= dirs.scss %>/bootstrap.scss"
+                }
+            }
         }
     });
 
@@ -63,6 +105,9 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-jshint');
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-contrib-uglify');
+    grunt.loadNpmTasks('grunt-contrib-less');
+    grunt.loadNpmTasks('grunt-contrib-stylus');
+    grunt.loadNpmTasks('grunt-contrib-sass');
     grunt.loadNpmTasks('grunt-jasmine-node');
     grunt.loadNpmTasks('grunt-karma');
 
