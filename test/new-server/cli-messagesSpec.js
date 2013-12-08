@@ -1,12 +1,8 @@
 'use strict';
 
 var module = require('../../lib/index');
-var dConfig = require('../fixtures/si-default-config');
-var setup = module.setup;
 var messages = require('../../lib/messages');
 var ansiTrim = require('cli-color/lib/trim');
-var cliStrings = require('../../lib/cli-strings');
-
 
 describe("Message Output", function () {
 
