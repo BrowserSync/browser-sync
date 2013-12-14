@@ -20,21 +20,23 @@ describe("Launching a server", function () {
             };
 
             var server;
+            var respCode;
 
-            setTimeout(function () {
-                server = browserSync.launchServer("localhost", ports, options);
+            server = browserSync.launchServer("localhost", ports, options);
 
-                http.get(clientScriptUrl, function (res) {
-                    expect(res.statusCode).toBe(200);
-                });
+            http.get(clientScriptUrl, function (res) {
+                respCode = res.statusCode;
+            });
 
-            }, 1);
-
-            waits(10);
+            waitsFor(function () {
+                return respCode;
+            }, "Took too long to get request", 1000);
 
             runs(function () {
                 server.close();
+                expect(respCode).toBe(200);
             });
+
         });
 
         it("can append the code needed to connect to socketIO", function () {
@@ -47,19 +49,24 @@ describe("Launching a server", function () {
                 }
             };
 
+            var respString;
+
             server = browserSync.launchServer("localhost", ports, options);
 
             http.get(clientScriptUrl, function (res) {
+
                 res.on("data", function (chunk) {
-                    var string = chunk.toString();
-                    expect(string.indexOf(expectedString)).toBe(0);
+                    respString = chunk.toString();
                 });
             });
 
-            waits(10);
+            waitsFor(function () {
+                return respString;
+            }, "Took too long", 1000);
 
             runs(function () {
                 server.close();
+                expect(respString.indexOf(expectedString)).toBe(0);
             });
         });
     });
@@ -73,18 +80,24 @@ describe("Launching a server", function () {
                 }
             };
             var server;
+            var respCode;
 
             server = browserSync.launchServer("localhost", ports, options);
+
             http.get("http://localhost:" + ports[1] + "/index.html", function (res) {
-                expect(res.statusCode).toBe(200);
+                respCode = res.statusCode;
             });
 
-            waits(10);
+            waitsFor(function () {
+                return respCode;
+            }, "Took too long", 1000);
 
             runs(function () {
                 server.close();
+                expect(respCode).toBe(200);
             });
         });
+
 
         it("can serve an index.html, or index.htm from root", function () {
             var options = {
@@ -95,15 +108,19 @@ describe("Launching a server", function () {
             };
 
             var server = browserSync.launchServer("localhost", ports, options);
+            var respCode;
 
             http.get("http://localhost:" + ports[1], function (res) {
-                expect(res.statusCode).toBe(200);
+                respCode = res.statusCode;
             });
 
-            waits(10);
+            waitsFor(function () {
+                return respCode;
+            }, "Took too long", 1000);
 
             runs(function () {
                 server.close();
+                expect(respCode).toBe(200);
             });
 
         });
@@ -113,18 +130,21 @@ describe("Launching a server", function () {
                     baseDir: "test/fixtures"
                 }
             };
-            var server;
+            var server, respCode;
 
             server = browserSync.launchServer("localhost", ports, options);
 
             http.get("http://localhost:" + ports[1], function (res) {
-                expect(res.statusCode).toBe(200);
+                respCode = res.statusCode;
             });
 
-            waits(10);
+            waitsFor(function () {
+                return respCode;
+            }, "Took too long", 1000);
 
             runs(function () {
                 server.close();
+                expect(respCode).toBe(200);
             });
 
         });
@@ -133,18 +153,21 @@ describe("Launching a server", function () {
             var options = {
                 server: false
             };
-            var server;
+            var server, respCode;
 
             server = browserSync.launchServer("localhost", ports, options);
 
-            http.get("http://localhost:" + ports[1], function (res) {
-                expect(res.statusCode).toBe(404);
+            http.get("http://0.0.0.0:" + ports[1], function (res) {
+                respCode = res.statusCode;
             });
 
-            waits(10);
+            waitsFor(function () {
+                return respCode;
+            }, "Took too long", 1000);
 
             runs(function () {
                 server.close();
+                expect(respCode).toBe(404);
             });
         });
 
@@ -156,23 +179,74 @@ describe("Launching a server", function () {
                 }
             };
 
-            var server = browserSync.launchServer("localhost", ports, options);
-            http.get("http://localhost:" + ports[1] + "/index.html", function (res) {
+            var server = browserSync.launchServer("0.0.0.0", ports, options);
+            var data;
+            var expectedMatch1 = "<script src='http://0.0.0.0:" + ports[0] + messages.socketIoScript + "'></script>";
+            var expectedMatch2 = "<script src='http://0.0.0.0:" + ports[1] + messages.clientScript + "'></script>";
+
+            http.get("http://0.0.0.0:" + ports[1] + "/index.html", function (res) {
                 res.setEncoding('utf8');
+                var chunks = [];
                 res.on("data", function (chunk) {
-
-                    var expectedMatch1 = "<script src='http://localhost:" + ports[0] + messages.socketIoScript + "'></script>";
-                    var expectedMatch2 = "<script src='http://localhost:" + ports[1] + messages.clientScript + "'></script>";
-
-                    expect(chunk.toString().indexOf(expectedMatch1) >= 0).toBe(true);
-                    expect(chunk.toString().indexOf(expectedMatch2) >= 0).toBe(true);
+                    chunks.push(chunk.toString());
+                });
+                res.on("end", function () {
+                    data = chunks.join("");
                 });
             });
 
-            waits(10);
+            waitsFor(function () {
+                return data;
+            }, "Took too long", 1000);
 
             runs(function () {
                 server.close();
+                expect(data.indexOf(expectedMatch1) >= 0).toBe(true);
+                expect(data.indexOf(expectedMatch2) >= 0).toBe(true);
+            });
+        });
+
+        /**
+         *
+         *
+         * LARGE HTML PAGE
+         *
+         *
+         */
+        it("can append the script tags to the body of a LARGE html FILE", function () {
+
+            var options = {
+                server: {
+                    baseDir: "test/fixtures",
+                    injectScripts: true
+                }
+            };
+
+            var server = browserSync.launchServer("0.0.0.0", ports, options);
+            var data;
+            var expectedMatch1 = "<script src='http://0.0.0.0:" + ports[0] + messages.socketIoScript + "'></script>";
+            var expectedMatch2 = "<script src='http://0.0.0.0:" + ports[1] + messages.clientScript + "'></script>";
+
+            http.get("http://0.0.0.0:" + ports[1] + "/index-large.html", function (res) {
+                res.setEncoding('utf8');
+                var chunks = [];
+
+                res.on("data", function (chunk) {
+                    chunks.push(chunk.toString());
+                });
+                res.on("end", function () {
+                    data = chunks.join("");
+                });
+            });
+
+            waitsFor(function () {
+                return data;
+            }, "Took too long", 1000);
+
+            runs(function () {
+                server.close();
+                expect(data.indexOf(expectedMatch1) >= 0).toBe(true);
+                expect(data.indexOf(expectedMatch2) >= 0).toBe(true);
             });
         });
 
