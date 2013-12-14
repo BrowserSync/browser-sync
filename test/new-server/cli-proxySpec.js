@@ -124,4 +124,17 @@ describe("Browser-sync: using a proxy from command-line", function () {
             expect(config.proxy.port).toBe("80");
         });
     });
+    describe("Excluding trailing slashes", function () {
+        var config;
+        beforeEach(function () {
+            var argv = {
+                proxy: "http://0.0.0.0:8000/"
+            };
+            config = setup.getConfig(defaultConfig, argv);
+        });
+        it("should default to port 80", function () {
+            expect(config.proxy.host).toBe("0.0.0.0");
+            expect(config.proxy.port).toBe("8000");
+        });
+    });
 });
