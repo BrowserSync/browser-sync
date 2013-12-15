@@ -61,7 +61,7 @@ describe("Outputting generic messages", function () {
     it("should output browser connected correctly", function () {
 
         var expected = "Browser Connected! (Chrome, version: 21.222)";
-        var actual = ansiTrim(messages.connection({name: "Chrome", version: "21.222"}));
+        var actual = ansiTrim(messages.browser.connection({name: "Chrome", version: "21.222"}));
 
         expect(actual).toBe(expected);
     });
@@ -79,7 +79,7 @@ describe("Outputting file watching messages", function () {
     it("should output warning if no files watched", function () {
 
         var expected = "Not watching any files...";
-        var actual = ansiTrim(messages.fileWatching([]));
+        var actual = ansiTrim(messages.files.watching([]));
         expect(actual).toBe(expected);
     });
     it("should output a single pattern", function () {
@@ -87,7 +87,7 @@ describe("Outputting file watching messages", function () {
         var expected = "Watching the following:\n";
         expected += "**/*.css\n";
 
-        var actual = ansiTrim(messages.fileWatching(["**/*.css"]));
+        var actual = ansiTrim(messages.files.watching(["**/*.css"]));
         expect(actual).toBe(expected);
     });
     it("should output multiple patterns", function () {
@@ -105,7 +105,7 @@ describe("Outputting file watching messages", function () {
         expected += "**/*.html\n";
         expected += "**/*.erb\n";
 
-        var actual = ansiTrim(messages.fileWatching(patterns));
+        var actual = ansiTrim(messages.files.watching(patterns));
         expect(actual).toBe(expected);
     });
     it("should output multiple patterns with a limit", function () {
@@ -122,7 +122,32 @@ describe("Outputting file watching messages", function () {
         expected += "**/*.js\n";
         expected += "Plus more...\n";
 
-        var actual = ansiTrim(messages.fileWatching(patterns, 2));
+        var actual = ansiTrim(messages.files.watching(patterns, 2));
+        expect(actual).toBe(expected);
+    });
+    it("should notify when a file is changed", function () {
+        var expected = "File Changed: /users/shane/file.js";
+        var actual   = ansiTrim(messages.files.changed("/users/shane/file.js"));
+        expect(actual).toBe(expected);
+    });
+    it("should notify when a file is changed & should be reloaded", function () {
+        var expected = "Reloading all connected browsers...";
+        var actual   = ansiTrim(messages.browser.reload());
+        expect(actual).toBe(expected);
+    });
+    it("should notify when a file is changed & should be injected", function () {
+        var expected = "Injecting file into all connected browsers...";
+        var actual   = ansiTrim(messages.browser.inject());
+        expect(actual).toBe(expected);
+    });
+    it("should notify when changing location", function () {
+        var expected = "Link clicked! Redirecting all browsers to http://local.dev/forms.html";
+        var actual   = ansiTrim(messages.location("http://local.dev/forms.html"));
+        expect(actual).toBe(expected);
+    });
+    it("should output the socket connector", function () {
+        var expected = "var ___socket___ = io.connect('http://0.0.0.0:3001');";
+        var actual   = messages.socketConnector("0.0.0.0", 3001);
         expect(actual).toBe(expected);
     });
 });
