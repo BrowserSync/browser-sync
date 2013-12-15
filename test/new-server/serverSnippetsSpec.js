@@ -5,8 +5,8 @@ var http = require("http");
 
 var ports = [3000, 3001, 3002, 3004];
 
-var expectedMatch1 = "<script src='http://0.0.0.0:" + ports[0] + messages.socketIoScript + "'></script>";
-var expectedMatch2 = "<script src='http://0.0.0.0:" + ports[3] + messages.clientScript + "'></script>";
+var expectedMatch1 = "<script src='http://0.0.0.0:" + ports[0] + messages.urls.socketIoScript + "'></script>";
+var expectedMatch2 = "<script src='http://0.0.0.0:" + ports[3] + messages.urls.clientScript + "'></script>";
 
 describe("Launching a server with snippets", function () {
 
