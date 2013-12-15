@@ -4,17 +4,28 @@ var module = require('../../lib/index');
 var messages = require('../../lib/messages');
 var ansiTrim = require('cli-color/lib/trim');
 
-describe("Message Output", function () {
+
+describe("Messages module", function () {
+    it("can be loaded", function () {
+        expect(messages).toBeDefined();
+    });
+});
+
+describe("Server Output", function () {
+    var expected = "\nOK, Server running at http://0.0.0.0:8000";
+    expected    += "\nServing files from: /users/shakyshane/app/files";
+    expected    += "\n\nLoad a browser & check back here. If you set up everything correctly, you'll see a 'Browser Connected' message\n";
+    var actual = ansiTrim(messages.initServer("0.0.0.0", 8000, "/users/shakyshane/app/files"));
+    expect(actual).toBe(expected);
+});
+
+describe("Proxy Output", function () {
 
     var ports, host;
 
-    beforeEach(function(){
+    beforeEach(function () {
         ports = [3000, 3001, 3002];
         host = "192.168.0.3";
-    });
-
-    it("can load", function () {
-        expect(messages).toBeDefined();
     });
 
     it("can output a message about proxy (1)", function () {
@@ -61,11 +72,57 @@ describe("Outputting generic messages", function () {
 
         expect(actual).toBe(expected);
     });
-    it("should output the location changed message", function () {
+});
 
-        var expected = "Invalid Base Directory path for server. Should be like this ( baseDir: 'path/to/app' )";
-        var actual = ansiTrim(messages.invalidBaseDir());
+describe("Outputting file watching messages", function () {
 
+    it("should output warning if no files watched", function () {
+
+        var expected = "Not watching any files...";
+        var actual = ansiTrim(messages.fileWatching([]));
+        expect(actual).toBe(expected);
+    });
+    it("should output a single pattern", function () {
+
+        var expected = "Watching the following:\n";
+        expected += "**/*.css\n";
+
+        var actual = ansiTrim(messages.fileWatching(["**/*.css"]));
+        expect(actual).toBe(expected);
+    });
+    it("should output multiple patterns", function () {
+
+        var patterns = [
+            "**/*.css",
+            "**/*.js",
+            "**/*.html",
+            "**/*.erb"
+        ];
+
+        var expected = "Watching the following:\n";
+        expected += "**/*.css\n";
+        expected += "**/*.js\n";
+        expected += "**/*.html\n";
+        expected += "**/*.erb\n";
+
+        var actual = ansiTrim(messages.fileWatching(patterns));
+        expect(actual).toBe(expected);
+    });
+    it("should output multiple patterns with a limit", function () {
+
+        var patterns = [
+            "**/*.css",
+            "**/*.js",
+            "**/*.html",
+            "**/*.erb"
+        ];
+
+        var expected = "Watching the following:\n";
+        expected += "**/*.css\n";
+        expected += "**/*.js\n";
+        expected += "Plus more...\n";
+
+        var actual = ansiTrim(messages.fileWatching(patterns, 2));
         expect(actual).toBe(expected);
     });
 });
