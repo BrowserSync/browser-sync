@@ -54,7 +54,7 @@ describe("Launching a proxy for connect server", function () {
     });
 
 
-    it("can proxy requests + inject snippets", function () {
+    it("can proxy requests + inject snippets into a small HTML response", function () {
 
         var data;
 
@@ -79,7 +79,7 @@ describe("Launching a proxy for connect server", function () {
             expect(data.indexOf(expectedMatch2) >= 0).toBe(true);
         });
     });
-    it("can proxy requests + inject snippets", function () {
+    it("can proxy requests + inject snippets into a LARGE HTML response", function () {
 
         var data;
 
