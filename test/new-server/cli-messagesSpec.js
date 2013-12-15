@@ -4,7 +4,6 @@ var module = require('../../lib/index');
 var messages = require('../../lib/messages');
 var ansiTrim = require('cli-color/lib/trim');
 
-
 describe("Messages module", function () {
     it("can be loaded", function () {
         expect(messages).toBeDefined();
@@ -40,17 +39,26 @@ describe("Proxy Output", function () {
 
 describe("Creating URLS", function () {
     it("can return a full URL with ports", function () {
-        expect(messages._makeUrl("192.168.0.4", 3001)).toBe("http://192.168.0.4:3001");
+        expect(messages.utils.makeUrl("192.168.0.4", 3001)).toBe("http://192.168.0.4:3001");
     });
 });
 
 describe("Outputting script tags", function () {
-    it("can output correctly", function () {
+    it("can output correctly for client", function () {
 
         var expected = "<script src='http://192.168.0.4:3000/socket.io/socket.io.js'></script>" +
                 "\n<script src='http://192.168.0.4:3001/browser-sync-client.min.js'></script>\n\n";
 
-        var actual = messages.scriptTags("192.168.0.4", "3000", "3001");
+        var actual = messages.snippets.client("192.168.0.4", "3000", "3001");
+
+        expect(actual).toBe(expected);
+    });
+    it("can output correctly for Control Panel", function () {
+
+        var expected = "<script src='http://192.168.0.4:3000/socket.io/socket.io.js'></script>" +
+                "\n<script src='http://192.168.0.4:3003/js/app.js'></script>\n\n";
+
+        var actual = messages.snippets.controlPanel("192.168.0.4", "3000", "3003");
 
         expect(actual).toBe(expected);
     });
