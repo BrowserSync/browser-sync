@@ -77,13 +77,34 @@ describe("Launching the Control panel", function () {
     });
 
 
-    it("can append the code needed to connect to socketIO", function () {
+    it("can append the code needed to connect to socketIO to APP.js", function () {
 
         var expectedString = "var ___socket___ = io.connect('http://0.0.0.0:" + ports[0] + "');";
 
         var respString;
 
         http.get("http://0.0.0.0:3003/js/app.js", function (res) {
+
+            res.on("data", function (chunk) {
+                respString = chunk.toString();
+            });
+        });
+
+        waitsFor(function () {
+            return respString;
+        }, "Took too long", 1000);
+
+        runs(function () {
+            expect(respString.indexOf(expectedString)).toBe(0);
+        });
+    });
+    it("can append the code needed to connect to socketIO to browser-sync-client", function () {
+
+        var expectedString = "var ___socket___ = io.connect('http://0.0.0.0:" + ports[0] + "');";
+
+        var respString;
+
+        http.get("http://0.0.0.0:3003/browser-sync-client.min.js", function (res) {
 
             res.on("data", function (chunk) {
                 respString = chunk.toString();

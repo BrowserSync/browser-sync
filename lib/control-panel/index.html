@@ -1,10 +1,16 @@
 <!DOCTYPE html>
-<html>
+<html ng-app="browserSync">
 <head>
     <title>Browser Sync - Control Panel</title>
+
 </head>
 <body>
     <h1>Control Panel</h1>
+    <section ng-controller="MainCtrl">
+        <ul ng-if="browsers.length" ng-cloak>
+            <li ng-repeat="browser in browsers">{{browser.name}} - {{browser.version}}</li>
+        </ul>
+    </section>
     <script src="js/angular.min.js"></script>
 </body>
 </html>
