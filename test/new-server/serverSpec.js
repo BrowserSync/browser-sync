@@ -3,75 +3,12 @@ var browserSync = new si();
 var messages = require("../../lib/messages");
 var http = require("http");
 
-var ports = [3001, 3002];
+var ports = [3000, 3001, 3002, 3003];
 
 describe("Launching a server", function () {
 
-    describe("server for client-side JS", function () {
-
-        var clientScriptUrl = "http://localhost:" + ports[1] + messages.clientScript;
-
-        it("can serve the JS file", function () {
-
-            var options = {
-                server: {
-                    baseDir: "test/fixtures"
-                }
-            };
-
-            var server;
-            var respCode;
-
-            server = browserSync.launchServer("localhost", ports, options);
-
-            http.get(clientScriptUrl, function (res) {
-                respCode = res.statusCode;
-            });
-
-            waitsFor(function () {
-                return respCode;
-            }, "Took too long to get request", 1000);
-
-            runs(function () {
-                server.close();
-                expect(respCode).toBe(200);
-            });
-
-        });
-
-        it("can append the code needed to connect to socketIO", function () {
-            var server;
-            var expectedString = "var ___socket___ = io.connect('http://localhost:" + ports[0] + "');";
-
-            var options = {
-                server: {
-                    baseDir: "test/fixtures"
-                }
-            };
-
-            var respString;
-
-            server = browserSync.launchServer("localhost", ports, options);
-
-            http.get(clientScriptUrl, function (res) {
-
-                res.on("data", function (chunk) {
-                    respString = chunk.toString();
-                });
-            });
-
-            waitsFor(function () {
-                return respString;
-            }, "Took too long", 1000);
-
-            runs(function () {
-                server.close();
-                expect(respString.indexOf(expectedString)).toBe(0);
-            });
-        });
-    });
-
     describe("server for Static Files", function () {
+
         it("can serve files", function () {
 
             var options = {
@@ -187,7 +124,7 @@ describe("Launching a server", function () {
             waits(100);
 
             runs(function () {
-                expect(browserSync.openBrowser).toHaveBeenCalledWith("localhost", 3002, options);
+                expect(browserSync.openBrowser).toHaveBeenCalledWith("localhost", 3001, options);
                 server.close();
             });
         });
@@ -202,6 +139,7 @@ describe("Launching a server", function () {
             it("logs when using static server", function () {
 
                 spyOn(msgs, "initServer");
+
                 var options = {
                     server: {
                         baseDir: "test/fixtures",
@@ -222,6 +160,7 @@ describe("Launching a server", function () {
             it("doesn't log if no server used", function () {
 
                 spyOn(msgs, "init");
+
                 var options = {
                     server: false
                 };
@@ -235,7 +174,7 @@ describe("Launching a server", function () {
                 waits(10);
 
                 runs(function () {
-                    expect(msgs.init).toHaveBeenCalled();
+                    expect(msgs.init).toHaveBeenCalledWith("localhost", ports[0], ports[3]);
                     server.close();
                 });
             });

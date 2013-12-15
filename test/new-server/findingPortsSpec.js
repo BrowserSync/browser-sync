@@ -12,7 +12,7 @@ describe("finding free ports", function () {
 
         var cb = jasmine.createSpy();
 
-        var ports = methods.getPorts(3, cb, {});
+        var ports = methods.getPorts(4, cb, {});
 
         waitsFor(function () {
             return cb.callCount > 0;
@@ -23,12 +23,14 @@ describe("finding free ports", function () {
             var arg1 = cb.mostRecentCall.args[0][0];
             var arg2 = cb.mostRecentCall.args[0][1];
             var arg3 = cb.mostRecentCall.args[0][2];
+            var arg4 = cb.mostRecentCall.args[0][3];
 
             expect(/^(\d){4}$/.test(arg1)).toBe(true);
             expect(/^(\d){4}$/.test(arg2)).toBe(true);
             expect(/^(\d){4}$/.test(arg3)).toBe(true);
+            expect(/^(\d){4}$/.test(arg4)).toBe(true);
 
-            expect(_.uniq([arg1, arg2, arg3]).length).toBe(3);
+            expect(_.uniq([arg1, arg2, arg3, arg4]).length).toBe(4);
 
         });
     });

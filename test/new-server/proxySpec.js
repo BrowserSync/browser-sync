@@ -6,10 +6,10 @@ var filePath = require("path");
 var connect = require("connect");
 var createProxy = require('../../lib/dev-proxy');
 
-var ports = [3000, 3001, 3002];
+var ports = [3000, 3001, 3002, 3003];
 
 var expectedMatch1 = "<script src='http://0.0.0.0:" + ports[0] + messages.socketIoScript + "'></script>";
-var expectedMatch2 = "<script src='http://0.0.0.0:" + ports[1] + messages.clientScript + "'></script>";
+var expectedMatch2 = "<script src='http://0.0.0.0:" + ports[3] + messages.clientScript + "'></script>";
 
 describe("Launching a proxy for connect server", function () {
 
@@ -75,6 +75,7 @@ describe("Launching a proxy for connect server", function () {
         }, "Took too long to get request", 1000);
 
         runs(function () {
+            console.log(data);
             expect(data.indexOf(expectedMatch1) >= 0).toBe(true);
             expect(data.indexOf(expectedMatch2) >= 0).toBe(true);
         });
