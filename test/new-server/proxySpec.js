@@ -17,7 +17,6 @@ describe("Launching a proxy for connect server", function () {
 
     beforeEach(function () {
 
-        // Server we are proxying ( fixtures DIR );
         app = connect().use(connect.static(filePath.resolve("test/fixtures")));
         server = http.createServer(app).listen(8000);
 
@@ -35,6 +34,8 @@ describe("Launching a proxy for connect server", function () {
         server.close();
         proxyServer.close();
     });
+
+
     it("can proxy requests", function () {
 
         var respCode;
@@ -51,6 +52,8 @@ describe("Launching a proxy for connect server", function () {
             expect(respCode).toBe(200);
         });
     });
+
+
     it("can proxy requests + inject snippets", function () {
 
         var data;
