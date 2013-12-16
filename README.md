@@ -16,6 +16,12 @@ It's pretty useful when used with a single browser, watching a CSS file for chan
 
 ##Using Grunt? There's a [plugin](https://github.com/shakyShane/grunt-browser-sync) for that
 
+##Support
+If you've found Browser-sync useful and would like to contribute to its continued development & support, please feel free to send a donation of any size - it would be greatly appreciated!
+
+[![Support via Gittip](https://rawgithub.com/chris---/Donation-Badges/master/gittip.jpeg)](https://www.gittip.com/shakyshane)
+[![Support via PayPal](https://rawgithub.com/chris---/Donation-Badges/master/paypal.jpeg)](https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=shakyshane%40gmail%2ecom&lc=US&item_name=browser%2dsync)
+
 ##How to install it?
 ```
 npm install -g browser-sync
