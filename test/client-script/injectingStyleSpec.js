@@ -118,17 +118,24 @@ describe("Injecting Styles:", function () {
             elem3.href = "style-with-rel.css?rel=213456";
 
             elems = document.getElementsByTagName("link");
-            match = null;
+            matches = null;
         });
 
+        it("can return multiple matched elements with the same URL", function () {
+            matches = methods.getMatches([elem, elem2, elem3, elem], "style.css", "href");
+            expect(matches.length).toBe(2);
+            expect(matches[0].href).toBe(wrapUrl("style.css"));
+            expect(matches[1].href).toBe(wrapUrl("style.css"));
+        });
+        
         it("can return matched elements", function () {
-            match = methods.getMatches([elem, elem2], "style.css", "href");
-            expect(match.href).toBe(wrapUrl("style.css"));
+            matches = methods.getMatches([elem, elem2], "style.css", "href");
+            expect(matches[0].href).toBe(wrapUrl("style.css"));
         });
-
+        
         it("can return matched elems with existing query strings", function () {
-            match = methods.getMatches([elem, elem2, elem3], "style-with-rel.css", "href");
-            expect(match.href).toBe(wrapUrl("style-with-rel.css?rel=213456"));
+            matches = methods.getMatches([elem, elem2, elem3], "style-with-rel.css", "href");
+            expect(matches[0].href).toBe(wrapUrl("style-with-rel.css?rel=213456"));
         });
     });
 
