@@ -1,7 +1,7 @@
 'use strict';
 
-var module = require('../../lib/index');
-var setup = module.setup;
+var index = require('../../lib/index');
+var setup = index.setup;
 var dConfig = require('../fixtures/si-default-config');
 var _ = require('lodash');
 

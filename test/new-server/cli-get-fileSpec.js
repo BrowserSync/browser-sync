@@ -1,7 +1,7 @@
 'use strict';
 
-var module = require('../../lib/index');
-var setup = module.setup;
+var index = require('../../lib/index');
+var setup = index.setup;
 
 describe("Browser-sync: transform the files option into useable watchers", function () {
 
@@ -48,7 +48,7 @@ describe("Browser-sync: transform the files option into useable watchers", funct
 
     describe("accepting a single pattern", function () {
 
-        var files, arg
+        var files, arg;
         beforeEach(function(){
             arg = "test/fixtures/assets/*.css";
             files = setup.getFiles(arg);
@@ -59,7 +59,7 @@ describe("Browser-sync: transform the files option into useable watchers", funct
     });
     describe("accepting an array of patterns", function () {
 
-        var files, arg
+        var files, arg;
         beforeEach(function(){
             arg = ["**/*.css", "*.html"];
             files = setup.getFiles(arg);
@@ -70,7 +70,7 @@ describe("Browser-sync: transform the files option into useable watchers", funct
     });
     describe("accepting an array of patterns (2)", function () {
 
-        var files, arg
+        var files, arg;
         beforeEach(function(){
             arg = ["**/*.css"];
             files = setup.getFiles(arg);
