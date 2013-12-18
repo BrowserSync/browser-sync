@@ -102,7 +102,7 @@ describe("Launching a server with snippets", function () {
     /**
      *
      *
-     * HTML PAGE WITH AT LEAST ONE SNIPPET
+     * HTML PAGE WITH AT LEAST ONE SCRIPT-TAG
      *
      *
      */
@@ -133,5 +133,4 @@ describe("Launching a server with snippets", function () {
             expect(data.indexOf(expectedMatch2)).toBeLessThan(scriptPosition);
         });
      });
-
 });
