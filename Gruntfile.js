@@ -128,5 +128,5 @@ module.exports = function (grunt) {
     grunt.registerTask('test:client', ['jshint', 'karma:unit']);
     grunt.registerTask('test', ['jshint', 'karma:unit', 'jasmine_node']);
 
-    grunt.registerTask('release:github', ['jshint', 'karma:unit', 'jasmine_node', 'uglify', 'shell:github']);
+    grunt.registerTask('release:github', ['jshint', 'karma:unit', 'jasmine_node', 'shell:github']);
 };
