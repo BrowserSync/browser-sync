@@ -141,7 +141,7 @@ describe("Launching a server with snippets", function () {
      *
      *
      */
-     xit("can prepend the script tags before any present script tags inside the body", function () {
+     xit("can ignore commented out scripts and still find the correct position to insert", function () {
         // skipped at the moment
         var data;
         
