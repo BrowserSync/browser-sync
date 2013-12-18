@@ -1,4 +1,4 @@
-# browser-sync [![Build Status](https://travis-ci.org/shakyShane/browser-sync.png?branch=master)](https://travis-ci.org/shakyShane/browser-sync)
+# browser-sync [![Build Status](https://travis-ci.org/shakyShane/browser-sync.png?branch=master)](https://travis-ci.org/shakyShane/browser-sync)[![NPM version](https://badge.fury.io/js/browser-sync.png)](http://badge.fury.io/js/browser-sync)[![Built with Grunt](https://cdn.gruntjs.com/builtwith.png)](http://gruntjs.com/)
 
 > Keep multiple browsers & devices in sync when building websites.
 
