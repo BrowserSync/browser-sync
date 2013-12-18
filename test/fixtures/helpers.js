@@ -27,7 +27,7 @@ var simulateScroll = function (distance, delay, cb) {
             });
 
             // For wrapping tests
-            cb()
+            cb();
 
         });
 
@@ -37,4 +37,4 @@ var simulateScroll = function (distance, delay, cb) {
 
         cb();
     }
-}
+};

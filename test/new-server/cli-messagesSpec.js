@@ -1,6 +1,6 @@
 'use strict';
 
-var module = require('../../lib/index');
+var index = require('../../lib/index');
 var messages = require('../../lib/messages');
 var ansiTrim = require('cli-color/lib/trim');
 

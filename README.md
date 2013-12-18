@@ -1,4 +1,4 @@
-# browser-sync [![Build Status](https://travis-ci.org/shakyShane/browser-sync.png?branch=master)](https://travis-ci.org/shakyShane/browser-sync)
+# browser-sync [![Build Status](https://travis-ci.org/shakyShane/browser-sync.png?branch=master)](https://travis-ci.org/shakyShane/browser-sync) [![NPM version](https://badge.fury.io/js/browser-sync.png)](http://badge.fury.io/js/browser-sync) [![Built with Grunt](https://cdn.gruntjs.com/builtwith.png)](http://gruntjs.com/)
 
 > Keep multiple browsers & devices in sync when building websites.
 
@@ -290,7 +290,7 @@ Client-side tests are located in test/client-script/*
 
 // Run the client-side tests & exit
 ```
-grunt karma:unit
+grunt test:client
 ```
 // Run the client-side tests & re-run on every file-change.
 ```
@@ -301,7 +301,7 @@ Server-side tests are located in test/new-server
 
 // Run the server-side tests & exit
 ```
-grunt jasmine_node
+grunt test:server
 ```
 // Run the server-side tests & re-run on every file-change.
 ```

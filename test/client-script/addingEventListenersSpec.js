@@ -6,14 +6,15 @@ describe("Browser Events:", function () {
 
     function fireEvent(obj,evt){
 
+        var evObj;
         var fireOnThis = obj;
         if( document.createEvent ) {
-            var evObj = document.createEvent('MouseEvents');
+            evObj = document.createEvent('MouseEvents');
             evObj.initEvent( evt, true, false );
             fireOnThis.dispatchEvent( evObj );
 
         } else if( document.createEventObject ) {
-            var evObj = document.createEventObject();
+            evObj = document.createEventObject();
             fireOnThis.fireEvent( 'on' + evt, evObj );
         }
     }
@@ -100,7 +101,7 @@ describe("Browser Events:", function () {
         it("can fire a click event on IMG wrapped in A", function () {
 
             ghost.initClickEvents(scope, utils, function (event) {
-                event.preventDefault ? event.preventDefault() : event.returnValue = false;
+                return event.preventDefault ? event.preventDefault() : event.returnValue = false;
             });
             fireEvent(button, "click");
             expect(ghost.listeners.click).toHaveBeenCalled();

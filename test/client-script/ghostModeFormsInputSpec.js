@@ -1,6 +1,6 @@
 describe("Ghostmode: forms", function () {
 
-    var ghost, scope, input1, input2, radio, checkbox, utils;
+    var ghost, scope, input1, input2, utils;
 
     beforeEach(function(){
         scope = {
@@ -41,7 +41,7 @@ describe("Ghostmode: forms", function () {
 
             ghost.listeners.keyup({target: input1});
 
-            expect(ghost.emitEvent).toHaveBeenCalledWith("input:type",  { id: "inputId1", value: "shane" })
+            expect(ghost.emitEvent).toHaveBeenCalledWith("input:type",  { id: "inputId1", value: "shane" });
         });
 
         it("does not emit the event if an input has no ID", function () {

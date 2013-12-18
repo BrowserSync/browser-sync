@@ -1,9 +1,9 @@
 'use strict';
 
-var module = require('../../lib/index');
+var index = require('../../lib/index');
 var dConfig = require('../fixtures/si-default-config');
 var _ = require('lodash');
-var setup = module.setup;
+var setup = index.setup;
 
 var configFilePath = "test/fixtures/si-config.js";
 var partialConfigFilePath = "test/fixtures/si-config-partial.js";
