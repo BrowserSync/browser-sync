@@ -24,7 +24,7 @@
     "node": ">= 0.8.0"
   },
   "scripts": {
-    "test": "grunt test:server"
+    "test": "grunt test"
   },
   "dependencies": {
     "portscanner": "~0.1.3",
