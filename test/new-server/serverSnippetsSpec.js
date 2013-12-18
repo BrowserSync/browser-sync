@@ -133,4 +133,44 @@ describe("Launching a server with snippets", function () {
             expect(data.indexOf(expectedMatch2)).toBeLessThan(scriptPosition);
         });
      });
+
+     /**
+     *
+     *
+     * HTML PAGE WITH COMMENTED OUT SCRIPTS
+     *
+     *
+     */
+     xit("can prepend the script tags before any present script tags inside the body", function () {
+        // skipped at the moment
+        var data;
+        
+        http.get("http://0.0.0.0:" + ports[1] + "/index-with-scripts-in-comments.html", function (res) {
+            res.setEncoding("utf8");
+            var chunks = [];
+
+            res.on("data", function (chunk) {
+                chunks.push(chunk.toString());
+            });
+            res.on("end", function () {
+                data = chunks.join("");
+            });
+        });
+
+        waitsFor(function () {
+            return data;
+        }, "Took too long", 1000);
+
+        runs(function () {
+            var tag = "<!--<script>// dummy</script>-->";
+            var comments = [];
+            comments.push(data.indexOf(tag));
+            comments.push(data.lastIndexOf(tag))
+
+            expect(data.indexOf(expectedMatch1)).toBeGreaterThan(comments[0] + tag.length);
+            expect(data.indexOf(expectedMatch2)).toBeGreaterThan(comments[0] + tag.length);
+            expect(data.indexOf(expectedMatch1)).toBeLessThan(comments[1]);
+            expect(data.indexOf(expectedMatch2)).toBeLessThan(comments[1]);
+        });
+     });
 });
