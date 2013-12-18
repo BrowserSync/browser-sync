@@ -77,6 +77,14 @@ module.exports = function (grunt) {
                 consolidate: true
             }
         },
+        shell: {
+            github: {
+                command: 'git push origin master',
+                options: {
+                    stdout: true
+                }
+            }
+        },
         /**
          *
          *
@@ -112,10 +120,13 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-jasmine-node');
     grunt.loadNpmTasks('grunt-karma');
+    grunt.loadNpmTasks('grunt-shell');
 
     // Tests
     grunt.registerTask('default', ['jasmine_node']);
     grunt.registerTask('test:server', ['jshint', 'jasmine_node']);
     grunt.registerTask('test:client', ['jshint', 'karma:unit']);
     grunt.registerTask('test', ['jshint', 'karma:unit', 'jasmine_node']);
+
+    grunt.registerTask('release:github', ['jshint', 'karma:unit', 'jasmine_node', 'uglify', 'shell:github']);
 };
