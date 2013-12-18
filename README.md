@@ -290,7 +290,7 @@ Client-side tests are located in test/client-script/*
 
 // Run the client-side tests & exit
 ```
-grunt karma:unit
+grunt test:client
 ```
 // Run the client-side tests & re-run on every file-change.
 ```
@@ -301,7 +301,7 @@ Server-side tests are located in test/new-server
 
 // Run the server-side tests & exit
 ```
-grunt jasmine_node
+grunt test:server
 ```
 // Run the server-side tests & re-run on every file-change.
 ```
