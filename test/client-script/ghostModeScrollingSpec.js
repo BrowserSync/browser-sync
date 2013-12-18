@@ -51,7 +51,10 @@ describe("Ghost Mode: Scrolling", function () {
         }, "Wait for scroll events to fire", 1000);
 
         runs(function() {
-            expect(ghost.emitEvent).toHaveBeenCalledWith("scroll", {pos:200, url:window.location.href});
+            expect(ghost.emitEvent).toHaveBeenCalledWith("scroll", {
+                pos:200,
+                url: window.location.host + window.location.pathname
+            });
         });
     });
 
