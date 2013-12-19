@@ -165,7 +165,7 @@ describe("Launching a server with snippets", function () {
             var tag = "<!--<script>// dummy</script>-->";
             var comments = [];
             comments.push(data.indexOf(tag));
-            comments.push(data.lastIndexOf(tag))
+            comments.push(data.lastIndexOf(tag));
 
             expect(data.indexOf(expectedMatch1)).toBeGreaterThan(comments[0] + tag.length);
             expect(data.indexOf(expectedMatch2)).toBeGreaterThan(comments[0] + tag.length);
