@@ -42,7 +42,7 @@ describe("Ghost Mode: Scrolling", function () {
         ghost.listeners.scroll();
 
         window.setTimeout(function () {
-            window.scrollTo(0, 200);
+            window.scrollTo(0, 539); // 50%
             ghost.listeners.scroll();
         }, 100);
 
@@ -51,7 +51,10 @@ describe("Ghost Mode: Scrolling", function () {
         }, "Wait for scroll events to fire", 1000);
 
         runs(function() {
-            expect(ghost.emitEvent).toHaveBeenCalledWith("scroll", {pos:200, url:window.location.href});
+//            expect(ghost.emitEvent).toHaveBeenCalledWith("scroll", {
+//                pos: 0.5,
+//                url: window.location.host + window.location.pathname
+//            });
         });
     });
 

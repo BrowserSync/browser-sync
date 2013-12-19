@@ -10,7 +10,7 @@ var expectedMatch2 = "<script src='http://0.0.0.0:" + ports[1] + messages.client
 
 describe("Launching a server with snippets", function () {
 
-    var server;
+    var servers;
 
     beforeEach(function () {
 
@@ -21,11 +21,11 @@ describe("Launching a server with snippets", function () {
             }
         };
 
-        server = browserSync.launchServer("0.0.0.0", ports, options);
+        servers = browserSync.launchServer("0.0.0.0", ports, options);
     });
 
     afterEach(function () {
-        server.close();
+        servers.staticServer.close();
     });
 
     /**

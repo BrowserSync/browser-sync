@@ -22,16 +22,22 @@ module.exports = function (grunt) {
             }
         },
         jshint: {
-            options: {
-                jshintrc: '.jshintrc'
-            },
             gruntfile: {
+                options: {
+                    jshintrc: '.jshintrc'
+                },
                 src: 'Gruntfile.js'
             },
             lib: {
+                options: {
+                    jshintrc: '.jshintrc'
+                },
                 src: ['lib/**/*.js', '!lib/browser-sync-client.min.js']
             },
             test: {
+                options: {
+                    jshintrc: 'test/.jshintrc'
+                },
                 src: ['test/**/*.js']
             }
         },
@@ -71,6 +77,14 @@ module.exports = function (grunt) {
                 consolidate: true
             }
         },
+        shell: {
+            github: {
+                command: 'git push origin master',
+                options: {
+                    stdout: true
+                }
+            }
+        },
         /**
          *
          *
@@ -101,18 +115,18 @@ module.exports = function (grunt) {
     });
 
     // These plugins provide necessary tasks.
-    grunt.loadNpmTasks('grunt-contrib-nodeunit');
     grunt.loadNpmTasks('grunt-contrib-jshint');
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-contrib-uglify');
-    grunt.loadNpmTasks('grunt-contrib-less');
-    grunt.loadNpmTasks('grunt-contrib-stylus');
-    grunt.loadNpmTasks('grunt-contrib-sass');
     grunt.loadNpmTasks('grunt-jasmine-node');
     grunt.loadNpmTasks('grunt-karma');
+    grunt.loadNpmTasks('grunt-shell');
 
-    // Default task.
+    // Tests
     grunt.registerTask('default', ['jasmine_node']);
-    grunt.registerTask('test', ['karma:unit', 'jasmine_node']);
+    grunt.registerTask('test:server', ['jshint', 'jasmine_node']);
+    grunt.registerTask('test:client', ['jshint', 'karma:unit']);
+    grunt.registerTask('test', ['jshint', 'karma:unit', 'jasmine_node']);
 
+    grunt.registerTask('release:github', ['jshint', 'karma:unit', 'jasmine_node', 'shell:github']);
 };

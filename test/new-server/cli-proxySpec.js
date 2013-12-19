@@ -1,9 +1,9 @@
 'use strict';
 
-var module = require('../../lib/index');
+var index = require('../../lib/index');
 var dConfig = require('../fixtures/si-default-config');
 var _ = require('lodash');
-var setup = module.setup;
+var setup = index.setup;
 
 var defaultConfig;
 
@@ -135,6 +135,19 @@ describe("Browser-sync: using a proxy from command-line", function () {
         it("should default to port 80", function () {
             expect(config.proxy.host).toBe("0.0.0.0");
             expect(config.proxy.port).toBe("8000");
+        });
+    });
+    describe("Excluding trailing slashes", function () {
+        var config;
+        beforeEach(function () {
+            var argv = {
+                proxy: "web"
+            };
+            config = setup.getConfig(defaultConfig, argv);
+        });
+        it("should default to port 80", function () {
+            expect(config.proxy.host).toBe("web");
+            expect(config.proxy.port).toBe("80");
         });
     });
 });
