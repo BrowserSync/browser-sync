@@ -63,9 +63,7 @@
     "grunt-mocha-test": "~0.8.1",
     "chai": "~1.8.1",
     "sinon": "~1.7.3",
-    "mocha": "~1.16.1",
     "karma-mocha": "~0.1.1",
-    "karma-chai": "0.0.2",
     "karma-sinon": "~1.0.0"
   },
   "keywords": [
