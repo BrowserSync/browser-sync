@@ -17,7 +17,7 @@ describe("Ghostmode Forms: Submitting", function () {
         };
         ghost = window.ghost;
         utils = window.ghost.utils;
-        browserSync = window.browserSync;
+        browserSync = window.bs;
 
         spyOn(ghost, "emitEvent");
     });

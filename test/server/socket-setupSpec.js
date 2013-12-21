@@ -1,6 +1,8 @@
-var si = require("../../lib/browser-sync");
+var bs = require("../../lib/browser-sync");
 var clientIo = require("socket.io-client");
-var browserSync = new si();
+var browserSync = new bs();
+var assert = require("chai").assert;
+var sinon = require("sinon");
 var userOptions = {
     ghostMode: true
 };
@@ -9,67 +11,64 @@ describe("setup Socket", function () {
 
     var ports = [3001,3002];
     var io;
-    var cb;
-    var cb2;
+    var cb = sinon.spy();
+    var cb2 = sinon.spy();
     var events;
 
-    beforeEach(function () {
-
-        cb = jasmine.createSpy("1");
-        cb2 = jasmine.createSpy("2");
+    before(function () {
 
         events = [
             {
                 name: "random",
-                callback: function () {
-                    cb.wasCalled = true;
-                }
+                callback: cb
             },
             {
                 name: "inputchange",
-                callback: function () {
-                    cb2.wasCalled = true;
-                }
+                callback: cb2
             }
         ];
 
+    });
+    afterEach(function () {
+        cb.reset();
+        cb2.reset();
+    });
+
+    beforeEach(function () {
         io = browserSync.setupSocket(ports);
         browserSync.handleSocketConnection(events, userOptions, browserSync.handleClientSocketEvent);
-
-
     });
 
     it("can start the socket IO server", function () {
-        expect(io.sockets).toBeDefined();
+        assert.isDefined(io.sockets);
         browserSync.killSocket();
     });
 
-    it("can listen for client events when ghost mode Enabled", function () {
+    it("can listen for client events when ghost mode Enabled", function (done) {
 
-        var socket;
-
-            socket = clientIo.connect("http://0.0.0.0:" + ports[0], {'force new connection':true});
-            socket.emit("inputchange", {});
+        var socket = clientIo.connect("http://0.0.0.0:" + ports[0], {"force new connection":true});
             socket.emit("random", {});
+            socket.emit("inputchange", {});
 
-        waits(200);
+        setTimeout(function () {
+            assert.isTrue(cb.called);
+            assert.isTrue(cb2.called);
+            done();
+        }, 200);
 
-        runs(function () {
-            expect(cb2).toHaveBeenCalled();
-            expect(cb).toHaveBeenCalled();
-        });
     });
-    it("can log a new connection", function () {
 
-        spyOn(browserSync, 'logConnection');
+    it("can log a new connection", function (done) {
 
-        clientIo.connect("http://0.0.0.0:" + ports[0], {'force new connection':true});
+        var spy = sinon.spy(browserSync, "logConnection");
 
-        waits(200);
+        clientIo.connect("http://0.0.0.0:" + ports[0], {"force new connection":true});
 
-        runs(function () {
-            expect(browserSync.logConnection).toHaveBeenCalled();
-        });
+        setTimeout(function () {
+            assert.isTrue(spy.called);
+            done();
+        }, 200);
+
     });
 });
 

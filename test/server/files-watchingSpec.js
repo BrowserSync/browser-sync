@@ -1,41 +1,59 @@
 var fs = require("fs");
-var si = require("../../lib/browser-sync");
-var methods = new si();
-var options = si.options;
+var bs = require("../../lib/browser-sync");
+var browserSync = new bs();
+var options = bs.options;
+var assert = require("chai").assert;
+var sinon = require("sinon");
+
 var testFile1 = "test/fixtures/test.txt";
-var testFile2 = "test/fixtures/index.html";
+var testFile2 = "test/fixtures/test2.txt";
 
 describe("watching files", function () {
 
-    var io;
+    var logSpy, changeFileSpy;
 
-    beforeEach(function(){
-
-        spyOn(methods, "changeFile");
-        spyOn(methods, "log");
-
-        beforeEach(function(){
-        });
-
-        var io = {};
-
-        io.sockets = {
-            emit: function (event, data) {}
-        };
+    before(function () {
+        logSpy = sinon.spy(browserSync, "log");
+        changeFileSpy = sinon.spy();
     });
 
-//    it("should call changeFile when a watched file is changed", function () {
-//
-//        methods.watchFiles(testFile1, io, methods.changeFile, {});
-//
-//        setTimeout(function () {
-//            fs.writeFileSync(testFile1, "writing to file", "UTF-8");
-//        }, 200);
-//
-//        waits(600);
-//
-//        runs(function () {
-//            expect(methods.changeFile).toHaveBeenCalled();
-//        });
-//    });
+    afterEach(function () {
+        logSpy.reset();
+        changeFileSpy.reset();
+    });
+
+    it("should call changeFile when a watched file is changed (1)", function (done) {
+
+        browserSync.watchFiles(testFile1, {}, changeFileSpy, {}, 100);
+
+        setTimeout(function () {
+
+            fs.writeFileSync(testFile1, "writing to file");
+
+            setTimeout(function () {
+                var call   = changeFileSpy.getCall(0);
+                var actual = call.args[0];
+                assert.isTrue(actual.indexOf(testFile1) >= 0);
+                done();
+            }, 600);
+
+        }, 200);
+    });
+    it("should call changeFile when a watched file is changed (1)", function (done) {
+
+        browserSync.watchFiles(testFile2, {}, changeFileSpy, {}, 100);
+
+        setTimeout(function () {
+
+            fs.writeFileSync(testFile2, "writing to file");
+
+            setTimeout(function () {
+                var call   = changeFileSpy.getCall(0);
+                var actual = call.args[0];
+                assert.isTrue(actual.indexOf(testFile2) >= 0);
+                done();
+            }, 600);
+
+        }, 200);
+    });
 });

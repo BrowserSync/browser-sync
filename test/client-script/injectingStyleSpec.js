@@ -34,7 +34,7 @@ describe("Injecting Styles:", function () {
     var regex = /(style\.css\?rel=\d+)$/;
 
     beforeEach(function(){
-        methods = window.browserSync;
+        methods = window.bs;
         actions = window.browserSyncActions;
         scope = {};
     });
@@ -89,7 +89,7 @@ describe("Injecting Styles:", function () {
             document.getElementsByTagName('head')[0].appendChild(domElem2);
 
 
-            var domData = browserSync.getElems("css");
+            var domData = bs.getElems("css");
 
             expect(domData.elems.length).toBe(2);
             expect(domData.attr).toBe("href");
@@ -127,12 +127,12 @@ describe("Injecting Styles:", function () {
             expect(matches[0].href).toBe(wrapUrl("style.css"));
             expect(matches[1].href).toBe(wrapUrl("style.css"));
         });
-        
+
         it("can return matched elements", function () {
             matches = methods.getMatches([elem, elem2], "style.css", "href");
             expect(matches[0].href).toBe(wrapUrl("style.css"));
         });
-        
+
         it("can return matched elems with existing query strings", function () {
             matches = methods.getMatches([elem, elem2, elem3], "style-with-rel.css", "href");
             expect(matches[0].href).toBe(wrapUrl("style-with-rel.css?rel=213456"));

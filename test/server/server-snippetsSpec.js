@@ -1,9 +1,11 @@
-var si = require("../../lib/browser-sync");
-var browserSync = new si();
+var bs = require("../../lib/browser-sync");
+var browserSync = new bs();
 var messages = require("../../lib/messages");
 var http = require("http");
+var assert = require("chai").assert;
 
 var ports = [3001, 3002];
+var serverHost = "http://0.0.0.0:" + ports[1];
 
 var expectedMatch1 = "<script src='http://0.0.0.0:" + ports[0] + messages.socketIoScript + "'></script>";
 var expectedMatch2 = "<script src='http://0.0.0.0:" + ports[1] + messages.clientScript + "'></script>";
@@ -12,7 +14,7 @@ describe("Launching a server with snippets", function () {
 
     var servers;
 
-    beforeEach(function () {
+    before(function () {
 
         var options = {
             server: {
@@ -24,7 +26,7 @@ describe("Launching a server with snippets", function () {
         servers = browserSync.launchServer("0.0.0.0", ports, options);
     });
 
-    afterEach(function () {
+    after(function () {
         servers.staticServer.close();
     });
 
@@ -35,28 +37,20 @@ describe("Launching a server with snippets", function () {
      *
      *
      */
-    it("can append the script tags to the body of html files", function () {
+    it("can append the script tags to the body of html files", function (done) {
 
-        var data;
-
-        http.get("http://0.0.0.0:" + ports[1] + "/index.html", function (res) {
-            res.setEncoding('utf8');
+        http.get(serverHost + "/index.html", function (res) {
             var chunks = [];
+            var data;
             res.on("data", function (chunk) {
                 chunks.push(chunk.toString());
             });
             res.on("end", function () {
                 data = chunks.join("");
+                assert.isTrue(data.indexOf(expectedMatch1) >= 0);
+                assert.isTrue(data.indexOf(expectedMatch2) >= 0);
+                done();
             });
-        });
-
-        waitsFor(function () {
-            return data;
-        }, "Took too long", 1000);
-
-        runs(function () {
-            expect(data.indexOf(expectedMatch1) >= 0).toBe(true);
-            expect(data.indexOf(expectedMatch2) >= 0).toBe(true);
         });
     });
 
@@ -67,29 +61,19 @@ describe("Launching a server with snippets", function () {
      *
      *
      */
-    it("can append the script tags to the body of a LARGE html FILE", function () {
-
-        var data;
-
-        http.get("http://0.0.0.0:" + ports[1] + "/index-large.html", function (res) {
-            res.setEncoding('utf8');
+    it("can append the script tags to the body of a LARGE html FILE", function (done) {
+        http.get(serverHost + "/index-large.html", function (res) {
             var chunks = [];
-
+            var data;
             res.on("data", function (chunk) {
                 chunks.push(chunk.toString());
             });
             res.on("end", function () {
                 data = chunks.join("");
+                assert.isTrue(data.indexOf(expectedMatch1) >= 0);
+                assert.isTrue(data.indexOf(expectedMatch2) >= 0);
+                done();
             });
-        });
-
-        waitsFor(function () {
-            return data;
-        }, "Took too long", 1000);
-
-        runs(function () {
-            expect(data.indexOf(expectedMatch1) >= 0).toBe(true);
-            expect(data.indexOf(expectedMatch2) >= 0).toBe(true);
         });
     });
 });

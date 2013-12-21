@@ -38,7 +38,7 @@ module.exports = function (grunt) {
                 options: {
                     jshintrc: 'test/.jshintrc'
                 },
-                src: ['test/**/*.js']
+                src: ['test/server/**/*.js']
             }
         },
         watch: {
@@ -53,6 +53,10 @@ module.exports = function (grunt) {
             less: {
                 files: ['test/fixtures/less/bootstrap.less'],
                 tasks: ['less']
+            },
+            jshint: {
+                files: ['test/server/**/*.js'],
+                tasks: ['jshint:test']
             }
         },
         karma: {
@@ -82,7 +86,7 @@ module.exports = function (grunt) {
                 options: {
                     reporter: 'spec'
                 },
-                src: ['test/server/*.js']
+                src: ['test/server/**/*.js']
             }
         },
         shell: {
@@ -132,10 +136,9 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-shell');
 
     // Tests
-    grunt.registerTask('default', ['jasmine_node']);
-    grunt.registerTask('test:server', ['jshint', 'jasmine_node']);
+    grunt.registerTask('test:server', ['jshint', 'mochaTest']);
     grunt.registerTask('test:client', ['jshint', 'karma:unit']);
-    grunt.registerTask('test', ['jshint', 'karma:unit', 'jasmine_node']);
+    grunt.registerTask('test', ['jshint', 'karma:unit', 'mochaTest']);
 
-    grunt.registerTask('release:github', ['jshint', 'karma:unit', 'jasmine_node', 'shell:github']);
+    grunt.registerTask('release:github', ['jshint', 'karma:unit', 'mochaTest', 'shell:github']);
 };

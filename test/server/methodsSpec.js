@@ -1,183 +1,229 @@
-var si = require("../../lib/browser-sync");
+var bs = require("../../lib/browser-sync");
 var messages = require("../../lib/messages");
-var browserSync = new si();
+var browserSync = new bs();
+var assert = require("chai").assert;
+var sinon = require("sinon");
 var options = browserSync.options;
 
 describe("Exposed Methods", function () {
 
     it("can be loaded", function () {
-        expect(browserSync).toBeDefined();
+        assert.isDefined(browserSync);
     });
 
     describe("getting the Host IP", function () {
 
         var regex;
-        beforeEach(function(){
+        beforeEach(function () {
             regex = /\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}/;
         });
 
         it("does not throw if no are options provided", function () {
-            expect(function () {
+            assert.doesNotThrow(function () {
                 browserSync.getHostIp({});
-            }).not.toThrow();
+            });
         });
 
-        it("can retrieve the correct host IP address if one is already provided in options", function () {
+        it("should use the IP address if provided in the options", function () {
             var hostIp = browserSync.getHostIp({
                 host: "192.0.0.1"
             });
-            expect(hostIp).toBe("192.0.0.1");
+            assert.equal(hostIp, "192.0.0.1");
         });
 
-        describe("using localhost as a fallback when no network available", function () {
-            var hostIp;
+        it("should use 0.0.0.0 as a fallback when detect:false", function () {
+            var hostIp = browserSync.getHostIp({
+                detect: false
+            });
+            assert.equal(hostIp, "0.0.0.0");
+        });
 
-            beforeEach(function(){
-                hostIp = browserSync.getHostIp({detect:false});
-            });
-            it("can return '0.0.0.0' if no Network IP's are available", function () {
-                expect(hostIp).toBe("0.0.0.0");
-            });
+        it("should use 0.0.0.0 as a fallback when no network available", function () {
+            var hostIp = browserSync.getHostIp({}, null);
+            assert.equal(hostIp, "0.0.0.0");
         });
     });
 
-    describe("getting a display-able base DIR for user", function () {
+    describe("getting a display-able base DIR for server", function () {
 
         var cwd = process.cwd();
 
         it("is correct when using ./ ", function () {
-            var baseDir = browserSync.getBaseDir('./');
-            expect(baseDir).toBe(cwd);
+            var actual = browserSync.getBaseDir("./");
+            assert.equal(actual, cwd);
         });
         it("is correct when using only a dot", function () {
-            expect(browserSync.getBaseDir('.')).toBe(cwd);
+            var actual = browserSync.getBaseDir(".");
+            assert.equal(actual, cwd);
         });
         it("does not throw if no value is passed", function () {
-            expect(function () {
+            assert.doesNotThrow(function () {
                 browserSync.getBaseDir();
-            }).not.toThrow();
+            });
         });
         it("is correct when using no param", function () {
-            var baseDir = browserSync.getBaseDir();
-            expect(baseDir).toBe(cwd);
+            var actual = browserSync.getBaseDir();
+            assert.equal(actual, cwd);
         });
         it("is correct when using a path", function () {
-            expect(browserSync.getBaseDir("/app")).toBe(cwd + "/app");
+            var actual = browserSync.getBaseDir("/app");
+            var expected = cwd + "/app";
+            assert.equal(actual, expected);
         });
         it("is correct when using only a forward slash", function () {
-            expect(browserSync.getBaseDir("/")).toBe(cwd);
+            var actual = browserSync.getBaseDir("/");
+            assert.equal(actual, cwd);
         });
     });
 
     describe("logging messages to the console", function () {
 
-        beforeEach(function(){
-            spyOn(console, "log");
+        var spy;
+        before(function () {
+            spy = sinon.spy(console, "log");
         });
-
+        afterEach(function () {
+            spy.reset();
+        });
         it("should log a message", function () {
-
-            browserSync.log("ERROR", {debugInfo:true});
-            expect(console.log).toHaveBeenCalledWith("ERROR");
+            browserSync.log("ERROR", {debugInfo: true});
+            assert.isTrue(spy.called);
         });
-        it("should not log anything if turned off in options", function () {
-
-            browserSync.log("ERROR", {debugInfo:false});
-            expect(console.log).not.toHaveBeenCalled();
+        it("should not log if disabled in options", function () {
+            browserSync.log("ERROR", {debugInfo: false});
+            assert.isFalse(spy.called);
         });
-        it("should log message if options turned off, but overridden", function () {
-
-            browserSync.log("ERROR", {debugInfo:false}, true);
-            expect(console.log).toHaveBeenCalled();
+        it("should log message if disabled in options, but overridden with param", function () {
+            browserSync.log("ERROR", {debugInfo: false}, true);
+            assert.isTrue(spy.called);
         });
     });
 
     describe("getting a file extension", function () {
-        it("should return the file extension only", function () {
-            expect(browserSync.getFileExtension("core.css")).toBe("css");
+        it("should return the file extension only (1)", function () {
+            var actual = browserSync.getFileExtension("core.css");
+            var expected = "css";
+            assert.equal(actual, expected);
+        });
+        it("should return the file extension only (2)", function () {
+            var actual = browserSync.getFileExtension("index.html");
+            var expected = "html";
+            assert.equal(actual, expected);
+        });
+        it("should return the file extension only (3)", function () {
+            var actual = browserSync.getFileExtension("index.php");
+            var expected = "php";
+            assert.equal(actual, expected);
+        });
+    });
+
+    describe("stripping OS path from filepath", function () {
+
+        it("can remove the OS prefix from a filepath", function () {
+            var full     = "/Users/shakyshane/sites/browser-sync/app/index.html";
+            var actual   = browserSync.resolveRelativeFilePath(full, "/Users/shakyshane/sites/browser-sync");
+            var expected = "app/index.html";
+            assert.equal(actual, expected);
         });
     });
 
     describe("changing a file", function () {
 
-        var io;
+        var io, spy;
 
-        beforeEach(function(){
+        before(function () {
             io = {};
             io.sockets = {
-                emit: function () {}
+                emit: function () {
+                }
             };
+            spy = sinon.spy(io.sockets, "emit");
+        });
+
+        afterEach(function () {
+            spy.reset();
         });
 
         describe("returning the data sent to client when it's an inject file type.", function () {
+
             var data;
-            beforeEach(function(){
-                spyOn(io.sockets, "emit");
+
+            beforeEach(function () {
                 data = browserSync.changeFile("/app/styles/core.css", io, options, browserSync);
             });
 
             it("should return the filename", function () {
-
-                expect(data.assetFileName).toBe("core.css");
-
+                assert.equal(data.assetFileName, "core.css");
             });
             it("should return the fileExtension", function () {
-
-                expect(data.fileExtension).toBe("css");
+                assert.equal(data.fileExtension, "css");
             });
             it("should emit the event with the correct data", function () {
 
-                expect(io.sockets.emit).toHaveBeenCalledWith("reload", {
+                var calledWithParams = spy.calledWith("reload", {
                     assetFileName: "core.css",
                     fileExtension: "css"
                 });
+
+                assert.isTrue(calledWithParams);
             });
         });
 
         describe("returning the data sent to client when it's a reload file type", function () {
+
             var data;
-            beforeEach(function(){
-                spyOn(io.sockets, "emit");
+
+            beforeEach(function () {
                 data = browserSync.changeFile("/app/index.php", io, options, browserSync);
             });
 
-            it("should return the file path", function () {
-
-                expect(data.url).toBe('/app/index.php');
+            it("should return the filename", function () {
+                assert.equal(data.assetFileName, "index.php");
+            });
+            it("should return the fileExtension", function () {
+                assert.equal(data.fileExtension, "php");
             });
 
             it("should emit the event with the correct data", function () {
 
-                expect(io.sockets.emit).toHaveBeenCalledWith("reload", {
+                var calledWithParams = spy.calledWith("reload", {
                     url: "/app/index.php",
                     assetFileName: "index.php",
                     fileExtension: "php"
                 });
+
+                assert.isTrue(calledWithParams);
             });
         });
 
         describe("logging info about the file change to the console", function () {
-            beforeEach(function(){
-                spyOn(messages.browser, "inject");
-                spyOn(messages.browser, "reload");
-            });
 
+            it("should log which file is changed", function () {
+
+                var spy = sinon.spy(messages.files, "changed"), actual;
+
+                // fake the CWD
+                browserSync.cwd = "/Users/shakyshane/browser-sync";
+
+                browserSync.changeFile("/Users/shakyshane/browser-sync/app/css/styles.css", io, options, browserSync);
+
+                actual = spy.calledWith("app/css/styles.css");
+
+                assert.isTrue(actual);
+
+            });
             it("should log the INJECT message when an inject file was changed", function () {
+                var spy = sinon.spy(messages.browser, "inject");
                 browserSync.changeFile("/app/styles/core.css", io, options, browserSync);
-                expect(messages.browser.inject).toHaveBeenCalled();
+                assert.isTrue(spy.called);
             });
 
             it("should log the INJECT message when an inject file was changed", function () {
+                var spy = sinon.spy(messages.browser, "reload");
                 browserSync.changeFile("/app/styles/core.html", io, options, browserSync);
-                expect(messages.browser.reload).toHaveBeenCalled();
+                assert.isTrue(spy.called);
             });
+
         });
     });
-
-//    describe("getting the file extension", function () {
-//        it("can get a file extension", function () {
-//            expect(si.getExtension("core/strings/style.css")).toBe("css");
-//        });
-//    });
-
 });

@@ -1,12 +1,13 @@
-'use strict';
+"use strict";
 
-var index = require('../../lib/index');
+var index = require("../../lib/index");
+var assert = require("chai").assert;
 var setup = index.setup;
 
 describe("Browser-sync: transform the files option into useable watchers", function () {
 
     it("can load", function () {
-        expect(setup).toBeDefined();
+        assert.isDefined(setup);
     });
 
     describe("accepting a comma separated lists of patterns (files)", function () {
@@ -17,13 +18,13 @@ describe("Browser-sync: transform the files option into useable watchers", funct
             files = setup.getFiles(arg);
         });
         it("should return an array of patterns", function () {
-            expect(files.length).toBe(2);
+            assert.equal(files.length, 2);
         });
         it("should return an array of patterns (2)", function () {
-            expect(files[0]).toBe("test/fixtures/assets/style.css");
+            assert.equal(files[0], "test/fixtures/assets/style.css");
         });
         it("should return an array of patterns (3)", function () {
-            expect(files[1]).toBe("test/fixtures/scss/main.scss");
+            assert.equal(files[1], "test/fixtures/scss/main.scss");
         });
     });
     describe("accepting a comma separated lists of globs", function () {
@@ -36,13 +37,13 @@ describe("Browser-sync: transform the files option into useable watchers", funct
         });
 
         it("should return an array of file globs", function () {
-            expect(files.length).toBe(2);
+            assert.equal(files.length, 2);
         });
         it("should return an array of file globs (2)", function () {
-            expect(files[0]).toBe("test/fixtures/assets/*.css");
+            assert.equal(files[0], "test/fixtures/assets/*.css");
         });
         it("should return an array of file globs (3)", function () {
-            expect(files[1]).toBe("test/fixtures/scss/*.scss");
+            assert.equal(files[1], "test/fixtures/scss/*.scss");
         });
     });
 
@@ -54,7 +55,7 @@ describe("Browser-sync: transform the files option into useable watchers", funct
             files = setup.getFiles(arg);
         });
         it("should return the pattern", function () {
-            expect(files).toBe(arg);
+            assert.equal(files, arg);
         });
     });
     describe("accepting an array of patterns", function () {
@@ -65,7 +66,7 @@ describe("Browser-sync: transform the files option into useable watchers", funct
             files = setup.getFiles(arg);
         });
         it("should return the pattern", function () {
-            expect(files).toBe(arg);
+            assert.equal(files, arg);
         });
     });
     describe("accepting an array of patterns (2)", function () {
@@ -76,7 +77,7 @@ describe("Browser-sync: transform the files option into useable watchers", funct
             files = setup.getFiles(arg);
         });
         it("should return the pattern", function () {
-            expect(files).toBe(arg);
+            assert.equal(files, arg);
         });
     });
     describe("returning false if empty string given", function () {
@@ -87,7 +88,7 @@ describe("Browser-sync: transform the files option into useable watchers", funct
             files = setup.getFiles(arg);
         });
         it("should return false", function () {
-            expect(files).toBe(false);
+            assert.isFalse(files);
         });
     });
 });

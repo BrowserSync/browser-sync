@@ -1,9 +1,9 @@
-'use strict';
+"use strict";
 
-var index = require('../../lib/index');
-var dConfig = require('../fixtures/si-default-config');
-var _ = require('lodash');
-var assert = require("assert");
+var index = require("../../lib/index");
+var dConfig = require("../fixtures/si-default-config");
+var _ = require("lodash");
+var assert = require("chai").assert;
 var setup = index.setup;
 
 var configFilePath = "test/fixtures/si-config.js";
@@ -21,6 +21,7 @@ describe("Style Injector: accepting a config file.", function () {
         defaultConfig = _.cloneDeep(dConfig);
     });
 
+
     describe("When a config arg is given on command line", function () {
 
         var argv = {};
@@ -30,14 +31,14 @@ describe("Style Injector: accepting a config file.", function () {
         it("should return the default config if no argv provided", function () {
 
             var config = setup.getConfig(defaultConfig, argv);
-            expect(config.defaultConfig).toBe(true);
+            assert.isTrue(config.defaultConfig);
         });
 
         it("should accept that file instead of anything else", function () {
 
             argv.config = configFilePath;
             var config = setup.getConfig(defaultConfig, argv);
-            expect(config.testConfig).toBe(true);
+            assert.isTrue(config.testConfig);
         });
     });
 
@@ -45,11 +46,11 @@ describe("Style Injector: accepting a config file.", function () {
 
         it("can throw an error if the file is not found", function () {
             var files= setup._getConfigFile("random/file/doesn'tex");
-            expect(files).toBe(false);
+            assert.isFalse(files);
         });
 
         it("does not throw if the file is found", function () {
-            expect(setup._getConfigFile(configFilePath)).not.toBe(false);
+            assert.isDefined(setup._getConfigFile(configFilePath));
         });
     });
 
@@ -62,14 +63,14 @@ describe("Style Injector: accepting a config file.", function () {
             };
 
             var filesArg = setup.getFilesArg(argv, defaultConfig);
-            expect(filesArg).toBe(file1);
+            assert.equal(filesArg, file1);
         });
         it("can return the files arg from default config if no command provided", function () {
 
             var argv = {};
 
             var filesArg = setup.getFilesArg(argv, defaultConfig);
-            expect(filesArg).toBe(file2);
+            assert.equal(filesArg, file2);
 
         });
     });
@@ -84,14 +85,14 @@ describe("Style Injector: accepting a config file.", function () {
 
             var config = setup.getConfig(defaultConfig, argv);
 
-            expect(config.ghostMode).toBeDefined();
-            expect(config.open).toBeDefined();
-            expect(config.reloadFileTypes).toBeDefined();
-            expect(config.injectFileTypes).toBeDefined();
-            expect(config.background).toBeDefined();
-            expect(config.debugInfo).toBeDefined();
-            expect(config.host).toBeDefined();
-            expect(config.server).toBeDefined();
+            assert.isDefined(config.ghostMode);
+            assert.isDefined(config.open);
+            assert.isDefined(config.reloadFileTypes);
+            assert.isDefined(config.injectFileTypes);
+            assert.isDefined(config.background);
+            assert.isDefined(config.debugInfo);
+            assert.isDefined(config.host);
+            assert.isDefined(config.server);
         });
         it("can accept the INDEX option on the command line", function () {
 
@@ -101,7 +102,7 @@ describe("Style Injector: accepting a config file.", function () {
             };
 
             var config = setup.getConfig(defaultConfig, argv);
-            expect(config.server.index).toBe('index.htm');
+            assert.equal(config.server.index, "index.htm");
 
         });
     });

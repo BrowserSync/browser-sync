@@ -1,8 +1,9 @@
-'use strict';
+"use strict";
 
-var index = require('../../lib/index');
-var dConfig = require('../fixtures/si-default-config');
-var _ = require('lodash');
+var index = require("../../lib/index");
+var dConfig = require("../fixtures/si-default-config");
+var _ = require("lodash");
+var assert = require("chai").assert;
 var setup = index.setup;
 
 var defaultConfig;
@@ -12,13 +13,15 @@ describe("Browser-sync: using a proxy from command-line", function () {
     beforeEach(function(){
         defaultConfig = _.cloneDeep(dConfig);
     });
+
     it("can load", function () {
-        expect(setup).toBeDefined();
+        assert.isDefined(setup);
     });
 
     describe("accepting separate proxy options", function () {
 
         var config;
+
         beforeEach(function () {
             var argv = {
                 proxy: {
@@ -29,8 +32,8 @@ describe("Browser-sync: using a proxy from command-line", function () {
             config = setup.getConfig(defaultConfig, argv);
         });
         it("should merge proxy options", function () {
-            expect(config.proxy.host).toBe("192.168.0.4");
-            expect(config.proxy.port).toBe("8000");
+            assert.equal(config.proxy.host, "192.168.0.4");
+            assert.equal(config.proxy.port, "8000");
         });
     });
     describe("accepting host+port as a single option with : delim", function () {
@@ -42,8 +45,8 @@ describe("Browser-sync: using a proxy from command-line", function () {
             config = setup.getConfig(defaultConfig, argv);
         });
         it("should merge proxy options", function () {
-            expect(config.proxy.host).toBe("192.168.0.4");
-            expect(config.proxy.port).toBe("8000");
+            assert.equal(config.proxy.host, "192.168.0.4");
+            assert.equal(config.proxy.port, "8000");
         });
     });
     describe("accepting host+port as a single option with comma delim", function () {
@@ -55,8 +58,8 @@ describe("Browser-sync: using a proxy from command-line", function () {
             config = setup.getConfig(defaultConfig, argv);
         });
         it("should merge proxy options", function () {
-            expect(config.proxy.host).toBe("192.168.0.4");
-            expect(config.proxy.port).toBe("8000");
+            assert.equal(config.proxy.host, "192.168.0.4");
+            assert.equal(config.proxy.port, "8000");
         });
     });
     describe("accepting only a host", function () {
@@ -68,8 +71,8 @@ describe("Browser-sync: using a proxy from command-line", function () {
             config = setup.getConfig(defaultConfig, argv);
         });
         it("should default to port 80", function () {
-            expect(config.proxy.host).toBe("local.dev.com");
-            expect(config.proxy.port).toBe("80");
+            assert.equal(config.proxy.host, "local.dev.com");
+            assert.equal(config.proxy.port, "80");
         });
     });
     describe("accepting a full url with protocol", function () {
@@ -81,8 +84,8 @@ describe("Browser-sync: using a proxy from command-line", function () {
             config = setup.getConfig(defaultConfig, argv);
         });
         it("should default to port 80", function () {
-            expect(config.proxy.host).toBe("local.dev.com");
-            expect(config.proxy.port).toBe("80");
+            assert.equal(config.proxy.host, "local.dev.com");
+            assert.equal(config.proxy.port, "80");
         });
     });
     describe("accepting a full url with protocol + port", function () {
@@ -94,8 +97,8 @@ describe("Browser-sync: using a proxy from command-line", function () {
             config = setup.getConfig(defaultConfig, argv);
         });
         it("should default to port 80", function () {
-            expect(config.proxy.host).toBe("local.dev.com");
-            expect(config.proxy.port).toBe("3000");
+            assert.equal(config.proxy.host, "local.dev.com");
+            assert.equal(config.proxy.port, "3000");
         });
     });
     describe("accepting a url with www", function () {
@@ -107,8 +110,8 @@ describe("Browser-sync: using a proxy from command-line", function () {
             config = setup.getConfig(defaultConfig, argv);
         });
         it("should default to port 80", function () {
-            expect(config.proxy.host).toBe("bbc.co.uk");
-            expect(config.proxy.port).toBe("80");
+            assert.equal(config.proxy.host, "bbc.co.uk");
+            assert.equal(config.proxy.port, "80");
         });
     });
     describe("Excluding paths", function () {
@@ -120,8 +123,8 @@ describe("Browser-sync: using a proxy from command-line", function () {
             config = setup.getConfig(defaultConfig, argv);
         });
         it("should default to port 80", function () {
-            expect(config.proxy.host).toBe("bbc.co.uk");
-            expect(config.proxy.port).toBe("80");
+            assert.equal(config.proxy.host, "bbc.co.uk");
+            assert.equal(config.proxy.port, "80");
         });
     });
     describe("Excluding trailing slashes", function () {
@@ -133,8 +136,8 @@ describe("Browser-sync: using a proxy from command-line", function () {
             config = setup.getConfig(defaultConfig, argv);
         });
         it("should default to port 80", function () {
-            expect(config.proxy.host).toBe("0.0.0.0");
-            expect(config.proxy.port).toBe("8000");
+            assert.equal(config.proxy.host, "0.0.0.0");
+            assert.equal(config.proxy.port, "8000");
         });
     });
     describe("Excluding trailing slashes", function () {
@@ -146,8 +149,8 @@ describe("Browser-sync: using a proxy from command-line", function () {
             config = setup.getConfig(defaultConfig, argv);
         });
         it("should default to port 80", function () {
-            expect(config.proxy.host).toBe("web");
-            expect(config.proxy.port).toBe("80");
+            assert.equal(config.proxy.host, "web");
+            assert.equal(config.proxy.port, "80");
         });
     });
 });
