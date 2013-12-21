@@ -35,6 +35,9 @@ describe("Browser Events:", function () {
         spy.reset();
         window[ghost.utils.removeEventListener](ghost.utils.prefix + "scroll", ghost.listeners.scroll);
     });
+    after(function () {
+        $("#fixture-wrapper").remove();
+    });
 
     it("can add scroll Listeners", function (done) {
 
