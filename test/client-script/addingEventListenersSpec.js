@@ -3,40 +3,21 @@ describe("Browser Events:", function () {
     var ghost;
     var scope;
     var utils;
+    var spy;
+    var wrapper;
 
-    function fireEvent(obj,evt){
-
-        var evObj;
-        var fireOnThis = obj;
-        if( document.createEvent ) {
-            evObj = document.createEvent('MouseEvents');
-            evObj.initEvent( evt, true, false );
-            fireOnThis.dispatchEvent( evObj );
-
-        } else if( document.createEventObject ) {
-            evObj = document.createEventObject();
-            fireOnThis.fireEvent( 'on' + evt, evObj );
-        }
-    }
-
-    var appendsHost = true;
-    (function(){
-        var elem = document.createElement("link");
-        elem.href= "/style.css";
-        if (!/^http:\/\//.test(elem.href)) {
-            appendsHost = false;
-        }
-    })();
-
-    var wrapUrl = function (url) {
-        if (!appendsHost) {
-            return url;
-        }
-        return "http://" + window.location.host + "/" + url;
-    };
+    before(function () {
+        ghost = window.ghost;
+        utils = window.ghost.utils;
+        spy = sinon.spy(ghost.listeners, "scroll");
+        wrapper = $("<div></div>", {id: "fixture-wrapper"});
+        $("body").append(wrapper);
+    });
 
     beforeEach(function(){
+
         document.body.style.cssText = "height:2000px;";
+
         scope = {
             ghostMode: {
                 enabled: true,
@@ -45,76 +26,72 @@ describe("Browser Events:", function () {
                 ]
             }
         };
-        ghost = window.ghost;
-        utils = window.ghost.utils;
+
         window.scrollTo(0, 0); //reset scroll position after each test.
-        spyOn(ghost.listeners, "scroll");
     });
 
     afterEach(function () {
+        $("#fixture-wrapper").empty();
+        spy.reset();
         window[ghost.utils.removeEventListener](ghost.utils.prefix + "scroll", ghost.listeners.scroll);
     });
 
-    it("can add scroll Listeners", function () {
+    it("can add scroll Listeners", function (done) {
 
-        ghost.initEvents(scope, ['scroll'], utils, ghost.listeners);
+        ghost.initEvents(scope, ["scroll"], utils, ghost.listeners);
 
         window.scrollTo(0, 100);
-
-        waits(100);
-
-        runs(function () {
-            expect(ghost.listeners.scroll).toHaveBeenCalled();
-        });
+        window.setTimeout(function () {
+            assert.equal(spy.called, true);
+            done();
+        }, 100);
     });
 
 
     describe("adding Click events", function () {
 
-        var button, img;
+        var spy;
 
+        before(function () {
+            spy = sinon.spy(ghost.listeners, "click");
+        });
+        afterEach(function () {
+            spy.reset();
+        });
         beforeEach(function(){
-            spyOn(ghost.listeners, "click");
-            button = document.createElement("A");
-            button.href = "#";
-            document.getElementsByTagName('body')[0].appendChild(button);
 
-            var button2;
-            button2 = document.createElement("A");
-            button2.href = "next";
-
-            img = document.createElement("img");
-            button2.appendChild(img);
-
-            document.getElementsByTagName('body')[0].appendChild(button2);
-
+            var html = window.__html__["fixtures/links.html"];
+            $("#fixture-wrapper").append(html);
             ghost.initClickEvents(scope, utils, ghost.listeners.click);
-
         });
 
         it("can add click events to links", function () {
-
-            fireEvent(button, "click");
-            expect(ghost.listeners.click).toHaveBeenCalled();
-
+            fireEvent($("a#link")[0], "click");
+            assert.equal(spy.called, true);
+        });
+        it("can add click events to links", function () {
+            fireEvent($("a#img-link")[0], "click");
+            assert.equal(spy.called, true);
         });
         it("can fire a click event on IMG wrapped in A", function () {
 
             ghost.initClickEvents(scope, utils, function (event) {
                 return event.preventDefault ? event.preventDefault() : event.returnValue = false;
             });
-            fireEvent(button, "click");
-            expect(ghost.listeners.click).toHaveBeenCalled();
-
+            fireEvent($("a#img-link")[0], "click");
+            assert.equal(spy.called, true);
         });
-        it("can retreive the HREF value from an anchor click", function () {
-            var href = ghost.getHref(button);
-            var expected = appendsHost ? "http://" + window.location.host + "/context.html" + "#" : "#";
-            expect(href).toBe(expected);
-        });
-        it("can retreive the HREF value from an IMG wrapped in an anchor click", function () {
-            var href = ghost.getHref(img);
-            expect(href).toBe(wrapUrl("next"));
+        describe("retrieving the HREF attr", function () {
+            it("directly from an <a></a>", function () {
+                var href = ghost.getHref($("a#img-link")[0]);
+                var expected = "http://" + window.location.host + "/context.html#";
+                assert.equal(href, expected);
+            });
+            it("from an image wrapped in an anchor", function () {
+                var href = ghost.getHref($("img:first")[0]);
+                var expected = "http://" + window.location.host + "/context.html#";
+                assert.equal(href, expected);
+            });
         });
     });
 });

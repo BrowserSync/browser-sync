@@ -38,7 +38,7 @@ module.exports = function (grunt) {
                 options: {
                     jshintrc: 'test/.jshintrc'
                 },
-                src: ['test/server/**/*.js']
+                src: ['test/server/**/*.js', 'test/client-script/**/*.js']
             }
         },
         watch: {
@@ -55,7 +55,7 @@ module.exports = function (grunt) {
                 tasks: ['less']
             },
             jshint: {
-                files: ['test/server/**/*.js'],
+                files: ['test/server/**/*.js', 'test/client-script/**/*.js'],
                 tasks: ['jshint:test']
             }
         },
@@ -67,18 +67,6 @@ module.exports = function (grunt) {
             watch: {
                 configFile: 'test/karma.conf.js',
                 singleRun: false
-            }
-        },
-        jasmine_node: {
-            specNameMatcher: "Spec", // load only specs containing specNameMatcher
-            projectRoot: "test/new-server",
-            requirejs: false,
-            forceExit: true,
-            jUnit: {
-                report: false,
-                savePath: "./build/reports/jasmine/",
-                useDotNotation: true,
-                consolidate: true
             }
         },
         mochaTest: {
