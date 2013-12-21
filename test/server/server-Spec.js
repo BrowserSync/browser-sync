@@ -19,10 +19,10 @@ describe("Launching a server", function () {
                 }
             };
 
-            var server;
+            var servers;
             var respCode;
 
-            server = browserSync.launchServer("localhost", ports, options);
+            servers = browserSync.launchServer("localhost", ports, options);
 
             http.get(clientScriptUrl, function (res) {
                 respCode = res.statusCode;
@@ -33,14 +33,14 @@ describe("Launching a server", function () {
             }, "Took too long to get request", 1000);
 
             runs(function () {
-                server.close();
+                servers.staticServer.close();
                 expect(respCode).toBe(200);
             });
 
         });
 
         it("can append the code needed to connect to socketIO", function () {
-            var server;
+            var servers;
             var expectedString = "var ___socket___ = io.connect('http://localhost:" + ports[0] + "');";
 
             var options = {
@@ -51,7 +51,7 @@ describe("Launching a server", function () {
 
             var respString;
 
-            server = browserSync.launchServer("localhost", ports, options);
+            servers = browserSync.launchServer("localhost", ports, options);
 
             http.get(clientScriptUrl, function (res) {
 
@@ -65,7 +65,7 @@ describe("Launching a server", function () {
             }, "Took too long", 1000);
 
             runs(function () {
-                server.close();
+                servers.staticServer.close();
                 expect(respString.indexOf(expectedString)).toBe(0);
             });
         });
@@ -79,10 +79,10 @@ describe("Launching a server", function () {
                     baseDir: "test/fixtures"
                 }
             };
-            var server;
+            var servers;
             var respCode;
 
-            server = browserSync.launchServer("localhost", ports, options);
+            servers = browserSync.launchServer("localhost", ports, options);
 
             http.get("http://localhost:" + ports[1] + "/index.html", function (res) {
                 respCode = res.statusCode;
@@ -93,7 +93,7 @@ describe("Launching a server", function () {
             }, "Took too long", 1000);
 
             runs(function () {
-                server.close();
+                servers.staticServer.close();
                 expect(respCode).toBe(200);
             });
         });
@@ -107,7 +107,7 @@ describe("Launching a server", function () {
                 }
             };
 
-            var server = browserSync.launchServer("localhost", ports, options);
+            var servers = browserSync.launchServer("localhost", ports, options);
             var respCode;
 
             http.get("http://localhost:" + ports[1], function (res) {
@@ -119,7 +119,7 @@ describe("Launching a server", function () {
             }, "Took too long", 1000);
 
             runs(function () {
-                server.close();
+                servers.staticServer.close();
                 expect(respCode).toBe(200);
             });
 
@@ -130,9 +130,9 @@ describe("Launching a server", function () {
                     baseDir: "test/fixtures"
                 }
             };
-            var server, respCode;
+            var servers, respCode;
 
-            server = browserSync.launchServer("localhost", ports, options);
+            servers = browserSync.launchServer("localhost", ports, options);
 
             http.get("http://localhost:" + ports[1], function (res) {
                 respCode = res.statusCode;
@@ -143,7 +143,7 @@ describe("Launching a server", function () {
             }, "Took too long", 1000);
 
             runs(function () {
-                server.close();
+                servers.staticServer.close();
                 expect(respCode).toBe(200);
             });
 
@@ -153,9 +153,9 @@ describe("Launching a server", function () {
             var options = {
                 server: false
             };
-            var server, respCode;
+            var servers, respCode;
 
-            server = browserSync.launchServer("localhost", ports, options);
+            servers = browserSync.launchServer("localhost", ports, options);
 
             http.get("http://0.0.0.0:" + ports[1], function (res) {
                 respCode = res.statusCode;
@@ -166,7 +166,7 @@ describe("Launching a server", function () {
             }, "Took too long", 1000);
 
             runs(function () {
-                server.close();
+                servers.staticServer.close();
                 expect(respCode).toBe(404);
             });
         });
@@ -182,13 +182,13 @@ describe("Launching a server", function () {
 
             spyOn(browserSync, "openBrowser");
 
-            var server = browserSync.launchServer("localhost", ports, options);
+            var servers = browserSync.launchServer("localhost", ports, options);
 
             waits(100);
 
             runs(function () {
                 expect(browserSync.openBrowser).toHaveBeenCalledWith("localhost", 3002, options);
-                server.close();
+                servers.staticServer.close();
             });
         });
 
@@ -210,13 +210,33 @@ describe("Launching a server", function () {
                     }
                 };
 
-                var server = browserSync.launchServer("localhost", ports, options);
+                var servers = browserSync.launchServer("localhost", ports, options);
 
                 waits(10);
 
                 runs(function () {
                     expect(msgs.initServer).toHaveBeenCalled();
-                    server.close();
+                    servers.staticServer.close();
+                });
+            });
+            it("logs when using proxy", function () {
+
+                spyOn(msgs, "initProxy");
+
+                var options = {
+                    proxy: {
+                        host: '192.168.0.1'
+                    }
+                };
+
+                var servers = browserSync.launchServer("localhost", ports, options);
+
+                waits(100);
+
+                runs(function () {
+                    expect(msgs.initProxy).toHaveBeenCalled();
+                    servers.proxyServer.close();
+                    servers.staticServer.close();
                 });
             });
             it("doesn't log if no server used", function () {
@@ -226,17 +246,17 @@ describe("Launching a server", function () {
                     server: false
                 };
 
-                var server;
+                var servers;
 
                 setTimeout(function () {
-                    server = browserSync.launchServer("localhost", ports, options);
+                    servers = browserSync.launchServer("localhost", ports, options);
                 }, 1);
 
                 waits(10);
 
                 runs(function () {
                     expect(msgs.init).toHaveBeenCalled();
-                    server.close();
+                    servers.staticServer.close();
                 });
             });
         });
