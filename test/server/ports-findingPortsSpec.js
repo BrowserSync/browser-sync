@@ -72,7 +72,7 @@ describe("finding available ports with min/mx", function () {
 
 describe("resolving ports range", function () {
 
-    options;
+    var options;
 
     beforeEach(function () {
         options = {};
