@@ -64,28 +64,6 @@ describe("Ghost Mode: Scrolling", function () {
             done();
         }, 200);
     });
-    it("can emit an event to the server when the window is scrolled (2)", function (done) {
-
-        var space = ghost.getScrollSpace()[1];
-
-        window.setTimeout(function () {
-
-            window.scrollTo(0, space/4); // 50%
-            ghost.listeners.scroll();
-
-        }, 100);
-
-        window.setTimeout(function () {
-
-            var actual = spy.calledWith("scroll", {
-                pos: 0.25,
-                url: window.location.host + window.location.pathname
-            });
-
-            assert.equal(actual, true);
-            done();
-        }, 200);
-    });
 
     it("should emit multiple scroll events when they happen outside of the threshold", function (done) {
 
