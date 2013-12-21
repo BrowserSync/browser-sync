@@ -1,13 +1,7 @@
-/**
- * Created by shakyshane on 18/09/2013.
- */
-
 describe("Injecting Styles:", function () {
 
-    var si;
     var scope;
     var browserSync;
-    var siActions;
     var actions;
     var reloadSpy;
     var swapFileSpy;
@@ -85,9 +79,7 @@ describe("Injecting Styles:", function () {
             var link1 = $("<link>", {id: "link1", href: "style.css"});
             var link2 = $("<link>", {id: "link2", href: "core.css"});
 
-            $head.append(link1);
-            $head.append(link2);
-
+            $head.append(link1, link2);
         });
         afterEach(function () {
             $head.find("link").remove();
@@ -197,7 +189,7 @@ describe("Injecting Styles:", function () {
 
     describe("swapping a file: e2e:", function () {
 
-        var elem, elem2, transformedElem, expected;
+        var transformedElem, expected;
         var $head = $("head");
         beforeEach(function(){
 

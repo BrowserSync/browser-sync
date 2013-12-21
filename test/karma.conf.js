@@ -13,12 +13,11 @@ module.exports = function (config) {
 
         // list of files / patterns to load in the browser
         files: [
-            "fixtures/helpers.js",
-            "fixtures/*.html",
-            "client-script/utils.js",
-            "fixtures/js/jquery.js",
-            "fixtures/js/assert.js",
+            "client-script/libs/utils.js",
+            "client-script/libs/jquery.js",
+            "client-script/libs/assert.js",
             "../node_modules/sinon/pkg/sinon.js",
+            "fixtures/*.html",
             "client-script/*Spec.js",
             "../lib/browser-sync-client.js"
         ],

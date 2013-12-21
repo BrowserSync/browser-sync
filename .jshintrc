@@ -7,6 +7,7 @@
   "noarg": true,
   "sub": true,
   "undef": true,
+  "quotmark": "double",
   "unused": true,
   "boss": true,
   "eqnull": true,
