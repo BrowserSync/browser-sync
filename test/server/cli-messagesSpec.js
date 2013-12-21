@@ -51,6 +51,15 @@ describe("Creating URLS", function () {
     });
 });
 
+
+describe("Port Errors", function () {
+    it("can print a error msg before killing process", function () {
+        var expected = "Invalid port range! - At least 3 required!";
+        var actual   = ansiTrim(messages.ports.invalid(3));
+        assert.equal(actual, expected);
+    });
+});
+
 describe("Outputting script tags", function () {
     it("can output correctly", function () {
         var expected = "<script src='http://192.168.0.4:3000/socket.io/socket.io.js'></script>" +
