@@ -210,6 +210,22 @@ server: {
 }
 ```
 
+###ports - (default: null)
+Browser-sync will detect up to 3 available ports to use within a fixed range. You can override this if you need to.
+
+```
+// only use ports within a certain range
+ports: {
+    min: 3000,
+    max: 3100
+}
+
+// you can also specify just a minimum
+ports: {
+    min: 3000
+}
+```
+
 ###open - (default: true) - when used with server
 ```
 // Launch a browser window at the correct location
