@@ -234,6 +234,16 @@ open: true
 // Stop the browser from automatically opening
 open: false
 ```
+
+###timestamps - (default: true)
+Browser-sync appends a timestamp to injected files to ensure the browser reloads the latest version,
+some workflows (like this one: http://www.youtube.com/watch?v=4r6yhimSmZg) may work better without it though.
+
+```
+// Don't append timestamps to injected files
+timestamps: false
+```
+
 ###notify - (default: true)
 Browser-sync will flash a quick message in all connected browsers to confirm that CSS injection has taken place (useful when you're not sure whether the injection worked, or whether your CSS didn't make a difference)
 
