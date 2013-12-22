@@ -196,6 +196,16 @@ describe("Injecting Styles:", function () {
             expected = wrapUrl("core/style.css");
             assert.equal(transformedElem.elem.href, expected);
         });
+        it("does append a timestamp if enabled in options", function () {
+            var scope = {
+                options: {
+                    timestamps: true
+                }
+            };
+            var transformedElem = actions.swapFile(elem4, "href", scope);
+            expected = wrapUrl("core/style.css") + timeStamp(transformedElem.timeStamp);
+            assert.equal(transformedElem.elem.href, expected);
+        });
     });
 
     describe("swapping a file: e2e:", function () {
