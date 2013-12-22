@@ -14,5 +14,6 @@ module.exports = {
     server: {
         baseDir: "test/fixtures"
     },
-    open: true
+    open: true,
+    timestamps: false
 };

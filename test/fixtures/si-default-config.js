@@ -12,5 +12,6 @@ module.exports = {
         scroll: false
     },
     server: false,
-    open: true
+    open: true,
+    notify: true
 };
