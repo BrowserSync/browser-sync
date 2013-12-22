@@ -5,6 +5,7 @@
   "latedef": "nofunc",
   "newcap": true,
   "noarg": true,
+  "plusplus": true,
   "sub": true,
   "undef": true,
   "quotmark": "double",
@@ -12,5 +13,6 @@
   "boss": true,
   "indent": 4,
   "eqnull": true,
-  "node": true
+  "node": true,
+  "strict": true
 }

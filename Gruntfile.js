@@ -15,7 +15,7 @@ module.exports = function (grunt) {
             files: ["test/**/*_test.js"]
         },
         uglify: {
-            client_script: {
+            clientScript: {
                 files: {
                     "lib/browser-sync-client.min.js": "lib/browser-sync-client.js"
                 }
