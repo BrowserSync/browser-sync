@@ -14,6 +14,14 @@
 ##When is it useful?
 It's pretty useful when used with a single browser, watching a CSS file for changes & injecting it. But the real power comes when you're building responsive sites and using multiple devices/monitors because it can keep all browsers in sync & make your workflow much faster.
 
+##Screencast ( < 3 min each )
+1. [Using the Static Server with css injecting](http://quick.as/zr9ofory)
+2. [Keeping browsers at the same scroll position](http://quick.as/rl9gfgxd)
+3. [Keeping form fields in sync](http://quick.as/zr9ofory)
+4. [When should you use the built-in server?](http://quick.as/adkjfk7r)
+
+Want any more? Something specific? ask me nicely [@shaneOsbourne](http://www.twitter.com/shaneOsbourne)
+
 ##Support
 If you've found Browser-sync useful and would like to contribute to its continued development & support, please feel free to send a donation of any size - it would be greatly appreciated!
 
