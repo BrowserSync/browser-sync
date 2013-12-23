@@ -46,7 +46,7 @@ describe("Proxy Output", function () {
 describe("Creating URLS", function () {
     it("can return a full URL with ports", function () {
         var expected = "http://192.168.0.4:3001";
-        var actual   = messages._makeUrl("192.168.0.4", 3001);
+        var actual   = messages._makeUrl("192.168.0.4", 3001, "http:");
         assert.equal(actual, expected);
     });
 });
@@ -62,8 +62,8 @@ describe("Port Errors", function () {
 
 describe("Outputting script tags", function () {
     it("can output correctly", function () {
-        var expected = "<script src='http://192.168.0.4:3000/socket.io/socket.io.js'></script>" +
-                "\n<script src='http://192.168.0.4:3001/browser-sync-client.min.js'></script>\n\n";
+        var expected = "<script src='//192.168.0.4:3000/socket.io/socket.io.js'></script>" +
+                "\n<script src='//192.168.0.4:3001/browser-sync-client.min.js'></script>\n\n";
         var actual = messages.scriptTags("192.168.0.4", "3000", "3001");
         assert.equal(actual, expected);
     });
