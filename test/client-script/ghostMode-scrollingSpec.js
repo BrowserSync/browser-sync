@@ -31,6 +31,31 @@ describe("Ghost Mode: Scrolling", function () {
         spy.restore();
     });
 
+    describe("Util Methods:", function () {
+        it("getScrollPosition: should return an array with two values", function(){
+            var scrollPosition = ghost.getScrollPosition();
+            assert.equal(scrollPosition.length, 2);
+        });
+        it("getScrollSpace: should return an array with two values", function(){
+            var scrollPosition = ghost.getScrollSpace();
+            assert.equal(scrollPosition.length, 2);
+        });
+        it("getScrollTop: should return an just the Y value of the scroll position", function(){
+            var scrollPosition = ghost.getScrollTop();
+            assert.equal(typeof scrollPosition === "number", true);
+        });
+        it("getScrollTopPercentage: should return an array with two values", function(){
+            var scrollTopPercentage = ghost.getScrollTopPercentage();
+            assert.equal(typeof scrollTopPercentage === "number", true);
+        });
+        it("getScrollPercentage: should return an array with two values", function(){
+            var actual = ghost.getScrollPercentage([1000, 1000], [250, 500]);
+            assert.equal(actual[0], 0.25);
+            assert.equal(actual[1], 0.5);
+        });
+    });
+
+
     it("can Set the scroll position of a window", function () {
 
         ghost.setScrollTop(scope.ghostMode, 100);
