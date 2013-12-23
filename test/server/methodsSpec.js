@@ -85,6 +85,9 @@ describe("Exposed Methods", function () {
         afterEach(function () {
             spy.reset();
         });
+        after(function () {
+            spy.restore();
+        });
         it("should log a message", function () {
             browserSync.log("ERROR", {debugInfo: true});
             assert.isTrue(spy.called);
