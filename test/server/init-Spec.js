@@ -7,68 +7,70 @@ var options = browserSync.options;
 
 describe("Starting Services: ", function () {
 
-    var options,
-        ports,
-        files,
-        setupSocket,
-        handleSocketConnection,
-        launchServer,
-        watchFiles,
-        getHostIp;
+    var files = ["**/*.css"],
+        getPortRange,
+        getPorts,
+        portRange = {
+            min: 3000,
+            max: 4000
+        },
+        startServices,
+        getPortsCallback,
+        func,
+        fail;
 
     before(function () {
 
-        setupSocket             = sinon.stub(browserSync, "setupSocket");
-        setupSocket.returns("socket");
-        handleSocketConnection  = sinon.stub(browserSync, "handleSocketConnection");
-        launchServer            = sinon.stub(browserSync, "launchServer");
-        watchFiles              = sinon.stub(browserSync, "watchFiles");
-        getHostIp               = sinon.stub(browserSync, "getHostIp");
+        startServices = sinon.stub(browserSync, "startServices");
+        getPortsCallback = sinon.stub(browserSync, "getPortsCallback");
+        getPortRange  = sinon.stub(browserSync, "getPortRange");
+        getPorts      = sinon.stub(browserSync, "getPorts");
+        fail      = sinon.stub(browserSync, "fail");
 
+        startServices.returns(true);
+        getPorts.returns(true);
+        getPortRange.returns(portRange);
+
+        func = function () {};
+        getPortsCallback.returns(func);
     });
 
     afterEach(function () {
-        setupSocket.reset();
-        handleSocketConnection.reset();
-        launchServer.reset();
-        watchFiles.reset();
-        getHostIp.reset();
+        getPortRange.reset();
+        startServices.reset();
+        getPortsCallback.reset();
+        getPorts.reset();
+        fail.reset();
     });
 
     after(function () {
-        setupSocket.restore();
-        handleSocketConnection.restore();
-        launchServer.restore();
-        watchFiles.restore();
-        getHostIp.restore();
+        startServices.restore();
+        getPortRange.restore();
+        getPortsCallback.restore();
+        getPorts.restore();
+        fail.restore();
     });
 
-    describe("Setting up with correct config", function () {
-        var ports, files, options;
-        beforeEach(function () {
-
-            getHostIp.returns("0.0.0.0");
-
-            ports = [3002, 3004, 3005];
-            options = {};
-            files = "**/*.css";
-
-            browserSync.startServices(ports, files, options);
-        });
-        it("should setup Socket IO", function () {
-            var actual = setupSocket.calledWith(ports);
+    describe("Setting up servers with correct config", function () {
+        it("should call get ports when port range provided in options", function(){
+            var options = {
+                ports: portRange
+            };
+            browserSync.init(files, options);
+            var actual = getPorts.calledWith(browserSync.options.minPorts, func, portRange.min, portRange.max);
             assert.equal(actual, true);
         });
-        it("should set up event callbacks", function () {
-            var actual = handleSocketConnection.calledWith(browserSync.callbacks, {}, browserSync.handleClientSocketEvent);
-            assert.equal(actual, true);
-        });
-        it("should setup the Server", function () {
-            var actual = launchServer.calledWith("0.0.0.0", ports, {});
-            assert.equal(actual, true);
-        });
-        it("should watch files", function () {
-            var actual = watchFiles.calledWith(files, "socket", browserSync.changeFile, options);
+        it("should call fail() when ports invalid", function () {
+            sinon.stub(messages.ports, "invalid").returns("ERROR");
+            getPortRange.returns(false);
+            var options = {
+                ports: {
+                    min: 2000,
+                    max: 2001
+                }
+            };
+            browserSync.init(files, options);
+            var actual = fail.calledWith("ERROR", options, true);
             assert.equal(actual, true);
         });
     });

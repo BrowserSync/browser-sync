@@ -94,7 +94,7 @@ describe("resolving ports range", function () {
         assert.equal(actual.min, 5000);
         assert.equal(actual.max, 5100);
     });
-    it("should not throw if range is not too small", function () {
+    it("should not return false if range is not too small", function () {
         options = {
             ports: {
                 min: 5000,
@@ -144,5 +144,34 @@ describe("resolving ports range", function () {
         var actual = browserSync.getPortRange(3, options);
         assert.equal(actual.min, 9600);
         assert.equal(actual.max, 9999);
+    });
+});
+
+describe("getting the ports Callback", function () {
+
+    it("should return a function", function(){
+        var actual = browserSync.getPortsCallback();
+        assert.isFunction(actual);
+    });
+
+    it("should call startServices when called", function(){
+
+        var ports   = [3001, 3002, 3003];
+        var files   = ["**/*.css"];
+        var options = {};
+
+        var spy = sinon.stub(browserSync, "startServices");
+
+        var portsCallback = browserSync.getPortsCallback(files, options);
+
+        portsCallback(ports);
+
+        sinon.assert.calledWith(spy, {
+            ports: ports,
+            files: files,
+            options: options
+        });
+
+        spy.restore();
     });
 });
