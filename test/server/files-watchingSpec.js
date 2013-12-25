@@ -13,10 +13,10 @@ var testFile2 = "test/fixtures/test2.txt";
 
 describe("File Watcher Module", function () {
     it("change callback should be a function", function () {
-        assert.isFunction(fileWatcher.changeCallback());
+        assert.isFunction(fileWatcher.getChangeCallback());
     });
     it("watch callback should be a function", function () {
-        assert.isFunction(fileWatcher.watchCallback());
+        assert.isFunction(fileWatcher.getWatchCallback());
     });
     describe("returning a watching instance", function () {
         it("should return a watcher instance", function () {
@@ -45,16 +45,17 @@ describe("Watching files init", function () {
             return true;
         }
     };
+    var spy;
     before(function () {
-        logSpy = sinon.stub(browserSync, "log");
-        watchCallback = sinon.spy(fileWatcher.watchCallback(logSpy, {}));
+        logSpy = sinon.spy();
+        spy = sinon.spy();
+        watchCallback = sinon.spy(fileWatcher, "getWatchCallback");
         msgStub = sinon.stub(messages.files, "watching").returns("MESSAGE");
     });
 
     beforeEach(function () {
         files = [testFile1, testFile2];
-        var watcher = fileWatcher.getWatcher(files);
-        browserSync.watchFiles(watcher, watchCallback, function () {});
+        fileWatcher.init(browserSync.changeFile, logSpy, files, socket, {}, browserSync);
     });
 
     afterEach(function () {
@@ -64,10 +65,9 @@ describe("Watching files init", function () {
     });
 
     after(function () {
-        logSpy.restore();
         msgStub.restore();
+        watchCallback.restore();
     });
-
     it("should call the watch callback when watching has started", function (done) {
         setTimeout(function () {
             sinon.assert.called(watchCallback);
@@ -94,16 +94,16 @@ describe("Watching files init (when none found)", function () {
     var watchCallback;
     var files;
     var msgStub;
+    var socket = {};
     before(function () {
-        logSpy = sinon.stub(browserSync, "log");
-        watchCallback = sinon.spy(fileWatcher.watchCallback(logSpy, {}));
+        logSpy = sinon.spy();
+        watchCallback = sinon.spy(fileWatcher, "getWatchCallback");
         msgStub = sinon.stub(messages.files, "watching").returns("MESSAGE");
     });
 
     beforeEach(function () {
         files = ["*.rb"];
-        var watcher = fileWatcher.getWatcher(files);
-        browserSync.watchFiles(watcher, watchCallback, function () {});
+        fileWatcher.init(browserSync.changeFile, logSpy, files, socket, {}, browserSync);
     });
 
     afterEach(function () {
@@ -113,7 +113,6 @@ describe("Watching files init (when none found)", function () {
     });
 
     after(function () {
-        logSpy.restore();
         msgStub.restore();
     });
 
@@ -147,12 +146,13 @@ describe("Watching files", function () {
     before(function () {
         changedFile = testFile1;
         callback = sinon.spy();
-        changeCallback = sinon.spy(fileWatcher.changeCallback(callback, {}, {}, browserSync, 10));
+        changeCallback = sinon.spy(fileWatcher.getChangeCallback(callback, {}, {}, browserSync, 10));
         fsStub = sinon.stub(fs, "statSync");
     });
 
     afterEach(function () {
         callback.reset();
+        changeCallback.reset();
         fsStub.reset();
     });
 
