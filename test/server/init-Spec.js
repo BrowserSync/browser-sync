@@ -5,7 +5,7 @@ var assert = require("chai").assert;
 var sinon = require("sinon");
 var options = browserSync.options;
 
-describe("Starting Services: ", function () {
+describe("Browser Sync INIT", function () {
 
     var files = ["**/*.css"],
         getPortRange,
@@ -70,8 +70,7 @@ describe("Starting Services: ", function () {
                 }
             };
             browserSync.init(files, options);
-            var actual = fail.calledWith("ERROR", options, true);
-            assert.equal(actual, true);
+            sinon.assert.calledWith(fail, "ERROR", options, true);
         });
     });
 });

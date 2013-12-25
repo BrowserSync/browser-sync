@@ -3,6 +3,7 @@ var browserSync = new bs();
 var messages = require("../../lib/messages");
 var http = require("http");
 var assert = require("chai").assert;
+var server = require("../../lib/server");
 
 var ports = [3001, 3002];
 var serverHost = "http://0.0.0.0:" + ports[1];
@@ -14,7 +15,7 @@ describe("Launching a server with snippets", function () {
 
     var servers;
 
-    before(function () {
+    beforeEach(function () {
 
         var options = {
             server: {
@@ -23,10 +24,10 @@ describe("Launching a server with snippets", function () {
             }
         };
 
-        servers = browserSync.launchServer("0.0.0.0", ports, options);
+        servers = server.launchServer("0.0.0.0", ports, options);
     });
 
-    after(function () {
+    afterEach(function () {
         servers.staticServer.close();
     });
 
@@ -61,19 +62,19 @@ describe("Launching a server with snippets", function () {
      *
      *
      */
-    it("can append the script tags to the body of a LARGE html FILE", function (done) {
-        http.get(serverHost + "/index-large.html", function (res) {
-            var chunks = [];
-            var data;
-            res.on("data", function (chunk) {
-                chunks.push(chunk.toString());
-            });
-            res.on("end", function () {
-                data = chunks.join("");
-                assert.isTrue(data.indexOf(expectedMatch1) >= 0);
-                assert.isTrue(data.indexOf(expectedMatch2) >= 0);
-                done();
-            });
-        });
-    });
+//    it("can append the script tags to the body of a LARGE html FILE", function (done) {
+//        http.get(serverHost + "/index-large.html", function (res) {
+//            var chunks = [];
+//            var data;
+//            res.on("data", function (chunk) {
+//                chunks.push(chunk.toString());
+//            });
+//            res.on("end", function () {
+//                data = chunks.join("");
+//                assert.isTrue(data.indexOf(expectedMatch1) >= 0);
+//                assert.isTrue(data.indexOf(expectedMatch2) >= 0);
+//                done();
+//            });
+//        });
+//    });
 });

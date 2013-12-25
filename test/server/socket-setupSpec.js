@@ -9,7 +9,7 @@ var userOptions = {
 
 describe("setup Socket", function () {
 
-    var ports = [3001,3002];
+    var ports = [3000,3001,3002];
     var io;
     var cb = sinon.spy();
     var cb2 = sinon.spy();
@@ -51,8 +51,8 @@ describe("setup Socket", function () {
             socket.emit("inputchange", {});
 
         setTimeout(function () {
-            assert.isTrue(cb.called);
-            assert.isTrue(cb2.called);
+            sinon.assert.called(cb);
+            sinon.assert.called(cb2);
             done();
         }, 200);
 
@@ -65,7 +65,7 @@ describe("setup Socket", function () {
         clientIo.connect("http://0.0.0.0:" + ports[0], {"force new connection":true});
 
         setTimeout(function () {
-            assert.isTrue(spy.called);
+            sinon.assert.called(spy);
             done();
         }, 200);
 

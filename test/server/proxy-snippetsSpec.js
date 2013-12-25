@@ -4,7 +4,7 @@ var messages = require("../../lib/messages");
 var http = require("http");
 var filePath = require("path");
 var connect = require("connect");
-var createProxy = require("../../lib/dev-proxy");
+var proxy = require("../../lib/proxy");
 var assert = require("chai").assert;
 
 var ports = [3000, 3001, 3002];
@@ -29,7 +29,7 @@ describe("Launching a proxy for connect server", function () {
             }
         };
 
-        proxyServer = createProxy("0.0.0.0", ports, options);
+        proxyServer = proxy.createProxy("0.0.0.0", ports, options);
 
     });
 

@@ -162,13 +162,10 @@ describe("Exposed Methods", function () {
                 assert.equal(data.fileExtension, "css");
             });
             it("should emit the event with the correct data", function () {
-
-                var calledWithParams = spy.calledWith("reload", {
+                sinon.assert.calledWith(spy, "reload", {
                     assetFileName: "core.css",
                     fileExtension: "css"
                 });
-
-                assert.isTrue(calledWithParams);
             });
         });
 
@@ -189,13 +186,11 @@ describe("Exposed Methods", function () {
 
             it("should emit the event with the correct data", function () {
 
-                var calledWithParams = spy.calledWith("reload", {
+                sinon.assert.calledWith(spy, "reload", {
                     url: "/app/index.php",
                     assetFileName: "index.php",
                     fileExtension: "php"
                 });
-
-                assert.isTrue(calledWithParams);
             });
         });
 
@@ -210,23 +205,20 @@ describe("Exposed Methods", function () {
 
                 browserSync.changeFile("/Users/shakyshane/browser-sync/app/css/styles.css", io, options, browserSync);
 
-                actual = spy.calledWith("app/css/styles.css");
-
-                assert.isTrue(actual);
+                sinon.assert.calledWith(spy, "app/css/styles.css");
 
             });
             it("should log the INJECT message when an inject file was changed", function () {
                 var spy = sinon.spy(messages.browser, "inject");
                 browserSync.changeFile("/app/styles/core.css", io, options, browserSync);
-                assert.isTrue(spy.called);
+                sinon.assert.called(spy);
             });
 
             it("should log the INJECT message when an inject file was changed", function () {
                 var spy = sinon.spy(messages.browser, "reload");
                 browserSync.changeFile("/app/styles/core.html", io, options, browserSync);
-                assert.isTrue(spy.called);
+                sinon.assert.called(spy);
             });
-
         });
     });
 });

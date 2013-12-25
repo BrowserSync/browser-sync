@@ -55,7 +55,13 @@ module.exports = function (grunt) {
                 tasks: ["less"]
             },
             jshint: {
-                files: ["test/server/**/*.js", "test/client-script/**/*.js", "!test/client-script/libs"],
+                files: [
+                    "lib/**/*.js",
+                    "!lib/*.min.js",
+                    "test/server/**/*.js",
+                    "test/client-script/**/*.js",
+                    "!test/client-script/libs"
+                ],
                 tasks: ["jshint:test"]
             }
         },
