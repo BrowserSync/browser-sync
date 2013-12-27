@@ -14,10 +14,12 @@ describe("Browser Sync: init Server", function () {
 
     var launchServer;
     var open;
+    var spy;
 
     before(function () {
         launchServer = sinon.stub(server, "launchServer").returns(true);
         open = sinon.stub(browserSync, "openBrowser").returns(true);
+        spy = sinon.spy();
     });
 
     afterEach(function () {
@@ -31,8 +33,8 @@ describe("Browser Sync: init Server", function () {
     });
 
     it("should call launchServer from module", function () {
-        browserSync.initServer(host, ports, options);
-        sinon.assert.calledWith(launchServer, host, ports, options);
+        browserSync.initServer(host, ports, options, spy);
+        sinon.assert.calledWithExactly(launchServer, host, ports, options, spy);
     });
 
     it("can call open browser with args for SERVER", function () {
@@ -46,7 +48,7 @@ describe("Browser Sync: init Server", function () {
         };
 
         browserSync.initServer(host, ports, options);
-        sinon.assert.calledWith(open, host, ports[1], options);
+        sinon.assert.calledWithExactly(open, host, ports[1], options);
     });
 
     it("can call open browser with args for Proxy", function () {
@@ -59,7 +61,7 @@ describe("Browser Sync: init Server", function () {
         };
 
         browserSync.initServer(host, ports, options);
-        sinon.assert.calledWith(open, host, ports[2], options);
+        sinon.assert.calledWithExactly(open, host, ports[2], options);
     });
 
     it("does NOT call openBrowser if neither Server or Proxy used.", function () {
@@ -103,8 +105,8 @@ describe("Browser Sync: init Server", function () {
             };
 
             browserSync.initServer(host, ports, options);
-            sinon.assert.calledWith(initServer, host, ports[1], "./");
-            sinon.assert.calledWith(log, "Server Message", options, true);
+            sinon.assert.calledWithExactly(initServer, host, ports[1], "./");
+            sinon.assert.calledWithExactly(log, "Server Message", options, true);
             stub.restore();
         });
 
@@ -118,8 +120,8 @@ describe("Browser Sync: init Server", function () {
             };
 
             browserSync.initServer(host, ports, options);
-            sinon.assert.calledWith(initProxy, host, ports[2]);
-            sinon.assert.calledWith(log, "Proxy Message", options, true);
+            sinon.assert.calledWithExactly(initProxy, host, ports[2]);
+            sinon.assert.calledWithExactly(log, "Proxy Message", options, true);
         });
 
         it("logs when not using server OR proxy", function () {
@@ -127,8 +129,8 @@ describe("Browser Sync: init Server", function () {
             var options = {};
 
             browserSync.initServer(host, ports, options);
-            sinon.assert.calledWith(init, host, ports[0], ports[1]);
-            sinon.assert.calledWith(log, "No server or Proxy", options, true);
+            sinon.assert.calledWithExactly(init, host, ports[0], ports[1]);
+            sinon.assert.calledWithExactly(log, "No server or Proxy", options, true);
         });
     });
 });

@@ -42,7 +42,7 @@ describe("displaying the version number", function () {
             version: "3.0"
         };
         info.getVersion(pjson);
-        sinon.assert.calledWith(spy, "3.0");
+        sinon.assert.calledWithExactly(spy, "3.0");
     });
 });
 

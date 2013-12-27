@@ -76,13 +76,13 @@ describe("Watching files init", function () {
     });
     it("should call messages.files.watching with the patterns", function (done) {
         setTimeout(function () {
-            sinon.assert.calledWith(msgStub, files);
+            sinon.assert.calledWithExactly(msgStub, files);
             done();
         }, 300);
     });
     it("should log when the patterns when watching has started", function (done) {
         setTimeout(function () {
-            sinon.assert.calledWith(logSpy, "MESSAGE", {}, true);
+            sinon.assert.calledWithExactly(logSpy, "MESSAGE", {}, true);
             done();
         }, 300);
     });
@@ -131,7 +131,7 @@ describe("Watching files init (when none found)", function () {
     });
     it("should log when the patterns when watching has started", function (done) {
         setTimeout(function () {
-            sinon.assert.calledWith(logSpy, "MESSAGE", {}, true);
+            sinon.assert.calledWithExactly(logSpy, "MESSAGE", {}, true);
             done();
         }, 300);
     });
@@ -169,7 +169,7 @@ describe("Watching files", function () {
         }, 20);
 
         setTimeout(function () {
-            sinon.assert.calledWith(callback, changedFile, {}, {}, browserSync);
+            sinon.assert.calledWithExactly(callback, changedFile, {}, {}, browserSync);
             done();
         }, 30);
 
@@ -204,7 +204,7 @@ describe("Watching files", function () {
                 changeCallback(changedFile);
 
                 setTimeout(function () {
-                    sinon.assert.calledWith(callback, changedFile, {}, {}, browserSync);
+                    sinon.assert.calledWithExactly(callback, changedFile, {}, {}, browserSync);
                     done();
                 }, 20);
             }, 20);

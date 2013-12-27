@@ -24,7 +24,7 @@ describe("Failing the process on errors", function () {
     });
     it("can fail", function () {
         browserSync.fail("Error!", {}, false);
-        sinon.assert.calledWith(spy, "Error!", {}, true);
+        sinon.assert.calledWithExactly(spy, "Error!", {}, true);
     });
 });
 

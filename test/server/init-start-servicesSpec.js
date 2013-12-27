@@ -20,42 +20,42 @@ describe("Browser Sync: Start Services", function () {
     var setupSocket;
     var handleSocketConnection;
     var fileWatcherInit;
-    var launchServer;
+    var initServer;
 
     before(function () {
         setupSocket = sinon.stub(browserSync, "setupSocket").returns({});
         handleSocketConnection = sinon.stub(browserSync, "handleSocketConnection");
         fileWatcherInit = sinon.stub(fileWatcher, "init");
-        launchServer = sinon.stub(browserSync, "initServer");
+        initServer = sinon.stub(browserSync, "initServer");
     });
 
     afterEach(function () {
         setupSocket.reset();
         fileWatcherInit.reset();
-        launchServer.reset();
+        initServer.reset();
     });
 
     after(function () {
         setupSocket.restore();
         fileWatcherInit.restore();
-        launchServer.restore();
+        initServer.restore();
     });
 
     it("should call setupSocket with the ports", function(){
         browserSync.startServices(args);
-        sinon.assert.calledWith(setupSocket, args.ports);
+        sinon.assert.calledWithExactly(setupSocket, args.ports);
     });
     it("should call handleSocketConnection", function(){
         browserSync.startServices(args);
-        sinon.assert.calledWith(handleSocketConnection, browserSync.ghostModeCallbacks, {}, browserSync.handleClientSocketEvent);
+        sinon.assert.calledWithExactly(handleSocketConnection, browserSync.ghostModeCallbacks, {}, browserSync.handleClientSocketEvent);
     });
     it("should call filewatcher init", function () {
         browserSync.startServices(args);
-        sinon.assert.calledWith(fileWatcherInit, browserSync.changeFile, browserSync.log, args.files, {}, args.options, browserSync);
+        sinon.assert.calledWithExactly(fileWatcherInit, browserSync.changeFile, browserSync.log, args.files, {}, args.options, browserSync);
     });
     it("should call launch Server", function () {
         sinon.stub(browserSync, "getHostIp").returns("0.0.0.0");
         browserSync.startServices(args);
-        sinon.assert.calledWith(launchServer, "0.0.0.0", args.ports, args.options);
+        sinon.assert.calledWithExactly(initServer, "0.0.0.0", args.ports, args.options, {});
     });
 });

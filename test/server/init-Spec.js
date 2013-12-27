@@ -57,7 +57,7 @@ describe("Browser Sync INIT", function () {
                 ports: portRange
             };
             browserSync.init(files, options);
-            var actual = getPorts.calledWith(browserSync.options.minPorts, func, portRange.min, portRange.max);
+            var actual = getPorts.calledWithExactly(browserSync.options.minPorts, func, portRange.min, portRange.max);
             assert.equal(actual, true);
         });
         it("should call fail() when ports invalid", function () {
@@ -70,7 +70,7 @@ describe("Browser Sync INIT", function () {
                 }
             };
             browserSync.init(files, options);
-            sinon.assert.calledWith(fail, "ERROR", options, true);
+            sinon.assert.calledWithExactly(fail, "ERROR", options, true);
         });
     });
 });
