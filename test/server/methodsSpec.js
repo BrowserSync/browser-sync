@@ -162,7 +162,7 @@ describe("Exposed Methods", function () {
                 assert.equal(data.fileExtension, "css");
             });
             it("should emit the event with the correct data", function () {
-                sinon.assert.calledWith(spy, "reload", {
+                sinon.assert.calledWithExactly(spy, "reload", {
                     assetFileName: "core.css",
                     fileExtension: "css"
                 });
@@ -186,7 +186,7 @@ describe("Exposed Methods", function () {
 
             it("should emit the event with the correct data", function () {
 
-                sinon.assert.calledWith(spy, "reload", {
+                sinon.assert.calledWithExactly(spy, "reload", {
                     url: "/app/index.php",
                     assetFileName: "index.php",
                     fileExtension: "php"
@@ -205,7 +205,7 @@ describe("Exposed Methods", function () {
 
                 browserSync.changeFile("/Users/shakyshane/browser-sync/app/css/styles.css", io, options, browserSync);
 
-                sinon.assert.calledWith(spy, "app/css/styles.css");
+                sinon.assert.calledWithExactly(spy, "app/css/styles.css");
 
             });
             it("should log the INJECT message when an inject file was changed", function () {
