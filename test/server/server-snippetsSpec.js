@@ -2,6 +2,7 @@ var bs = require("../../lib/browser-sync");
 var browserSync = new bs();
 var messages = require("../../lib/messages");
 var http = require("http");
+var sinon = require("sinon");
 var assert = require("chai").assert;
 var server = require("../../lib/server");
 
@@ -13,7 +14,26 @@ var expectedMatch2 = "<script src='//0.0.0.0:" + ports[1] + messages.clientScrip
 
 describe("Launching a server with snippets", function () {
 
-    var servers;
+    var servers, reqCallback;
+
+    var io;
+    var clientsSpy;
+    var emitSpy;
+
+    before(function () {
+        clientsSpy = sinon.stub().returns([]);
+        emitSpy = sinon.spy();
+        io = {
+            sockets: {
+                clients: clientsSpy,
+                emit: emitSpy
+            }
+        };
+    });
+    afterEach(function () {
+        clientsSpy.reset();
+        emitSpy.reset();
+    });
 
     beforeEach(function () {
 
@@ -24,7 +44,7 @@ describe("Launching a server with snippets", function () {
             }
         };
 
-        servers = server.launchServer("0.0.0.0", ports, options);
+        servers = server.launchServer("0.0.0.0", ports, options, io);
     });
 
     afterEach(function () {
@@ -62,19 +82,19 @@ describe("Launching a server with snippets", function () {
      *
      *
      */
-//    it("can append the script tags to the body of a LARGE html FILE", function (done) {
-//        http.get(serverHost + "/index-large.html", function (res) {
-//            var chunks = [];
-//            var data;
-//            res.on("data", function (chunk) {
-//                chunks.push(chunk.toString());
-//            });
-//            res.on("end", function () {
-//                data = chunks.join("");
-//                assert.isTrue(data.indexOf(expectedMatch1) >= 0);
-//                assert.isTrue(data.indexOf(expectedMatch2) >= 0);
-//                done();
-//            });
-//        });
-//    });
+    it("can append the script tags to the body of a LARGE html FILE", function (done) {
+        http.get(serverHost + "/index-large.html", function (res) {
+            var chunks = [];
+            var data;
+            res.on("data", function (chunk) {
+                chunks.push(chunk.toString());
+            });
+            res.on("end", function () {
+                data = chunks.join("");
+                assert.isTrue(data.indexOf(expectedMatch1) >= 0);
+                assert.isTrue(data.indexOf(expectedMatch2) >= 0);
+                done();
+            });
+        });
+    });
 });

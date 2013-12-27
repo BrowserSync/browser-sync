@@ -42,7 +42,7 @@ describe("Modify Snippet", function () {
     });
     it("should call messages.socketConnector", function () {
         server.utils.modifySnippet(host, ports[0]);
-        sinon.assert.calledWith(socketConnector, host, ports[0]);
+        sinon.assert.calledWithExactly(socketConnector, host, ports[0]);
     });
     it("should get the JS file", function () {
         server.utils.modifySnippet(host, ports[0]);
@@ -50,138 +50,162 @@ describe("Modify Snippet", function () {
     });
 });
 
-describe("serving the client-side JS", function () {
+describe("", function () {
 
-    var clientScriptUrl = "http://localhost:" + ports[1] + messages.clientScript;
+    var io;
+    var clientsSpy;
+    var emitSpy;
 
-    it("can serve the JS file", function (done) {
-
-        var options = {
-            server: {
-                baseDir: "test/fixtures"
+    before(function () {
+        clientsSpy = sinon.stub().returns([]);
+        emitSpy = sinon.spy();
+        io = {
+            sockets: {
+                clients: clientsSpy,
+                emit: emitSpy
             }
         };
+    });
+    afterEach(function () {
+        clientsSpy.reset();
+        emitSpy.reset();
+    });
 
-        var servers = server.launchServer("localhost", ports, options);
+    describe("serving the client-side JS", function () {
 
-        http.get(clientScriptUrl, function (res) {
-            assert.equal(res.statusCode, 200);
-            servers.staticServer.close();
-            done();
+        var clientScriptUrl = "http://localhost:" + ports[1] + messages.clientScript;
+
+        it("can serve the JS file", function (done) {
+
+            var options = {
+                server: {
+                    baseDir: "test/fixtures"
+                }
+            };
+
+            var servers = server.launchServer("localhost", ports, options, io);
+
+            http.get(clientScriptUrl, function (res) {
+                assert.equal(res.statusCode, 200);
+                servers.staticServer.close();
+                done();
+            });
+        });
+        it("can append the code needed to connect to socketIO", function (done) {
+            var expectedString = "var ___socket___ = io.connect('http://localhost:" + ports[0] + "');";
+
+            var options = {
+                server: {
+                    baseDir: "test/fixtures"
+                }
+            };
+
+            var servers = server.launchServer("localhost", ports, options, io);
+
+            http.get(clientScriptUrl, function (res) {
+
+                res.on("data", function (chunk) {
+                    var respString = chunk.toString();
+                    var actual = respString.indexOf(expectedString);
+                    assert.equal(actual, 0);
+                    servers.staticServer.close();
+                    done();
+                });
+            });
         });
     });
-    it("can append the code needed to connect to socketIO", function (done) {
-        var expectedString = "var ___socket___ = io.connect('http://localhost:" + ports[0] + "');";
 
-        var options = {
-            server: {
-                baseDir: "test/fixtures"
-            }
-        };
+    describe("server for Static Files", function () {
 
-        var servers = server.launchServer("localhost", ports, options);
+        it("can serve files", function (done) {
+            var options = {
+                server: {
+                    baseDir: "test/fixtures"
+                }
+            };
+            var servers = server.launchServer("localhost", ports, options, io);
 
-        http.get(clientScriptUrl, function (res) {
+            http.get("http://localhost:" + ports[1] + "/index.html", function (res) {
+                var actual = res.statusCode;
+                assert.equal(actual, 200);
+                servers.staticServer.close();
+                done();
+            });
+        });
+        it("can serve an index.html, or index.htm from root", function (done) {
+            var options = {
+                server: {
+                    baseDir: "test/fixtures/alt",
+                    index: "index.htm"
+                }
+            };
 
-            res.on("data", function (chunk) {
-                var respString = chunk.toString();
-                var actual = respString.indexOf(expectedString);
-                assert.equal(actual, 0);
+            var servers = server.launchServer("localhost", ports, options, io);
+
+            http.get("http://localhost:" + ports[1], function (res) {
+                var actual = res.statusCode;
+                assert.equal(actual, 200);
+                servers.staticServer.close();
+                done();
+            });
+        });
+
+        it("can serve an index.html, or index.htm from root (2)", function (done) {
+            var options = {
+                server: {
+                    baseDir: "test/fixtures"
+                }
+            };
+
+            var servers = server.launchServer("localhost", ports, options, io);
+
+            http.get("http://localhost:" + ports[1], function (res) {
+                var actual = res.statusCode;
+                assert.equal(actual, 200);
+                servers.staticServer.close();
+                done();
+            });
+        });
+
+        it("does not serve static files if server:false", function (done) {
+            var options = {
+                server: false
+            };
+            var servers = server.launchServer("localhost", ports, options, io);
+
+            http.get("http://0.0.0.0:" + ports[1], function (res) {
+                var actual = res.statusCode;
+                assert.equal(actual, 404);
                 servers.staticServer.close();
                 done();
             });
         });
     });
-});
 
+    describe("launching the proxy", function () {
 
+        var stub;
+        var navCallbackStub;
 
-describe("server for Static Files", function () {
-
-    it("can serve files", function (done) {
-        var options = {
-            server: {
-                baseDir: "test/fixtures"
-            }
-        };
-        var servers = server.launchServer("localhost", ports, options);
-
-        http.get("http://localhost:" + ports[1] + "/index.html", function (res) {
-            var actual = res.statusCode;
-            assert.equal(actual, 200);
-            servers.staticServer.close();
-            done();
+        before(function () {
+            stub = sinon.stub(proxy, "createProxy").returns(true);
+            navCallbackStub = sinon.stub(server.utils, "navigateCallback").returns(true);
         });
-    });
-    it("can serve an index.html, or index.htm from root", function (done) {
-        var options = {
-            server: {
-                baseDir: "test/fixtures/alt",
-                index: "index.htm"
-            }
-        };
 
-        var servers = server.launchServer("localhost", ports, options);
+        after(function () {
+            stub.restore();
+            navCallbackStub.restore();
+        });
 
-        http.get("http://localhost:" + ports[1], function (res) {
-            var actual = res.statusCode;
-            assert.equal(actual, 200);
+        it("can create the proxy", function () {
+            var options = {
+                proxy: true
+            };
+            var servers = server.launchServer("0.0.0.0", ports, options, io);
             servers.staticServer.close();
-            done();
+            sinon.assert.calledWithExactly(stub, "0.0.0.0", ports, options, true);
         });
     });
 
-    it("can serve an index.html, or index.htm from root (2)", function (done) {
-        var options = {
-            server: {
-                baseDir: "test/fixtures"
-            }
-        };
-
-        var servers = server.launchServer("localhost", ports, options);
-
-        http.get("http://localhost:" + ports[1], function (res) {
-            var actual = res.statusCode;
-            assert.equal(actual, 200);
-            servers.staticServer.close();
-            done();
-        });
-    });
-
-    it("does not serve static files if server:false", function (done) {
-        var options = {
-            server: false
-        };
-        var servers = server.launchServer("localhost", ports, options);
-
-        http.get("http://0.0.0.0:" + ports[1], function (res) {
-            var actual = res.statusCode;
-            assert.equal(actual, 404);
-            servers.staticServer.close();
-            done();
-        });
-    });
-});
-
-describe("launching the proxy", function () {
-
-    var stub;
-
-    before(function () {
-        stub = sinon.stub(proxy, "createProxy").returns(true);
-    });
-
-    after(function () {
-        stub.restore();
-    });
-
-    it("can create the proxy", function () {
-        var options = {
-            proxy: true
-        };
-        var servers = server.launchServer("0.0.0.0", ports, options);
-        servers.staticServer.close();
-        sinon.assert.calledWith(stub, "0.0.0.0", ports, options);
-    });
 });
 

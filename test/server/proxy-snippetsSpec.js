@@ -4,6 +4,7 @@ var messages = require("../../lib/messages");
 var http = require("http");
 var filePath = require("path");
 var connect = require("connect");
+var sinon = require("sinon");
 var proxy = require("../../lib/proxy");
 var assert = require("chai").assert;
 
@@ -14,9 +15,13 @@ var expectedMatch2 = "<script src='//0.0.0.0:" + ports[1] + messages.clientScrip
 
 describe("Launching a proxy for connect server", function () {
 
-    var app, server, proxyServer, proxyHost;
+    var app, server, proxyServer, proxyHost, reqCallback;
 
     before(function () {
+
+        reqCallback = sinon.spy(function (req, res, next) {
+            next();
+        });
 
         app = connect().use(connect.static(filePath.resolve("test/fixtures")));
         server = http.createServer(app).listen(8001);
@@ -29,7 +34,7 @@ describe("Launching a proxy for connect server", function () {
             }
         };
 
-        proxyServer = proxy.createProxy("0.0.0.0", ports, options);
+        proxyServer = proxy.createProxy("0.0.0.0", ports, options, reqCallback);
 
     });
 

@@ -166,7 +166,7 @@ describe("getting the ports Callback", function () {
 
         portsCallback(ports);
 
-        sinon.assert.calledWith(spy, {
+        sinon.assert.calledWithExactly(spy, {
             ports: ports,
             files: files,
             options: options
