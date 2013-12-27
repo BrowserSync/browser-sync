@@ -19,13 +19,13 @@ describe("Launching a proxy for connect server", function () {
     before(function () {
 
         app = connect().use(connect.static(filePath.resolve("test/fixtures")));
-        server = http.createServer(app).listen(8000);
+        server = http.createServer(app).listen(8001);
         proxyHost = "http://0.0.0.0:" + ports[2];
 
         var options = {
             proxy: {
                 host: "0.0.0.0",
-                port: 8000
+                port: 8001
             }
         };
 

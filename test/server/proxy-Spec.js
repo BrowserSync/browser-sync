@@ -20,12 +20,12 @@ describe("Launching a proxy for connect server", function () {
     before(function () {
 
         app = connect().use(connect.static(filePath.resolve("test/fixtures")));
-        server = http.createServer(app).listen(8000);
+        server = http.createServer(app).listen(8001);
 
         var options = {
             proxy: {
                 host: "0.0.0.0",
-                port: 8000
+                port: 8001
             }
         };
 
@@ -53,6 +53,20 @@ describe("Launching a proxy for connect server", function () {
             done();
         });
     });
+    it("can re-write the URLS", function (done) {
+        var data;
+        http.get(proxyHost + "/index-urls.html", function (res) {
+            var chunks = [];
+            res.on("data", function (chunk) {
+                chunks.push(chunk.toString());
+            });
+            res.on("end", function () {
+                data = chunks.join("");
+                assert.deepEqual(~data.indexOf("0.0.0.0:8001"), 0);
+                done();
+            });
+        });
+    });
 });
 
 /**
@@ -68,15 +82,15 @@ describe("Launching a proxy for connect server", function () {
 //
 //    before(function () {
 //
-//        // Server we are proxying ( fixtures DIR );
+//        // Server we are proxying;
 //        var options = {
 //            proxy: {
 //                host: "0.0.0.0",
-//                port: 8001
+//                port: 8000
 //            }
 //        };
 //
-//        proxyServer = createProxy("0.0.0.0", ports, options);
+//        proxyServer = proxy.createProxy("0.0.0.0", ports, options);
 //
 //    });
 //
@@ -105,6 +119,22 @@ describe("Launching a proxy for connect server", function () {
 //                data = chunks.join("");
 //                assert.isTrue(data.indexOf(expectedMatch1) >= 0);
 //                assert.isTrue(data.indexOf(expectedMatch2) >= 0);
+//                done();
+//            });
+//        });
+//    });
+//    it("can re-write the URLS", function (done) {
+//
+//        var data;
+//
+//        http.get("http://0.0.0.0:" + ports[2], function (res) {
+//            var chunks = [];
+//            res.on("data", function (chunk) {
+//                chunks.push(chunk.toString());
+//            });
+//            res.on("end", function () {
+//                data = chunks.join("");
+//                assert.deepEqual(~data.indexOf("0.0.0.0:8000"), 0);
 //                done();
 //            });
 //        });
