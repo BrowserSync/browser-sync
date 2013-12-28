@@ -73,7 +73,7 @@ describe("", function () {
 
     describe("serving the client-side JS", function () {
 
-        var clientScriptUrl = "http://localhost:" + ports[1] + messages.clientScript;
+        var clientScriptUrl = "http://localhost:" + ports[1] + messages.clientScript();
 
         it("can serve the JS file", function (done) {
 

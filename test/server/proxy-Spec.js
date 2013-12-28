@@ -12,7 +12,7 @@ var ports = [3000, 3001, 3002];
 var proxyHost = "http://0.0.0.0:" + ports[2];
 
 var expectedMatch1 = "<script src='//0.0.0.0:" + ports[0] + messages.socketIoScript + "'></script>";
-var expectedMatch2 = "<script src='//0.0.0.0:" + ports[1] + messages.clientScript + "'></script>";
+var expectedMatch2 = "<script src='//0.0.0.0:" + ports[1] + messages.clientScript() + "'></script>";
 
 describe("Launching a proxy for connect server", function () {
 

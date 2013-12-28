@@ -69,6 +69,19 @@ describe("Outputting script tags", function () {
     });
 });
 
+describe("outputting the client Script", function () {
+    it("should default to the uglified file", function () {
+        var expected = "/browser-sync-client.min.js";
+        var actual   = messages.clientScript();
+        assert.equal(actual, expected);
+    });
+    it("should output the dev file if devmode activated in options", function () {
+        var expected = "/browser-sync-client.js";
+        var actual   = messages.clientScript({ devMode:true });
+        assert.equal(actual, expected);
+    });
+});
+
 describe("Outputting generic messages", function () {
     it("should output browser connected correctly", function () {
         var expected = "Browser Connected! (Chrome, version: 21.222)";
