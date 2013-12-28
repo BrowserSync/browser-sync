@@ -7,7 +7,8 @@ module.exports = {
     injectFileTypes: ['css', 'png', 'jpg', 'svg', 'gif'],
     host: null,
     ghostMode: {
-        links: true,
+        clickedLinks: false,
+        links: false,
         forms: true,
         scroll: true
     },
@@ -16,5 +17,8 @@ module.exports = {
     },
     open: true,
     timestamps: false,
-    fileTimeout: 1000
+    fileTimeout: 1000,
+    scrollThrottle: 0,
+    notify: true,
+    devMode: true
 };

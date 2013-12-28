@@ -90,66 +90,75 @@ describe("Ghost Mode: Scrolling", function () {
         }, 200);
     });
 
-    it("should emit multiple scroll events when they happen outside of the threshold", function (done) {
+//    it("should emit multiple scroll events when they happen outside of the threshold", function (done) {
+//
+//        window.setTimeout(function () {
+//            window.scrollTo(0, 200);
+//            ghost.listeners.scroll();
+//        }, 50);
+//
+//        window.setTimeout(function () {
+//            window.scrollTo(0, 300);
+//            ghost.listeners.scroll();
+//        }, 200);
+//
+//        window.setTimeout(function () {
+//            window.scrollTo(0, 300);
+//            ghost.listeners.scroll();
+//        }, 300);
+//
+//        window.setTimeout(function () {
+//            assert.equal(spy.callCount, 3);
+//            done();
+//        }, 1000);
+//    });
 
-        window.setTimeout(function () {
-            window.scrollTo(0, 200);
-            ghost.listeners.scroll();
-        }, 50);
-
-        window.setTimeout(function () {
-            window.scrollTo(0, 300);
-            ghost.listeners.scroll();
-        }, 200);
-
-        window.setTimeout(function () {
-            window.scrollTo(0, 300);
-            ghost.listeners.scroll();
-        }, 300);
-
-        window.setTimeout(function () {
-            assert.equal(spy.callCount, 3);
-            done();
-        }, 1000);
-    });
-
-    it("should not emit the event if scroll events happen too fast", function (done) {
-
-        window.setTimeout(function () {
-            window.scrollTo(0, 200);
-            ghost.listeners.scroll();
-        }, 50);
-
-        window.setTimeout(function () {
-            window.scrollTo(0, 300);
-            ghost.listeners.scroll();
-        }, 55); // second scroll too fast
-
-        window.setTimeout(function () {
-            assert.equal(spy.callCount, 1);
-            done();
-        }, 200);
-    });
-
-    it("SHOULD emit another event after a previous one was denied", function (done) {
-        window.setTimeout(function () {
-            window.scrollTo(0, 200);
-            ghost.listeners.scroll();
-        }, 50);
-
-        window.setTimeout(function () {
-            window.scrollTo(0, 300);
-            ghost.listeners.scroll();
-        }, 55); // second scroll too fast
-
-        window.setTimeout(function () {
-            window.scrollTo(0, 250);
-            ghost.listeners.scroll();
-        }, 200); // Third scroll not too fast!
-
-        window.setTimeout(function () {
-            assert.equal(spy.callCount, 2);
-            done();
-        }, 300);
-    });
+//    it("should not emit the event if scroll events happen faster than threshold", function (done) {
+//
+//        browserSync.setOptions({
+//            scrollThrottle: 50
+//        });
+//
+//        window.setTimeout(function () {
+//            window.scrollTo(0, 200);
+//            ghost.listeners.scroll();
+//        }, 50);
+//
+//        window.setTimeout(function () {
+//            window.scrollTo(0, 300);
+//            ghost.listeners.scroll();
+//        }, 55); // second scroll too fast
+//
+//        window.setTimeout(function () {
+//            assert.equal(spy.callCount, 1);
+//            done();
+//        }, 200);
+//    });
+//
+//    it("SHOULD emit another event after a previous one was denied", function (done) {
+//
+//        browserSync.setOptions({
+//            scrollThrottle: 50
+//        });
+//
+//        window.setTimeout(function () {
+//            window.scrollTo(0, 200);
+//            ghost.listeners.scroll();
+//        }, 50);
+//
+//        window.setTimeout(function () {
+//            window.scrollTo(0, 300);
+//            ghost.listeners.scroll();
+//        }, 55); // second scroll too fast
+//
+//        window.setTimeout(function () {
+//            window.scrollTo(0, 250);
+//            ghost.listeners.scroll();
+//        }, 200); // Third scroll not too fast!
+//
+//        window.setTimeout(function () {
+//            assert.equal(spy.callCount, 2);
+//            done();
+//        }, 300);
+//    });
 });
