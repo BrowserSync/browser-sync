@@ -207,5 +207,81 @@ describe("", function () {
         });
     });
 
-});
+    describe("the navigateCallback function (ghostmode links ON)", function () {
 
+        var func;
+        var next;
+        var options;
+
+        before(function () {
+            options = {
+                ghostMode: {
+                    links: true
+                }
+            };
+            func = server.utils.navigateCallback(io, options);
+            next = sinon.spy();
+        });
+
+        it("should return a function to be used as middleware", function () {
+            assert.isFunction(func);
+        });
+        it("should return a function to be that has three params", function () {
+            assert.equal(func.length, 3);
+        });
+        it("should call sockets.clients() if the req url is not in excluded list", function () {
+            func({url: "/"}, {}, next);
+            sinon.assert.called(clientsSpy);
+        });
+        it("should call sockets.clients() if the req url is not in excluded list (2)", function () {
+            func({url: "/index.html"}, {}, next);
+            sinon.assert.called(clientsSpy);
+        });
+        it("should NOT call sockets.clients() if the req url IS in excluded list (1)", function () {
+            func({url: "/core.css"}, {}, next);
+            sinon.assert.notCalled(clientsSpy);
+        });
+        it("should NOT call sockets.clients() if the req url IS in excluded list (2)", function () {
+            func({url: "/font.woff"}, {}, next);
+            sinon.assert.notCalled(clientsSpy);
+        });
+
+        it("E2E", function (done) {
+            var options = {
+                ghostMode: {
+                    links: true
+                },
+                server: {
+                    baseDir: "test/fixtures"
+                }
+            };
+            var servers = server.launchServer("localhost", ports, options, io);
+
+            http.get("http://localhost:" + ports[1] + "/index.html", function (res) {
+                sinon.assert.called(clientsSpy);
+                servers.staticServer.close();
+                done();
+            });
+        });
+    });
+    describe("the navigateCallback function (ghostmode links OFF)", function () {
+
+        var func;
+        var next;
+        var options;
+
+        before(function () {
+            options = {
+                ghostMode: {
+                    links:false
+                }
+            };
+            func = server.utils.navigateCallback(io, options);
+            next = sinon.spy();
+        });
+        it("should NOT call sockets.clients() if links disabled in config", function () {
+            func({url: "/"}, {}, next);
+            sinon.assert.notCalled(clientsSpy);
+        });
+    });
+});

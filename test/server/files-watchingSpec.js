@@ -143,10 +143,14 @@ describe("Watching files", function () {
     var changeCallback;
     var changedFile;
     var fsStub;
+    var options;
     before(function () {
+        options = {
+            fileTimeout: 10
+        };
         changedFile = testFile1;
         callback = sinon.spy();
-        changeCallback = sinon.spy(fileWatcher.getChangeCallback(callback, {}, {}, browserSync, 10));
+        changeCallback = sinon.spy(fileWatcher.getChangeCallback(callback, {}, options, browserSync));
         fsStub = sinon.stub(fs, "statSync");
     });
 
@@ -169,7 +173,7 @@ describe("Watching files", function () {
         }, 20);
 
         setTimeout(function () {
-            sinon.assert.calledWithExactly(callback, changedFile, {}, {}, browserSync);
+            sinon.assert.calledWithExactly(callback, changedFile, {}, options, browserSync);
             done();
         }, 30);
 
@@ -204,7 +208,7 @@ describe("Watching files", function () {
                 changeCallback(changedFile);
 
                 setTimeout(function () {
-                    sinon.assert.calledWithExactly(callback, changedFile, {}, {}, browserSync);
+                    sinon.assert.calledWithExactly(callback, changedFile, {}, options, browserSync);
                     done();
                 }, 20);
             }, 20);
