@@ -12,7 +12,7 @@ describe("Ghost Mode: Scrolling", function () {
             }
         };
         ghost = window.ghost;
-        browserSync = window.bs;
+        browserSync = window.BrowserSync;
 
         spy = sinon.spy(ghost, "emitEvent");
     });

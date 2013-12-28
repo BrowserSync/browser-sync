@@ -9,7 +9,7 @@ describe("Notify Element", function () {
 
     before(function () {
 
-        browserSync = window.bs;
+        browserSync = window.BrowserSync;
         styles = window.styles;
         ghost = window.ghost;
         actions = window.browserSyncActions;

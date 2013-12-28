@@ -11,7 +11,7 @@ describe("Ghostmode Forms: Submitting", function () {
         };
         ghost = window.ghost;
         utils = window.ghost.utils;
-        browserSync = window.bs;
+        browserSync = window.BrowserSync;
 
         wrapper = $("<div></div>", {id: "fixture-wrapper"});
         $("body").append(wrapper);

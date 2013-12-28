@@ -82,6 +82,21 @@ describe("outputting the client Script", function () {
     });
 });
 
+describe("Outputting the config created message", function () {
+    it("should accept the params and print the correct message", function () {
+        var expected  = "Config file created at /users/shakyshane/app/bs-config.js\n";
+            expected += "To use it, in the same directory run: browser-sync --config bs-config.js";
+        var actual    = ansiTrim(messages.config.confirm("/users/shakyshane/app/bs-config.js"));
+        assert.equal(actual, expected);
+    });
+    it("should accept the params and print the correct message (2)", function () {
+        var expected  = "Config file created at /app/bs-config.js\n";
+            expected += "To use it, in the same directory run: browser-sync --config bs-config.js";
+        var actual    = ansiTrim(messages.config.confirm("/app/bs-config.js"));
+        assert.equal(actual, expected);
+    });
+});
+
 describe("Outputting generic messages", function () {
     it("should output browser connected correctly", function () {
         var expected = "Browser Connected! (Chrome, version: 21.222)";

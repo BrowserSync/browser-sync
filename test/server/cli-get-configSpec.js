@@ -1,13 +1,13 @@
 "use strict";
 
 var index = require("../../lib/index");
-var dConfig = require("../fixtures/si-default-config");
+var dConfig = require("../fixtures/config/si-default-config");
 var _ = require("lodash");
 var assert = require("chai").assert;
 var setup = index.setup;
 
-var configFilePath = "test/fixtures/si-config.js";
-var partialConfigFilePath = "test/fixtures/si-config-partial.js";
+var configFilePath = "test/fixtures/config/si-config.js";
+var partialConfigFilePath = "test/fixtures/config/si-config-partial.js";
 
 var file1 = "test/fixtures/scss/main.scss";
 var file2 = "test/fixtures/assets/style.css";
@@ -20,7 +20,6 @@ describe("Style Injector: accepting a config file.", function () {
         // reset default config before every test
         defaultConfig = _.cloneDeep(dConfig);
     });
-
 
     describe("When a config arg is given on command line", function () {
 

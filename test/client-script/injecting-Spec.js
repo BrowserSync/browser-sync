@@ -14,7 +14,7 @@ describe("Injecting Styles:", function () {
     var regex = /(style\.css\?rel=\d+)$/;
 
     before(function(){
-        browserSync = window.bs;
+        browserSync = window.BrowserSync;
         actions = window.browserSyncActions;
 
         actions.reloadBrowser = function () {

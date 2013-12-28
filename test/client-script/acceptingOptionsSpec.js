@@ -7,7 +7,7 @@ describe("Browser Sync INIT", function () {
 
     beforeEach(function(){
         scope = {};
-        bs = window.bs;
+        bs = window.BrowserSync;
         ghost = window.ghost;
         methods = bs;
     });
