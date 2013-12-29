@@ -3,6 +3,7 @@
 var index = require("../../lib/index");
 var dConfig = require("../fixtures/config/si-default-config");
 var _ = require("lodash");
+var sinon = require("sinon");
 var assert = require("chai").assert;
 var setup = index.setup;
 
@@ -14,12 +15,88 @@ var file2 = "test/fixtures/assets/style.css";
 
 var defaultConfig;
 
-describe("Style Injector: accepting a config file.", function () {
+describe("INIT: accepting a config file.", function () {
 
     beforeEach(function(){
-        // reset default config before every test
         defaultConfig = _.cloneDeep(dConfig);
     });
+
+    describe("Getting default Config from command-line", function () {
+        var argv = {};
+        var getFileStub;
+        var cwdStub;
+        before(function () {
+            getFileStub = sinon.stub(setup, "_getConfigFile").returns({});
+            cwdStub = sinon.stub(process, "cwd").returns("/app");
+        });
+        after(function () {
+            getFileStub.restore();
+            cwdStub.restore();
+        });
+        it("can retrieve the default config if it exists", function () {
+            var actual = setup._getDefaultConfigFile();
+            sinon.assert.calledWithExactly(getFileStub, "/app/bs-config.js");
+        });
+    });
+
+
+    describe("Using the Default config when file found from command-line E2E", function () {
+
+        var defaultStub;
+        var argv;
+        var getFileStub;
+        before(function () {
+            argv = {};
+            defaultStub = sinon.stub(setup, "_getDefaultConfigFile").returns({server: true});
+        });
+        afterEach(function () {
+            defaultStub.reset();
+        });
+        after(function () {
+            defaultStub.restore();
+        });
+        it("should call _getDefaultConfigFile", function () {
+            var actual = setup.getConfig(defaultConfig, argv);
+            sinon.assert.calledOnce(defaultStub);
+        });
+        it("should merge the default config when found", function () {
+            var actual = setup.getConfig(defaultConfig, argv);
+            assert.isTrue(actual.server);
+        });
+        it("should merge the default config when found", function () {
+            var actual = setup.getConfig(defaultConfig, argv);
+            assert.isTrue(actual.server);
+        });
+    });
+
+    describe("Using a file given on command line even when default exists", function () {
+
+        var defaultStub;
+        var argv;
+        var getFileStub;
+        before(function () {
+            argv = {
+                config: "path/to/config"
+            };
+            defaultStub = sinon.stub(setup, "_getDefaultConfigFile").returns({server: true}); //default found
+            getFileStub = sinon.stub(setup, "_getConfigFile").returns({server: false});
+        });
+        afterEach(function () {
+            defaultStub.reset();
+            getFileStub.reset();
+        });
+        after(function () {
+            defaultStub.restore();
+            getFileStub.restore();
+        });
+        it("should use the config file given instead of the default", function () {
+            var actual = setup.getConfig(defaultConfig, argv);
+            assert.isFalse(actual.server);
+        });
+    });
+
+
+
 
     describe("When a config arg is given on command line", function () {
 
@@ -41,9 +118,9 @@ describe("Style Injector: accepting a config file.", function () {
         });
     });
 
-    describe("reading a file from the file system", function () {
+    describe("reading a config file from the file system", function () {
 
-        it("can throw an error if the file is not found", function () {
+        it("can false if the file is not found", function () {
             var files= setup._getConfigFile("random/file/doesn'tex");
             assert.isFalse(files);
         });

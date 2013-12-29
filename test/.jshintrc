@@ -19,6 +19,7 @@
         "runs" : false,
         "waitsFor" : false,
         "beforeEach" : false,
+        "afterEach" : false,
         "before" : false,
         "after" : false
     }
