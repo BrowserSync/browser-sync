@@ -101,6 +101,19 @@ describe("Browser-sync: using a proxy from command-line", function () {
             assert.equal(config.proxy.port, "3000");
         });
     });
+    describe("accepting a full url with protocol + port + trailing slash", function () {
+        var config;
+        beforeEach(function () {
+            var argv = {
+                proxy: "http://local.dev.com:3000/"
+            };
+            config = setup.getConfig(defaultConfig, argv);
+        });
+        it("should default to port 80", function () {
+            assert.equal(config.proxy.host, "local.dev.com");
+            assert.equal(config.proxy.port, "3000");
+        });
+    });
     describe("accepting a url with www", function () {
         var config;
         beforeEach(function () {
