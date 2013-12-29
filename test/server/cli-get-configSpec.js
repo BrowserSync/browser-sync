@@ -1,6 +1,7 @@
 "use strict";
 
 var index = require("../../lib/index");
+var messages = require("../../lib/messages");
 var dConfig = require("../fixtures/config/si-default-config");
 var _ = require("lodash");
 var sinon = require("sinon");
@@ -25,9 +26,11 @@ describe("INIT: accepting a config file.", function () {
         var argv = {};
         var getFileStub;
         var cwdStub;
+        var expected;
         before(function () {
             getFileStub = sinon.stub(setup, "_getConfigFile").returns({});
             cwdStub = sinon.stub(process, "cwd").returns("/app");
+            expected = "/app" + messages.configFile;
         });
         after(function () {
             getFileStub.restore();
@@ -35,7 +38,7 @@ describe("INIT: accepting a config file.", function () {
         });
         it("can retrieve the default config if it exists", function () {
             var actual = setup._getDefaultConfigFile();
-            sinon.assert.calledWithExactly(getFileStub, "/app/bs-config.js");
+            sinon.assert.calledWithExactly(getFileStub, expected);
         });
     });
 

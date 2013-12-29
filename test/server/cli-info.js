@@ -115,7 +115,8 @@ describe("creating the config file", function () {
         sinon.assert.called(readStub);
     });
     it("should create the config file", function () {
-        sinon.assert.calledWithExactly(writeStub, "/users/app/bs-config.js", "DATA", confirmSpy);
+        var expectedPath = "/users/app" + messages.configFile;
+        sinon.assert.calledWithExactly(writeStub, expectedPath, "DATA", confirmSpy);
     });
     it("should call confirm config with the Path to the file", function(){
         sinon.assert.called(confirmSpy);
