@@ -93,13 +93,13 @@ describe("Outputting shims JS", function () {
 describe("Outputting the config created message", function () {
     it("should accept the params and print the correct message", function () {
         var expected  = "Config file created at /users/shakyshane/app/bs-config.js\n";
-            expected += "To use it, in the same directory run: browser-sync --config bs-config.js";
+            expected += "To use it, in the same directory run: browser-sync";
         var actual    = ansiTrim(messages.config.confirm("/users/shakyshane/app/bs-config.js"));
         assert.equal(actual, expected);
     });
     it("should accept the params and print the correct message (2)", function () {
         var expected  = "Config file created at /app/bs-config.js\n";
-            expected += "To use it, in the same directory run: browser-sync --config bs-config.js";
+            expected += "To use it, in the same directory run: browser-sync";
         var actual    = ansiTrim(messages.config.confirm("/app/bs-config.js"));
         assert.equal(actual, expected);
     });
