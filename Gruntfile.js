@@ -17,7 +17,7 @@ module.exports = function (grunt) {
         uglify: {
             clientScript: {
                 files: {
-                    "lib/browser-sync-client.min.js": "lib/browser-sync-client.js"
+                    "lib/client/browser-sync-client.min.js": "lib/client/browser-sync-client.js"
                 }
             }
         },
@@ -32,7 +32,7 @@ module.exports = function (grunt) {
                 options: {
                     jshintrc: ".jshintrc"
                 },
-                src: ["lib/**/*.js", "!lib/browser-sync-client.min.js"]
+                src: ["lib/**/*.js", "!lib/client/browser-sync-client.min.js"]
             },
             test: {
                 options: {
