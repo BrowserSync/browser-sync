@@ -1,6 +1,7 @@
 var bs = require("../../lib/browser-sync");
 var server = require("../../lib/server");
 var proxy = require("../../lib/proxy");
+var path = require("path");
 var browserSync = new bs();
 var messages = require("../../lib/messages");
 var http = require("http");
@@ -44,9 +45,17 @@ describe("Modify Snippet", function () {
         server.utils.modifySnippet(host, ports[0]);
         sinon.assert.calledWithExactly(socketConnector, host, ports[0]);
     });
-    it("should get the JS file", function () {
+    it("should read the client JS file", function () {
         server.utils.modifySnippet(host, ports[0]);
-        sinon.assert.called(readFile);
+        var arg = readFile.getCall(0).args[0];
+        var actual = arg.indexOf(messages.clientScript());
+        assert.isTrue(actual > 0);
+    });
+    it("should read the client JS SHIMS file", function () {
+        server.utils.modifySnippet(host, ports[0]);
+        var arg = readFile.getCall(1).args[0];
+        var actual = arg.indexOf(messages.client.shims);
+        assert.isTrue(actual > 0);
     });
 });
 
@@ -73,42 +82,47 @@ describe("", function () {
 
     describe("serving the client-side JS", function () {
 
-        var clientScriptUrl = "http://localhost:" + ports[1] + messages.clientScript();
+        var clientScriptUrl;
+        var expected;
+        var servers;
 
-        it("can serve the JS file", function (done) {
+        before(function () {
 
             var options = {
                 server: {
                     baseDir: "test/fixtures"
                 }
             };
+            clientScriptUrl = "http://localhost:" + ports[1] + messages.clientScript();
+            expected =  messages.socketConnector("localhost", ports[0]);
+            servers = server.launchServer("localhost", ports, options, io);
+        });
+        after(function () {
+            servers.staticServer.close();
+        });
 
-            var servers = server.launchServer("localhost", ports, options, io);
-
+        it("can serve the JS file", function (done) {
             http.get(clientScriptUrl, function (res) {
                 assert.equal(res.statusCode, 200);
-                servers.staticServer.close();
                 done();
             });
         });
         it("can append the code needed to connect to socketIO", function (done) {
-            var expectedString = "var ___socket___ = io.connect('http://localhost:" + ports[0] + "');";
-
-            var options = {
-                server: {
-                    baseDir: "test/fixtures"
-                }
-            };
-
-            var servers = server.launchServer("localhost", ports, options, io);
-
             http.get(clientScriptUrl, function (res) {
-
                 res.on("data", function (chunk) {
                     var respString = chunk.toString();
-                    var actual = respString.indexOf(expectedString);
-                    assert.equal(actual, 0);
-                    servers.staticServer.close();
+                    var actual = respString.indexOf(expected);
+                    assert.isTrue(actual > 0);
+                    done();
+                });
+            });
+        });
+        it("can append the shims", function (done) {
+            http.get(clientScriptUrl, function (res) {
+                res.on("data", function (chunk) {
+                    var respString = chunk.toString();
+                    var actual = respString.indexOf("browser-sync shims");
+                    assert.isTrue(actual > 0);
                     done();
                 });
             });

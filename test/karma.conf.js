@@ -19,7 +19,7 @@ module.exports = function (config) {
             "../node_modules/sinon/pkg/sinon.js",
             "fixtures/*.html",
             "client-script/*Spec.js",
-            "../lib/browser-sync-client.js"
+            "../lib/client/browser-sync-client.js"
         ],
 
 
