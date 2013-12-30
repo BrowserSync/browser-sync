@@ -34,7 +34,8 @@ There are currently 2 ways to use browser-sync - **with** a config file & **with
 3. [Keeping form fields in sync](http://quick.as/zr9ofory)
 4. [When should you use the built-in server?](http://quick.as/adkjfk7r)
 
-+ Laravel (php)
+
+#### + Laravel (php)
 1. [Browser Sync + Laravel 4 (php server & proxy)](http://quick.as/03yt7bw)
 2. [Browser Sync + Laravel 4 (Mamp Pro & proxy)](http://quick.as/996hozw)
 3. [Browser Sync + Laravel 4 (Config file & Proxy)](http://quick.as/70js4da)
