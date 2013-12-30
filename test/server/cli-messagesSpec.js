@@ -179,7 +179,7 @@ describe("Outputting file watching messages", function () {
         assert.equal(actual, expected);
     });
     it("should output the socket connector", function () {
-        var expected = "var ___socket___ = io.connect('http://0.0.0.0:3001');";
+        var expected = ";var ___socket___ = io.connect('http://0.0.0.0:3001');";
         var actual   = messages.socketConnector("0.0.0.0", 3001);
         assert.equal(actual, expected);
     });

@@ -14,9 +14,21 @@
     <a href="forms.html">Forms</a>
     <a href="scrolling.html">Scrolling Window</a>
 
-    <p>Node 1</p>
-    <p>Node 2</p>
-    <p onclick="console.log('clicked')">Node 3</p>
-    <p>Node 4</p>
+    <p id="shower">Click me</p>
+    <p id="toggle"></p>
+
+    <script type="text/javascript">
+
+        var old = window.addEventListener ? false : true;
+//        alert(old);
+        var elem = document.getElementById("shower");
+        var elem2 = document.getElementById("toggle");
+
+<!---->
+        elem[old ? "attachEvent" : "addEventListener"]((old ? "on" : "")  + "click", function () {
+            console.log("~~~~~Click event occured~~~~~~");
+        }, true);
+    </script>
+
 </body>
 </html>
