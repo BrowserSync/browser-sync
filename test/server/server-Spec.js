@@ -243,12 +243,12 @@ describe("", function () {
         it("should return a function to be that has three params", function () {
             assert.equal(func.length, 3);
         });
-        it("should call sockets.clients() if the req url is not in excluded list", function () {
-            func({url: "/"}, {}, next);
+        it.only("should call sockets.clients() if the req url is not in excluded list", function () {
+            func({url: "/", method:"GET"}, {}, next);
             sinon.assert.called(clientsSpy);
         });
         it("should call sockets.clients() if the req url is not in excluded list (2)", function () {
-            func({url: "/index.html"}, {}, next);
+            func({url: "/index.html", method:"GET"}, {method:"GET"}, next);
             sinon.assert.called(clientsSpy);
         });
         it("should NOT call sockets.clients() if the req url IS in excluded list (1)", function () {
@@ -257,6 +257,22 @@ describe("", function () {
         });
         it("should NOT call sockets.clients() if the req url IS in excluded list (2)", function () {
             func({url: "/font.woff"}, {}, next);
+            sinon.assert.notCalled(clientsSpy);
+        });
+        it("should NOT call sockets.clients() if the req.mehtod is POST", function () {
+            func({url: "/", method: "POST"}, {}, next);
+            sinon.assert.notCalled(clientsSpy);
+        });
+        it("should NOT call sockets.clients() if the req.mehtod is PUT", function () {
+            func({url: "/", method: "PUT"}, {}, next);
+            sinon.assert.notCalled(clientsSpy);
+        });
+        it("should NOT call sockets.clients() if the req.mehtod is DELETE", function () {
+            func({url: "/", method: "DELETE"}, {}, next);
+            sinon.assert.notCalled(clientsSpy);
+        });
+        it("should NOT call sockets.clients() if the req.mehtod is PATCH", function () {
+            func({url: "/", method: "PATCH"}, {}, next);
             sinon.assert.notCalled(clientsSpy);
         });
 
