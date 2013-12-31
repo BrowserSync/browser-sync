@@ -41,6 +41,10 @@ There are currently 2 ways to use browser-sync - **with** a config file & **with
 3. [Browser Sync + Laravel 4 (Config file & Proxy)](http://quick.as/70js4da)
 4. [Browser Sync + Laravel 4 (Config file & no proxy)](http://quick.as/j3gtmdz)
 
+#### + Vagrant
+1. [Browser Sync + Vagrant](http://quick.as/q0rs9jz)
+
+
 Want any more? Something specific? ask me nicely [@shaneOsbourne](http://www.twitter.com/shaneOsbourne)
 
 ##Support
