@@ -243,7 +243,7 @@ describe("", function () {
         it("should return a function to be that has three params", function () {
             assert.equal(func.length, 3);
         });
-        it.only("should call sockets.clients() if the req url is not in excluded list", function () {
+        it("should call sockets.clients() if the req url is not in excluded list", function () {
             func({url: "/", method:"GET"}, {}, next);
             sinon.assert.called(clientsSpy);
         });
