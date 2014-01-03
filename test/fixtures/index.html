@@ -6,19 +6,29 @@
     <meta name="viewport" content="width=device-width">
     <title>Test HTML Page</title>
     <link rel="stylesheet" href="assets/style.css"/>
+    <link rel="stylesheet" href="fonts/roboto/stylesheet.css"/>
 </head>
 <body>
 
-    <h1>Hello from the test</h1>
+    <h1 style="font-family: robotoregular, serif">Hello from the test Page</h1>
     <a href="forms.html">Forms</a>
     <a href="scrolling.html">Scrolling Window</a>
 
-    <a href="forms.html">
-        <div>
-            <div>
-                <img src="http://placekitten.com/400/600" alt=""/>
-            </div>
-        </div>
-    </a>
+    <p id="shower">Click me</p>
+    <p id="toggle"></p>
+
+    <script type="text/javascript">
+
+        var old = window.addEventListener ? false : true;
+//        alert(old);
+        var elem = document.getElementById("shower");
+        var elem2 = document.getElementById("toggle");
+
+<!---->
+        elem[old ? "attachEvent" : "addEventListener"]((old ? "on" : "")  + "click", function () {
+            console.log("~~~~~Click event occured~~~~~~");
+        }, true);
+    </script>
+
 </body>
 </html>

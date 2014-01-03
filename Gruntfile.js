@@ -1,4 +1,4 @@
-'use strict';
+"use strict";
 
 module.exports = function (grunt) {
 
@@ -12,63 +12,83 @@ module.exports = function (grunt) {
             stylus: "<%= dirs.assets %>/stylus"
         },
         nodeunit: {
-            files: ['test/**/*_test.js']
+            files: ["test/**/*_test.js"]
         },
         uglify: {
-            client_script: {
+            clientScript: {
                 files: {
-                    'lib/browser-sync-client.min.js': 'lib/browser-sync-client.js'
+                    "lib/client/browser-sync-client.min.js": "lib/client/browser-sync-client.js"
                 }
             }
         },
         jshint: {
-            options: {
-                jshintrc: '.jshintrc'
-            },
             gruntfile: {
-                src: 'Gruntfile.js'
+                options: {
+                    jshintrc: ".jshintrc"
+                },
+                src: "Gruntfile.js"
             },
             lib: {
-                src: ['lib/**/*.js', '!lib/browser-sync-client.min.js']
+                options: {
+                    jshintrc: ".jshintrc"
+                },
+                src: ["lib/**/*.js", "!lib/client/browser-sync-client.min.js"]
             },
             test: {
-                src: ['test/**/*.js']
+                options: {
+                    jshintrc: "test/.jshintrc"
+                },
+                src: ["test/server/**/*.js", "test/client-script/**/*.js", "!test/client-script/libs/**/*"]
             }
         },
         watch: {
             test: {
-                files: ['test/**/*.js', 'lib/**/*.js'],
-                tasks: ['jasmine_node']
+                files: ["test/**/*.js", "lib/**/*.js"],
+                tasks: ["jasmine_node"]
             },
             sass: {
-                files: ['test/fixtures/scss/bootstrap.scss'],
-                tasks: ['sass']
+                files: ["test/fixtures/scss/bootstrap.scss"],
+                tasks: ["sass"]
             },
             less: {
-                files: ['test/fixtures/less/bootstrap.less'],
-                tasks: ['less']
+                files: ["test/fixtures/less/bootstrap.less"],
+                tasks: ["less"]
+            },
+            jshint: {
+                files: [
+                    "lib/**/*.js",
+                    "!lib/*.min.js",
+                    "test/server/**/*.js",
+                    "test/client-script/**/*.js",
+                    "!test/client-script/libs"
+                ],
+                tasks: ["jshint:test"]
             }
         },
         karma: {
             unit: {
-                configFile: 'test/karma.conf.js',
+                configFile: "test/karma.conf.js",
                 singleRun: true
             },
             watch: {
-                configFile: 'test/karma.conf.js',
+                configFile: "test/karma.conf.js",
                 singleRun: false
             }
         },
-        jasmine_node: {
-            specNameMatcher: "Spec", // load only specs containing specNameMatcher
-            projectRoot: "test/new-server",
-            requirejs: false,
-            forceExit: true,
-            jUnit: {
-                report: false,
-                savePath: "./build/reports/jasmine/",
-                useDotNotation: true,
-                consolidate: true
+        mochaTest: {
+            test: {
+                options: {
+                    reporter: "spec"
+                },
+                src: ["test/server/**/*.js"]
+            }
+        },
+        shell: {
+            github: {
+                command: "git push origin master",
+                options: {
+                    stdout: true
+                }
             }
         },
         /**
@@ -101,18 +121,17 @@ module.exports = function (grunt) {
     });
 
     // These plugins provide necessary tasks.
-    grunt.loadNpmTasks('grunt-contrib-nodeunit');
-    grunt.loadNpmTasks('grunt-contrib-jshint');
-    grunt.loadNpmTasks('grunt-contrib-watch');
-    grunt.loadNpmTasks('grunt-contrib-uglify');
-    grunt.loadNpmTasks('grunt-contrib-less');
-    grunt.loadNpmTasks('grunt-contrib-stylus');
-    grunt.loadNpmTasks('grunt-contrib-sass');
-    grunt.loadNpmTasks('grunt-jasmine-node');
-    grunt.loadNpmTasks('grunt-karma');
+    grunt.loadNpmTasks("grunt-contrib-jshint");
+    grunt.loadNpmTasks("grunt-contrib-watch");
+    grunt.loadNpmTasks("grunt-contrib-uglify");
+    grunt.loadNpmTasks("grunt-mocha-test");
+    grunt.loadNpmTasks("grunt-karma");
+    grunt.loadNpmTasks("grunt-shell");
 
-    // Default task.
-    grunt.registerTask('default', ['jasmine_node']);
-    grunt.registerTask('test', ['karma:unit', 'jasmine_node']);
+    // Tests
+    grunt.registerTask("test:server", ["jshint", "mochaTest"]);
+    grunt.registerTask("test:client", ["jshint", "karma:unit"]);
+    grunt.registerTask("test", ["jshint", "karma:unit", "mochaTest"]);
 
+    grunt.registerTask("release:github", ["jshint", "karma:unit", "mochaTest", "shell:github"]);
 };
