@@ -2,7 +2,7 @@
 
 > Keep multiple browsers & devices in sync when building websites.
 
-Follow [@browserSync](http://www.twitter.com/browserSync) for news & updates
+Follow [@browserSync](http://www.twitter.com/browserSync) for news & updates.
 
 ##Features
 1. **Scroll** - I can keep your pages in sync when scrolling.
