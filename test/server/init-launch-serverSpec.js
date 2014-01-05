@@ -41,7 +41,7 @@ describe("Browser Sync: init Server", function () {
         sinon.assert.calledWithExactly(launchServer, host, ports, options, spy);
     });
 
-    it("can call open browser with args for SERVER", function () {
+    it("can call open browser with control panel", function () {
 
         var options = {
             server: {
@@ -52,31 +52,7 @@ describe("Browser Sync: init Server", function () {
         };
 
         browserSync.initServer(host, ports, options);
-        sinon.assert.calledWithExactly(open, host, ports.server, options);
-    });
-
-    it("can call open browser with args for Proxy", function () {
-
-        var ports = {
-            socket: 3000,
-            controlPanel: 3001,
-            proxy: 3002
-        };
-        var options = {
-            proxy: {
-                host: "127.0.0.0",
-                port: 8001
-            }
-        };
-
-        browserSync.initServer(host, ports, options);
-        sinon.assert.calledWithExactly(open, host, ports.proxy, options);
-    });
-
-    it("does NOT call openBrowser if neither Server or Proxy used.", function () {
-        var options = {};
-        browserSync.initServer(host, ports, options);
-        sinon.assert.notCalled(open);
+        sinon.assert.calledWithExactly(open, host, ports.controlPanel, options);
     });
 
     describe("logging about servers", function () {
