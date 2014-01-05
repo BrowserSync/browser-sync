@@ -11,11 +11,9 @@ var ports = {
     controlPanel: 3001,
     server: 3002
 };
-
+var options = {};
 var serverHost = "http://0.0.0.0:" + ports.server;
-
-var expectedMatch1 = "<script src='//0.0.0.0:" + ports.socket + messages.socketIoScript + "'></script>";
-var expectedMatch2 = "<script src='//0.0.0.0:" + ports.controlPanel + messages.clientScript() + "'></script>";
+var snippet = messages.scriptTags("0.0.0.0", ports, options);
 
 describe("Launching a server with snippets", function () {
 
@@ -73,8 +71,7 @@ describe("Launching a server with snippets", function () {
             });
             res.on("end", function () {
                 data = chunks.join("");
-                assert.isTrue(data.indexOf(expectedMatch1) >= 0);
-                assert.isTrue(data.indexOf(expectedMatch2) >= 0);
+                assert.isTrue(data.indexOf(snippet) >= 0);
                 done();
             });
         });
@@ -96,8 +93,7 @@ describe("Launching a server with snippets", function () {
             });
             res.on("end", function () {
                 data = chunks.join("");
-                assert.isTrue(data.indexOf(expectedMatch1) >= 0);
-                assert.isTrue(data.indexOf(expectedMatch2) >= 0);
+                assert.isTrue(data.indexOf(snippet) >= 0);
                 done();
             });
         });

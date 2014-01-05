@@ -30,7 +30,7 @@ describe("Launching the Control panel", function () {
 
     before(function () {
         io = {};
-        controlPanelServer = controlPanel.launchControlPanel("0.0.0.0", ports, {}, {});
+        controlPanelServer = controlPanel.launchControlPanel("0.0.0.0", ports, {});
     });
 
     after(function () {
@@ -69,16 +69,16 @@ describe("Launching the Control panel", function () {
             done();
         });
     });
-//    it("can append the code needed to connect to socketIO", function (done) {
-//        http.get(clientScriptUrl, function (res) {
-//            res.on("data", function (chunk) {
-//                var respString = chunk.toString();
-//                var actual = respString.indexOf(socket);
-//                assert.isTrue(actual > 0);
-//                done();
-//            });
-//        });
-//    });
+    it("can append the code needed to connect to socketIO", function (done) {
+        http.get(clientScriptUrl, function (res) {
+            res.on("data", function (chunk) {
+                var respString = chunk.toString();
+                var actual = respString.indexOf("var ___socket___ = io.connect('http://0.0.0.0:3000');");
+                assert.isTrue(actual > 0);
+                done();
+            });
+        });
+    });
     it("can append the shims", function (done) {
         http.get(clientScriptUrl, function (res) {
             res.on("data", function (chunk) {
@@ -89,58 +89,35 @@ describe("Launching the Control panel", function () {
             });
         });
     });
-
-//    it("should have the snippets for socket.io + App.js attached", function (done) {
-//        var data;
+    it("should have the snippets for socket.io + App.js attached", function (done) {
+        var data;
+        http.get(cpHost, function (res) {
+            res.setEncoding('utf8');
+            var chunks = [];
+            res.on("data", function (chunk) {
+                chunks.push(chunk.toString());
+            });
+            res.on("end", function () {
+                data = chunks.join("");
+                assert.isTrue(data.indexOf(expectedMatch1) >= 0);
+                assert.isTrue(data.indexOf(expectedMatch2) >= 0);
+                done();
+            });
+        });
+    });
+//    it("can append the code needed to connect to socketIO to APP.js", function (done) {
 //
-//        http.get(cpHost, function (res) {
-//            res.setEncoding('utf8');
-//            var chunks = [];
+//        var expectedString = "var ___socket___ = io.connect('http://0.0.0.0:" + ports.socket + "');";
+//        var respString;
+//        http.get("http://0.0.0.0:3001/js/app.js", function (res) {
 //            res.on("data", function (chunk) {
-//                chunks.push(chunk.toString());
-//            });
-//            res.on("end", function () {
-//                data = chunks.join("");
-//                assert.isTrue(data.indexOf(expectedMatch1) >= 0);
-//                assert.isTrue(data.indexOf(expectedMatch2) >= 0);
+//                respString = chunk.toString();
+//                assert.equal(respString.indexOf(expectedString) >= 0, true);
 //                done();
 //            });
 //        });
 //    });
-//
-//        waitsFor(function () {
-//            return data;
-//        }, "Took too long", 1000);
-//
-//        runs(function () {
-//            expect(data.indexOf("socket.io/socket.io.js") >= 0).toBe(true);
-//            expect(data.indexOf("js/app.js") >= 0).toBe(true);
-//        });
-//
-//    });
-//
-//
-//    it("can append the code needed to connect to socketIO to APP.js", function () {
-//
-//        var expectedString = "var ___socket___ = io.connect('http://0.0.0.0:" + ports[0] + "');";
-//
-//        var respString;
-//
-//        http.get("http://0.0.0.0:3003/js/app.js", function (res) {
-//
-//            res.on("data", function (chunk) {
-//                respString = chunk.toString();
-//            });
-//        });
-//
-//        waitsFor(function () {
-//            return respString;
-//        }, "Took too long", 1000);
-//
-//        runs(function () {
-//            expect(respString.indexOf(expectedString)).toBe(0);
-//        });
-//    });
+
 //    it("can append the code needed to connect to socketIO to browser-sync-client", function () {
 //
 //        var expectedString = "var ___socket___ = io.connect('http://0.0.0.0:" + ports[0] + "');";

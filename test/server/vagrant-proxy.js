@@ -8,13 +8,17 @@
 //var proxy = require("../../lib/proxy");
 //var assert = require("chai").assert;
 //
-//var ports = [3000, 3001, 3002];
-//var proxyHost = "http://0.0.0.0:" + ports[2];
+//var ports = {
+//    socket: 3000,
+//    controlPanel: 3001,
+//    proxy: 3002
+//};
+//var options = {};
+//var proxyHost = "http://0.0.0.0:" + ports.proxy;
 //
-//var expectedMatch1 = "<script src='//0.0.0.0:" + ports[0] + messages.socketIoScript + "'></script>";
-//var expectedMatch2 = "<script src='//0.0.0.0:" + ports[1] + messages.clientScript() + "'></script>";
+//var snippet = messages.scriptTags("0.0.0.0", ports, options);
 //
-//describe.only("Launching a proxy for a vagrant based server", function () {
+//describe("Launching a proxy for a vagrant based server", function () {
 //
 //    var app, server, proxyServer, reqCallback;
 //
@@ -54,8 +58,7 @@
 //            });
 //            res.on("end", function () {
 //                data = chunks.join("");
-//                assert.isTrue(data.indexOf(expectedMatch1) >= 0);
-//                assert.isTrue(data.indexOf(expectedMatch2) >= 0);
+//                assert.isTrue(data.indexOf(snippet) >= 0);
 //                done();
 //            });
 //        });
@@ -65,7 +68,7 @@
 //
 //        var options = {
 //            host: "0.0.0.0",
-//            port: ports[2],
+//            port: ports.proxy,
 //            path: "/",
 //            method: "GET",
 //            headers: { "accept-encoding": "gzip" }
@@ -78,8 +81,7 @@
 //            });
 //            res.on("end", function () {
 //                data = chunks.join("");
-//                assert.isTrue(data.indexOf(expectedMatch1) >= 0);
-//                assert.isTrue(data.indexOf(expectedMatch2) >= 0);
+//                assert.isTrue(data.indexOf(snippet) >= 0);
 //                done();
 //            });
 //        }).end();

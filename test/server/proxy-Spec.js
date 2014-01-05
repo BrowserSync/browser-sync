@@ -13,11 +13,9 @@ var ports = {
     controlPanel: 3001,
     proxy: 3002
 };
-
+var options = {};
+var snippet = messages.scriptTags("0.0.0.0", ports, options);
 var proxyHost = "http://0.0.0.0:" + ports.proxy;
-
-var expectedMatch1 = "<script src='//0.0.0.0:" + ports.socket + messages.socketIoScript + "'></script>";
-var expectedMatch2 = "<script src='//0.0.0.0:" + ports.controlPanel + messages.clientScript() + "'></script>";
 
 describe("Launching a proxy for connect server", function () {
 
@@ -88,9 +86,13 @@ describe("Launching a proxy for connect server", function () {
  */
 //describe("Launching a proxy for external PHP server", function () {
 //
-//    var proxyServer;
+//    var proxyServer, reqCallback;
 //
 //    before(function () {
+//
+//        reqCallback = sinon.spy(function (req, res, next) {
+//            next();
+//        });
 //
 //        // Server we are proxying;
 //        var options = {
@@ -100,8 +102,7 @@ describe("Launching a proxy for connect server", function () {
 //            }
 //        };
 //
-//        proxyServer = proxy.createProxy("0.0.0.0", ports, options);
-//
+//        proxyServer = proxy.createProxy("0.0.0.0", ports, options, reqCallback);
 //    });
 //
 //    after(function () {
@@ -120,15 +121,14 @@ describe("Launching a proxy for connect server", function () {
 //
 //        var data;
 //
-//        http.get("http://0.0.0.0:" + ports[2], function (res) {
+//        http.get(proxyHost, function (res) {
 //            var chunks = [];
 //            res.on("data", function (chunk) {
 //                chunks.push(chunk.toString());
 //            });
 //            res.on("end", function () {
 //                data = chunks.join("");
-//                assert.isTrue(data.indexOf(expectedMatch1) >= 0);
-//                assert.isTrue(data.indexOf(expectedMatch2) >= 0);
+//                assert.isTrue(data.indexOf(snippet) >= 0);
 //                done();
 //            });
 //        });
@@ -137,7 +137,7 @@ describe("Launching a proxy for connect server", function () {
 //
 //        var data;
 //
-//        http.get("http://0.0.0.0:" + ports[2], function (res) {
+//        http.get(proxyHost, function (res) {
 //            var chunks = [];
 //            res.on("data", function (chunk) {
 //                chunks.push(chunk.toString());
@@ -160,16 +160,20 @@ describe("Launching a proxy for connect server", function () {
 // */
 //describe("Launching a proxy for external PHP server", function () {
 //
-//    var proxyServer;
+//    var proxyServer, reqCallback;
 //
 //    before(function () {
+//
+//        reqCallback = sinon.spy(function (req, res, next) {
+//            next();
+//        });
 //        var options = {
 //            proxy: {
 //                host: "firecrest.dev",
 //                port: 8888
 //            }
 //        };
-//        proxyServer = createProxy("0.0.0.0", ports, options);
+//        proxyServer = proxy.createProxy("0.0.0.0", ports, options,reqCallback);
 //    });
 //
 //    after(function () {
@@ -184,7 +188,7 @@ describe("Launching a proxy for connect server", function () {
 //        });
 //    });
 //    it("can proxy requests + inject snippets", function (done) {
-//        http.get("http://0.0.0.0:" + ports[2], function (res) {
+//        http.get(proxyHost, function (res) {
 //            var data;
 //            var chunks = [];
 //            res.on("data", function (chunk) {
@@ -192,8 +196,7 @@ describe("Launching a proxy for connect server", function () {
 //            });
 //            res.on("end", function () {
 //                data = chunks.join("");
-//                assert.isTrue(data.indexOf(expectedMatch1) >= 0);
-//                assert.isTrue(data.indexOf(expectedMatch2) >= 0);
+//                assert.isTrue(data.indexOf(snippet) >= 0);
 //                done();
 //            });
 //        });

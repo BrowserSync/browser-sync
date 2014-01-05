@@ -10,6 +10,7 @@ var fs = require("fs");
 
 var html1 = fs.readFileSync("test/fixtures/proxy-ip.html").toString();
 var html2 = fs.readFileSync("test/fixtures/proxy-vhost.html").toString();
+
 var ports = [3000, 3001, 3002];
 var proxyUrl = "192.168.0.4:3002";
 

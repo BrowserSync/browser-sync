@@ -13,9 +13,8 @@ var ports = {
     controlPanel: 3001,
     proxy: 3002
 };
-
-var expectedMatch1 = "<script src='//0.0.0.0:" + ports.socket + messages.socketIoScript + "'></script>";
-var expectedMatch2 = "<script src='//0.0.0.0:" + ports.controlPanel + messages.clientScript() + "'></script>";
+var options = {};
+var snippet = messages.scriptTags("0.0.0.0", ports, options);
 
 describe("Launching a proxy for connect server", function () {
 
@@ -59,9 +58,7 @@ describe("Launching a proxy for connect server", function () {
             });
             res.on("end", function () {
                 data = chunks.join("");
-                console.log(data);
-                assert.isTrue(data.indexOf(expectedMatch1) >= 0);
-                assert.isTrue(data.indexOf(expectedMatch2) >= 0);
+                assert.isTrue(data.indexOf(snippet) >= 0);
                 done();
             });
         });
@@ -77,8 +74,7 @@ describe("Launching a proxy for connect server", function () {
             });
             res.on("end", function () {
                 data = chunks.join("");
-                assert.isTrue(data.indexOf(expectedMatch1) >= 0);
-                assert.isTrue(data.indexOf(expectedMatch2) >= 0);
+                assert.isTrue(data.indexOf(snippet) >= 0);
                 done();
             });
         });

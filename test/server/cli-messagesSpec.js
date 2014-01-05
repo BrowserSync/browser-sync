@@ -67,22 +67,29 @@ describe("Port Errors", function () {
 });
 
 describe("Outputting script tags", function () {
-    it("can output Socket.io & Client Scripts correctly", function () {
-        var ports = {
+    var ports;
+    before(function () {
+        ports = {
             socket: 3000,
             controlPanel: 3001
         };
-        var expected = "<script src='//192.168.0.4:3000/socket.io/socket.io.js'></script>" +
-                "\n<script src='//192.168.0.4:3001/client/browser-sync-client.min.js'></script>\n\n";
+    });
+    it("can output Socket.io & Client Scripts correctly", function () {
+        var expected = "<script src='//192.168.0.4:3000/socket.io/socket.io.js'></script>\n";
+        expected    += "<script>var ___socket___ = io.connect('http://192.168.0.4:3000');</script>\n";
+        expected    += "<script src='//192.168.0.4:3001/client/browser-sync-client.min.js'></script>\n\n";
+
         var actual = messages.scriptTags("192.168.0.4", ports, {});
         assert.equal(actual, expected);
     });
-//    it("can output Socket.io & App script correctly", function () {
-//        var expected = "<script src='//192.168.0.4:3000/socket.io/socket.io.js'></script>" +
-//                "\n<script src='//192.168.0.4:3001/client/browser-sync-client.min.js'></script>\n\n";
-//        var actual = messages.scriptTags("192.168.0.4", "3000", "3001");
-//        assert.equal(actual, expected);
-//    });
+    it("can output Socket.io & Control Panel Script correctly", function () {
+        var expected = "<script src='//192.168.0.4:3000/socket.io/socket.io.js'></script>\n";
+        expected    += "<script>var ___socket___ = io.connect('http://192.168.0.4:3000');</script>\n";
+        expected    += "<script src='//192.168.0.4:3001/js/app.js'></script>\n\n";
+
+        var actual = messages.scriptTags("192.168.0.4", ports, {}, "controlPanel");
+        assert.equal(actual, expected);
+    });
 });
 
 describe("outputting the client Script", function () {
@@ -211,7 +218,7 @@ describe("Outputting file watching messages", function () {
         assert.equal(actual, expected);
     });
     it("should output the socket connector", function () {
-        var expected = ";var ___socket___ = io.connect('http://0.0.0.0:3001');";
+        var expected = "var ___socket___ = io.connect('http://0.0.0.0:3001');";
         var actual   = messages.socketConnector("0.0.0.0", 3001);
         assert.equal(actual, expected);
     });
