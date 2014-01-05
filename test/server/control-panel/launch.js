@@ -19,9 +19,7 @@ var host  = "0.0.0.0";
 
 var cpHost   = "http://0.0.0.0:3001";
 var clientScriptUrl = "http://0.0.0.0:" + ports.controlPanel + messages.clientScript();
-
-var expectedMatch1 = "<script src='//0.0.0.0:" + ports.socket + messages.socketIoScript + "'></script>";
-var expectedMatch2 = "<script src='//0.0.0.0:" + ports.controlPanel + messages.controlPanel.jsFile + "'></script>";
+var snippet = messages.scriptTags(host, ports, {}, "controlPanel");
 
 describe("Launching the Control panel", function () {
 
@@ -69,16 +67,6 @@ describe("Launching the Control panel", function () {
             done();
         });
     });
-    it("can append the code needed to connect to socketIO", function (done) {
-        http.get(clientScriptUrl, function (res) {
-            res.on("data", function (chunk) {
-                var respString = chunk.toString();
-                var actual = respString.indexOf("var ___socket___ = io.connect('http://0.0.0.0:3000');");
-                assert.isTrue(actual > 0);
-                done();
-            });
-        });
-    });
     it("can append the shims", function (done) {
         http.get(clientScriptUrl, function (res) {
             res.on("data", function (chunk) {
@@ -92,15 +80,13 @@ describe("Launching the Control panel", function () {
     it("should have the snippets for socket.io + App.js attached", function (done) {
         var data;
         http.get(cpHost, function (res) {
-            res.setEncoding('utf8');
             var chunks = [];
             res.on("data", function (chunk) {
                 chunks.push(chunk.toString());
             });
             res.on("end", function () {
                 data = chunks.join("");
-                assert.isTrue(data.indexOf(expectedMatch1) >= 0);
-                assert.isTrue(data.indexOf(expectedMatch2) >= 0);
+                assert.isTrue(data.indexOf(snippet) >= 0);
                 done();
             });
         });
@@ -163,10 +149,6 @@ describe("Modify Snippet", function () {
     it("should return a function", function () {
         var actual = controlPanel.utils.modifySnippet(host, ports[0]);
         assert.isFunction(actual);
-    });
-    it("should call messages.socketConnector", function () {
-        controlPanel.utils.modifySnippet(host, ports[0]);
-        sinon.assert.calledWithExactly(socketConnector, host, ports[0]);
     });
     it("should read the client JS file", function () {
         controlPanel.utils.modifySnippet(host, ports[0]);
