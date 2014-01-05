@@ -8,10 +8,14 @@ var sinon = require("sinon");
 var proxy = require("../../lib/proxy");
 var assert = require("chai").assert;
 
-var ports = [3000, 3001, 3002];
+var ports = {
+    socket: 3000,
+    controlPanel: 3001,
+    proxy: 3002
+};
 
-var expectedMatch1 = "<script src='//0.0.0.0:" + ports[0] + messages.socketIoScript + "'></script>";
-var expectedMatch2 = "<script src='//0.0.0.0:" + ports[1] + messages.clientScript() + "'></script>";
+var expectedMatch1 = "<script src='//0.0.0.0:" + ports.socket + messages.socketIoScript + "'></script>";
+var expectedMatch2 = "<script src='//0.0.0.0:" + ports.controlPanel + messages.clientScript() + "'></script>";
 
 describe("Launching a proxy for connect server", function () {
 
@@ -25,7 +29,7 @@ describe("Launching a proxy for connect server", function () {
 
         app = connect().use(connect.static(filePath.resolve("test/fixtures")));
         server = http.createServer(app).listen(8001);
-        proxyHost = "http://0.0.0.0:" + ports[2];
+        proxyHost = "http://0.0.0.0:" + ports.proxy;
 
         var options = {
             proxy: {
@@ -55,6 +59,7 @@ describe("Launching a proxy for connect server", function () {
             });
             res.on("end", function () {
                 data = chunks.join("");
+                console.log(data);
                 assert.isTrue(data.indexOf(expectedMatch1) >= 0);
                 assert.isTrue(data.indexOf(expectedMatch2) >= 0);
                 done();

@@ -9,7 +9,11 @@ var server = require("../../lib/server");
 describe("Browser Sync: init Server", function () {
 
     var host = "0.0.0.0";
-    var ports = [3000, 3001, 3002];
+    var ports = {
+        socket: 3000,
+        controlPanel: 3001,
+        server: 3002
+    };
     var options = {};
 
     var launchServer;
@@ -48,11 +52,16 @@ describe("Browser Sync: init Server", function () {
         };
 
         browserSync.initServer(host, ports, options);
-        sinon.assert.calledWithExactly(open, host, ports[1], options);
+        sinon.assert.calledWithExactly(open, host, ports.server, options);
     });
 
     it("can call open browser with args for Proxy", function () {
 
+        var ports = {
+            socket: 3000,
+            controlPanel: 3001,
+            proxy: 3002
+        };
         var options = {
             proxy: {
                 host: "127.0.0.0",
@@ -61,7 +70,7 @@ describe("Browser Sync: init Server", function () {
         };
 
         browserSync.initServer(host, ports, options);
-        sinon.assert.calledWithExactly(open, host, ports[2], options);
+        sinon.assert.calledWithExactly(open, host, ports.proxy, options);
     });
 
     it("does NOT call openBrowser if neither Server or Proxy used.", function () {
@@ -96,6 +105,7 @@ describe("Browser Sync: init Server", function () {
         it("logs when using static server", function () {
 
             var stub = sinon.stub(browserSync, "getBaseDir").returns("./");
+
             var options = {
                 server: {
                     baseDir: "test/fixtures",
@@ -105,12 +115,18 @@ describe("Browser Sync: init Server", function () {
             };
 
             browserSync.initServer(host, ports, options);
-            sinon.assert.calledWithExactly(initServer, host, ports[1], "./");
+            sinon.assert.calledWithExactly(initServer, host, ports.server, "./");
             sinon.assert.calledWithExactly(log, "Server Message", options, true);
             stub.restore();
         });
 
         it("logs when using proxy", function () {
+
+            var ports = {
+                socket: 3000,
+                controlPanel: 3001,
+                proxy: 3002
+            };
 
             var options = {
                 proxy: {
@@ -120,16 +136,14 @@ describe("Browser Sync: init Server", function () {
             };
 
             browserSync.initServer(host, ports, options);
-            sinon.assert.calledWithExactly(initProxy, host, ports[2]);
+            sinon.assert.calledWithExactly(initProxy, host, ports.proxy);
             sinon.assert.calledWithExactly(log, "Proxy Message", options, true);
         });
 
         it("logs when not using server OR proxy", function () {
-
             var options = {};
-
             browserSync.initServer(host, ports, options);
-            sinon.assert.calledWithExactly(init, host, ports[0], ports[1]);
+            sinon.assert.calledWithExactly(init, host, ports);
             sinon.assert.calledWithExactly(log, "No server or Proxy", options, true);
         });
     });

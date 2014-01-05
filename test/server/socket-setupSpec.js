@@ -3,13 +3,21 @@ var clientIo = require("socket.io-client");
 var browserSync = new bs();
 var assert = require("chai").assert;
 var sinon = require("sinon");
+
 var userOptions = {
     ghostMode: true
 };
 
+var ports = {
+    socket: 3000,
+    controlPanel: 3001,
+    proxy: 3002
+};
+
+var socketUrl = "http://0.0.0.0:" + ports.socket;
+
 describe("setup Socket", function () {
 
-    var ports = [3000,3001,3002];
     var io;
     var cb = sinon.spy();
     var cb2 = sinon.spy();
@@ -46,7 +54,7 @@ describe("setup Socket", function () {
 
     it("can listen for client events when ghost mode Enabled", function (done) {
 
-        var socket = clientIo.connect("http://0.0.0.0:" + ports[0], {"force new connection":true});
+        var socket = clientIo.connect(socketUrl, {"force new connection":true});
             socket.emit("random", {});
             socket.emit("inputchange", {});
 
@@ -62,7 +70,7 @@ describe("setup Socket", function () {
 
         var spy = sinon.spy(browserSync, "logConnection");
 
-        clientIo.connect("http://0.0.0.0:" + ports[0], {"force new connection":true});
+        clientIo.connect(socketUrl, {"force new connection":true});
 
         setTimeout(function () {
             sinon.assert.called(spy);

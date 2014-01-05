@@ -1,5 +1,6 @@
 var bs = require("../../lib/browser-sync");
 var messages = require("../../lib/messages");
+var portScanner = require("../../lib/ports");
 var browserSync = new bs();
 var assert = require("chai").assert;
 var sinon = require("sinon");
@@ -23,8 +24,8 @@ describe("Browser Sync INIT", function () {
 
         startServices = sinon.stub(browserSync, "startServices");
         getPortsCallback = sinon.stub(browserSync, "getPortsCallback");
-        getPortRange  = sinon.stub(browserSync, "getPortRange");
-        getPorts      = sinon.stub(browserSync, "getPorts");
+        getPortRange  = sinon.stub(portScanner, "getPortRange");
+        getPorts      = sinon.stub(portScanner, "getPorts");
         fail      = sinon.stub(browserSync, "fail");
 
         startServices.returns(true);
@@ -52,14 +53,42 @@ describe("Browser Sync INIT", function () {
     });
 
     describe("Setting up servers with correct config", function () {
-        it("should call get ports when port range provided in options", function(){
+        it("should call get ports when port range provided in options (with no server or proxy)", function(){
             var options = {
                 ports: portRange
             };
             browserSync.init(files, options);
-            var actual = getPorts.calledWithExactly(browserSync.options.minPorts, func, portRange.min, portRange.max);
+            var actual = getPorts.calledWithExactly(2, func, portRange.min, portRange.max);
             assert.equal(actual, true);
         });
+        it("should call get ports when port range provided in options (with server)", function(){
+            var options = {
+                ports: portRange,
+                server: true
+            };
+            browserSync.init(files, options);
+            var actual = getPorts.calledWithExactly(3, func, portRange.min, portRange.max);
+            assert.equal(actual, true);
+        });
+        it("should call get ports when port range provided in options (with proxy)", function(){
+            var options = {
+                ports: portRange,
+                proxy: true
+            };
+            browserSync.init(files, options);
+            var actual = getPorts.calledWithExactly(3, func, portRange.min, portRange.max);
+            assert.equal(actual, true);
+        });
+        it("should call fail() if both server & proxy supplied", function () {
+            sinon.stub(messages.server, "withProxy").returns("SERVER ERROR");
+            var options = {
+                server: true,
+                proxy: true
+            };
+            browserSync.init(files, options);
+            sinon.assert.calledWithExactly(fail, "SERVER ERROR", options, true);
+        });
+
         it("should call fail() when ports invalid", function () {
             sinon.stub(messages.ports, "invalid").returns("ERROR");
             getPortRange.returns(false);

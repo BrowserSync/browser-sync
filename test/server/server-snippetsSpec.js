@@ -6,11 +6,16 @@ var sinon = require("sinon");
 var assert = require("chai").assert;
 var server = require("../../lib/server");
 
-var ports = [3001, 3002];
-var serverHost = "http://0.0.0.0:" + ports[1];
+var ports = {
+    socket: 3000,
+    controlPanel: 3001,
+    server: 3002
+};
 
-var expectedMatch1 = "<script src='//0.0.0.0:" + ports[0] + messages.socketIoScript + "'></script>";
-var expectedMatch2 = "<script src='//0.0.0.0:" + ports[1] + messages.clientScript() + "'></script>";
+var serverHost = "http://0.0.0.0:" + ports.server;
+
+var expectedMatch1 = "<script src='//0.0.0.0:" + ports.socket + messages.socketIoScript + "'></script>";
+var expectedMatch2 = "<script src='//0.0.0.0:" + ports.controlPanel + messages.clientScript() + "'></script>";
 
 describe("Launching a server with snippets", function () {
 

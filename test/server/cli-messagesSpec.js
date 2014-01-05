@@ -14,12 +14,18 @@ describe("Messages module", function () {
 });
 
 describe("Server Output", function () {
-    var expected = "\nOK, Server running at http://0.0.0.0:8000";
-    expected    += "\nServing files from: /users/shakyshane/app/files";
-    expected    += "\n\nLoad a browser & check back here. If you set up everything correctly, you'll see a 'Browser Connected' message\n";
-    var actual = ansiTrim(messages.initServer("0.0.0.0", 8000, "/users/shakyshane/app/files"));
-
-    assert.equal(actual, expected);
+    it("Can confirm the server is running", function () {
+        var expected = "\nOK, Server running at http://0.0.0.0:8000";
+        expected    += "\nServing files from: /users/shakyshane/app/files";
+        expected    += "\n\nLoad a browser & check back here. If you set up everything correctly, you'll see a 'Browser Connected' message\n";
+        var actual = ansiTrim(messages.initServer("0.0.0.0", 8000, "/users/shakyshane/app/files"));
+        assert.equal(actual, expected);
+    });
+    it("can fail when both server & proxy supplied", function () {
+        var expected = "Invalid config. You cannot specify both a server & proxy option.";
+        var actual   = ansiTrim(messages.server.withProxy());
+        assert.equal(actual, expected);
+    });
 });
 
 describe("Proxy Output", function () {
@@ -61,12 +67,22 @@ describe("Port Errors", function () {
 });
 
 describe("Outputting script tags", function () {
-    it("can output correctly", function () {
+    it("can output Socket.io & Client Scripts correctly", function () {
+        var ports = {
+            socket: 3000,
+            controlPanel: 3001
+        };
         var expected = "<script src='//192.168.0.4:3000/socket.io/socket.io.js'></script>" +
                 "\n<script src='//192.168.0.4:3001/client/browser-sync-client.min.js'></script>\n\n";
-        var actual = messages.scriptTags("192.168.0.4", "3000", "3001");
+        var actual = messages.scriptTags("192.168.0.4", ports, {});
         assert.equal(actual, expected);
     });
+//    it("can output Socket.io & App script correctly", function () {
+//        var expected = "<script src='//192.168.0.4:3000/socket.io/socket.io.js'></script>" +
+//                "\n<script src='//192.168.0.4:3001/client/browser-sync-client.min.js'></script>\n\n";
+//        var actual = messages.scriptTags("192.168.0.4", "3000", "3001");
+//        assert.equal(actual, expected);
+//    });
 });
 
 describe("outputting the client Script", function () {
@@ -86,6 +102,14 @@ describe("Outputting shims JS", function () {
     it("should return the client-shim js file", function () {
         var expected = "/client/client-shims.js";
         var actual   = messages.client.shims;
+        assert.equal(actual, expected);
+    });
+});
+
+describe("Outputting App JS", function () {
+    it("should return the app js file", function () {
+        var expected = "/js/app.js";
+        var actual   = messages.controlPanel.jsFile;
         assert.equal(actual, expected);
     });
 });

@@ -32,7 +32,11 @@ module.exports = function (grunt) {
                 options: {
                     jshintrc: ".jshintrc"
                 },
-                src: ["lib/**/*.js", "!lib/client/browser-sync-client.min.js"]
+                src: [
+                    "lib/**/*.js",
+                    "!lib/control-panel/js/angular.min.js",
+                    "!lib/client/browser-sync-client.min.js"
+                ]
             },
             test: {
                 options: {

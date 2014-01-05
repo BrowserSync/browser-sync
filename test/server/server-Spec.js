@@ -9,53 +9,15 @@ var fs = require("fs");
 var assert = require("chai").assert;
 var sinon = require("sinon");
 
-var ports = [3000, 3001, 3002];
-var host  = "0.0.0.0";
+var ports = {
+    socket: 3000,
+    controlPanel: 3001,
+    server: 3002
+};
 
 describe("Server Module", function () {
     it("should have the launchServer method", function () {
         assert.isFunction(server.launchServer);
-    });
-});
-
-describe("Modify Snippet", function () {
-
-    var readFile;
-    var socketConnector;
-
-    before(function () {
-        socketConnector = sinon.spy(messages, "socketConnector");
-        readFile = sinon.stub(fs, "readFileSync");
-    });
-    afterEach(function () {
-        socketConnector.reset();
-        readFile.reset();
-    });
-    after(function () {
-        readFile.restore();
-    });
-    it("should be a function", function () {
-        assert.isFunction(server.utils.modifySnippet);
-    });
-    it("should return  a function", function () {
-        var actual = server.utils.modifySnippet(host, ports[0]);
-        assert.isFunction(actual);
-    });
-    it("should call messages.socketConnector", function () {
-        server.utils.modifySnippet(host, ports[0]);
-        sinon.assert.calledWithExactly(socketConnector, host, ports[0]);
-    });
-    it("should read the client JS file", function () {
-        server.utils.modifySnippet(host, ports[0]);
-        var arg = readFile.getCall(0).args[0];
-        var actual = arg.indexOf(messages.clientScript());
-        assert.isTrue(actual > 0);
-    });
-    it("should read the client JS SHIMS file", function () {
-        server.utils.modifySnippet(host, ports[0]);
-        var arg = readFile.getCall(1).args[0];
-        var actual = arg.indexOf(messages.client.shims);
-        assert.isTrue(actual > 0);
     });
 });
 
@@ -80,56 +42,9 @@ describe("", function () {
         emitSpy.reset();
     });
 
-    describe("serving the client-side JS", function () {
-
-        var clientScriptUrl;
-        var expected;
-        var servers;
-
-        before(function () {
-
-            var options = {
-                server: {
-                    baseDir: "test/fixtures"
-                }
-            };
-            clientScriptUrl = "http://localhost:" + ports[1] + messages.clientScript();
-            expected =  messages.socketConnector("localhost", ports[0]);
-            servers = server.launchServer("localhost", ports, options, io);
-        });
-        after(function () {
-            servers.staticServer.close();
-        });
-
-        it("can serve the JS file", function (done) {
-            http.get(clientScriptUrl, function (res) {
-                assert.equal(res.statusCode, 200);
-                done();
-            });
-        });
-        it("can append the code needed to connect to socketIO", function (done) {
-            http.get(clientScriptUrl, function (res) {
-                res.on("data", function (chunk) {
-                    var respString = chunk.toString();
-                    var actual = respString.indexOf(expected);
-                    assert.isTrue(actual > 0);
-                    done();
-                });
-            });
-        });
-        it("can append the shims", function (done) {
-            http.get(clientScriptUrl, function (res) {
-                res.on("data", function (chunk) {
-                    var respString = chunk.toString();
-                    var actual = respString.indexOf("browser-sync shims");
-                    assert.isTrue(actual > 0);
-                    done();
-                });
-            });
-        });
-    });
-
     describe("server for Static Files", function () {
+
+        var serverUrl = "http://localhost:" + ports.server;
 
         it("can serve files", function (done) {
             var options = {
@@ -139,7 +54,7 @@ describe("", function () {
             };
             var servers = server.launchServer("localhost", ports, options, io);
 
-            http.get("http://localhost:" + ports[1] + "/index.html", function (res) {
+            http.get(serverUrl + "/index.html", function (res) {
                 var actual = res.statusCode;
                 assert.equal(actual, 200);
                 servers.staticServer.close();
@@ -156,7 +71,7 @@ describe("", function () {
 
             var servers = server.launchServer("localhost", ports, options, io);
 
-            http.get("http://localhost:" + ports[1], function (res) {
+            http.get(serverUrl, function (res) {
                 var actual = res.statusCode;
                 assert.equal(actual, 200);
                 servers.staticServer.close();
@@ -173,23 +88,9 @@ describe("", function () {
 
             var servers = server.launchServer("localhost", ports, options, io);
 
-            http.get("http://localhost:" + ports[1], function (res) {
+            http.get(serverUrl, function (res) {
                 var actual = res.statusCode;
                 assert.equal(actual, 200);
-                servers.staticServer.close();
-                done();
-            });
-        });
-
-        it("does not serve static files if server:false", function (done) {
-            var options = {
-                server: false
-            };
-            var servers = server.launchServer("localhost", ports, options, io);
-
-            http.get("http://0.0.0.0:" + ports[1], function (res) {
-                var actual = res.statusCode;
-                assert.equal(actual, 404);
                 servers.staticServer.close();
                 done();
             });
@@ -216,7 +117,6 @@ describe("", function () {
                 proxy: true
             };
             var servers = server.launchServer("0.0.0.0", ports, options, io);
-            servers.staticServer.close();
             sinon.assert.calledWithExactly(stub, "0.0.0.0", ports, options, true);
         });
     });
@@ -287,7 +187,7 @@ describe("", function () {
             };
             var servers = server.launchServer("localhost", ports, options, io);
 
-            http.get("http://localhost:" + ports[1] + "/index.html", function (res) {
+            http.get("http://localhost:" + ports.server + "/index.html", function (res) {
                 sinon.assert.called(clientsSpy);
                 servers.staticServer.close();
                 done();
