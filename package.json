@@ -39,7 +39,8 @@
     "dev-ip": "~0.1.5",
     "gaze": "~0.4.3",
     "http-proxy": "~0.10.3",
-    "cl-strings": "~0.0.2"
+    "cl-strings": "~0.0.2",
+    "cheerio": "~0.13.0"
   },
   "devDependencies": {
     "grunt-contrib-jshint": "~0.6.0",
