@@ -8,6 +8,7 @@
     "sub": true,
     "undef": false,
     "unused": false,
+    "quotmark": "double",
     "boss": true,
     "eqnull": true,
     "node": true,
@@ -17,7 +18,10 @@
         "expect" : false,
         "runs" : false,
         "waitsFor" : false,
-        "beforeEach" : false
+        "beforeEach" : false,
+        "afterEach" : false,
+        "before" : false,
+        "after" : false
     }
 
 }

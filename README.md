@@ -2,6 +2,8 @@
 
 > Keep multiple browsers & devices in sync when building websites.
 
+Follow [@browserSync](http://www.twitter.com/browserSync) for news & updates
+
 ##Features
 1. **Scroll** - I can keep your pages in sync when scrolling.
 2. **Forms** - You fill out a form in one browser, I'll copy the data to all the others.
@@ -14,267 +16,45 @@
 ##When is it useful?
 It's pretty useful when used with a single browser, watching a CSS file for changes & injecting it. But the real power comes when you're building responsive sites and using multiple devices/monitors because it can keep all browsers in sync & make your workflow much faster.
 
+##Install
+Using **Grunt**? There's a [separate plugin](https://github.com/shakyShane/grunt-browser-sync) for that
+
+```
+npm install -g browser-sync
+```
+
+##How to use it
+There are currently 2 ways to use browser-sync - **with** a config file & **without** a config file. Both options are explained on the following pages.
+
+1. [With a config file](https://github.com/shakyShane/browser-sync/wiki/Working-with-a-Config-File)
+2. [Command line only (no config file)](https://github.com/shakyShane/browser-sync/wiki/Working-with-a-Config-File)
+
+
+##Screencasts ( < 3 min each )
+1. [Using the Static Server with css injecting](http://quick.as/klaqfq7e)
+2. [Keeping browsers at the same scroll position](http://quick.as/rl9gfgxd)
+3. [Keeping form fields in sync](http://quick.as/zr9ofory)
+4. [When should you use the built-in server?](http://quick.as/adkjfk7r)
+
+
+#### + Laravel (php)
+1. [Browser Sync + Laravel 4 (php server & proxy)](http://quick.as/03yt7bw)
+2. [Browser Sync + Laravel 4 (Mamp Pro & proxy)](http://quick.as/996hozw)
+3. [Browser Sync + Laravel 4 (Config file & Proxy)](http://quick.as/70js4da)
+4. [Browser Sync + Laravel 4 (Config file & no proxy)](http://quick.as/j3gtmdz)
+
+#### + Vagrant
+1. [Browser Sync + Vagrant](http://quick.as/q0rs9jz)
+
+
+Want any more? Something specific? ask me nicely [@shaneOsbourne](http://www.twitter.com/shaneOsbourne)
+
 ##Support
 If you've found Browser-sync useful and would like to contribute to its continued development & support, please feel free to send a donation of any size - it would be greatly appreciated!
 
 [![Support via Gittip](https://rawgithub.com/chris---/Donation-Badges/master/gittip.jpeg)](https://www.gittip.com/shakyshane)
 [![Support via PayPal](https://rawgithub.com/chris---/Donation-Badges/master/paypal.jpeg)](https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=shakyshane%40gmail%2ecom&lc=US&item_name=browser%2dsync)
 
-##Using Grunt? There's a [plugin](https://github.com/shakyShane/grunt-browser-sync) for that
-
-##How to install it?
-```
-npm install -g browser-sync
-```
-####If that doesn't work on a mac, try
-```
-sudo npm install -g browser-sync
-```
-
-##How to use it
-Browser-sync is a command-line tool & the `-g` from the command above makes it available everywhere on your system. Just `cd` into your website and run one of the commands below. If any further instructions are needed, you'll be notified on the command line.
-
-###Watching files
-
-Watch ALL CSS files in a directory for changes
-
-```
-browser-sync --files "app/css/*.css"
-```
-
-Watch ALL CSS files & HTML files in a directory for changes
-
-```
-browser-sync --files "app/css/*.css, app/*.html"
-```
-###Watching files + your existing Server (proxy)
-
-Using a local.dev vhost
-
-```
-browser-sync --proxy "local.dev" --files "app/css/*.css"
-```
-
-Using a local.dev vhost with PORT
-
-```
-browser-sync --proxy "local.dev:8001" --files "app/css/*.css"
-```
-Using a an IP based host
-
-```
-browser-sync --proxy "192.167.3.2:8001" --files "app/css/*.css"
-```
-
-###Watching files + built-in static server (for html, js & css)
-
-Watch ALL CSS files for changes with a static server
-
-```
-browser-sync --files "app/css/*.css" --server
-```
-
-Watch ALL CSS files for changes with a static server & specify that the base dir should be "app"
-
-```
-browser-sync --files "app/css/*.css" --server "app"
-```
-
-Watch ALL CSS files for changes with a static server & specify that the base dir should be "app" & specify the index file (note the missing l)
-
-```
-browser-sync --files "app/css/*.css" --server "app" --index "index.htm"
-```
-
-Watch ALL CSS files for changes with a static server & specify that the base dir should be "app" & with ghostMode disabled
-
-```
-browser-sync --files "app/css/*.css" --server "app" --ghostMode false
-```
-
-###Example config file with proxy
-If you want to, you can provide a config file instead of having to remember all of the commands above. Also, a config file allows you to be more specific with options. Here's an example of one that you would put in the root of your project.
-
-```
-module.exports = {
-    files: "app/css/**/*.css",
-    host: "192.168.1.1",
-    ghostMode: {
-        links: true,
-        forms: true,
-        scroll: true
-    },
-    proxy: {
-        host: "local.dev" // your existing vhost
-    }
-};
-```
-Now, if you called the file `config.js`, you'd simple run
-
-```
-browser-sync --config config.js
-```
-
-##All available options for use in config file
-
-###files - (default: null)
-
-```
-// single file
-files: "app/css/style.css"
-
-// multiple files
-files: ["app/css/style.css", "app/css/ie.css"]
-
-// multiple files with glob
-files: "app/css/*.css"
-
-// multiple globs
-files: ["app/css/*.css", "app/**.*.html"]
-```
-
-###debugInfo - (default: true)
-
-```
-// Don't fill my terminal with info
-debugInfo: false
-
-// Give me as much info as possible
-debugInfo: true
-```
-
-###host - (default: null)
-```
-// Leave this set as null & browser-sync will try to figure out the correct IP to use. (about 90% accurate)
-host: null
-
-// Override host detection if you know the correct IP to use
-host: "192.168.1.1"
-
-```
-
-###ghostMode - (default: { links: true, forms: true, scroll: true} )
-```
-// Here you can disable/enable each feature individually
-ghostMode: {
-    links: true,
-    forms: true,
-    scroll: false
-}
-
-// Or switch them all off in one go
-ghostMode: false
-```
-
-###proxy - (default: null)
-NOTE: `"localhost"` not supported here, try to use something else like `"0.0.0.0"` instead if you need to.
-
-```
-// use your existing vhost setup
-proxy: {
-	host: "local.dev"
-}
-
-// use your existing vhost setup with a specific port
-proxy: {
-	host: "local.dev",
-	port: 8001
-}
-
-// use an IP-based host (like the built-in php server for example)
-proxy: {
-	host: "192.168.0.4",
-	port: 8001
-}
-
-```
-
-###server - (default: null)
-Server should only be used for static HTML, CSS & JS files. It should NOT be used if you have an existing PHP, Wordpress, Rails setup. That's what the proxy above is for.
-
-```
-// Serve files from the app directory
-server: {
-    baseDir: "app"
-}
-
-// Serve files from the app directory, with a specific index filename
-server: {
-    baseDir: "app",
-    index: "index.htm"
-}
-
-// Serve files from the root directory
-server: {
-    baseDir: "./"
-}
-```
-
-###open - (default: true) - when used with server
-```
-// Launch a browser window at the correct location
-open: true
-
-// Stop the browser from automatically opening
-open: false
-```
-###notify - (default: true)
-Browser-sync will flash a quick message in all connected browsers to confirm that CSS injection has taken place (useful when you're not sure whether the injection worked, or whether your CSS didn't make a difference)
-
-```
-// Tell me when a CSS file was injected
-notify: true
-
-// Don't show any notifications in the browser.
-notify: false
-```
-
-#Full config file example with Server
-Save this as `anything-you-like.js`
-
-```
-module.exports = {
-    files: "app/css/**/*.css",
-    debugInfo: true,
-    host: "192.168.1.1",
-    ghostMode: {
-        links: true,
-        forms: true,
-        scroll: true
-    },
-    server: {
-        baseDir: "app"
-    },
-    open: false,
-    notify: true
-};
-```
-#Full config file example with Proxy
-Save this as `anything-you-like.js`
-
-```
-module.exports = {
-    files: "app/css/**/*.css",
-    debugInfo: true,
-    host: "192.168.1.1",
-    ghostMode: {
-        links: true,
-        forms: true,
-        scroll: true
-    },
-	proxy: {
-		host: "local.dev" // your existing vhost setup.
-	},
-    open: true,
-    notify: true
-};
-```
-
-Now you can use it by calling it from the command-line
-
-```
-browser-sync --config anything-you-like.js
-```
 
 #Contributing
 Fork this repo, clone it and then run

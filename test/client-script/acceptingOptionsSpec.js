@@ -1,48 +1,74 @@
-/**
- * Created by shakyshane on 18/09/2013.
- */
+describe("Browser Sync INIT", function () {
 
-describe("Style Injector INIT", function () {
-
-    var si;
+    var bs;
+    var ghost;
     var scope;
     var methods;
 
     beforeEach(function(){
-        si = window.browserSync;
-        methods = si;
         scope = {};
+        bs = window.BrowserSync;
+        ghost = window.ghost;
+        methods = bs;
     });
 
     it("should be accessible on the window for testing", function () {
-        expect(si).toBeDefined();
+        assert.notEqual(typeof bs, "undefined");
     });
 
-    describe("when accepting options", function () {
+    describe("Processing options for Ghostmode", function () {
+        var spy;
+        before(function () {
+            spy = sinon.spy(methods, "initGhostMode");
+        });
+        afterEach(function () {
+            spy.reset();
+        });
 
-        var options;
-        beforeEach(function(){
-            spyOn(methods, "initGhostMode");
-            options = {
+        it("should set up ghost mode when enabled", function () {
+            var options = {
                 ghostMode: {
                     links: true,
                     scroll: true,
                     forms: true
                 }
             };
-            methods.processOptions(scope, options);
+            methods.processOptions(scope, options, ghost.utils, ghost.listeners);
+
+            assert.equal(spy.called, true);
+        });
+        it("should NOT set up ghost mode disabled", function () {
+            var options = {};
+            methods.processOptions(scope, options, ghost.utils, ghost.listeners);
+
+            assert.equal(spy.called, false);
+        });
+    });
+
+    describe("Processing Options for Notify Element:", function () {
+
+        var spy;
+        before(function(){
+            spy = sinon.spy(methods, "createNotifyElem");
         });
 
-        it("can accept options", function () {
-            expect(scope.options.ghostMode).toBeTruthy();
+        afterEach(function () {
+            spy.reset();
         });
 
-        describe("initialising ghost-mode", function () {
-
-            it("can set up ghost mode", function () {
-
-                expect(methods.initGhostMode).toHaveBeenCalled();
-            });
+        it("should create notify element when enabled", function () {
+            var options = {
+                notify: true
+            };
+            methods.processOptions(scope, options, ghost.utils, ghost.listeners);
+            assert.equal(spy.called, true);
+        });
+        it("should NOT create notify element when Disabled", function () {
+            var options = {
+                notify: false
+            };
+            methods.processOptions(scope, options, ghost.utils, ghost.listeners);
+            assert.equal(spy.called, false);
         });
     });
 });

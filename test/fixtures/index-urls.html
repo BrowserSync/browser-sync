@@ -14,21 +14,12 @@
     <a href="forms.html">Forms</a>
     <a href="scrolling.html">Scrolling Window</a>
 
-    <p id="shower">Click me</p>
-    <p id="toggle"></p>
-
-    <script type="text/javascript">
-
-        var old = window.addEventListener ? false : true;
-//        alert(old);
-        var elem = document.getElementById("shower");
-        var elem2 = document.getElementById("toggle");
-
-<!---->
-        elem[old ? "attachEvent" : "addEventListener"]((old ? "on" : "")  + "click", function () {
-            console.log("~~~~~Click event occured~~~~~~");
-        }, true);
-    </script>
-
+    <a href="http://0.0.0.0:8001/forms.html">
+        <div>
+            <div>
+                <img src="http://placekitten.com/400/600" alt=""/>
+            </div>
+        </div>
+    </a>
 </body>
 </html>
