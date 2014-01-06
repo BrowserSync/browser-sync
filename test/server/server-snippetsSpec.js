@@ -97,4 +97,31 @@ describe("Launching a server with snippets", function () {
             });
         });
     });
+
+
+    /**
+     *
+     *
+     * SUPPORT FOR AMD LOADERS
+     * The script has to be appended *before* the script tag, therefor we insert it
+     * as first tag in the body
+     *
+     *
+     */
+    it.skip("can prepend script tags before any existing script tag", function (done) {
+        http.get(serverHost + "/index-with-scripts.html", function (res) {
+            var chunks = [];
+            var data;
+            res.on("data", function (chunk) {
+                chunks.push(chunk.toString());
+            });
+            res.on("end", function () {
+                data = chunks.join("");
+
+                // TODO: assertions
+
+                done();
+            });
+        });
+    });
 });
