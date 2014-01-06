@@ -68,8 +68,8 @@ describe("Launching a server with snippets", function () {
             });
             res.on("end", function () {
                 data = chunks.join("");
-                assert.isTrue(data.indexOf(expectedMatch1) >= 0);
-                assert.isTrue(data.indexOf(expectedMatch2) >= 0);
+                assert.include(data, expectedMatch1);
+                assert.include(data, expectedMatch2);
                 done();
             });
         });
@@ -91,8 +91,8 @@ describe("Launching a server with snippets", function () {
             });
             res.on("end", function () {
                 data = chunks.join("");
-                assert.isTrue(data.indexOf(expectedMatch1) >= 0);
-                assert.isTrue(data.indexOf(expectedMatch2) >= 0);
+                assert.include(data, expectedMatch1);
+                assert.include(data, expectedMatch2);
                 done();
             });
         });
