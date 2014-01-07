@@ -89,7 +89,7 @@ describe("Launching a proxy for connect server", function () {
      *
      *
      */
-    it.skip("can prepend script tags before any existing script tag", function (done) {
+    it("can prepend script tags before any existing script tag", function (done) {
         http.get(proxyHost + "/index-with-scripts.html", function (res) {
             var chunks = [];
             var data;
@@ -97,10 +97,17 @@ describe("Launching a proxy for connect server", function () {
                 chunks.push(chunk.toString());
             });
             res.on("end", function () {
+                var otherTags = "<script>// dummy</script>";
+
                 data = chunks.join("");
 
-                // TODO: assertions
-                
+                assert.include(data, expectedMatch1);
+                assert.include(data, expectedMatch2);
+                assert.include(data, otherTags);
+
+                assert.isTrue(data.indexOf(expectedMatch1) < data.indexOf(otherTags));
+                assert.isTrue(data.indexOf(expectedMatch2) < data.indexOf(otherTags));
+
                 done();
             });
         });
