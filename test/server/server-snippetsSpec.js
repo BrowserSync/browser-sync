@@ -105,7 +105,6 @@ describe("Launching a server with snippets", function () {
      * SUPPORT FOR AMD LOADERS
      * The script has to be appended *before* the script tag, therefor we insert it
      * as first tag in the body
-     * TODO: Add test containing amd loader
      *
      *
      */
