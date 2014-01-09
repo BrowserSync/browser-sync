@@ -14,7 +14,7 @@
 //var expectedMatch1 = "<script src='//0.0.0.0:" + ports[0] + messages.socketIoScript + "'></script>";
 //var expectedMatch2 = "<script src='//0.0.0.0:" + ports[1] + messages.clientScript() + "'></script>";
 //
-//describe.only("Launching a proxy for a vagrant based server", function () {
+//describe("Launching a proxy for a vagrant based server", function () {
 //
 //    var app, server, proxyServer, reqCallback;
 //
