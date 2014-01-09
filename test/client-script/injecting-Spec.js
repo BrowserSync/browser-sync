@@ -3,7 +3,7 @@ describe("Injecting Styles:", function () {
     var scope;
     var browserSync;
     var actions;
-    var reloadSpy;
+    var reloadStub;
     var swapFileSpy;
 
     var timeStamp = function (time) {
@@ -21,24 +21,30 @@ describe("Injecting Styles:", function () {
             return true;
         };
 
-        scope = {};
+        scope = {
+            options: {
+                injectChanges: true
+            }
+        };
 
-        reloadSpy = sinon.spy(actions, "reloadBrowser");
+        reloadStub = sinon.stub(actions, "reloadBrowser");
         swapFileSpy = sinon.spy(actions, "swapFile");
     });
     afterEach(function () {
-        reloadSpy.reset();
+        reloadStub.reset();
         swapFileSpy.reset();
     });
-
+    after(function () {
+        reloadStub.restore();
+    });
     describe("Reloading/injecting:", function () {
         it("should reload the browser if a url is provided", function () {
             browserSync.reloadEvent(scope, { url: "truthyString" }, actions);
-            assert.equal(reloadSpy.called, true);
+            assert.equal(reloadStub.called, true);
         });
         it("should NOT reload the browser if a url is NOT provided", function () {
             browserSync.reloadEvent(scope, { url: false }, actions);
-            assert.equal(reloadSpy.called, false);
+            assert.equal(reloadStub.called, false);
         });
     });
 
@@ -223,7 +229,6 @@ describe("Injecting Styles:", function () {
         afterEach(function () {
             $head.find("link").remove();
         });
-
         it("can swap the url of an asset for one with a timestamp", function () {
             transformedElem = browserSync.reloadEvent(scope, {assetFileName:"style.css", fileExtension: "css"}, actions);
             expected = wrapUrl("core/style.css") + timeStamp(transformedElem.timeStamp);
@@ -239,6 +244,16 @@ describe("Injecting Styles:", function () {
             transformedElem = browserSync.reloadEvent(scope, {assetFileName:"style.min.css", fileExtension: "css"}, actions);
             expected = wrapUrl("core/style.min.css") + timeStamp(transformedElem.timeStamp);
             assert.equal(transformedElem.elem.href, expected);
+        });
+
+        it("should swap the url but do a reload if the injectChanges options is true", function () {
+            transformedElem = browserSync.reloadEvent(scope, {assetFileName:"style.css", fileExtension: "css"}, actions);
+            sinon.assert.notCalled(reloadStub);
+        });
+        it("should NOT swap the url but do a reload if the injectChanges option is false", function () {
+            scope.options.injectChanges = false;
+            transformedElem = browserSync.reloadEvent(scope, {assetFileName:"style.css", fileExtension: "css"}, actions);
+            sinon.assert.called(reloadStub);
         });
     });
 });
