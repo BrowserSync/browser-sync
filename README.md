@@ -27,7 +27,7 @@ npm install -g browser-sync
 There are currently 2 ways to use browser-sync - **with** a config file & **without** a config file. Both options are explained on the following pages.
 
 1. [With a config file](https://github.com/shakyShane/browser-sync/wiki/Working-with-a-Config-File)
-2. [Command line only (no config file)](https://github.com/shakyShane/browser-sync/wiki/Working-with-a-Config-File)
+2. [Command line only (no config file)](https://github.com/shakyShane/browser-sync/wiki/Command-line-only)
 
 
 ##Screencasts ( < 3 min each )
