@@ -275,6 +275,10 @@ describe("", function () {
             func({url: "/", method: "PATCH"}, {}, next);
             sinon.assert.notCalled(clientsSpy);
         });
+        it("should NOT call sockets.clients() if the request is sent via AJAX", function () {
+            func({url: "/", method: "PATCH", headers: {"x-requested-with": "XMLHttpRequest"}}, {}, next);
+            sinon.assert.notCalled(clientsSpy);
+        });
 
         it("E2E", function (done) {
             var options = {
