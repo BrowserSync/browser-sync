@@ -68,8 +68,8 @@ describe("Launching a server with snippets", function () {
             });
             res.on("end", function () {
                 data = chunks.join("");
-                assert.isTrue(data.indexOf(expectedMatch1) >= 0);
-                assert.isTrue(data.indexOf(expectedMatch2) >= 0);
+                assert.include(data, expectedMatch1);
+                assert.include(data, expectedMatch2);
                 done();
             });
         });
@@ -91,8 +91,42 @@ describe("Launching a server with snippets", function () {
             });
             res.on("end", function () {
                 data = chunks.join("");
-                assert.isTrue(data.indexOf(expectedMatch1) >= 0);
-                assert.isTrue(data.indexOf(expectedMatch2) >= 0);
+                assert.include(data, expectedMatch1);
+                assert.include(data, expectedMatch2);
+                done();
+            });
+        });
+    });
+
+
+    /**
+     *
+     *
+     * SUPPORT FOR AMD LOADERS
+     * The script has to be appended *before* the script tag, therefor we insert it
+     * as first tag in the body
+     *
+     *
+     */
+    it("can prepend script tags before any existing script tag", function (done) {
+        http.get(serverHost + "/index-with-scripts.html", function (res) {
+            var chunks = [];
+            var data;
+            res.on("data", function (chunk) {
+                chunks.push(chunk.toString());
+            });
+            res.on("end", function () {
+                var otherTags = "<script>// dummy</script>";
+
+                data = chunks.join("");
+
+                assert.include(data, expectedMatch1);
+                assert.include(data, expectedMatch2);
+                assert.include(data, otherTags);
+
+                assert.isTrue(data.indexOf(expectedMatch1) < data.indexOf(otherTags));
+                assert.isTrue(data.indexOf(expectedMatch2) < data.indexOf(otherTags));
+
                 done();
             });
         });
