@@ -19,7 +19,7 @@ module.exports = {
     timestamps: false,
     fileTimeout: 1000,
     scrollThrottle: 0,
-    injectChanges: false,
+    injectChanges: true,
     notify: true,
     devMode: true
 };
