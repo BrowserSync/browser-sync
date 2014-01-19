@@ -77,8 +77,8 @@ describe("Browser Sync: Start Services", function () {
         browserSync.startServices(args);
         sinon.assert.calledWithExactly(initServer, "0.0.0.0", args.ports, args.options, {});
     });
-    it("should always launch the control Panel", function () {
-        browserSync.startServices(args);
-        sinon.assert.calledWithExactly(launchControlPanel, "0.0.0.0", args.ports, args.options, {});
-    });
+//    it("should always launch the control Panel", function () {
+//        browserSync.startServices(args);
+//        sinon.assert.calledWithExactly(launchControlPanel, "0.0.0.0", args.ports, args.options, {});
+//    });
 });

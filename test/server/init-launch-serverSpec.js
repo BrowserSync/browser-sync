@@ -6,21 +6,22 @@ var sinon = require("sinon");
 var options = browserSync.options;
 var server = require("../../lib/server");
 
+var ports = {
+    socket: 3000,
+    controlPanel: 3001,
+    server: 3002
+};
+var host = "0.0.0.0";
+
 describe("Browser Sync: init Server", function () {
 
-    var host = "0.0.0.0";
-    var ports = {
-        socket: 3000,
-        controlPanel: 3001,
-        server: 3002
-    };
-    var options = {};
-
+    var options;
     var launchServer;
     var open;
     var spy;
 
     before(function () {
+        options = {};
         launchServer = sinon.stub(server, "launchServer").returns(true);
         open = sinon.stub(browserSync, "openBrowser").returns(true);
         spy = sinon.spy();
@@ -41,7 +42,7 @@ describe("Browser Sync: init Server", function () {
         sinon.assert.calledWithExactly(launchServer, host, ports, options, spy);
     });
 
-    it("can call open browser with control panel", function () {
+    it("should call open browser with server port", function () {
 
         var options = {
             server: {
@@ -52,7 +53,18 @@ describe("Browser Sync: init Server", function () {
         };
 
         browserSync.initServer(host, ports, options);
-        sinon.assert.calledWithExactly(open, host, ports.controlPanel, options);
+        sinon.assert.calledWithExactly(open, host, ports.server, options);
+    });
+    it("should call open browser with proxy port", function () {
+
+        var options = {
+            proxy: {
+                host: "127.0.0.1"
+            }
+        };
+
+        browserSync.initServer(host, ports, options);
+        sinon.assert.calledWithExactly(open, host, ports.proxy, options);
     });
 
     describe("logging about servers", function () {
