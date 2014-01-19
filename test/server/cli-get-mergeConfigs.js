@@ -41,35 +41,35 @@ describe("merging files & exlude options", function () {
 
     it("can merge an exclude folder (1)", function () {
         var files    = "**/*.css";
-        var exclude  = "public/css/dist"
+        var exclude  = "public/css/dist";
         var actual   = setup.mergeFiles(files, exclude);
         var expected = ["**/*.css", "!public/css/dist/**"];
         assert.deepEqual(actual, expected);
     });
     it("can merge an exclude folder (2)", function () {
         var files    = "**/*.css";
-        var exclude  = "css/dist"
+        var exclude  = "css/dist";
         var actual   = setup.mergeFiles(files, exclude);
         var expected = ["**/*.css", "!css/dist/**"];
         assert.deepEqual(actual, expected);
     });
     it("can merge an exclude folder with array of files", function () {
         var files    = ["**/*.css", "*.html"];
-        var exclude  = "css/dist"
+        var exclude  = "css/dist";
         var actual   = setup.mergeFiles(files, exclude);
         var expected = ["**/*.css", "*.html", "!css/dist/**"];
         assert.deepEqual(actual, expected);
     });
     it("can merge an array of exludes with an array of files", function () {
         var files    = ["**/*.css", "*.html"];
-        var exclude  = ["css/dist", "app/views"]
+        var exclude  = ["css/dist", "app/views"];
         var actual   = setup.mergeFiles(files, exclude);
         var expected = ["**/*.css", "*.html", "!css/dist/**", "!app/views/**"];
         assert.deepEqual(actual, expected);
     });
     it("can merge an array of exludes with specific files", function () {
         var files    = ["**/*.css", "*.html"];
-        var exclude  = ["css/dist/core.css", "app/views"]
+        var exclude  = ["css/dist/core.css", "app/views"];
         var actual   = setup.mergeFiles(files, exclude);
         var expected = ["**/*.css", "*.html", "!css/dist/core.css", "!app/views/**"];
         assert.deepEqual(actual, expected);
