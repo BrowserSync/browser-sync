@@ -27,7 +27,12 @@ describe("Launching a proxy for connect server", function () {
             next();
         });
 
-        app = connect().use(connect.static(filePath.resolve("test/fixtures")));
+        app = connect().use(function (req, res, next) {
+            res.setHeader("content-encoding", "gzip");
+            res.setHeader("content-length", "1024");
+            next();
+        }).use(connect.static(filePath.resolve("test/fixtures")));
+
         server = http.createServer(app).listen(8001);
 
         var options = {
@@ -73,6 +78,20 @@ describe("Launching a proxy for connect server", function () {
                 assert.deepEqual(~data.indexOf("0.0.0.0:8001"), 0);
                 done();
             });
+        });
+    });
+    it("can remove content-encoding headers", function (done) {
+        http.get(proxyHost + "/proxy-headers.html", function (res) {
+            var actual = res.headers.hasOwnProperty("content-encoding");
+            assert.isFalse(actual);
+            done();
+        });
+    });
+    it("can remove content-encoding headers", function (done) {
+        http.get(proxyHost + "/proxy-headers.html", function (res) {
+            var actual = res.headers.hasOwnProperty("content-length");
+            assert.isFalse(actual);
+            done();
         });
     });
 });
