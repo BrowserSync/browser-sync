@@ -7,28 +7,30 @@ Follow [@browserSync](http://www.twitter.com/browserSync) for news & updates.
 ##Features
 1. **Scroll** - I can keep your pages in sync when scrolling.
 2. **Forms** - You fill out a form in one browser, I'll copy the data to all the others.
-3. **Links** - I'll watch your clicks and make all the browser follow you.
+3. **Links** - I'll watch your clicks & and make all the other browsers follow you.
 4. **CSS injecting** - I can even watch your CSS files & inject them when they change.
 5. **Live Reload** - I can also watch files like HTML and PHP & when they change I can reload all browsers for you.
-6. **Built-in Server** - Yep, I can serve static files too if you need me to
+6. **Built-in Server** - Yep, I can serve static files too if you need me to (uses Connect).
 7. **Use with any back-end setup** - Browser-sync includes a proxy option so that it can be used with any existing PHP, Rails, Python, Node or ASP.net setup.
 
 ##When is it useful?
 It's pretty useful when used with a single browser, watching a CSS file for changes & injecting it. But the real power comes when you're building responsive sites and using multiple devices/monitors because it can keep all browsers in sync & make your workflow much faster.
 
 ##Install
-Using **Grunt**? There's a [separate plugin](https://github.com/shakyShane/grunt-browser-sync) for that
-
 ```
 npm install -g browser-sync
 ```
-
 ##How to use it
 There are currently 2 ways to use browser-sync - **with** a config file & **without** a config file. Both options are explained on the following pages.
 
 1. [With a config file](https://github.com/shakyShane/browser-sync/wiki/Working-with-a-Config-File)
 2. [Command line only (no config file)](https://github.com/shakyShane/browser-sync/wiki/Command-line-only)
 
+## Using Grunt?
+There's a [separate plugin](https://github.com/shakyShane/grunt-browser-sync) for that
+
+## Using Gulp?
+No problem, here's a [setup guide](https://github.com/shakyShane/gulp-browser-sync)
 
 ##Screencasts ( < 3 min each )
 1. [Using the Static Server with css injecting](http://quick.as/klaqfq7e)
