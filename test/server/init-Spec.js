@@ -101,5 +101,17 @@ describe("Browser Sync INIT", function () {
             browserSync.init(files, options);
             sinon.assert.calledWithExactly(fail, "ERROR", options, true);
         });
+        
+        it("should call getPortRange() with user specified ports when provided in options.", function(){
+          var options = {
+              ports: {
+                  min: 6000,
+                  max: 6100
+              }
+          };
+          browserSync.init(files, options);
+          var actual = getPortRange.calledWithExactly(2, options.ports.min, options.ports.max);
+          assert.equal(actual, true);
+      });
     });
 });
