@@ -16,6 +16,8 @@ describe("Browser Sync: Start Services", function () {
     var fileWatcherInit;
     var initServer;
     var ipStub;
+    var initMessage;
+    var log;
 
     beforeEach(function () {
         args = {
@@ -33,6 +35,8 @@ describe("Browser Sync: Start Services", function () {
         handleSocketConnection = sinon.stub(browserSync, "handleSocketConnection");
         fileWatcherInit = sinon.stub(fileWatcher, "init");
         initServer = sinon.stub(browserSync, "initServer");
+        initMessage = sinon.stub(messages, "init").returns("INIT");
+        log = sinon.stub(browserSync, "log").returns("LOGGED");
         launchControlPanel = sinon.stub(controlPanel, "launchControlPanel");
         ipStub = sinon.stub(browserSync, "getHostIp").returns("0.0.0.0");
     });
@@ -49,6 +53,8 @@ describe("Browser Sync: Start Services", function () {
         initServer.restore();
         ipStub.restore();
         launchControlPanel.restore();
+        log.restore();
+        initMessage.restore();
     });
 
     it("should call setupSocket with the ports", function(){
@@ -77,8 +83,12 @@ describe("Browser Sync: Start Services", function () {
         browserSync.startServices(args);
         sinon.assert.calledWithExactly(initServer, "0.0.0.0", args.ports, args.options, {});
     });
-//    it("should always launch the control Panel", function () {
-//        browserSync.startServices(args);
-//        sinon.assert.calledWithExactly(launchControlPanel, "0.0.0.0", args.ports, args.options, {});
-//    });
+    it("Should get the init message if server & proxy not used", function () {
+        browserSync.startServices(args);
+        sinon.assert.calledWithExactly(initMessage, "0.0.0.0", args.ports);
+    });
+    it("should log snippets when no server or proxy used", function () {
+        browserSync.startServices(args);
+        sinon.assert.called(log);
+    });
 });

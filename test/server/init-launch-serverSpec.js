@@ -127,12 +127,5 @@ describe("Browser Sync: init Server", function () {
             sinon.assert.calledWithExactly(initProxy, host, ports.proxy);
             sinon.assert.calledWithExactly(log, "Proxy Message", options, true);
         });
-
-        it("logs when not using server OR proxy", function () {
-            var options = {};
-            browserSync.initServer(host, ports, options);
-            sinon.assert.calledWithExactly(init, host, ports);
-            sinon.assert.calledWithExactly(log, "No server or Proxy", options, true);
-        });
     });
 });
