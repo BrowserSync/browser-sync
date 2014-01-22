@@ -33,6 +33,9 @@ There's a [separate plugin](https://github.com/shakyShane/grunt-browser-sync) fo
 ## Using Gulp?
 No problem, here's a [setup guide](https://github.com/shakyShane/gulp-browser-sync)
 
+## Even use it on a live server
+With the built in static server, you can mirror your current site to a browser-sync port of your choosing `ex. http://site.com:3003` and use browser-sync **outside of your LAN and on your managed server**. *See [with config file doc](https://github.com/shakyShane/browser-sync/wiki/Working-with-a-Config-File) (`server:` option hash)*
+
 ##Screencasts ( < 3 min each )
 1. [Using the Static Server with css injecting](http://quick.as/klaqfq7e)
 2. [Keeping browsers at the same scroll position](http://quick.as/rl9gfgxd)
