@@ -15,14 +15,13 @@ describe("Messages module", function () {
 
 describe("Server Output", function () {
     it("Can confirm the server is running", function () {
-        var expected = "\nOK, Server running at http://0.0.0.0:8000";
-        expected    += "\nServing files from: /users/shakyshane/app/files";
-        expected    += "\n\nLoad a browser & check back here. If you set up everything correctly, you'll see a 'Browser Connected' message\n";
+        var expected = "[BS] \nOK, Server running at http://0.0.0.0:8000\n";
+        expected    += "[BS] Serving files from: /users/shakyshane/app/files";
         var actual = ansiTrim(messages.initServer("0.0.0.0", 8000, "/users/shakyshane/app/files"));
         assert.equal(actual, expected);
     });
     it("can fail when both server & proxy supplied", function () {
-        var expected = "Invalid config. You cannot specify both a server & proxy option.";
+        var expected = "[BS] Invalid config. You cannot specify both a server & proxy option.";
         var actual   = ansiTrim(messages.server.withProxy());
         assert.equal(actual, expected);
     });
@@ -38,12 +37,12 @@ describe("Proxy Output", function () {
     });
 
     it("can output a message about proxy (1)", function () {
-        var expected = "Proxy running. Use this URL: http://192.168.0.3:3002";
+        var expected = "[BS] Proxy running. Use this URL: http://192.168.0.3:3002";
         var actual   = ansiTrim(messages.initProxy(host, ports[2]));
         assert.equal(actual, expected);
     });
     it("can output a message about proxy (2)", function () {
-        var expected = "Proxy running. Use this URL: http://192.168.0.3:3001";
+        var expected = "[BS] Proxy running. Use this URL: http://192.168.0.3:3001";
         var actual   = ansiTrim(messages.initProxy(host, ports[1]));
         assert.equal(actual, expected);
     });
@@ -151,12 +150,12 @@ describe("Outputting generic messages", function () {
 
 describe("Outputting file watching messages", function () {
     it("should output warning if no files watched", function () {
-        var expected = "Not watching any files...";
+        var expected = "[BS] Not watching any files...";
         var actual = ansiTrim(messages.files.watching([]));
         assert.equal(actual, expected);
     });
     it("should output a single pattern", function () {
-        var expected = "Watching the following:\n";
+        var expected = "[BS] Watching the following:\n";
         expected += "**/*.css\n";
 
         var actual = ansiTrim(messages.files.watching(["**/*.css"]));

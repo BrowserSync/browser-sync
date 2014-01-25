@@ -39,7 +39,7 @@
     "dev-ip": "~0.1.5",
     "gaze": "~0.4.3",
     "http-proxy": "~0.10.3",
-    "cl-strings": "~0.0.2"
+    "cl-strings": "~0.0.3"
   },
   "devDependencies": {
     "grunt-contrib-jshint": "~0.6.0",
@@ -64,7 +64,8 @@
     "chai": "~1.8.1",
     "sinon": "~1.7.3",
     "karma-mocha": "~0.1.1",
-    "karma-sinon": "~1.0.0"
+    "karma-sinon": "~1.0.0",
+    "cl-strings": "0.0.3"
   },
   "keywords": [
     "browser sync",
