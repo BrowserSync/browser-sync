@@ -1,5 +1,6 @@
 var bs = require("../../lib/browser-sync");
 var messages = require("../../lib/messages");
+var controlPanel = require("../../lib/control-panel");
 var browserSync = new bs();
 var assert = require("chai").assert;
 var sinon = require("sinon");
@@ -244,6 +245,14 @@ describe("Exposed Methods", function () {
                 var spy = sinon.spy(messages.browser, "reload");
                 browserSync.changeFile("/app/styles/core.html", io, options, browserSync);
                 sinon.assert.called(spy);
+            });
+        });
+
+        describe("getting socket callbacks", function () {
+            it("can return ghostmode callbacks merged with control panel callbacks", function () {
+                var actual = browserSync.getSocketCallbacks().length;
+                var expected = browserSync.ghostModeCallbacks.length + controlPanel.controlPanelEvents.length;
+                assert.equal(actual, expected);
             });
         });
     });

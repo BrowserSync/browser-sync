@@ -1,9 +1,11 @@
 var bs = require("../../lib/browser-sync");
 var controlPanel = require("../../lib/control-panel");
 var messages = require("../../lib/messages");
+var devIp = require("dev-ip");
 var browserSync = new bs();
 var assert = require("chai").assert;
 var sinon = require("sinon");
+var _ = require("lodash");
 var options = browserSync.options;
 var fileWatcher = require("../../lib/file-watcher");
 
@@ -16,8 +18,10 @@ describe("Browser Sync: Start Services", function () {
     var fileWatcherInit;
     var initServer;
     var ipStub;
+    var callbacksStub;
     var initMessage;
     var log;
+    var devIpStub
 
     beforeEach(function () {
         args = {
@@ -33,12 +37,14 @@ describe("Browser Sync: Start Services", function () {
     before(function () {
         setupSocket = sinon.stub(browserSync, "setupSocket").returns({});
         handleSocketConnection = sinon.stub(browserSync, "handleSocketConnection");
+        callbacksStub = sinon.stub(browserSync, "getSocketCallbacks").returns(["CALLBACKS"]);
         fileWatcherInit = sinon.stub(fileWatcher, "init");
         initServer = sinon.stub(browserSync, "initServer");
         initMessage = sinon.stub(messages, "init").returns("INIT");
         log = sinon.stub(browserSync, "log").returns("LOGGED");
         launchControlPanel = sinon.stub(controlPanel, "launchControlPanel");
         ipStub = sinon.stub(browserSync, "getHostIp").returns("0.0.0.0");
+        devIpStub = sinon.stub(devIp, "getIp").returns("0.0.0.0");
     });
 
     afterEach(function () {
@@ -49,21 +55,27 @@ describe("Browser Sync: Start Services", function () {
 
     after(function () {
         setupSocket.restore();
+        callbacksStub.restore();
         fileWatcherInit.restore();
         initServer.restore();
         ipStub.restore();
         launchControlPanel.restore();
         log.restore();
         initMessage.restore();
+        devIpStub.restore();
     });
 
+    it("should call set the host on the options Object", function(){
+        browserSync.startServices(args);
+        sinon.assert.calledWithExactly(ipStub, args.options, "0.0.0.0");
+    });
     it("should call setupSocket with the ports", function(){
         browserSync.startServices(args);
         sinon.assert.calledWithExactly(setupSocket, args.ports);
     });
     it("should call handleSocketConnection", function(){
         browserSync.startServices(args);
-        sinon.assert.calledWithExactly(handleSocketConnection, browserSync.ghostModeCallbacks, {}, browserSync.handleClientSocketEvent);
+        sinon.assert.calledWithExactly(handleSocketConnection, ["CALLBACKS"], args.options, browserSync.handleClientSocketEvent);
     });
     it("should call filewatcher init", function () {
         browserSync.startServices(args);

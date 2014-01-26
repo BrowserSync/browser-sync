@@ -2,15 +2,16 @@
 <html ng-app="browserSync">
 <head>
     <title>Browser Sync - Control Panel</title>
-
+    <script src="js/angular.min.js"></script>
 </head>
 <body>
     <h1>Control Panel</h1>
     <section ng-controller="MainCtrl">
-        <ul ng-if="browsers.length" ng-cloak>
-            <li ng-repeat="browser in browsers">{{browser.name}} - {{browser.version}}</li>
-        </ul>
+
+        {{options.proxy}}
+
+        <input type="text" ng-model="data.url"/>
+        <button ng-click="goTo(data.url)">Go to</button>
     </section>
-    <script src="js/angular.min.js"></script>
 </body>
 </html>
