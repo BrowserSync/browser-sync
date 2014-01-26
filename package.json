@@ -65,7 +65,7 @@
     "sinon": "~1.7.3",
     "karma-mocha": "~0.1.1",
     "karma-sinon": "~1.0.0",
-    "cl-strings": "0.0.3"
+    "cl-strings": "0.0.4"
   },
   "keywords": [
     "browser sync",
