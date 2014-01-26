@@ -21,7 +21,7 @@ describe("Browser Sync: Start Services", function () {
     var callbacksStub;
     var initMessage;
     var log;
-    var devIpStub
+    var devIpStub;
 
     beforeEach(function () {
         args = {
