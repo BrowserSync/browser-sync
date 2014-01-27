@@ -77,6 +77,14 @@ module.exports = function (grunt) {
             watch: {
                 configFile: "test/karma.conf.js",
                 singleRun: false
+            },
+            controlPanel: {
+                configFile: "test/control-panel/karma.conf.js",
+                singleRun: true
+            },
+            controlPanelWatch: {
+                configFile: "test/control-panel/karma.conf.js",
+                singleRun: false
             }
         },
         mochaTest: {
