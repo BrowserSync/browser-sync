@@ -15,8 +15,11 @@ describe("Socket Factory", function () {
 
     beforeEach(inject(function ($injector) {
         socket = $injector.get("Socket");
-        onSpy.reset();
     }));
+    afterEach(function () {
+        onSpy.reset();
+        offSpy.reset();
+    });
 
     it("should be available", function () {
         assert.isDefined(socket);
