@@ -42,7 +42,19 @@ module.exports = function (grunt) {
                 options: {
                     jshintrc: "test/.jshintrc"
                 },
-                src: ["test/server/**/*.js", "test/client-script/**/*.js", "!test/client-script/libs/**/*"]
+                src: [
+                    "test/server/**/*.js",
+                    "test/client-script/**/*.js",
+                    "!test/client-script/libs/**/*"
+                ]
+            },
+            testControl: {
+                options: {
+                    jshintrc: "test/control-panel/.jshintrc"
+                },
+                src: [
+                    "test/control-panel/specs/*.js"
+                ]
             }
         },
         watch: {
@@ -64,6 +76,7 @@ module.exports = function (grunt) {
                     "!lib/*.min.js",
                     "test/server/**/*.js",
                     "test/client-script/**/*.js",
+                    "!test/control-panel/vendor/*.js",
                     "!test/client-script/libs"
                 ],
                 tasks: ["jshint:test"]
@@ -143,7 +156,7 @@ module.exports = function (grunt) {
     // Tests
     grunt.registerTask("test:server", ["jshint", "mochaTest"]);
     grunt.registerTask("test:client", ["jshint", "karma:unit"]);
-    grunt.registerTask("test", ["jshint", "karma:unit", "mochaTest"]);
+    grunt.registerTask("test", ["jshint", "karma:unit", "karma:controlPanel", "mochaTest"]);
 
     grunt.registerTask("release:github", ["jshint", "karma:unit", "mochaTest", "shell:github"]);
 };

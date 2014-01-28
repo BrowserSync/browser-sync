@@ -8,17 +8,27 @@ module.exports = function (config) {
         basePath: '../../',
 
         // frameworks to use
-        frameworks: ['mocha', 'sinon'],
+        frameworks: ['mocha'],
 
 
         // list of files / patterns to load in the browser
         files: [
+
+            // Angular + mocks
             "lib/control-panel/js/angular.min.js",
-            "lib/control-panel/js/app.js",
             "test/control-panel/vendor/angular-mocks.js",
+
+            // Test Libs
             "test/client-script/libs/assert.js",
             "node_modules/sinon/pkg/sinon.js",
-            "test/control-panel/*Spec.js"
+            "node_modules/chai/chai.js",
+
+            // Setup stuff
+            "test/control-panel/setup.js",
+            "lib/control-panel/js/app.js",
+
+            // Specs
+            "test/control-panel/specs/*.js"
         ],
 
 
@@ -57,7 +67,7 @@ module.exports = function (config) {
         // - Safari (only Mac)
         // - PhantomJS
         // - IE (only Windows)
-        browsers: ['Firefox'],
+        browsers: ['Chrome'],
 
 
         // If browser does not capture in given timeout [ms], kill it
