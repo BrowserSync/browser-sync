@@ -5,6 +5,7 @@
     <link rel="stylesheet" href="css/styles.css"/>
     <link rel="stylesheet" href="css/custom.css"/>
     <script src="js/angular.min.js"></script>
+    <link href="img/favicon.ico" rel="shortcut icon" type="image/ico">
 </head>
 <body>
 
@@ -48,7 +49,7 @@
                 <ol class="breadcrumb">
                     <li>Dashboard</li>
                 </ol>
-                <h1>http:{{options.url}}</h1>
+                <url-info ng-if="options" options="options"></url-info>
             </div>
             <div class="container">
                 <div class="row">
