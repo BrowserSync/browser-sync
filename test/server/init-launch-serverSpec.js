@@ -9,7 +9,8 @@ var server = require("../../lib/server");
 var ports = {
     socket: 3000,
     controlPanel: 3001,
-    server: 3002
+    server: 3002,
+    proxy: 3003
 };
 var host = "0.0.0.0";
 
@@ -54,6 +55,29 @@ describe("Browser Sync: init Server", function () {
 
         browserSync.initServer(host, ports, options);
         sinon.assert.calledWithExactly(open, host, ports.server, options);
+    });
+    it("should Set the URL on the options when server used", function () {
+
+        var options = {
+            server: {
+                baseDir: "test/fixtures"
+            }
+        };
+        browserSync.initServer(host, ports, options);
+        var actual = options.url;
+        var expected = "//0.0.0.0:3002";
+        assert.equal(actual, expected);
+    });
+    it("should Set the URL on the options when server used", function () {
+        var options = {
+            proxy: {
+                host: "local.dev"
+            }
+        };
+        browserSync.initServer(host, ports, options);
+        var actual = options.url;
+        var expected = "//0.0.0.0:3003";
+        assert.equal(actual, expected);
     });
     it("should call open browser with proxy port", function () {
 
