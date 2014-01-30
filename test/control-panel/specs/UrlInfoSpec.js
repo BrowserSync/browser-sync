@@ -1,7 +1,7 @@
 describe("Directive: Tabs", function () {
 
     var scope, element, compile;
-    beforeEach(module('BrowserSync'));
+    beforeEach(module("BrowserSync"));
 
     // Initialize the controller and a mock scope
     beforeEach(inject(function ($compile, $rootScope) {
@@ -21,7 +21,7 @@ describe("Directive: Tabs", function () {
             };
 
             // Pass in the user object to the directive
-            element = angular.element('<url-info options="options"></url-info>');
+            element = angular.element("<url-info options=\"options\"></url-info>");
 
             // Compile & Digest as normal
             compile(element)(scope);
@@ -47,7 +47,7 @@ describe("Directive: Tabs", function () {
             };
 
             // Pass in the user object to the directive
-            element = angular.element('<url-info options="options"></url-info>');
+            element = angular.element("<url-info options=\"options\"></url-info>");
 
             // Compile & Digest as normal
             compile(element)(scope);
