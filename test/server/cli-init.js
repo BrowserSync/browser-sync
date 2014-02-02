@@ -11,7 +11,7 @@ describe("Exposed INIT method for plugins", function () {
     var mergeFilesSpy;
     var kickoffStub;
     before(function () {
-        mergeConfigSpy = sinon.spy(setup, "mergeConfig");
+        mergeConfigSpy = sinon.spy(setup, "mergeConfigObjects");
         mergeFilesSpy = sinon.spy(setup, "mergeFiles");
         kickoffStub = sinon.stub(setup, "kickoff");
     });
@@ -23,11 +23,11 @@ describe("Exposed INIT method for plugins", function () {
     it("should be available on the required module", function () {
         assert.isFunction(index.init);
     });
-    it("should not call mergeConfig if no options provided", function () {
+    it("should not call mergeConfigObjects if no options provided", function () {
         index.init();
         sinon.assert.notCalled(mergeConfigSpy);
     });
-    it("should call mergeConfig if options provided", function () {
+    it("should call mergeConfigObjects if options provided", function () {
         var userOptions = {
             host: "0.0.0.0"
         };

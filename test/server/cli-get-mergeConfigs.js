@@ -2,7 +2,9 @@
 
 var index = require("../../lib/index");
 var assert = require("chai").assert;
+var _ = require("lodash");
 var setup = index.setup;
+var defaultConfig = index.defaultConfig;
 
 describe("Merging configs", function () {
     before(function () {
@@ -15,7 +17,7 @@ describe("Merging configs", function () {
                 baseDir: "./"
             }
         };
-        var config   = setup.mergeConfig(options);
+        var config   = setup.mergeConfigObjects(options);
         var actual   = config.server.baseDir;
         var expected = "./";
         assert.equal(actual, expected);
@@ -26,7 +28,7 @@ describe("Merging configs", function () {
                 host: "local.dev"
             }
         };
-        var config   = setup.mergeConfig(options);
+        var config   = setup.mergeConfigObjects(options);
         var actual   = config.proxy.host;
         var expected = "local.dev";
         assert.equal(actual, expected);
@@ -106,5 +108,36 @@ describe("wrapping file patterns for exclusion", function () {
         var actual   = setup._wrapPattern("css/dist/style.torrent");
         var expected = "!css/dist/style.torrent";
         assert.equal(actual, expected);
+    });
+});
+
+describe("merging the excludedFileTypes array", function () {
+    var config;
+    var merged;
+    var mergedLength;
+    var len;
+    beforeEach(function () {
+        config = {
+            excludedFileTypes: ["ozz", "mv3"]
+        };
+        len = defaultConfig.excludedFileTypes.length;
+        merged = setup._mergeExcluded(defaultConfig, config);
+        mergedLength = merged.excludedFileTypes.length;
+    });
+    it("should merge the user-given excludedFileTypes with the default (length check)", function () {
+        assert.equal(mergedLength, len + 2);
+    });
+    it("should merge the user-given excludedFileTypes with the (contains)", function () {
+        var actual = _.contains(merged.excludedFileTypes, "ozz");
+        assert.isTrue(actual);
+    });
+    it("should merge the user-given excludedFileTypes with the (contains)", function () {
+        var actual = _.contains(merged.excludedFileTypes, "mv3");
+        assert.isTrue(actual);
+    });
+    it("should merge not throw if empty array given", function () {
+        var merged = setup._mergeExcluded(defaultConfig, {excludedFileTypes: []});
+        var actual = merged.excludedFileTypes;
+        assert.equal(actual.length, len);
     });
 });

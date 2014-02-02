@@ -3,8 +3,11 @@ var browserSync = new bs();
 var messages = require("../../lib/messages");
 var http = require("http");
 var sinon = require("sinon");
+var _ = require("lodash");
 var assert = require("chai").assert;
 var server = require("../../lib/server");
+var index = require("../../lib/index");
+var defaultConfig = index.defaultConfig;
 var snippetUtils = require("../../lib/snippet").utils;
 var isExcluded = snippetUtils.isExcluded;
 
@@ -107,7 +110,7 @@ describe("isExcluded spec", function () {
     var blackList;
 
     before(function () {
-        blackList = snippetUtils.excludeList;
+        blackList = defaultConfig.excludedFileTypes;
     });
     it("Should be a function", function () {
         assert.isFunction(isExcluded);

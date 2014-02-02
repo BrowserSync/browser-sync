@@ -166,7 +166,6 @@ describe("INIT: accepting a config file.", function () {
 
             assert.isDefined(config.ghostMode);
             assert.isDefined(config.open);
-            assert.isDefined(config.reloadFileTypes);
             assert.isDefined(config.injectFileTypes);
             assert.isDefined(config.background);
             assert.isDefined(config.debugInfo);

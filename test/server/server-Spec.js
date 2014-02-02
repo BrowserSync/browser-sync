@@ -1,6 +1,8 @@
 var bs = require("../../lib/browser-sync");
 var server = require("../../lib/server");
 var proxy = require("../../lib/proxy");
+var index = require("../../lib/index");
+var defaultConfig = index.defaultConfig;
 var path = require("path");
 var browserSync = new bs();
 var messages = require("../../lib/messages");
@@ -180,10 +182,12 @@ describe("", function () {
     });
     describe("the canNavigate function Check", function () {
 
-        var next;
-        var options = {ghostMode: {
-            links: true
-        }}
+        var options = {
+            ghostMode: {
+                links: true
+            },
+            excludedFileTypes: defaultConfig.excludedFileTypes
+        };
 
         describe("rejecting/accepting requests", function () {
             var req;
@@ -192,7 +196,7 @@ describe("", function () {
                     method: "GET",
                     url: "/upload",
                     headers: {}
-                }
+                };
             });
             it("should return false for files in excluded list", function () {
                 req.url = "/core.css";
@@ -220,12 +224,12 @@ describe("", function () {
                 assert.isFalse(actual);
             });
             it("should return true when url is NOT iun exluded list", function () {
-                req.url = "/app"
+                req.url = "/app";
                 var actual = canNavigate(req, options);
                 assert.isTrue(actual);
             });
             it("should return TRYE when url is NOT in exluded list", function () {
-                req.url = "/"
+                req.url = "/";
                 var actual = canNavigate(req, options);
                 assert.isTrue(actual);
             });
