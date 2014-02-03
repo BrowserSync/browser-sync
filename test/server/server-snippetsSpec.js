@@ -115,6 +115,14 @@ describe("isExcluded spec", function () {
     it("Should be a function", function () {
         assert.isFunction(isExcluded);
     });
+    it("should return true if request contains queryString", function () {
+        var actual = isExcluded("/styles/core.css?rel=12322", blackList);
+        assert.isTrue(actual);
+    });
+    it("should return true if request contains queryString", function () {
+        var actual = isExcluded("/imgs/img.jpg?rel=12322&test=2&34=q", blackList);
+        assert.isTrue(actual);
+    });
     it("should return FALSE for requests with no file noname (dir)", function () {
         var actual = isExcluded("/");
         assert.isFalse(actual);
