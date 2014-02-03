@@ -1,6 +1,8 @@
 var bs = require("../../lib/browser-sync");
 var server = require("../../lib/server");
 var proxy = require("../../lib/proxy");
+var index = require("../../lib/index");
+var defaultConfig = index.defaultConfig;
 var path = require("path");
 var browserSync = new bs();
 var messages = require("../../lib/messages");
@@ -8,6 +10,7 @@ var http = require("http");
 var fs = require("fs");
 var assert = require("chai").assert;
 var sinon = require("sinon");
+var canNavigate = server.utils.canNavigate;
 
 var ports = {
     socket: 3000,
@@ -159,27 +162,6 @@ describe("", function () {
             func({url: "/font.woff"}, {}, next);
             sinon.assert.notCalled(clientsSpy);
         });
-        it("should NOT call sockets.clients() if the req.mehtod is POST", function () {
-            func({url: "/", method: "POST"}, {}, next);
-            sinon.assert.notCalled(clientsSpy);
-        });
-        it("should NOT call sockets.clients() if the req.mehtod is PUT", function () {
-            func({url: "/", method: "PUT"}, {}, next);
-            sinon.assert.notCalled(clientsSpy);
-        });
-        it("should NOT call sockets.clients() if the req.mehtod is DELETE", function () {
-            func({url: "/", method: "DELETE"}, {}, next);
-            sinon.assert.notCalled(clientsSpy);
-        });
-        it("should NOT call sockets.clients() if the req.mehtod is PATCH", function () {
-            func({url: "/", method: "PATCH"}, {}, next);
-            sinon.assert.notCalled(clientsSpy);
-        });
-        it("should NOT call sockets.clients() if the request is sent via AJAX", function () {
-            func({url: "/", method: "PATCH", headers: {"x-requested-with": "XMLHttpRequest"}}, {}, next);
-            sinon.assert.notCalled(clientsSpy);
-        });
-
         it("E2E", function (done) {
             var options = {
                 ghostMode: {
@@ -198,24 +180,69 @@ describe("", function () {
             });
         });
     });
-    describe("the navigateCallback function (ghostmode links OFF)", function () {
+    describe("the canNavigate function Check", function () {
 
-        var func;
-        var next;
-        var options;
+        var options = {
+            ghostMode: {
+                links: true
+            },
+            excludedFileTypes: defaultConfig.excludedFileTypes
+        };
 
-        before(function () {
-            options = {
-                ghostMode: {
-                    links:false
-                }
-            };
-            func = server.utils.navigateCallback(io, options);
-            next = sinon.spy();
-        });
-        it("should NOT call sockets.clients() if links disabled in config", function () {
-            func({url: "/"}, {}, next);
-            sinon.assert.notCalled(clientsSpy);
+        describe("rejecting/accepting requests", function () {
+            var req;
+            beforeEach(function () {
+                req = {
+                    method: "GET",
+                    url: "/upload",
+                    headers: {}
+                };
+            });
+            it("should return false for files in excluded list", function () {
+                req.url = "/core.css";
+                var actual = canNavigate(req, options);
+                assert.isFalse(actual);
+            });
+            it("should return false for POST requests", function () {
+                req.method = "POST";
+                var actual = canNavigate(req, options);
+                assert.isFalse(actual);
+            });
+            it("should return false for PUT requests", function () {
+                req.method = "PUT";
+                var actual = canNavigate(req, options);
+                assert.isFalse(actual);
+            });
+            it("should return false for PATCH requests", function () {
+                req.method = "PATCH";
+                var actual = canNavigate(req, options);
+                assert.isFalse(actual);
+            });
+            it("should return false for DELETE requests", function () {
+                req.method = "DELETE";
+                var actual = canNavigate(req, options);
+                assert.isFalse(actual);
+            });
+            it("should return true when url is NOT iun exluded list", function () {
+                req.url = "/app";
+                var actual = canNavigate(req, options);
+                assert.isTrue(actual);
+            });
+            it("should return TRYE when url is NOT in exluded list", function () {
+                req.url = "/";
+                var actual = canNavigate(req, options);
+                assert.isTrue(actual);
+            });
+            it("should return FALSE when ghostMode Links disabled", function () {
+                options.ghostMode.links = false;
+                var actual = canNavigate(req, options);
+                assert.isFalse(actual);
+            });
+            it("should return false for AJAX requests", function () {
+                req.headers["x-requested-with"] = "XMLHttpRequest";
+                var actual = canNavigate(req, options);
+                assert.isFalse(actual);
+            });
         });
     });
 });

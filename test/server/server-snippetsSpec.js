@@ -3,8 +3,13 @@ var browserSync = new bs();
 var messages = require("../../lib/messages");
 var http = require("http");
 var sinon = require("sinon");
+var _ = require("lodash");
 var assert = require("chai").assert;
 var server = require("../../lib/server");
+var index = require("../../lib/index");
+var defaultConfig = index.defaultConfig;
+var snippetUtils = require("../../lib/snippet").utils;
+var isExcluded = snippetUtils.isExcluded;
 
 var ports = {
     socket: 3000,
@@ -97,5 +102,85 @@ describe("Launching a server with snippets", function () {
                 done();
             });
         });
+    });
+});
+
+describe("isExcluded spec", function () {
+
+    var blackList;
+
+    before(function () {
+        blackList = defaultConfig.excludedFileTypes;
+    });
+    it("Should be a function", function () {
+        assert.isFunction(isExcluded);
+    });
+    it("should return FALSE for requests with no file noname (dir)", function () {
+        var actual = isExcluded("/");
+        assert.isFalse(actual);
+    });
+    it("should return true if request for JS", function () {
+        var actual = isExcluded("/core.js", blackList);
+        assert.isTrue(actual);
+    });
+    it("should return true if request for CSS", function () {
+        var actual = isExcluded("/styles/core.css", blackList);
+        assert.isTrue(actual);
+    });
+    it("should return true if request for JS", function () {
+        var actual = isExcluded("/files.svg", blackList);
+        assert.isTrue(actual);
+    });
+    it("should return true if request for JS", function () {
+        var actual = isExcluded("/files.ico", blackList);
+        assert.isTrue(actual);
+    });
+    it("should return true if request for JS", function () {
+        var actual = isExcluded("/files.woff", blackList);
+        assert.isTrue(actual);
+    });
+    it("should return true if request for JS", function () {
+        var actual = isExcluded("/files.eot", blackList);
+        assert.isTrue(actual);
+    });
+    it("should return true if request for JS", function () {
+        var actual = isExcluded("/files.ttf", blackList);
+        assert.isTrue(actual);
+    });
+    it("should return true if request for JS", function () {
+        var actual = isExcluded("/files.png", blackList);
+        assert.isTrue(actual);
+    });
+    it("should return true if request for JS", function () {
+        var actual = isExcluded("/files.jpg", blackList);
+        assert.isTrue(actual);
+    });
+    it("should return true if request for JS", function () {
+        var actual = isExcluded("/files.jpeg", blackList);
+        assert.isTrue(actual);
+    });
+    it("should return true if request for JS", function () {
+        var actual = isExcluded("/files.gif", blackList);
+        assert.isTrue(actual);
+    });
+    it("should return true if request for JS", function () {
+        var actual = isExcluded("/files.json", blackList);
+        assert.isTrue(actual);
+    });
+    it("should return true if request for JS", function () {
+        var actual = isExcluded("/files.mp4", blackList);
+        assert.isTrue(actual);
+    });
+    it("should return true if request for JS", function () {
+        var actual = isExcluded("/files.mp3", blackList);
+        assert.isTrue(actual);
+    });
+    it("should return true if request for JS", function () {
+        var actual = isExcluded("/files.ogg", blackList);
+        assert.isTrue(actual);
+    });
+    it("should return true if request for JS", function () {
+        var actual = isExcluded("/files.m4a", blackList);
+        assert.isTrue(actual);
     });
 });
