@@ -1,6 +1,6 @@
 "use strict";
 
-var index = require("../../lib/index");
+var index = require("../../../lib/index");
 var assert = require("chai").assert;
 var sinon = require("sinon");
 var setup = index.setup;

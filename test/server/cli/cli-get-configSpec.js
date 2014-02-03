@@ -1,8 +1,8 @@
 "use strict";
 
-var index = require("../../lib/index");
-var messages = require("../../lib/messages");
-var dConfig = require("../fixtures/config/si-default-config");
+var index = require("../../../lib/index");
+var messages = require("../../../lib/messages");
+var dConfig = require("../../fixtures/config/si-default-config");
 var _ = require("lodash");
 var sinon = require("sinon");
 var assert = require("chai").assert;

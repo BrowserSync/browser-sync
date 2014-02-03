@@ -1,6 +1,6 @@
-var bs = require("../../lib/browser-sync");
-var messages = require("../../lib/messages");
-var portScanner = require("../../lib/ports");
+var bs = require("../../../lib/browser-sync");
+var messages = require("../../../lib/messages");
+var portScanner = require("../../../lib/ports");
 var browserSync = new bs();
 var assert = require("chai").assert;
 var sinon = require("sinon");
@@ -101,7 +101,7 @@ describe("Browser Sync INIT", function () {
             browserSync.init(files, options);
             sinon.assert.calledWithExactly(fail, "ERROR", options, true);
         });
-        
+
         it("should call getPortRange() with user specified ports when provided in options.", function(){
           var options = {
               ports: {

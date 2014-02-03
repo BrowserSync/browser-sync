@@ -1,9 +1,9 @@
-var bs = require("../../lib/browser-sync");
+var bs = require("../../../lib/browser-sync");
 var browserSync = new bs();
-var messages = require("../../lib/messages");
+var messages = require("../../../lib/messages");
 var _ = require("lodash");
 var http = require("http");
-var proxy = require("../../lib/proxy");
+var proxy = require("../../../lib/proxy");
 var utils = proxy.utils;
 var assert = require("chai").assert;
 var fs = require("fs");

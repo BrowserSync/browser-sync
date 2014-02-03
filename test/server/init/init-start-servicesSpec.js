@@ -1,13 +1,13 @@
-var bs = require("../../lib/browser-sync");
-var controlPanel = require("../../lib/control-panel");
-var messages = require("../../lib/messages");
+var bs = require("../../../lib/browser-sync");
+var controlPanel = require("../../../lib/control-panel");
+var messages = require("../../../lib/messages");
 var devIp = require("dev-ip");
 var browserSync = new bs();
 var assert = require("chai").assert;
 var sinon = require("sinon");
 var _ = require("lodash");
 var options = browserSync.options;
-var fileWatcher = require("../../lib/file-watcher");
+var fileWatcher = require("../../../lib/file-watcher");
 
 describe("Browser Sync: Start Services", function () {
 

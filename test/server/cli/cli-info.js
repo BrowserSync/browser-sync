@@ -1,11 +1,11 @@
 "use strict";
 
-var index = require("../../lib/index");
+var index = require("../../../lib/index");
 var _ = require("lodash");
 var assert = require("chai").assert;
 var sinon = require("sinon");
 var fs = require("fs");
-var messages = require("../../lib/messages");
+var messages = require("../../../lib/messages");
 var setup = index.setup;
 var info = index.info;
 

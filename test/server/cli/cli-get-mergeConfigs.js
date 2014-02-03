@@ -1,6 +1,6 @@
 "use strict";
 
-var index = require("../../lib/index");
+var index = require("../../../lib/index");
 var assert = require("chai").assert;
 var _ = require("lodash");
 var setup = index.setup;

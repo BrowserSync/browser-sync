@@ -1,11 +1,11 @@
-var bs = require("../../lib/browser-sync");
+var bs = require("../../../lib/browser-sync");
 var browserSync = new bs();
-var messages = require("../../lib/messages");
+var messages = require("../../../lib/messages");
 var http = require("http");
 var filePath = require("path");
 var connect = require("connect");
 var sinon = require("sinon");
-var proxy = require("../../lib/proxy");
+var proxy = require("../../../lib/proxy");
 var assert = require("chai").assert;
 
 var ports = {
