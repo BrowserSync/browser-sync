@@ -72,7 +72,6 @@ describe("Browser-sync: using a proxy from command-line", function () {
         });
         it("should default to port 80", function () {
             assert.equal(config.proxy.host, "local.dev.com");
-            assert.equal(config.proxy.port, "80");
         });
     });
     describe("accepting a full url with protocol", function () {
@@ -85,7 +84,6 @@ describe("Browser-sync: using a proxy from command-line", function () {
         });
         it("should default to port 80", function () {
             assert.equal(config.proxy.host, "local.dev.com");
-            assert.equal(config.proxy.port, "80");
         });
     });
     describe("accepting a full url with protocol + port", function () {
@@ -124,7 +122,6 @@ describe("Browser-sync: using a proxy from command-line", function () {
         });
         it("should default to port 80", function () {
             assert.equal(config.proxy.host, "bbc.co.uk");
-            assert.equal(config.proxy.port, "80");
         });
     });
     describe("Excluding paths", function () {
@@ -137,7 +134,6 @@ describe("Browser-sync: using a proxy from command-line", function () {
         });
         it("should default to port 80", function () {
             assert.equal(config.proxy.host, "bbc.co.uk");
-            assert.equal(config.proxy.port, "80");
         });
     });
     describe("Excluding trailing slashes", function () {
@@ -148,7 +144,7 @@ describe("Browser-sync: using a proxy from command-line", function () {
             };
             config = setup.getConfig(defaultConfig, argv);
         });
-        it("should default to port 80", function () {
+        it("should use given port", function () {
             assert.equal(config.proxy.host, "0.0.0.0");
             assert.equal(config.proxy.port, "8000");
         });
@@ -163,7 +159,6 @@ describe("Browser-sync: using a proxy from command-line", function () {
         });
         it("should default to port 80", function () {
             assert.equal(config.proxy.host, "web");
-            assert.equal(config.proxy.port, "80");
         });
     });
 });
