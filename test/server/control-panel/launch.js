@@ -24,15 +24,25 @@ var snippet = messages.scriptTags(host, ports, {}, "controlPanel");
 describe("Launching the Control panel", function () {
 
     var controlPanelServer;
-    var io;
+    var options, clientScriptSpy;
 
     before(function () {
-        io = {};
-        controlPanelServer = controlPanel.launchControlPanel("0.0.0.0", ports, {});
+        options = {
+            devMode: false
+        };
+        clientScriptSpy = sinon.spy(messages, "clientScript");
+        controlPanelServer = controlPanel.launchControlPanel("0.0.0.0", ports, options);
     });
 
+    afterEach(function () {
+        clientScriptSpy.restore();
+    });
     after(function () {
         controlPanelServer.close();
+    });
+
+    it("should call clientScript with options", function () {
+        sinon.assert.calledWithExactly(clientScriptSpy, options);
     });
 
     it("should launch and be accessible via http", function (done) {
@@ -97,8 +107,10 @@ describe("Modify Snippet", function () {
 
     var readFile;
     var socketConnector;
+    var clientScript;
 
     before(function () {
+        clientScript = messages.clientScript();
         socketConnector = sinon.spy(messages, "socketConnector");
         readFile = sinon.stub(fs, "readFileSync");
     });
@@ -117,13 +129,13 @@ describe("Modify Snippet", function () {
         assert.isFunction(actual);
     });
     it("should read the client JS file", function () {
-        controlPanel.utils.modifySnippet(host, ports[0]);
+        controlPanel.utils.modifySnippet(host, ports[0], {}, clientScript);
         var arg = readFile.getCall(0).args[0];
         var actual = arg.indexOf(messages.clientScript());
         assert.isTrue(actual > 0);
     });
     it("should read the client JS SHIMS file", function () {
-        controlPanel.utils.modifySnippet(host, ports[0]);
+        controlPanel.utils.modifySnippet(host, ports[0], {}, clientScript);
         var arg = readFile.getCall(1).args[0];
         var actual = arg.indexOf(messages.client.shims);
         assert.isTrue(actual > 0);
