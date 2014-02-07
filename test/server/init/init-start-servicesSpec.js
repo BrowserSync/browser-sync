@@ -82,8 +82,9 @@ describe("Browser Sync: Start Services", function () {
         sinon.assert.calledWithExactly(handleSocketConnection, ["CALLBACKS"], args.options, browserSync.handleClientSocketEvent);
     });
     it("should call filewatcher init", function () {
+        var emitter = browserSync.getEmitter();
         browserSync.startServices(args);
-        sinon.assert.calledWithExactly(fileWatcherInit, browserSync.changeFile, browserSync.log, args.files, {}, args.options, browserSync);
+        sinon.assert.calledWithExactly(fileWatcherInit, args.files, args.options, emitter);
     });
     it("should NOT call launch Server niether server or proxy provided", function () {
         browserSync.startServices(args);

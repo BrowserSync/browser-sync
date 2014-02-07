@@ -2,6 +2,7 @@ var fs = require("fs");
 var bs = require("../../lib/browser-sync");
 var messages = require("../../lib/messages");
 var fileWatcher = require("../../lib/file-watcher");
+var events = require("events");
 var browserSync = new bs();
 var options = bs.options;
 var Gaze = require("gaze").Gaze;
@@ -40,28 +41,32 @@ describe("Watching files init", function () {
     var watchCallback;
     var files;
     var msgStub;
+    var emitter;
     var socket = {
         emit: function () {
             return true;
         }
     };
-    var spy;
+    var spy, eventSpy;
     before(function () {
+        emitter = new events.EventEmitter();
         logSpy = sinon.spy();
         spy = sinon.spy();
         watchCallback = sinon.spy(fileWatcher, "getWatchCallback");
         msgStub = sinon.stub(messages.files, "watching").returns("MESSAGE");
+        eventSpy = sinon.spy(emitter, "emit");
     });
 
     beforeEach(function () {
         files = [testFile1, testFile2];
-        fileWatcher.init(browserSync.changeFile, logSpy, files, socket, {}, browserSync);
+        fileWatcher.init(files, {}, emitter);
     });
 
     afterEach(function () {
         watchCallback.reset();
         logSpy.reset();
         msgStub.reset();
+        eventSpy.reset();
     });
 
     after(function () {
@@ -70,7 +75,7 @@ describe("Watching files init", function () {
     });
     it("should call the watch callback when watching has started", function (done) {
         setTimeout(function () {
-            sinon.assert.called(watchCallback);
+            sinon.assert.called(eventSpy);
             done();
         }, 300);
     });
@@ -82,7 +87,7 @@ describe("Watching files init", function () {
     });
     it("should log when the patterns when watching has started", function (done) {
         setTimeout(function () {
-            sinon.assert.calledWithExactly(logSpy, "MESSAGE", {}, true);
+            sinon.assert.calledWithExactly(eventSpy, "log", {msg: "MESSAGE", override: true});
             done();
         }, 300);
     });
@@ -94,16 +99,18 @@ describe("Watching files init (when none found)", function () {
     var watchCallback;
     var files;
     var msgStub;
-    var socket = {};
+    var socket = {}, emitter, eventSpy;
     before(function () {
+        emitter = new events.EventEmitter();
         logSpy = sinon.spy();
         watchCallback = sinon.spy(fileWatcher, "getWatchCallback");
         msgStub = sinon.stub(messages.files, "watching").returns("MESSAGE");
+        eventSpy = sinon.spy(emitter, "emit");
     });
 
     beforeEach(function () {
         files = ["*.rb"];
-        fileWatcher.init(browserSync.changeFile, logSpy, files, socket, {}, browserSync);
+        fileWatcher.init(files, {}, emitter);
     });
 
     afterEach(function () {
@@ -118,7 +125,7 @@ describe("Watching files init (when none found)", function () {
 
     it("should call the watch callback when watching has started", function (done) {
         setTimeout(function () {
-            sinon.assert.called(watchCallback);
+            sinon.assert.called(eventSpy);
             done();
         }, 300);
     });
@@ -131,7 +138,7 @@ describe("Watching files init (when none found)", function () {
     });
     it("should log when the patterns when watching has started", function (done) {
         setTimeout(function () {
-            sinon.assert.calledWithExactly(logSpy, "MESSAGE", {}, true);
+            sinon.assert.calledWithExactly(eventSpy, "log", {msg: "MESSAGE", override: true});
             done();
         }, 300);
     });
@@ -143,19 +150,22 @@ describe("Watching files", function () {
     var changeCallback;
     var changedFile;
     var fsStub;
-    var options;
+    var options, emitter, emitSpy;
     before(function () {
+        emitter = new events.EventEmitter();
         options = {
             fileTimeout: 10
         };
         changedFile = testFile1;
         callback = sinon.spy();
-        changeCallback = sinon.spy(fileWatcher.getChangeCallback(callback, {}, options, browserSync));
+        changeCallback = sinon.spy(fileWatcher.getChangeCallback(options, emitter));
         fsStub = sinon.stub(fs, "statSync");
+        emitSpy = sinon.spy(emitter, "emit");
     });
 
     afterEach(function () {
         callback.reset();
+        emitSpy.reset();
         changeCallback.reset();
         fsStub.reset();
     });
@@ -164,7 +174,7 @@ describe("Watching files", function () {
         fsStub.restore();
     });
 
-    it("can call the callback when a file has changed! with > 0 bytes", function  (done) {
+    it("can call the callback when a file has changed! with > 0 bytes", function (done) {
 
         fsStub.returns({size: 300});
 
@@ -173,12 +183,11 @@ describe("Watching files", function () {
         }, 20);
 
         setTimeout(function () {
-            sinon.assert.calledWithExactly(callback, changedFile, {}, options, browserSync);
+            sinon.assert.calledWithExactly(emitSpy, "file:changed", {path: changedFile});
             done();
         }, 30);
 
     });
-
     it("does not call the callback if 0 bytes", function (done) {
 
         fsStub.returns({size: 0});
@@ -188,11 +197,10 @@ describe("Watching files", function () {
         }, 20);
 
         setTimeout(function () {
-            sinon.assert.notCalled(callback);
+            sinon.assert.notCalled(emitSpy);
             done();
         }, 30);
     });
-
     it("should call the callback if 0 bytes first, then > 0 bytes on second call", function (done) {
 
         fsStub.returns({size: 0});
@@ -208,7 +216,7 @@ describe("Watching files", function () {
                 changeCallback(changedFile);
 
                 setTimeout(function () {
-                    sinon.assert.calledWithExactly(callback, changedFile, {}, options, browserSync);
+                    sinon.assert.calledWithExactly(emitSpy, "file:changed", {path: changedFile});
                     done();
                 }, 20);
             }, 20);
