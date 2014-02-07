@@ -2,12 +2,21 @@
 
 
 var browser1 = {
+    id: "2323",
     name: "Chrome",
     version: "32.0.1700.107",
     width: 100,
     height: 200
 };
 var browser2 = {
+    id: "23aa",
+    name: "Firefox",
+    version: "12.322",
+    width: 800,
+    height: 212
+};
+var cpBrowser = {
+    id: "0000",
     name: "Firefox",
     version: "12.322",
     width: 800,
@@ -51,6 +60,9 @@ describe("Main Controller", function () {
     it("should have an empty browsers object", function () {
         assert.isDefined(scope.browsers);
     });
+    it("should have a socket id property", function () {
+        assert.isDefined(scope.socketId);
+    });
     it("should have a socketEvents object on the scope", function () {
         assert.isDefined(scope.socketEvents);
     });
@@ -62,20 +74,14 @@ describe("Main Controller", function () {
     });
 
     // EVENTS
-    it("should add options received from socket the scope", function () {
-        scope.socketEvents.connection({name: "shane"});
-        assert.equal(scope.options.name, "shane");
-    });
     it("should add a single browser to the scope", function () {
-        scope.socketEvents.addBrowser(browser1);
-        assert.equal(scope.browsers.length, 1);
-        assert.equal(scope.browsers[0].name, "Chrome");
-    });
-    it("should add mulitple browsers to the scope", function () {
-        scope.socketEvents.addBrowser(browser1);
-        scope.socketEvents.addBrowser(browser2);
+        scope.socketEvents.addBrowsers([browser1, browser2]);
         assert.equal(scope.browsers.length, 2);
         assert.equal(scope.browsers[0].name, "Chrome");
-        assert.equal(scope.browsers[1].name, "Firefox");
+    });
+    it("should not add the control panel to the list of devices", function () {
+        scope.socketId = "0000";
+        scope.socketEvents.addBrowsers([browser1, browser2, cpBrowser]);
+        assert.equal(scope.browsers.length, 2);
     });
 });

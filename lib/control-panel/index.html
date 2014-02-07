@@ -74,11 +74,11 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <tr ng-repeat="browser in browsers">
-                                        <td>{{$index + 1}}</td>
+                                    <tr ng-repeat="browser in browsers track by browser.id">
+                                        <td>{{browser.id}}<br/>{{socketId}}</td>
                                         <td>{{browser.name}}</td>
                                         <td>{{browser.version}}</td>
-                                        <td>{{browser.width}} x {{browser.height}}</td>
+                                        <td>800 x 600</td>
                                     </tr>
                                     </tbody>
                                 </table>
