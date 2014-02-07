@@ -49,7 +49,10 @@
                 <ol class="breadcrumb">
                     <li>Dashboard</li>
                 </ol>
-                <url-info ng-if="options" options="options"></url-info>
+                <url-info ng-if="options.server || options.proxy" options="options"></url-info>
+                <h1 ng-if="!options.server && !options.proxy"><small>Using: </small>
+                    <a href="" title="Show Snippet">Snippet</a>
+                </h1>
             </div>
             <div class="container">
                 <div class="row">
@@ -61,7 +64,24 @@
                                 </div>
                             </div>
                             <div class="panel-body">
-
+                                <table class="table table-striped">
+                                    <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Browser</th>
+                                        <th>Version</th>
+                                        <th>Screen Size</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr ng-repeat="browser in browsers">
+                                        <td>{{$index + 1}}</td>
+                                        <td>{{browser.name}}</td>
+                                        <td>{{browser.version}}</td>
+                                        <td>{{browser.width}} x {{browser.height}}</td>
+                                    </tr>
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                     </div>

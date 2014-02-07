@@ -61,5 +61,4 @@ describe("Directive: Tabs", function () {
             assert.equal(actual, expected);
         });
     });
-
 });
