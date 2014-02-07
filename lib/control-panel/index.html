@@ -59,29 +59,28 @@
                     <div class="col-md-12">
                         <div class="panel panel-primary">
                             <div class="panel-heading">
-                                <h4>Heading</h4>
+                                <h4>Sync Location</h4>
                                 <div class="options">
                                 </div>
                             </div>
                             <div class="panel-body">
-                                <table class="table table-striped">
-                                    <thead>
-                                    <tr>
-                                        <th>#</th>
-                                        <th>Browser</th>
-                                        <th>Version</th>
-                                        <th>Screen Size</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    <tr ng-repeat="browser in browsers track by browser.id">
-                                        <td>{{browser.id}}<br/>{{socketId}}</td>
-                                        <td>{{browser.name}}</td>
-                                        <td>{{browser.version}}</td>
-                                        <td>800 x 600</td>
-                                    </tr>
-                                    </tbody>
-                                </table>
+                                <div class="containter well">
+                                    <div class="row">
+                                        <div class="col-xs-4">
+                                            <h5 class="text-right">
+                                                http:{{options.url}}/
+                                            </h5>
+                                        </div>
+                                        <div class="col-xs-8">
+                                            <div class="input-group ">
+                                                <input ng-model="data.url" type="text" placeholder="Enter path eg: about-us" class="form-control">
+                                                  <span class="input-group-btn">
+                                                    <button ng-click="goTo(data.url)" type="button" class="btn btn-primary"><i class="fa fa-share"></i> Send All Here</button>
+                                                  </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
