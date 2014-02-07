@@ -3,6 +3,7 @@
 var index = require("../../../lib/index");
 var assert = require("chai").assert;
 var sinon = require("sinon");
+var events = require("events");
 var setup = index.setup;
 var defaultConfig = index.defaultConfig;
 
@@ -12,8 +13,8 @@ describe("Exposed INIT method for plugins", function () {
     var kickoffStub;
     before(function () {
         mergeConfigSpy = sinon.spy(setup, "mergeConfigObjects");
-        mergeFilesSpy = sinon.spy(setup, "mergeFiles");
-        kickoffStub = sinon.stub(setup, "kickoff");
+        mergeFilesSpy  = sinon.spy(setup, "mergeFiles");
+        kickoffStub    = sinon.stub(setup, "kickoff").returns(new events.EventEmitter());
     });
     afterEach(function () {
         mergeFilesSpy.reset();
@@ -75,5 +76,10 @@ describe("Exposed INIT method for plugins", function () {
         var userOptions = {};
         index.init("*.css", userOptions);
         sinon.assert.notCalled(mergeFilesSpy);
+    });
+    it("should return the eventEmitter", function () {
+        var userOptions = {};
+        var actual = index.init("*.css", userOptions);
+        assert.instanceOf(actual, events.EventEmitter);
     });
 });

@@ -1,7 +1,9 @@
 var bs = require("../../../lib/browser-sync");
 var controlPanel = require("../../../lib/control-panel");
 var messages = require("../../../lib/messages");
+var api = require("../../../lib/api");
 var devIp = require("dev-ip");
+var events = require("events");
 var browserSync = new bs();
 var assert = require("chai").assert;
 var sinon = require("sinon");
@@ -22,6 +24,7 @@ describe("Browser Sync: Start Services", function () {
     var initMessage;
     var log;
     var devIpStub;
+    var getApiStub;
 
     beforeEach(function () {
         args = {
@@ -45,6 +48,7 @@ describe("Browser Sync: Start Services", function () {
         launchControlPanel = sinon.stub(controlPanel, "launchControlPanel");
         ipStub = sinon.stub(browserSync, "getHostIp").returns("0.0.0.0");
         devIpStub = sinon.stub(devIp, "getIp").returns("0.0.0.0");
+        getApiStub = sinon.stub(api, "getApi").returns({test: "value"});
     });
 
     afterEach(function () {
@@ -102,5 +106,15 @@ describe("Browser Sync: Start Services", function () {
     it("should log snippets when no server or proxy used", function () {
         browserSync.startServices(args);
         sinon.assert.called(log);
+    });
+    it("should get the API", function () {
+        browserSync.startServices(args);
+        sinon.assert.called(getApiStub);
+    });
+    it("should emit the init event with the API", function () {
+        var emitter = browserSync.getEmitter();
+        var spy = sinon.spy(emitter, "emit");
+        var actual = browserSync.startServices(args);
+        sinon.assert.calledWithExactly(spy, "init", {test: "value"});
     });
 });

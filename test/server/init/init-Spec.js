@@ -1,6 +1,7 @@
 var bs = require("../../../lib/browser-sync");
 var messages = require("../../../lib/messages");
 var portScanner = require("../../../lib/ports");
+var events = require("events");
 var browserSync = new bs();
 var assert = require("chai").assert;
 var sinon = require("sinon");
@@ -50,6 +51,16 @@ describe("Browser Sync INIT", function () {
         getPortsCallback.restore();
         getPorts.restore();
         fail.restore();
+    });
+
+    describe("returning event emitter", function () {
+        it("should return the event emitter", function () {
+            var options = {
+                ports: portRange
+            };
+            var bs = browserSync.init(files, options);
+            assert.instanceOf(bs, events.EventEmitter);
+        });
     });
 
     describe("Setting up servers with correct config", function () {
