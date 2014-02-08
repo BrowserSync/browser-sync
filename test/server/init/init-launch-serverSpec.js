@@ -53,8 +53,10 @@ describe("Browser Sync: init Server", function () {
             }
         };
 
+        var url = "http://" + host + ":" + ports.server;
+
         browserSync.initServer(host, ports, options);
-        sinon.assert.calledWithExactly(open, host, ports.server, options);
+        sinon.assert.calledWithExactly(open, url, options);
     });
     it("should Set the URL on the options when server used", function () {
 
@@ -65,7 +67,7 @@ describe("Browser Sync: init Server", function () {
         };
         browserSync.initServer(host, ports, options);
         var actual = options.url;
-        var expected = "//0.0.0.0:3002";
+        var expected = "http://0.0.0.0:3002";
         assert.equal(actual, expected);
     });
     it("should Set the URL on the options when server used", function () {
@@ -76,7 +78,7 @@ describe("Browser Sync: init Server", function () {
         };
         browserSync.initServer(host, ports, options);
         var actual = options.url;
-        var expected = "//0.0.0.0:3003";
+        var expected = "http://0.0.0.0:3003";
         assert.equal(actual, expected);
     });
     it("should call open browser with proxy port", function () {
@@ -87,8 +89,10 @@ describe("Browser Sync: init Server", function () {
             }
         };
 
+        var url = "http://" + host + ":" + ports.proxy;
+
         browserSync.initServer(host, ports, options);
-        sinon.assert.calledWithExactly(open, host, ports.proxy, options);
+        sinon.assert.calledWithExactly(open, url, options);
     });
 
     describe("logging about servers", function () {
