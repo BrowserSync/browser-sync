@@ -49,42 +49,28 @@ describe("File Watcher Module", function () {
 
     describe("Watching files init", function () {
 
-        var logSpy;
-        var watchCallback;
-        var files;
+        var files = [testFile1, testFile2];
         var msgStub;
         var emitter;
-        var socket = {
-            emit: function () {
-                return true;
-            }
-        };
-        var spy, eventSpy;
+        var eventSpy;
 
         before(function () {
             emitter = new events.EventEmitter();
-            logSpy = sinon.spy();
-            spy = sinon.spy();
-            watchCallback = sinon.spy(fileWatcher, "getWatchCallback");
             msgStub = sinon.stub(messages.files, "watching").returns("MESSAGE");
             eventSpy = sinon.spy(emitter, "emit");
         });
 
         beforeEach(function () {
-            files = [testFile1, testFile2];
             fileWatcher.init(files, {}, emitter);
         });
 
         afterEach(function () {
-            watchCallback.reset();
-            logSpy.reset();
             msgStub.reset();
             eventSpy.reset();
         });
 
         after(function () {
             msgStub.restore();
-            watchCallback.restore();
         });
         it("should call the watch callback when watching has started", function () {
             clock.tick(300);
@@ -102,27 +88,23 @@ describe("File Watcher Module", function () {
 
     describe("Watching files init (when none found)", function () {
 
-        var logSpy;
         var watchCallback;
-        var files;
+        var files = ["*.rb"];
         var msgStub;
-        var socket = {}, emitter, eventSpy;
+        var emitter, eventSpy;
         before(function () {
             emitter = new events.EventEmitter();
-            logSpy = sinon.spy();
             watchCallback = sinon.spy(fileWatcher, "getWatchCallback");
             msgStub = sinon.stub(messages.files, "watching").returns("MESSAGE");
             eventSpy = sinon.spy(emitter, "emit");
         });
 
         beforeEach(function () {
-            files = ["*.rb"];
             fileWatcher.init(files, {}, emitter);
         });
 
         afterEach(function () {
             watchCallback.reset();
-            logSpy.reset();
             msgStub.reset();
         });
 
@@ -147,26 +129,23 @@ describe("File Watcher Module", function () {
 
     describe("Watching files", function () {
 
-        var callback;
-        var changeCallback;
+        var changeCallback = testFile1;
+        var options = {
+            fileTimeout: 10
+        };
         var changedFile;
         var fsStub;
-        var options, emitter, emitSpy;
+        var emitter;
+        var emitSpy;
 
         before(function () {
             emitter = new events.EventEmitter();
-            options = {
-                fileTimeout: 10
-            };
-            changedFile = testFile1;
-            callback = sinon.spy();
             changeCallback = sinon.spy(fileWatcher.getChangeCallback(options, emitter));
             fsStub = sinon.stub(fs, "statSync");
             emitSpy = sinon.spy(emitter, "emit");
         });
 
         afterEach(function () {
-            callback.reset();
             emitSpy.reset();
             changeCallback.reset();
             fsStub.reset();
