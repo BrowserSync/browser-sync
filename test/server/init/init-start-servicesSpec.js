@@ -114,8 +114,9 @@ describe("Browser Sync: Start Services", function () {
     });
     it("should emit the init event with the API", function () {
         var emitter = browserSync.getEmitter();
-        var spy = sinon.spy(emitter, "emit");
+        var stub = sinon.stub(emitter, "emit");
         var actual = browserSync.startServices(args);
-        sinon.assert.calledWithExactly(spy, "init", {test: "value"});
+        sinon.assert.calledWithExactly(stub, "init", {test: "value"});
+        stub.restore();
     });
 });

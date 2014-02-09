@@ -17,7 +17,7 @@ describe("Directive: Tabs", function () {
                 server: {
                     baseDir: "./"
                 },
-                url: "//0.0.0.0:3002"
+                url: "http://0.0.0.0:3002"
             };
 
             // Pass in the user object to the directive
@@ -43,7 +43,7 @@ describe("Directive: Tabs", function () {
                 proxy: {
                     host: "0.0.0.0"
                 },
-                url: "//0.0.0.0:3002"
+                url: "http://0.0.0.0:3002"
             };
 
             // Pass in the user object to the directive
