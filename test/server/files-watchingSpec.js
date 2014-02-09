@@ -127,13 +127,13 @@ describe("File Watcher Module", function () {
         });
     });
 
-    describe("Watching files", function () {
+    describe("Watching files with a Timeout", function () {
 
-        var changeCallback = testFile1;
+        var changeCallback;
         var options = {
             fileTimeout: 10
         };
-        var changedFile;
+        var changedFile = testFile1;
         var fsStub;
         var emitter;
         var emitSpy;
@@ -160,6 +160,7 @@ describe("File Watcher Module", function () {
             fsStub.returns({size: 300});
             clock.tick(20);
             changeCallback(changedFile);
+            clock.tick();
             sinon.assert.calledWithExactly(emitSpy, "file:changed", {path: changedFile});
         });
         it("does not call the callback if 0 bytes", function () {
@@ -177,7 +178,61 @@ describe("File Watcher Module", function () {
             fsStub.returns({size: 300});
             clock.tick(20);
             changeCallback(changedFile);
+            clock.tick();
             sinon.assert.calledWithExactly(emitSpy, "file:changed", {path: changedFile});
+        });
+    });
+    describe("Watching files with a delay", function () {
+
+        var changeCallback = testFile1;
+        var options = {
+            fileTimeout: 0,
+            reloadDelay: 1000
+        };
+        var changedFile;
+        var fsStub;
+        var emitter;
+        var emitSpy;
+        var clock;
+
+        before(function () {
+            emitter = new events.EventEmitter();
+            clock = sinon.useFakeTimers();
+            changeCallback = sinon.spy(fileWatcher.getChangeCallback(options, emitter));
+            fsStub = sinon.stub(fs, "statSync");
+            fsStub.returns({size: 300});
+            emitSpy = sinon.spy(emitter, "emit");
+        });
+
+        afterEach(function () {
+            emitSpy.reset();
+            changeCallback.reset();
+            fsStub.reset();
+        });
+
+        after(function () {
+            fsStub.restore();
+        });
+
+        it("not call the callback straight away if delay in options", function () {
+            clock.tick(900);
+            changeCallback(changedFile);
+            sinon.assert.notCalled(emitSpy);
+        });
+        it("not call the callback straight away if delay in options", function () {
+            clock.tick(300);
+            changeCallback(changedFile);
+            sinon.assert.notCalled(emitSpy);
+        });
+        it("not call the callback straight away if delay in options (2)", function () {
+            clock.tick(1000);
+            changeCallback(changedFile);
+            sinon.assert.called(emitSpy);
+        });
+        it("not call the callback straight away if delay in options (3)", function () {
+            clock.tick(1200);
+            changeCallback(changedFile);
+            sinon.assert.called(emitSpy);
         });
     });
 });
