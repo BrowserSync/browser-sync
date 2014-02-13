@@ -51,10 +51,17 @@ describe("setup Socket", function () {
         assert.isDefined(io.sockets);
         browserSync.killSocket();
     });
+	
+	// @todo Add test for mulitple socket.io clients.
 
     it("can listen for client events when ghost mode Enabled", function (done) {
 
         var socket = clientIo.connect(socketUrl, {"force new connection":true});
+		
+			// Join a room.
+			// https://github.com/LearnBoost/socket.io/wiki/Rooms
+			//socket.join("browser-sync");
+			
             socket.emit("random", {});
             socket.emit("inputchange", {});
 
