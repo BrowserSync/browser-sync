@@ -36,7 +36,7 @@
     "connect": "~2.11.2",
     "ua-parser-js": "~0.6.2",
     "optimist": "0.6.0",
-    "dev-ip": "~0.1.5",
+    "dev-ip": "~0.1.7",
     "gaze": "~0.4.3",
     "http-proxy": "~0.10.3",
     "cl-strings": "~0.0.3"

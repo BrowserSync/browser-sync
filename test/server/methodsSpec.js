@@ -8,6 +8,11 @@ var options = browserSync.options;
 
 describe("Exposed Methods", function () {
 
+    var emitter, emitterStub;
+    before(function () {
+        emitter = browserSync.getEmitter();
+        emitterStub = sinon.stub(emitter, "emit");
+    });
     it("can be loaded", function () {
         assert.isDefined(browserSync);
     });
@@ -15,8 +20,15 @@ describe("Exposed Methods", function () {
     describe("getting the Host IP", function () {
 
         var regex;
+        var stub;
+        before(function () {
+            stub = sinon.stub(messages.host, "multiple");
+        });
         beforeEach(function () {
             regex = /\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}/;
+        });
+        after(function () {
+            stub.restore();
         });
 
         it("does not throw if no are options provided", function () {
@@ -42,6 +54,22 @@ describe("Exposed Methods", function () {
         it("should use 0.0.0.0 as a fallback when no network available", function () {
             var hostIp = browserSync.getHostIp({}, null);
             assert.equal(hostIp, "0.0.0.0");
+        });
+
+        it("should return the ip if given as string", function () {
+            var host = "127.0.0.2";
+            var actual = browserSync.getHostIp({}, host);
+            assert.equal(actual, host);
+        });
+        it("should return the first ip if given array", function () {
+            var hosts = ["127.0.0.2", "21.23.4.6"];
+            var actual = browserSync.getHostIp({}, hosts);
+            assert.equal(actual, hosts[0]);
+        });
+        it("should log a warning about the extra hosts", function () {
+            var hosts = ["127.0.0.2", "21.23.4.6"];
+            var actual = browserSync.getHostIp({}, hosts);
+            sinon.assert.calledWithExactly(stub, "21.23.4.6");
         });
     });
 
@@ -157,28 +185,14 @@ describe("Exposed Methods", function () {
         });
     });
 
-});
     describe("changing a file", function () {
 
-        var spy, emitterStub;
+        var spy;
         var data, emitter;
-
-        before(function () {
-            emitter = browserSync.getEmitter();
-            emitterStub = sinon.stub(emitter, "emit");
-        });
 
         beforeEach(function () {
             data = browserSync.changeFile("/app/styles/core.css", options);
         });
-
-        afterEach(function () {
-            emitterStub.reset();
-        });
-        after(function () {
-            emitterStub.restore();
-        });
-
         it("should return the filename", function () {
             assert.equal(data.assetFileName, "core.css");
         });
@@ -191,7 +205,7 @@ describe("Exposed Methods", function () {
                 fileExtension: "css"
             });
         });
-//
+
         describe("returning the data sent to client when it's a reload file type", function () {
 
             var data;
@@ -279,3 +293,4 @@ describe("Exposed Methods", function () {
             });
         });
     });
+});
