@@ -8,9 +8,11 @@ var browserSync = require("./lib/index");
 //});
 
 var bs = browserSync.init(null, {
-    server: {
-        baseDir: "test/fixtures"
-    }
+    proxy: {
+        host: "localhost",
+        port: 8000
+    },
+    startPath: "/information?rel=2342"
 }).on("init", function (api) {
 
 }).on("file:reload", function (file) {
