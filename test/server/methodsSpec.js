@@ -36,26 +36,22 @@ describe("Exposed Methods", function () {
                 browserSync.getHostIp({});
             });
         });
-
         it("should use the IP address if provided in the options", function () {
             var hostIp = browserSync.getHostIp({
                 host: "192.0.0.1"
             });
             assert.equal(hostIp, "192.0.0.1");
         });
-
         it("should use 0.0.0.0 as a fallback when detect:false", function () {
             var hostIp = browserSync.getHostIp({
                 detect: false
             });
             assert.equal(hostIp, "0.0.0.0");
         });
-
         it("should use 0.0.0.0 as a fallback when no network available", function () {
             var hostIp = browserSync.getHostIp({}, null);
             assert.equal(hostIp, "0.0.0.0");
         });
-
         it("should return the ip if given as string", function () {
             var host = "127.0.0.2";
             var actual = browserSync.getHostIp({}, host);
