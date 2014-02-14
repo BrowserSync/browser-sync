@@ -14,13 +14,6 @@ module.exports = function (grunt) {
         nodeunit: {
             files: ["test/**/*_test.js"]
         },
-        uglify: {
-            clientScript: {
-                files: {
-                    "lib/client/browser-sync-client.min.js": "lib/client/browser-sync-client.js"
-                }
-            }
-        },
         jshint: {
             gruntfile: {
                 options: {

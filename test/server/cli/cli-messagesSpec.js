@@ -18,7 +18,7 @@ describe("No server or Proxy output", function () {
         var expected = "[BS] Copy the following snippet into your website, just before the closing </body> tag";
         expected    += "\n\n<script src='//192.168.0.4:3000/socket.io/socket.io.js'></script>\n";
         expected    += "<script>var ___socket___ = io.connect('http://192.168.0.4:3000');</script>\n";
-        expected    += "<script src='//192.168.0.4:3001/client/browser-sync-client.min.js'></script>\n";
+        expected    += "<script src='//192.168.0.4:3001/client/browser-sync-client.js'></script>\n";
 
         var actual   = ansiTrim(messages.init("192.168.0.4", {socket: 3000, controlPanel: 3001}));
         assert.equal(actual, expected);
@@ -86,7 +86,7 @@ describe("Outputting script tags", function () {
     it("can output Socket.io & Client Scripts correctly", function () {
         var expected = "<script src='//192.168.0.4:3000/socket.io/socket.io.js'></script>\n";
         expected    += "<script>var ___socket___ = io.connect('http://192.168.0.4:3000');</script>\n";
-        expected    += "<script src='//192.168.0.4:3001/client/browser-sync-client.min.js'></script>\n";
+        expected    += "<script src='//192.168.0.4:3001/client/browser-sync-client.js'></script>\n";
 
         var actual = messages.scriptTags("192.168.0.4", ports, {});
         assert.equal(actual, expected);
@@ -101,15 +101,10 @@ describe("Outputting script tags", function () {
     });
 });
 
-describe("outputting the client Script", function () {
+describe("outputting the client Script file", function () {
     it("should default to the uglified file", function () {
-        var expected = "/client/browser-sync-client.min.js";
-        var actual   = messages.clientScript();
-        assert.equal(actual, expected);
-    });
-    it("should output the dev file if devmode activated in options", function () {
         var expected = "/client/browser-sync-client.js";
-        var actual   = messages.clientScript({ devMode:true });
+        var actual   = messages.clientScript();
         assert.equal(actual, expected);
     });
 });
