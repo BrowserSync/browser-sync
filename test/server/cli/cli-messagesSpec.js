@@ -18,9 +18,9 @@ describe("No server or Proxy output", function () {
         var expected = "[BS] Copy the following snippet into your website, just before the closing </body> tag";
         expected    += "\n\n<script src='//192.168.0.4:3000/socket.io/socket.io.js'></script>\n";
         expected    += "<script>var ___socket___ = io.connect('http://192.168.0.4:3000');</script>\n";
-        expected    += "<script src='//192.168.0.4:3001/client/browser-sync-client.js'></script>\n";
+        expected    += "<script src='//192.168.0.4:3001/client/browser-sync-client.1.2.3.js'></script>\n";
 
-        var actual   = ansiTrim(messages.init("192.168.0.4", {socket: 3000, controlPanel: 3001}));
+        var actual   = ansiTrim(messages.init("192.168.0.4", {socket: 3000, controlPanel: 3001}, {version: "1.2.3"}));
         assert.equal(actual, expected);
     });
 });
@@ -86,9 +86,9 @@ describe("Outputting script tags", function () {
     it("can output Socket.io & Client Scripts correctly", function () {
         var expected = "<script src='//192.168.0.4:3000/socket.io/socket.io.js'></script>\n";
         expected    += "<script>var ___socket___ = io.connect('http://192.168.0.4:3000');</script>\n";
-        expected    += "<script src='//192.168.0.4:3001/client/browser-sync-client.js'></script>\n";
+        expected    += "<script src='//192.168.0.4:3001/client/browser-sync-client.2.3.4.js'></script>\n";
 
-        var actual = messages.scriptTags("192.168.0.4", ports, {});
+        var actual = messages.scriptTags("192.168.0.4", ports, {version:"2.3.4"});
         assert.equal(actual, expected);
     });
     it("can output Socket.io & Control Panel Script correctly", function () {
@@ -102,9 +102,20 @@ describe("Outputting script tags", function () {
 });
 
 describe("outputting the client Script file", function () {
-    it("should default to the uglified file", function () {
-        var expected = "/client/browser-sync-client.js";
-        var actual   = messages.clientScript();
+    it("should return the client script with a version (1)", function () {
+        var options = {
+            version: "0.5.5"
+        };
+        var expected = "/client/browser-sync-client.0.5.5.js";
+        var actual   = messages.clientScript(options);
+        assert.equal(actual, expected);
+    });
+    it("should return the client script with a version (2)", function () {
+        var options = {
+            version: "1.2.3"
+        };
+        var expected = "/client/browser-sync-client.1.2.3.js";
+        var actual   = messages.clientScript(options);
         assert.equal(actual, expected);
     });
 });

@@ -102,7 +102,7 @@ describe("Browser Sync: Start Services", function () {
     });
     it("Should get the init message if server & proxy not used", function () {
         browserSync.startServices(args);
-        sinon.assert.calledWithExactly(initMessage, "0.0.0.0", args.ports);
+        sinon.assert.calledWithExactly(initMessage, "0.0.0.0", args.ports, args.options);
     });
     it("should log snippets when no server or proxy used", function () {
         browserSync.startServices(args);

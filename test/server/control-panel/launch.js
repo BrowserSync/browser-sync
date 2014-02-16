@@ -18,17 +18,18 @@ var ports = {
 var host  = "0.0.0.0";
 
 var cpHost   = "http://0.0.0.0:3001";
-var clientScriptUrl = "http://0.0.0.0:" + ports.controlPanel + messages.clientScript();
+var clientScriptUrl = "http://0.0.0.0:" + ports.controlPanel + messages.clientScript({version:"2.3.4"});
 var snippet = messages.scriptTags(host, ports, {}, "controlPanel");
 
 describe("Launching the Control panel", function () {
 
     var controlPanelServer;
-    var options, clientScriptSpy;
+    var options, clientScriptSpy, fsStub;
 
     before(function () {
         options = {
-            devMode: false
+            devMode: false,
+            version: "2.3.4"
         };
         clientScriptSpy = sinon.spy(messages, "clientScript");
         controlPanelServer = controlPanel.launchControlPanel("0.0.0.0", ports, options);
@@ -42,7 +43,7 @@ describe("Launching the Control panel", function () {
     });
 
     it("should call clientScript with options", function () {
-        sinon.assert.calledWithExactly(clientScriptSpy, options);
+        sinon.assert.calledWithExactly(clientScriptSpy, options, true);
     });
 
     it("should launch and be accessible via http", function (done) {
