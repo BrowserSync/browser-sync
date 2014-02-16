@@ -58,44 +58,29 @@ If you've found Browser-sync useful and would like to contribute to its continue
 [![Support via Gittip](https://rawgithub.com/chris---/Donation-Badges/master/gittip.jpeg)](https://www.gittip.com/shakyshane)
 [![Support via PayPal](https://rawgithub.com/chris---/Donation-Badges/master/paypal.jpeg)](https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=shakyshane%40gmail%2ecom&lc=US&item_name=browser%2dsync)
 
+##Contributors
 
-#Contributing
-Fork this repo, clone it and then run
-
-```
-npm install
-```
-###Testing
-Tests are split into two categories: Client & Server
-
-**Client-side tests**
-Client-side tests are located in test/client-script/*
-
-// Run the client-side tests & exit
-```
-grunt test:client
-```
-// Run the client-side tests & re-run on every file-change.
-```
-grunt karma:watch
-```
-**Server-side tests**
-Server-side tests are located in test/new-server
-
-// Run the server-side tests & exit
-```
-grunt test:server
-```
-// Run the server-side tests & re-run on every file-change.
-```
-grunt watch
-```
-// Run the server-side tests & client-side tests once & exit.
-```
-grunt test
-```
-
-This is a brand new project so expect bugs & be sure to report them.
+<table>
+    <thead>
+        <tr>
+            <td>Commits</td>
+            <td>Name</td>
+        </tr>
+    </thead>
+    <tr><td>293</td><td> Shane Osbourne</td></tr>
+    <tr><td>11</td><td> Hugo Bessa</td></tr>
+    <tr><td>2</td><td> brutaldev</td></tr>
+    <tr><td>2</td><td> chase_chou</td></tr>
+    <tr><td>1</td><td> Sylvain Emery</td></tr>
+    <tr><td>1</td><td> Tony Holdstock-Brown</td></tr>
+    <tr><td>1</td><td> Werner van Deventer</td></tr>
+    <tr><td>1</td><td> mericson</td></tr>
+    <tr><td>1</td><td> Carl Henderson</td></tr>
+    <tr><td>1</td><td> viktor hesselbom</td></tr>
+    <tr><td>1</td><td> Dave Hall</td></tr>
+    <tr><td>1</td><td> Jory Graham</td></tr>
+    <tr><td>1</td><td> Robert Vock</td></tr>
+</table>
 
 ## License
 Copyright (c) 2013 Shane Osbourne
