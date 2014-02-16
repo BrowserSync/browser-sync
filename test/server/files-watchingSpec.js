@@ -93,37 +93,8 @@ describe("File Watcher Module", function () {
         var msgStub;
         var emitter, eventSpy;
         before(function () {
-            emitter = new events.EventEmitter();
             watchCallback = sinon.spy(fileWatcher, "getWatchCallback");
             msgStub = sinon.stub(messages.files, "watching").returns("MESSAGE");
-            eventSpy = sinon.spy(emitter, "emit");
-        });
-
-        beforeEach(function () {
-            fileWatcher.init(files, {}, emitter);
-        });
-
-        afterEach(function () {
-            watchCallback.reset();
-            msgStub.reset();
-        });
-
-        after(function () {
-            msgStub.restore();
-        });
-
-        it("should call the watch callback when watching has started", function () {
-            clock.tick(300);
-            sinon.assert.called(eventSpy);
-        });
-        it("should call messages.files.watching with NO params", function () {
-            clock.tick(300);
-            var actual = msgStub.getCall(0);
-            assert.deepEqual(actual.args.length, 0);
-        });
-        it("should log when the patterns when watching has started", function () {
-            clock.tick(300);
-            sinon.assert.calledWithExactly(eventSpy, "log", {msg: "MESSAGE", override: true});
         });
     });
 
@@ -182,6 +153,7 @@ describe("File Watcher Module", function () {
             sinon.assert.calledWithExactly(emitSpy, "file:changed", {path: changedFile});
         });
     });
+
     describe("Watching files with a delay", function () {
 
         var changeCallback = testFile1;
