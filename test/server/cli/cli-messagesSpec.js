@@ -211,8 +211,8 @@ describe("Outputting the message about mulitple IPs", function () {
     it("should warn when multiple IPs found", function () {
         var ip1 = "192.168.0.4";
         var ip2 = "192.168.10.2";
-        var expected = "[BS] Warning: Multiple IP addresses found\n";
-        expected    += "[BS] If you have problems, try setting 'host' to 192.168.10.2";
+        var expected = "[BS] Warning: Multiple External IP addresses found\n";
+        expected    += "[BS] If you have problems, you may need to manually set the 'host' option";
         var actual   = ansiTrim(messages.host.multiple("192.168.10.2"));
         assert.equal(actual, expected);
     });
