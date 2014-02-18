@@ -1,7 +1,7 @@
 {
   "name": "browser-sync",
   "description": "Live CSS Reload & Browser Syncing",
-  "version": "0.5.9",
+  "version": "0.6.0",
   "homepage": "https://github.com/shakyshane/browser-sync",
   "author": {
     "name": "Shane Osbourne"
@@ -39,7 +39,7 @@
     "dev-ip": "~0.1.7",
     "gaze": "~0.5.0",
     "http-proxy": "~1.0.2",
-    "cl-strings": "~0.0.3"
+    "cl-strings": "~0.0.5"
   },
   "devDependencies": {
     "grunt-contrib-jshint": "~0.6.0",
