@@ -18,13 +18,11 @@ var snippet = messages.scriptTags("0.0.0.0", ports, options);
 
 describe("Launching a proxy for connect server", function () {
 
-    var app, server, proxyServer, proxyHost, reqCallback;
+    var app, server, proxyServer, proxyHost, reqCallback, options;
 
     before(function () {
 
-        reqCallback = sinon.spy(function (req, res, next) {
-            next();
-        });
+        reqCallback = sinon.spy(function (req, res, next) {});
 
         app = connect().use(connect.static(filePath.resolve("test/fixtures")));
         server = http.createServer(app).listen(8001);
@@ -41,33 +39,46 @@ describe("Launching a proxy for connect server", function () {
 
     });
 
+    beforeEach(function () {
+        options = {
+            hostname: "0.0.0.0",
+            port: ports.proxy,
+            path: "/upload",
+            method: "GET",
+            headers: {
+                accept: "text/html"
+            }
+        };
+    });
+
     after(function () {
         server.close();
         proxyServer.close();
     });
 
     it("can proxy requests + inject snippets into a small HTML response", function (done) {
-
         var data;
-
-        http.get(proxyHost + "/index.html", function (res) {
+        options.path = "/index.html";
+        http.request(options, function (res) {
 
             var chunks = [];
+
             res.on("data", function (chunk) {
                 chunks.push(chunk.toString());
             });
+
             res.on("end", function () {
                 data = chunks.join("");
                 assert.isTrue(data.indexOf(snippet) >= 0);
                 done();
             });
-        });
+        }).end();
     });
 
     it("can proxy requests + inject snippets into a LARGE HTML response", function (done) {
-
         var data;
-        http.get(proxyHost + "/index-large.html", function (res) {
+        options.path = "/index-large.html";
+        http.request(options, function (res) {
             var chunks = [];
             res.on("data", function (chunk) {
                 chunks.push(chunk.toString());
@@ -77,6 +88,6 @@ describe("Launching a proxy for connect server", function () {
                 assert.isTrue(data.indexOf(snippet) >= 0);
                 done();
             });
-        });
+        }).end();
     });
 });

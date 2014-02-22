@@ -22,11 +22,11 @@ var snippet = messages.scriptTags("0.0.0.0", ports, options);
 
 describe("Launching a server with snippets", function () {
 
-    var servers, reqCallback;
-
+    var servers;
     var io;
     var clientsSpy;
     var emitSpy;
+    var reqOptions;
 
     before(function () {
         clientsSpy = sinon.stub().returns([]);
@@ -38,10 +38,6 @@ describe("Launching a server with snippets", function () {
             }
         };
     });
-    afterEach(function () {
-        clientsSpy.reset();
-        emitSpy.reset();
-    });
 
     beforeEach(function () {
 
@@ -51,24 +47,28 @@ describe("Launching a server with snippets", function () {
                 injectScripts: true
             }
         };
+        reqOptions = {
+            hostname: "0.0.0.0",
+            port: ports.server,
+            path: "/",
+            method: "GET",
+            headers: {
+                accept: "text/html"
+            }
+        };
 
         servers = server.launchServer("0.0.0.0", ports, options, io);
     });
 
     afterEach(function () {
+        clientsSpy.reset();
+        emitSpy.reset();
         servers.staticServer.close();
     });
 
-    /**
-     *
-     *
-     * SMALL HTML PAGE
-     *
-     *
-     */
     it("can append the script tags to the body of html files", function (done) {
-
-        http.get(serverHost + "/index.html", function (res) {
+        reqOptions.path = "/index.html";
+        http.request(reqOptions, function (res) {
             var chunks = [];
             var data;
             res.on("data", function (chunk) {
@@ -79,18 +79,12 @@ describe("Launching a server with snippets", function () {
                 assert.isTrue(data.indexOf(snippet) >= 0);
                 done();
             });
-        });
+        }).end();
     });
 
-    /**
-     *
-     *
-     * LARGE HTML PAGE
-     *
-     *
-     */
     it("can append the script tags to the body of a LARGE html FILE", function (done) {
-        http.get(serverHost + "/index-large.html", function (res) {
+        reqOptions.path = "/index-large.html";
+        http.request(reqOptions, function (res) {
             var chunks = [];
             var data;
             res.on("data", function (chunk) {
@@ -101,7 +95,7 @@ describe("Launching a server with snippets", function () {
                 assert.isTrue(data.indexOf(snippet) >= 0);
                 done();
             });
-        });
+        }).end();
     });
 });
 

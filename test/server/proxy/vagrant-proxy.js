@@ -1,11 +1,11 @@
-//var bs = require("../../lib/browser-sync");
+//var bs = require("../../../lib/browser-sync");
 //var browserSync = new bs();
-//var messages = require("../../lib/messages");
+//var messages = require("../../../lib/messages");
 //var http = require("http");
 //var filePath = require("path");
 //var connect = require("connect");
 //var sinon = require("sinon");
-//var proxy = require("../../lib/proxy");
+//var proxy = require("../../../lib/proxy");
 //var assert = require("chai").assert;
 //
 //var ports = {
@@ -20,13 +20,11 @@
 //
 //describe("Launching a proxy for a vagrant based server", function () {
 //
-//    var app, server, proxyServer, reqCallback;
+//    var proxyServer, reqCallback, options;
 //
 //    before(function () {
 //
-//        reqCallback = sinon.spy(function (req, res, next) {
-//            next();
-//        });
+//        reqCallback = sinon.spy(function (req, res, next) {});
 //
 //        var options = {
 //            proxy: {
@@ -38,20 +36,32 @@
 //
 //    });
 //
+//    beforeEach(function () {
+//        options = {
+//            hostname: '0.0.0.0',
+//            port: ports.proxy,
+//            path: '/',
+//            method: 'GET',
+//            headers: {
+//                accept: "text/html"
+//            }
+//        };
+//    });
+//
 //    after(function () {
 //        proxyServer.close();
 //    });
 //
 //    it("can proxy request", function (done) {
-//        http.get(proxyHost, function (res) {
+//        http.request(options, function (res) {
 //            var actual = res.statusCode;
 //            assert.equal(actual, 200);
 //            done();
-//        });
+//        }).end();
 //    });
 //    it("can return the correct content", function (done) {
 //        var data;
-//        http.get(proxyHost, function (res) {
+//        http.request(options, function (res) {
 //            var chunks = [];
 //            res.on("data", function (chunk) {
 //                chunks.push(chunk.toString());
@@ -61,19 +71,11 @@
 //                assert.isTrue(data.indexOf(snippet) >= 0);
 //                done();
 //            });
-//        });
+//        }).end();
 //    });
 //    it("can return the correct content if gzip enabled", function (done) {
 //        var data;
-//
-//        var options = {
-//            host: "0.0.0.0",
-//            port: ports.proxy,
-//            path: "/",
-//            method: "GET",
-//            headers: { "accept-encoding": "gzip" }
-//        };
-//
+//        options.headers["accept-encoding"] = "gzip";
 //        http.request(options, function (res) {
 //            var chunks = [];
 //            res.on("data", function (chunk) {
