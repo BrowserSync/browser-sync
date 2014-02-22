@@ -43,7 +43,7 @@ describe("Ghostmode: forms", function () {
         it("can emit input data to server if all data available", function () {
             var elem = $("input[type=text]")[0], actual;
             ghost.listeners.keyup({target: elem});
-            actual = spy.calledWith("input:type",  { id: "name", value: "name here" });
+            actual = spy.calledWith("input:text",  { id: "name", value: "name here" });
 
             assert.equal(actual, true);
         });
@@ -62,7 +62,7 @@ describe("Ghostmode: forms", function () {
             it("can emit data from a textarea", function () {
                 var elem = $("#message")[0], actual;
                 ghost.listeners.keyup({target: elem});
-                actual = spy.calledWith("input:type",  { id: "message", value: "shane" });
+                actual = spy.calledWith("input:text",  { id: "message", value: "shane" });
 
                 assert.equal(actual, true);
             });

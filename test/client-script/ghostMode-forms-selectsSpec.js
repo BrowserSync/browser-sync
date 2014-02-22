@@ -37,7 +37,7 @@ describe("Ghostmode Forms: Selects", function () {
 
         var elem = $("select")[0], actual;
         ghost.listeners.selectChange({target: elem});
-        actual = spy.calledWith("input:select", { id: "country", value: "uk" });
+        actual = spy.calledWith("input:text", { id: "country", value: "uk" });
         assert.equal(actual, true);
     });
     it("can emit events when options are selected (2)", function () {
@@ -45,7 +45,7 @@ describe("Ghostmode Forms: Selects", function () {
         var elem = $("select")[0], actual;
         elem.value = "spain";
         ghost.listeners.selectChange({target: elem});
-        actual = spy.calledWith("input:select", { id: "country", value: "spain" });
+        actual = spy.calledWith("input:text", { id: "country", value: "spain" });
         assert.equal(actual, true);
     });
 });

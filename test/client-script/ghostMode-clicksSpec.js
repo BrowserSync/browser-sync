@@ -33,6 +33,7 @@ describe("Ghostmode: clicks", function () {
     });
     it("should not emit an event if the element clicked on was an input", function() {
         mockEvent.target = document.createElement("input");
+        mockEvent.target.type = "checkbox";
         ghost.listeners.click(mockEvent, scope);
         sinon.assert.notCalled(emitSpy);
     });

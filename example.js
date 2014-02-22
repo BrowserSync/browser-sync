@@ -1,8 +1,12 @@
 var browserSync = require("./lib/index");
 
 var bs = browserSync.init("test/fixtures/**/*.css", {
-    server: {
-        baseDir: "test/fixtures"
+//    server: {
+//        baseDir: "test/fixtures"
+//    },
+    proxy: {
+        host: "front.end",
+        port: 80
     },
     ports: {
         min: 2000

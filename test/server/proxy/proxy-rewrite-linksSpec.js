@@ -96,3 +96,23 @@ describe("Rewriting links in HTML response with VHOST", function () {
         assert.isTrue(newHtml.indexOf(proxyUrl) >= 0);
     });
 });
+
+describe("Rewriting links in HTML response with VHOST & default port given", function () {
+
+    var serverHost, localHtml;
+    before(function () {
+        serverHost = {
+            host: "local.dev",
+            port: 80
+        };
+    });
+    beforeEach(function () {
+        localHtml = _.clone(html2);
+    });
+
+    it("can rewrite domain name in HTML", function () {
+        var newHtml = utils.rewriteLinks(serverHost, proxyUrl)(localHtml);
+        assert.equal(~newHtml.indexOf("local.dev"), false);
+        assert.isTrue(newHtml.indexOf(proxyUrl) >= 0);
+    });
+});
