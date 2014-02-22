@@ -10,7 +10,6 @@ var index = require("../../lib/index");
 var defaultConfig = index.defaultConfig;
 var snippetUtils = require("../../lib/snippet").utils;
 var isExcluded = snippetUtils.isExcluded;
-var isOldIe = snippetUtils.isOldIe;
 
 var ports = {
     socket: 3000,
@@ -18,7 +17,6 @@ var ports = {
     server: 3002
 };
 var options = {};
-var serverHost = "http://0.0.0.0:" + ports.server;
 var snippet = messages.scriptTags("0.0.0.0", ports, options);
 
 describe("Launching a server with snippets", function () {
@@ -192,18 +190,19 @@ describe("Header replacement for IE8", function () {
 
     var blackList;
     var req;
-
+    var isOldIe;
     before(function () {
         blackList = defaultConfig.excludedFileTypes;
     });
     beforeEach(function () {
+        isOldIe = snippetUtils.isOldIe;
         req = {
             url: "/",
             headers: {
                 "accept": "image/jpeg, application/x-ms-application, image/gif, application/xaml+xml, image/pjpeg, application/x-ms-xbap, */*",
                 "user-agent": "Mozilla/5.0 (compatible; MSIE 7.0; Windows NT 5.1; Trident/4.0; .NET CLR 1.1.4322; .NET CLR 2.0.50727)"
             }
-        }
+        };
     });
     it("Should be a function", function () {
         assert.isFunction(isOldIe);
@@ -211,6 +210,20 @@ describe("Header replacement for IE8", function () {
     it("should re-write the headers for IE", function () {
         var actual = isOldIe(req).headers.accept;
         var expected = "text/html";
+        assert.equal(actual, expected);
+    });
+    it("should re-write the headers for IE", function () {
+        req.url = "/core.css?rel=123446";
+        req.headers.accept = "**/*";
+        var actual = isOldIe(req).headers.accept;
+        var expected = "**/*";
+        assert.equal(actual, expected);
+    });
+    it("should re-write any headers for excluded files", function () {
+        req.url = "/css/style.css";
+        req.headers.accept = "**/*";
+        var actual = snippetUtils.isOldIe(req, blackList).headers.accept;
+        var expected = "**/*";
         assert.equal(actual, expected);
     });
 });
