@@ -40,7 +40,7 @@
     "gaze": "~0.5.0",
     "http-proxy": "~1.0.2",
     "cl-strings": "~0.0.5",
-    "connect-livereload": "~0.3.2"
+    "resp-modifier": "~0.0.2"
   },
   "devDependencies": {
     "grunt-contrib-jshint": "~0.6.0",
