@@ -252,14 +252,6 @@ describe("Exposed Methods", function () {
             });
         });
 
-        describe("getting socket callbacks", function () {
-            it("can return ghostmode callbacks merged with control panel callbacks", function () {
-                var actual = browserSync.getSocketCallbacks().length;
-                var expected = browserSync.ghostModeCallbacks.length + controlPanel.controlPanelEvents.length;
-                assert.equal(actual, expected);
-            });
-        });
-
         describe("creating URL from options", function () {
 
             var url = "http://0.0.0.0:3002";

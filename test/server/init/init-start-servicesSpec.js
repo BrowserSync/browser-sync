@@ -40,7 +40,6 @@ describe("Browser Sync: Start Services", function () {
     before(function () {
         setupSocket = sinon.stub(browserSync, "setupSocket").returns({});
         handleSocketConnection = sinon.stub(browserSync, "handleSocketConnection");
-        callbacksStub = sinon.stub(browserSync, "getSocketCallbacks").returns(["CALLBACKS"]);
         fileWatcherInit = sinon.stub(fileWatcher, "init");
         initServer = sinon.stub(browserSync, "initServer");
         initMessage = sinon.stub(messages, "init").returns("INIT");
@@ -59,7 +58,6 @@ describe("Browser Sync: Start Services", function () {
 
     after(function () {
         setupSocket.restore();
-        callbacksStub.restore();
         fileWatcherInit.restore();
         initServer.restore();
         ipStub.restore();
@@ -76,10 +74,6 @@ describe("Browser Sync: Start Services", function () {
     it("should call setupSocket with the ports", function(){
         browserSync.startServices(args);
         sinon.assert.calledWithExactly(setupSocket, args.ports);
-    });
-    it("should call handleSocketConnection", function(){
-        browserSync.startServices(args);
-        sinon.assert.calledWithExactly(handleSocketConnection, ["CALLBACKS"], args.options, browserSync.handleClientSocketEvent);
     });
     it("should call filewatcher init", function () {
         var emitter = browserSync.getEmitter();

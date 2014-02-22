@@ -19,32 +19,15 @@ var socketUrl = "http://0.0.0.0:" + ports.socket;
 describe("setup Socket", function () {
 
     var io;
-    var cb = sinon.spy();
-    var cb2 = sinon.spy();
     var events;
 
     before(function () {
-
-        events = [
-            {
-                name: "random",
-                callback: cb
-            },
-            {
-                name: "inputchange",
-                callback: cb2
-            }
-        ];
-
-    });
-    afterEach(function () {
-        cb.reset();
-        cb2.reset();
+        events = ["random", "inputchange"];
     });
 
     beforeEach(function () {
         io = browserSync.setupSocket(ports);
-        browserSync.handleSocketConnection(events, userOptions, browserSync.handleClientSocketEvent);
+        browserSync.handleSocketConnection(events, userOptions);
     });
 
     it("can start the socket IO server", function () {
@@ -52,31 +35,13 @@ describe("setup Socket", function () {
         browserSync.killSocket();
     });
 
-    it("can listen for client events when ghost mode Enabled", function (done) {
-
-        var socket = clientIo.connect(socketUrl, {"force new connection":true});
-            socket.emit("random", {});
-            socket.emit("inputchange", {});
-
-        setTimeout(function () {
-            sinon.assert.called(cb);
-            sinon.assert.called(cb2);
-            done();
-        }, 200);
-
-    });
-
     it("can log a new connection", function (done) {
-
         var spy = sinon.spy(browserSync, "logConnection");
-
         clientIo.connect(socketUrl, {"force new connection":true});
-
         setTimeout(function () {
             sinon.assert.called(spy);
             done();
         }, 200);
-
     });
 });
 
