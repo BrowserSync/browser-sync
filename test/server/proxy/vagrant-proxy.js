@@ -2,8 +2,6 @@
 //var browserSync = new bs();
 //var messages = require("../../../lib/messages");
 //var http = require("http");
-//var filePath = require("path");
-//var connect = require("connect");
 //var sinon = require("sinon");
 //var proxy = require("../../../lib/proxy");
 //var assert = require("chai").assert;
@@ -13,10 +11,14 @@
 //    controlPanel: 3001,
 //    proxy: 3002
 //};
-//var options = {};
-//var proxyHost = "http://0.0.0.0:" + ports.proxy;
 //
+//var options = {};
+//var proxyUrl = "0.0.0.0:3002";
 //var snippet = messages.scriptTags("0.0.0.0", ports, options);
+//var external = {
+//    host: "172.22.22.22"
+//};
+//var externalUrl = "0.0.0.0:8000";
 //
 //describe("Launching a proxy for a vagrant based server", function () {
 //
@@ -27,9 +29,7 @@
 //        reqCallback = sinon.spy(function (req, res, next) {});
 //
 //        var options = {
-//            proxy: {
-//                host: "172.22.22.22"
-//            }
+//            proxy: external
 //        };
 //
 //        proxyServer = proxy.createProxy("0.0.0.0", ports, options, reqCallback);
@@ -69,6 +69,10 @@
 //            res.on("end", function () {
 //                data = chunks.join("");
 //                assert.isTrue(data.indexOf(snippet) >= 0);
+//
+//                // Check for re-written linkes
+//                assert.isTrue(data.indexOf(externalUrl) === -1);
+//                assert.isTrue(data.indexOf(proxyUrl) >= 0);
 //                done();
 //            });
 //        }).end();

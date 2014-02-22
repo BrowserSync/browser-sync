@@ -10,6 +10,7 @@ var index = require("../../lib/index");
 var defaultConfig = index.defaultConfig;
 var snippetUtils = require("../../lib/snippet").utils;
 var isExcluded = snippetUtils.isExcluded;
+var isOldIe = snippetUtils.isOldIe;
 
 var ports = {
     socket: 3000,
@@ -184,5 +185,32 @@ describe("isExcluded spec", function () {
     it("should return true if request for JS", function () {
         var actual = isExcluded("/files.m4a", blackList);
         assert.isTrue(actual);
+    });
+});
+
+describe("Header replacement for IE8", function () {
+
+    var blackList;
+    var req;
+
+    before(function () {
+        blackList = defaultConfig.excludedFileTypes;
+    });
+    beforeEach(function () {
+        req = {
+            url: "/",
+            headers: {
+                "accept": "image/jpeg, application/x-ms-application, image/gif, application/xaml+xml, image/pjpeg, application/x-ms-xbap, */*",
+                "user-agent": "Mozilla/5.0 (compatible; MSIE 7.0; Windows NT 5.1; Trident/4.0; .NET CLR 1.1.4322; .NET CLR 2.0.50727)"
+            }
+        }
+    });
+    it("Should be a function", function () {
+        assert.isFunction(isOldIe);
+    });
+    it("should re-write the headers for IE", function () {
+        var actual = isOldIe(req).headers.accept;
+        var expected = "text/html";
+        assert.equal(actual, expected);
     });
 });
