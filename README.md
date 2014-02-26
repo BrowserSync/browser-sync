@@ -60,27 +60,23 @@ If you've found Browser-sync useful and would like to contribute to its continue
 
 ##Contributors
 
-<table>
-    <thead>
-        <tr>
-            <td>Commits</td>
-            <td>Name</td>
-        </tr>
-    </thead>
-    <tr><td>293</td><td> Shane Osbourne</td></tr>
-    <tr><td>11</td><td> Hugo Bessa</td></tr>
-    <tr><td>2</td><td> brutaldev</td></tr>
-    <tr><td>2</td><td> chase_chou</td></tr>
-    <tr><td>1</td><td> Sylvain Emery</td></tr>
-    <tr><td>1</td><td> Tony Holdstock-Brown</td></tr>
-    <tr><td>1</td><td> Werner van Deventer</td></tr>
-    <tr><td>1</td><td> mericson</td></tr>
-    <tr><td>1</td><td> Carl Henderson</td></tr>
-    <tr><td>1</td><td> viktor hesselbom</td></tr>
-    <tr><td>1</td><td> Dave Hall</td></tr>
-    <tr><td>1</td><td> Jory Graham</td></tr>
-    <tr><td>1</td><td> Robert Vock</td></tr>
-</table>
+```
+   318  Shane Osbourne
+    13  Hugo Bessa
+     2  brutaldev
+     2  chase_chou
+     2  Hugo Dias
+     1  Sylvain Emery
+     1  Tony Holdstock-Brown
+     1  Werner van Deventer
+     1  mericson
+     1  Carl Henderson
+     1  viktor hesselbom
+     1  Dave Hall
+     1  Guillaume Lambert
+     1  Jory Graham
+     1  Robert Vock
+```
 
 ## License
 Copyright (c) 2013 Shane Osbourne

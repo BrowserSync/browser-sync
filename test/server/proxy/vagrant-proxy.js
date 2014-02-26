@@ -16,11 +16,12 @@
 //var proxyUrl = "0.0.0.0:3002";
 //var snippet = messages.scriptTags("0.0.0.0", ports, options);
 //var external = {
-//    host: "172.22.22.22"
+//    host: "0.0.0.0",
+//    port: 8000
 //};
 //var externalUrl = "0.0.0.0:8000";
 //
-//describe("Launching a proxy for a vagrant based server", function () {
+//describe.only("Launching a proxy for a vagrant based server", function () {
 //
 //    var proxyServer, reqCallback, options;
 //
@@ -69,10 +70,9 @@
 //            res.on("end", function () {
 //                data = chunks.join("");
 //                assert.isTrue(data.indexOf(snippet) >= 0);
-//
-//                // Check for re-written linkes
+//                assert.isTrue(data.indexOf("</html>") >= 0);
 //                assert.isTrue(data.indexOf(externalUrl) === -1);
-//                assert.isTrue(data.indexOf(proxyUrl) >= 0);
+////                assert.isTrue(data.indexOf(proxyUrl) >= 0);
 //                done();
 //            });
 //        }).end();
