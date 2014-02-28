@@ -2,11 +2,11 @@
 
 var index = require("../../../lib/index");
 var messages = require("../../../lib/messages");
-var dConfig = require("../../fixtures/config/si-default-config");
+var dConfig = require("../../../lib/default-config");
 var _ = require("lodash");
 var sinon = require("sinon");
 var assert = require("chai").assert;
-var setup = index.setup;
+var cliUtils = require("../../../lib/cli").utils;
 
 var configFilePath = "test/fixtures/config/si-config.js";
 var partialConfigFilePath = "test/fixtures/config/si-config-partial.js";
@@ -28,7 +28,7 @@ describe("INIT: accepting a config file.", function () {
         var cwdStub;
         var expected;
         before(function () {
-            getFileStub = sinon.stub(setup, "_getConfigFile").returns({});
+            getFileStub = sinon.stub(cliUtils, "_getConfigFile").returns({});
             cwdStub = sinon.stub(process, "cwd").returns("/app");
             expected = "/app" + messages.configFile;
         });
@@ -37,7 +37,7 @@ describe("INIT: accepting a config file.", function () {
             cwdStub.restore();
         });
         it("can retrieve the default config if it exists", function () {
-            var actual = setup._getDefaultConfigFile();
+            var actual = cliUtils._getDefaultConfigFile();
             sinon.assert.calledWithExactly(getFileStub, expected);
         });
     });
@@ -50,7 +50,7 @@ describe("INIT: accepting a config file.", function () {
         var getFileStub;
         before(function () {
             argv = {};
-            defaultStub = sinon.stub(setup, "_getDefaultConfigFile").returns({server: true});
+            defaultStub = sinon.stub(cliUtils, "_getDefaultConfigFile").returns({server: true});
         });
         afterEach(function () {
             defaultStub.reset();
@@ -59,15 +59,15 @@ describe("INIT: accepting a config file.", function () {
             defaultStub.restore();
         });
         it("should call _getDefaultConfigFile", function () {
-            var actual = setup.getConfig(defaultConfig, argv);
+            var actual = cliUtils.getConfig(defaultConfig, argv);
             sinon.assert.calledOnce(defaultStub);
         });
         it("should merge the default config when found", function () {
-            var actual = setup.getConfig(defaultConfig, argv);
+            var actual = cliUtils.getConfig(defaultConfig, argv);
             assert.isTrue(actual.server);
         });
         it("should merge the default config when found", function () {
-            var actual = setup.getConfig(defaultConfig, argv);
+            var actual = cliUtils.getConfig(defaultConfig, argv);
             assert.isTrue(actual.server);
         });
     });
@@ -81,8 +81,8 @@ describe("INIT: accepting a config file.", function () {
             argv = {
                 config: "path/to/config"
             };
-            defaultStub = sinon.stub(setup, "_getDefaultConfigFile").returns({server: true}); //default found
-            getFileStub = sinon.stub(setup, "_getConfigFile").returns({server: false});
+            defaultStub = sinon.stub(cliUtils, "_getDefaultConfigFile").returns({server: true}); //default found
+            getFileStub = sinon.stub(cliUtils, "_getConfigFile").returns({server: false});
         });
         afterEach(function () {
             defaultStub.reset();
@@ -93,7 +93,7 @@ describe("INIT: accepting a config file.", function () {
             getFileStub.restore();
         });
         it("should use the config file given instead of the default", function () {
-            var actual = setup.getConfig(defaultConfig, argv);
+            var actual = cliUtils.getConfig(defaultConfig, argv);
             assert.isFalse(actual.server);
         });
     });
@@ -109,14 +109,14 @@ describe("INIT: accepting a config file.", function () {
 
         it("should return the default config if no argv provided", function () {
 
-            var config = setup.getConfig(defaultConfig, argv);
-            assert.isTrue(config.defaultConfig);
+            var config = cliUtils.getConfig(defaultConfig, argv);
+            assert.equal(config, defaultConfig);
         });
 
         it("should accept that file instead of anything else", function () {
 
             argv.config = configFilePath;
-            var config = setup.getConfig(defaultConfig, argv);
+            var config = cliUtils.getConfig(defaultConfig, argv);
             assert.isTrue(config.testConfig);
         });
     });
@@ -124,33 +124,28 @@ describe("INIT: accepting a config file.", function () {
     describe("reading a config file from the file system", function () {
 
         it("can false if the file is not found", function () {
-            var files= setup._getConfigFile("random/file/doesn'tex");
+            var files= cliUtils._getConfigFile("random/file/doesn'tex");
             assert.isFalse(files);
         });
 
         it("does not throw if the file is found", function () {
-            assert.isDefined(setup._getConfigFile(configFilePath));
+            assert.isDefined(cliUtils._getConfigFile(configFilePath));
         });
     });
 
     describe("extracting the files arg from the config file", function () {
 
         it("can choose files arg from command line when given", function () {
-
             var argv = {
                 files: file1
             };
-
-            var filesArg = setup.getFilesArg(argv, defaultConfig);
+            var filesArg = cliUtils.getFilesArg(argv, defaultConfig);
             assert.equal(filesArg, file1);
         });
         it("can return the files arg from default config if no command provided", function () {
-
             var argv = {};
-
-            var filesArg = setup.getFilesArg(argv, defaultConfig);
-            assert.equal(filesArg, file2);
-
+            var filesArg = cliUtils.getFilesArg(argv, defaultConfig);
+            assert.isNull(filesArg);
         });
     });
 
@@ -162,12 +157,11 @@ describe("INIT: accepting a config file.", function () {
 
             argv.config = partialConfigFilePath;
 
-            var config = setup.getConfig(defaultConfig, argv);
+            var config = cliUtils.getConfig(defaultConfig, argv);
 
             assert.isDefined(config.ghostMode);
             assert.isDefined(config.open);
             assert.isDefined(config.injectFileTypes);
-            assert.isDefined(config.background);
             assert.isDefined(config.debugInfo);
             assert.isDefined(config.host);
             assert.isDefined(config.server);
@@ -179,7 +173,7 @@ describe("INIT: accepting a config file.", function () {
                 server: true
             };
 
-            var config = setup.getConfig(defaultConfig, argv);
+            var config = cliUtils.getConfig(defaultConfig, argv);
             assert.equal(config.server.index, "index.htm");
 
         });
