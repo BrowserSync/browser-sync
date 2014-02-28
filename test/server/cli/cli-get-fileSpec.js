@@ -1,13 +1,13 @@
 "use strict";
 
 var index = require("../../../lib/index");
+var cliUtils = require("../../../lib/cli").utils;
 var assert = require("chai").assert;
-var setup = index.setup;
 
 describe("Browser-sync: transform the files option into useable watchers", function () {
 
     it("can load", function () {
-        assert.isDefined(setup);
+        assert.isDefined(cliUtils);
     });
 
     describe("accepting a comma separated lists of patterns (files)", function () {
@@ -15,7 +15,7 @@ describe("Browser-sync: transform the files option into useable watchers", funct
         var files;
         beforeEach(function () {
             var arg = "test/fixtures/assets/style.css,test/fixtures/scss/main.scss";
-            files = setup.getFiles(arg);
+            files = cliUtils.getFiles(arg);
         });
         it("should return an array of patterns", function () {
             assert.equal(files.length, 2);
@@ -33,7 +33,7 @@ describe("Browser-sync: transform the files option into useable watchers", funct
 
         beforeEach(function(){
             var arg = "test/fixtures/assets/*.css,test/fixtures/scss/*.scss";
-            files = setup.getFiles(arg);
+            files = cliUtils.getFiles(arg);
         });
 
         it("should return an array of file globs", function () {
@@ -52,7 +52,7 @@ describe("Browser-sync: transform the files option into useable watchers", funct
         var files, arg;
         beforeEach(function(){
             arg = "test/fixtures/assets/*.css";
-            files = setup.getFiles(arg);
+            files = cliUtils.getFiles(arg);
         });
         it("should return the pattern", function () {
             assert.equal(files, arg);
@@ -63,7 +63,7 @@ describe("Browser-sync: transform the files option into useable watchers", funct
         var files, arg;
         beforeEach(function(){
             arg = ["**/*.css", "*.html"];
-            files = setup.getFiles(arg);
+            files = cliUtils.getFiles(arg);
         });
         it("should return the pattern", function () {
             assert.equal(files, arg);
@@ -74,7 +74,7 @@ describe("Browser-sync: transform the files option into useable watchers", funct
         var files, arg;
         beforeEach(function(){
             arg = ["**/*.css"];
-            files = setup.getFiles(arg);
+            files = cliUtils.getFiles(arg);
         });
         it("should return the pattern", function () {
             assert.equal(files, arg);
@@ -85,7 +85,7 @@ describe("Browser-sync: transform the files option into useable watchers", funct
         var files, arg;
         beforeEach(function(){
             arg = "";
-            files = setup.getFiles(arg);
+            files = cliUtils.getFiles(arg);
         });
         it("should return false", function () {
             assert.isFalse(files);
