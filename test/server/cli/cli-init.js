@@ -1,26 +1,31 @@
 "use strict";
 
 var index = require("../../../lib/index");
+var version = require("../../../package.json").version;
 var assert = require("chai").assert;
 var sinon = require("sinon");
 var events = require("events");
-var setup = index.setup;
-var defaultConfig = index.defaultConfig;
+var cliUtils = require("../../../lib/cli").utils;
+var defaultConfig = require("../../../lib/default-config");
 
-describe("Exposed INIT method for plugins", function () {
+describe.only("Exposed INIT method for plugins", function () {
     var mergeConfigSpy;
     var mergeFilesSpy;
-    var kickoffStub;
+    var startStub;
     before(function () {
-        mergeConfigSpy = sinon.spy(setup, "mergeConfigObjects");
-        mergeFilesSpy  = sinon.spy(setup, "mergeFiles");
-        kickoffStub    = sinon.stub(setup, "kickoff").returns(new events.EventEmitter());
+        mergeConfigSpy = sinon.spy(cliUtils, "mergeConfigObjects");
+        mergeFilesSpy = sinon.spy(cliUtils, "mergeFiles");
+        startStub = sinon.stub(cliUtils, "_start").returns(new events.EventEmitter());
     });
     afterEach(function () {
         mergeFilesSpy.reset();
         mergeConfigSpy.reset();
-        kickoffStub.reset();
+        startStub.reset();
     });
+    after(function () {
+        startStub.restore();
+    });
+
     it("should be available on the required module", function () {
         assert.isFunction(index.init);
     });
@@ -37,24 +42,23 @@ describe("Exposed INIT method for plugins", function () {
     });
     it("should call setup.kickoff with no options", function () {
         index.init(null);
-        sinon.assert.calledWithExactly(kickoffStub, null, defaultConfig);
+        sinon.assert.calledWithExactly(startStub, null, defaultConfig, version);
     });
     it("should call setup.kickoff with files", function () {
         index.init("*.css");
-        sinon.assert.calledWithExactly(kickoffStub, "*.css", defaultConfig);
+        sinon.assert.calledWithExactly(startStub, "*.css", defaultConfig, version);
     });
     it("should call setup.kickoff with files & config", function () {
         var userOptions = {
             host: "0.0.0.0"
         };
         index.init("*.css", userOptions);
-        var filesCall = kickoffStub.getCall(0).args[0];
-        var optionsCall = kickoffStub.getCall(0).args[1];
+        var filesCall = startStub.getCall(0).args[0];
+        var optionsCall = startStub.getCall(0).args[1];
         assert.equal(filesCall, "*.css");
         assert.equal(optionsCall.host, "0.0.0.0");
     });
     it("should call merge files if files option & exclude option exists", function () {
-        var files = "*.css";
         var userOptions = {
             exclude: "node_modules"
         };
@@ -62,17 +66,15 @@ describe("Exposed INIT method for plugins", function () {
         sinon.assert.calledWithExactly(mergeFilesSpy, "*.css", "node_modules");
     });
     it("should call kickoff with merged files", function () {
-        var files = "*.css";
         var userOptions = {
             exclude: "node_modules"
         };
         index.init("*.css", userOptions);
-        var kickoffCall = kickoffStub.getCall(0).args[0];
+        var args = startStub.getCall(0).args[0];
         var expected = ["*.css", "!node_modules/**"];
-        assert.deepEqual(kickoffCall, expected);
+        assert.deepEqual(args, expected);
     });
     it("should NOT call merge files if files provides, but no exclude", function () {
-        var files = "*.css";
         var userOptions = {};
         index.init("*.css", userOptions);
         sinon.assert.notCalled(mergeFilesSpy);
