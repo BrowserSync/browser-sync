@@ -27,7 +27,7 @@
     "test": "grunt test"
   },
   "dependencies": {
-    "portscanner": "~0.2.2",
+    "portscanner-plus": "*",
     "path": "~0.4.9",
     "url": "~0.7.9",
     "open": "~0.0.4",
@@ -40,7 +40,8 @@
     "gaze": "~0.5.0",
     "http-proxy": "~1.0.2",
     "cl-strings": "~0.0.5",
-    "resp-modifier": "0.0.3"
+    "resp-modifier": "0.0.3",
+    "browser-sync-client": "0.0.2"
   },
   "devDependencies": {
     "grunt-contrib-jshint": "~0.6.0",
