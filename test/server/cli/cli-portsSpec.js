@@ -4,7 +4,7 @@ var index = require("../../../lib/index");
 var dConfig = require("../../fixtures/config/si-default-config");
 var _ = require("lodash");
 var assert = require("chai").assert;
-var setup = index.setup;
+var cliUtils = require("../../../lib/cli").utils;
 
 var defaultConfig;
 
@@ -24,7 +24,7 @@ describe("Accepting a PORTS arg on command line", function () {
                 ports: "3001, 3005"
             };
 
-            var config = setup.getConfig(defaultConfig, argv);
+            var config = cliUtils.getConfig(defaultConfig, argv);
 
             assert.deepEqual(config.ports.min, 3001);
             assert.deepEqual(config.ports.max, 3005);
@@ -34,7 +34,7 @@ describe("Accepting a PORTS arg on command line", function () {
             var argv = {
                 ports: "3100, 3200"
             };
-            var config = setup.getConfig(defaultConfig, argv);
+            var config = cliUtils.getConfig(defaultConfig, argv);
             var actual = config.ports;
 
             assert.deepEqual(actual.min, 3100);
@@ -45,7 +45,7 @@ describe("Accepting a PORTS arg on command line", function () {
             var argv = {
                 ports: "3100"
             };
-            var config = setup.getConfig(defaultConfig, argv);
+            var config = cliUtils.getConfig(defaultConfig, argv);
             var actual = config.ports;
 
             assert.deepEqual(actual.min, 3100);
@@ -55,7 +55,7 @@ describe("Accepting a PORTS arg on command line", function () {
             var argv = {
                 ports: 3100
             };
-            var config = setup.getConfig(defaultConfig, argv);
+            var config = cliUtils.getConfig(defaultConfig, argv);
             var actual = config.ports;
 
             assert.deepEqual(actual.min, 3100);
@@ -65,7 +65,7 @@ describe("Accepting a PORTS arg on command line", function () {
             var argv = {
                 ports: "3100"
             };
-            var config = setup.getConfig(defaultConfig, argv);
+            var config = cliUtils.getConfig(defaultConfig, argv);
             var actual = config.ports;
 
             assert.equal(actual.max, null);

@@ -4,7 +4,7 @@ var index = require("../../../lib/index");
 var dConfig = require("../../fixtures/config/si-default-config");
 var _ = require("lodash");
 var assert = require("chai").assert;
-var setup = index.setup;
+var cliUtils = require("../../../lib/cli").utils;
 
 var defaultConfig;
 
@@ -15,7 +15,7 @@ describe("Browser-sync: using a proxy from command-line", function () {
     });
 
     it("can load", function () {
-        assert.isDefined(setup);
+        assert.isDefined(cliUtils);
     });
 
     describe("accepting separate proxy options", function () {
@@ -29,7 +29,7 @@ describe("Browser-sync: using a proxy from command-line", function () {
                     port: "8000"
                 }
             };
-            config = setup.getConfig(defaultConfig, argv);
+            config = cliUtils.getConfig(defaultConfig, argv);
         });
         it("should merge proxy options", function () {
             assert.equal(config.proxy.host, "192.168.0.4");
@@ -42,7 +42,7 @@ describe("Browser-sync: using a proxy from command-line", function () {
             var argv = {
                 proxy: "192.168.0.4:8000"
             };
-            config = setup.getConfig(defaultConfig, argv);
+            config = cliUtils.getConfig(defaultConfig, argv);
         });
         it("should merge proxy options", function () {
             assert.equal(config.proxy.host, "192.168.0.4");
@@ -55,7 +55,7 @@ describe("Browser-sync: using a proxy from command-line", function () {
             var argv = {
                 proxy: "192.168.0.4,8000"
             };
-            config = setup.getConfig(defaultConfig, argv);
+            config = cliUtils.getConfig(defaultConfig, argv);
         });
         it("should merge proxy options", function () {
             assert.equal(config.proxy.host, "192.168.0.4");
@@ -68,7 +68,7 @@ describe("Browser-sync: using a proxy from command-line", function () {
             var argv = {
                 proxy: "local.dev.com"
             };
-            config = setup.getConfig(defaultConfig, argv);
+            config = cliUtils.getConfig(defaultConfig, argv);
         });
         it("should default to port 80", function () {
             assert.equal(config.proxy.host, "local.dev.com");
@@ -80,7 +80,7 @@ describe("Browser-sync: using a proxy from command-line", function () {
             var argv = {
                 proxy: "http://local.dev.com"
             };
-            config = setup.getConfig(defaultConfig, argv);
+            config = cliUtils.getConfig(defaultConfig, argv);
         });
         it("should default to port 80", function () {
             assert.equal(config.proxy.host, "local.dev.com");
@@ -92,7 +92,7 @@ describe("Browser-sync: using a proxy from command-line", function () {
             var argv = {
                 proxy: "http://local.dev.com:3000"
             };
-            config = setup.getConfig(defaultConfig, argv);
+            config = cliUtils.getConfig(defaultConfig, argv);
         });
         it("should default to port 80", function () {
             assert.equal(config.proxy.host, "local.dev.com");
@@ -105,7 +105,7 @@ describe("Browser-sync: using a proxy from command-line", function () {
             var argv = {
                 proxy: "http://local.dev.com:3000/"
             };
-            config = setup.getConfig(defaultConfig, argv);
+            config = cliUtils.getConfig(defaultConfig, argv);
         });
         it("should default to port 80", function () {
             assert.equal(config.proxy.host, "local.dev.com");
@@ -118,7 +118,7 @@ describe("Browser-sync: using a proxy from command-line", function () {
             var argv = {
                 proxy: "www.bbc.co.uk"
             };
-            config = setup.getConfig(defaultConfig, argv);
+            config = cliUtils.getConfig(defaultConfig, argv);
         });
         it("should default to port 80", function () {
             assert.equal(config.proxy.host, "bbc.co.uk");
@@ -130,7 +130,7 @@ describe("Browser-sync: using a proxy from command-line", function () {
             var argv = {
                 proxy: "http://bbc.co.uk/this/sub-path"
             };
-            config = setup.getConfig(defaultConfig, argv);
+            config = cliUtils.getConfig(defaultConfig, argv);
         });
         it("should default to port 80", function () {
             assert.equal(config.proxy.host, "bbc.co.uk");
@@ -142,7 +142,7 @@ describe("Browser-sync: using a proxy from command-line", function () {
             var argv = {
                 proxy: "http://0.0.0.0:8000/"
             };
-            config = setup.getConfig(defaultConfig, argv);
+            config = cliUtils.getConfig(defaultConfig, argv);
         });
         it("should use given port", function () {
             assert.equal(config.proxy.host, "0.0.0.0");
@@ -155,7 +155,7 @@ describe("Browser-sync: using a proxy from command-line", function () {
             var argv = {
                 proxy: "web"
             };
-            config = setup.getConfig(defaultConfig, argv);
+            config = cliUtils.getConfig(defaultConfig, argv);
         });
         it("should default to port 80", function () {
             assert.equal(config.proxy.host, "web");

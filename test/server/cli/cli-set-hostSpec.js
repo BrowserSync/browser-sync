@@ -1,7 +1,7 @@
 "use strict";
 
 var index = require("../../../lib/index");
-var setup = index.setup;
+var cliUtils = require("../../../lib/cli").utils;
 var assert = require("chai").assert;
 var dConfig = require("../../fixtures/config/si-default-config");
 var _ = require("lodash");
@@ -19,7 +19,7 @@ describe("When a Host arg is given on command line", function () {
     });
 
     it("should override the default host", function () {
-        var config = setup.getConfig(defaultConfig, argv);
+        var config = cliUtils.getConfig(defaultConfig, argv);
         assert.equal(config.host, host);
     });
 });

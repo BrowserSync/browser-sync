@@ -8,7 +8,7 @@ var events = require("events");
 var cliUtils = require("../../../lib/cli").utils;
 var defaultConfig = require("../../../lib/default-config");
 
-describe.only("Exposed INIT method for plugins", function () {
+describe("Exposed INIT method for plugins", function () {
     var mergeConfigSpy;
     var mergeFilesSpy;
     var startStub;
