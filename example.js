@@ -3,6 +3,5 @@ var files = ["test/fixtures/**/*.css", "test/fixtures/**/*.html"];
 var bs = browserSync.init(files, {
     server: {
         baseDir: "test/fixtures"
-    },
-    open: false
+    }
 });
