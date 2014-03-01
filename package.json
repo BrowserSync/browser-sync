@@ -27,7 +27,7 @@
     "test": "gulp lint && mocha --recursive"
   },
   "dependencies": {
-    "portscanner-plus": "0.0.3",
+    "portscanner-plus": "0.1.0",
     "path": "~0.4.9",
     "url": "~0.7.9",
     "open": "~0.0.4",
