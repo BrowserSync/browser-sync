@@ -1,5 +1,6 @@
 var bs = require("../../../lib/browser-sync");
 var messages = require("../../../lib/messages");
+var utils = require("../../../lib/utils").utils;
 var browserSync = new bs();
 var assert = require("chai").assert;
 var sinon = require("sinon");
@@ -24,27 +25,28 @@ describe("Browser Sync: init Server", function () {
     var launchServer;
     var open;
     var spy;
-    var getUrl;
+    var getUrl, logStub;
 
     before(function () {
         options = {};
+        logStub = sinon.stub(browserSync, "log").returns(true);
         launchServer = sinon.stub(server, "launchServer").returns(true);
         open = sinon.stub(browserSync, "openBrowser").returns(true);
-        getUrl = sinon.stub(browserSync, "getUrl").returns(urlHost);
-
+        getUrl = sinon.stub(utils, "getUrl").returns(urlHost);
         spy = sinon.spy();
     });
 
     afterEach(function () {
-        launchServer.reset();
         open.reset();
         getUrl.reset();
+        logStub.reset();
     });
 
     after(function () {
         launchServer.restore();
         open.restore();
         getUrl.restore();
+        logStub.restore();
     });
 
     it("should call launchServer from module", function () {
@@ -97,6 +99,7 @@ describe("Browser Sync: init Server", function () {
     });
     it("should call open browser with proxy port", function () {
 
+        getUrl.returns("http://0.0.0.0:3003");
         var options = {
             proxy: {
                 host: "127.0.0.1"
@@ -127,27 +130,21 @@ describe("Browser Sync: init Server", function () {
         var init;
         var initServer;
         var initProxy;
-        var log;
 
         before(function () {
             init       = sinon.stub(messages, "init").returns("No server or Proxy");
             initServer = sinon.stub(messages, "initServer").returns("Server Message");
             initProxy  = sinon.stub(messages, "initProxy").returns("Proxy Message");
-            log        = sinon.stub(browserSync, "log");
-        });
-        afterEach(function () {
-            log.reset();
         });
         after(function () {
             init.restore();
             initServer.restore();
             initProxy.restore();
-            log.restore();
         });
 
         it("logs when using static server", function () {
 
-            var stub = sinon.stub(browserSync, "getBaseDir").returns("./");
+            var stub = sinon.stub(utils, "getBaseDir").returns("./");
 
             var options = {
                 server: {
@@ -159,7 +156,7 @@ describe("Browser Sync: init Server", function () {
 
             browserSync.initServer(host, ports, options);
             sinon.assert.calledWithExactly(initServer, host, ports.server, "./");
-            sinon.assert.calledWithExactly(log, "Server Message", options, true);
+            sinon.assert.calledWithExactly(logStub, "Server Message", options, true);
             stub.restore();
         });
 
@@ -180,7 +177,7 @@ describe("Browser Sync: init Server", function () {
 
             browserSync.initServer(host, ports, options);
             sinon.assert.calledWithExactly(initProxy, host, ports.proxy);
-            sinon.assert.calledWithExactly(log, "Proxy Message", options, true);
+            sinon.assert.calledWithExactly(logStub, "Proxy Message", options, true);
         });
     });
 });

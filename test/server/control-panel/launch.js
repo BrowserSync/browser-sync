@@ -1,5 +1,4 @@
 var bs = require("../../../lib/browser-sync");
-var server = require("../../../lib/server");
 var controlPanel = require("../../../lib/control-panel");
 var messages = require("../../../lib/messages");
 var assert = require("chai").assert;
@@ -33,7 +32,7 @@ describe("Launching the Control panel", function () {
             });
     });
 
-    it("should launch and be accessible via http", function (done) {
+    it("should be serving static files from the control panel DIR", function (done) {
         request(app)
             .get("/index.html")
             .expect(200, done)
