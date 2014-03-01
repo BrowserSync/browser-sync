@@ -3,11 +3,12 @@ var browserSync = new bs();
 var messages = require("../../lib/messages");
 var http = require("http");
 var sinon = require("sinon");
+var request = require("supertest");
 var _ = require("lodash");
 var assert = require("chai").assert;
 var server = require("../../lib/server");
 var index = require("../../lib/index");
-var defaultConfig = index.defaultConfig;
+var defaultConfig = require("../../lib/default-config");
 var snippetUtils = require("../../lib/snippet").utils;
 var isExcluded = snippetUtils.isExcluded;
 
@@ -23,6 +24,7 @@ describe("Launching a server with snippets", function () {
 
     var servers;
     var io;
+    var app;
     var clientsSpy;
     var emitSpy;
     var reqOptions;
@@ -57,44 +59,37 @@ describe("Launching a server with snippets", function () {
         };
 
         servers = server.launchServer("0.0.0.0", ports, options, io);
+        app = servers.staticServer;
+
     });
 
     afterEach(function () {
         clientsSpy.reset();
         emitSpy.reset();
-        servers.staticServer.close();
     });
 
     it("can append the script tags to the body of html files", function (done) {
-        reqOptions.path = "/index.html";
-        http.request(reqOptions, function (res) {
-            var chunks = [];
-            var data;
-            res.on("data", function (chunk) {
-                chunks.push(chunk.toString());
-            });
-            res.on("end", function () {
-                data = chunks.join("");
-                assert.isTrue(data.indexOf(snippet) >= 0);
+        request(app)
+            .get("/index.html")
+            .set("accept", "text/html")
+            .expect(200)
+            .end(function (err, res) {
+                var actual = res.text.indexOf(snippet) >= 0;
+                assert.isTrue(actual);
                 done();
             });
-        }).end();
     });
 
     it("can append the script tags to the body of a LARGE html FILE", function (done) {
-        reqOptions.path = "/index-large.html";
-        http.request(reqOptions, function (res) {
-            var chunks = [];
-            var data;
-            res.on("data", function (chunk) {
-                chunks.push(chunk.toString());
-            });
-            res.on("end", function () {
-                data = chunks.join("");
-                assert.isTrue(data.indexOf(snippet) >= 0);
+        request(app)
+            .get("/index-large.html")
+            .set("accept", "text/html")
+            .expect(200)
+            .end(function (err, res) {
+                var actual = res.text.indexOf(snippet) >= 0;
+                assert.isTrue(actual);
                 done();
             });
-        }).end();
     });
 });
 
