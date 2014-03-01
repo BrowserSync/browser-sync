@@ -24,7 +24,7 @@ describe("Launching the Control panel", function () {
         request(app)
             .get(clientJS)
             .expect(200)
-            .expect('Content-Type', /javascript/)
+            .expect("Content-Type", /javascript/)
             .end(function (err, res) {
                 var actual = res.text.indexOf(respString);
                 assert.isTrue(actual >= 0);
