@@ -28,9 +28,9 @@ describe("Browser Sync: init Server", function () {
 
     before(function () {
         options = {};
-        logStub = sinon.stub(bs, "log").returns(true);
+        logStub = sinon.stub(utils, "log").returns(true);
         launchServer = sinon.stub(server, "launchServer").returns(true);
-        open = sinon.stub(bs, "openBrowser").returns(true);
+        open = sinon.stub(utils, "openBrowser").returns(true);
         getUrl = sinon.stub(utils, "getUrl").returns(urlHost);
         spy = sinon.spy();
     });

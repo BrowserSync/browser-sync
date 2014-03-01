@@ -1,4 +1,5 @@
 var bs = require("../../lib/browser-sync");
+var utils = require("../../lib/utils").utils;
 var messages = require("../../lib/messages");
 var controlPanel = require("../../lib/control-panel");
 var browserSync = new bs();
@@ -30,15 +31,15 @@ describe("Exposed Methods", function () {
             spy.restore();
         });
         it("should log a message", function () {
-            browserSync.log("ERROR", {debugInfo: true});
+            utils.log("ERROR", {debugInfo: true});
             assert.isTrue(spy.called);
         });
         it("should not log if disabled in options", function () {
-            browserSync.log("ERROR", {debugInfo: false});
+            utils.log("ERROR", {debugInfo: false});
             assert.isFalse(spy.called);
         });
         it("should log message if disabled in options, but overridden with param", function () {
-            browserSync.log("ERROR", {debugInfo: false}, true);
+            utils.log("ERROR", {debugInfo: false}, true);
             assert.isTrue(spy.called);
         });
     });
