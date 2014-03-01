@@ -1,10 +1,9 @@
-var bs = require("../../lib/browser-sync");
-var browserSync = new bs();
 var messages = require("../../lib/messages");
 var http = require("http");
 var filePath = require("path");
 var connect = require("connect");
-var sinon = require("sinon");
+var request = require("supertest");
+var portScanner = require("portscanner-plus");
 var proxy = require("../../lib/proxy");
 var assert = require("chai").assert;
 
@@ -13,98 +12,69 @@ var ports = {
     controlPanel: 3001,
     proxy: 3002
 };
-var options = {};
-var snippet = messages.scriptTags("0.0.0.0", ports, options);
+
+var options = {
+    proxy: {
+        host: "0.0.0.0"
+    }
+};
 
 describe("Launching a proxy for connect server", function () {
 
-    var app, server, proxyServer, reqCallback, options;
+    var server;
+    var app;
 
-    before(function () {
+    before(function (done) {
 
-        reqCallback = sinon.spy(function (req, res, next) {});
+        portScanner.getPorts(1, 3000, 4000).then(function (port) {
 
-        app = connect().use(function (req, res, next) {
-            res.setHeader("content-encoding", "gzip");
-            res.setHeader("content-length", "1024");
-            next();
-        }).use(connect.static(filePath.resolve("test/fixtures")));
+            var testApp = connect()
+                .use(function (req, res, next) {
+                    res.setHeader("content-encoding", "gzip");
+                    res.setHeader("content-length", "1024");
+                    next();
+                })
+                .use(connect.static(filePath.resolve("test/fixtures")));
 
-        server = http.createServer(app).listen(8001);
+            server = http.createServer(testApp).listen(port[0]);
+            app = proxy.createProxy("0.0.0.0", ports, options);
 
-        var options = {
-            proxy: {
-                host: "0.0.0.0",
-                port: 8001
-            }
-        };
-
-        proxyServer = proxy.createProxy("0.0.0.0", ports, options, reqCallback);
-
-    });
-    beforeEach(function () {
-        options = {
-            hostname: "0.0.0.0",
-            port: ports.proxy,
-            path: "/upload",
-            method: "GET",
-            headers: {
-                accept: "text/html"
-            }
-        };
+            done();
+        });
     });
 
     after(function () {
         server.close();
-        proxyServer.close();
     });
-
 
     it("can proxy requests for html files", function (done) {
-        options.path = "/index.html";
-        http.request(options, function (res) {
-            var actual = res.statusCode;
-            assert.equal(actual, 200);
-            done();
-        }).end();
+        request(app)
+            .get("/index.html")
+            .expect(200, done);
     });
     it("can proxy requests for html files (2)", function (done) {
-        options.path = "/index-large.html";
-        http.request(options, function (res) {
-            var actual = res.statusCode;
-            assert.equal(actual, 200);
-            done();
-        }).end();
+        request(app)
+            .get("/index-large.html")
+            .expect(200, done);
     });
-    it("can re-write the URLS", function (done) {
-        var data;
-        options.path = "/index-urls.html";
-        http.request(options, function (res) {
-            var chunks = [];
-            res.on("data", function (chunk) {
-                chunks.push(chunk.toString());
-            });
-            res.on("end", function () {
-                data = chunks.join("");
-                assert.deepEqual(~data.indexOf("0.0.0.0:8001"), 0);
+    it("can remove content-encoding headers", function (done) {
+        request(app)
+            .get("/proxy-headers.html")
+            .expect(200)
+            .end(function (err, res) {
+                var actual = res.headers.hasOwnProperty("content-encoding");
+                assert.isFalse(actual);
                 done();
             });
-        }).end();
     });
-    it("can remove content-encoding headers", function (done) {
-        options.path = "/proxy-headers.html";
-        http.request(options, function (res) {
-            var actual = res.headers.hasOwnProperty("content-encoding");
-            assert.isFalse(actual);
-            done();
-        }).end();
-    });
-    it("can remove content-encoding headers", function (done) {
-        options.path = "/proxy-headers.html";
-        http.request(options, function (res) {
-            var actual = res.headers.hasOwnProperty("content-length");
-            assert.isFalse(actual);
-            done();
-        }).end();
+    it("can remove content-length headers", function (done) {
+        request(app)
+            .get("/proxy-headers.html")
+            .expect(200)
+            .end(function (err, res) {
+                var actual = res.headers.hasOwnProperty("content-length");
+                assert.isFalse(actual);
+                done();
+            });
     });
 });

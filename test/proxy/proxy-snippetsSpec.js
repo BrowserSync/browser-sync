@@ -22,8 +22,6 @@ describe("Launching a proxy for connect server", function () {
 
     before(function () {
 
-        reqCallback = sinon.spy(function (req, res, next) {});
-
         app = connect().use(connect.static(filePath.resolve("test/fixtures")));
         server = http.createServer(app).listen(8001);
         proxyHost = "http://0.0.0.0:" + ports.proxy;
