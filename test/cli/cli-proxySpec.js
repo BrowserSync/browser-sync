@@ -1,10 +1,10 @@
 "use strict";
 
-var index = require("../../../lib/index");
-var dConfig = require("../../fixtures/config/si-default-config");
+var index = require("../../lib/index");
+var dConfig = require("../fixtures/config/si-default-config");
 var _ = require("lodash");
 var assert = require("chai").assert;
-var cliUtils = require("../../../lib/cli").utils;
+var cliUtils = require("../../lib/cli").utils;
 
 var defaultConfig;
 

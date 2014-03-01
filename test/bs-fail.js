@@ -1,5 +1,5 @@
-var bs = require("../../lib/browser-sync");
-var messages = require("../../lib/messages");
+var bs = require("../lib/browser-sync");
+var messages = require("../lib/messages");
 var assert = require("chai").assert;
 var sinon = require("sinon");
 var _ = require("lodash");

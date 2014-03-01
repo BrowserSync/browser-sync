@@ -1,7 +1,7 @@
 var fs = require("fs");
-var bs = require("../../lib/browser-sync");
-var messages = require("../../lib/messages");
-var fileWatcher = require("../../lib/file-watcher");
+var bs = require("../lib/browser-sync");
+var messages = require("../lib/messages");
+var fileWatcher = require("../lib/file-watcher");
 var events = require("events");
 var browserSync = new bs();
 var options = bs.options;

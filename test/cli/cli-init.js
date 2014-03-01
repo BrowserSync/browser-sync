@@ -1,12 +1,12 @@
 "use strict";
 
-var index = require("../../../lib/index");
+var index = require("../../lib/index");
 var version = require("../../../package.json").version;
 var assert = require("chai").assert;
 var sinon = require("sinon");
 var events = require("events");
-var cliUtils = require("../../../lib/cli").utils;
-var defaultConfig = require("../../../lib/default-config");
+var cliUtils = require("../../lib/cli").utils;
+var defaultConfig = require("../../lib/default-config");
 
 describe("Exposed INIT method for plugins", function () {
     var mergeConfigSpy;

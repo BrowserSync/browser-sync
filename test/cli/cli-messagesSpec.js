@@ -1,7 +1,7 @@
 "use strict";
 
-var index = require("../../../lib/index");
-var messages = require("../../../lib/messages");
+var index = require("../../lib/index");
+var messages = require("../../lib/messages");
 var ansiTrim = require("cli-color/lib/trim");
 
 var assert = require("chai").assert;

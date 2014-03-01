@@ -1,7 +1,7 @@
-//var bs = require("../../../lib/browser-sync");
-//var controlPanel = require("../../../lib/control-panel");
-//var messages = require("../../../lib/messages");
-//var api = require("../../../lib/api");
+//var bs = require("../../lib/browser-sync");
+//var controlPanel = require("../../lib/control-panel");
+//var messages = require("../../lib/messages");
+//var api = require("../../lib/api");
 //var devIp = require("dev-ip");
 //var events = require("events");
 //var browserSync = new bs();
@@ -9,7 +9,7 @@
 //var sinon = require("sinon");
 //var _ = require("lodash");
 //var options = browserSync.options;
-//var fileWatcher = require("../../../lib/file-watcher");
+//var fileWatcher = require("../../lib/file-watcher");
 //
 //describe("Browser Sync: Start Services", function () {
 //

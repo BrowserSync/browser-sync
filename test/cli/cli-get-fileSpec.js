@@ -1,7 +1,7 @@
 "use strict";
 
-var index = require("../../../lib/index");
-var cliUtils = require("../../../lib/cli").utils;
+var index = require("../../lib/index");
+var cliUtils = require("../../lib/cli").utils;
 var assert = require("chai").assert;
 
 describe("Browser-sync: transform the files option into useable watchers", function () {

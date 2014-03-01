@@ -1,6 +1,6 @@
-//var bs = require("../../../lib/browser-sync");
-//var messages = require("../../../lib/messages");
-//var portScanner = require("../../../lib/ports");
+//var bs = require("../../lib/browser-sync");
+//var messages = require("../../lib/messages");
+//var portScanner = require("../../lib/ports");
 //var events = require("events");
 //var browserSync = new bs();
 //var assert = require("chai").assert;

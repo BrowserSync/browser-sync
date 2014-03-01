@@ -1,11 +1,11 @@
-var bs = require("../../../lib/browser-sync");
-var messages = require("../../../lib/messages");
-var utils = require("../../../lib/utils").utils;
+var bs = require("../../lib/browser-sync");
+var messages = require("../../lib/messages");
+var utils = require("../../lib/utils").utils;
 var browserSync = new bs();
 var assert = require("chai").assert;
 var sinon = require("sinon");
 var options = browserSync.options;
-var server = require("../../../lib/server");
+var server = require("../../lib/server");
 
 var ports = {
     socket: 3000,

@@ -1,6 +1,6 @@
-var bs = require("../../../lib/browser-sync");
-var controlPanel = require("../../../lib/control-panel");
-var messages = require("../../../lib/messages");
+var bs = require("../../lib/browser-sync");
+var controlPanel = require("../../lib/control-panel");
+var messages = require("../../lib/messages");
 var assert = require("chai").assert;
 var request = require('supertest');
 

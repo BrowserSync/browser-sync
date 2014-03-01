@@ -1,9 +1,9 @@
 "use strict";
 
-var index = require("../../../lib/index");
-var cliUtils = require("../../../lib/cli").utils;
+var index = require("../../lib/index");
+var cliUtils = require("../../lib/cli").utils;
 var assert = require("chai").assert;
-var dConfig = require("../../fixtures/config/si-default-config");
+var dConfig = require("../fixtures/config/si-default-config");
 var _ = require("lodash");
 
 var defaultConfig;

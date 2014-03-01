@@ -1,8 +1,8 @@
-var index = require("../../../lib/index");
+var index = require("../../lib/index");
 var events = require("events");
 var assert = require("chai").assert;
 var sinon = require("sinon");
-var cliUtils = require("../../../lib/cli").utils;
+var cliUtils = require("../../lib/cli").utils;
 
 describe("Browser Sync INIT", function () {
 

@@ -1,6 +1,6 @@
-var bs = require("../../lib/browser-sync");
-var messages = require("../../lib/messages");
-var controlPanel = require("../../lib/control-panel");
+var bs = require("../lib/browser-sync");
+var messages = require("../lib/messages");
+var controlPanel = require("../lib/control-panel");
 var browserSync = new bs();
 var assert = require("chai").assert;
 var sinon = require("sinon");

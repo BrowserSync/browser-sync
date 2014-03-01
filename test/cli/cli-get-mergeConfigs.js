@@ -1,10 +1,10 @@
 "use strict";
 
-var index = require("../../../lib/index");
+var index = require("../../lib/index");
 var assert = require("chai").assert;
 var _ = require("lodash");
-var cliUtils = require("../../../lib/cli").utils;
-var defaultConfig = require("../../../lib/default-config");
+var cliUtils = require("../../lib/cli").utils;
+var defaultConfig = require("../../lib/default-config");
 
 describe("Merging configs", function () {
 

@@ -1,12 +1,12 @@
 "use strict";
 
-var index = require("../../../lib/index");
-var messages = require("../../../lib/messages");
-var dConfig = require("../../../lib/default-config");
+var index = require("../../lib/index");
+var messages = require("../../lib/messages");
+var dConfig = require("../../lib/default-config");
 var _ = require("lodash");
 var sinon = require("sinon");
 var assert = require("chai").assert;
-var cliUtils = require("../../../lib/cli").utils;
+var cliUtils = require("../../lib/cli").utils;
 
 var configFilePath = "test/fixtures/config/si-config.js";
 var partialConfigFilePath = "test/fixtures/config/si-config-partial.js";

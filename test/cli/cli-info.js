@@ -1,12 +1,12 @@
 "use strict";
 
-var index = require("../../../lib/index");
+var index = require("../../lib/index");
 var _ = require("lodash");
 var assert = require("chai").assert;
 var sinon = require("sinon");
 var fs = require("fs");
-var messages = require("../../../lib/messages");
-var info = require("../../../lib/cli-info").info;
+var messages = require("../../lib/messages");
+var info = require("../../lib/cli-info").info;
 
 describe("info helpers", function () {
 
