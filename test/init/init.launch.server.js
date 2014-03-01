@@ -1,10 +1,9 @@
-var bs = require("../../lib/browser-sync");
+var BrowserSync = require("../../lib/browser-sync");
+var bs = new BrowserSync();
 var messages = require("../../lib/messages");
 var utils = require("../../lib/utils").utils;
-var browserSync = new bs();
 var assert = require("chai").assert;
 var sinon = require("sinon");
-var options = browserSync.options;
 var server = require("../../lib/server");
 
 var ports = {
@@ -29,9 +28,9 @@ describe("Browser Sync: init Server", function () {
 
     before(function () {
         options = {};
-        logStub = sinon.stub(browserSync, "log").returns(true);
+        logStub = sinon.stub(bs, "log").returns(true);
         launchServer = sinon.stub(server, "launchServer").returns(true);
-        open = sinon.stub(browserSync, "openBrowser").returns(true);
+        open = sinon.stub(bs, "openBrowser").returns(true);
         getUrl = sinon.stub(utils, "getUrl").returns(urlHost);
         spy = sinon.spy();
     });
@@ -50,7 +49,7 @@ describe("Browser Sync: init Server", function () {
     });
 
     it("should call launchServer from module", function () {
-        browserSync.initServer(host, ports, options, spy);
+        bs.initServer(host, ports, options, spy);
         sinon.assert.calledWithExactly(launchServer, host, ports, options, spy);
     });
 
@@ -65,7 +64,7 @@ describe("Browser Sync: init Server", function () {
                 openBrowser: true
             }
         };
-        browserSync.initServer(host, ports, options);
+        bs.initServer(host, ports, options);
         sinon.assert.calledWithExactly(open, url, options);
     });
     it("should Set the URL on the options when server used", function () {
@@ -78,7 +77,7 @@ describe("Browser Sync: init Server", function () {
                 baseDir: "test/fixtures"
             }
         };
-        browserSync.initServer(host, ports, options);
+        bs.initServer(host, ports, options);
         var actual = options.url;
         var expected = serverHost;
         assert.equal(actual, expected);
@@ -92,7 +91,7 @@ describe("Browser Sync: init Server", function () {
                 host: "local.dev"
             }
         };
-        browserSync.initServer(host, ports, options);
+        bs.initServer(host, ports, options);
         var actual = options.url;
         var expected = proxyHost;
         assert.equal(actual, expected);
@@ -108,7 +107,7 @@ describe("Browser Sync: init Server", function () {
 
         var url = proxyHost;
 
-        browserSync.initServer(host, ports, options);
+        bs.initServer(host, ports, options);
         sinon.assert.calledWithExactly(open, url, options);
     });
     it("should call getUrl", function () {
@@ -121,7 +120,7 @@ describe("Browser Sync: init Server", function () {
 
         var url = proxyHost;
 
-        browserSync.initServer(host, ports, options);
+        bs.initServer(host, ports, options);
         sinon.assert.calledWithExactly(getUrl, url, options);
     });
 
@@ -154,7 +153,7 @@ describe("Browser Sync: init Server", function () {
                 }
             };
 
-            browserSync.initServer(host, ports, options);
+            bs.initServer(host, ports, options);
             sinon.assert.calledWithExactly(initServer, host, ports.server, "./");
             sinon.assert.calledWithExactly(logStub, "Server Message", options, true);
             stub.restore();
@@ -175,7 +174,7 @@ describe("Browser Sync: init Server", function () {
                 }
             };
 
-            browserSync.initServer(host, ports, options);
+            bs.initServer(host, ports, options);
             sinon.assert.calledWithExactly(initProxy, host, ports.proxy);
             sinon.assert.calledWithExactly(logStub, "Proxy Message", options, true);
         });
