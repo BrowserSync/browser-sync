@@ -27,7 +27,6 @@ describe("Launching a proxy for connect server", function () {
     before(function (done) {
 
         portScanner.getPorts(1, 3000, 4000).then(function (port) {
-
             var testApp = connect()
                 .use(function (req, res, next) {
                     res.setHeader("content-encoding", "gzip");
@@ -37,8 +36,8 @@ describe("Launching a proxy for connect server", function () {
                 .use(connect.static(filePath.resolve("test/fixtures")));
 
             server = http.createServer(testApp).listen(port[0]);
+            options.proxy.port = port[0];
             app = proxy.createProxy("0.0.0.0", ports, options);
-
             done();
         });
     });

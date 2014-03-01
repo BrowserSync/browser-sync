@@ -4,88 +4,66 @@ var messages = require("../../lib/messages");
 var http = require("http");
 var filePath = require("path");
 var connect = require("connect");
+var request = require("supertest");
 var sinon = require("sinon");
 var proxy = require("../../lib/proxy");
 var assert = require("chai").assert;
+var portScanner = require("portscanner-plus");
 
 var ports = {
     socket: 3000,
     controlPanel: 3001,
     proxy: 3002
 };
-var options = {};
+var options = {
+    proxy: {
+        host: "0.0.0.0"
+    }
+};
+
 var snippet = messages.scriptTags("0.0.0.0", ports, options);
 
 describe("Launching a proxy for connect server", function () {
 
-    var app, server, proxyServer, proxyHost, reqCallback, options;
+    var app, server;
 
-    before(function () {
-
-        app = connect().use(connect.static(filePath.resolve("test/fixtures")));
-        server = http.createServer(app).listen(8001);
-        proxyHost = "http://0.0.0.0:" + ports.proxy;
-
-        var options = {
-            proxy: {
-                host: "0.0.0.0",
-                port: 8001
-            }
-        };
-
-        proxyServer = proxy.createProxy("0.0.0.0", ports, options, reqCallback);
-
-    });
-
-    beforeEach(function () {
-        options = {
-            hostname: "0.0.0.0",
-            port: ports.proxy,
-            path: "/upload",
-            method: "GET",
-            headers: {
-                accept: "text/html"
-            }
-        };
+    before(function (done) {
+        portScanner.getPorts(1, 3002, 3005).then(function (port) {
+            var testApp = connect().use(connect.static(filePath.resolve("test/fixtures")));
+            server = http.createServer(testApp).listen(port[0]);
+            options.proxy.port = port[0];
+            app = proxy.createProxy("0.0.0.0", ports, options);
+            done();
+        }).catch(function (err) {
+            console.log(err);
+        });
     });
 
     after(function () {
         server.close();
-        proxyServer.close();
     });
 
     it("can proxy requests + inject snippets into a small HTML response", function (done) {
-        var data;
-        options.path = "/index.html";
-        http.request(options, function (res) {
-
-            var chunks = [];
-
-            res.on("data", function (chunk) {
-                chunks.push(chunk.toString());
-            });
-
-            res.on("end", function () {
-                data = chunks.join("");
-                assert.isTrue(data.indexOf(snippet) >= 0);
+        request(app)
+            .get("/index.html")
+            .set("Accept", "text/html")
+            .expect(200)
+            .end(function (err, res) {
+                var actual = res.text.indexOf(snippet);
+                assert.isTrue(actual >= 0);
                 done();
             });
-        }).end();
     });
 
     it("can proxy requests + inject snippets into a LARGE HTML response", function (done) {
-        var data;
-        options.path = "/index-large.html";
-        http.request(options, function (res) {
-            var chunks = [];
-            res.on("data", function (chunk) {
-                chunks.push(chunk.toString());
-            });
-            res.on("end", function () {
-                data = chunks.join("");
-                assert.isTrue(data.indexOf(snippet) >= 0);
+        request(app)
+            .get("/index-large.html")
+            .set("Accept", "text/html")
+            .expect(200)
+            .end(function (err, res) {
+                var actual = res.text.indexOf(snippet);
+                assert.isTrue(actual >= 0);
                 done();
             });
-        }).end();
     });
 });
