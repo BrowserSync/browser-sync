@@ -31,10 +31,4 @@ describe("Launching the Control panel", function () {
                 done();
             });
     });
-
-    it("should be serving static files from the control panel DIR", function (done) {
-        request(app)
-            .get("/index.html")
-            .expect(200, done)
-    });
 });

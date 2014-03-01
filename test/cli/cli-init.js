@@ -1,7 +1,7 @@
 "use strict";
 
 var index = require("../../lib/index");
-var version = require("../../../package.json").version;
+var version = require("../../package.json").version;
 var assert = require("chai").assert;
 var sinon = require("sinon");
 var events = require("events");
