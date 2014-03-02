@@ -1,4 +1,4 @@
-var bs = require("../../lib/browser-sync");
+var bs = require("../../../lib/browser-sync");
 var clientIo = require("socket.io-client");
 var browserSync = new bs();
 var assert = require("chai").assert;
