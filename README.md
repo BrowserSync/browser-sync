@@ -58,24 +58,24 @@ If you've found Browser-sync useful and would like to contribute to its continue
 [![Support via Gittip](https://rawgithub.com/chris---/Donation-Badges/master/gittip.jpeg)](https://www.gittip.com/shakyshane)
 [![Support via PayPal](https://rawgithub.com/chris---/Donation-Badges/master/paypal.jpeg)](https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=shakyshane%40gmail%2ecom&lc=US&item_name=browser%2dsync)
 
-##Contributors
+## Contributors
 
 ```
-   349  Shane Osbourne
-    13  Hugo Bessa
-     2  brutaldev
-     2  chase_chou
-     2  Hugo Dias
-     1  Sylvain Emery
-     1  Tony Holdstock-Brown
-     1  Werner van Deventer
-     1  mericson
-     1  Carl Henderson
-     1  viktor hesselbom
-     1  Dave Hall
-     1  Guillaume Lambert
-     1  Jory Graham
-     1  Robert Vock
+   351	Shane Osbourne
+    13	Hugo Bessa
+     2	brutaldev
+     2	chase_chou
+     2	Hugo Dias
+     1	Sylvain Emery
+     1	Tony Holdstock-Brown
+     1	Werner van Deventer
+     1	mericson
+     1	Carl Henderson
+     1	viktor hesselbom
+     1	Dave Hall
+     1	Guillaume Lambert
+     1	Jory Graham
+     1	Robert Vock
 ```
 
 ## License
