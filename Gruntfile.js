@@ -56,23 +56,12 @@ module.exports = function (grunt) {
                 tasks: ["jasmine_node"]
             },
             sass: {
-                files: ["test/fixtures/scss/bootstrap.scss"],
+                files: ["test/fixtures/bower_components/bootstrap-sass/vendor/assets/stylesheets/**/*.scss"],
                 tasks: ["sass"]
             },
             less: {
                 files: ["test/fixtures/less/bootstrap.less"],
                 tasks: ["less"]
-            },
-            jshint: {
-                files: [
-                    "lib/**/*.js",
-                    "!lib/*.min.js",
-                    "test/server/**/*.js",
-                    "test/client-script/**/*.js",
-                    "!test/control-panel/vendor/*.js",
-                    "!test/client-script/libs"
-                ],
-                tasks: ["jshint:test"]
             }
         },
         karma: {
@@ -109,12 +98,6 @@ module.exports = function (grunt) {
                 }
             }
         },
-        /**
-         *
-         *
-         * Fixture stuff
-         *
-         */
         less: {
             development: {
                 files: {
@@ -132,24 +115,17 @@ module.exports = function (grunt) {
         sass: {
             development: {
                 files: {
-                    "<%= dirs.css %>/bootstrap-scss.css": "<%= dirs.scss %>/bootstrap.scss"
+                    "<%= dirs.css %>/bootstrap-scss.css": "test/fixtures/bower_components/bootstrap-sass/vendor/assets/stylesheets/bootstrap.scss"
                 }
             }
         }
     });
 
     // These plugins provide necessary tasks.
-    grunt.loadNpmTasks("grunt-contrib-jshint");
     grunt.loadNpmTasks("grunt-contrib-watch");
-    grunt.loadNpmTasks("grunt-contrib-uglify");
-    grunt.loadNpmTasks("grunt-mocha-test");
-    grunt.loadNpmTasks("grunt-karma");
-    grunt.loadNpmTasks("grunt-shell");
+    grunt.loadNpmTasks("grunt-contrib-sass");
 
     // Tests
     grunt.registerTask("test:server", ["jshint", "mochaTest"]);
     grunt.registerTask("test:client", ["jshint", "karma:unit"]);
-    grunt.registerTask("test", ["jshint", "karma:unit", "karma:controlPanel", "mochaTest"]);
-
-    grunt.registerTask("release:github", ["jshint", "karma:unit", "mochaTest", "shell:github"]);
 };
