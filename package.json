@@ -41,7 +41,8 @@
     "http-proxy": "~1.0.2",
     "cl-strings": "0.0.5",
     "resp-modifier": "0.0.4",
-    "browser-sync-client": "0.0.2"
+    "browser-sync-client": "0.0.2",
+    "commander": "~2.1.0"
   },
   "devDependencies": {
     "optimist": "~0.6.0",

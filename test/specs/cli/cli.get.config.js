@@ -2,7 +2,7 @@
 
 var index = require("../../../lib/index");
 var messages = require("../../../lib/messages");
-var dConfig = require("../../../lib/default-config");
+var loadedConfig = require("../../../lib/default-config");
 var _ = require("lodash");
 var sinon = require("sinon");
 var assert = require("chai").assert;
@@ -12,42 +12,36 @@ var configFilePath = "test/fixtures/config/si-config.js";
 var partialConfigFilePath = "test/fixtures/config/si-config-partial.js";
 
 var file1 = "test/fixtures/scss/main.scss";
-var file2 = "test/fixtures/assets/style.css";
 
 var defaultConfig;
 
-describe("INIT: accepting a config file.", function () {
+describe("Resolving Config:", function () {
 
     beforeEach(function(){
-        defaultConfig = _.cloneDeep(dConfig);
+        defaultConfig = _.cloneDeep(loadedConfig);
     });
 
-    describe("Getting default Config from command-line", function () {
-        var argv = {};
+    describe("When retrieving the bs-config.js file", function () {
         var getFileStub;
         var cwdStub;
-        var expected;
         before(function () {
             getFileStub = sinon.stub(cliUtils, "_getConfigFile").returns({});
-            cwdStub = sinon.stub(process, "cwd").returns("/app");
-            expected = "/app" + messages.configFile;
+            cwdStub = sinon.stub(process, "cwd").returns("/Users/shakyshane/os-browser-sync");
         });
         after(function () {
             getFileStub.restore();
             cwdStub.restore();
         });
-        it("can retrieve the default config if it exists", function () {
-            var actual = cliUtils._getDefaultConfigFile();
+        it("should call get config file.", function () {
+            var expected = "/Users/shakyshane/os-browser-sync" + messages.configFile;
+            cliUtils._getDefaultConfigFile();
             sinon.assert.calledWithExactly(getFileStub, expected);
         });
     });
 
-
-    describe("Using the Default config when file found from command-line E2E", function () {
-
+    describe("When using the default config + a file found", function () {
         var defaultStub;
         var argv;
-        var getFileStub;
         before(function () {
             argv = {};
             defaultStub = sinon.stub(cliUtils, "_getDefaultConfigFile").returns({server: true});
@@ -59,16 +53,12 @@ describe("INIT: accepting a config file.", function () {
             defaultStub.restore();
         });
         it("should call _getDefaultConfigFile", function () {
-            var actual = cliUtils.getConfig(defaultConfig, argv);
+            cliUtils.getConfig(defaultConfig, argv);
             sinon.assert.calledOnce(defaultStub);
         });
         it("should merge the default config when found", function () {
             var actual = cliUtils.getConfig(defaultConfig, argv);
-            assert.isTrue(actual.server);
-        });
-        it("should merge the default config when found", function () {
-            var actual = cliUtils.getConfig(defaultConfig, argv);
-            assert.isTrue(actual.server);
+            assert.isTrue(actual.server); // from stub.
         });
     });
 
