@@ -24,7 +24,6 @@ describe("When a Server arg is given on command line", function () {
 
     it("should set the base dir if given", function () {
         argv.server = "app";
-
         var config   = cliUtils.getConfig(defaultConfig, argv);
         var expected = "app";
         var actual   = config.server.baseDir;
