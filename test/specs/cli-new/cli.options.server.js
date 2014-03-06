@@ -50,4 +50,22 @@ describe("Merging Server Options", function () {
         };
         assert.deepEqual(actual, expected);
     });
+    it("should set the base dir if given in object", function () {
+        var arg = {
+            baseDir: "./app"
+        };
+        var actual = options._mergeServerOption(defaultValue, arg, {});
+        var expected = {
+            baseDir: "./app"
+        };
+        assert.deepEqual(actual, expected);
+    });
+    it("should set the base dir & index if given in object", function () {
+        var arg = {
+            baseDir: "./app",
+            index: "mypage.html"
+        };
+        var actual = options._mergeServerOption(defaultValue, arg, {});
+        assert.deepEqual(actual, arg);
+    });
 });
