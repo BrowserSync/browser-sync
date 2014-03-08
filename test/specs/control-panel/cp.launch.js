@@ -1,10 +1,12 @@
-var bs = require("../../../lib/browser-sync");
-var controlPanel = require("../../../lib/control-panel");
-var messages = require("../../../lib/messages");
-var assert = require("chai").assert;
-var request = require("supertest");
+"use strict";
 
-var respString = "}(window, (typeof ___socket___ === \"undefined\") ? {} : ___socket___));";
+var controlPanel = require("../../../lib/control-panel");
+var messages     = require("../../../lib/messages");
+
+var assert       = require("chai").assert;
+var request      = require("supertest");
+var sinon        = require("sinon");
+
 var clientJS = messages.clientScript({version:"2.3.4"});
 
 describe("Launching the Control panel", function () {
@@ -17,16 +19,18 @@ describe("Launching the Control panel", function () {
             devMode: false,
             version: "2.3.4"
         };
-        app = controlPanel.launchControlPanel("ScriptTags", options);
+        var spy = function (req, res) {
+            res.end("CONTENT"); // stub the client scripts
+        };
+        app = controlPanel.launchControlPanel("ScriptTags", options, spy);
     });
 
     it("should return the client script", function (done) {
         request(app)
             .get(clientJS)
             .expect(200)
-            .expect("Content-Type", /javascript/)
             .end(function (err, res) {
-                var actual = res.text.indexOf(respString);
+                var actual = res.text.indexOf("CONTENT");
                 assert.isTrue(actual >= 0);
                 done();
             });

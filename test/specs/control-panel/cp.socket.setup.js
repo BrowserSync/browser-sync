@@ -1,8 +1,12 @@
-var bs = require("../../../lib/browser-sync");
+"use strict";
+
+var socket   = require("../../../lib/sockets");
 var clientIo = require("socket.io-client");
-var browserSync = new bs();
-var assert = require("chai").assert;
-var sinon = require("sinon");
+
+var assert   = require("chai").assert;
+var sinon    = require("sinon");
+var events   = require("events");
+var emitter = new events.EventEmitter();
 
 var userOptions = {
     ghostMode: true
@@ -20,28 +24,28 @@ describe("setup Socket", function () {
 
     var io;
     var events;
+    var spy;
 
     before(function () {
         events = ["random", "inputchange"];
+        spy = sinon.spy(emitter, "emit");
     });
 
     beforeEach(function () {
-        io = browserSync.setupSocket(ports);
-        browserSync.handleSocketConnection(events, userOptions);
+        io = socket.init(ports.socket, events, userOptions, emitter);
     });
 
     it("can start the socket IO server", function () {
         assert.isDefined(io.sockets);
-        browserSync.killSocket();
+        io.server.close();
     });
 
     it("can log a new connection", function (done) {
-        var spy = sinon.spy(browserSync, "logConnection");
         clientIo.connect(socketUrl, {"force new connection":true});
         setTimeout(function () {
             sinon.assert.called(spy);
             done();
-        }, 200);
+        }, 100);
     });
 });
 

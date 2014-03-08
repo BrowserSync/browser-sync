@@ -1,10 +1,13 @@
+"use strict";
+
+var messages    = require("../../../lib/messages");
+var utils       = require("../../../lib/utils").utils;
+var server      = require("../../../lib/server");
 var BrowserSync = require("../../../lib/browser-sync");
-var bs = new BrowserSync();
-var messages = require("../../../lib/messages");
-var utils = require("../../../lib/utils").utils;
-var assert = require("chai").assert;
-var sinon = require("sinon");
-var server = require("../../../lib/server");
+var bs          = new BrowserSync();
+
+var assert      = require("chai").assert;
+var sinon       = require("sinon");
 
 var ports = {
     socket: 3000,
@@ -13,10 +16,10 @@ var ports = {
     proxy: 3003
 };
 
-var host = "0.0.0.0";
-var proxyHost = "http://" + host + ":" + ports.proxy;
+var host       = "0.0.0.0";
+var proxyHost  = "http://" + host + ":" + ports.proxy;
 var serverHost = "http://" + host + ":" + ports.server;
-var urlHost = "http://" + host + ":" + ports.proxy + "/app";
+var urlHost    = "http://" + host + ":" + ports.proxy + "/app";
 
 describe("Browser Sync: init Server", function () {
 
@@ -49,6 +52,7 @@ describe("Browser Sync: init Server", function () {
     });
 
     it("should call launchServer from module", function () {
+
         bs.initServer(host, ports, options, spy);
         sinon.assert.calledWithExactly(launchServer, host, ports, options, spy);
     });
@@ -64,7 +68,7 @@ describe("Browser Sync: init Server", function () {
                 openBrowser: true
             }
         };
-        bs.initServer(host, ports, options);
+        bs.initServer(host, ports, options, spy);
         sinon.assert.calledWithExactly(open, url, options);
     });
     it("should Set the URL on the options when server used", function () {
@@ -77,10 +81,9 @@ describe("Browser Sync: init Server", function () {
                 baseDir: "test/fixtures"
             }
         };
-        bs.initServer(host, ports, options);
+        bs.initServer(host, ports, options, spy);
         var actual = options.url;
-        var expected = serverHost;
-        assert.equal(actual, expected);
+        assert.equal(actual, serverHost);
     });
     it("should Set the URL on the options when server used", function () {
 
@@ -91,10 +94,9 @@ describe("Browser Sync: init Server", function () {
                 host: "local.dev"
             }
         };
-        bs.initServer(host, ports, options);
+        bs.initServer(host, ports, options, spy);
         var actual = options.url;
-        var expected = proxyHost;
-        assert.equal(actual, expected);
+        assert.equal(actual, proxyHost);
     });
     it("should call open browser with proxy port", function () {
 
@@ -107,7 +109,7 @@ describe("Browser Sync: init Server", function () {
 
         var url = proxyHost;
 
-        bs.initServer(host, ports, options);
+        bs.initServer(host, ports, options, spy);
         sinon.assert.calledWithExactly(open, url, options);
     });
     it("should call getUrl", function () {
@@ -120,10 +122,9 @@ describe("Browser Sync: init Server", function () {
 
         var url = proxyHost;
 
-        bs.initServer(host, ports, options);
+        bs.initServer(host, ports, options, spy);
         sinon.assert.calledWithExactly(getUrl, url, options);
     });
-
     describe("logging about servers", function () {
 
         var init;
@@ -153,9 +154,9 @@ describe("Browser Sync: init Server", function () {
                 }
             };
 
-            bs.initServer(host, ports, options);
+            bs.initServer(host, ports, options, spy);
             sinon.assert.calledWithExactly(initServer, host, ports.server, "./");
-            sinon.assert.calledWithExactly(logStub, "Server Message", options, true);
+            sinon.assert.calledWithExactly(logStub, "Server Message", options, false);
             stub.restore();
         });
 
@@ -174,9 +175,9 @@ describe("Browser Sync: init Server", function () {
                 }
             };
 
-            bs.initServer(host, ports, options);
+            bs.initServer(host, ports, options, spy);
             sinon.assert.calledWithExactly(initProxy, host, ports.proxy);
-            sinon.assert.calledWithExactly(logStub, "Proxy Message", options, true);
+            sinon.assert.calledWithExactly(logStub, "Proxy Message", options, false);
         });
     });
 });

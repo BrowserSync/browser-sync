@@ -1,13 +1,15 @@
-var fs = require("fs");
-var messages = require("../../../lib/messages");
-var fileWatcher = require("../../../lib/file-watcher");
-var events = require("events");
-var Gaze = require("gaze").Gaze;
-var assert = require("chai").assert;
-var sinon = require("sinon");
+"use strict";
 
-var testFile1 = "test/fixtures/test.txt";
-var testFile2 = "test/fixtures/test2.txt";
+var messages    = require("../../../lib/messages");
+var fileWatcher = require("../../../lib/file-watcher");
+
+var events      = require("events");
+var Gaze        = require("gaze").Gaze;
+var assert      = require("chai").assert;
+var sinon       = require("sinon");
+
+var testFile1   = "test/fixtures/test.txt";
+var testFile2   = "test/fixtures/test2.txt";
 
 describe("File Watcher Module", function () {
 
@@ -43,7 +45,6 @@ describe("File Watcher Module", function () {
         });
     });
 
-
     describe("Watching files init", function () {
 
         var files = [testFile1, testFile2];
@@ -70,26 +71,8 @@ describe("File Watcher Module", function () {
             msgStub.restore();
         });
         it("should call the watch callback when watching has started", function () {
-            clock.tick(300);
+            clock.tick(200);
             sinon.assert.called(eventSpy);
-        });
-        it("should call messages.files.watching with the patterns", function () {
-            clock.tick(300);
-            sinon.assert.calledWithExactly(msgStub, files);
-        });
-        it("should log when the patterns when watching has started", function () {
-            clock.tick(300);
-            sinon.assert.calledWithExactly(eventSpy, "log", {msg: "MESSAGE", override: true});
-        });
-    });
-
-    describe("Watching files init (when none found)", function () {
-
-        var watchCallback;
-        var msgStub;
-        before(function () {
-            watchCallback = sinon.spy(fileWatcher, "getWatchCallback");
-            msgStub = sinon.stub(messages.files, "watching").returns("MESSAGE");
         });
     });
 });
