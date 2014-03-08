@@ -1,14 +1,14 @@
-var messages = require("../../../lib/messages");
-var http = require("http");
+"use strict";
+
+var defaultConfig = require("../../../lib/default-config");
+var messages      = require("../../../lib/messages");
+var server        = require("../../../lib/server");
+var snippetUtils  = require("../../../lib/snippet").utils;
+var isExcluded    = snippetUtils.isExcluded;
+
 var sinon = require("sinon");
 var request = require("supertest");
-var _ = require("lodash");
 var assert = require("chai").assert;
-var server = require("../../../lib/server");
-var index = require("../../../lib/index");
-var defaultConfig = require("../../../lib/default-config");
-var snippetUtils = require("../../../lib/snippet").utils;
-var isExcluded = snippetUtils.isExcluded;
 
 var ports = {
     socket: 3000,

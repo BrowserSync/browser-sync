@@ -1,17 +1,21 @@
-var bs = require("../../../lib/browser-sync");
-var utils = require("../../../lib/utils").utils;
-var messages = require("../../../lib/messages");
-var controlPanel = require("../../../lib/control-panel");
-var browserSync = new bs();
+"use strict";
+
+var defaultConfig = require("../../../lib/default-config");
+var messages      = require("../../../lib/messages");
+var utils         = require("../../../lib/utils").utils;
+var BrowserSync   = require("../../../lib/browser-sync");
+var browserSync   = new BrowserSync();
+
 var assert = require("chai").assert;
 var sinon = require("sinon");
+
 var options = browserSync.options;
 
 describe("Exposed Methods", function () {
 
     var emitter, emitterStub;
     before(function () {
-        emitter = browserSync.getEmitter();
+        emitter = browserSync.events;
         emitterStub = sinon.stub(emitter, "emit");
     });
     it("can be loaded", function () {
@@ -48,7 +52,7 @@ describe("Exposed Methods", function () {
         var data;
 
         beforeEach(function () {
-            data = browserSync.changeFile("/app/styles/core.css", options);
+            data = browserSync.changeFile("/app/styles/core.css", defaultConfig);
         });
         it("should return the filename", function () {
             assert.equal(data.assetFileName, "core.css");
@@ -67,7 +71,7 @@ describe("Exposed Methods", function () {
 
             var data;
             beforeEach(function () {
-                data = browserSync.changeFile("/app/index.php", options);
+                data = browserSync.changeFile("/app/index.php", defaultConfig);
             });
 
             it("should return the filename", function () {
@@ -95,7 +99,7 @@ describe("Exposed Methods", function () {
                 // fake the CWD
                 browserSync.cwd = "/Users/shakyshane/browser-sync";
 
-                browserSync.changeFile("/Users/shakyshane/browser-sync/app/css/styles.css", options);
+                browserSync.changeFile("/Users/shakyshane/browser-sync/app/css/styles.css", defaultConfig);
 
                 sinon.assert.calledWithExactly(spy, "app/css/styles.css");
 
@@ -103,13 +107,13 @@ describe("Exposed Methods", function () {
 
             it("should log the INJECT message when an inject file was changed", function () {
                 var spy = sinon.spy(messages.browser, "inject");
-                browserSync.changeFile("/app/styles/core.css", options);
+                browserSync.changeFile("/app/styles/core.css", defaultConfig);
                 sinon.assert.called(spy);
             });
 
             it("should log the INJECT message when an inject file was changed", function () {
                 var spy = sinon.spy(messages.browser, "reload");
-                browserSync.changeFile("/app/styles/core.html", options);
+                browserSync.changeFile("/app/styles/core.html", defaultConfig);
                 sinon.assert.called(spy);
             });
         });

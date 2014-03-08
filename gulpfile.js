@@ -6,6 +6,7 @@ var mocha = require('gulp-mocha');
 gulp.task('lint', function () {
     gulp.src(['test/specs/**/*.js', '!test/fixtures/**', 'lib/*'])
         .pipe(jshint('test/specs/.jshintrc'))
+        .pipe(jshint.reporter('default'))
         .pipe(jshint.reporter('fail'))
 });
 

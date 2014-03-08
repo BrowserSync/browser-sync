@@ -1,10 +1,9 @@
-var bs = require("../../../lib/browser-sync");
+var bs       = require("../../../lib/browser-sync");
 var messages = require("../../../lib/messages");
-var bsApi = require("../../../lib/api");
-var assert = require("chai").assert;
-var sinon = require("sinon");
-var _ = require("lodash");
+var bsApi    = require("../../../lib/api");
 
+var assert   = require("chai").assert;
+var sinon    = require("sinon");
 
 var ports = {
     socket: 3000,
@@ -36,8 +35,7 @@ describe("returning API methods by requiring api", function () {
     });
     it("should have a snippet property that contains script tags", function () {
         var actual   = api.snippet;
-        var expected = snippet;
-        assert.equal(actual, expected);
+        assert.equal(actual, snippet);
     });
     it("should have the options property", function () {
         assert.isDefined(api.options);

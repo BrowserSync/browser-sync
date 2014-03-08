@@ -1,5 +1,8 @@
-var proxy = require("../../../lib/proxy");
-var utils = proxy.utils;
+"use strict";
+
+var proxy  = require("../../../lib/proxy");
+var utils  = proxy.utils;
+
 var assert = require("chai").assert;
 
 describe("Proxy Utils", function () {

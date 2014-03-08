@@ -1,11 +1,11 @@
-var server = require("../../../lib/server");
-var proxy = require("../../../lib/proxy");
+"use strict";
+
 var defaultConfig = require("../../../lib/default-config");
-var path = require("path");
-var http = require("http");
-var fs = require("fs");
-var assert = require("chai").assert;
-var sinon = require("sinon");
+var server        = require("../../../lib/server");
+var proxy         = require("../../../lib/proxy");
+
+var assert  = require("chai").assert;
+var sinon   = require("sinon");
 var request = require("supertest");
 
 var ports = {

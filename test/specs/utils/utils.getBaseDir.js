@@ -1,6 +1,8 @@
-var utils = require("../../../lib/utils").utils;
+"use strict";
+
+var utils  = require("../../../lib/utils").utils;
 var assert = require("chai").assert;
-var sinon = require("sinon");
+var sinon  = require("sinon");
 
 describe("getting a display-able base DIR for server", function () {
 

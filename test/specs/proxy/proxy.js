@@ -1,11 +1,14 @@
-var messages = require("../../../lib/messages");
-var http = require("http");
-var filePath = require("path");
-var connect = require("connect");
-var request = require("supertest");
+"use strict";
+
+var messages    = require("../../../lib/messages");
+var proxy       = require("../../../lib/proxy");
+var http        = require("http");
+var filePath    = require("path");
+var connect     = require("connect");
 var portScanner = require("portscanner-plus");
-var proxy = require("../../../lib/proxy");
-var assert = require("chai").assert;
+
+var request     = require("supertest");
+var assert      = require("chai").assert;
 
 var ports = {
     socket: 3000,

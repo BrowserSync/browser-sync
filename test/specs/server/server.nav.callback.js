@@ -1,9 +1,12 @@
-var server = require("../../../lib/server");
+"use strict";
+
 var defaultConfig = require("../../../lib/default-config");
-var assert = require("chai").assert;
-var sinon = require("sinon");
-var request = require("supertest");
-var canNavigate = server.utils.canNavigate;
+var server        = require("../../../lib/server");
+var canNavigate   = server.utils.canNavigate;
+
+var assert        = require("chai").assert;
+var sinon         = require("sinon");
+var request       = require("supertest");
 
 var ports = {
     socket: 3000,

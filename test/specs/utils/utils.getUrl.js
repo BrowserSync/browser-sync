@@ -1,4 +1,7 @@
-var utils = require("../../../lib/utils").utils;
+"use strict";
+
+var utils  = require("../../../lib/utils").utils;
+
 var assert = require("chai").assert;
 
 describe("creating URL from options", function () {

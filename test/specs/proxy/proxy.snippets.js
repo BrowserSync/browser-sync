@@ -1,14 +1,16 @@
-var bs = require("../../../lib/browser-sync");
-var browserSync = new bs();
-var messages = require("../../../lib/messages");
-var http = require("http");
-var filePath = require("path");
-var connect = require("connect");
-var request = require("supertest");
-var sinon = require("sinon");
-var proxy = require("../../../lib/proxy");
-var assert = require("chai").assert;
+"use strict";
+
+var messages    = require("../../../lib/messages");
+var proxy       = require("../../../lib/proxy");
+
+var http        = require("http");
+var filePath    = require("path");
+var connect     = require("connect");
 var portScanner = require("portscanner-plus");
+
+var request     = require("supertest");
+var sinon       = require("sinon");
+var assert      = require("chai").assert;
 
 var ports = {
     socket: 3000,
