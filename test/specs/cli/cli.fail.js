@@ -1,8 +1,9 @@
-var utils = require("../../../lib/utils").utils;
+"use strict";
+
+var utils    = require("../../../lib/utils").utils;
 var messages = require("../../../lib/messages");
-var assert = require("chai").assert;
-var sinon = require("sinon");
-var _ = require("lodash");
+var assert   = require("chai").assert;
+var sinon    = require("sinon");
 
 describe("Failing the process on errors", function () {
 
@@ -21,7 +22,7 @@ describe("Failing the process on errors", function () {
     });
     it("can fail", function () {
         utils.fail("Error!", {}, false);
-        sinon.assert.calledWithExactly(spy, "Error!", {}, true);
+        sinon.assert.calledWithExactly(spy, "Error!", {}, false);
     });
 });
 

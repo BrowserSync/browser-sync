@@ -1,10 +1,11 @@
 "use strict";
 
-var index = require("../../../lib/index");
+var index    = require("../../../lib/index");
 var messages = require("../../../lib/messages");
-var ansiTrim = require("cli-color/lib/trim");
 
-var assert = require("chai").assert;
+var ansiTrim = require("cli-color/lib/trim");
+var assert   = require("chai").assert;
+
 
 describe("Messages module", function () {
 
@@ -206,13 +207,11 @@ describe("Messages module", function () {
         });
     });
 
-    describe("Outputting the message about mulitple IPs", function () {
+    describe("Outputting the message about multiple IPs", function () {
         it("should warn when multiple IPs found", function () {
-            var ip1 = "192.168.0.4";
-            var ip2 = "192.168.10.2";
             var expected = "[BS] Warning: Multiple External IP addresses found\n";
             expected    += "[BS] If you have problems, you may need to manually set the 'host' option";
-            var actual   = ansiTrim(messages.host.multiple("192.168.10.2"));
+            var actual   = ansiTrim(messages.host.multiple());
             assert.equal(actual, expected);
         });
     });

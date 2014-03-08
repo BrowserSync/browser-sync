@@ -1,12 +1,12 @@
 "use strict";
 
-var index = require("../../../lib/index");
-var _ = require("lodash");
-var assert = require("chai").assert;
-var sinon = require("sinon");
-var fs = require("fs");
 var messages = require("../../../lib/messages");
-var info = require("../../../lib/cli-info").info;
+var info     = require("../../../lib/cli-info");
+var index    = require("../../../lib/index");
+
+var assert   = require("chai").assert;
+var sinon    = require("sinon");
+var fs       = require("fs");
 
 describe("info helpers", function () {
 
@@ -14,7 +14,7 @@ describe("info helpers", function () {
 
         var spy;
         before(function () {
-            spy = sinon.spy(console, "log");
+            spy = sinon.stub(console, "log");
         });
         after(function () {
             spy.restore();
