@@ -12,6 +12,18 @@ describe("Merging Options: Files", function () {
         var expected = ["css/*.css"];
         assert.deepEqual(actual, expected);
     });
+    it("should return the files property from string", function () {
+        var files = "css/*.css, *.html";
+        var actual = options._mergeFilesOption(files);
+        var expected = ["css/*.css", "*.html"];
+        assert.deepEqual(actual, expected);
+    });
+    it("should return the files property from string", function () {
+        var files = "css/*.css, test/fixtures/*.html";
+        var actual = options._mergeFilesOption(files);
+        var expected = ["css/*.css", "test/fixtures/*.html"];
+        assert.deepEqual(actual, expected);
+    });
     it("should return the files property from array", function () {
         var files = ["css/*.css"];
         var actual = options._mergeFilesOption(files);
