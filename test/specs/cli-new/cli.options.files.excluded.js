@@ -1,9 +1,9 @@
-var defaultConfig = require("../../../lib/default-config");
-var cli = require("../../../lib/cli");
-var options = cli.options;
-var _ = require("lodash");
+"use strict";
 
-var assert = require("chai").assert;
+var defaultConfig   = require("../../../lib/default-config");
+var options         = require("../../../lib/cli-options");
+
+var assert          = require("chai").assert;
 
 describe("wrapping file patterns for exclusion", function () {
     it("should wrap a DIR (2)", function () {

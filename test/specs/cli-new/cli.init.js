@@ -1,11 +1,13 @@
-var defaultConfig = require("../../../lib/default-config");
-var cli = require("../../../lib/cli");
-var init = cli.init;
-var options = cli.options;
+"use strict";
 
-var allowed = Object.keys(defaultConfig);
+var defaultConfig = require("../../../lib/default-config");
+var cli           = require("../../../lib/cli");
+var init          = cli.init;
+var options       = cli.options;
 
 var assert = require("chai").assert;
+
+var allowed = Object.keys(defaultConfig);
 
 describe("Merging Options", function () {
     var argv;

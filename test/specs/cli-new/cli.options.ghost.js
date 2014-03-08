@@ -1,11 +1,12 @@
-var defaultConfig = require("../../../lib/default-config");
-var cli = require("../../../lib/cli");
-var options = cli.options;
-var _ = require("lodash");
+"use strict";
+
+var defaultConfig   = require("../../../lib/default-config");
+var cli             = require("../../../lib/cli");
+var options         = cli.options;
 
 var assert = require("chai").assert;
 
-describe("Merging Ghostmode option", function () {
+describe("Merging Ghostmode options", function () {
     it("should merge ghost mode set to false", function () {
         var arg = false;
         var defaultVal = defaultConfig.ghostMode;
