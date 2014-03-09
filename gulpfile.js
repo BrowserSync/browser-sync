@@ -1,7 +1,6 @@
 var gulp = require('gulp');
 var jshint = require('gulp-jshint');
 var contribs = require('gulp-contribs');
-var mocha = require('gulp-mocha');
 
 gulp.task('lint', function () {
     gulp.src(['test/specs/**/*.js', '!test/fixtures/**', 'lib/*'])
@@ -13,12 +12,6 @@ gulp.task('lint', function () {
 gulp.task('contribs', function () {
     gulp.src('README.md')
         .pipe(contribs())
-        .pipe(gulp.dest("./"))
-});
-
-gulp.task('test', function () {
-    gulp.src('test/specs/cli-new/*.js')
-        .pipe(mocha())
         .pipe(gulp.dest("./"))
 });
 
