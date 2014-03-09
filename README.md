@@ -61,7 +61,7 @@ If you've found Browser-sync useful and would like to contribute to its continue
 ## Contributors
 
 ```
-   351	Shane Osbourne
+   389	Shane Osbourne
     13	Hugo Bessa
      2	brutaldev
      2	chase_chou
