@@ -28,10 +28,12 @@ describe("Browser Sync: init Server", function () {
     var open;
     var spy;
     var getUrl, logStub;
+    var emitterStub;
 
     before(function () {
         options = {};
         logStub = sinon.stub(utils, "log").returns(true);
+        emitterStub = sinon.stub(bs.events, "emit");
         launchServer = sinon.stub(server, "launchServer").returns(true);
         open = sinon.stub(utils, "openBrowser").returns(true);
         getUrl = sinon.stub(utils, "getUrl").returns(urlHost);
@@ -42,6 +44,7 @@ describe("Browser Sync: init Server", function () {
         open.reset();
         getUrl.reset();
         logStub.reset();
+        emitterStub.reset();
     });
 
     after(function () {
@@ -49,6 +52,7 @@ describe("Browser Sync: init Server", function () {
         open.restore();
         getUrl.restore();
         logStub.restore();
+        emitterStub.restore();
     });
 
     it("should call launchServer from module", function () {
@@ -155,8 +159,13 @@ describe("Browser Sync: init Server", function () {
             };
 
             bs.initServer(host, ports, options, spy);
-            sinon.assert.calledWithExactly(initServer, host, ports.server, "./");
-            sinon.assert.calledWithExactly(logStub, "Server Message", options, false);
+            var open = emitterStub.getCall(0).args[0];
+            var data = emitterStub.getCall(0).args[1];
+
+            assert.equal(open, "open");
+
+            assert.equal(data.port, 3002);
+            assert.equal(data.type, "server");
             stub.restore();
         });
 
@@ -176,8 +185,14 @@ describe("Browser Sync: init Server", function () {
             };
 
             bs.initServer(host, ports, options, spy);
-            sinon.assert.calledWithExactly(initProxy, host, ports.proxy);
-            sinon.assert.calledWithExactly(logStub, "Proxy Message", options, false);
+
+            var open = emitterStub.getCall(0).args[0];
+            var data = emitterStub.getCall(0).args[1];
+
+            assert.equal(open, "open");
+
+            assert.equal(data.port, 3002);
+            assert.equal(data.type, "proxy");
         });
     });
 });

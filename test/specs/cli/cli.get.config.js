@@ -2,6 +2,7 @@
 
 var index        = require("../../../lib/index");
 var messages     = require("../../../lib/messages");
+var config       = require("../../../lib/config");
 var loadedConfig = require("../../../lib/default-config");
 var info         = require("../../../lib/cli-info");
 
@@ -32,7 +33,7 @@ describe("Resolving Config:", function () {
             cwdStub.restore();
         });
         it("should call get config file.", function () {
-            var expected = "/Users/shakyshane/os-browser-sync" + messages.configFile;
+            var expected = "/Users/shakyshane/os-browser-sync" + config.configFile;
             info._getDefaultConfigFile();
             sinon.assert.calledWithExactly(getFileStub, expected);
         });

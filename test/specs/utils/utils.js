@@ -5,6 +5,7 @@ var messages      = require("../../../lib/messages");
 var utils         = require("../../../lib/utils").utils;
 var BrowserSync   = require("../../../lib/browser-sync");
 var browserSync   = new BrowserSync();
+browserSync.cwd   = "/Users/shakshane/app";
 
 var assert = require("chai").assert;
 var sinon = require("sinon");
@@ -17,6 +18,9 @@ describe("Exposed Methods", function () {
     before(function () {
         emitter = browserSync.events;
         emitterStub = sinon.stub(emitter, "emit");
+    });
+    afterEach(function () {
+        emitterStub.reset();
     });
     it("can be loaded", function () {
         assert.isDefined(browserSync);
@@ -63,7 +67,10 @@ describe("Exposed Methods", function () {
         it("should emit the event with the correct data", function () {
             sinon.assert.calledWithExactly(emitterStub, "file:reload", {
                 assetFileName: "core.css",
-                fileExtension: "css"
+                cwd: browserSync.cwd,
+                fileExtension: "css",
+                path: "/app/styles/core.css",
+                type: "inject"
             });
         });
 
@@ -71,6 +78,7 @@ describe("Exposed Methods", function () {
 
             var data;
             beforeEach(function () {
+                emitterStub.reset();
                 data = browserSync.changeFile("/app/index.php", defaultConfig);
             });
 
@@ -82,39 +90,15 @@ describe("Exposed Methods", function () {
             });
 
             it("should emit the event with the correct data", function () {
+
                 sinon.assert.calledWithExactly(emitterStub, "file:reload", {
                     url: "/app/index.php",
                     assetFileName: "index.php",
-                    fileExtension: "php"
+                    fileExtension: "php",
+                    type: "reload",
+                    path: "/app/index.php",
+                    cwd: browserSync.cwd
                 });
-            });
-        });
-
-        describe("logging info about the file change to the console", function () {
-
-            it("should log which file is changed", function () {
-
-                var spy = sinon.spy(messages.files, "changed");
-
-                // fake the CWD
-                browserSync.cwd = "/Users/shakyshane/browser-sync";
-
-                browserSync.changeFile("/Users/shakyshane/browser-sync/app/css/styles.css", defaultConfig);
-
-                sinon.assert.calledWithExactly(spy, "app/css/styles.css");
-
-            });
-
-            it("should log the INJECT message when an inject file was changed", function () {
-                var spy = sinon.spy(messages.browser, "inject");
-                browserSync.changeFile("/app/styles/core.css", defaultConfig);
-                sinon.assert.called(spy);
-            });
-
-            it("should log the INJECT message when an inject file was changed", function () {
-                var spy = sinon.spy(messages.browser, "reload");
-                browserSync.changeFile("/app/styles/core.html", defaultConfig);
-                sinon.assert.called(spy);
             });
         });
     });

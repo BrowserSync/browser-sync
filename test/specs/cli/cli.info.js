@@ -1,6 +1,7 @@
 "use strict";
 
 var messages = require("../../../lib/messages");
+var config   = require("../../../lib/config");
 var info     = require("../../../lib/cli-info");
 var index    = require("../../../lib/index");
 
@@ -116,7 +117,7 @@ describe("info helpers", function () {
             sinon.assert.called(readStub);
         });
         it("should create the config file", function () {
-            var expectedPath = "/users/app" + messages.configFile;
+            var expectedPath = "/users/app" + config.configFile;
             sinon.assert.calledWithExactly(writeStub, expectedPath, "DATA", confirmSpy);
         });
         it("should call confirm config with the Path to the file", function () {

@@ -2,6 +2,7 @@
 
 var index    = require("../../../lib/index");
 var messages = require("../../../lib/messages");
+var config   = require("../../../lib/config");
 
 var ansiTrim = require("cli-color/lib/trim");
 var assert   = require("chai").assert;
@@ -123,7 +124,7 @@ describe("Messages module", function () {
     describe("Outputting shims JS", function () {
         it("should return the client-shim js file", function () {
             var expected = "/client/client-shims.js";
-            var actual   = messages.client.shims;
+            var actual   = config.client.shims;
             assert.equal(actual, expected);
         });
     });
@@ -131,7 +132,7 @@ describe("Messages module", function () {
     describe("Outputting App JS", function () {
         it("should return the app js file", function () {
             var expected = "/js/app.js";
-            var actual   = messages.controlPanel.jsFile;
+            var actual   = config.controlPanel.jsFile;
             assert.equal(actual, expected);
         });
     });
