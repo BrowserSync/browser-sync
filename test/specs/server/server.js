@@ -75,6 +75,17 @@ describe("", function () {
                 .get("/")
                 .expect(200, done);
         });
+
+        it("can files from multiple dirs", function (done) {
+
+            options.server.baseDir = ["test/fixtures", "test/fixtures2"];
+            options.server.index = "index.html";
+            var servers = server.launchServer("localhost", ports, options, io);
+
+            request(servers.staticServer)
+                .get("/style-alt.css")
+                .expect(200, done);
+        });
     });
 
     describe("launching the proxy", function () {

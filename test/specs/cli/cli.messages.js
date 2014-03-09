@@ -38,6 +38,26 @@ describe("Messages module", function () {
             var actual   = ansiTrim(messages.server.withProxy());
             assert.equal(actual, expected);
         });
+
+        it("Can confirm the server is running with muliple DIRS", function () {
+            var expected = "[BS] Server running. Use this URL: http://0.0.0.0:8000\n";
+            expected    += "[BS] Serving files from: /users/shakyshane/app/files\n";
+            expected    += "[BS] Serving files from: /users/shakyshane/app/files2";
+
+            var base = ["/users/shakyshane/app/files", "/users/shakyshane/app/files2"];
+            var actual = ansiTrim(messages.initServer("0.0.0.0", 8000, base));
+            assert.equal(actual, expected);
+        });
+        it("Can confirm the server is running with muliple DIRS", function () {
+            var expected = "[BS] Server running. Use this URL: http://0.0.0.0:8000\n";
+            expected    += "[BS] Serving files from: /users/shakyshane/app/files\n";
+            expected    += "[BS] Serving files from: /users/shakyshane/app/files2\n";
+            expected    += "[BS] Serving files from: /users/app";
+
+            var base = ["/users/shakyshane/app/files", "/users/shakyshane/app/files2", "/users/app"];
+            var actual = ansiTrim(messages.initServer("0.0.0.0", 8000, base));
+            assert.equal(actual, expected);
+        });
     });
 
     describe("Proxy Output", function () {
