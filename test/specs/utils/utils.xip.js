@@ -6,7 +6,7 @@ var utils         = require("../../../lib/utils").utils;
 var assert = require("chai").assert;
 var sinon = require("sinon");
 
-describe.only("Adding xip", function () {
+describe("Adding xip", function () {
     it("can add xip.io when set in options", function () {
         var host = "192.15.122.9";
         var expected = "192.15.122.9.xip.io";
