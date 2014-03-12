@@ -11,6 +11,7 @@ var sinon        = require("sinon");
 var assert       = require("chai").assert;
 
 var configFilePath = "test/fixtures/config/si-config.js";
+var fakeCwd = "/Users/shakyshane/os-browser-sync";
 
 
 describe("Resolving Config:", function () {
@@ -26,23 +27,23 @@ describe("Resolving Config:", function () {
         var cwdStub;
         before(function () {
             getFileStub = sinon.stub(info, "_getConfigFile").returns({});
-            cwdStub = sinon.stub(process, "cwd").returns("/Users/shakyshane/os-browser-sync");
+            cwdStub = sinon.stub(process, "cwd").returns(fakeCwd);
         });
         after(function () {
             getFileStub.restore();
             cwdStub.restore();
         });
-        it("should call get config file.", function () {
-            var expected = "/Users/shakyshane/os-browser-sync" + config.configFile;
-            info._getDefaultConfigFile();
+        it("should call to get default config file.", function () {
+            var expected = fakeCwd + config.configFile;
+            info.getDefaultConfigFile();
             sinon.assert.calledWithExactly(getFileStub, expected);
         });
     });
 
     describe("reading a config file from the file system", function () {
 
-        it("can false if the file is not found", function () {
-            var files = info._getConfigFile("random/file/doesn'tex");
+        it("can return false if the file is not found", function () {
+            var files = info._getConfigFile("random/file/doesn'texist");
             assert.isFalse(files);
         });
 
