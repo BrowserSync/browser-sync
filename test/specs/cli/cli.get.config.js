@@ -1,7 +1,6 @@
 "use strict";
 
 var index        = require("../../../lib/index");
-var messages     = require("../../../lib/messages");
 var config       = require("../../../lib/config");
 var loadedConfig = require("../../../lib/default-config");
 var info         = require("../../../lib/cli-info");
@@ -11,6 +10,7 @@ var sinon        = require("sinon");
 var assert       = require("chai").assert;
 
 var configFilePath = "test/fixtures/config/si-config.js";
+var fakeCwd = "/Users/shakyshane/os-browser-sync";
 
 
 describe("Resolving Config:", function () {
@@ -26,27 +26,27 @@ describe("Resolving Config:", function () {
         var cwdStub;
         before(function () {
             getFileStub = sinon.stub(info, "_getConfigFile").returns({});
-            cwdStub = sinon.stub(process, "cwd").returns("/Users/shakyshane/os-browser-sync");
+            cwdStub = sinon.stub(process, "cwd").returns(fakeCwd);
         });
         after(function () {
             getFileStub.restore();
             cwdStub.restore();
         });
-        it("should call get config file.", function () {
-            var expected = "/Users/shakyshane/os-browser-sync" + config.configFile;
-            info._getDefaultConfigFile();
+        it("should call '_getConfigFile' with the default path", function () {
+            var expected = fakeCwd + config.configFile;
+            info.getDefaultConfigFile();
             sinon.assert.calledWithExactly(getFileStub, expected);
         });
     });
 
-    describe("reading a config file from the file system", function () {
+    describe("When reading a config file from the file system", function () {
 
-        it("can false if the file is not found", function () {
-            var files = info._getConfigFile("random/file/doesn'tex");
+        it("should return false if the file is not found", function () {
+            var files = info._getConfigFile("random/file/doesn'texist");
             assert.isFalse(files);
         });
 
-        it("does not throw if the file is found", function () {
+        it("should not throw if the file is found", function () {
             assert.isDefined(info._getConfigFile(configFilePath));
         });
     });

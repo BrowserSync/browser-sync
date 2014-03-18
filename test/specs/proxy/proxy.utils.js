@@ -35,6 +35,14 @@ describe("Rewriting Domains", function () {
         var expected = "/0.0.0.0/g";
         assert.equal(actual, expected);
     });
+    it("should return the correct regex for an IP based server with the default port", function () {
+        var actual = utils.rewriteLinks({
+            host: "10.10.1.176",
+            port: 80
+        }, proxyUrl).match.toString();
+        var expected = "/10.10.1.176/g";
+        assert.equal(actual, expected);
+    });
     it("should return the correct regex for a vhost based server", function () {
         var actual = utils.rewriteLinks(vhostServer, proxyUrl).match.toString();
         var expected = "/local.dev/g";
