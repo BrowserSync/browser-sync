@@ -112,10 +112,9 @@ describe("Messages module", function () {
             var actual = messages.scriptTags("192.168.0.4", ports, {version:"2.3.4"});
             assert.equal(actual, expected);
         });
-        it("can output Socket.io & Control Panel Script correctly", function () {
+        it("can output Socket.io & connector only", function () {
             var expected = "<script src='//192.168.0.4:3000/socket.io/socket.io.js'></script>\n";
             expected    += "<script>var ___socket___ = io.connect('http://192.168.0.4:3000');</script>\n";
-            expected    += "<script src='//192.168.0.4:3001/js/app.js'></script>\n";
 
             var actual = messages.scriptTags("192.168.0.4", ports, {}, "controlPanel");
             assert.equal(actual, expected);

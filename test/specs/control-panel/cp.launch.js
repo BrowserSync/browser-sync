@@ -9,7 +9,7 @@ var sinon        = require("sinon");
 
 var clientJS = messages.clientScript({version:"2.3.4"});
 
-describe("Launching the Control panel", function () {
+describe.skip("Launching the Control panel", function () {
 
     var app;
     var options;
