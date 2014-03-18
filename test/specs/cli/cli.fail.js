@@ -5,7 +5,7 @@ var messages = require("../../../lib/messages");
 var assert   = require("chai").assert;
 var sinon    = require("sinon");
 
-describe("Failing the process on errors", function () {
+describe("Failing the process on errors:", function () {
 
     var spy;
     before(function () {
@@ -17,10 +17,10 @@ describe("Failing the process on errors", function () {
     after(function () {
         spy.restore();
     });
-    it("has the fail method", function(){
+    it("should have the fail method", function(){
         assert.isDefined(utils.fail);
     });
-    it("can fail", function () {
+    it("should be able to fail", function () {
         utils.fail("Error!", {}, false);
         sinon.assert.calledWithExactly(spy, "Error!", {}, false);
     });

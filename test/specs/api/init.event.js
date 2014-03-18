@@ -14,7 +14,7 @@ var ports = {
 var host  = "0.0.0.0";
 var snippet = messages.scriptTags(host, ports, {});
 
-describe("returning API methods by requiring api", function () {
+describe("Returning API methods by requiring the api module", function () {
     var api;
     var options;
     var servers;

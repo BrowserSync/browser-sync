@@ -1,11 +1,22 @@
 var browserSync = require("./lib/index");
 
-var files = ["test/fixtures/css/*", "test/fixtures/*.html"];
+var files = ["test/fixtures/assets/*", "test/fixtures/*.html"];
 
-var bs = browserSync.init(files, {
+var options = {
     server: {
-        baseDir: "test/fixtures",
-        index: "sass.html"
-    },
-    open: true
+        baseDir: "test/fixtures"
+    }
+};
+
+//browserSync.use("client:script", function () {
+//    var file = require("fs").readFileSync("./browser-sync-client.js");
+//    return function (req, res) {
+//        res.setHeader("Content-Type", "text/javascript");
+//        res.end(file);
+//    };
+//});
+
+browserSync.init(files, options, function (err, bs) {
+    return true;
 });
+

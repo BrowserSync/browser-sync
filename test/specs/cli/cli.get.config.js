@@ -1,7 +1,6 @@
 "use strict";
 
 var index        = require("../../../lib/index");
-var messages     = require("../../../lib/messages");
 var config       = require("../../../lib/config");
 var loadedConfig = require("../../../lib/default-config");
 var info         = require("../../../lib/cli-info");
@@ -33,21 +32,21 @@ describe("Resolving Config:", function () {
             getFileStub.restore();
             cwdStub.restore();
         });
-        it("should call to get default config file.", function () {
+        it("should call '_getConfigFile' with the default path", function () {
             var expected = fakeCwd + config.configFile;
             info.getDefaultConfigFile();
             sinon.assert.calledWithExactly(getFileStub, expected);
         });
     });
 
-    describe("reading a config file from the file system", function () {
+    describe("When reading a config file from the file system", function () {
 
-        it("can return false if the file is not found", function () {
+        it("should return false if the file is not found", function () {
             var files = info._getConfigFile("random/file/doesn'texist");
             assert.isFalse(files);
         });
 
-        it("does not throw if the file is found", function () {
+        it("should not throw if the file is found", function () {
             assert.isDefined(info._getConfigFile(configFilePath));
         });
     });

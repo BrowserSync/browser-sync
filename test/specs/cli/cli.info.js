@@ -9,18 +9,18 @@ var assert   = require("chai").assert;
 var sinon    = require("sinon");
 var fs       = require("fs");
 
-describe("info helpers", function () {
+describe("Info Helpers:", function () {
 
-    describe("displaying the version number", function () {
+    describe("When displaying the version number", function () {
 
-        var spy;
+        var consoleLogStub;
         before(function () {
-            spy = sinon.stub(console, "log");
+            consoleLogStub = sinon.stub(console, "log");
         });
         after(function () {
-            spy.restore();
+            consoleLogStub.restore();
         });
-        it("should be defined", function () {
+        it("should be a function", function () {
             assert.isDefined(info);
         });
         it("should have a getVersion method", function () {
@@ -45,11 +45,11 @@ describe("info helpers", function () {
                 version: "3.0"
             };
             info.getVersion(pjson);
-            sinon.assert.calledWithExactly(spy, "3.0");
+            sinon.assert.calledWithExactly(consoleLogStub, "3.0");
         });
     });
 
-    describe("confirm Config", function () {
+    describe("When confirming the config file creation:", function () {
         var confirm;
         var messageStub;
         var consoleStub;
@@ -79,23 +79,25 @@ describe("info helpers", function () {
         });
     });
 
-    describe("creating the config file", function () {
+    describe("When creating the config file:", function () {
+
         var readStub;
         var writeStub;
         var actual;
         var cwd;
         var confirmStub;
         var confirmSpy;
+
         before(function () {
 
             var writeMock = function (var1, var2, cb) {
                 cb();
             };
 
-            readStub = sinon.stub(fs, "readFileSync").returns("DATA");
-            writeStub = sinon.stub(fs, "writeFile", writeMock);
-            cwd = sinon.stub(process, "cwd").returns("/users/app");
-            confirmSpy = sinon.spy();
+            readStub    = sinon.stub(fs, "readFileSync").returns("DATA");
+            writeStub   = sinon.stub(fs, "writeFile", writeMock);
+            cwd         = sinon.stub(process, "cwd").returns("/users/app");
+            confirmSpy  = sinon.spy();
             confirmStub = sinon.stub(info, "confirmConfig").returns(confirmSpy);
         });
         beforeEach(function () {
@@ -113,7 +115,7 @@ describe("info helpers", function () {
             writeStub.restore();
             cwd.restore();
         });
-        it("should create the config file", function () {
+        it("should call the readFileSync method", function () {
             sinon.assert.called(readStub);
         });
         it("should create the config file", function () {
