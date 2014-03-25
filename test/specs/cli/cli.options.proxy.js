@@ -84,24 +84,29 @@ describe("Merging Server Options", function () {
         };
         assert.deepEqual(actual, expected);
     });
-    it("should merge a url with path", function () {
-        var arg = "http://local.dev/subdir";
-        var actual = options._mergeProxyOption(defaultValue, arg);
-        var expected = {
-            protocol: "http",
-            host: "local.dev",
-            port: 80
-        };
-        assert.deepEqual(actual, expected);
-    });
-    it("should merge a url with path (2)", function () {
-        var arg = "http://local.dev/subdir/another/path";
-        var actual = options._mergeProxyOption(defaultValue, arg);
-        var expected = {
-            protocol: "http",
-            host: "local.dev",
-            port: 80
-        };
-        assert.deepEqual(actual, expected);
+
+    describe("Setting the start path", function () {
+        it("should merge a url with path", function () {
+            var arg = "http://local.dev/subdir";
+            var actual = options._mergeProxyOption(defaultValue, arg);
+            var expected = {
+                protocol: "http",
+                host: "local.dev",
+                port: 80,
+                startPath: "subdir"
+            };
+            assert.deepEqual(actual, expected);
+        });
+        it("should merge a url with path & query params", function () {
+            var arg = "http://local.dev/subdir/another/path?rel=123";
+            var actual = options._mergeProxyOption(defaultValue, arg);
+            var expected = {
+                protocol: "http",
+                host: "local.dev",
+                port: 80,
+                startPath: "subdir/another/path?rel=123"
+            };
+            assert.deepEqual(actual, expected);
+        });
     });
 });
