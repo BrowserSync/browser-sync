@@ -43,7 +43,7 @@
     "resp-modifier": "0.0.4",
     "browser-sync-client": "0.0.4",
     "commander": "~2.1.0",
-    "browser-sync-control-panel": "0.0.2"
+    "browser-sync-control-panel": "0.0.3"
   },
   "devDependencies": {
     "optimist": "~0.6.0",
