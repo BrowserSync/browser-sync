@@ -39,13 +39,5 @@ describe("setup Socket", function () {
         assert.isDefined(io.sockets);
         io.server.close();
     });
-
-    it("can log a new connection", function (done) {
-        clientIo.connect(socketUrl, {"force new connection":true});
-        setTimeout(function () {
-            sinon.assert.called(spy);
-            done();
-        }, 100);
-    });
 });
 
