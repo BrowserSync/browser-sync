@@ -56,7 +56,9 @@
     "mocha": "*",
     "gulp": "~3.5.2",
     "gulp-jshint": "~1.5.0",
-    "gulp-contribs": "0.0.1"
+    "gulp-contribs": "0.0.1",
+    "gulp-sass": "^0.7.1",
+    "vinyl": "^0.2.3"
   },
   "keywords": [
     "browser sync",
