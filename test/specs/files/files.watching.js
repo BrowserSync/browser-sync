@@ -24,10 +24,10 @@ describe("File Watcher Module", function () {
     describe("INIT stuff", function () {
 
         it("change callback should be a function", function () {
-            assert.isFunction(fileWatcher.getChangeCallback());
+            assert.isFunction(fileWatcher.getChangeCallback({}));
         });
         it("watch callback should be a function", function () {
-            assert.isFunction(fileWatcher.getWatchCallback());
+            assert.isFunction(fileWatcher.getWatchCallback({}));
         });
         describe("returning a watching instance", function () {
             it("should return a watcher instance", function () {
