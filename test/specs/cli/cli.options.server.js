@@ -69,4 +69,16 @@ describe("Merging Server Options", function () {
         var actual = options._mergeServerOption(defaultValue, arg, {});
         assert.deepEqual(actual, arg);
     });
+    it("should set the directory if given on the command line", function () {
+        var arg = "app";
+        var argv = {
+            directory: true
+        };
+        var expected = {
+            baseDir: "app",
+            directory: true
+        };
+        var actual   = options._mergeServerOption(defaultValue, arg, argv);
+        assert.deepEqual(actual, expected);
+    });
 });

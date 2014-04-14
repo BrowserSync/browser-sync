@@ -1,0 +1,54 @@
+"use strict";
+
+var init    = require("../../../lib/cli-init");
+var program = require("commander");
+
+var assert  = require("chai").assert;
+var sinon   = require("sinon");
+
+describe("Parsing Command-line usage: ", function () {
+
+    var startStub;
+
+    var cbSpy;
+    var helpStub;
+    before(function () {
+        startStub = sinon.stub(init, "startFromCommandLine");
+        helpStub  = sinon.stub(program, "help");
+        cbSpy     = sinon.spy();
+    });
+    afterEach(function () {
+        startStub.reset();
+        helpStub.reset();
+        cbSpy.reset();
+    });
+    after(function () {
+        startStub.restore();
+        helpStub.restore();
+    });
+
+    it("should call the callback when `init` command given", function() {
+        var argv = [
+            "",
+            "",
+            "init"
+        ];
+        init.parse("0.0.0", { _: []}, argv, cbSpy);
+        sinon.assert.called(cbSpy);
+    });
+
+    it("should call startFromCommandLine() when `start` command given", function () {
+        var argv = [
+            "",
+            "",
+            "start"
+        ];
+        init.parse("0.0.0", { _: []}, argv, cbSpy);
+        sinon.assert.called(startStub);
+    });
+
+    it("should show the help if no commands given", function() {
+        init.parse("0.0.0", { _: []}, ["", ""], cbSpy);
+        sinon.assert.calledOnce(helpStub);
+    });
+});

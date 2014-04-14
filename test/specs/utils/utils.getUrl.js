@@ -31,4 +31,37 @@ describe("creating URL from options", function () {
         var expected = "http://0.0.0.0:3002/app/mysite";
         assert.equal(actual, expected);
     });
+
+    describe("When the start path is set in the proxy", function () {
+        it("should return the url with a path appended from proxy", function () {
+            var options = {
+                proxy: {
+                    startPath: "subdir/another/path"
+                }
+            };
+            var actual = utils.getUrl(url, options);
+            var expected = "http://0.0.0.0:3002/subdir/another/path";
+            assert.equal(actual, expected);
+        });
+        it("should return the url with a path appended from proxy", function () {
+            var options = {
+                proxy: {
+                    startPath: "subdir"
+                }
+            };
+            var actual = utils.getUrl(url, options);
+            var expected = "http://0.0.0.0:3002/subdir";
+            assert.equal(actual, expected);
+        });
+        it("should return the url with a path appended from proxy with query", function () {
+            var options = {
+                proxy: {
+                    startPath: "subdir?rel=1234"
+                }
+            };
+            var actual = utils.getUrl(url, options);
+            var expected = "http://0.0.0.0:3002/subdir?rel=1234";
+            assert.equal(actual, expected);
+        });
+    });
 });
