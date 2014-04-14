@@ -36,7 +36,7 @@ describe("the navigateCallback function (ghostmode links ON)", function () {
         };
         options = {
             ghostMode: {
-                links: true
+                location: true
             }
         };
         func = server.utils.navigateCallback(io, options);
@@ -69,10 +69,21 @@ describe("the navigateCallback function (ghostmode links ON)", function () {
         func({url: "/font.woff"}, {}, next);
         sinon.assert.notCalled(clientsSpy);
     });
+    it("should call emit with correct URL", function () {
+        clientsSpy.returns(["1", "2"]);
+        func({url: "/", method:"GET"}, {}, next);
+        sinon.assert.calledWithExactly(emitSpy, "location", {url: "/"});
+    });
+    it("should call emit with correct URL", function () {
+        var func = server.utils.navigateCallback(io, options);
+        clientsSpy.returns(["1", "2"]);
+        func({url: "/about-us", method:"GET"}, {}, next);
+        sinon.assert.calledWithExactly(emitSpy, "location", {url: "/about-us"});
+    });
     it("E2E", function (done) {
         var options = {
             ghostMode: {
-                links: true
+                location: true
             },
             server: {
                 baseDir: "test/fixtures"
@@ -92,7 +103,7 @@ describe("the canNavigate function Check", function () {
 
     var options = {
         ghostMode: {
-            links: true
+            location: true
         },
         excludedFileTypes: defaultConfig.excludedFileTypes
     };
@@ -142,7 +153,7 @@ describe("the canNavigate function Check", function () {
             assert.isTrue(actual);
         });
         it("should return FALSE when ghostMode Links disabled", function () {
-            options.ghostMode.links = false;
+            options.ghostMode.location = false;
             var actual = canNavigate(req, options);
             assert.isFalse(actual);
         });
