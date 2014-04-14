@@ -19,6 +19,10 @@ describe("Reload method", function () {
         emitterStub.restore();
     });
 
+    it("should be callable with no args & perform a reload", function () {
+        browserSync.reload();
+        sinon.assert.calledWithExactly(emitterStub, "browser:reload");
+    });
     it("should accept a file path as a string", function () {
         browserSync.reload("css/core.css");
         sinon.assert.calledWithExactly(emitterStub, "file:changed", {path: "css/core.css"});
@@ -28,15 +32,16 @@ describe("Reload method", function () {
         sinon.assert.calledWithExactly(emitterStub, "file:changed", {path: "css/core.css"});
         sinon.assert.calledWithExactly(emitterStub, "file:changed", {path: "index.html"});
     });
+
     describe("Returning a stream", function () {
         it("should handle a sinlge file changed", function () {
-            var stream = browserSync.reload();
+            var stream = browserSync.reload({stream:true});
             stream.write(new File({path: "styles.css"}));
             stream.end();
             sinon.assert.calledWithExactly(emitterStub, "file:changed", {path: "styles.css"});
         });
         it("should accept multiple files in stream", function(){
-            var stream = browserSync.reload();
+            var stream = browserSync.reload({stream: true});
             stream.write(new File({path: "styles.css"}));
             stream.write(new File({path: "styles2.css"}));
             stream.end();
@@ -44,7 +49,7 @@ describe("Reload method", function () {
             sinon.assert.calledWithExactly(emitterStub, "file:changed", {path: "styles2.css"});
         });
         it("should reload browser if true given as arg", function(){
-            var stream = browserSync.reload(true);
+            var stream = browserSync.reload({stream: true, once: true});
             stream.write(new File({path: "styles.css"}));
             stream.write(new File({path: "styles2.css"}));
             stream.write(new File({path: "styles3.css"}));
