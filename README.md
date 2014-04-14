@@ -61,22 +61,24 @@ If you've found Browser-sync useful and would like to contribute to its continue
 ## Contributors
 
 ```
-   399	Shane Osbourne
+   433	Shane Osbourne
     13	Hugo Bessa
+     3	Marek 'saji' Augustynowicz
      2	Hugo Dias
-     2	Marek 'saji' Augustynowicz
      2	brutaldev
+     2	Paul Robertson
      2	chase_chou
+     1	Tony Holdstock-Brown
+     1	Werner van Deventer
+     1	mericson
+     1	Cameron Spear
+     1	viktor hesselbom
      1	Carl Henderson
      1	Dave Hall
      1	Guillaume Lambert
      1	Jory Graham
      1	Robert Vock
      1	Sylvain Emery
-     1	Tony Holdstock-Brown
-     1	Werner van Deventer
-     1	mericson
-     1	viktor hesselbom
 ```
 
 ## License
