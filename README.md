@@ -33,23 +33,8 @@ There's a [separate plugin](https://github.com/shakyShane/grunt-browser-sync) fo
 ## Using Gulp?
 No problem, here's a [setup guide](https://github.com/shakyShane/gulp-browser-sync)
 
-##Screencasts ( < 3 min each )
-1. [Using the Static Server with css injecting](http://quick.as/klaqfq7e)
-2. [Keeping browsers at the same scroll position](http://quick.as/rl9gfgxd)
-3. [Keeping form fields in sync](http://quick.as/zr9ofory)
-4. [When should you use the built-in server?](http://quick.as/adkjfk7r)
-
-
-#### + Laravel (php)
-1. [Browser Sync + Laravel 4 (php server & proxy)](http://quick.as/03yt7bw)
-2. [Browser Sync + Laravel 4 (Mamp Pro & proxy)](http://quick.as/996hozw)
-3. [Browser Sync + Laravel 4 (Config file & Proxy)](http://quick.as/70js4da)
-4. [Browser Sync + Laravel 4 (Config file & no proxy)](http://quick.as/j3gtmdz)
-
-#### + Vagrant
-1. [Browser Sync + Vagrant](http://quick.as/q0rs9jz)
-
-
+## Screencasts
+[Some listed here](https://github.com/shakyShane/browser-sync/wiki/Screencasts)
 Want any more? Something specific? ask me nicely [@shaneOsbourne](http://www.twitter.com/shaneOsbourne)
 
 ##Support
@@ -83,4 +68,4 @@ If you've found Browser-sync useful and would like to contribute to its continue
 
 ## License
 Copyright (c) 2013 Shane Osbourne
-Licensed under the MIT license.
+Licensed under the GPL license.
