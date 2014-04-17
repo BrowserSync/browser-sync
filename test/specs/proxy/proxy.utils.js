@@ -25,69 +25,133 @@ describe("Rewriting Domains", function () {
             host: "local.dev"
         };
     });
-    it("should return the correct regex for an IP based server with a port", function () {
-        var actual = utils.rewriteLinks(ipServer, proxyUrl).match.toString();
-        var expected = "/0.0.0.0:8001/g";
-        assert.equal(actual, expected);
+
+    describe("when rewriting 'example.com' links", function () {
+
+        var regex, fn;
+        var testRegex;
+        before(function () {
+            var rewrite = utils.rewriteLinks({host: "example.com", port: 80}, proxyUrl);
+            regex       = rewrite.match;
+            fn          = rewrite.fn;
+            testRegex = function (string) {
+                return string.replace(regex, fn);
+            }
+        });
+        it("should use the regex to replace links (1)", function () {
+            var actual   = testRegex("<a href='http://example.com'></a>");
+            var expected           = "<a href='http://192.168.0.4:3002'></a>";
+            assert.equal(actual, expected);
+        });
+        it("should use the regex to replace links (1)", function () {
+            var actual   = testRegex("<a href='http://example.com'></a>");
+            var expected           = "<a href='http://192.168.0.4:3002'></a>";
+            assert.equal(actual, expected);
+        });
+        it("should use the regex to replace links (2)", function () {
+            var actual   = testRegex("<a href='http://example.com/sub/dir'></a>");
+            var expected           = "<a href='http://192.168.0.4:3002/sub/dir'></a>";
+            assert.equal(actual, expected);
+        });
+        it("should use the regex to replace links (3)", function () {
+            var actual   = testRegex("<a href='http://example.com/sub/dir'></a>");
+            var expected           = "<a href='http://192.168.0.4:3002/sub/dir'></a>";
+            assert.equal(actual, expected);
+        });
+        it("should use the regex to replace links (4)", function () {
+            var actual   = testRegex("<a href='https://example.com/sub/dir'></a>");
+            var expected           = "<a href='https://192.168.0.4:3002/sub/dir'></a>";
+            assert.equal(actual, expected);
+        });
+        it("should use the regex to replace links (5)", function () {
+            var actual   = testRegex("<a href='/example.com/sub/dir'></a>");
+            var expected           = "<a href='/192.168.0.4:3002/sub/dir'></a>";
+            assert.equal(actual, expected);
+        });
+        it("should use the regex to replace links (6)", function () {
+            var actual   = testRegex("<a href='example.com/sub/dir'></a>");
+            var expected           = "<a href='192.168.0.4:3002/sub/dir'></a>";
+            assert.equal(actual, expected);
+        });
+        it("should use the regex to replace links (7)", function () {
+            var actual   = testRegex("<a href='http://example.com/sub/dir/example.com/css/styles.css'></a><a href='http://example.com/sub/dir/example.com/css/styles.css'></a>");
+            var expected           = "<a href='http://192.168.0.4:3002/sub/dir/example.com/css/styles.css'></a><a href='http://192.168.0.4:3002/sub/dir/example.com/css/styles.css'></a>";
+            assert.equal(actual, expected);
+        });
     });
-    it("should return the correct regex for an IP based server with the default port", function () {
-        var actual = utils.rewriteLinks(ipServerDefault, proxyUrl).match.toString();
-        var expected = "/0.0.0.0/g";
-        assert.equal(actual, expected);
-    });
-    it("should return the correct regex for an IP based server with the default port", function () {
-        var actual = utils.rewriteLinks({
-            host: "10.10.1.176",
-            port: 80
-        }, proxyUrl).match.toString();
-        var expected = "/10.10.1.176/g";
-        assert.equal(actual, expected);
-    });
-    it("should return the correct regex for a vhost based server", function () {
-        var actual = utils.rewriteLinks(vhostServer, proxyUrl).match.toString();
-        var expected = "/local.dev/g";
-        assert.equal(actual, expected);
+    describe("when rewriting 'localhost:8000' links", function () {
+
+        var regex, fn;
+        var testRegex;
+        before(function () {
+            var rewrite = utils.rewriteLinks({host: "localhost:8000", port: 80}, proxyUrl);
+            regex       = rewrite.match;
+            fn          = rewrite.fn;
+            testRegex = function (string) {
+                return string.replace(regex, fn);
+            }
+        });
+        it("should use the regex to replace links (1)", function () {
+            var actual   = testRegex("<a href='http://localhost:8000'></a>");
+            var expected           = "<a href='http://192.168.0.4:3002'></a>";
+            assert.equal(actual, expected);
+        });
+        it("should use the regex to replace links (1)", function () {
+            var actual   = testRegex("<a href='http://localhost:8000'></a>");
+            var expected           = "<a href='http://192.168.0.4:3002'></a>";
+            assert.equal(actual, expected);
+        });
+        it("should use the regex to replace links (2)", function () {
+            var actual   = testRegex("<a href='http://localhost:8000/sub/dir'></a>");
+            var expected           = "<a href='http://192.168.0.4:3002/sub/dir'></a>";
+            assert.equal(actual, expected);
+        });
+        it("should use the regex to replace links (3)", function () {
+            var actual   = testRegex("<a href='http://localhost:8000/sub/dir'></a>");
+            var expected           = "<a href='http://192.168.0.4:3002/sub/dir'></a>";
+            assert.equal(actual, expected);
+        });
+        it("should use the regex to replace links (4)", function () {
+            var actual   = testRegex("<a href='https://localhost:8000/sub/dir'></a>");
+            var expected           = "<a href='https://192.168.0.4:3002/sub/dir'></a>";
+            assert.equal(actual, expected);
+        });
+        it("should use the regex to replace links (5)", function () {
+            var actual   = testRegex("<a href='/localhost:8000/sub/dir'></a>");
+            var expected           = "<a href='/192.168.0.4:3002/sub/dir'></a>";
+            assert.equal(actual, expected);
+        });
+        it("should use the regex to replace links (6)", function () {
+            var actual   = testRegex("<a href='localhost:8000/sub/dir'></a>");
+            var expected           = "<a href='192.168.0.4:3002/sub/dir'></a>";
+            assert.equal(actual, expected);
+        });
     });
 
-    it("should return the correct regex for a vhost based server with a port", function () {
-        vhostServer.port = "8000";
-        var actual = utils.rewriteLinks(vhostServer, proxyUrl).match.toString();
-        var expected = "/local.dev:8000/g";
-        assert.equal(actual, expected);
-    });
-    it("should return the correct regex for a vhost based server with a DEFAULT port of 80", function () {
-        vhostServer.port = "80";
-        var actual = utils.rewriteLinks(vhostServer, proxyUrl).match.toString();
-        var expected = "/local.dev/g";
-        assert.equal(actual, expected);
-    });
-    it("should return the correct regex for a vhost based server with a DEFAULT port of 80", function () {
-        vhostServer.port = 80;
-        var actual = utils.rewriteLinks(vhostServer, proxyUrl).match.toString();
-        var expected = "/local.dev/g";
-        assert.equal(actual, expected);
+
+    describe("getProxyUrl(): ", function(){
+        it("should return a full url", function () {
+            var opts = {
+                protocol: "http",
+                host: "localhost",
+                port: 80
+            };
+            var actual   = utils.getProxyUrl(opts);
+            var expected = "http://localhost";
+            assert.equal(actual, expected);
+        });
+        it("should return a full url", function () {
+            var opts = {
+                protocol: "https",
+                host: "local.dev",
+                port: 8000
+            };
+            var actual   = utils.getProxyUrl(opts);
+            var expected = "https://local.dev:8000";
+            assert.equal(actual, expected);
+        });
     });
 
-    it("should return a full url", function () {
-        var opts = {
-            protocol: "http",
-            host: "localhost",
-            port: 80
-        };
-        var actual   = utils.getProxyUrl(opts);
-        var expected = "http://localhost";
-        assert.equal(actual, expected);
-    });
-    it("should return a full url", function () {
-        var opts = {
-            protocol: "https",
-            host: "local.dev",
-            port: 8000
-        };
-        var actual   = utils.getProxyUrl(opts);
-        var expected = "https://local.dev:8000";
-        assert.equal(actual, expected);
-    });
 
     describe("handling redirects", function () {
         var opts;
