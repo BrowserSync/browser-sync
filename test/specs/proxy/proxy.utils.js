@@ -36,7 +36,7 @@ describe("Rewriting Domains", function () {
             fn          = rewrite.fn;
             testRegex = function (string) {
                 return string.replace(regex, fn);
-            }
+            };
         });
         it("should use the regex to replace links (1)", function () {
             var actual   = testRegex("<a href='http://example.com'></a>");
@@ -89,7 +89,7 @@ describe("Rewriting Domains", function () {
             fn          = rewrite.fn;
             testRegex = function (string) {
                 return string.replace(regex, fn);
-            }
+            };
         });
         it("should use the regex to replace links (1)", function () {
             var actual   = testRegex("<a href='http://localhost:8000'></a>");
