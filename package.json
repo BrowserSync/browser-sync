@@ -41,7 +41,7 @@
     "http-proxy": "~1.0.2",
     "cl-strings": "0.0.5",
     "resp-modifier": "0.0.4",
-    "browser-sync-client": "0.1.4",
+    "browser-sync-client": "^0.1.5",
     "commander": "~2.1.0",
     "browser-sync-control-panel": "0.0.4"
   },
