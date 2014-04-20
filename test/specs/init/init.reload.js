@@ -57,5 +57,16 @@ describe("Reload method", function () {
             sinon.assert.calledOnce(emitterStub);
             sinon.assert.calledWithExactly(emitterStub, "browser:reload");
         });
+        it("should be able to call .reload after a stream", function () {
+
+            browserSync.reload();
+            sinon.assert.calledWithExactly(emitterStub, "browser:reload");
+
+            var stream = browserSync.reload({stream: true});
+            stream.write(new File({path: "styles.css"}));
+            stream.end();
+            sinon.assert.calledWithExactly(emitterStub, "file:changed", {path: "styles.css"});
+
+        });
     });
 });
