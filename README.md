@@ -2,10 +2,16 @@
 
 > Keep multiple browsers & devices in sync when building websites.
 
-![JH](http://cl.ly/image/3Y3O0M2z310j/jh-100-red.png) Development Supported by [@wearejh](http://www.wearejh.com)
+<table>
+    <tr>
+        <td><a href="http://www.wearejh.com"><img src="http://cl.ly/image/3Y3O0M2z310j/jh-100-red.png" /></a></td>
+        <td>
+            Development Supported by <a href="http://www.wearejh.com">We are JH</a>, Follow <a href="http://www.twitter.com/browsersync">@browserSync</a> for news & updates.
+        </td>
+    </tr>
+</table>
 
-Follow [@browserSync](http://www.twitter.com/browserSync) for news & updates.
-Check out the [website](http://www.browsersync.io) too.
+
 
 ##Features
 1. **Scroll** - I can keep your pages in sync when scrolling.
