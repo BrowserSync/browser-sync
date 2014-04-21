@@ -2,6 +2,8 @@
 
 > Keep multiple browsers & devices in sync when building websites.
 
+![JH](http://cl.ly/image/3Y3O0M2z310j/jh-100-red.png) Development Supported by [@wearejh](http://www.wearejh.com)
+
 Follow [@browserSync](http://www.twitter.com/browserSync) for news & updates.
 Check out the [website](http://www.browsersync.io) too.
 
@@ -22,10 +24,9 @@ It's pretty useful when used with a single browser, watching a CSS file for chan
 npm install -g browser-sync
 ```
 ##How to use it
-There are currently 2 ways to use browser-sync - **with** a config file & **without** a config file. Both options are explained on the following pages.
 
 1. [With a config file](https://github.com/shakyShane/browser-sync/wiki/Working-with-a-Config-File)
-2. [Command line only (no config file)](https://github.com/shakyShane/browser-sync/wiki/Command-line-only)
+2. [Command line](https://github.com/shakyShane/browser-sync/wiki/Command-line-only)
 
 ## Using Grunt?
 There's a [separate plugin](https://github.com/shakyShane/grunt-browser-sync) for that
