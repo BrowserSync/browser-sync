@@ -4,8 +4,8 @@
 
 <table>
     <tr>
-        <td border="0"><a href="http://www.wearejh.com"><img src="http://cl.ly/image/3Y3O0M2z310j/jh-100-red.png" /></a></td>
-        <td>
+        <td style="border: 0"><a href="http://www.wearejh.com"><img src="http://cl.ly/image/3Y3O0M2z310j/jh-100-red.png" /></a></td>
+        <td style="border: 0">
             Development Supported by <a href="http://www.wearejh.com">We are JH</a>, Follow <a href="http://www.twitter.com/browsersync">@browserSync</a> for news & updates.
         </td>
     </tr>
