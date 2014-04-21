@@ -4,7 +4,7 @@
 
 <table>
     <tr>
-        <td><a href="http://www.wearejh.com"><img src="http://cl.ly/image/3Y3O0M2z310j/jh-100-red.png" /></a></td>
+        <td border="0"><a href="http://www.wearejh.com"><img src="http://cl.ly/image/3Y3O0M2z310j/jh-100-red.png" /></a></td>
         <td>
             Development Supported by <a href="http://www.wearejh.com">We are JH</a>, Follow <a href="http://www.twitter.com/browsersync">@browserSync</a> for news & updates.
         </td>
