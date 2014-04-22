@@ -4,10 +4,7 @@
 
 <a href="http://www.wearejh.com"><img src="http://cl.ly/image/3Y3O0M2z310j/jh-100-red.png" /></a>
 
-Development Supported by <a href="http://www.wearejh.com">We are JH</a>
-Follow <a href="http://www.twitter.com/browsersync">@browserSync</a> for news & updates.
-
-
+BrowserSync is developed and maintained internally at <a href="http://www.wearejh.com">JH</a>, follow <a href="http://www.twitter.com/browsersync">@browsersync</a> on twitter for news & updates.
 
 ##Features
 1. **Scroll** - I can keep your pages in sync when scrolling.
@@ -70,5 +67,5 @@ If you've found Browser-sync useful and would like to contribute to its continue
 ```
 
 ## License
-Copyright (c) 2013 Shane Osbourne
+Copyright (c) 2014 Shane Osbourne
 Licensed under the GPL license.
