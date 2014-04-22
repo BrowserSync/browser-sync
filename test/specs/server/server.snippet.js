@@ -16,7 +16,7 @@ var ports = {
     server: 3002
 };
 var options = {};
-var snippet = messages.scriptTags("0.0.0.0", ports, options);
+var snippet = messages.scriptTags(ports, options);
 
 describe("Launching a server with snippets", function () {
 

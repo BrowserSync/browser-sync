@@ -17,18 +17,20 @@ describe("Messages module", function () {
     describe("No server or Proxy output", function () {
         it("should output the", function () {
             var expected = "[BS] Copy the following snippet into your website, just before the closing </body> tag";
-            expected    += "\n\n<script src='//192.168.0.4:3000/socket.io/socket.io.js'></script>\n";
-            expected    += "<script>var ___socket___ = io.connect('http://192.168.0.4:3000');</script>\n";
-            expected    += "<script src='//192.168.0.4:3001/client/browser-sync-client.1.2.3.js'></script>\n";
+            expected    += "\n\n<script type='text/javascript'>//<![CDATA[\n;";
+            expected    += "document.write(\"<script defer src='//HOST:3000/socket.io/socket.io.js'><\\/script>";
+            expected    += "<script defer src='//HOST:3001/client/browser-sync-client.1.2.3.js'><\\/script>\".replace(/HOST/g, location.hostname));";
+            expected    += "\n//]]></script>\n";
 
-            var actual   = ansiTrim(messages.init("192.168.0.4", {socket: 3000, controlPanel: 3001}, {version: "1.2.3"}));
+            var actual   = ansiTrim(messages.init({socket: 3000, controlPanel: 3001}, {version: "1.2.3"}));
             assert.equal(actual, expected);
         });
     });
 
     describe("Server Output", function () {
         it("Can confirm the server is running", function () {
-            var expected = "[BS] Server running. Use this URL: http://0.0.0.0:8000\n";
+            var expected = "[BS] Local URL:    http://localhost:8000\n";
+            expected    += "[BS] External URL: http://0.0.0.0:8000\n";
             expected    += "[BS] Serving files from: /users/shakyshane/app/files";
             var actual = ansiTrim(messages.initServer("0.0.0.0", 8000, "/users/shakyshane/app/files"));
             assert.equal(actual, expected);
@@ -40,7 +42,8 @@ describe("Messages module", function () {
         });
 
         it("Can confirm the server is running with muliple DIRS", function () {
-            var expected = "[BS] Server running. Use this URL: http://0.0.0.0:8000\n";
+            var expected = "[BS] Local URL:    http://localhost:8000\n";
+            expected    += "[BS] External URL: http://0.0.0.0:8000\n";
             expected    += "[BS] Serving files from: /users/shakyshane/app/files\n";
             expected    += "[BS] Serving files from: /users/shakyshane/app/files2";
 
@@ -49,7 +52,8 @@ describe("Messages module", function () {
             assert.equal(actual, expected);
         });
         it("Can confirm the server is running with muliple DIRS", function () {
-            var expected = "[BS] Server running. Use this URL: http://0.0.0.0:8000\n";
+            var expected = "[BS] Local URL:    http://localhost:8000\n";
+            expected    += "[BS] External URL: http://0.0.0.0:8000\n";
             expected    += "[BS] Serving files from: /users/shakyshane/app/files\n";
             expected    += "[BS] Serving files from: /users/shakyshane/app/files2\n";
             expected    += "[BS] Serving files from: /users/app";
@@ -104,21 +108,30 @@ describe("Messages module", function () {
                 controlPanel: 3001
             };
         });
-        it("can output Socket.io & Client Scripts correctly", function () {
-            var expected = "<script src='//192.168.0.4:3000/socket.io/socket.io.js'></script>\n";
-            expected    += "<script>var ___socket___ = io.connect('http://192.168.0.4:3000');</script>\n";
-            expected    += "<script src='//192.168.0.4:3001/client/browser-sync-client.2.3.4.js'></script>\n";
+        it("can output the new snippet", function () {
+            var expected = "\n<script type='text/javascript'>//<![CDATA[\n;";
+            expected    += "document.write(\"<script defer src='//HOST:3000/socket.io/socket.io.js'><\\/script>";
+            expected    += "<script defer src='//HOST:3001/client/browser-sync-client.2.3.4.js'><\\/script>\".replace(/HOST/g, location.hostname));";
+            expected    += "\n//]]></script>\n";
 
-            var actual = messages.scriptTags("192.168.0.4", ports, {version:"2.3.4"});
+            var actual = messages.scriptTags(ports, {version:"2.3.4"});
             assert.equal(actual, expected);
         });
-        it("can output Socket.io & connector only", function () {
-            var expected = "<script src='//192.168.0.4:3000/socket.io/socket.io.js'></script>\n";
-            expected    += "<script>var ___socket___ = io.connect('http://192.168.0.4:3000');</script>\n";
+        it("can retrieve the injector", function () {
+            var expected = "\n<script type='text/javascript'>//<![CDATA[\n;";
+            expected    += "document.write(\"<script defer src='//HOST:3000/socket.io/socket.io.js'><\\/script>";
+            expected    += "<script defer src='//HOST:3001/client/browser-sync-client.2.3.5.js'><\\/script>\".replace(/HOST/g, location.hostname));";
+            expected    += "\n//]]></script>\n";
 
-            var actual = messages.scriptTags("192.168.0.4", ports, {}, "controlPanel");
+            var actual = messages.scriptTags(ports, {version:"2.3.5"});
             assert.equal(actual, expected);
         });
+//        it("can output Socket.io & connector only", function () {
+//            var expected = "<script src='//192.168.0.4:3000/socket.io/socket.io.js'></script>\n";
+//            expected    += "<script>var ___socket___ = io.connect('http://192.168.0.4:3000');</script>\n";
+//            var actual = messages.scriptTags("192.168.0.4", ports, {}, "controlPanel");
+//            assert.equal(actual, expected);
+//        });
     });
 
     describe("outputting the client Script file", function () {
@@ -221,8 +234,8 @@ describe("Messages module", function () {
             assert.equal(actual, expected);
         });
         it("should output the socket connector", function () {
-            var expected = "var ___socket___ = io.connect('http://0.0.0.0:3001');";
-            var actual   = messages.socketConnector("0.0.0.0", 3001);
+            var expected = "var ___socket___ = io.connect('http://' + location.hostname + ':' + '3001');";
+            var actual   = messages.socketConnector(3001);
             assert.equal(actual, expected);
         });
     });

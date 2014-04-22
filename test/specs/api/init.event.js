@@ -12,7 +12,7 @@ var ports = {
 };
 
 var host  = "0.0.0.0";
-var snippet = messages.scriptTags(host, ports, {});
+var snippet = messages.scriptTags(ports, {});
 
 describe("Returning API methods by requiring the api module", function () {
     var api;
