@@ -31,7 +31,7 @@ describe("creating URLs", function () {
         assert.deepEqual(actual, expected);
     });
     it("should return an object with local + remote with paths", function () {
-        options.startPath = "app"
+        options.startPath = "app";
         var actual   = utils.getUrls("10.33.233.3", port, options);
         var expected = {
             local: "http://localhost:3002/app",
@@ -40,7 +40,7 @@ describe("creating URLs", function () {
         assert.deepEqual(actual, expected);
     });
     it("should return an object with local + remote with paths & Params", function () {
-        options.startPath = "app/home?rel=123"
+        options.startPath = "app/home?rel=123";
         var actual   = utils.getUrls("10.33.233.3", port, options);
         var expected = {
             local: "http://localhost:3002/app/home?rel=123",
