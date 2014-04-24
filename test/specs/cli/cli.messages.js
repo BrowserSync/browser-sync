@@ -126,12 +126,15 @@ describe("Messages module", function () {
             var actual = messages.scriptTags(ports, {version:"2.3.5"});
             assert.equal(actual, expected);
         });
-//        it("can output Socket.io & connector only", function () {
-//            var expected = "<script src='//192.168.0.4:3000/socket.io/socket.io.js'></script>\n";
-//            expected    += "<script>var ___socket___ = io.connect('http://192.168.0.4:3000');</script>\n";
-//            var actual = messages.scriptTags("192.168.0.4", ports, {}, "controlPanel");
-//            assert.equal(actual, expected);
-//        });
+        it("can output Socket.io + connector only (for plugins, such as the control panel)", function () {
+            var expected = "\n<script type='text/javascript'>//<![CDATA[\n;";
+            expected    += "document.write(\"<script defer src='//HOST:3000/socket.io/socket.io.js'><\\/script>";
+            expected    += "\".replace(/HOST/g, location.hostname));";
+            expected    += "\n//]]></script>\n";
+
+            var actual = messages.scriptTags(ports, {}, "controlPanel");
+            assert.equal(actual, expected);
+        });
     });
 
     describe("outputting the client Script file", function () {
