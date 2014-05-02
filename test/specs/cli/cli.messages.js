@@ -29,8 +29,12 @@ describe("Messages module", function () {
 
     describe("Server Output", function () {
         it("Can confirm the server is running", function () {
-            var expected = "[BS] Local URL:    http://localhost:8000\n";
-            expected    += "[BS] External URL: http://0.0.0.0:8000\n";
+            var expected = "[BS] Server running...\n";
+            expected    += "[BS] You can access it through the following addresses:\n\n";
+            expected    += "[BS] Local (this machine):\n";
+            expected    += "[BS] >>> http://localhost:8000\n";
+            expected    += "[BS] External (other devices etc):\n";
+            expected    += "[BS] >>> http://0.0.0.0:8000\n";
             expected    += "[BS] Serving files from: /users/shakyshane/app/files";
             var actual = ansiTrim(messages.initServer("0.0.0.0", 8000, "/users/shakyshane/app/files"));
             assert.equal(actual, expected);
@@ -42,8 +46,12 @@ describe("Messages module", function () {
         });
 
         it("Can confirm the server is running with muliple DIRS", function () {
-            var expected = "[BS] Local URL:    http://localhost:8000\n";
-            expected    += "[BS] External URL: http://0.0.0.0:8000\n";
+            var expected = "[BS] Server running...\n";
+            expected    += "[BS] You can access it through the following addresses:\n\n";
+            expected    += "[BS] Local (this machine):\n";
+            expected    += "[BS] >>> http://localhost:8000\n";
+            expected    += "[BS] External (other devices etc):\n";
+            expected    += "[BS] >>> http://0.0.0.0:8000\n";
             expected    += "[BS] Serving files from: /users/shakyshane/app/files\n";
             expected    += "[BS] Serving files from: /users/shakyshane/app/files2";
 
@@ -52,8 +60,12 @@ describe("Messages module", function () {
             assert.equal(actual, expected);
         });
         it("Can confirm the server is running with muliple DIRS", function () {
-            var expected = "[BS] Local URL:    http://localhost:8000\n";
-            expected    += "[BS] External URL: http://0.0.0.0:8000\n";
+            var expected = "[BS] Server running...\n";
+            expected    += "[BS] You can access it through the following addresses:\n\n";
+            expected    += "[BS] Local (this machine):\n";
+            expected    += "[BS] >>> http://localhost:8000\n";
+            expected    += "[BS] External (other devices etc):\n";
+            expected    += "[BS] >>> http://0.0.0.0:8000\n";
             expected    += "[BS] Serving files from: /users/shakyshane/app/files\n";
             expected    += "[BS] Serving files from: /users/shakyshane/app/files2\n";
             expected    += "[BS] Serving files from: /users/app";
@@ -73,19 +85,25 @@ describe("Messages module", function () {
             host = "192.168.0.3";
         });
         it("can output a message about proxy (1)", function () {
-            var expected = "[BS] Proxying: http://develop.dev:8080/\n\n";
-            expected    += "[BS] BrowserSync Local URL:    http://localhost:8000\n";
-            expected    += "[BS] BrowserSync External URL: http://0.0.0.0:8000\n";
+            var expected = "[BS] Proxying: http://develop.dev:8080/\n";
+            expected    += "[BS] Now you can access your site through the following addresses:\n\n";
+            expected    += "[BS] Local (this machine):\n";
+            expected    += "[BS] >>> http://127.0.0.1.xip.io:8000\n";
+            expected    += "[BS] External (other devices etc):\n";
+            expected    += "[BS] >>> http://0.0.0.0.xip.io:8000\n";
 
-            var actual = ansiTrim(messages.initProxy("0.0.0.0", 8000, "http://develop.dev:8080/"));
+            var actual = ansiTrim(messages.initProxy("http://127.0.0.1.xip.io:8000", "http://0.0.0.0.xip.io:8000", "http://develop.dev:8080/"));
             assert.equal(actual, expected);
         });
         it("can output a message about proxy (2)", function () {
-            var expected = "[BS] Proxying: http://localhost:9876/\n\n";
-            expected    += "[BS] BrowserSync Local URL:    http://localhost:8000\n";
-            expected    += "[BS] BrowserSync External URL: http://0.0.0.0:8000\n";
+            var expected = "[BS] Proxying: http://localhost:9876/\n";
+            expected    += "[BS] Now you can access your site through the following addresses:\n\n";
+            expected    += "[BS] Local (this machine):\n";
+            expected    += "[BS] >>> http://localhost:8000\n";
+            expected    += "[BS] External (other devices etc):\n";
+            expected    += "[BS] >>> http://0.0.0.0:8000\n";
 
-            var actual = ansiTrim(messages.initProxy("0.0.0.0", 8000, "http://localhost:9876/"));
+            var actual = ansiTrim(messages.initProxy("http://localhost:8000", "http://0.0.0.0:8000", "http://localhost:9876/"));
             assert.equal(actual, expected);
         });
     });

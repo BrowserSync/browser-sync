@@ -15,7 +15,7 @@ describe("creating URLs", function () {
         };
     });
     it("should return an object with local + remote", function () {
-        var actual   = utils.getUrls(external, port, options);
+        var actual   = utils.getUrls(external, "localhost", port, options);
         var expected = {
             local: "http://localhost:3002",
             remote: "http://192.168.0.4:3002"
@@ -23,7 +23,7 @@ describe("creating URLs", function () {
         assert.deepEqual(actual, expected);
     });
     it("should return an object with local + remote (2)", function () {
-        var actual   = utils.getUrls("10.33.233.3", port, options);
+        var actual   = utils.getUrls("10.33.233.3", "localhost", port, options);
         var expected = {
             local: "http://localhost:3002",
             remote: "http://10.33.233.3:3002"
@@ -32,7 +32,7 @@ describe("creating URLs", function () {
     });
     it("should return an object with local + remote with paths", function () {
         options.startPath = "app";
-        var actual   = utils.getUrls("10.33.233.3", port, options);
+        var actual   = utils.getUrls("10.33.233.3", "localhost", port, options);
         var expected = {
             local: "http://localhost:3002/app",
             remote: "http://10.33.233.3:3002/app"
@@ -41,7 +41,7 @@ describe("creating URLs", function () {
     });
     it("should return an object with local + remote with paths & Params", function () {
         options.startPath = "app/home?rel=123";
-        var actual   = utils.getUrls("10.33.233.3", port, options);
+        var actual   = utils.getUrls("10.33.233.3", "localhost", port, options);
         var expected = {
             local: "http://localhost:3002/app/home?rel=123",
             remote: "http://10.33.233.3:3002/app/home?rel=123"

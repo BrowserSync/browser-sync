@@ -41,4 +41,11 @@ describe("creating URLs", function () {
         assert.deepEqual(opts.urls.local, "http://localhost:3002");
         assert.deepEqual(opts.urls.remote, "http://192.168.0.4:3002");
     });
+    it("should set the URLs when using XIP", function () {
+        opts.xip = true;
+        ports.server = 3002;
+        utils.setUrlOptions(ports, opts);
+        assert.deepEqual(opts.urls.local, "http://127.0.0.1.xip.io:3002");
+        assert.deepEqual(opts.urls.remote, "http://192.168.0.4.xip.io:3002");
+    });
 });
