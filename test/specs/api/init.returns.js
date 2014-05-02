@@ -84,6 +84,7 @@ describe("Init method", function () {
         var host      = proxyCall.host;
         var protocol  = proxyCall.protocol;
         var port      = proxyCall.port;
+
         assert.equal(host, "local.dev");
         assert.equal(protocol, "http");
         assert.equal(port, 8010);
