@@ -6,7 +6,7 @@ var options         = cli.options;
 
 var assert = require("chai").assert;
 
-describe("Merging Server Options", function () {
+describe("Merging Proxy Options", function () {
 
     var defaultValue;
 
@@ -20,7 +20,8 @@ describe("Merging Server Options", function () {
         var expected = {
             protocol: "http",
             host: "localhost",
-            port: 8000
+            port: 8000,
+            target: "http://localhost:8000"
         };
         assert.deepEqual(actual, expected);
     });
@@ -30,7 +31,8 @@ describe("Merging Server Options", function () {
         var expected = {
             protocol: "https",
             host: "localhost",
-            port: 8010
+            port: 8010,
+            target: "https://localhost:8010"
         };
         assert.deepEqual(actual, expected);
     });
@@ -40,7 +42,8 @@ describe("Merging Server Options", function () {
         var expected = {
             protocol: "http",
             host: "localhost",
-            port: 8010
+            port: 8010,
+            target: "http://localhost:8010"
         };
         assert.deepEqual(actual, expected);
     });
@@ -50,7 +53,8 @@ describe("Merging Server Options", function () {
         var expected = {
             protocol: "http",
             host: "192.168.0.4",
-            port: 80
+            port: 80,
+            target: "http://192.168.0.4"
         };
         assert.deepEqual(actual, expected);
     });
@@ -60,7 +64,8 @@ describe("Merging Server Options", function () {
         var expected = {
             protocol: "http",
             host: "192.168.0.4",
-            port: 9001
+            port: 9001,
+            target: "http://192.168.0.4:9001"
         };
         assert.deepEqual(actual, expected);
     });
@@ -70,7 +75,8 @@ describe("Merging Server Options", function () {
         var expected = {
             protocol: "http",
             host: "localhost",
-            port: 80
+            port: 80,
+            target: "http://localhost"
         };
         assert.deepEqual(actual, expected);
     });
@@ -80,7 +86,8 @@ describe("Merging Server Options", function () {
         var expected = {
             protocol: "http",
             host: "local.dev",
-            port: 80
+            port: 80,
+            target: "http://local.dev"
         };
         assert.deepEqual(actual, expected);
     });
@@ -93,7 +100,8 @@ describe("Merging Server Options", function () {
                 protocol: "http",
                 host: "local.dev",
                 port: 80,
-                startPath: "subdir"
+                startPath: "subdir",
+                target: "http://local.dev"
             };
             assert.deepEqual(actual, expected);
         });
@@ -104,7 +112,8 @@ describe("Merging Server Options", function () {
                 protocol: "http",
                 host: "local.dev",
                 port: 80,
-                startPath: "subdir/another/path?rel=123"
+                startPath: "subdir/another/path?rel=123",
+                target: "http://local.dev"
             };
             assert.deepEqual(actual, expected);
         });

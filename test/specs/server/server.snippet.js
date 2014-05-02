@@ -6,9 +6,9 @@ var server        = require("../../../lib/server");
 var snippetUtils  = require("../../../lib/snippet").utils;
 var isExcluded    = snippetUtils.isExcluded;
 
-var sinon = require("sinon");
+var sinon   = require("sinon");
 var request = require("supertest");
-var assert = require("chai").assert;
+var assert  = require("chai").assert;
 
 var ports = {
     socket: 3000,

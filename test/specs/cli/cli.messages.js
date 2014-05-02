@@ -73,13 +73,19 @@ describe("Messages module", function () {
             host = "192.168.0.3";
         });
         it("can output a message about proxy (1)", function () {
-            var expected = "[BS] Proxy running. Use this URL: http://192.168.0.3:3002";
-            var actual   = ansiTrim(messages.initProxy(host, ports[2]));
+            var expected = "[BS] Proxying: http://develop.dev:8080/\n\n";
+            expected    += "[BS] BrowserSync Local URL:    http://localhost:8000\n";
+            expected    += "[BS] BrowserSync External URL: http://0.0.0.0:8000\n";
+
+            var actual = ansiTrim(messages.initProxy("0.0.0.0", 8000, "http://develop.dev:8080/"));
             assert.equal(actual, expected);
         });
         it("can output a message about proxy (2)", function () {
-            var expected = "[BS] Proxy running. Use this URL: http://192.168.0.3:3001";
-            var actual   = ansiTrim(messages.initProxy(host, ports[1]));
+            var expected = "[BS] Proxying: http://localhost:9876/\n\n";
+            expected    += "[BS] BrowserSync Local URL:    http://localhost:8000\n";
+            expected    += "[BS] BrowserSync External URL: http://0.0.0.0:8000\n";
+
+            var actual = ansiTrim(messages.initProxy("0.0.0.0", 8000, "http://localhost:9876/"));
             assert.equal(actual, expected);
         });
     });
