@@ -28,8 +28,6 @@
   },
   "dependencies": {
     "portscanner-plus": "0.1.0",
-    "path": "~0.4.9",
-    "url": "~0.7.9",
     "lodash": "~2.2.1",
     "socket.io": "~0.8.0",
     "connect": "~2.13.0",
