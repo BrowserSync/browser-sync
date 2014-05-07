@@ -3,3 +3,5 @@ node_modules
 npm-debug.log
 .sass-cache
 bower_components
+test/fixtures/files/*
+example.js

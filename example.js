@@ -1,36 +1,28 @@
 
 var browserSync = require("./lib/index");
+var lr = require("./live-reload");
 
 console.time("init");
 
 var files = ["test/fixtures/assets/*", "test/fixtures/*.html"];
+files = ["/Users/shakyshane/Sites/swoon-static/assets/css/**"]
 
 var options = {
     server: {
-        baseDir: "test/fixtures"
+        baseDir: ["test/fixtures"]
     },
+//    proxy: "swoon.static/store-home.php",
     ghostMode: {
-        location: true
+        forms: {
+            submit: false
+        }
     },
-    open: true,
+    open: false,
     logConnections: false,
     minify: true,
-    ports: {
-        min: 2000
-    },
-    notify: {
-//        styles: [
-//            "background-color: red",
-//            "color: white",
-//            "padding: 10px",
-//            "display: none",
-//            "font-family: sans-serif",
-//            "position: absolute",
-//            "z-index: 9999",
-//            "right: 0px",
-//            "border-bottom-left-radius: 5px"
-//        ]
-    }
+    notify: true,
+    xip: true,
+    browser: ["google chrome"]
 };
 
 var clientScript = require("/Users/shakyshane/Sites/browser-sync-modules/browser-sync-client/index");
@@ -40,7 +32,8 @@ browserSync.use("client:script", clientScript.middleware, function (err) {
 });
 
 var bs = browserSync.init(files, options, function (err, bs) {
-//    setTimeout(function () {
-//        browserSync.reload();
-//    }, 3000);
+    console.timeEnd("init");
+    setTimeout(function () {
+        browserSync.notify("5 Seconds have passed!");
+    }, 5000);
 });
