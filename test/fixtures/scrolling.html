@@ -9,7 +9,7 @@
 </head>
 <body>
 <div class="container">
-    <h1>Style-injector Ghost Mode: Scrolling</h1>
+    <h1>Browser Sync Ghost Mode: Scrolling</h1>
     <a href="index.html">Homepage</a>
     <button onclick="scroll()">Scroll</button>
 
@@ -211,27 +211,7 @@
 
     <h1>100</h1>
 </div>
-
-<!-- Paste Snippet from command-line here -->
-<script src="helpers.js"></script>
-
-<script type="text/javascript">
-
-    function scroll() {
-
-        YUI().use('node-event-simulate', function(Y) {
-
-            var node = Y.one(window);
-            node.simulateGesture("move", {
-                path: {
-                    xdist: 0,
-                    ydist: 100
-                } ,
-                duration: 100
-            });
-        });
-    }
-
-</script>
+<script type="text/javascript" src="https://dvwccwtrgl.localtunnel.me/socket.io/socket.io.js"></script>
+<script type="text/javascript" src="https://qpvchbdpcp.localtunnel.me/client/browser-sync-client.0.9.1.js"></script>
 </body>
 </html>

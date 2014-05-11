@@ -10,31 +10,13 @@
 </head>
 <body>
 
-    <h1 style="font-family: robotoregular, serif">Hello from the test Page</h1>
+    <h1 style="font-family: robotoregular, serif">BrowserSync + Public URL</h1>
     <a href="forms.html">Forms</a>
     <a href="scrolling.html">Scrolling Window</a>
 
-    <!--<audio src="http://mp3.miselec.com/wp-content/uploads/2013/04/05%20-%20We%20No%20Speak%20Americano.mp3" preload="auto" controls></audio>-->
-    <!--<audio src="Heal8-Bit.ogg" preload="auto" controls></audio>-->
-    <video src="320x240.ogg" controls>
-        Your browser does not support the <code>video</code> element.
-    </video>
 
-    <p id="shower">Click me</p>
-    <p id="toggle"></p>
-
-    <script type="text/javascript">
-
-        var old = window.addEventListener ? false : true;
-//        alert(old);
-        var elem = document.getElementById("shower");
-        var elem2 = document.getElementById("toggle");
-
-<!---->
-        elem[old ? "attachEvent" : "addEventListener"]((old ? "on" : "")  + "click", function () {
-            console.log("~~~~~Click event occured~~~~~~");
-        }, true);
-    </script>
+    <script type="text/javascript" src="https://dvwccwtrgl.localtunnel.me/socket.io/socket.io.js"></script>
+    <script type="text/javascript" src="https://qpvchbdpcp.localtunnel.me/client/browser-sync-client.0.9.1.js"></script>
 
 </body>
 </html>
