@@ -48,6 +48,7 @@ describe("setup Socket", function () {
 
 describe.only("Using the server/proxy for the socket", function(){
     it("should be able to serve static files", function(done){
+
         var testApp = connect()
             .use(connect.static(filePath.resolve("test/fixtures")));
 
