@@ -25,7 +25,7 @@ var options = {
     logConnections: false,
     minify: true,
     notify: true,
-    xip: true,
+    xip: false,
     browser: ["google chrome"]
 };
 

@@ -142,7 +142,7 @@ describe("Rewriting Domains", function () {
     });
 
 
-    describe("getProxyUrl(): ", function(){
+    describe("getProxyUrl(): ", function() {
         it("should return a full url", function () {
             var opts = {
                 protocol: "http",
