@@ -46,22 +46,21 @@ describe("setup Socket", function () {
     });
 });
 
-describe.only("Using the server/proxy for the socket", function(){
+describe("Using the server/proxy for the socket", function(){
     it("should be able to serve static files", function(done){
 
         var testApp = connect()
             .use(connect.static(filePath.resolve("test/fixtures")));
 
         var server       = http.createServer(testApp);
-        var socketServer = socket.init(server);
+        var socketServer = socket.init(server, ["event1"], {minify: true});
 
         request(server)
             .get("/socket.io/socket.io.js")
             .expect(200)
             .end(function (err, res) {
-                console.log(res.text);
                 done();
-            })
+            });
     });
 });
 

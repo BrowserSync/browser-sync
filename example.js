@@ -17,11 +17,12 @@ var options = {
             submit: false
         }
     },
+    tunnel: false,
     ports: {
         min: 4000,
         max: 4003
     },
-    open: false,
+    open: true,
     logConnections: false,
     minify: true,
     notify: true,
