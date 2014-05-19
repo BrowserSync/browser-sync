@@ -25,6 +25,7 @@ var options = {
     open: true,
     logConnections: false,
     minify: true,
+    host: "localhost",
     notify: true,
     xip: false,
     browser: ["google chrome"]

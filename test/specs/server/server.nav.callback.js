@@ -80,7 +80,7 @@ describe("the navigateCallback function (ghostmode links ON)", function () {
         func({url: "/about-us", method:"GET"}, {}, next);
         sinon.assert.calledWithExactly(emitSpy, "location", {url: "/about-us"});
     });
-    it("E2E", function (done) {
+    it.skip("E2E", function (done) {
         var options = {
             ghostMode: {
                 location: true

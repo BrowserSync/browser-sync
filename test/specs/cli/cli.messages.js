@@ -18,8 +18,8 @@ describe("Messages module", function () {
         it("should output the", function () {
             var expected = "[BS] Copy the following snippet into your website, just before the closing </body> tag";
             expected    += "\n\n<script type='text/javascript'>//<![CDATA[\n;";
-            expected    += "document.write(\"<script defer src='//HOST:3000/socket.io/socket.io.js'><\\/script>";
-            expected    += "<script defer src='//HOST:3001/client/browser-sync-client.1.2.3.js'><\\/script>\".replace(/HOST/g, location.hostname));";
+            expected    += "document.write(\"";
+            expected    += "<script defer src='//HOST:3001/browser-sync-client.1.2.3.js'><\\/script>\".replace(/HOST/g, location.hostname));";
             expected    += "\n//]]></script>\n";
 
             var actual   = ansiTrim(messages.init({socket: 3000, controlPanel: 3001}, {version: "1.2.3"}));
@@ -134,8 +134,8 @@ describe("Messages module", function () {
         });
         it("can output the new snippet", function () {
             var expected = "\n<script type='text/javascript'>//<![CDATA[\n;";
-            expected    += "document.write(\"<script defer src='//HOST:3000/socket.io/socket.io.js'><\\/script>";
-            expected    += "<script defer src='//HOST:3001/client/browser-sync-client.2.3.4.js'><\\/script>\".replace(/HOST/g, location.hostname));";
+            expected    += "document.write(\"";
+            expected    += "<script defer src='//HOST:3001/browser-sync-client.2.3.4.js'><\\/script>\".replace(/HOST/g, location.hostname));";
             expected    += "\n//]]></script>\n";
 
             var actual = messages.scriptTags(ports, {version:"2.3.4"});
@@ -143,14 +143,14 @@ describe("Messages module", function () {
         });
         it("can retrieve the injector", function () {
             var expected = "\n<script type='text/javascript'>//<![CDATA[\n;";
-            expected    += "document.write(\"<script defer src='//HOST:3000/socket.io/socket.io.js'><\\/script>";
-            expected    += "<script defer src='//HOST:3001/client/browser-sync-client.2.3.5.js'><\\/script>\".replace(/HOST/g, location.hostname));";
+            expected    += "document.write(\"";
+            expected    += "<script defer src='//HOST:3001/browser-sync-client.2.3.5.js'><\\/script>\".replace(/HOST/g, location.hostname));";
             expected    += "\n//]]></script>\n";
 
             var actual = messages.scriptTags(ports, {version:"2.3.5"});
             assert.equal(actual, expected);
         });
-        it("can output Socket.io + connector only (for plugins, such as the control panel)", function () {
+        it.skip("can output Socket.io + connector only (for plugins, such as the control panel)", function () {
             var expected = "\n<script type='text/javascript'>//<![CDATA[\n;";
             expected    += "document.write(\"<script defer src='//HOST:3000/socket.io/socket.io.js'><\\/script>";
             expected    += "\".replace(/HOST/g, location.hostname));";
@@ -166,7 +166,7 @@ describe("Messages module", function () {
             var options = {
                 version: "0.5.5"
             };
-            var expected = "/client/browser-sync-client.0.5.5.js";
+            var expected = "/browser-sync-client.0.5.5.js";
             var actual   = messages.clientScript(options);
             assert.equal(actual, expected);
         });
@@ -174,15 +174,15 @@ describe("Messages module", function () {
             var options = {
                 version: "1.2.3"
             };
-            var expected = "/client/browser-sync-client.1.2.3.js";
+            var expected = "/browser-sync-client.1.2.3.js";
             var actual   = messages.clientScript(options);
             assert.equal(actual, expected);
         });
     });
 
     describe("Outputting shims JS", function () {
-        it("should return the client-shim js file", function () {
-            var expected = "/client/client-shims.js";
+        it.skip("should return the client-shim js file", function () {
+            var expected = "/client-shims.js";
             var actual   = config.client.shims;
             assert.equal(actual, expected);
         });
@@ -261,7 +261,7 @@ describe("Messages module", function () {
             assert.equal(actual, expected);
         });
         it("should output the socket connector", function () {
-            var expected = "var ___socket___ = io.connect('http://' + location.hostname + ':' + '3001');";
+            var expected = "var ___socket___ = io.connect('http://' + location.hostname + ':3001');";
             var actual   = messages.socketConnector(3001);
             assert.equal(actual, expected);
         });
