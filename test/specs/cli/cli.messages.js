@@ -141,6 +141,15 @@ describe("Messages module", function () {
             var actual = messages.scriptTags(3000, {version:"2.3.4"});
             assert.equal(actual, expected);
         });
+        it("can output the new snippet for the tunnel", function () {
+            var expected = "\n<script type='text/javascript'>//<![CDATA[\n;";
+            expected    += "document.write(\"";
+            expected    += "<script defer src='/browser-sync-client.2.3.4.js'><\\/script>\".replace(/HOST/g, location.hostname));";
+            expected    += "\n//]]></script>\n";
+
+            var actual = messages.scriptTags(3000, {version:"2.3.4", tunnel: true});
+            assert.equal(actual, expected);
+        });
         it("can retrieve the injector", function () {
             var expected = "\n<script type='text/javascript'>//<![CDATA[\n;";
             expected    += "document.write(\"";
@@ -262,7 +271,7 @@ describe("Messages module", function () {
         });
         it("should output the socket connector", function () {
             var expected = "var ___socket___ = io.connect('http://' + location.hostname + ':3001');";
-            var actual   = messages.socketConnector(3001);
+            var actual   = messages.socketConnector(3001, {});
             assert.equal(actual, expected);
         });
     });
