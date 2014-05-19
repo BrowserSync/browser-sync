@@ -19,10 +19,10 @@ describe("Messages module", function () {
             var expected = "[BS] Copy the following snippet into your website, just before the closing </body> tag";
             expected    += "\n\n<script type='text/javascript'>//<![CDATA[\n;";
             expected    += "document.write(\"";
-            expected    += "<script defer src='//HOST:3001/browser-sync-client.1.2.3.js'><\\/script>\".replace(/HOST/g, location.hostname));";
+            expected    += "<script defer src='//HOST:3000/browser-sync-client.1.2.3.js'><\\/script>\".replace(/HOST/g, location.hostname));";
             expected    += "\n//]]></script>\n";
 
-            var actual   = ansiTrim(messages.init({socket: 3000, controlPanel: 3001}, {version: "1.2.3"}));
+            var actual   = ansiTrim(messages.init(3000, {version: "1.2.3"}));
             assert.equal(actual, expected);
         });
     });
@@ -135,19 +135,19 @@ describe("Messages module", function () {
         it("can output the new snippet", function () {
             var expected = "\n<script type='text/javascript'>//<![CDATA[\n;";
             expected    += "document.write(\"";
-            expected    += "<script defer src='//HOST:3001/browser-sync-client.2.3.4.js'><\\/script>\".replace(/HOST/g, location.hostname));";
+            expected    += "<script defer src='//HOST:3000/browser-sync-client.2.3.4.js'><\\/script>\".replace(/HOST/g, location.hostname));";
             expected    += "\n//]]></script>\n";
 
-            var actual = messages.scriptTags(ports, {version:"2.3.4"});
+            var actual = messages.scriptTags(3000, {version:"2.3.4"});
             assert.equal(actual, expected);
         });
         it("can retrieve the injector", function () {
             var expected = "\n<script type='text/javascript'>//<![CDATA[\n;";
             expected    += "document.write(\"";
-            expected    += "<script defer src='//HOST:3001/browser-sync-client.2.3.5.js'><\\/script>\".replace(/HOST/g, location.hostname));";
+            expected    += "<script defer src='//HOST:3000/browser-sync-client.2.3.5.js'><\\/script>\".replace(/HOST/g, location.hostname));";
             expected    += "\n//]]></script>\n";
 
-            var actual = messages.scriptTags(ports, {version:"2.3.5"});
+            var actual = messages.scriptTags(3000, {version:"2.3.5"});
             assert.equal(actual, expected);
         });
         it.skip("can output Socket.io + connector only (for plugins, such as the control panel)", function () {
@@ -156,7 +156,7 @@ describe("Messages module", function () {
             expected    += "\".replace(/HOST/g, location.hostname));";
             expected    += "\n//]]></script>\n";
 
-            var actual = messages.scriptTags(ports, {}, "controlPanel");
+            var actual = messages.scriptTags(3000, {}, "controlPanel");
             assert.equal(actual, expected);
         });
     });

@@ -8,7 +8,7 @@ var sinon    = require("sinon");
 var external = "192.168.0.4";
 
 describe("creating URLs", function () {
-    var opts, ports, ipStub;
+    var opts, port, ipStub;
     before(function () {
         ipStub = sinon.stub(utils, "getHostIp").returns(external);
     });
@@ -22,30 +22,25 @@ describe("creating URLs", function () {
         opts = {
             startPath: false
         };
-        ports = {
-            socket: 3000,
-            controlPanel: 3001
-        };
+        port = 3000;
     });
     it("should set the external", function () {
-        utils.setUrlOptions(ports, opts);
+        utils.setUrlOptions(port, opts);
         assert.deepEqual(opts.external, external);
     });
     it("should set the host (BACKWARDS COMPAT)", function () {
-        utils.setUrlOptions(ports, opts);
+        utils.setUrlOptions(port, opts);
         assert.deepEqual(opts.host, external);
     });
     it("should set the URLs", function () {
-        ports.server = 3002;
-        utils.setUrlOptions(ports, opts);
-        assert.deepEqual(opts.urls.local, "http://localhost:3002");
-        assert.deepEqual(opts.urls.remote, "http://192.168.0.4:3002");
+        utils.setUrlOptions(port, opts);
+        assert.deepEqual(opts.urls.local, "http://localhost:3000");
+        assert.deepEqual(opts.urls.remote, "http://192.168.0.4:3000");
     });
     it("should set the URLs when using XIP", function () {
         opts.xip = true;
-        ports.server = 3002;
-        utils.setUrlOptions(ports, opts);
-        assert.deepEqual(opts.urls.local, "http://127.0.0.1.xip.io:3002");
-        assert.deepEqual(opts.urls.remote, "http://192.168.0.4.xip.io:3002");
+        utils.setUrlOptions(port, opts);
+        assert.deepEqual(opts.urls.local, "http://127.0.0.1.xip.io:3000");
+        assert.deepEqual(opts.urls.remote, "http://192.168.0.4.xip.io:3000");
     });
 });

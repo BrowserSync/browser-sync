@@ -37,7 +37,7 @@ describe("setup Socket", function () {
     });
 
     beforeEach(function () {
-        io = socket.init(ports.socket, events, userOptions, emitter);
+        io = socket.init(3000, events, userOptions, emitter);
     });
 
     it("can start the socket IO server", function () {

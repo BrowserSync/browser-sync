@@ -14,7 +14,7 @@ var ports = {
     server: 3002
 };
 
-var options = { server: {} };
+var options = { server: {}, version: "0.0.1" };
 
 describe("Server Module", function () {
     it("should have the launchServer method", function () {
@@ -47,7 +47,7 @@ describe("", function () {
 
         it("can serve files", function (done) {
             options.server.baseDir = "test/fixtures";
-            var servers = server.launchServer("localhost", ports, options, io);
+            var servers = server.launchServer("localhost", 3000, options, "SCRIPT");
 
             request(servers.staticServer)
                 .get("/index.html")
@@ -58,7 +58,7 @@ describe("", function () {
             options.server.baseDir = "test/fixtures/alt";
             options.server.index = "index.htm";
 
-            var servers = server.launchServer("localhost", ports, options, io);
+            var servers = server.launchServer("localhost", 3000, options, io);
 
             request(servers.staticServer)
                 .get("/")
@@ -69,46 +69,22 @@ describe("", function () {
 
             options.server.baseDir = "test/fixtures";
             options.server.index = "index.html";
-            var servers = server.launchServer("localhost", ports, options, io);
+            var servers = server.launchServer("localhost", 3000, options, io);
 
             request(servers.staticServer)
                 .get("/")
                 .expect(200, done);
         });
 
-        it("can files from multiple dirs", function (done) {
+        it("can serve files from multiple dirs", function (done) {
 
             options.server.baseDir = ["test/fixtures", "test/fixtures2"];
             options.server.index = "index.html";
-            var servers = server.launchServer("localhost", ports, options, io);
+            var servers = server.launchServer("localhost", 3000, options, io);
 
             request(servers.staticServer)
                 .get("/style-alt.css")
                 .expect(200, done);
-        });
-    });
-
-    describe("launching the proxy", function () {
-
-        var stub;
-        var navCallbackStub;
-
-        before(function () {
-            stub = sinon.stub(proxy, "createProxy").returns(true);
-            navCallbackStub = sinon.stub(server.utils, "navigateCallback").returns(true);
-        });
-
-        after(function () {
-            stub.restore();
-            navCallbackStub.restore();
-        });
-
-        it.skip("can create the proxy", function () {
-            var options = {
-                proxy: true
-            };
-            var servers = server.launchServer("0.0.0.0", ports, options, io);
-            sinon.assert.calledWith(stub, "0.0.0.0", ports, options);
         });
     });
 });

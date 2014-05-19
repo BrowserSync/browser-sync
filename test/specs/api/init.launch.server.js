@@ -9,17 +9,9 @@ var bs          = new BrowserSync();
 var assert      = require("chai").assert;
 var sinon       = require("sinon");
 
-var ports = {
-    socket: 3000,
-    controlPanel: 3001,
-    server: 3002,
-    proxy: 3003
-};
-
+var port       = 3000;
 var host       = "0.0.0.0";
-var proxyHost  = "http://" + host + ":" + ports.proxy;
-var serverHost = "http://" + host + ":" + ports.server;
-var urlHost    = "http://" + host + ":" + ports.proxy + "/app";
+var urlHost    = "http://" + host + ":" + port + "/app";
 
 describe("Browser Sync: init Server", function () {
 
@@ -57,78 +49,8 @@ describe("Browser Sync: init Server", function () {
 
     it("should call launchServer from module", function () {
 
-        bs.initServer(host, ports, options, spy);
-        sinon.assert.calledWithExactly(launchServer, host, ports, options, spy);
-    });
-
-    it.skip("should call open browser with server port", function () {
-
-        var url = "http://" + host + ":" + ports.server;
-        getUrl.returns(url);
-        var options = {
-            server: {
-                baseDir: "test/fixtures",
-                injectScripts: true,
-                openBrowser: true
-            }
-        };
-        bs.initServer(host, ports, options, spy);
-        var args = open.getCall(0);
-        sinon.assert.calledWithExactly(open, url, options);
-    });
-    it("should Set the URL on the options when server used", function () {
-
-        var url = "http://" + host + ":" + ports.server;
-        getUrl.returns("http://0.0.0.0:3002");
-
-        var options = {
-            server: {
-                baseDir: "test/fixtures"
-            }
-        };
-        bs.initServer(host, ports, options, spy);
-        var actual = options.url;
-        assert.equal(actual, serverHost);
-    });
-    it("should Set the URL on the options when server used", function () {
-
-        getUrl.returns("http://0.0.0.0:3003");
-
-        var options = {
-            proxy: {
-                host: "local.dev"
-            }
-        };
-        bs.initServer(host, ports, options, spy);
-        var actual = options.url;
-        assert.equal(actual, proxyHost);
-    });
-    it.skip("should call open browser with proxy port", function () {
-
-        getUrl.returns("http://0.0.0.0:3003");
-        var options = {
-            proxy: {
-                host: "127.0.0.1"
-            }
-        };
-
-        var url = proxyHost;
-
-        bs.initServer(host, ports, options, spy);
-        sinon.assert.calledWithExactly(open, url, options);
-    });
-    it("should call getUrl", function () {
-
-        var options = {
-            proxy: {
-                host: "127.0.0.1"
-            }
-        };
-
-        var url = proxyHost;
-
-        bs.initServer(host, ports, options, spy);
-        sinon.assert.calledWithExactly(getUrl, url, options);
+        bs.initServer(host, port, options, spy);
+        sinon.assert.calledWithExactly(launchServer, host, port, options, spy);
     });
     describe("logging about servers", function () {
 
@@ -159,24 +81,18 @@ describe("Browser Sync: init Server", function () {
                 }
             };
 
-            bs.initServer(host, ports, options, spy);
+            bs.initServer(host, port, options, spy);
             var open = emitterStub.getCall(0).args[0];
             var data = emitterStub.getCall(0).args[1];
 
             assert.equal(open, "running");
 
-            assert.equal(data.port, 3002);
+            assert.equal(data.port, 3000);
             assert.equal(data.type, "server");
             stub.restore();
         });
 
         it("logs when using proxy", function () {
-
-            var ports = {
-                socket: 3000,
-                controlPanel: 3001,
-                proxy: 3002
-            };
 
             var options = {
                 proxy: {
@@ -185,14 +101,14 @@ describe("Browser Sync: init Server", function () {
                 }
             };
 
-            bs.initServer(host, ports, options, spy);
+            bs.initServer(host, port, options, spy);
 
             var open = emitterStub.getCall(0).args[0];
             var data = emitterStub.getCall(0).args[1];
 
             assert.equal(open, "running");
 
-            assert.equal(data.port, 3002);
+            assert.equal(data.port, 3000);
             assert.equal(data.type, "proxy");
         });
     });

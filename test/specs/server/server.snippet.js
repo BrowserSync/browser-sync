@@ -10,13 +10,9 @@ var sinon   = require("sinon");
 var request = require("supertest");
 var assert  = require("chai").assert;
 
-var ports = {
-    socket: 3000,
-    controlPanel: 3001,
-    server: 3002
-};
-var options = {};
-var snippet = messages.scriptTags(ports, options);
+var port = 3000;
+var options = {version: "0.1.0"};
+var snippet = messages.scriptTags(port, options);
 
 describe("Launching a server with snippets", function () {
 
@@ -44,11 +40,12 @@ describe("Launching a server with snippets", function () {
             server: {
                 baseDir: "test/fixtures",
                 injectScripts: true
-            }
+            },
+            version: "0.1.0"
         };
         reqOptions = {
             hostname: "0.0.0.0",
-            port: ports.server,
+            port: port,
             path: "/",
             method: "GET",
             headers: {
@@ -56,7 +53,7 @@ describe("Launching a server with snippets", function () {
             }
         };
 
-        servers = server.launchServer("0.0.0.0", ports, options, io);
+        servers = server.launchServer("0.0.0.0", 3000, options, io);
         app = servers.staticServer;
 
     });
@@ -72,6 +69,7 @@ describe("Launching a server with snippets", function () {
             .set("accept", "text/html")
             .expect(200)
             .end(function (err, res) {
+                console.log(snippet);
                 var actual = res.text.indexOf(snippet) >= 0;
                 assert.isTrue(actual);
                 done();

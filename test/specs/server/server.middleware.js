@@ -7,13 +7,7 @@ var assert  = require("chai").assert;
 var sinon   = require("sinon");
 var request = require("supertest");
 
-var ports = {
-    socket: 3000,
-    controlPanel: 3001,
-    server: 3002
-};
-
-var options = { server: {} };
+var options = { server: {}, version: "2.1.0" };
 
 describe("Adding custom middleware", function () {
 
@@ -26,7 +20,7 @@ describe("Adding custom middleware", function () {
         options.server.baseDir = "test/fixtures";
         options.server.middleware = spy;
 
-        var servers = server.launchServer("localhost", ports, options, {});
+        var servers = server.launchServer("localhost", 3000, options, {});
 
         request(servers.staticServer)
             .get("/index.html")
@@ -48,7 +42,7 @@ describe("Adding custom middleware", function () {
         options.server.baseDir = "test/fixtures";
         options.server.middleware = [spy, spy2];
 
-        var servers = server.launchServer("localhost", ports, options, {});
+        var servers = server.launchServer("localhost", 3000, options, {});
 
         request(servers.staticServer)
             .get("/index.html")
