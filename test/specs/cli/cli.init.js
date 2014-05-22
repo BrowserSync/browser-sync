@@ -6,8 +6,10 @@ var init          = cli.init;
 var options       = cli.options;
 
 var assert = require("chai").assert;
+var _      = require("lodash");
 
 var allowed = Object.keys(defaultConfig);
+var defaultsClone = _.cloneDeep(defaultConfig);
 
 describe("Merging Options", function () {
     var argv;
@@ -18,14 +20,14 @@ describe("Merging Options", function () {
         argv.server = {
             baseDir: "./"
         };
-        var config = init.mergeOptions(defaultConfig, argv, allowed);
+        var config = init.mergeOptions(defaultsClone, argv, allowed);
         assert.equal(config.server.baseDir, "./");
     });
     it("should merge default + command line options", function () {
         argv.server = {
             baseDir: "app"
         };
-        var config = init.mergeOptions(defaultConfig, argv, allowed);
+        var config = init.mergeOptions(defaultsClone, argv, allowed);
         assert.equal(config.server.baseDir, "app");
     });
     it("should merge default + command line options", function () {
@@ -33,7 +35,7 @@ describe("Merging Options", function () {
             baseDir: "app",
             index: "inde.htm"
         };
-        var config = init.mergeOptions(defaultConfig, argv, allowed);
+        var config = init.mergeOptions(defaultsClone, argv, allowed);
         assert.equal(config.server.baseDir, "app");
         assert.equal(config.server.index, "inde.htm");
     });
@@ -42,7 +44,7 @@ describe("Merging Options", function () {
         argv.ghostMode = {
             links: false
         };
-        var config = init.mergeOptions(defaultConfig, argv, Object.keys(defaultConfig));
+        var config = init.mergeOptions(defaultsClone, argv, Object.keys(defaultsClone));
         assert.equal(config.server.baseDir, "./");
         assert.equal(config.ghostMode.links, false);
     });
@@ -51,7 +53,7 @@ describe("Merging Options", function () {
         argv.ghostMode = {
             links: false
         };
-        var config = init.mergeOptions(defaultConfig, argv, Object.keys(defaultConfig));
+        var config = init.mergeOptions(defaultsClone, argv, Object.keys(defaultsClone));
         assert.equal(config.proxy.host, "0.0.0.0");
         assert.equal(config.proxy.protocol, "http");
         assert.equal(config.proxy.port, 8000);

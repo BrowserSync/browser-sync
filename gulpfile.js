@@ -1,24 +1,26 @@
-var gulp        = require('gulp');
-var jshint      = require('gulp-jshint');
-var contribs    = require('gulp-contribs');
-var sass        = require('gulp-sass');
-var rubySass    = require('gulp-ruby-sass');
-var browserSync = require('./lib/index');
+"use strict";
 
-gulp.task('lint', function () {
-    gulp.src(['test/specs/**/*.js', '!test/fixtures/**', 'lib/*'])
-        .pipe(jshint('test/specs/.jshintrc'))
-        .pipe(jshint.reporter('default'))
-        .pipe(jshint.reporter('fail'))
+var gulp        = require("gulp");
+var jshint      = require("gulp-jshint");
+var contribs    = require("gulp-contribs");
+var sass        = require("gulp-sass");
+var rubySass    = require("gulp-ruby-sass");
+var browserSync = require("./lib/index");
+
+gulp.task("lint", function () {
+    gulp.src(["test/specs/**/*.js", "!test/fixtures/**", "lib/*"])
+        .pipe(jshint("test/specs/.jshintrc"))
+        .pipe(jshint.reporter("default"))
+        .pipe(jshint.reporter("fail"));
 });
 
-gulp.task('contribs', function () {
-    gulp.src('README.md')
+gulp.task("contribs", function () {
+    gulp.src("README.md")
         .pipe(contribs())
-        .pipe(gulp.dest("./"))
+        .pipe(gulp.dest("./"));
 });
 
-gulp.task('default', ['lint']);
+gulp.task("default", ["lint"]);
 
 var paths = {
     scss: "test/fixtures/scss/*.scss",
@@ -26,7 +28,7 @@ var paths = {
     html: "test/fixtures/*.html"
 };
 
-gulp.task('sass', function () {
+gulp.task("sass", function () {
     browserSync.notify("Compiling SCSS files... Please Wait");
     gulp.src(paths.scss)
         .pipe(rubySass())
@@ -37,7 +39,7 @@ gulp.task('sass', function () {
 /**
  * Start BrowserSync
  */
-gulp.task('browser-sync', function () {
+gulp.task("browser-sync", function () {
 
 //    var clientScript = require("/Users/shakyshane/Sites/browser-sync-modules/browser-sync-client/index");
 //
@@ -56,15 +58,15 @@ gulp.task('browser-sync', function () {
 /**
  * Reload task
  */
-gulp.task('bs-reload', function () {
+gulp.task("bs-reload", function () {
     browserSync.reload();
 });
 
 /**
  * Watch stuff
  */
-gulp.task('watch', ['browser-sync'], function () {
-    gulp.watch(paths.scss, ['sass']);
-    gulp.watch(paths.html, ['bs-reload']);
+gulp.task("watch", ["browser-sync"], function () {
+    gulp.watch(paths.scss, ["sass"]);
+    gulp.watch(paths.html, ["bs-reload"]);
 });
 

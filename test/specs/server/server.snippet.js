@@ -69,7 +69,6 @@ describe("Launching a server with snippets", function () {
             .set("accept", "text/html")
             .expect(200)
             .end(function (err, res) {
-                console.log(snippet);
                 var actual = res.text.indexOf(snippet) >= 0;
                 assert.isTrue(actual);
                 done();
