@@ -8,6 +8,7 @@ var http    = require("http");
 var connect = require("connect");
 var request = require("supertest");
 var assert  = require("chai").assert;
+var client  = require("socket.io-client");
 
 describe("E2E proxy test", function () {
 
@@ -41,7 +42,7 @@ describe("E2E proxy test", function () {
         server.close();
     });
 
-    it("can init proxy", function (done) {
+    it("can init proxy & serve a page", function (done) {
 
         assert.isString(options.snippet);
         assert.isDefined(server);
@@ -54,5 +55,15 @@ describe("E2E proxy test", function () {
                 assert.isTrue(res.text.indexOf("browser-sync-client") > 0);
                 done();
             });
+    });
+
+    it("Can proxy websockets", function(done){
+
+        instance.io.sockets.on("connection", function (client) {
+            done();
+        });
+
+        var clientSockets = client.connect(options.urls.local, {"force new connection": true});
+        clientSockets.emit("shane", {name:"shane"});
     });
 });
