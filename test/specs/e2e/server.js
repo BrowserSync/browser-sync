@@ -49,4 +49,14 @@ describe("E2E server test", function () {
                 done();
             });
     });
+    it("Can return the script", function (done) {
+
+        request(server)
+            .get(options.scriptPath)
+            .expect(200)
+            .end(function (err, res) {
+                assert.isTrue(res.text.indexOf("Connected to BrowserSync") > 0);
+                done();
+            });
+    });
 });

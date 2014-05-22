@@ -66,4 +66,15 @@ describe("E2E proxy test", function () {
         var clientSockets = client.connect(options.urls.local, {"force new connection": true});
         clientSockets.emit("shane", {name:"shane"});
     });
+
+    it("Can serve the script", function (done) {
+
+        request(server)
+            .get(options.scriptPath)
+            .expect(200)
+            .end(function (err, res) {
+                assert.isTrue(res.text.indexOf("Connected to BrowserSync") > 0);
+                done();
+            });
+    });
 });
