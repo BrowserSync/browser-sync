@@ -1,16 +1,14 @@
 
 var browserSync = require("./lib/index");
-//var lr = require("./live-reload");
 
 console.time("init");
 
 var files = ["test/fixtures/assets/*", "test/fixtures/*.html"];
-//files = ["/Users/shakyshane/Sites/swoon-static/assets/css/**"]
 
 var options = {
-    server: {
-        baseDir: ["test/fixtures"]
-    },
+//    server: {
+//        baseDir: ["test/fixtures"]
+//    },
 //    proxy: "swoon.static/store-home.php",
     ghostMode: {
         forms: {

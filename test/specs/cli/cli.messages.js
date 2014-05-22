@@ -22,7 +22,7 @@ describe("Messages module", function () {
             expected    += "<script defer src='//HOST:3000/browser-sync-client.1.2.3.js'><\\/script>\".replace(/HOST/g, location.hostname));";
             expected    += "\n//]]></script>\n";
 
-            var actual   = ansiTrim(messages.init(3000, {version: "1.2.3"}));
+            var actual   = ansiTrim(messages.initSnippet(3000, {version: "1.2.3"}));
             assert.equal(actual, expected);
         });
     });

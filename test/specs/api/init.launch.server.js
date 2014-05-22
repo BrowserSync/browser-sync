@@ -59,7 +59,7 @@ describe("Browser Sync: init Server", function () {
         var initProxy;
 
         before(function () {
-            init       = sinon.stub(messages, "init").returns("No server or Proxy");
+            init       = sinon.stub(messages, "initSnippet").returns("No server or Proxy");
             initServer = sinon.stub(messages, "initServer").returns("Server Message");
             initProxy  = sinon.stub(messages, "initProxy").returns("Proxy Message");
         });
@@ -85,7 +85,7 @@ describe("Browser Sync: init Server", function () {
             var open = emitterStub.getCall(0).args[0];
             var data = emitterStub.getCall(0).args[1];
 
-            assert.equal(open, "running");
+            assert.equal(open, "service:running");
 
             assert.equal(data.port, 3000);
             assert.equal(data.type, "server");
@@ -106,10 +106,26 @@ describe("Browser Sync: init Server", function () {
             var open = emitterStub.getCall(0).args[0];
             var data = emitterStub.getCall(0).args[1];
 
-            assert.equal(open, "running");
+            assert.equal(open, "service:running");
 
             assert.equal(data.port, 3000);
             assert.equal(data.type, "proxy");
+        });
+        it("logs when using Snippet", function () {
+
+            launchServer.returns(false);
+            var options = {};
+
+            bs.initServer(host, port, options, spy);
+
+            var open = emitterStub.getCall(0).args[0];
+            var data = emitterStub.getCall(0).args[1];
+
+            assert.equal(open, "service:running");
+
+            assert.equal(data.port, 3000);
+            assert.equal(data.type, "snippet");
+            assert.equal(data.url, "n/a");
         });
     });
 });

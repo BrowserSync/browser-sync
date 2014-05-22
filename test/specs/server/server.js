@@ -2,7 +2,6 @@
 
 var defaultConfig = require("../../../lib/default-config");
 var server        = require("../../../lib/server");
-var proxy         = require("../../../lib/proxy");
 
 var assert  = require("chai").assert;
 var sinon   = require("sinon");
