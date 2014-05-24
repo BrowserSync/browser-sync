@@ -21,7 +21,7 @@ describe("E2E proxy test", function () {
         var config = {
             proxy: "localhost:8000",
             debugInfo: false,
-            shane: true
+            open: false
         };
 
         var testApp = connect()

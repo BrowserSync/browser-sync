@@ -22,7 +22,8 @@ describe("E2E server test", function () {
             server: {
                 baseDir: fixturesDir
             },
-            debugInfo: false
+            debugInfo: false,
+            open: false
         };
 
         browserSync.init([], config, function (err, bs) {
