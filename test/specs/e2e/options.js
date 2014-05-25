@@ -49,6 +49,7 @@ describe("E2E options test", function () {
             server: {
                 baseDir: __dirname + "/../../fixtures"
             },
+            files: ["*.html"],
             ports: {
                 min: 3500
             },
@@ -69,5 +70,30 @@ describe("E2E options test", function () {
     it("Uses the given port the available port", function () {
         var match = /\d{2,5}/.exec(options.port)[0];
         assert.equal(match, 3500);
+    });
+    it("set's the files option", function () {
+        assert.deepEqual(options.files, ["*.html"]);
+    });
+});
+
+describe("E2E NO OPTIONS test with snippet", function () {
+
+    var options;
+    var instance;
+
+    before(function (done) {
+        browserSync.init([], null, function (err, bs) {
+            options  = bs.options;
+            instance = bs;
+            done();
+        });
+    });
+
+    it("Sets the available port", function () {
+        var match = /\d{2,5}/.exec(options.port)[0];
+        assert.isNotNull(match);
+    });
+    it("sets the open options to false", function () {
+        assert.deepEqual(options.open, false);
     });
 });

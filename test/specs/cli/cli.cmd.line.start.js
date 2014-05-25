@@ -42,9 +42,9 @@ describe("Resolving Config Files:", function () {
             beforeEach(function () {
                 init.startFromCommandLine(args, cbSpy);
             });
-            it("should attempt to retrieve the DEFAULT config file path", function () {
-                sinon.assert.called(getDefaultFileStub);
-            });
+//            it("should attempt to retrieve the DEFAULT config file path", function () {
+//                sinon.assert.called(getDefaultFileStub);
+//            });
             it("should call the callback with the results", function () {
                 sinon.assert.called(cbSpy);
             });

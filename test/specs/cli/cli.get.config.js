@@ -21,24 +21,6 @@ describe("Resolving Config:", function () {
         defaultConfig = _.cloneDeep(loadedConfig);
     });
 
-    describe("When retrieving the bs-config.js file", function () {
-        var getFileStub;
-        var cwdStub;
-        before(function () {
-            getFileStub = sinon.stub(info, "_getConfigFile").returns({});
-            cwdStub = sinon.stub(process, "cwd").returns(fakeCwd);
-        });
-        after(function () {
-            getFileStub.restore();
-            cwdStub.restore();
-        });
-        it("should call '_getConfigFile' with the default path", function () {
-            var expected = fakeCwd + config.configFile;
-            info.getDefaultConfigFile();
-            sinon.assert.calledWithExactly(getFileStub, expected);
-        });
-    });
-
     describe("When reading a config file from the file system", function () {
 
         it("should return false if the file is not found", function () {

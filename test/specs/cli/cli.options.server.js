@@ -13,7 +13,7 @@ describe("Merging Server Options", function () {
     });
     it("should merge default + command line options", function () {
         var arg = true;
-        var actual = options._mergeServerOption(defaultValue, arg);
+        var actual = options.callbacks.server(defaultValue, arg);
         var expected = {
             baseDir: "./"
         };
@@ -21,7 +21,7 @@ describe("Merging Server Options", function () {
     });
     it("should set the base dir if given", function () {
         var arg = "app";
-        var actual = options._mergeServerOption(defaultValue, arg);
+        var actual = options.callbacks.server(defaultValue, arg);
         var expected = {
             baseDir: "app"
         };
@@ -32,7 +32,7 @@ describe("Merging Server Options", function () {
         var argv = {
             index: "index.htm"
         };
-        var actual = options._mergeServerOption(defaultValue, arg, argv);
+        var actual = options.callbacks.server(defaultValue, arg, argv);
         var expected = {
             baseDir: "app/dist",
             index: "index.htm"
@@ -44,7 +44,7 @@ describe("Merging Server Options", function () {
         var argv = {
             index: "index.htm"
         };
-        var actual = options._mergeServerOption(defaultValue, arg, argv);
+        var actual = options.callbacks.server(defaultValue, arg, argv);
         var expected = {
             baseDir: "./",
             index: "index.htm"
@@ -55,7 +55,7 @@ describe("Merging Server Options", function () {
         var arg = {
             baseDir: "./app"
         };
-        var actual = options._mergeServerOption(defaultValue, arg, {});
+        var actual = options.callbacks.server(defaultValue, arg, {});
         var expected = {
             baseDir: "./app"
         };
@@ -66,7 +66,7 @@ describe("Merging Server Options", function () {
             baseDir: "./app",
             index: "mypage.html"
         };
-        var actual = options._mergeServerOption(defaultValue, arg, {});
+        var actual = options.callbacks.server(defaultValue, arg, {});
         assert.deepEqual(actual, arg);
     });
     it("should set the directory if given on the command line", function () {
@@ -78,7 +78,7 @@ describe("Merging Server Options", function () {
             baseDir: "app",
             directory: true
         };
-        var actual   = options._mergeServerOption(defaultValue, arg, argv);
+        var actual   = options.callbacks.server(defaultValue, arg, argv);
         assert.deepEqual(actual, expected);
     });
 });

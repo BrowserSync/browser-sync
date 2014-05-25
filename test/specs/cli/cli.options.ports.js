@@ -1,7 +1,7 @@
 "use strict";
 
 var defaultConfig   = require("../../../lib/default-config");
-var options             = require("../../../lib/cli-options");
+var options         = require("../../../lib/cli-options");
 
 var assert = require("chai").assert;
 var _      = require("lodash");
@@ -15,7 +15,7 @@ describe("Merging Ports option", function () {
     });
     it("should return the ports object with given ports", function () {
         var arg = "3001,3005";
-        var actual = options._mergePortsOption(defaultsClone, arg);
+        var actual = options.callbacks.ports(defaultsClone, arg);
         var expected = {
             min: 3001,
             max: 3005
@@ -24,7 +24,7 @@ describe("Merging Ports option", function () {
     });
     it("should return the ports object with given ports", function () {
         var arg = "3001";
-        var actual = options._mergePortsOption(defaultsClone, arg);
+        var actual = options.callbacks.ports(defaultsClone, arg);
         var expected = {
             min: 3001,
             max: null
@@ -35,7 +35,7 @@ describe("Merging Ports option", function () {
         var arg = {
             min: 4000
         };
-        var actual = options._mergePortsOption(defaultsClone, arg);
+        var actual = options.callbacks.ports(defaultsClone, arg);
         var expected = {
             min: 4000,
             max: null
@@ -47,7 +47,7 @@ describe("Merging Ports option", function () {
             min: 4000,
             max: 5000
         };
-        var actual = options._mergePortsOption(defaultsClone, arg);
+        var actual = options.callbacks.ports(defaultsClone, arg);
         var expected = {
             min: 4000,
             max: 5000

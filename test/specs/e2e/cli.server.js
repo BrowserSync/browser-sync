@@ -13,11 +13,16 @@ describe("E2E server test", function () {
 
     before(function (done) {
 
-        bs = spawn("node", [index, "start", "--server", "--no-open", "--port=3001"]);
+        var called;
+
+        bs = spawn("node", [index, "start", "--server", "--no-open", "--port=3001", "--files=*.php"]);
 
         bs.stdout.on("data", function (data) {
             output = data.toString();
-            done();
+            if (!called) {
+                done();
+                called = true;
+            }
         });
     });
 
@@ -26,8 +31,6 @@ describe("E2E server test", function () {
     });
 
     it("returns the snippet", function (done) {
-
-        assert.isTrue(output.indexOf("http://localhost:3001") > 0);
 
         var options = {
             hostname: "localhost",
