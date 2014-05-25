@@ -4,4 +4,5 @@ npm-debug.log
 .sass-cache
 bower_components
 test/fixtures/files/*
+test/fixtures/js/*
 example.js

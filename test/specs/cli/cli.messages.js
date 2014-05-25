@@ -19,7 +19,7 @@ describe("Messages module", function () {
             var expected = "[BS] Copy the following snippet into your website, just before the closing </body> tag";
             expected    += "\n\n<script type='text/javascript'>//<![CDATA[\n;";
             expected    += "document.write(\"";
-            expected    += "<script defer src='//HOST:3000/browser-sync-client.1.2.3.js'><\\/script>\".replace(/HOST/g, location.hostname));";
+            expected    += "<script async src='//HOST:3000/browser-sync-client.1.2.3.js'><\\/script>\".replace(/HOST/g, location.hostname));";
             expected    += "\n//]]></script>\n";
 
             var actual   = ansiTrim(messages.initSnippet(3000, {version: "1.2.3"}));
@@ -135,7 +135,7 @@ describe("Messages module", function () {
         it("can output the new snippet", function () {
             var expected = "\n<script type='text/javascript'>//<![CDATA[\n;";
             expected    += "document.write(\"";
-            expected    += "<script defer src='//HOST:3000/browser-sync-client.2.3.4.js'><\\/script>\".replace(/HOST/g, location.hostname));";
+            expected    += "<script async src='//HOST:3000/browser-sync-client.2.3.4.js'><\\/script>\".replace(/HOST/g, location.hostname));";
             expected    += "\n//]]></script>\n";
 
             var actual = messages.scriptTags(3000, {version:"2.3.4"});
@@ -144,7 +144,7 @@ describe("Messages module", function () {
         it("can output the new snippet for the tunnel", function () {
             var expected = "\n<script type='text/javascript'>//<![CDATA[\n;";
             expected    += "document.write(\"";
-            expected    += "<script defer src='/browser-sync-client.2.3.4.js'><\\/script>\".replace(/HOST/g, location.hostname));";
+            expected    += "<script async src='/browser-sync-client.2.3.4.js'><\\/script>\".replace(/HOST/g, location.hostname));";
             expected    += "\n//]]></script>\n";
 
             var actual = messages.scriptTags(3000, {version:"2.3.4", tunnel: true});
@@ -153,7 +153,7 @@ describe("Messages module", function () {
         it("can retrieve the injector", function () {
             var expected = "\n<script type='text/javascript'>//<![CDATA[\n;";
             expected    += "document.write(\"";
-            expected    += "<script defer src='//HOST:3000/browser-sync-client.2.3.5.js'><\\/script>\".replace(/HOST/g, location.hostname));";
+            expected    += "<script async src='//HOST:3000/browser-sync-client.2.3.5.js'><\\/script>\".replace(/HOST/g, location.hostname));";
             expected    += "\n//]]></script>\n";
 
             var actual = messages.scriptTags(3000, {version:"2.3.5"});
@@ -161,7 +161,7 @@ describe("Messages module", function () {
         });
         it.skip("can output Socket.io + connector only (for plugins, such as the control panel)", function () {
             var expected = "\n<script type='text/javascript'>//<![CDATA[\n;";
-            expected    += "document.write(\"<script defer src='//HOST:3000/socket.io/socket.io.js'><\\/script>";
+            expected    += "document.write(\"<script async src='//HOST:3000/socket.io/socket.io.js'><\\/script>";
             expected    += "\".replace(/HOST/g, location.hostname));";
             expected    += "\n//]]></script>\n";
 

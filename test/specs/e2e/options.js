@@ -8,8 +8,6 @@ var sinon   = require("sinon");
 var request = require("supertest");
 var assert  = require("chai").assert;
 
-var fixturesDir = path.resolve(__dirname + "/../../fixtures");
-
 describe("E2E options test", function () {
 
     var options;
@@ -18,7 +16,7 @@ describe("E2E options test", function () {
     before(function (done) {
         var config = {
             server: {
-                baseDir: fixturesDir
+                baseDir: __dirname + "/../../fixtures"
             },
             debugInfo: false,
             open: false

@@ -2,7 +2,6 @@
 
 var browserSync = require("../../../lib/index");
 
-var path    = require("path");
 var sinon   = require("sinon");
 var http    = require("http");
 var connect = require("connect");

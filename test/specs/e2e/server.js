@@ -2,13 +2,9 @@
 
 var browserSync   = require("../../../lib/index");
 
-var path    = require("path");
-
 var sinon   = require("sinon");
 var request = require("supertest");
 var assert  = require("chai").assert;
-
-var fixturesDir = path.resolve(__dirname + "/../../fixtures");
 
 describe("E2E server test", function () {
 
@@ -20,7 +16,7 @@ describe("E2E server test", function () {
 
         var config = {
             server: {
-                baseDir: fixturesDir
+                baseDir: __dirname + "/../../fixtures"
             },
             debugInfo: false,
             open: false
