@@ -2,11 +2,11 @@
 
 var browserSync = require("../../../lib/index");
 
-var path    = require("path");
+var path        = require("path");
 
-var sinon   = require("sinon");
-var request = require("supertest");
-var assert  = require("chai").assert;
+var sinon       = require("sinon");
+var request     = require("supertest");
+var assert      = require("chai").assert;
 
 describe("E2E options test", function () {
 
@@ -95,5 +95,61 @@ describe("E2E NO OPTIONS test with snippet", function () {
     });
     it("sets the open options to false", function () {
         assert.deepEqual(options.open, false);
+    });
+});
+
+describe("E2E NO OPTIONS", function () {
+
+    var options;
+    var instance;
+
+    before(function (done) {
+        browserSync.init([], {}, function (err, bs) {
+            options  = bs.options;
+            instance = bs;
+            done();
+        });
+    });
+
+    it("Sets the ghostMode options", function () {
+        assert.deepEqual(options.ghostMode.clicks, true);
+        assert.deepEqual(options.ghostMode.scroll, true);
+        assert.deepEqual(options.ghostMode.forms.submit, true);
+        assert.deepEqual(options.ghostMode.forms.inputs, true);
+        assert.deepEqual(options.ghostMode.forms.toggles, true);
+        assert.deepEqual(options.ghostMode.location, false);
+    });
+});
+
+describe("E2E GHOST OPTIONS", function () {
+
+    var options;
+    var instance;
+
+    var config = {
+        ghostMode: {
+            links: true,
+            forms: {
+                submit: false
+            }
+        }
+    };
+
+    before(function (done) {
+        browserSync.init([], config, function (err, bs) {
+            options  = bs.options;
+            instance = bs;
+            done();
+        });
+    });
+
+    it("Sets the ghostMode options", function () {
+        assert.deepEqual(options.ghostMode.links, true);
+        assert.deepEqual(options.ghostMode.clicks, true);
+        assert.deepEqual(options.ghostMode.scroll, true);
+        assert.deepEqual(options.ghostMode.forms.submit, false);
+        assert.deepEqual(options.ghostMode.forms.inputs, true);
+        assert.deepEqual(options.ghostMode.forms.toggles, true);
+        assert.deepEqual(options.ghostMode.location, false);
     });
 });
