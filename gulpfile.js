@@ -53,6 +53,10 @@ gulp.task("browser-sync", function () {
         },
         startPath: "sass.html"
     });
+
+    setTimeout(function () {
+        browserSync.exit();
+    }, 3000);
 });
 
 /**
