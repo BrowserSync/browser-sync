@@ -41,7 +41,7 @@ describe("E2E cli server test", function () {
                 chunks.push(data);
             }).on("end", function () {
                 var joined = chunks.join("");
-                assert.isTrue(joined.indexOf("Socket.IO.min.js") > 0);
+                assert.isTrue(joined.indexOf("var socket = this.engine;") > 0);
                 assert.isTrue(joined.indexOf("var ___socket___") > 0);
                 assert.isTrue(joined.indexOf("Connected to BrowserSync") > 0);
                 done();
