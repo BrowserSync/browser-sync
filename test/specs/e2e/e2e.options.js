@@ -12,6 +12,7 @@ describe("E2E options test", function () {
 
     var options;
     var instance;
+    var server;
 
     before(function (done) {
         var config = {
@@ -25,8 +26,12 @@ describe("E2E options test", function () {
         browserSync.init(config, function (err, bs) {
             options  = bs.options;
             instance = bs;
+            server   = bs.servers.staticServer;
             done();
         });
+    });
+    after(function () {
+        server.close();
     });
 
     it("Sets the available port", function () {
@@ -43,6 +48,7 @@ describe("E2E options test", function () {
 
     var options;
     var instance;
+    var server;
 
     before(function (done) {
         var config = {
@@ -59,8 +65,12 @@ describe("E2E options test", function () {
         browserSync.init([], config, function (err, bs) {
             options  = bs.options;
             instance = bs;
+            server   = bs.servers.staticServer;
             done();
         });
+    });
+    after(function () {
+        server.close();
     });
 
     it("Sets the available port", function () {
@@ -79,14 +89,18 @@ describe("E2E options test", function () {
 describe("E2E NO OPTIONS test with snippet", function () {
 
     var options;
-    var instance;
+    var instance, server;
 
     before(function (done) {
         browserSync.init([], null, function (err, bs) {
             options  = bs.options;
             instance = bs;
+            server   = bs.servers.staticServer;
             done();
         });
+    });
+    after(function () {
+        server.close();
     });
 
     it("Sets the available port", function () {
@@ -102,13 +116,18 @@ describe("E2E NO OPTIONS", function () {
 
     var options;
     var instance;
+    var server;
 
     before(function (done) {
         browserSync.init([], {}, function (err, bs) {
             options  = bs.options;
             instance = bs;
+            server   = bs.servers.staticServer;
             done();
         });
+    });
+    after(function () {
+        server.close();
     });
 
     it("Sets the ghostMode options", function () {
@@ -125,6 +144,7 @@ describe("E2E GHOST OPTIONS", function () {
 
     var options;
     var instance;
+    var server;
 
     var config = {
         ghostMode: {
@@ -139,8 +159,12 @@ describe("E2E GHOST OPTIONS", function () {
         browserSync.init([], config, function (err, bs) {
             options  = bs.options;
             instance = bs;
+            server   = bs.servers.staticServer;
             done();
         });
+    });
+    after(function () {
+        server.close();
     });
 
     it("Sets the ghostMode options", function () {
@@ -151,5 +175,34 @@ describe("E2E GHOST OPTIONS", function () {
         assert.deepEqual(options.ghostMode.forms.inputs, true);
         assert.deepEqual(options.ghostMode.forms.toggles, true);
         assert.deepEqual(options.ghostMode.location, false);
+    });
+});
+
+describe("E2E HOST OPTIONS + localhost", function () {
+
+    var options;
+    var instance;
+    var server;
+
+    var config = {
+        host: "localhost",
+        debugInfo: false
+    };
+
+    before(function (done) {
+        browserSync.init(config, function (err, bs) {
+            options  = bs.options;
+            instance = bs;
+            server   = bs.servers.staticServer;
+            done();
+        });
+    });
+    after(function () {
+        server.close();
+    });
+
+    it("Sets the ghostMode options", function () {
+        assert.ok(options.port.toString().match(/\d\d\d\d/));
+        assert.equal(options.urls.local, "http://localhost:3000");
     });
 });

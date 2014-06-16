@@ -12,7 +12,7 @@ var client  = require("socket.io-client");
 describe("E2E Events test", function () {
 
     var options;
-    var instance;
+    var instance, server;
 
     before(function (done) {
         browserSync.use("logger", function () {
@@ -21,8 +21,12 @@ describe("E2E Events test", function () {
         browserSync.init([], {open: false}, function (err, bs) {
             options  = bs.options;
             instance = bs;
+            server   = bs.servers.staticServer;
             done();
         });
+    });
+    after(function () {
+        server.close();
     });
 
     it("Should register internal events", function () {

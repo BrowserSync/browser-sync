@@ -37,7 +37,7 @@ describe("E2E server test with tunnel", function () {
         });
     });
     after(function () {
-        server.close(act);
+        server.close();
         stub.reset();
     });
 });
