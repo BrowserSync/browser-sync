@@ -20,7 +20,7 @@ describe("E2E Snippet tests", function () {
             debugInfo: false
         };
 
-        browserSync.init([], config, function (err, bs) {
+        browserSync.init(config, function (err, bs) {
             options  = bs.options;
             server   = bs.servers.staticServer;
             instance = bs;

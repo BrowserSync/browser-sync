@@ -22,7 +22,7 @@ describe("E2E options test", function () {
             debugInfo: false,
             open: false
         };
-        browserSync.init([], config, function (err, bs) {
+        browserSync.init(config, function (err, bs) {
             options  = bs.options;
             instance = bs;
             done();
