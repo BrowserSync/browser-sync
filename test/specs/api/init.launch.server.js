@@ -71,9 +71,13 @@ describe("Browser Sync: init Server", function () {
 
         it("logs when using static server", function () {
 
-            var stub = sinon.stub(utils, "getBaseDir").returns("./");
+            var stub = sinon.stub(utils, "getBaseDir").returns("test/fixtures");
 
             var options = {
+                urls: {
+                    local: "http://localhost:3000"
+                },
+                online: true,
                 server: {
                     baseDir: "test/fixtures",
                     injectScripts: true,
@@ -82,19 +86,27 @@ describe("Browser Sync: init Server", function () {
             };
 
             bs.initServer(host, port, options, spy);
+
             var open = emitterStub.getCall(0).args[0];
             var data = emitterStub.getCall(0).args[1];
 
             assert.equal(open, "service:running");
 
-            assert.equal(data.port, 3000);
             assert.equal(data.type, "server");
+            assert.equal(data.baseDir, "test/fixtures");
+            assert.equal(data.port, 3000);
+            assert.equal(data.tunnel, false);
+            assert.equal(data.url, "http://localhost:3000");
             stub.restore();
+
         });
 
         it("logs when using proxy", function () {
 
             var options = {
+                urls: {
+                    local: "http://localhost:3000"
+                },
                 proxy: {
                     host: "127.0.0.0",
                     port: 8001
@@ -108,12 +120,15 @@ describe("Browser Sync: init Server", function () {
 
             assert.equal(open, "service:running");
 
-            assert.equal(data.port, 3000);
             assert.equal(data.type, "proxy");
+            assert.equal(data.port, 3000);
+            assert.equal(data.tunnel, false);
+            assert.equal(data.url, "http://localhost:3000");
         });
         it("logs when using Snippet", function () {
 
             launchServer.returns(false);
+
             var options = {};
 
             bs.initServer(host, port, options, spy);
@@ -126,6 +141,7 @@ describe("Browser Sync: init Server", function () {
             assert.equal(data.port, 3000);
             assert.equal(data.type, "snippet");
             assert.equal(data.url, "n/a");
+            assert.equal(data.tunnel, false);
         });
     });
 });

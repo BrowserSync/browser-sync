@@ -20,7 +20,8 @@ describe("creating URLs", function () {
     });
     beforeEach(function() {
         opts = {
-            startPath: false
+            startPath: false,
+            online: true
         };
         port = 3000;
     });
@@ -35,12 +36,25 @@ describe("creating URLs", function () {
     it("should set the URLs", function () {
         utils.setUrlOptions(port, opts);
         assert.deepEqual(opts.urls.local, "http://localhost:3000");
-        assert.deepEqual(opts.urls.remote, "http://192.168.0.4:3000");
+        assert.deepEqual(opts.urls.external, "http://192.168.0.4:3000");
     });
     it("should set the URLs when using XIP", function () {
         opts.xip = true;
         utils.setUrlOptions(port, opts);
         assert.deepEqual(opts.urls.local, "http://127.0.0.1.xip.io:3000");
-        assert.deepEqual(opts.urls.remote, "http://192.168.0.4.xip.io:3000");
+        assert.deepEqual(opts.urls.external, "http://192.168.0.4.xip.io:3000");
+    });
+    it("should set the URLs when OFFLINE", function () {
+        opts.online = false;
+        utils.setUrlOptions(port, opts);
+        assert.deepEqual(opts.urls.local, "http://localhost:3000");
+        assert.isUndefined(opts.urls.external);
+    });
+    it("should set the URLs when OFFLINE & XIP set", function () {
+        opts.online = false;
+        opts.xip = true;
+        utils.setUrlOptions(port, opts);
+        assert.deepEqual(opts.urls.local, "http://localhost:3000");
+        assert.isUndefined(opts.urls.external);
     });
 });

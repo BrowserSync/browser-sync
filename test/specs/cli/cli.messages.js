@@ -28,82 +28,153 @@ describe("Messages module", function () {
     });
 
     describe("Server Output", function () {
+
+
         it("Can confirm the server is running", function () {
-            var expected = "[BS] Server running...\n";
-            expected    += "[BS] You can access it through the following addresses:\n\n";
-            expected    += "[BS] Local (this machine):\n";
-            expected    += "[BS] >>> http://localhost:8000\n";
-            expected    += "[BS] External (other devices etc):\n";
-            expected    += "[BS] >>> http://0.0.0.0:8000\n";
-            expected    += "[BS] Serving files from: /users/shakyshane/app/files";
-            var actual = ansiTrim(messages.initServer("0.0.0.0", 8000, "/users/shakyshane/app/files"));
+
+            var expected = "[BS] Local: >>> http://localhost:8000\n";
+
+            var options = {
+                urls: {
+                    local: "http://localhost:8000"
+                }
+            };
+
+            var call = messages.initServer(options);
+            var actual = ansiTrim(call);
             assert.equal(actual, expected);
         });
+
+        it("Can confirm the server is running with files watching", function () {
+
+            var expected = "[BS] Local: >>> http://localhost:8000\n";
+            expected    += "[BS] Serving files from: test/dir\n";
+
+            var options = {
+                urls: {
+                    local: "http://localhost:8000"
+                },
+                server: {
+                    baseDir: "test/dir"
+                }
+            };
+
+            var call = messages.initServer(options);
+            var actual = ansiTrim(call);
+            assert.equal(actual, expected);
+        });
+
+        it("Can confirm the server is running with tunnel", function () {
+
+            var expected = "[BS] Local: >>> http://localhost:8000\n";
+            expected    += "[BS] External: >>> http://192.168.0.4:8000\n";
+            expected    += "[BS] Tunnel: >>> https://abc.localtunnel.com\n";
+            expected    += "[BS] Serving files from: test/dir\n";
+            expected    += "[BS] Serving files from: test/dir/2\n";
+
+            var options = {
+                urls: {
+                    local: "http://localhost:8000",
+                    external: "http://192.168.0.4:8000",
+                    tunnel: "https://abc.localtunnel.com"
+                },
+                server: {
+                    baseDir: ["test/dir", "test/dir/2"]
+                }
+            };
+
+            var call = messages.initServer(options);
+            var actual = ansiTrim(call);
+            assert.equal(actual, expected);
+        });
+
+        it("Can confirm the server is running with files in multiple dirs", function () {
+
+            var expected = "[BS] Local: >>> http://localhost:8000\n";
+            expected    += "[BS] Serving files from: test/dir\n";
+            expected    += "[BS] Serving files from: test/dir/2\n";
+
+            var options = {
+                urls: {
+                    local: "http://localhost:8000"
+                },
+                server: {
+                    baseDir: ["test/dir", "test/dir/2"]
+                }
+            };
+
+            var call = messages.initServer(options);
+            var actual = ansiTrim(call);
+            assert.equal(actual, expected);
+        });
+
         it("can fail when both server & proxy supplied", function () {
             var expected = "[BS] Invalid config. You cannot specify both a server & proxy option.";
             var actual   = ansiTrim(messages.server.withProxy());
             assert.equal(actual, expected);
         });
 
-        it("Can confirm the server is running with muliple DIRS", function () {
-            var expected = "[BS] Server running...\n";
-            expected    += "[BS] You can access it through the following addresses:\n\n";
-            expected    += "[BS] Local (this machine):\n";
-            expected    += "[BS] >>> http://localhost:8000\n";
-            expected    += "[BS] External (other devices etc):\n";
-            expected    += "[BS] >>> http://0.0.0.0:8000\n";
-            expected    += "[BS] Serving files from: /users/shakyshane/app/files\n";
-            expected    += "[BS] Serving files from: /users/shakyshane/app/files2";
-
-            var base = ["/users/shakyshane/app/files", "/users/shakyshane/app/files2"];
-            var actual = ansiTrim(messages.initServer("0.0.0.0", 8000, base));
-            assert.equal(actual, expected);
-        });
-        it("Can confirm the server is running with muliple DIRS", function () {
-            var expected = "[BS] Server running...\n";
-            expected    += "[BS] You can access it through the following addresses:\n\n";
-            expected    += "[BS] Local (this machine):\n";
-            expected    += "[BS] >>> http://localhost:8000\n";
-            expected    += "[BS] External (other devices etc):\n";
-            expected    += "[BS] >>> http://0.0.0.0:8000\n";
-            expected    += "[BS] Serving files from: /users/shakyshane/app/files\n";
-            expected    += "[BS] Serving files from: /users/shakyshane/app/files2\n";
-            expected    += "[BS] Serving files from: /users/app";
-
-            var base = ["/users/shakyshane/app/files", "/users/shakyshane/app/files2", "/users/app"];
-            var actual = ansiTrim(messages.initServer("0.0.0.0", 8000, base));
-            assert.equal(actual, expected);
-        });
     });
 
     describe("Proxy Output", function () {
 
-        var ports, host;
-
-        beforeEach(function () {
-            ports = [3000, 3001, 3002];
-            host = "192.168.0.3";
-        });
         it("can output a message about proxy (1)", function () {
-            var expected = "[BS] Proxying: http://develop.dev:8080/\n";
-            expected    += "[BS] Now you can access your site through the following addresses:\n\n";
-            expected    += "[BS] Local (this machine):\n";
-            expected    += "[BS] >>> http://127.0.0.1.xip.io:8000\n";
-            expected    += "[BS] External (other devices etc):\n";
-            expected    += "[BS] >>> http://0.0.0.0.xip.io:8000\n";
+            var expected = "[BS] Proxying: http://develop.dev\n";
+            expected    += "[BS] Now you can access your site through the following addresses:\n";
+            expected    += "[BS] Local: >>> http://localhost:8000\n";
 
-            var actual = ansiTrim(messages.initProxy("http://127.0.0.1.xip.io:8000", "http://0.0.0.0.xip.io:8000", "http://develop.dev:8080/"));
+            var options = {
+                urls: {
+                    local: "http://localhost:8000"
+                },
+                proxy: {
+                    target: "http://develop.dev"
+                }
+            };
+
+            var actual = ansiTrim(messages.initProxy(options));
             assert.equal(actual, expected);
         });
-        it("can output a message about proxy (2)", function () {
-            var expected = "[BS] Proxying: http://localhost:9876/\n";
-            expected    += "[BS] Now you can access your site through the following addresses:\n\n";
-            expected    += "[BS] Local (this machine):\n";
-            expected    += "[BS] >>> http://localhost:8000\n";
-            expected    += "[BS] External (other devices etc):\n";
-            expected    += "[BS] >>> http://0.0.0.0:8000\n";
 
-            var actual = ansiTrim(messages.initProxy("http://localhost:8000", "http://0.0.0.0:8000", "http://localhost:9876/"));
+        it("can output a message about proxy (2)", function () {
+            var expected = "[BS] Proxying: http://develop.dev\n";
+            expected    += "[BS] Now you can access your site through the following addresses:\n";
+            expected    += "[BS] Local: >>> http://localhost:8000\n";
+            expected    += "[BS] External: >>> http://192.168.0.4:8000\n";
+
+            var options = {
+                urls: {
+                    local: "http://localhost:8000",
+                    external: "http://192.168.0.4:8000"
+                },
+                proxy: {
+                    target: "http://develop.dev"
+                }
+            };
+
+            var actual = ansiTrim(messages.initProxy(options));
+            assert.equal(actual, expected);
+        });
+
+        it("can output a message about proxy (3)", function () {
+            var expected = "[BS] Proxying: http://develop.dev\n";
+            expected    += "[BS] Now you can access your site through the following addresses:\n";
+            expected    += "[BS] Local: >>> http://localhost:8000\n";
+            expected    += "[BS] External: >>> http://192.168.0.4:8000\n";
+            expected    += "[BS] Tunnel: >>> http://123.localtunnel.me\n";
+
+            var options = {
+                urls: {
+                    local: "http://localhost:8000",
+                    external: "http://192.168.0.4:8000",
+                    tunnel: "http://123.localtunnel.me"
+                },
+                proxy: {
+                    target: "http://develop.dev"
+                }
+            };
+
+            var actual = ansiTrim(messages.initProxy(options));
             assert.equal(actual, expected);
         });
     });

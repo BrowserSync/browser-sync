@@ -38,16 +38,16 @@ describe("getting the Host IP", function () {
         });
         assert.equal(hostIp, "192.0.0.1");
     });
-    it("should use 0.0.0.0 as a fallback when detect:false", function () {
+    it("should use localhost as a fallback when detect:false", function () {
         var hostIp = utils.getHostIp({
             detect: false
         });
-        assert.equal(hostIp, "0.0.0.0");
+        assert.equal(hostIp, "localhost");
     });
-    it("should use 0.0.0.0 as a fallback when no network available", function () {
+    it("should use localhost as a fallback when no network available", function () {
         ipStub.returns(false);
         var hostIp = utils.getHostIp({});
-        assert.equal(hostIp, "0.0.0.0");
+        assert.equal(hostIp, "localhost");
     });
     it("should return the ip if given as string", function () {
         var host = "127.0.0.2";
