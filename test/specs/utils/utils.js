@@ -39,16 +39,12 @@ describe("Exposed Methods", function () {
             spy.restore();
         });
         it("should log a message", function () {
-            utils.log("ERROR", {debugInfo: true});
+            utils.log("info", "ERROR", {debugInfo: true});
             assert.isTrue(spy.called);
         });
         it("should not log if disabled in options", function () {
-            utils.log("ERROR", {debugInfo: false});
+            utils.log("info", "ERROR", {debugInfo: false});
             assert.isFalse(spy.called);
-        });
-        it("should log message if disabled in options, but overridden with param", function () {
-            utils.log("ERROR", {debugInfo: false}, true);
-            assert.isTrue(spy.called);
         });
     });
     describe("changing a file", function () {
