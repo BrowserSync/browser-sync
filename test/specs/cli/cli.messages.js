@@ -341,7 +341,7 @@ describe("Messages module", function () {
             assert.equal(actual, expected);
         });
         it("should output the socket connector", function () {
-            var expected = "var ___socket___ = io.connect('http://' + location.hostname + ':3001');";
+            var expected = "var ___socket___ = io.connect(location.hostname + ':3001');";
             var actual   = messages.socketConnector(3001, {});
             assert.equal(actual, expected);
         });
