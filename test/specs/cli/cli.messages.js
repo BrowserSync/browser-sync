@@ -230,15 +230,6 @@ describe("Messages module", function () {
             var actual = messages.scriptTags(3000, {version:"2.3.5"});
             assert.equal(actual, expected);
         });
-        it.skip("can output Socket.io + connector only (for plugins, such as the control panel)", function () {
-            var expected = "\n<script type='text/javascript'>//<![CDATA[\n;";
-            expected    += "document.write(\"<script async src='//HOST:3000/socket.io/socket.io.js'><\\/script>";
-            expected    += "\".replace(/HOST/g, location.hostname));";
-            expected    += "\n//]]></script>\n";
-
-            var actual = messages.scriptTags(3000, {}, "controlPanel");
-            assert.equal(actual, expected);
-        });
     });
 
     describe("outputting the client Script file", function () {

@@ -25,36 +25,36 @@ describe("creating URLs", function () {
         };
         port = 3000;
     });
-    it("should set the external", function () {
-        utils.setUrlOptions(port, opts);
+    it("should return the external", function () {
+        var actual = utils.setUrlOptions(port, opts);
         assert.deepEqual(opts.external, external);
     });
-    it("should set the host (BACKWARDS COMPAT)", function () {
+    it("should return the host (BACKWARDS COMPAT)", function () {
         utils.setUrlOptions(port, opts);
         assert.deepEqual(opts.host, external);
     });
-    it("should set the URLs", function () {
-        utils.setUrlOptions(port, opts);
-        assert.deepEqual(opts.urls.local, "http://localhost:3000");
-        assert.deepEqual(opts.urls.external, "http://192.168.0.4:3000");
+    it("should return the URLs", function () {
+        var urls = utils.setUrlOptions(port, opts);
+        assert.deepEqual(urls.local, "http://localhost:3000");
+        assert.deepEqual(urls.external, "http://192.168.0.4:3000");
     });
-    it("should set the URLs when using XIP", function () {
+    it("should return the URLs when using XIP", function () {
         opts.xip = true;
-        utils.setUrlOptions(port, opts);
-        assert.deepEqual(opts.urls.local, "http://127.0.0.1.xip.io:3000");
-        assert.deepEqual(opts.urls.external, "http://192.168.0.4.xip.io:3000");
+        var urls = utils.setUrlOptions(port, opts);
+        assert.deepEqual(urls.local, "http://127.0.0.1.xip.io:3000");
+        assert.deepEqual(urls.external, "http://192.168.0.4.xip.io:3000");
     });
-    it("should set the URLs when OFFLINE", function () {
+    it("should return the URLs when OFFLINE", function () {
         opts.online = false;
-        utils.setUrlOptions(port, opts);
-        assert.deepEqual(opts.urls.local, "http://localhost:3000");
-        assert.isUndefined(opts.urls.external);
+        var urls = utils.setUrlOptions(port, opts);
+        assert.deepEqual(urls.local, "http://localhost:3000");
+        assert.isUndefined(urls.external);
     });
-    it("should set the URLs when OFFLINE & XIP set", function () {
+    it("should return the URLs when OFFLINE & XIP set", function () {
         opts.online = false;
         opts.xip = true;
-        utils.setUrlOptions(port, opts);
-        assert.deepEqual(opts.urls.local, "http://localhost:3000");
-        assert.isUndefined(opts.urls.external);
+        var urls = utils.setUrlOptions(port, opts);
+        assert.deepEqual(urls.local, "http://localhost:3000");
+        assert.isUndefined(urls.external);
     });
 });
