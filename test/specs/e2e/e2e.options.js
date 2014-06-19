@@ -206,3 +206,34 @@ describe("E2E HOST OPTIONS + localhost", function () {
         assert.equal(options.urls.local, "http://localhost:3000");
     });
 });
+
+
+describe("E2E OLD API FILES OPTION", function () {
+
+    var options;
+    var instance;
+    var server;
+
+    var config = {
+        host: "localhost",
+        online: false,
+        debugInfo: false
+    };
+
+    before(function (done) {
+        browserSync.init(["*.html"], config, function (err, bs) {
+            options  = bs.options;
+            instance = bs;
+            server   = bs.servers.staticServer;
+            done();
+        });
+    });
+    after(function () {
+        server.close();
+    });
+
+    it("Sets the files option with the old API", function () {
+
+        assert.deepEqual(options.files, ["*.html"]);
+    });
+});
