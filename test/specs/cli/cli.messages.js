@@ -270,13 +270,13 @@ describe("Messages module", function () {
     describe("Outputting the config created message", function () {
         it("should accept the params and print the correct message", function () {
             var expected  = "[BS] Config file created (bs-config.js)\n";
-            expected += "[BS] To use it, in the same directory run: browser-sync";
+            expected += "[BS] To use it, in the same directory run: browser-sync start --config bs-config.js";
             var actual    = ansiTrim(messages.config.confirm("/users/shakyshane/app/bs-config.js"));
             assert.equal(actual, expected);
         });
         it("should accept the params and print the correct message (2)", function () {
             var expected  = "[BS] Config file created (bs-config.js)\n";
-            expected += "[BS] To use it, in the same directory run: browser-sync";
+            expected += "[BS] To use it, in the same directory run: browser-sync start --config bs-config.js";
             var actual    = ansiTrim(messages.config.confirm("/app/bs-config.js"));
             assert.equal(actual, expected);
         });
