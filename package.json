@@ -35,7 +35,7 @@
     "optimist": "~0.6.1",
     "dev-ip": "~0.1.7",
     "gaze": "~0.5.1",
-    "http-proxy": "~1.0.2",
+    "http-proxy": "~1.1.4",
     "cl-strings": "0.0.5",
     "resp-modifier": "0.0.4",
     "browser-sync-client": "0.2.1",

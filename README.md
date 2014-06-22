@@ -1,4 +1,4 @@
-# browser-sync [![Build Status](https://travis-ci.org/shakyShane/browser-sync.png?branch=master)](https://travis-ci.org/shakyShane/browser-sync) [![NPM version](https://badge.fury.io/js/browser-sync.png)](http://badge.fury.io/js/browser-sync) [![Built with Grunt](https://cdn.gruntjs.com/builtwith.png)](http://gruntjs.com/)
+# browser-sync [![Build Status](https://travis-ci.org/shakyShane/browser-sync.png?branch=master)](https://travis-ci.org/shakyShane/browser-sync) [![NPM version](https://badge.fury.io/js/browser-sync.png)](http://badge.fury.io/js/browser-sync)
 
 > Keep multiple browsers & devices in sync when building websites.
 
@@ -13,7 +13,10 @@ BrowserSync is developed and maintained internally at <a href="http://www.wearej
 4. **CSS injecting** - I can even watch your CSS files & inject them when they change.
 5. **Live Reload** - I can also watch files like HTML and PHP & when they change I can reload all browsers for you.
 6. **Built-in Server** - Yep, I can serve static files too if you need me to (uses Connect).
-7. **Use with any back-end setup** - Browser-sync includes a proxy option so that it can be used with any existing PHP, Rails, Python, Node or ASP.net setup.
+7. **Use with any back-end setup** - I even have a proxy option so that I can be used with existing PHP, Rails, Python, Node or ASP.net setup.
+8. **Public URL** - View your website via a URL that any internet connected device can access & maintain all BrowserSync features.
+9. **Browser Stack support** - Use the all of my features when viewing your site through Browser Stack.
+
 
 ##When is it useful?
 It's pretty useful when used with a single browser, watching a CSS file for changes & injecting it. But the real power comes when you're building responsive sites and using multiple devices/monitors because it can keep all browsers in sync & make your workflow much faster.
@@ -46,14 +49,15 @@ If you've found Browser-sync useful and would like to contribute to its continue
 ## Contributors
 
 ```
-   433	Shane Osbourne
+   520	Shane Osbourne
     13	Hugo Bessa
      3	Marek 'saji' Augustynowicz
-     2	Hugo Dias
+     2	chase_chou
      2	brutaldev
      2	Paul Robertson
-     2	chase_chou
+     2	Hugo Dias
      1	Tony Holdstock-Brown
+     1	Victor Fernandez de Alba
      1	Werner van Deventer
      1	mericson
      1	Cameron Spear
