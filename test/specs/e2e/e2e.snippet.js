@@ -28,7 +28,7 @@ describe("E2E Snippet tests", function () {
         });
     });
     after(function () {
-        server.close();
+        instance.cleanup();
     });
 
     it("returns the snippet URL", function (done) {

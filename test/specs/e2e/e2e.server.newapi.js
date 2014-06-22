@@ -72,7 +72,7 @@ describe("E2E server test with only a config option", function () {
     });
 
     after(function () {
-        server.close();
+        instance.cleanup();
     });
 
     it("Can return the script", function (done) {

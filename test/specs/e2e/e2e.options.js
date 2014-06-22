@@ -229,7 +229,7 @@ describe("E2E OLD API FILES OPTION", function () {
         });
     });
     after(function () {
-        server.close();
+        instance.cleanup();
     });
 
     it("Sets the files option with the old API", function () {

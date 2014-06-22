@@ -6,11 +6,12 @@ var sinon   = require("sinon");
 var request = require("supertest");
 var assert  = require("chai").assert;
 
-describe("E2E server test", function () {
+describe("E2E Responding to file:changed event", function () {
 
     var options;
     var instance;
     var server;
+    var watcher;
 
     before(function (done) {
 
@@ -18,6 +19,7 @@ describe("E2E server test", function () {
             server: {
                 baseDir: __dirname + "/../../fixtures"
             },
+            files: ["test/fixtures/assets/*.css"],
             debugInfo: false,
             open: false
         };
@@ -25,6 +27,7 @@ describe("E2E server test", function () {
         browserSync.init(config, function (err, bs) {
             options  = bs.options;
             server   = bs.servers.staticServer;
+            watcher  = bs._watcher;
             instance = bs;
 
             done();
@@ -37,25 +40,10 @@ describe("E2E server test", function () {
 
     it("returns the snippet", function (done) {
 
-        assert.isString(options.snippet);
+        instance.events.on("file:reload", function () {
+            done();
+        });
 
-        request(server)
-            .get("/index.html")
-            .set("accept", "text/html")
-            .expect(200)
-            .end(function (err, res) {
-                assert.isTrue(res.text.indexOf("browser-sync-client") > -1);
-                done();
-            });
-    });
-    it("Can return the script", function (done) {
-
-        request(server)
-            .get(options.scriptPath)
-            .expect(200)
-            .end(function (err, res) {
-                assert.isTrue(res.text.indexOf("Connected to BrowserSync") > 0);
-                done();
-            });
+        instance.events.emit("file:changed", {path: "styles.css", log: true});
     });
 });

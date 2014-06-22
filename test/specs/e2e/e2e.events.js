@@ -26,7 +26,7 @@ describe("E2E Events test", function () {
         });
     });
     after(function () {
-        server.close();
+        instance.cleanup();
     });
 
     it("Should register internal events", function () {

@@ -38,7 +38,7 @@ describe("E2E proxy test", function () {
     });
 
     after(function () {
-        server.close();
+        instance.cleanup();
     });
 
     it("can init proxy & serve a page", function (done) {
