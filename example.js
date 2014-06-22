@@ -6,24 +6,22 @@ console.time("init");
 var files = ["test/fixtures/assets/*", "test/fixtures/*.html"];
 
 var options = {
-//    server: {
-//        baseDir: ["test/fixtures"]
-//    },
+    server: {
+        baseDir: ["test/fixtures"]
+    },
 //    proxy: "swoon.static/store-home.php",
     ghostMode: {
         forms: {
             submit: false
         }
     },
+    files: files,
 //    tunnel: true,
-    ports: {
-        min: 4000,
-        max: 4003
-    },
+    port: 8080,
     open: true,
     logConnections: false,
     minify: true,
-//    host: ,
+    logLevel: "debug",
     notify: true,
     xip: false,
     browser: ["google chrome"]
@@ -35,9 +33,4 @@ var options = {
 //    console.log(err);
 //});
 
-var bs = browserSync.init(files, options, function (err, bs) {
-    console.timeEnd("init");
-//    setTimeout(function () {
-//        browserSync.notify("5 Seconds have passed!");
-//    }, 5000);
-});
+var bs = browserSync.init(options, function (err, bs) {});

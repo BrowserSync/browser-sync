@@ -25,6 +25,7 @@ gulp.task("default", ["lint"]);
 var paths = {
     scss: "test/fixtures/scss/*.scss",
     css: "test/fixtures/css",
+    cssGlob: "test/fixtures/assets/*.css",
     html: "test/fixtures/*.html"
 };
 
@@ -53,10 +54,16 @@ gulp.task("browser-sync", function () {
         },
         startPath: "sass.html"
     });
-
-    setTimeout(function () {
-        browserSync.exit();
-    }, 3000);
+});
+/**
+ * Start BrowserSync
+ */
+gulp.task("browser-sync-css", function () {
+    browserSync.init({
+        server: {
+            baseDir: "test/fixtures"
+        }
+    });
 });
 
 /**
@@ -72,5 +79,15 @@ gulp.task("bs-reload", function () {
 gulp.task("watch", ["browser-sync"], function () {
     gulp.watch(paths.scss, ["sass"]);
     gulp.watch(paths.html, ["bs-reload"]);
+});
+
+/**
+ * Watch stuff
+ */
+gulp.task("watch-css", ["browser-sync-css"], function () {
+    gulp.watch(paths.cssGlob, function (file) {
+        browserSync.reload(file.path);
+    });
+    gulp.watch(paths.html, browserSync.reload);
 });
 

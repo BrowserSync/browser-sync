@@ -346,4 +346,22 @@ describe("Messages module", function () {
             assert.equal(actual, expected);
         });
     });
+
+    describe("Outputting stream messages", function () {
+        it("should output about single files", function () {
+            var expected = "[BS] Reloading Browsers";
+            var actual   = ansiTrim(messages.stream.once());
+            assert.equal(actual, expected);
+        });
+        it("should output about multiple files", function () {
+            var expected = "[BS] Reloading 2 files (style1.css, style2.css)";
+            var actual   = ansiTrim(messages.stream.multi(["style1.css", "style2.css"]));
+            assert.equal(actual, expected);
+        });
+        it("should output about multiple files", function () {
+            var expected = "[BS] Reloading 1 file (style1.css)";
+            var actual   = ansiTrim(messages.stream.multi(["style1.css"]));
+            assert.equal(actual, expected);
+        });
+    });
 });

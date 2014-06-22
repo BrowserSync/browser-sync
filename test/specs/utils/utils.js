@@ -52,7 +52,7 @@ describe("Exposed Methods", function () {
         var data;
 
         beforeEach(function () {
-            data = browserSync.changeFile("/app/styles/core.css", defaultConfig);
+            data = browserSync.changeFile({path:"/app/styles/core.css", log: true}, defaultConfig);
         });
         it("should return the filename", function () {
             assert.equal(data.assetFileName, "core.css");
@@ -66,7 +66,8 @@ describe("Exposed Methods", function () {
                 cwd: browserSync.cwd,
                 fileExtension: "css",
                 path: "/app/styles/core.css",
-                type: "inject"
+                type: "inject",
+                log: true
             });
         });
 
@@ -75,7 +76,7 @@ describe("Exposed Methods", function () {
             var data;
             beforeEach(function () {
                 emitterStub.reset();
-                data = browserSync.changeFile("/app/index.php", defaultConfig);
+                data = browserSync.changeFile({path:"/app/index.php", log:true}, defaultConfig);
             });
 
             it("should return the filename", function () {
@@ -93,7 +94,8 @@ describe("Exposed Methods", function () {
                     fileExtension: "php",
                     type: "reload",
                     path: "/app/index.php",
-                    cwd: browserSync.cwd
+                    cwd: browserSync.cwd,
+                    log: true
                 });
             });
         });
