@@ -7,7 +7,6 @@ var path    = require("path");
 var sinon   = require("sinon");
 var request = require("supertest");
 var assert  = require("chai").assert;
-var client  = require("socket.io-client");
 
 describe("E2E Events test", function () {
 

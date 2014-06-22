@@ -63,6 +63,7 @@ describe("E2E proxy test", function () {
         });
 
         var clientSockets = client.connect(options.urls.local, {"force new connection": true});
+
         clientSockets.emit("shane", {name:"shane"});
     });
 
