@@ -14,16 +14,15 @@ describe("E2E Events test", function () {
     var instance, server;
 
     before(function (done) {
-        browserSync.use("logger", function () {
-            return function () {};
-        });
-        browserSync.init([], {open: false}, function (err, bs) {
+
+        browserSync.init([], {open: false, logLevel: "silent"}, function (err, bs) {
             options  = bs.options;
             instance = bs;
             server   = bs.servers.staticServer;
             done();
         });
     });
+
     after(function () {
         instance.cleanup();
     });
