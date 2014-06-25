@@ -52,13 +52,12 @@ If you've found Browser-sync useful and would like to contribute to its continue
    520	Shane Osbourne
     13	Hugo Bessa
      3	Marek 'saji' Augustynowicz
+     3  Werner van Deventer
      2	chase_chou
-     2	brutaldev
      2	Paul Robertson
      2	Hugo Dias
      1	Tony Holdstock-Brown
      1	Victor Fernandez de Alba
-     1	Werner van Deventer
      1	mericson
      1	Cameron Spear
      1	viktor hesselbom

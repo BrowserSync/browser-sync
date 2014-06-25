@@ -51,4 +51,10 @@ describe("Merging Options: Files", function () {
         var expected = ["css/*.css", "*.html", "!node_modules/**"];
         assert.deepEqual(actual, expected);
     });
+    it("should not break if 'exclude' option is provided without 'files' option", function () {
+        var excluded = "node_modules";
+        var actual = callbacks.files([], null, null, {exclude: excluded});
+        var expected = ["!node_modules/**"];
+        assert.deepEqual(actual, expected);
+    });
 });
