@@ -54,7 +54,7 @@ describe("Merging Options: Files", function () {
     it("should not break if 'exclude' option is provided without 'files' option", function () {
         var excluded = "node_modules";
         var actual = callbacks.files([], null, null, {exclude: excluded});
-        var expected = ["!node_modules/**"];
+        var expected = [];
         assert.deepEqual(actual, expected);
     });
 });
