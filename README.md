@@ -9,7 +9,7 @@ BrowserSync is developed and maintained internally at <a href="http://www.wearej
 ##Features
 1. **Scroll** - I can keep your pages in sync when scrolling.
 2. **Forms** - You fill out a form in one browser, I'll copy the data to all the others.
-3. **Links** - I'll watch your clicks & and make all the other browsers follow you.
+3. **Links** - I'll watch your clicks and make all the other browsers follow you.
 4. **CSS injecting** - I can even watch your CSS files & inject them when they change.
 5. **Live Reload** - I can also watch files like HTML and PHP & when they change I can reload all browsers for you.
 6. **Built-in Server** - Yep, I can serve static files too if you need me to (uses Connect).
