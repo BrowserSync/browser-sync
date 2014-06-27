@@ -2,7 +2,7 @@
 
 var messages = require("../../../lib/messages");
 var config   = require("../../../lib/config");
-var info     = require("../../../lib/cli-info");
+var info     = require("../../../lib/cli/cli-info");
 var index    = require("../../../lib/index");
 
 var assert   = require("chai").assert;

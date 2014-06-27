@@ -1,6 +1,6 @@
 "use strict";
 
-var init    = require("../../../lib/cli-init");
+var init    = require("../../../lib/cli/cli-init");
 var program = require("commander");
 
 var assert  = require("chai").assert;

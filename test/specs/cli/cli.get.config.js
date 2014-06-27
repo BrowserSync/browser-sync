@@ -3,7 +3,7 @@
 var index        = require("../../../lib/index");
 var config       = require("../../../lib/config");
 var loadedConfig = require("../../../lib/default-config");
-var info         = require("../../../lib/cli-info");
+var info         = require("../../../lib/cli/cli-info");
 
 var _            = require("lodash");
 var sinon        = require("sinon");

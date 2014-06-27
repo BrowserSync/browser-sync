@@ -16,14 +16,13 @@ var options = {
         }
     },
     files: files,
-//    tunnel: true,
+    tunnel: true,
     port: 8080,
     open: true,
     logConnections: false,
     minify: true,
     logLevel: "debug",
     notify: true,
-    xip: false,
     browser: ["google chrome"]
 };
 

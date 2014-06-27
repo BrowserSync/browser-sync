@@ -2,7 +2,7 @@
 
 var defaultConfig = require("../../../lib/default-config");
 var messages      = require("../../../lib/messages");
-var server        = require("../../../lib/server");
+var server        = require("../../../lib/server/");
 var snippetUtils  = require("../../../lib/snippet").utils;
 var isExcluded    = snippetUtils.isExcluded;
 
@@ -16,7 +16,6 @@ var snippet = messages.scriptTags(port, options);
 
 describe("Launching a server with snippets", function () {
 
-    var servers;
     var io;
     var app;
     var clientsSpy;
@@ -53,9 +52,7 @@ describe("Launching a server with snippets", function () {
             }
         };
 
-        servers = server.launchServer("0.0.0.0", 3000, options, io);
-        app = servers.staticServer;
-
+        app = server.launchServer("0.0.0.0", 3000, options, io);
     });
 
     afterEach(function () {

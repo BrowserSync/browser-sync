@@ -17,7 +17,7 @@ describe("Messages module", function () {
     describe("No server or Proxy output", function () {
         it("should output the", function () {
             var expected = "[BS] Copy the following snippet into your website, just before the closing </body> tag";
-            expected    += "\n\n<script type='text/javascript'>//<![CDATA[\n;";
+            expected    += "\n\n<script type='text/javascript'>//<![CDATA[\n";
             expected    += "document.write(\"";
             expected    += "<script async src='//HOST:3000/browser-sync-client.1.2.3.js'><\\/script>\".replace(/HOST/g, location.hostname));";
             expected    += "\n//]]></script>\n";
@@ -204,7 +204,7 @@ describe("Messages module", function () {
             };
         });
         it("can output the new snippet", function () {
-            var expected = "\n<script type='text/javascript'>//<![CDATA[\n;";
+            var expected = "\n<script type='text/javascript'>//<![CDATA[\n";
             expected    += "document.write(\"";
             expected    += "<script async src='//HOST:3000/browser-sync-client.2.3.4.js'><\\/script>\".replace(/HOST/g, location.hostname));";
             expected    += "\n//]]></script>\n";
@@ -213,7 +213,7 @@ describe("Messages module", function () {
             assert.equal(actual, expected);
         });
         it("can output the new snippet for the tunnel", function () {
-            var expected = "\n<script type='text/javascript'>//<![CDATA[\n;";
+            var expected = "\n<script type='text/javascript'>//<![CDATA[\n";
             expected    += "document.write(\"";
             expected    += "<script async src='/browser-sync-client.2.3.4.js'><\\/script>\".replace(/HOST/g, location.hostname));";
             expected    += "\n//]]></script>\n";
@@ -222,7 +222,7 @@ describe("Messages module", function () {
             assert.equal(actual, expected);
         });
         it("can retrieve the injector", function () {
-            var expected = "\n<script type='text/javascript'>//<![CDATA[\n;";
+            var expected = "\n<script type='text/javascript'>//<![CDATA[\n";
             expected    += "document.write(\"";
             expected    += "<script async src='//HOST:3000/browser-sync-client.2.3.5.js'><\\/script>\".replace(/HOST/g, location.hostname));";
             expected    += "\n//]]></script>\n";

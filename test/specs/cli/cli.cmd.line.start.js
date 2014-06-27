@@ -4,8 +4,8 @@ var index        = require("../../../lib/index");
 var messages     = require("../../../lib/messages");
 var config       = require("../../../lib/config");
 var loadedConfig = require("../../../lib/default-config");
-var info         = require("../../../lib/cli-info");
-var init         = require("../../../lib/cli-init");
+var info         = require("../../../lib/cli/cli-info");
+var init         = require("../../../lib/cli/cli-init");
 
 var _            = require("lodash");
 var sinon        = require("sinon");

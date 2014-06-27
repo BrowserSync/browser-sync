@@ -1,18 +1,12 @@
 "use strict";
 
 var defaultConfig = require("../../../lib/default-config");
-var server        = require("../../../lib/server");
-var canNavigate   = server.utils.canNavigate;
+var server        = require("../../../lib/server/");
+var canNavigate   = require("../../../lib/server/utils.js").canNavigate;
 
 var assert        = require("chai").assert;
 var sinon         = require("sinon");
 var request       = require("supertest");
-
-var ports = {
-    socket: 3000,
-    controlPanel: 3001,
-    server: 3002
-};
 
 var options = { server: {} };
 
@@ -39,7 +33,7 @@ describe("the navigateCallback function (ghostmode links ON)", function () {
                 location: true
             }
         };
-        func = server.utils.navigateCallback(io, options);
+        func = require("../../../lib/server/utils.js").navigateCallback(io, options);
         next = sinon.spy();
     });
     afterEach(function () {
@@ -75,7 +69,7 @@ describe("the navigateCallback function (ghostmode links ON)", function () {
         sinon.assert.calledWithExactly(emitSpy, "location", {url: "/"});
     });
     it("should call emit with correct URL", function () {
-        var func = server.utils.navigateCallback(io, options);
+        var func = require("../../../lib/server/utils.js").navigateCallback(io, options);
         clientsSpy.returns(["1", "2"]);
         func({url: "/about-us", method:"GET"}, {}, next);
         sinon.assert.calledWithExactly(emitSpy, "location", {url: "/about-us"});

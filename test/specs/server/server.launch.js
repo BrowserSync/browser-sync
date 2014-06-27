@@ -2,7 +2,7 @@
 
 var messages    = require("../../../lib/messages");
 var utils       = require("../../../lib/utils").utils;
-var server      = require("../../../lib/server");
+var server      = require("../../../lib/server/");
 var BrowserSync = require("../../../lib/browser-sync");
 var bs          = new BrowserSync();
 
@@ -26,7 +26,7 @@ describe("Browser Sync: init Server", function () {
         options = {};
         logStub = sinon.stub(utils, "log").returns(true);
         emitterStub = sinon.stub(bs.events, "emit");
-        launchServer = sinon.stub(server, "launchServer").returns(true);
+        launchServer = sinon.stub(server, "launchServer").returns(require("http").HttpServer);
         open = sinon.stub(utils, "openBrowser").returns(true);
         getUrl = sinon.stub(utils, "getUrl").returns(urlHost);
         spy = sinon.spy();

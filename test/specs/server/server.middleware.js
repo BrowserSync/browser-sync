@@ -1,7 +1,7 @@
 "use strict";
 
 var defaultConfig = require("../../../lib/default-config");
-var server        = require("../../../lib/server");
+var server        = require("../../../lib/server/");
 
 var assert  = require("chai").assert;
 var sinon   = require("sinon");
@@ -20,9 +20,9 @@ describe("Adding custom middleware", function () {
         options.server.baseDir = "test/fixtures";
         options.server.middleware = spy;
 
-        var servers = server.launchServer("localhost", 3000, options, {});
+        var bsServer = server.launchServer("localhost", 3000, options, {});
 
-        request(servers.staticServer)
+        request(bsServer)
             .get("/index.html")
             .expect(200)
             .end(function () {
@@ -42,9 +42,9 @@ describe("Adding custom middleware", function () {
         options.server.baseDir = "test/fixtures";
         options.server.middleware = [spy, spy2];
 
-        var servers = server.launchServer("localhost", 3000, options, {});
+        var bsServer = server.launchServer("localhost", 3000, options, {});
 
-        request(servers.staticServer)
+        request(bsServer)
             .get("/index.html")
             .expect(200)
             .end(function () {

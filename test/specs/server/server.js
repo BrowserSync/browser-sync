@@ -1,27 +1,22 @@
 "use strict";
 
 var defaultConfig = require("../../../lib/default-config");
-var server        = require("../../../lib/server");
+var server        = require("../../../lib/server/");
 
 var assert  = require("chai").assert;
 var sinon   = require("sinon");
 var request = require("supertest");
 
-var ports = {
-    socket: 3000,
-    controlPanel: 3001,
-    server: 3002
-};
-
 var options = { server: {}, version: "0.0.1" };
 
 describe("Server Module", function () {
+
     it("should have the launchServer method", function () {
         assert.isFunction(server.launchServer);
     });
 });
 
-describe("", function () {
+describe("The launchServer method", function () {
 
     var io;
     var clientsSpy;
@@ -42,13 +37,13 @@ describe("", function () {
         emitSpy.reset();
     });
 
-    describe("server for Static Files", function () {
+    describe("Used for Static Files", function () {
 
         it("can serve files", function (done) {
             options.server.baseDir = "test/fixtures";
-            var servers = server.launchServer("localhost", 3000, options, "SCRIPT");
+            var bsServer = server.launchServer("localhost", 3000, options, "SCRIPT");
 
-            request(servers.staticServer)
+            request(bsServer)
                 .get("/index.html")
                 .expect(200, done);
         });
@@ -57,9 +52,9 @@ describe("", function () {
             options.server.baseDir = "test/fixtures/alt";
             options.server.index = "index.htm";
 
-            var servers = server.launchServer("localhost", 3000, options, io);
+            var bsServer = server.launchServer("localhost", 3000, options, io);
 
-            request(servers.staticServer)
+            request(bsServer)
                 .get("/")
                 .expect(200, done);
         });
@@ -68,9 +63,10 @@ describe("", function () {
 
             options.server.baseDir = "test/fixtures";
             options.server.index = "index.html";
-            var servers = server.launchServer("localhost", 3000, options, io);
 
-            request(servers.staticServer)
+            var bsServer = server.launchServer("localhost", 3000, options, io);
+
+            request(bsServer)
                 .get("/")
                 .expect(200, done);
         });
@@ -79,9 +75,10 @@ describe("", function () {
 
             options.server.baseDir = ["test/fixtures", "test/fixtures2"];
             options.server.index = "index.html";
-            var servers = server.launchServer("localhost", 3000, options, io);
 
-            request(servers.staticServer)
+            var bsServer = server.launchServer("localhost", 3000, options, io);
+
+            request(bsServer)
                 .get("/style-alt.css")
                 .expect(200, done);
         });

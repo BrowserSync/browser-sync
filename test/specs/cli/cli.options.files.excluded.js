@@ -1,7 +1,7 @@
 "use strict";
 
 var defaultConfig   = require("../../../lib/default-config");
-var options         = require("../../../lib/cli-options");
+var options         = require("../../../lib/cli/cli-options");
 var wrap            = options.utils.wrapPattern;
 
 var assert          = require("chai").assert;
