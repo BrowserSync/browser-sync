@@ -2,7 +2,6 @@
 
 var browserSync = require("../../../lib/index");
 
-var sinon   = require("sinon");
 var http    = require("http");
 var connect = require("connect");
 var request = require("supertest");
@@ -11,9 +10,7 @@ var client  = require("socket.io-client");
 
 describe("E2E proxy test", function () {
 
-    var options;
     var instance;
-    var server;
 
     before(function (done) {
 
@@ -29,12 +26,7 @@ describe("E2E proxy test", function () {
         // server to proxy
         http.createServer(testApp).listen(8000);
 
-        browserSync.init([], config, function (err, bs) {
-            options  = bs.options;
-            server   = bs.servers.proxyServer;
-            instance = bs;
-            done();
-        });
+        instance = browserSync.init([], config, done);
     });
 
     after(function () {
@@ -43,10 +35,10 @@ describe("E2E proxy test", function () {
 
     it("can init proxy & serve a page", function (done) {
 
-        assert.isString(options.snippet);
-        assert.isDefined(server);
+        assert.isString(instance.options.snippet);
+        assert.isDefined(instance.server);
 
-        request(server)
+        request(instance.server)
             .get("/index-large.html")
             .set("accept", "text/html")
             .expect(200)
@@ -62,15 +54,15 @@ describe("E2E proxy test", function () {
             done();
         });
 
-        var clientSockets = client.connect(options.urls.local, {"force new connection": true});
+        var clientSockets = client.connect(instance.options.urls.local, {"force new connection": true});
 
         clientSockets.emit("shane", {name:"shane"});
     });
 
     it("Can serve the script", function (done) {
 
-        request(server)
-            .get(options.scriptPath)
+        request(instance.server)
+            .get(instance.options.scriptPath)
             .expect(200)
             .end(function (err, res) {
                 assert.isTrue(res.text.indexOf("Connected to BrowserSync") > 0);

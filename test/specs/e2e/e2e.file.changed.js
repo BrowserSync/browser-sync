@@ -3,16 +3,11 @@
 var browserSync   = require("../../../lib/index");
 
 var sinon   = require("sinon");
-var request = require("supertest");
 var assert  = require("chai").assert;
-var client  = require("socket.io-client");
 
-describe("E2E Responding to file:changed event", function () {
+describe("E2E Responding to events", function () {
 
-    var options;
     var instance;
-    var server;
-    var watcher;
 
     before(function (done) {
 
@@ -25,14 +20,7 @@ describe("E2E Responding to file:changed event", function () {
             open: false
         };
 
-        browserSync.init(config, function (err, bs) {
-            options  = bs.options;
-            server   = bs.servers.staticServer;
-            watcher  = bs._watcher;
-            instance = bs;
-
-            done();
-        });
+        instance = browserSync.init(config, done);
     });
 
     after(function () {

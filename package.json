@@ -29,8 +29,8 @@
   "dependencies": {
     "portscanner-plus": "0.1.0",
     "lodash": "~2.2.1",
-    "socket.io": "1.0.4",
-    "connect": "~2.13.0",
+    "socket.io": "1.0.6",
+    "connect": "~2.21.0",
     "ua-parser-js": "~0.6.2",
     "optimist": "~0.6.1",
     "dev-ip": "~0.1.7",
@@ -43,7 +43,7 @@
     "opn": "^0.1.1",
     "foxy": "0.1.5",
     "localtunnel": "^1.3.0",
-    "opt-merger": "0.1.2"
+    "opt-merger": "0.1.3"
   },
   "devDependencies": {
     "optimist": "~0.6.0",

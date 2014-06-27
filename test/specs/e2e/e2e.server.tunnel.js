@@ -9,9 +9,7 @@ var assert  = require("chai").assert;
 
 describe("E2E server test with tunnel", function () {
 
-    var options;
     var instance;
-    var server;
     var stub;
 
     before(function (done) {
@@ -28,16 +26,15 @@ describe("E2E server test with tunnel", function () {
             online: true
         };
 
-        browserSync.init([], config, function (err, bs) {
-            options  = bs.options;
-            server   = bs.servers.staticServer;
-            instance = bs;
-            sinon.assert.calledOnce(stub);
-            done();
-        });
+        instance = browserSync.init([], config, done);
     });
+
     after(function () {
         stub.reset();
         instance.cleanup();
+    });
+
+    it("should call init on the tunnel", function () {
+        sinon.assert.calledOnce(stub);
     });
 });

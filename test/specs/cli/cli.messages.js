@@ -251,14 +251,6 @@ describe("Messages module", function () {
         });
     });
 
-    describe("Outputting shims JS", function () {
-        it.skip("should return the client-shim js file", function () {
-            var expected = "/client-shims.js";
-            var actual   = config.client.shims;
-            assert.equal(actual, expected);
-        });
-    });
-
     describe("Outputting App JS", function () {
         it("should return the app js file", function () {
             var expected = "/js/app.js";

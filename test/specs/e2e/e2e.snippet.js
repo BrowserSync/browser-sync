@@ -10,9 +10,7 @@ var assert  = require("chai").assert;
 
 describe("E2E Snippet tests", function () {
 
-    var options;
     var instance;
-    var server;
 
     before(function (done) {
 
@@ -20,21 +18,17 @@ describe("E2E Snippet tests", function () {
             debugInfo: false
         };
 
-        browserSync.init(config, function (err, bs) {
-            options  = bs.options;
-            server   = bs.servers.staticServer;
-            instance = bs;
-            done();
-        });
+        instance = browserSync.init(config, done);
     });
+
     after(function () {
         instance.cleanup();
     });
 
     it("returns the snippet URL", function (done) {
 
-        request(server)
-            .get(options.scriptPath)
+        request(instance.server)
+            .get(instance.options.scriptPath)
             .expect(200)
             .end(function (err, res) {
                 assert.isTrue(res.text.indexOf("Connected to BrowserSync") > 0);

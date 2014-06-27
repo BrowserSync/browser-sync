@@ -80,24 +80,6 @@ describe("the navigateCallback function (ghostmode links ON)", function () {
         func({url: "/about-us", method:"GET"}, {}, next);
         sinon.assert.calledWithExactly(emitSpy, "location", {url: "/about-us"});
     });
-    it.skip("E2E", function (done) {
-        var options = {
-            ghostMode: {
-                location: true
-            },
-            server: {
-                baseDir: "test/fixtures"
-            }
-        };
-        var servers = server.launchServer("localhost", ports, options, io);
-        request(servers.staticServer)
-            .get("/")
-            .expect(200)
-            .end(function (err, res) {
-                sinon.assert.called(clientsSpy);
-                done();
-            });
-    });
 });
 describe("the canNavigate function Check", function () {
 

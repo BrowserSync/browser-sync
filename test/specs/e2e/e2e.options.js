@@ -2,17 +2,12 @@
 
 var browserSync = require("../../../lib/index");
 
-var path        = require("path");
-
-var sinon       = require("sinon");
-var request     = require("supertest");
 var assert      = require("chai").assert;
+var sinon       = require("sinon");
 
 describe("E2E options test", function () {
 
-    var options;
     var instance;
-    var server;
 
     before(function (done) {
         var config = {
@@ -23,34 +18,28 @@ describe("E2E options test", function () {
             debugInfo: false,
             open: false
         };
-        browserSync.init(config, function (err, bs) {
-            options  = bs.options;
-            instance = bs;
-            server   = bs.servers.staticServer;
-            done();
-        });
+        instance = browserSync(config, done);
     });
     after(function () {
-        server.close();
+        instance.cleanup();
     });
 
     it("Sets the available port", function () {
-        var match = /\d{2,5}/.exec(options.port)[0];
+        var match = /\d{2,5}/.exec(instance.options.port)[0];
         assert.isNotNull(match);
     });
     it("Uses the given port the available port", function () {
-        var match = /\d{2,5}/.exec(options.port)[0];
+        var match = /\d{2,5}/.exec(instance.options.port)[0];
         assert.equal(match, 8080);
     });
 });
 
 describe("E2E options test", function () {
 
-    var options;
     var instance;
-    var server;
 
     before(function (done) {
+
         var config = {
             server: {
                 baseDir: __dirname + "/../../fixtures"
@@ -62,89 +51,79 @@ describe("E2E options test", function () {
             debugInfo: false,
             open: false
         };
-        browserSync.init([], config, function (err, bs) {
-            options  = bs.options;
-            instance = bs;
-            server   = bs.servers.staticServer;
-            done();
-        });
+
+        instance = browserSync.init([], config, done);
     });
+
     after(function () {
-        server.close();
+        instance.cleanup();
     });
 
     it("Sets the available port", function () {
-        var match = /\d{2,5}/.exec(options.port)[0];
+        var match = /\d{2,5}/.exec(instance.options.port)[0];
         assert.isNotNull(match);
     });
     it("Uses the given port the available port", function () {
-        var match = /\d{2,5}/.exec(options.port)[0];
+        var match = /\d{2,5}/.exec(instance.options.port)[0];
         assert.equal(match, 3500);
     });
     it("set's the files option", function () {
-        assert.deepEqual(options.files, ["*.html"]);
+        assert.deepEqual(instance.options.files, ["*.html"]);
     });
 });
 
 describe("E2E NO OPTIONS test with snippet", function () {
 
-    var options;
-    var instance, server;
+    var instance;
+    var stub;
 
     before(function (done) {
-        browserSync.init([], null, function (err, bs) {
-            options  = bs.options;
-            instance = bs;
-            server   = bs.servers.staticServer;
-            done();
-        });
+        stub = sinon.stub(console, "log");
+        instance = browserSync.init([], null, done);
     });
+
     after(function () {
-        server.close();
+        instance.cleanup();
+        stub.restore();
     });
 
     it("Sets the available port", function () {
-        var match = /\d{2,5}/.exec(options.port)[0];
+        var match = /\d{2,5}/.exec(instance.options.port)[0];
         assert.isNotNull(match);
     });
     it("sets the open options to false", function () {
-        assert.deepEqual(options.open, false);
+        assert.deepEqual(instance.options.open, false);
     });
 });
 
 describe("E2E NO OPTIONS", function () {
 
-    var options;
     var instance;
-    var server;
 
     before(function (done) {
-        browserSync.init([], {}, function (err, bs) {
-            options  = bs.options;
-            instance = bs;
-            server   = bs.servers.staticServer;
-            done();
-        });
+        instance = browserSync.init([], {debugInfo: false}, done);
     });
+
     after(function () {
-        server.close();
+        instance.cleanup();
     });
 
     it("Sets the ghostMode options", function () {
-        assert.deepEqual(options.ghostMode.clicks, true);
-        assert.deepEqual(options.ghostMode.scroll, true);
-        assert.deepEqual(options.ghostMode.forms.submit, true);
-        assert.deepEqual(options.ghostMode.forms.inputs, true);
-        assert.deepEqual(options.ghostMode.forms.toggles, true);
-        assert.deepEqual(options.ghostMode.location, false);
+
+        var ghostMode = instance.options.ghostMode;
+
+        assert.deepEqual(ghostMode.clicks, true);
+        assert.deepEqual(ghostMode.scroll, true);
+        assert.deepEqual(ghostMode.forms.submit, true);
+        assert.deepEqual(ghostMode.forms.inputs, true);
+        assert.deepEqual(ghostMode.forms.toggles, true);
+        assert.deepEqual(ghostMode.location, false);
     });
 });
 
 describe("E2E GHOST OPTIONS", function () {
 
-    var options;
     var instance;
-    var server;
 
     var config = {
         ghostMode: {
@@ -152,37 +131,35 @@ describe("E2E GHOST OPTIONS", function () {
             forms: {
                 submit: false
             }
-        }
+        },
+        debugInfo: false
     };
 
     before(function (done) {
-        browserSync.init([], config, function (err, bs) {
-            options  = bs.options;
-            instance = bs;
-            server   = bs.servers.staticServer;
-            done();
-        });
+        instance = browserSync.init([], config, done);
     });
+
     after(function () {
-        server.close();
+        instance.cleanup();
     });
 
     it("Sets the ghostMode options", function () {
-        assert.deepEqual(options.ghostMode.links, true);
-        assert.deepEqual(options.ghostMode.clicks, true);
-        assert.deepEqual(options.ghostMode.scroll, true);
-        assert.deepEqual(options.ghostMode.forms.submit, false);
-        assert.deepEqual(options.ghostMode.forms.inputs, true);
-        assert.deepEqual(options.ghostMode.forms.toggles, true);
-        assert.deepEqual(options.ghostMode.location, false);
+
+        var ghostMode = instance.options.ghostMode;
+
+        assert.deepEqual(ghostMode.links, true);
+        assert.deepEqual(ghostMode.clicks, true);
+        assert.deepEqual(ghostMode.scroll, true);
+        assert.deepEqual(ghostMode.forms.submit, false);
+        assert.deepEqual(ghostMode.forms.inputs, true);
+        assert.deepEqual(ghostMode.forms.toggles, true);
+        assert.deepEqual(ghostMode.location, false);
     });
 });
 
 describe("E2E HOST OPTIONS + localhost", function () {
 
-    var options;
     var instance;
-    var server;
 
     var config = {
         host: "localhost",
@@ -190,29 +167,23 @@ describe("E2E HOST OPTIONS + localhost", function () {
     };
 
     before(function (done) {
-        browserSync.init(config, function (err, bs) {
-            options  = bs.options;
-            instance = bs;
-            server   = bs.servers.staticServer;
-            done();
-        });
+        instance = browserSync.init(config, done);
     });
+
     after(function () {
-        server.close();
+        instance.cleanup();
     });
 
     it("Sets the ghostMode options", function () {
-        assert.ok(options.port.toString().match(/\d\d\d\d/));
-        assert.equal(options.urls.local, "http://localhost:3000");
+        assert.ok(instance.options.port.toString().match(/\d\d\d\d/));
+        assert.equal(instance.options.urls.local, "http://localhost:3000");
     });
 });
 
 
 describe("E2E OLD API FILES OPTION", function () {
 
-    var options;
     var instance;
-    var server;
 
     var config = {
         host: "localhost",
@@ -221,19 +192,14 @@ describe("E2E OLD API FILES OPTION", function () {
     };
 
     before(function (done) {
-        browserSync.init(["*.html"], config, function (err, bs) {
-            options  = bs.options;
-            instance = bs;
-            server   = bs.servers.staticServer;
-            done();
-        });
+        instance = browserSync.init(["*.html"], config, done);
     });
+
     after(function () {
         instance.cleanup();
     });
 
     it("Sets the files option with the old API", function () {
-
-        assert.deepEqual(options.files, ["*.html"]);
+        assert.deepEqual(instance.options.files, ["*.html"]);
     });
 });

@@ -8,30 +8,23 @@ var assert  = require("chai").assert;
 
 describe("E2E server test with only a callback", function () {
 
-    var options;
     var instance;
-    var server;
+    var stub;
 
     before(function (done) {
-
-        browserSync.init(function (err, bs) {
-
-            options  = bs.options;
-            server   = bs.servers.staticServer;
-            instance = bs;
-
-            done();
-        });
+        stub = sinon.stub(console, "log");
+        instance = browserSync(done);
     });
 
     after(function () {
-        server.close();
+        instance.cleanup();
+        stub.restore();
     });
 
     it("Can return the script", function (done) {
 
-        request(server)
-            .get(options.scriptPath)
+        request(instance.server)
+            .get(instance.options.scriptPath)
             .expect(200)
             .end(function (err, res) {
                 assert.isTrue(res.text.indexOf("Connected to BrowserSync") > 0);
@@ -43,15 +36,13 @@ describe("E2E server test with only a callback", function () {
 
 describe("E2E server test with only a config option", function () {
 
-    var options;
     var instance;
-    var server;
 
     before(function (done) {
 
         var called;
 
-        instance = browserSync.init({
+        instance = browserSync({
             open: false,
             debugInfo: false,
             server: {
@@ -60,10 +51,6 @@ describe("E2E server test with only a config option", function () {
         });
 
         instance.events.on("init", function (bs) {
-
-            options = bs.options;
-            server  = bs.servers.staticServer;
-
             if (!called) {
                 done();
                 called = true;
@@ -77,8 +64,8 @@ describe("E2E server test with only a config option", function () {
 
     it("Can return the script", function (done) {
 
-        request(server)
-            .get(options.scriptPath)
+        request(instance.server)
+            .get(instance.options.scriptPath)
             .expect(200)
             .end(function (err, res) {
                 assert.isTrue(res.text.indexOf("Connected to BrowserSync") > 0);

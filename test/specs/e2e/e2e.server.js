@@ -1,16 +1,13 @@
 "use strict";
 
-var browserSync   = require("../../../lib/index");
+var browserSync = require("../../../lib/index");
 
-var sinon   = require("sinon");
 var request = require("supertest");
 var assert  = require("chai").assert;
 
 describe("E2E server test", function () {
 
-    var options;
     var instance;
-    var server;
 
     before(function (done) {
 
@@ -22,13 +19,7 @@ describe("E2E server test", function () {
             open: false
         };
 
-        browserSync.init(config, function (err, bs) {
-            options  = bs.options;
-            server   = bs.servers.staticServer;
-            instance = bs;
-
-            done();
-        });
+        instance = browserSync.init(config, done);
     });
 
     after(function () {
@@ -37,9 +28,9 @@ describe("E2E server test", function () {
 
     it("returns the snippet", function (done) {
 
-        assert.isString(options.snippet);
+        assert.isString(instance.options.snippet);
 
-        request(server)
+        request(instance.server)
             .get("/index.html")
             .set("accept", "text/html")
             .expect(200)
@@ -48,10 +39,10 @@ describe("E2E server test", function () {
                 done();
             });
     });
-    it("Can return the script", function (done) {
+    it("returns the script", function (done) {
 
-        request(server)
-            .get(options.scriptPath)
+        request(instance.server)
+            .get(instance.options.scriptPath)
             .expect(200)
             .end(function (err, res) {
                 assert.isTrue(res.text.indexOf("Connected to BrowserSync") > 0);

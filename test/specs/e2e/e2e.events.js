@@ -2,25 +2,18 @@
 
 var browserSync = require("../../../lib/index");
 
-var path    = require("path");
-
 var sinon   = require("sinon");
-var request = require("supertest");
 var assert  = require("chai").assert;
 
 describe("E2E Events test", function () {
 
-    var options;
-    var instance, server;
+    var instance;
 
     before(function (done) {
-
-        browserSync.init([], {open: false, logLevel: "silent"}, function (err, bs) {
-            options  = bs.options;
-            instance = bs;
-            server   = bs.servers.staticServer;
-            done();
-        });
+        instance = browserSync.init([], {
+            open: false,
+            debugInfo: false
+        }, done);
     });
 
     after(function () {
@@ -30,8 +23,11 @@ describe("E2E Events test", function () {
     it("Should register internal events", function () {
 
         var spy = sinon.spy(instance.io.sockets, "emit");
+
         instance.events.emit("file:reload", {path: "somepath.css"});
-        sinon.assert.calledOnce(spy);
+
+        sinon.assert.calledWithExactly(spy, "file:reload", {path: "somepath.css"});
+
         spy.restore();
     });
 });

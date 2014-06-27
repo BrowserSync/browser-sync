@@ -28,23 +28,23 @@ describe("Exposed Methods", function () {
 
     describe("logging messages to the console", function () {
 
-        var spy;
+        var stub;
         before(function () {
-            spy = sinon.spy(console, "log");
+            stub = sinon.stub(console, "log");
         });
         afterEach(function () {
-            spy.reset();
+            stub.reset();
         });
         after(function () {
-            spy.restore();
+            stub.restore();
         });
         it("should log a message", function () {
             utils.log("info", "ERROR", {debugInfo: true});
-            assert.isTrue(spy.called);
+            assert.isTrue(stub.called);
         });
         it("should not log if disabled in options", function () {
             utils.log("info", "ERROR", {debugInfo: false});
-            assert.isFalse(spy.called);
+            assert.isFalse(stub.called);
         });
     });
     describe("changing a file", function () {
