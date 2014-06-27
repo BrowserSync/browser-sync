@@ -27,13 +27,14 @@ describe("Reload method", function () {
         browserSync.reload("css/core.css");
         sinon.assert.calledWithExactly(emitterStub, "file:changed", {path: "css/core.css", log: true});
     });
-    it("should accept an array of filepaths", function () {
+    it("should accept an array of file paths as strings", function () {
         browserSync.reload(["css/core.css", "index.html"]);
         sinon.assert.calledWithExactly(emitterStub, "file:changed", {path: "css/core.css", log: true});
         sinon.assert.calledWithExactly(emitterStub, "file:changed", {path: "index.html", log: true});
     });
 
     describe("Returning a stream", function () {
+
         it("should handle a single file changed", function () {
             var stream = browserSync.reload({stream:true});
             stream.write(new File({path: "styles.css"}));
