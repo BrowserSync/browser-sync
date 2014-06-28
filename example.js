@@ -6,9 +6,9 @@ console.time("init");
 var files = ["test/fixtures/assets/*", "test/fixtures/*.html"];
 
 var options = {
-//    server: {
-//        baseDir: ["test/fixtures"]
-//    },
+    server: {
+        baseDir: ["test/fixtures"]
+    },
 //    proxy: "swoon.static/store-home.php",
     files: files,
 //    tunnel: true,

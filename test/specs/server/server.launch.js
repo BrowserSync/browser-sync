@@ -47,11 +47,6 @@ describe("Browser Sync: init Server", function () {
         emitterStub.restore();
     });
 
-    it("should call launchServer from module", function () {
-
-        bs.initServer(host, port, options, spy);
-        sinon.assert.calledWithExactly(launchServer, host, port, options, spy);
-    });
     describe("logging about servers", function () {
 
         var init;
@@ -74,6 +69,8 @@ describe("Browser Sync: init Server", function () {
             var stub = sinon.stub(utils, "getBaseDir").returns("test/fixtures");
 
             var options = {
+                host: host,
+                port: port,
                 urls: {
                     local: "http://localhost:3000"
                 },
@@ -85,7 +82,7 @@ describe("Browser Sync: init Server", function () {
                 }
             };
 
-            bs.initServer(host, port, options, spy);
+            bs.initServer(options, spy);
 
             var open = emitterStub.getCall(0).args[0];
             var data = emitterStub.getCall(0).args[1];
@@ -104,6 +101,8 @@ describe("Browser Sync: init Server", function () {
         it("logs when using proxy", function () {
 
             var options = {
+                host: host,
+                port: port,
                 urls: {
                     local: "http://localhost:3000"
                 },
@@ -113,7 +112,7 @@ describe("Browser Sync: init Server", function () {
                 }
             };
 
-            bs.initServer(host, port, options, spy);
+            bs.initServer(options, spy);
 
             var open = emitterStub.getCall(0).args[0];
             var data = emitterStub.getCall(0).args[1];
@@ -129,9 +128,7 @@ describe("Browser Sync: init Server", function () {
 
             launchServer.returns(false);
 
-            var options = {};
-
-            bs.initServer(host, port, options, spy);
+            bs.initServer({host:host,port:port}, spy);
 
             var open = emitterStub.getCall(0).args[0];
             var data = emitterStub.getCall(0).args[1];

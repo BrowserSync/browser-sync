@@ -7,7 +7,12 @@ var assert  = require("chai").assert;
 var sinon   = require("sinon");
 var request = require("supertest");
 
-var options = { server: {}, version: "0.0.1" };
+var options = {
+    server: {},
+    port: 3000,
+    version: "0.0.1",
+    host: "localhost"
+};
 
 describe("Server Module", function () {
 
@@ -40,8 +45,10 @@ describe("The launchServer method", function () {
     describe("Used for Static Files", function () {
 
         it("can serve files", function (done) {
+
             options.server.baseDir = "test/fixtures";
-            var bsServer = server.launchServer("localhost", 3000, options, "SCRIPT");
+
+            var bsServer = server.launchServer(options, "SCRIPT");
 
             request(bsServer)
                 .get("/index.html")
@@ -52,7 +59,7 @@ describe("The launchServer method", function () {
             options.server.baseDir = "test/fixtures/alt";
             options.server.index = "index.htm";
 
-            var bsServer = server.launchServer("localhost", 3000, options, io);
+            var bsServer = server.launchServer(options, "SCRIPT");
 
             request(bsServer)
                 .get("/")
@@ -64,7 +71,7 @@ describe("The launchServer method", function () {
             options.server.baseDir = "test/fixtures";
             options.server.index = "index.html";
 
-            var bsServer = server.launchServer("localhost", 3000, options, io);
+            var bsServer = server.launchServer(options, io);
 
             request(bsServer)
                 .get("/")
@@ -76,7 +83,7 @@ describe("The launchServer method", function () {
             options.server.baseDir = ["test/fixtures", "test/fixtures2"];
             options.server.index = "index.html";
 
-            var bsServer = server.launchServer("localhost", 3000, options, io);
+            var bsServer = server.launchServer(options, io);
 
             request(bsServer)
                 .get("/style-alt.css")

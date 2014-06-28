@@ -10,9 +10,13 @@ var sinon   = require("sinon");
 var request = require("supertest");
 var assert  = require("chai").assert;
 
-var port = 3000;
-var options = {version: "0.1.0"};
-var snippet = messages.scriptTags(port, options);
+var options = {
+    version: "0.1.0",
+    port: 3000,
+    host: "localhost"
+};
+
+var snippet = messages.scriptTags(options.port, options);
 
 describe("Launching a server with snippets", function () {
 
@@ -40,11 +44,12 @@ describe("Launching a server with snippets", function () {
                 baseDir: "test/fixtures",
                 injectScripts: true
             },
-            version: "0.1.0"
+            version: "0.1.0",
+            port: 3000
         };
         reqOptions = {
             hostname: "0.0.0.0",
-            port: port,
+            port: options.port,
             path: "/",
             method: "GET",
             headers: {
@@ -52,7 +57,7 @@ describe("Launching a server with snippets", function () {
             }
         };
 
-        app = server.launchServer("0.0.0.0", 3000, options, io);
+        app = server.launchServer(options, "SCRIPT");
     });
 
     afterEach(function () {
