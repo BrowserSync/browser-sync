@@ -6,10 +6,10 @@ console.time("init");
 var files = ["test/fixtures/assets/*", "test/fixtures/*.html"];
 
 var options = {
-    server: {
-        baseDir: ["test/fixtures"]
-    },
-//    proxy: "swoon.static/store-home.php",
+//    server: {
+//        baseDir: ["test/fixtures"]
+//    },
+    proxy: "swoon.static/store-home.php",
     ghostMode: {
         forms: {
             submit: false
