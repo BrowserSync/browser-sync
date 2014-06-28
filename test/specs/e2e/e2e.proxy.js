@@ -10,7 +10,7 @@ var client  = require("socket.io-client");
 
 describe("E2E proxy test", function () {
 
-    var instance;
+    var instance, stubServer;
 
     before(function (done) {
 
@@ -24,13 +24,14 @@ describe("E2E proxy test", function () {
             .use(connect.static(__dirname + "/../../fixtures"));
 
         // server to proxy
-        http.createServer(testApp).listen(8000);
+        stubServer = http.createServer(testApp).listen(8000);
 
         instance = browserSync.init([], config, done);
     });
 
     after(function () {
         instance.cleanup();
+        stubServer.close();
     });
 
     it("can init proxy & serve a page", function (done) {
@@ -66,6 +67,17 @@ describe("E2E proxy test", function () {
             .expect(200)
             .end(function (err, res) {
                 assert.isTrue(res.text.indexOf("Connected to BrowserSync") > 0);
+                done();
+            });
+    });
+
+    it("Can serve files with snippet added", function (done) {
+        request(instance.options.urls.local)
+            .get("/")
+            .set("accept", "text/html")
+            .expect(200)
+            .end(function (err, res) {
+                assert.isTrue(res.text.indexOf(instance.options.snippet) > 0);
                 done();
             });
     });

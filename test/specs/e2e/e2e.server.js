@@ -26,7 +26,7 @@ describe("E2E server test", function () {
         instance.cleanup();
     });
 
-    it("returns the snippet", function (done) {
+    it("serves files with the snippet added", function (done) {
 
         assert.isString(instance.options.snippet);
 
@@ -35,11 +35,12 @@ describe("E2E server test", function () {
             .set("accept", "text/html")
             .expect(200)
             .end(function (err, res) {
-                assert.isTrue(res.text.indexOf("browser-sync-client") > -1);
+                assert.isTrue(res.text.indexOf(instance.options.snippet) > -1);
                 done();
             });
     });
-    it("returns the script", function (done) {
+
+    it("serves the client script", function (done) {
 
         request(instance.server)
             .get(instance.options.scriptPath)

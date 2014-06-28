@@ -1,19 +1,30 @@
 "use strict";
 
+var browserSync = require("../../../lib/index");
+
+var http    = require("http");
 var path    = require("path");
+var connect = require("connect");
 var request = require("supertest");
 var assert  = require("chai").assert;
+var client  = require("socket.io-client");
 var fork    = require("child_process").fork;
 
 var index   = path.resolve( __dirname + "/../../../lib/index.js");
 
-describe("E2E CLI server test", function () {
+describe("E2E CLI proxy test", function () {
 
-    var bs, options;
+    var stubServer, bs, options;
 
     before(function (done) {
 
-        bs = fork(index, ["start", "--server", "test/fixtures", "--no-open", "--logLevel=silent"]);
+        var testApp = connect()
+            .use(connect.static(__dirname + "/../../fixtures/"));
+
+        // server to proxy
+        stubServer = http.createServer(testApp).listen(8000);
+
+        bs = fork(index, ["start", "--proxy", "localhost:8000", "--no-open", "--logLevel=silent"]);
 
         bs.on("message", function (data) {
             options = data.options;
@@ -25,9 +36,10 @@ describe("E2E CLI server test", function () {
 
     after(function () {
         bs.kill("SIGINT");
+        stubServer.close();
     });
 
-    it("returns the snippet", function (done) {
+    it("can serve the script", function (done) {
 
         request(options.urls.local)
             .get(options.scriptPath)

@@ -9,19 +9,15 @@ var options = {
 //    server: {
 //        baseDir: ["test/fixtures"]
 //    },
-    proxy: "swoon.static/store-home.php",
-    ghostMode: {
-        forms: {
-            submit: false
-        }
-    },
+//    proxy: "swoon.static/store-home.php",
     files: files,
-    tunnel: true,
+//    tunnel: true,
     port: 8080,
+    online: false,
     open: true,
     logConnections: false,
     minify: true,
-    logLevel: "debug",
+//    logLevel: "silent",
     notify: true,
     browser: ["google chrome"]
 };
@@ -32,4 +28,6 @@ var options = {
 //    console.log(err);
 //});
 
-var bs = browserSync.init(options, function (err, bs) {});
+var bs = browserSync.init(options, function (err, bs) {
+//    setTimeout(browserSync.exit, 3000);
+});
