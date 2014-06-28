@@ -28,6 +28,13 @@ var options = {
 //    console.log(err);
 //});
 
+var cp = require("/Users/shakyshane/Sites/browser-sync-modules/browser-sync-cp/index");
+
+//console.log(cp);
+browserSync.use("control-panel", cp, function (err) {
+    console.log(err);
+});
+
 var bs = browserSync.init(options, function (err, bs) {
 //    setTimeout(browserSync.exit, 3000);
 });
