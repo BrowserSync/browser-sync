@@ -7,6 +7,7 @@ var snippetUtils  = require("../../../lib/snippet").utils;
 var isExcluded    = snippetUtils.isExcluded;
 
 var sinon   = require("sinon");
+var _       = require("lodash");
 var request = require("supertest");
 var assert  = require("chai").assert;
 
@@ -71,8 +72,7 @@ describe("Launching a server with snippets", function () {
             .set("accept", "text/html")
             .expect(200)
             .end(function (err, res) {
-                var actual = res.text.indexOf(snippet) >= 0;
-                assert.isTrue(actual);
+                assert.isTrue(_.contains(res.text, snippet));
                 done();
             });
     });
@@ -83,8 +83,7 @@ describe("Launching a server with snippets", function () {
             .set("accept", "text/html")
             .expect(200)
             .end(function (err, res) {
-                var actual = res.text.indexOf(snippet) >= 0;
-                assert.isTrue(actual);
+                assert.isTrue(_.contains(res.text, snippet));
                 done();
             });
     });

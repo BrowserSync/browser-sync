@@ -1,6 +1,7 @@
 "use strict";
 
 var path    = require("path");
+var _       = require("lodash");
 var request = require("supertest");
 var assert  = require("chai").assert;
 var fork    = require("child_process").fork;
@@ -33,7 +34,7 @@ describe("E2E CLI server test", function () {
             .get(options.scriptPath)
             .expect(200)
             .end(function (err, res) {
-                assert.isTrue(res.text.indexOf("Connected to BrowserSync") > 0);
+                assert.isTrue(_.contains(res.text, "Connected to BrowserSync"));
                 done();
             });
     });
@@ -43,7 +44,7 @@ describe("E2E CLI server test", function () {
             .get("/")
             .expect(200)
             .end(function (err, res) {
-                assert.isTrue(res.text.indexOf("BrowserSync + Public URL") > 0);
+                assert.isTrue(_.contains(res.text, "BrowserSync + Public URL"));
                 done();
             });
     });
@@ -54,7 +55,7 @@ describe("E2E CLI server test", function () {
             .set("accept", "text/html")
             .expect(200)
             .end(function (err, res) {
-                assert.isTrue(res.text.indexOf(options.snippet) > 0);
+                assert.isTrue(_.contains(res.text, options.snippet));
                 done();
             });
     });

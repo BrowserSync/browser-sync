@@ -4,6 +4,7 @@ var browserSync = require("../../../lib/index");
 
 var http    = require("http");
 var connect = require("connect");
+var _       = require("lodash");
 var request = require("supertest");
 var assert  = require("chai").assert;
 var client  = require("socket.io-client");
@@ -44,7 +45,7 @@ describe("E2E proxy test", function () {
             .set("accept", "text/html")
             .expect(200)
             .end(function (err, res) {
-                assert.isTrue(res.text.indexOf("browser-sync-client") > 0);
+                assert.isTrue(_.contains(res.text, "browser-sync-client"));
                 done();
             });
     });
@@ -66,7 +67,7 @@ describe("E2E proxy test", function () {
             .get(instance.options.scriptPath)
             .expect(200)
             .end(function (err, res) {
-                assert.isTrue(res.text.indexOf("Connected to BrowserSync") > 0);
+                assert.isTrue(_.contains(res.text, "Connected to BrowserSync"));
                 done();
             });
     });
@@ -77,7 +78,7 @@ describe("E2E proxy test", function () {
             .set("accept", "text/html")
             .expect(200)
             .end(function (err, res) {
-                assert.isTrue(res.text.indexOf(instance.options.snippet) > 0);
+                assert.isTrue(_.contains(res.text, instance.options.snippet));
                 done();
             });
     });

@@ -5,6 +5,7 @@ var browserSync = require("../../../lib/index");
 var http    = require("http");
 var path    = require("path");
 var connect = require("connect");
+var _       = require("lodash");
 var request = require("supertest");
 var assert  = require("chai").assert;
 var client  = require("socket.io-client");
@@ -45,7 +46,7 @@ describe("E2E CLI proxy test", function () {
             .get(options.scriptPath)
             .expect(200)
             .end(function (err, res) {
-                assert.isTrue(res.text.indexOf("Connected to BrowserSync") > 0);
+                assert.isTrue(_.contains(res.text, "Connected to BrowserSync"));
                 done();
             });
     });
@@ -55,7 +56,7 @@ describe("E2E CLI proxy test", function () {
             .get("/")
             .expect(200)
             .end(function (err, res) {
-                assert.isTrue(res.text.indexOf("BrowserSync + Public URL") > 0);
+                assert.isTrue(_.contains(res.text, "BrowserSync + Public URL"));
                 done();
             });
     });
@@ -66,7 +67,7 @@ describe("E2E CLI proxy test", function () {
             .set("accept", "text/html")
             .expect(200)
             .end(function (err, res) {
-                assert.isTrue(res.text.indexOf(options.snippet) > 0);
+                assert.isTrue(_.contains(res.text, options.snippet));
                 done();
             });
     });

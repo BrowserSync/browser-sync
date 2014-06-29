@@ -5,6 +5,7 @@ var browserSync   = require("../../../lib/index");
 var path    = require("path");
 
 var sinon   = require("sinon");
+var _       = require("lodash");
 var request = require("supertest");
 var assert  = require("chai").assert;
 
@@ -31,7 +32,7 @@ describe("E2E Snippet tests", function () {
             .get(instance.options.scriptPath)
             .expect(200)
             .end(function (err, res) {
-                assert.isTrue(res.text.indexOf("Connected to BrowserSync") > 0);
+                assert.isTrue(_.contains(res.text, "Connected to BrowserSync"));
                 done();
             });
     });

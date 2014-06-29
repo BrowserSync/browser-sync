@@ -1,6 +1,7 @@
 "use strict";
 
 var path    = require("path");
+var _       = require("lodash");
 var assert  = require("chai").assert;
 var request = require("supertest");
 var fork    = require("child_process").fork;
@@ -33,7 +34,7 @@ describe("E2E server test", function () {
             .get(options.scriptPath)
             .expect(200)
             .end(function (err, res) {
-                assert.isTrue(res.text.indexOf("Connected to BrowserSync") > 0);
+                assert.isTrue(_.contains(res.text, "Connected to BrowserSync"));
                 done();
             });
     });

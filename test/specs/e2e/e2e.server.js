@@ -3,6 +3,7 @@
 var browserSync = require("../../../lib/index");
 
 var request = require("supertest");
+var _       = require("lodash");
 var assert  = require("chai").assert;
 
 describe("E2E server test", function () {
@@ -35,7 +36,7 @@ describe("E2E server test", function () {
             .set("accept", "text/html")
             .expect(200)
             .end(function (err, res) {
-                assert.isTrue(res.text.indexOf(instance.options.snippet) > -1);
+                assert.isTrue(_.contains(res.text, instance.options.snippet));
                 done();
             });
     });
@@ -46,7 +47,7 @@ describe("E2E server test", function () {
             .get(instance.options.scriptPath)
             .expect(200)
             .end(function (err, res) {
-                assert.isTrue(res.text.indexOf("Connected to BrowserSync") > 0);
+                assert.isTrue(_.contains(res.text, "Connected to BrowserSync"));
                 done();
             });
     });
