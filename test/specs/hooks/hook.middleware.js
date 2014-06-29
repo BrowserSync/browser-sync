@@ -10,7 +10,10 @@ var assert  = require("chai").assert;
 describe("Plugin hooks", function () {
 
     var instance;
-    var spy;
+    var pluginSpy;
+    var initSpy;
+    var mwSpy1;
+    var mwSpy2;
 
     before(function (done) {
 
@@ -19,14 +22,21 @@ describe("Plugin hooks", function () {
                 baseDir: "test/fixtures"
             },
             debugInfo: false,
-            open: false,
-            online: false
+            open: false
         };
 
-        spy = sinon.spy(function () {return function () {};});
+        initSpy = sinon.spy();
+        pluginSpy = sinon.spy(function () { return initSpy; });
+
+        mwSpy2 = sinon.spy(function (res, req, next) {
+            next();
+        });
+        mwSpy1 = sinon.spy(function (res, req, next) {
+            next();
+        });
 
         browserSync.use("control-panel", {
-            plugin: spy,
+            plugin: pluginSpy,
             "client:events": function () {
                 return function () {
                     return "cp:goto";
@@ -36,6 +46,11 @@ describe("Plugin hooks", function () {
                 return function () {
                     return "SHANE123456";
                 };
+            },
+            "server:middleware": function () {
+                return function () {
+                    return [mwSpy2, mwSpy1];
+                };
             }
         });
 
@@ -43,20 +58,34 @@ describe("Plugin hooks", function () {
     });
 
     afterEach(function () {
-        spy.reset();
+        pluginSpy.reset();
     });
 
     after(function () {
         instance.cleanup();
     });
 
-    it("called the plugin method", function () {
-        sinon.assert.calledOnce(spy); // the plugin init method
+    it("calls the plugin method", function () {
+        sinon.assert.calledOnce(pluginSpy); // the plugin init method
+    });
+    it("calls the function returned from the plugin method", function () {
+        sinon.assert.calledOnce(initSpy); // the plugin init method
     });
     it("adds an item to the clientEvents array", function(){
         assert.isTrue(_.contains(instance.clientEvents, "cp:goto"));
     });
     it("adds an item to the Server Middleware array", function(){
         assert.isTrue(_.contains(instance.clientJs, "SHANE123456"));
+    });
+    it("adds an item to the Server Middleware array", function(done){
+
+        request(instance.server)
+            .get("/")
+            .expect(200)
+            .end(function () {
+                sinon.assert.calledOnce(mwSpy1);
+                sinon.assert.calledOnce(mwSpy2);
+                done();
+            });
     });
 });
