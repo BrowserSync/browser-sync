@@ -27,8 +27,8 @@ npm install -g browser-sync
 ```
 ##How to use it
 
-1. [With a config file](https://github.com/shakyShane/browser-sync/wiki/Working-with-a-Config-File)
-2. [Command line](https://github.com/shakyShane/browser-sync/wiki/Command-line-only)
+1. [Command line](http://www.browsersync.io/docs/command-line/)
+2. [API](http://www.browsersync.io/docs/api/)
 
 ## Using Grunt?
 There's a [separate plugin](https://github.com/shakyShane/grunt-browser-sync) for that
