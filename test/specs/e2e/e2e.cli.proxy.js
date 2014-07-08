@@ -23,9 +23,9 @@ describe("E2E CLI proxy test", function () {
             .use(connect.static(__dirname + "/../../fixtures/"));
 
         // server to proxy
-        stubServer = http.createServer(testApp).listen(8000);
+        stubServer = http.createServer(testApp).listen(8080);
 
-        bs = fork(index, ["start", "--proxy", "localhost:8000", "--no-open", "--logLevel=silent"]);
+        bs = fork(index, ["start", "--proxy", "localhost:8080", "--no-open", "--logLevel=silent"]);
 
         bs.on("message", function (data) {
             options = data.options;

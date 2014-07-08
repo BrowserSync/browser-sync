@@ -1,0 +1,16 @@
+{
+    "--files": "File paths to watch",
+    "--exclude": "File patterns to ignore",
+    "--server": "Run a Local server (uses your cwd as the web root)",
+    "--directory": "Show a directory listing for the server",
+    "--proxy": "Proxy an existing server",
+    "--xip": "Use xip.io domain routing",
+    "--tunnel": "Use a public URL",
+    "--config": "Specify a path to a bs-config.js file",
+    "--host": "Specify a hostname to use",
+    "--logLevel": "Set the logger output level (silent, info or debug)",
+    "--port": "Specify a port to use",
+    "--no-open": "Don't open a new browser window",
+    "--no-ghost": "Disable Ghost Mode",
+    "--no-online": "Force offline usage"
+}

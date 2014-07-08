@@ -16,7 +16,7 @@ describe("E2E proxy test", function () {
     before(function (done) {
 
         var config = {
-            proxy: "localhost:8000",
+            proxy: "localhost:8080",
             debugInfo: false,
             open: false
         };
@@ -25,7 +25,7 @@ describe("E2E proxy test", function () {
             .use(connect.static(__dirname + "/../../fixtures"));
 
         // server to proxy
-        stubServer = http.createServer(testApp).listen(8000);
+        stubServer = http.createServer(testApp).listen(8080);
 
         instance = browserSync.init([], config, done);
     });

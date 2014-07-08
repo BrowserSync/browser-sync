@@ -176,7 +176,7 @@ describe("E2E HOST OPTIONS + localhost", function () {
 
     it("Sets the ghostMode options", function () {
         assert.ok(instance.options.port.toString().match(/\d\d\d\d/));
-        assert.equal(instance.options.urls.local, "http://localhost:3000");
+        assert.ok(instance.options.urls.local.match(/\d{4,5}$/));
     });
 });
 

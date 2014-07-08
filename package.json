@@ -60,7 +60,8 @@
     "gulp-contribs": "0.0.1",
     "gulp-sass": "^0.7.1",
     "vinyl": "^0.2.3",
-    "gulp-ruby-sass": "^0.4.3"
+    "gulp-ruby-sass": "^0.4.3",
+    "gulp-yuidoc": "0.1.2"
   },
   "keywords": [
     "browser sync",

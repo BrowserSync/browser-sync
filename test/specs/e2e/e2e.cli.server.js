@@ -1,10 +1,11 @@
 "use strict";
 
-var path    = require("path");
-var _       = require("lodash");
-var request = require("supertest");
-var assert  = require("chai").assert;
-var fork    = require("child_process").fork;
+var path     = require("path");
+var _        = require("lodash");
+var request  = require("supertest");
+var server = require("./commands.server.json");
+var assert   = require("chai").assert;
+var fork     = require("child_process").fork;
 
 var index   = path.resolve( __dirname + "/../../../lib/index.js");
 
@@ -14,7 +15,8 @@ describe("E2E CLI server test", function () {
 
     before(function (done) {
 
-        bs = fork(index, ["start", "--server", "test/fixtures", "--no-open", "--logLevel=silent"]);
+
+        bs = fork(index, server.commands[0].args);
 
         bs.on("message", function (data) {
             options = data.options;

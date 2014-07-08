@@ -91,3 +91,14 @@ gulp.task("watch-css", ["browser-sync-css"], function () {
     gulp.watch(paths.html, browserSync.reload);
 });
 
+
+gulp.task("docs", function () {
+
+    var yuidoc = require("gulp-yuidoc");
+
+    gulp.src(["./lib/index.js", "./lib/default-config.js"])
+        .pipe(yuidoc.parser({spaces: 4}))
+        .pipe(gulp.dest("./doc"));
+});
+
+
