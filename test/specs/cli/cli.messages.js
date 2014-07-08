@@ -182,7 +182,7 @@ describe("Messages module", function () {
     describe("Creating URLS", function () {
         it("can return a full URL with ports", function () {
             var expected = "http://192.168.0.4:3001";
-            var actual   = messages._makeUrl("http", "192.168.0.4", 3001, "http:");
+            var actual   = messages._makeUrl("192.168.0.4", 3001, "http:");
             assert.equal(actual, expected);
         });
     });
