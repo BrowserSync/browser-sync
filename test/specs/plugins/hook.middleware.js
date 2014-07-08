@@ -7,7 +7,7 @@ var _       = require("lodash");
 var request = require("supertest");
 var assert  = require("chai").assert;
 
-describe("Plugin hooks", function () {
+describe("Plugin + hooks", function () {
 
     var instance;
     var pluginSpy;
@@ -35,7 +35,7 @@ describe("Plugin hooks", function () {
             next();
         });
 
-        browserSync.use("control-panel", {
+        browserSync.use({
             plugin: pluginSpy,
             "client:events": function () {
                 return function () {
