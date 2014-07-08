@@ -1,4 +1,4 @@
-# browser-sync [![Build Status](https://travis-ci.org/shakyShane/browser-sync.png?branch=master)](https://travis-ci.org/shakyShane/browser-sync) [![NPM version](https://badge.fury.io/js/browser-sync.png)](http://badge.fury.io/js/browser-sync)
+# browser-sync [![Build Status](https://travis-ci.org/shakyShane/browser-sync.svg?branch=master)](https://travis-ci.org/shakyShane/browser-sync)[![Build status](https://ci.appveyor.com/api/projects/status/r5vung2ipn9uj4sy)](https://ci.appveyor.com/project/shakyShane/browser-sync)[![NPM version](https://badge.fury.io/js/browser-sync.png)](http://badge.fury.io/js/browser-sync)
 
 > Keep multiple browsers & devices in sync when building websites.
 
@@ -49,15 +49,16 @@ If you've found Browser-sync useful and would like to contribute to its continue
 ## Contributors
 
 ```
-   520	Shane Osbourne
+   546	Shane Osbourne
     13	Hugo Bessa
+     3	Werner van Deventer
      3	Marek 'saji' Augustynowicz
-     3  Werner van Deventer
      2	chase_chou
      2	Paul Robertson
+     2	Dan Tello
      2	Hugo Dias
-     1	Tony Holdstock-Brown
-     1	Victor Fernandez de Alba
+     2	brutaldev
+     1	Yazhong Liu
      1	mericson
      1	Cameron Spear
      1	viktor hesselbom
@@ -67,6 +68,8 @@ If you've found Browser-sync useful and would like to contribute to its continue
      1	Jory Graham
      1	Robert Vock
      1	Sylvain Emery
+     1	Tony Holdstock-Brown
+     1	Victor Fernandez de Alba
 ```
 
 ## License
