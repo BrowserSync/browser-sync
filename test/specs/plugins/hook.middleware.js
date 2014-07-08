@@ -10,7 +10,6 @@ var assert  = require("chai").assert;
 describe("Plugin + hooks", function () {
 
     var instance;
-    var pluginSpy;
     var initSpy;
     var mwSpy1;
     var mwSpy2;
@@ -26,7 +25,6 @@ describe("Plugin + hooks", function () {
         };
 
         initSpy = sinon.spy();
-        pluginSpy = sinon.spy(function () { return initSpy; });
 
         mwSpy2 = sinon.spy(function (res, req, next) {
             next();
@@ -36,21 +34,15 @@ describe("Plugin + hooks", function () {
         });
 
         browserSync.use({
-            plugin: pluginSpy,
+            plugin: initSpy,
             "client:events": function () {
-                return function () {
-                    return "cp:goto";
-                };
+                return "cp:goto";
             },
             "client:js": function () {
-                return function () {
-                    return "SHANE123456";
-                };
+                return "SHANE123456";
             },
             "server:middleware": function () {
-                return function () {
-                    return [mwSpy2, mwSpy1];
-                };
+                return [mwSpy2, mwSpy1];
             }
         });
 
@@ -58,15 +50,11 @@ describe("Plugin + hooks", function () {
     });
 
     afterEach(function () {
-        pluginSpy.reset();
+        initSpy.reset();
     });
 
     after(function () {
         instance.cleanup();
-    });
-
-    it("calls the plugin method", function () {
-        sinon.assert.calledOnce(pluginSpy); // the plugin init method
     });
     it("calls the function returned from the plugin method", function () {
         sinon.assert.calledOnce(initSpy); // the plugin init method
