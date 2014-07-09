@@ -5,7 +5,7 @@ var jshint      = require("gulp-jshint");
 var contribs    = require("gulp-contribs");
 var sass        = require("gulp-sass");
 var rubySass    = require("gulp-ruby-sass");
-var browserSync = require("./lib/index");
+var browserSync = require("./index");
 
 gulp.task("lint", function () {
     gulp.src(["test/specs/**/*.js", "!test/fixtures/**", "lib/*"])

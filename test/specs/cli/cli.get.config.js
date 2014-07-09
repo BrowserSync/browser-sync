@@ -1,6 +1,6 @@
 "use strict";
 
-var index        = require("../../../lib/index");
+var index        = require("../../../index");
 var config       = require("../../../lib/config");
 var loadedConfig = require("../../../lib/default-config");
 var info         = require("../../../lib/cli/cli-info");

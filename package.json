@@ -19,7 +19,7 @@
       "url": "https://github.com/shakyshane/browser-sync/blob/master/LICENSE-GPL"
     }
   ],
-  "main": "lib/index.js",
+  "main": "index.js",
   "engines": {
     "node": ">= 0.8.0"
   },
@@ -70,6 +70,6 @@
     "sync"
   ],
   "bin": {
-    "browser-sync": "lib/index.js"
+    "browser-sync": "index.js"
   }
 }
