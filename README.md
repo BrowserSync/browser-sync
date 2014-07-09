@@ -1,4 +1,4 @@
-# browser-sync [![Build Status](https://travis-ci.org/shakyShane/browser-sync.svg?branch=master)](https://travis-ci.org/shakyShane/browser-sync)[![Build status](https://ci.appveyor.com/api/projects/status/r5vung2ipn9uj4sy)](https://ci.appveyor.com/project/shakyShane/browser-sync)[![NPM version](https://badge.fury.io/js/browser-sync.png)](http://badge.fury.io/js/browser-sync)
+# browser-sync [![Build Status](https://travis-ci.org/shakyShane/browser-sync.svg?branch=master)] (https://travis-ci.org/shakyShane/browser-sync)[![Build status] (https://ci.appveyor.com/api/projects/status/r5vung2ipn9uj4sy)](https://ci.appveyor.com/project/shakyShane/browser-sync)[![NPM version](https://badge.fury.io/js/browser-sync.png)](http://badge.fury.io/js/browser-sync)
 
 > Keep multiple browsers & devices in sync when building websites.
 
