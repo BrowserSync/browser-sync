@@ -24,7 +24,7 @@ describe("Adding custom middleware", function () {
 
         options.server.baseDir = "test/fixtures";
 
-        var bsServer = server.launchServer(options, "SCRIPT", spy);
+        var bsServer = server.launchServer(options, "SCRIPT", spy, {});
 
         request(bsServer)
             .get("/index.html")
@@ -45,7 +45,7 @@ describe("Adding custom middleware", function () {
 
         options.server.baseDir = "test/fixtures";
 
-        var bsServer = server.launchServer(options, "SCRIPT", [spy, spy2]);
+        var bsServer = server.launchServer(options, "SCRIPT", [spy, spy2], {});
 
         request(bsServer)
             .get("/index.html")
