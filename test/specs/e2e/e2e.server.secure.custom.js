@@ -4,8 +4,6 @@ var browserSync = require("../../../index");
 
 var request = require("supertest");
 var _       = require("lodash");
-var https   = require("https");
-var http    = require("http");
 var assert  = require("chai").assert;
 
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = 0;
@@ -22,14 +20,14 @@ describe("E2E TLS server with custom certs test", function () {
 
         var config = {
             server: {
-                baseDir: __dirname + "/../../fixtures"
+                baseDir: "test/fixtures"
             },
             https: {
                 key: __dirname + "/../../certs/server.key",
-                cert: __dirname + "/../../certs/server.cert",
+                cert: __dirname + "/../../certs/server.cert"
             },
             debugInfo: false,
-            open: false  
+            open: false
         };
 
         instance = browserSync.init(config, done);

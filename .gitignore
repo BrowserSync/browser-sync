@@ -7,3 +7,4 @@ test/fixtures/files/*
 test/fixtures/js/*
 example.js
 .DS_store
+doc/

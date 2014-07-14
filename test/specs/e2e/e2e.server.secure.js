@@ -4,8 +4,6 @@ var browserSync = require("../../../index");
 
 var request = require("supertest");
 var _       = require("lodash");
-var https   = require("https");
-var http    = require("http");
 var assert  = require("chai").assert;
 
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = 0;
@@ -19,8 +17,6 @@ describe("E2E TLS server test", function () {
     before(function (done) {
 
         this.timeout(15000);
-
-        process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
 
         var config = {
             server: {
