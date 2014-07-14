@@ -1,6 +1,7 @@
 "use strict";
 
 var browserSync = require("../../../index");
+var utils       = require("../../../lib/utils").utils;
 
 var assert      = require("chai").assert;
 var sinon       = require("sinon");
@@ -179,7 +180,6 @@ describe("E2E HOST OPTIONS + localhost", function () {
         assert.ok(instance.options.urls.local.match(/\d{4,5}$/));
     });
 });
-
 
 describe("E2E OLD API FILES OPTION", function () {
 

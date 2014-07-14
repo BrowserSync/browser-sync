@@ -16,7 +16,7 @@ describe("E2E TLS server test", function () {
 
         var config = {
             server: {
-                baseDir: __dirname + "/../../fixtures"
+                baseDir: "test/fixtures"
             },
             https: true, // need to run a test with custom configuration.
             debugInfo: false,
