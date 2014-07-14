@@ -25,8 +25,8 @@ describe("E2E TLS server with custom certs test", function () {
                 baseDir: __dirname + "/../../fixtures"
             },
             https: {
-                key: __dirname + "/../../certs/127.server.key",
-                cert: __dirname + "/../../certs/127.server.cert",
+                key: __dirname + "/../../certs/server.key",
+                cert: __dirname + "/../../certs/server.cert",
             },
             debugInfo: false,
             open: false  
