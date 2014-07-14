@@ -12,11 +12,13 @@ describe("E2E TLS server test", function () {
 
     before(function (done) {
 
+        process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
+
         var config = {
             server: {
                 baseDir: __dirname + "/../../fixtures"
             },
-            http: true, // need to run a test with custom configuration.
+            https: true, // need to run a test with custom configuration.
             debugInfo: false,
             open: false
         };
