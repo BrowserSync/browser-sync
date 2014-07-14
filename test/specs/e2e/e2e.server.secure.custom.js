@@ -4,13 +4,13 @@ var browserSync = require("../../../lib/index");
 
 var request = require("supertest");
 var _       = require("lodash");
-var https   = require("https");
+var https    = require("https");
 var http    = require("http");
 var assert  = require("chai").assert;
 
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = 0;
 
-describe("E2E TLS server test", function () {
+describe("E2E TLS server with custom certs test", function () {
 
     this.timeout(15000);
 
@@ -24,17 +24,18 @@ describe("E2E TLS server test", function () {
             server: {
                 baseDir: __dirname + "/../../fixtures"
             },
-            https: true,
+            https: {
+                key: __dirname + "/../../certs/127.server.key",
+                cert: __dirname + "/../../certs/127.server.cert",
+            },
             debugInfo: false,
-            open: false
+            open: false  
         };
 
         instance = browserSync.init(config, done);
     });
 
     after(function () {
-
-        https.globalAgent = undefined;
         instance.cleanup();
     });
 
