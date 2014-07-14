@@ -1,6 +1,6 @@
 "use strict";
 
-var browserSync = require("../../../lib/index");
+var browserSync = require("../../../index");
 
 var request = require("supertest");
 var _       = require("lodash");
@@ -19,6 +19,8 @@ describe("E2E TLS server test", function () {
     before(function (done) {
 
         this.timeout(15000);
+
+        process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
 
         var config = {
             server: {

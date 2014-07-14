@@ -5,6 +5,7 @@ var jshint      = require("gulp-jshint");
 var contribs    = require("gulp-contribs");
 var sass        = require("gulp-sass");
 var rubySass    = require("gulp-ruby-sass");
+var filter      = require("gulp-filter");
 var browserSync = require("./index");
 
 gulp.task("lint", function () {
@@ -31,9 +32,10 @@ var paths = {
 
 gulp.task("sass", function () {
     browserSync.notify("Compiling SCSS files... Please Wait");
-    gulp.src(paths.scss)
-        .pipe(rubySass())
+    return gulp.src(paths.scss)
+        .pipe(rubySass({sourcemap: true}))
         .pipe(gulp.dest(paths.css))
+        .pipe(filter("**/*.css"))
         .pipe(browserSync.reload({stream:true}));
 });
 
@@ -48,37 +50,38 @@ gulp.task("browser-sync", function () {
 //        console.log(err);
 //    });
 
-    browserSync.init(null, {
+    browserSync({
         server: {
             baseDir: "test/fixtures"
         },
         startPath: "sass.html"
     });
 });
+
 /**
  * Start BrowserSync
  */
 gulp.task("browser-sync-css", function () {
-    browserSync.init({
+    browserSync({
         server: {
             baseDir: "test/fixtures"
         }
     });
 });
 
-/**
- * Reload task
- */
-gulp.task("bs-reload", function () {
-    browserSync.reload();
-});
+///**
+// * Reload task
+// */
+//gulp.task("bs-reload", function () {
+//    browserSync.reload();
+//});
 
 /**
  * Watch stuff
  */
 gulp.task("watch", ["browser-sync"], function () {
     gulp.watch(paths.scss, ["sass"]);
-    gulp.watch(paths.html, ["bs-reload"]);
+//    gulp.watch(paths.html, ["bs-reload"]);
 });
 
 /**
@@ -96,7 +99,7 @@ gulp.task("docs", function () {
 
     var yuidoc = require("gulp-yuidoc");
 
-    gulp.src(["./lib/index.js", "./lib/default-config.js"])
+    gulp.src(["./index.js", "./lib/default-config.js"])
         .pipe(yuidoc.parser({spaces: 4}))
         .pipe(gulp.dest("./doc"));
 });
