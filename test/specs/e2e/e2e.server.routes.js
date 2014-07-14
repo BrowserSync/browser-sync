@@ -6,7 +6,7 @@ var request = require("supertest");
 var _       = require("lodash");
 var assert  = require("chai").assert;
 
-describe("E2E server test", function () {
+describe("E2E server test with routes", function () {
 
     var instance;
 
@@ -14,7 +14,11 @@ describe("E2E server test", function () {
 
         var config = {
             server: {
-                baseDir: __dirname + "/../../fixtures"
+                baseDir: "test/fixtures",
+                routes: {
+                    "/shane": "test/fixtures",
+                    "/kittie": "test/fixtures"
+                }
             },
             debugInfo: false,
             open: false
@@ -27,12 +31,26 @@ describe("E2E server test", function () {
         instance.cleanup();
     });
 
-    it("serves files with the snippet added", function (done) {
+    it("serves files from the route with snippet added", function (done) {
 
         assert.isString(instance.options.snippet);
 
         request(instance.server)
-            .get("/index.html")
+            .get("/shane/index.html")
+            .set("accept", "text/html")
+            .expect(200)
+            .end(function (err, res) {
+                assert.isTrue(_.contains(res.text, instance.options.snippet));
+                done();
+            });
+    });
+
+    it("serves files from the route with snippet added", function (done) {
+
+        assert.isString(instance.options.snippet);
+
+        request(instance.server)
+            .get("/kittie/index.html")
             .set("accept", "text/html")
             .expect(200)
             .end(function (err, res) {

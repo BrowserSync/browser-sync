@@ -58,7 +58,7 @@ describe("Launching a server with snippets", function () {
             }
         };
 
-        app = server.launchServer(options, "SCRIPT");
+        app = server.launchServer(options, "SCRIPT", null, {});
     });
 
     afterEach(function () {

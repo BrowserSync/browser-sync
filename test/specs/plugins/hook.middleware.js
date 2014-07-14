@@ -1,6 +1,6 @@
 "use strict";
 
-var browserSync = require("../../../lib/index");
+var browserSync = require("../../../index");
 
 var sinon   = require("sinon");
 var _       = require("lodash");

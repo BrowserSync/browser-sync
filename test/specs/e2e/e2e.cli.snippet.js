@@ -6,7 +6,7 @@ var assert  = require("chai").assert;
 var request = require("supertest");
 var fork    = require("child_process").fork;
 
-var index   = path.resolve( __dirname + "/../../../lib/index.js");
+var index   = path.resolve( __dirname + "/../../../index.js");
 
 describe("E2E server test", function () {
 

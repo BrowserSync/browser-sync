@@ -5,11 +5,11 @@
  * @module BrowserSync
  */
 
-var pjson         = require("../package.json");
+var pjson         = require("./package.json");
 
-var BrowserSync   = require("./browser-sync");
-var utils         = require("./utils");
-var cli           = require("./cli/");
+var BrowserSync   = require("./lib/browser-sync");
+var utils         = require("./lib/utils");
+var cli           = require("./lib/cli/index");
 var init          = cli.init;
 var info          = cli.info;
 
@@ -17,16 +17,6 @@ var args          = require("optimist").argv;
 var argv          = process.argv;
 
 var browserSync   = new BrowserSync();
-
-/**
- * @param {Array|Null} files
- * @param {Object} config
- * @param {Function} [cb]
- * @returns {BrowserSync}
- */
-function _start(files, config, cb) {
-    return browserSync.init(files || [], config, pjson.version, cb);
-}
 
 /**
  * Handle Command-line usage
@@ -47,7 +37,6 @@ if (require.main === module) {
     });
 }
 
-
 /**
  * @method browserSync
  * @param {Object} [config] This is the main configuration for your BrowserSync instance and can contain any of the [available options]({{site.links.options}})
@@ -56,10 +45,20 @@ if (require.main === module) {
  * is useful when you need to wait for information (for example: urls, port etc) or perform other tasks synchronously.
  * @returns {BrowserSync}
  */
-var publicInit      = require("./public/init")(_start);
+var publicInit      = require("./lib/public/init")(_start);
 
 module.exports      = publicInit;
 module.exports.init = publicInit;
+
+/**
+ * @param {Array|Null} files
+ * @param {Object} config
+ * @param {Function} [cb]
+ * @returns {BrowserSync}
+ */
+function _start(files, config, cb) {
+    return browserSync.init(files || [], config, pjson.version, cb);
+}
 
 /**
  * The `reload` method will inform all browsers about changed files and will either cause the browser to refresh, or inject the files where possible.
@@ -69,7 +68,7 @@ module.exports.init = publicInit;
  * details and examples of Streams support, please see the [GulpJS]({{site.links.gulp}}) examples
  * @returns {*}
  */
-module.exports.reload = require("./public/reload")(browserSync);
+module.exports.reload = require("./lib/public/reload")(browserSync);
 
 /**
  * A simple true/false flag that you can use to determine if there's a currently-running BrowserSync instance.
@@ -88,7 +87,7 @@ Object.defineProperty(module.exports, "active", {
  * @method notify
  * @param {String|HTML} msg Can be a simple message such as 'Connected' or HTML
  */
-module.exports.notify = require("./public/notify")(browserSync);
+module.exports.notify = require("./lib/public/notify")(browserSync);
 
 /**
  * Register a plugin. Must implement at least a 'plugin' method that returns a
@@ -115,5 +114,5 @@ module.exports.emitter = browserSync.events;
  *
  * @method exit
  */
-module.exports.exit = require("./public/exit")(browserSync);
+module.exports.exit = require("./lib/public/exit")(browserSync);
 

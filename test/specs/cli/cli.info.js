@@ -3,7 +3,7 @@
 var messages = require("../../../lib/messages");
 var config   = require("../../../lib/config");
 var info     = require("../../../lib/cli/cli-info");
-var index    = require("../../../lib/index");
+var index    = require("../../../index");
 
 var assert   = require("chai").assert;
 var sinon    = require("sinon");

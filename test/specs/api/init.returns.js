@@ -1,6 +1,6 @@
 "use strict";
 
-var index       = require("../../../lib/index");
+var index       = require("../../../index");
 var BrowserSync = require("../../../lib/browser-sync");
 
 var assert      = require("chai").assert;
