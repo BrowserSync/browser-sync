@@ -13,7 +13,7 @@ describe("E2E options test", function () {
     before(function (done) {
         var config = {
             server: {
-                baseDir: __dirname + "/../../fixtures"
+                baseDir: "test/fixtures"
             },
             port: 8080,
             debugInfo: false,
@@ -43,7 +43,7 @@ describe("E2E options test", function () {
 
         var config = {
             server: {
-                baseDir: __dirname + "/../../fixtures"
+                baseDir: "test/fixtures"
             },
             files: ["*.html"],
             ports: {

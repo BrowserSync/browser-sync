@@ -37,7 +37,7 @@
     "gaze": "~0.5.1",
     "http-proxy": "~1.1.4",
     "cl-strings": "0.0.5",
-    "resp-modifier": "0.0.4",
+    "resp-modifier": "0.1.0",
     "browser-sync-client": "0.3.0",
     "commander": "~2.1.0",
     "opn": "^0.1.1",
