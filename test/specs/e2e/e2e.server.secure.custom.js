@@ -4,7 +4,7 @@ var browserSync = require("../../../lib/index");
 
 var request = require("supertest");
 var _       = require("lodash");
-var https    = require("https");
+var https   = require("https");
 var http    = require("http");
 var assert  = require("chai").assert;
 

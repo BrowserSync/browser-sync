@@ -33,8 +33,6 @@ describe("E2E TLS server test", function () {
     });
 
     after(function () {
-
-        https.globalAgent = undefined;
         instance.cleanup();
     });
 
