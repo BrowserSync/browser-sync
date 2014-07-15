@@ -25,12 +25,12 @@ describe("Reload method", function () {
     });
     it("should accept a file path as a string", function () {
         browserSync.reload("css/core.css");
-        sinon.assert.calledWithExactly(emitterStub, "file:changed", {path: "css/core.css", log: true});
+        sinon.assert.calledWithExactly(emitterStub, "file:changed", {path: "css/core.css", log: true, namespace: "core"});
     });
     it("should accept an array of file paths as strings", function () {
         browserSync.reload(["css/core.css", "index.html"]);
-        sinon.assert.calledWithExactly(emitterStub, "file:changed", {path: "css/core.css", log: true});
-        sinon.assert.calledWithExactly(emitterStub, "file:changed", {path: "index.html", log: true});
+        sinon.assert.calledWithExactly(emitterStub, "file:changed", {path: "css/core.css", log: true, namespace: "core"});
+        sinon.assert.calledWithExactly(emitterStub, "file:changed", {path: "index.html", log: true, namespace: "core"});
     });
 
     describe("Returning a stream", function () {
@@ -39,15 +39,15 @@ describe("Reload method", function () {
             var stream = browserSync.reload({stream:true});
             stream.write(new File({path: "styles.css"}));
             stream.end();
-            sinon.assert.calledWithExactly(emitterStub, "file:changed", {path: "styles.css", log: false});
+            sinon.assert.calledWithExactly(emitterStub, "file:changed", {path: "styles.css", log: false, namespace: "core"});
         });
         it("should accept multiple files in stream", function(){
             var stream = browserSync.reload({stream: true});
             stream.write(new File({path: "styles.css"}));
             stream.write(new File({path: "styles2.css"}));
             stream.end();
-            sinon.assert.calledWithExactly(emitterStub, "file:changed", {path: "styles.css", log: false});
-            sinon.assert.calledWithExactly(emitterStub, "file:changed", {path: "styles2.css", log: false});
+            sinon.assert.calledWithExactly(emitterStub, "file:changed", {path: "styles.css", log: false, namespace: "core"});
+            sinon.assert.calledWithExactly(emitterStub, "file:changed", {path: "styles2.css", log: false, namespace: "core"});
             sinon.assert.calledWithExactly(emitterStub, "stream:changed", {changed: ["styles.css", "styles2.css"]});
         });
         it("should reload browser if once:true given as arg", function() {
@@ -68,7 +68,7 @@ describe("Reload method", function () {
             stream.end();
 
             sinon.assert.calledWithExactly(emitterStub, "browser:reload");
-            sinon.assert.calledWithExactly(emitterStub, "file:changed", {path: "styles.css", log: false});
+            sinon.assert.calledWithExactly(emitterStub, "file:changed", {path: "styles.css", log: false, namespace: "core"});
             sinon.assert.calledWithExactly(emitterStub, "stream:changed", {changed: ["styles.css"]});
         });
     });

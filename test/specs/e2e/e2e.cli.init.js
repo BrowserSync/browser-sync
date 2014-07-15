@@ -15,10 +15,9 @@ describe("E2E INIT test", function () {
 
     var bs;
 
-    it("can serve the script", function (done) {
-        bs = spawn(index, ["init"], {stdio: "inherit"}).on("close", function () {
-            fs.unlink(process.cwd() + config.userFile, done);
-        });
-    });
-
+//    it("can serve the script", function (done) {
+//        bs = spawn(index, ["init"], {stdio: "inherit"}).on("close", function () {
+//            fs.unlink(process.cwd() + config.userFile, done);
+//        });
+//    });
 });

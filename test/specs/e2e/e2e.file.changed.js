@@ -33,7 +33,7 @@ describe("E2E Responding to events", function () {
         var stub = sinon.stub(instance.io.sockets, "emit");
 
         // Emit the event as it comes from the file-watcher
-        instance.events.emit("file:changed", {path: "styles.css", log: true});
+        instance.events.emit("file:changed", {path: "styles.css", log: true, namespace: "core"});
 
         var eventName = stub.getCall(0).args[0];
         var args      = stub.getCall(0).args[1];

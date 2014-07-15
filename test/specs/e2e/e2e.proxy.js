@@ -52,8 +52,12 @@ describe("E2E proxy test", function () {
 
     it("Can proxy websockets", function(done){
 
+        var called;
         instance.io.sockets.on("connection", function (client) {
-            done();
+            if (!called) {
+                called = true;
+                done();
+            }
         });
 
         var clientSockets = client.connect(instance.options.urls.local, {"force new connection": true});
