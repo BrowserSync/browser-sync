@@ -4,6 +4,7 @@ var browserSync = require("../../../index");
 var config      = require("../../../lib/config");
 
 var fs      = require("fs");
+var path    = require("path");
 var _       = require("lodash");
 var assert  = require("chai").assert;
 var spawn   = require("child_process").spawn;
