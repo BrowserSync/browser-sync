@@ -34,7 +34,7 @@
     "ua-parser-js": "~0.6.2",
     "optimist": "~0.6.1",
     "dev-ip": "~0.1.7",
-    "gaze": "~0.6.4",
+    "gaze": "~0.5.1",
     "http-proxy": "~1.1.4",
     "cl-strings": "0.0.5",
     "resp-modifier": "0.1.0",
