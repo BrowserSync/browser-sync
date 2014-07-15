@@ -113,13 +113,14 @@ describe("Info Helpers:", function () {
         after(function () {
             readStub.restore();
             writeStub.restore();
+            confirmStub.restore();
             cwd.restore();
         });
         it("should call the readFileSync method", function () {
             sinon.assert.called(readStub);
         });
         it("should create the config file", function () {
-            var expectedPath = "/users/app" + config.configFile;
+            var expectedPath = "/users/app" + config.userFile;
             sinon.assert.calledWithExactly(writeStub, expectedPath, "DATA", confirmSpy);
         });
         it("should call confirm config with the Path to the file", function () {
