@@ -24,7 +24,7 @@
     "node": ">= 0.8.0"
   },
   "scripts": {
-    "test": "gulp lint && mocha --recursive test/specs"
+    "test": "gulp lint && mocha --recursive test/specs --reporter spec"
   },
   "dependencies": {
     "portscanner-plus": "0.1.0",
