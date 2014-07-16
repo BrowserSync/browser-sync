@@ -15,6 +15,8 @@ var index   = path.resolve( __dirname + "/../../../index.js");
 
 describe("E2E CLI proxy test", function () {
 
+    this.timeout(5000);
+
     var stubServer, bs, options;
 
     before(function (done) {
