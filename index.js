@@ -86,6 +86,7 @@ Object.defineProperty(module.exports, "active", {
  *
  * @method notify
  * @param {String|HTML} msg Can be a simple message such as 'Connected' or HTML
+ * @param {Number} [timeout] How long the message will remain in the browser. @since 1.3.0
  */
 module.exports.notify = require("./lib/public/notify")(browserSync);
 

@@ -54,8 +54,10 @@ describe("E2E OPEN options with external", function () {
     });
 
     it("Opens the external address when specified in options", function () {
-        var args = stub.getCall(0).args;
-        sinon.assert.called(stub);
-        assert.equal(args[0], instance.options.urls.external);
+        if (instance.options.online) {
+            var args = stub.getCall(0).args;
+            sinon.assert.called(stub);
+            assert.equal(args[0], instance.options.urls.external);
+        }
     });
 });
