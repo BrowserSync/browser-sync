@@ -8,6 +8,8 @@ var assert  = require("chai").assert;
 
 describe("E2E server test", function () {
 
+    this.timeout(5000);
+
     var instance;
 
     before(function (done) {
