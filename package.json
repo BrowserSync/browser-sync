@@ -44,7 +44,8 @@
     "foxy": "^0.2.0",
     "localtunnel": "^1.3.0",
     "opt-merger": "0.1.3",
-    "emitter-steward": "0.0.1"
+    "emitter-steward": "0.0.1",
+    "glob-watcher": "0.0.6"
   },
   "devDependencies": {
     "optimist": "~0.6.0",
