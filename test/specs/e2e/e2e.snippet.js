@@ -29,7 +29,7 @@ describe("E2E Snippet tests", function () {
     it("returns the snippet URL", function (done) {
 
         request(instance.server)
-            .get(instance.options.scriptPath)
+            .get(instance.options.scriptPaths.versioned)
             .expect(200)
             .end(function (err, res) {
                 assert.isTrue(_.contains(res.text, "Connected to BrowserSync"));

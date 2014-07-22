@@ -18,7 +18,7 @@ describe("E2E server test with tunnel", function () {
 
         var config = {
             server: {
-                baseDir: __dirname + "/../../fixtures"
+                baseDir: "test/fixtures"
             },
             debugInfo: false,
             open: false,
