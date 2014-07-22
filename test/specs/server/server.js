@@ -48,7 +48,7 @@ describe("Server: The launchServer method", function () {
 
             options.server.baseDir = "test/fixtures";
 
-            var bsServer = server.launchServer(options, "SCRIPT", null, {});
+            var bsServer = server.launchServer(options, "SCRIPT", {});
 
             request(bsServer)
                 .get("/index.html")
@@ -59,7 +59,7 @@ describe("Server: The launchServer method", function () {
             options.server.baseDir = "test/fixtures/alt";
             options.server.index = "index.htm";
 
-            var bsServer = server.launchServer(options, "SCRIPT", null, {});
+            var bsServer = server.launchServer(options, "SCRIPT", {});
 
             request(bsServer)
                 .get("/")
@@ -71,7 +71,7 @@ describe("Server: The launchServer method", function () {
             options.server.baseDir = "test/fixtures";
             options.server.index = "index.html";
 
-            var bsServer = server.launchServer(options, io, null, {});
+            var bsServer = server.launchServer(options, io, {});
 
             request(bsServer)
                 .get("/")
@@ -83,7 +83,7 @@ describe("Server: The launchServer method", function () {
             options.server.baseDir = ["test/fixtures", "test/fixtures2"];
             options.server.index = "index.html";
 
-            var bsServer = server.launchServer(options, io, null, {});
+            var bsServer = server.launchServer(options, io, {});
 
             request(bsServer)
                 .get("/style-alt.css")

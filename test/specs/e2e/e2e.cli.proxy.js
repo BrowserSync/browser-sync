@@ -45,7 +45,7 @@ describe("E2E CLI proxy test", function () {
     it("Can serve the script", function (done) {
 
         request(options.urls.local)
-            .get(options.scriptPath)
+            .get(options.scriptPaths.versioned)
             .expect(200)
             .end(function (err, res) {
                 assert.isTrue(_.contains(res.text, "Connected to BrowserSync"));

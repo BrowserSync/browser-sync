@@ -68,7 +68,7 @@ describe("E2E proxy test", function () {
     it("Can serve the script", function (done) {
 
         request(instance.server)
-            .get(instance.options.scriptPath)
+            .get(instance.options.scriptPaths.versioned)
             .expect(200)
             .end(function (err, res) {
                 assert.isTrue(_.contains(res.text, "Connected to BrowserSync"));
