@@ -12,7 +12,7 @@ var sinon = require("sinon");
 
 var options = browserSync.options;
 
-describe("Exposed Methods", function () {
+describe("Utils: Exposed Methods", function () {
 
     var emitter, emitterStub;
     before(function () {

@@ -7,7 +7,7 @@ var utils         = require("../../../lib/server/utils");
 var assert        = require("chai").assert;
 var sinon         = require("sinon");
 
-describe("Server Utils: ", function () {
+describe("Server: Server Utils: ", function () {
 
     var app;
     var spy;

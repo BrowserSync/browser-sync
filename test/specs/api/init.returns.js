@@ -5,7 +5,7 @@ var BrowserSync = require("../../../lib/browser-sync");
 
 var assert      = require("chai").assert;
 
-describe("Init method", function () {
+describe("Main Export", function () {
 
     var instance;
 
@@ -17,7 +17,7 @@ describe("Init method", function () {
         instance.cleanup();
     });
 
-    it("should accept files, config & callback", function () {
+    it("should be an instance of BrowserSync", function () {
         assert.isTrue(instance instanceof BrowserSync);
     });
 });

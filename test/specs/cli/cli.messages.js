@@ -8,7 +8,7 @@ var ansiTrim = require("cli-color/lib/trim");
 var assert   = require("chai").assert;
 
 
-describe("Messages module", function () {
+describe("CLI: Messages", function () {
 
     it("can be loaded", function () {
         assert.isDefined(messages);

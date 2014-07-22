@@ -7,7 +7,7 @@ var callbacks       = options.callbacks;
 
 var assert = require("chai").assert;
 
-describe("Merging Ghostmode options", function () {
+describe("CLI: Options: Merging Ghostmode options", function () {
     it("should merge ghost mode set to false", function () {
         var arg = false;
         var defaultVal = defaultConfig.ghostMode;

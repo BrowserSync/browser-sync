@@ -4,7 +4,7 @@ var utils  = require("../../../lib/utils").utils;
 var assert = require("chai").assert;
 var sinon  = require("sinon");
 
-describe("getting a file extension", function () {
+describe("Utils: getting a file extension", function () {
     it("should return the file extension only (1)", function () {
         var actual = utils.getFileExtension("core.css");
         var expected = "css";

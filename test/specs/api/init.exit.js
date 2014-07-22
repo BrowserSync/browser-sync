@@ -5,7 +5,7 @@ var browserSync = require("../../../index");
 var assert      = require("chai").assert;
 var sinon       = require("sinon");
 
-describe("Using the public exit method", function () {
+describe("API: .exit() - Using the public exit method", function () {
 
     it("should exit without BS being started", function () {
         var stub = sinon.stub(process, "exit");
@@ -14,7 +14,7 @@ describe("Using the public exit method", function () {
         stub.restore();
     });
 
-    describe("should exit when BS is running.", function () {
+    describe("should exit when BrowserSync is running.", function () {
 
         var instance;
 

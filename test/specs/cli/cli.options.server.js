@@ -6,7 +6,7 @@ var options         = cli.options;
 
 var assert = require("chai").assert;
 
-describe("Merging Server Options", function () {
+describe("CLI: Options: Merging Server Options", function () {
     var defaultValue;
     beforeEach(function () {
         defaultValue = false;

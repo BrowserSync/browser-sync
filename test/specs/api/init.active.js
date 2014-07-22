@@ -4,13 +4,13 @@ var browserSync = require("../../../index");
 
 var assert      = require("chai").assert;
 
-describe("Retrieving the active state of browserSync", function () {
+describe("API: .active - Retrieving the active state of browserSync", function () {
 
     it("should know the inactive state of BrowserSync", function () {
         assert.equal(browserSync.active, false);
     });
 
-    describe("setting active", function () {
+    describe("Setting the active state", function () {
 
         var instance;
 

@@ -1,11 +1,10 @@
-var defaultConfig   = require("../../../lib/default-config");
 var cli             = require("../../../lib/cli/");
 var options         = cli.options;
 var callbacks       = options.callbacks;
 
 var assert = require("chai").assert;
 
-describe("Merging Options: Files", function () {
+describe("CLI: Options: Merging Options: Files", function () {
     it("should return the files property from string", function () {
         var files = "css/*.css";
         var actual = callbacks.files([], files);

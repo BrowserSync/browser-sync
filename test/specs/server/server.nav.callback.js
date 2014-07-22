@@ -10,7 +10,7 @@ var request       = require("supertest");
 
 var options = { server: {} };
 
-describe("the navigateCallback function (ghostmode links ON)", function () {
+describe("Server: the navigateCallback function (ghostmode links ON)", function () {
 
     var io;
     var clientsSpy;

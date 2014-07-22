@@ -6,7 +6,7 @@ var options         = cli.options;
 
 var assert = require("chai").assert;
 
-describe("Merging Proxy Options", function () {
+describe("CLI: Options: Merging Proxy Options", function () {
 
     var defaultValue;
 

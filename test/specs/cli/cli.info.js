@@ -9,7 +9,7 @@ var assert   = require("chai").assert;
 var sinon    = require("sinon");
 var fs       = require("fs");
 
-describe("Info Helpers:", function () {
+describe("CLI: Info Helpers:", function () {
 
     describe("When displaying the version number", function () {
 

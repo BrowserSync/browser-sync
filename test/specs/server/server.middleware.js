@@ -14,7 +14,7 @@ var options = {
     version: "2.1.0"
 };
 
-describe("Adding custom middleware", function () {
+describe("Server:  Adding custom middleware", function () {
 
     it("can add a single middleware given as function", function (done) {
 

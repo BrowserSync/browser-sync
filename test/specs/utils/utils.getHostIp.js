@@ -8,7 +8,7 @@ var devIp    = require("dev-ip");
 var assert   = require("chai").assert;
 var sinon    = require("sinon");
 
-describe("getting the Host IP", function () {
+describe("Utils: getting the Host IP", function () {
 
     var regex;
     var stub, ipStub;

@@ -13,7 +13,7 @@ var port       = 3000;
 var host       = "0.0.0.0";
 var urlHost    = "http://" + host + ":" + port + "/app";
 
-describe("Browser Sync: init Server", function () {
+describe("Server:  Browser Sync: init Server", function () {
 
     var options;
     var launchServer;

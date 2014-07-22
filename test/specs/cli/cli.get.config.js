@@ -10,10 +10,8 @@ var sinon        = require("sinon");
 var assert       = require("chai").assert;
 
 var configFilePath = "test/fixtures/config/si-config.js";
-var fakeCwd = "/Users/shakyshane/os-browser-sync";
 
-
-describe("Resolving Config:", function () {
+describe("CLI: Resolving Config file:", function () {
 
     var defaultConfig;
 

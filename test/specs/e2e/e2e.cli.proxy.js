@@ -42,7 +42,7 @@ describe("E2E CLI proxy test", function () {
         stubServer.close();
     });
 
-    it("can serve the script", function (done) {
+    it("Can serve the script", function (done) {
 
         request(options.urls.local)
             .get(options.scriptPath)

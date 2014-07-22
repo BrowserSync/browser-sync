@@ -6,7 +6,7 @@ var program = require("commander");
 var assert  = require("chai").assert;
 var sinon   = require("sinon");
 
-describe("Parsing Command-line usage: ", function () {
+describe("CLI: Options: Parsing Command-line usage: ", function () {
 
     var startStub;
 

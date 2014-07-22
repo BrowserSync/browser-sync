@@ -19,7 +19,7 @@ var options = {
 
 var snippet = messages.scriptTags(options.port, options);
 
-describe("Launching a server with snippets", function () {
+describe("Server: Launching a server with snippets", function () {
 
     var io;
     var app;

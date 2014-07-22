@@ -7,7 +7,7 @@ var assert   = require("chai").assert;
 var external = "192.168.0.4";
 var port = 3002;
 
-describe("creating URLs", function () {
+describe("Utils: creating URLs", function () {
     var options;
     beforeEach(function(){
         options = {

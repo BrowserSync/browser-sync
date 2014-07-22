@@ -6,7 +6,7 @@ var options         = cli.options;
 
 var assert = require("chai").assert;
 
-describe("Merging Hostname option", function () {
+describe("CLI: Options: Merging Hostname option", function () {
     var defaultValue = null;
     it("should merge a hostname", function () {
         var arg = "localhost";

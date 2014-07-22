@@ -4,7 +4,7 @@ var utils   = require("../../../lib/snippet").utils;
 
 var assert  = require("chai").assert;
 
-describe("returning the snippet regex", function () {
+describe("Snippet: returning the snippet regex", function () {
     it("should return a working regex", function(){
         var actual = utils.getRegex();
         assert.isTrue(actual.match instanceof RegExp);

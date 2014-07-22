@@ -4,7 +4,7 @@ var utils  = require("../../../lib/utils").utils;
 
 var assert = require("chai").assert;
 
-describe("creating URL from options", function () {
+describe("Utils: creating URL from options", function () {
 
     var url = "http://0.0.0.0:3002";
 

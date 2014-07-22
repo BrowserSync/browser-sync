@@ -14,14 +14,14 @@ var options = {
     host: "localhost"
 };
 
-describe("Server Module", function () {
+describe("Server: module", function () {
 
     it("should have the launchServer method", function () {
         assert.isFunction(server.launchServer);
     });
 });
 
-describe("The launchServer method", function () {
+describe("Server: The launchServer method", function () {
 
     var io;
     var clientsSpy;

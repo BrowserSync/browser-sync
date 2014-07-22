@@ -6,15 +6,18 @@ var assert      = require("chai").assert;
 var sinon       = require("sinon");
 var File        = require("vinyl");
 
-describe("Reload method", function () {
+describe("API: .reload()", function () {
 
     var emitterStub;
+
     before(function(){
         emitterStub = sinon.stub(browserSync.emitter, "emit");
     });
+
     afterEach(function () {
         emitterStub.reset();
     });
+
     after(function () {
         emitterStub.restore();
     });
@@ -33,7 +36,7 @@ describe("Reload method", function () {
         sinon.assert.calledWithExactly(emitterStub, "file:changed", {path: "index.html", log: true, namespace: "core"});
     });
 
-    describe("Returning a stream", function () {
+    describe("Dealing with Streams", function () {
 
         it("should handle a single file changed", function () {
             var stream = browserSync.reload({stream:true});

@@ -8,7 +8,7 @@ var _      = require("lodash");
 
 var defaultsClone = _.cloneDeep(defaultConfig);
 
-describe("Merging Ports option", function () {
+describe("CLI: Options: Merging Ports option", function () {
     var defaultValue;
     beforeEach(function () {
         defaultValue = false;

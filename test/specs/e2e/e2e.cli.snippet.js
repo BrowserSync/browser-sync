@@ -8,7 +8,7 @@ var fork    = require("child_process").fork;
 
 var index   = path.resolve( __dirname + "/../../../index.js");
 
-describe("E2E server test", function () {
+describe("E2E CLI Snippet test", function () {
 
     var bs, options;
 

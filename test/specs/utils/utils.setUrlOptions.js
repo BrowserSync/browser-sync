@@ -7,7 +7,7 @@ var sinon    = require("sinon");
 
 var external = "192.168.0.4";
 
-describe("creating URLs", function () {
+describe("Utils: creating URLs", function () {
     var opts, port, ipStub;
     before(function () {
         ipStub = sinon.stub(utils, "getHostIp").returns(external);

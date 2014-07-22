@@ -1,12 +1,11 @@
 "use strict";
 
-var defaultConfig   = require("../../../lib/default-config");
 var options         = require("../../../lib/cli/cli-options");
 var wrap            = options.utils.wrapPattern;
 
 var assert          = require("chai").assert;
 
-describe("wrapping file patterns for exclusion", function () {
+describe("CLI Options: wrapping file patterns for exclusion", function () {
     it("should wrap a DIR (2)", function () {
         var actual = wrap("css/dist");
         var expected = "!css/dist/**";

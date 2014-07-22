@@ -11,7 +11,7 @@ var _            = require("lodash");
 var sinon        = require("sinon");
 var assert       = require("chai").assert;
 
-describe("Resolving Config Files:", function () {
+describe("CLI: Resolving Config Files:", function () {
 
     var defaultConfig;
 
@@ -42,9 +42,6 @@ describe("Resolving Config Files:", function () {
             beforeEach(function () {
                 init.startFromCommandLine(args, cbSpy);
             });
-//            it("should attempt to retrieve the DEFAULT config file path", function () {
-//                sinon.assert.called(getDefaultFileStub);
-//            });
             it("should call the callback with the results", function () {
                 sinon.assert.called(cbSpy);
             });
