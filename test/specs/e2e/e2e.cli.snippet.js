@@ -10,6 +10,8 @@ var index   = path.resolve( __dirname + "/../../../index.js");
 
 describe("E2E CLI Snippet test", function () {
 
+    this.timeout(5000);
+
     var bs, options;
 
     before(function (done) {
