@@ -16,7 +16,7 @@ var urlHost    = "http://" + host + ":" + port + "/app";
 describe("Server:  Browser Sync: init Server", function () {
 
     var options;
-    var launchServer;
+    var createServer;
     var open;
     var spy;
     var getUrl, logStub;
@@ -26,7 +26,7 @@ describe("Server:  Browser Sync: init Server", function () {
         options = {};
         logStub = sinon.stub(utils, "log").returns(true);
         emitterStub = sinon.stub(bs.events, "emit");
-        launchServer = sinon.stub(server, "launchServer").returns(require("http").HttpServer);
+        createServer = sinon.stub(server, "createServer").returns(require("http").HttpServer);
         open = sinon.stub(utils, "openBrowser").returns(true);
         getUrl = sinon.stub(utils, "getUrl").returns(urlHost);
         spy = sinon.spy();
@@ -40,7 +40,7 @@ describe("Server:  Browser Sync: init Server", function () {
     });
 
     after(function () {
-        launchServer.restore();
+        createServer.restore();
         open.restore();
         getUrl.restore();
         logStub.restore();
@@ -126,7 +126,7 @@ describe("Server:  Browser Sync: init Server", function () {
         });
         it("logs when using Snippet", function () {
 
-            launchServer.returns(false);
+            createServer.returns(false);
 
             bs.initServer({host:host,port:port}, spy);
 

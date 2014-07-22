@@ -16,12 +16,12 @@ var options = {
 
 describe("Server: module", function () {
 
-    it("should have the launchServer method", function () {
-        assert.isFunction(server.launchServer);
+    it("should have the createServer method", function () {
+        assert.isFunction(server.createServer);
     });
 });
 
-describe("Server: The launchServer method", function () {
+describe("Server: The createServer method", function () {
 
     var io;
     var clientsSpy;
@@ -48,7 +48,7 @@ describe("Server: The launchServer method", function () {
 
             options.server.baseDir = "test/fixtures";
 
-            var bsServer = server.launchServer(options, "SCRIPT", {});
+            var bsServer = server.createServer(options, "SCRIPT", {});
 
             request(bsServer)
                 .get("/index.html")
@@ -59,7 +59,7 @@ describe("Server: The launchServer method", function () {
             options.server.baseDir = "test/fixtures/alt";
             options.server.index = "index.htm";
 
-            var bsServer = server.launchServer(options, "SCRIPT", {});
+            var bsServer = server.createServer(options, "SCRIPT", {});
 
             request(bsServer)
                 .get("/")
@@ -71,7 +71,7 @@ describe("Server: The launchServer method", function () {
             options.server.baseDir = "test/fixtures";
             options.server.index = "index.html";
 
-            var bsServer = server.launchServer(options, io, {});
+            var bsServer = server.createServer(options, io, {});
 
             request(bsServer)
                 .get("/")
@@ -83,7 +83,7 @@ describe("Server: The launchServer method", function () {
             options.server.baseDir = ["test/fixtures", "test/fixtures2"];
             options.server.index = "index.html";
 
-            var bsServer = server.launchServer(options, io, {});
+            var bsServer = server.createServer(options, io, {});
 
             request(bsServer)
                 .get("/style-alt.css")
