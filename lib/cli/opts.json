@@ -2,6 +2,8 @@
     "--files": "File paths to watch",
     "--exclude": "File patterns to ignore",
     "--server": "Run a Local server (uses your cwd as the web root)",
+    "--index": "Specify which file should be used as the index page",
+    "--startPath": "Specify which file should be used as the index page",
     "--https": "Enable SSL for local development",
     "--directory": "Show a directory listing for the server",
     "--proxy": "Proxy an existing server",
