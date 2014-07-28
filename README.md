@@ -34,7 +34,7 @@ npm install -g browser-sync
 There's a [separate plugin](https://github.com/shakyShane/grunt-browser-sync) for that
 
 ## Using Gulp?
-No problem, here's a [setup guide](https://github.com/shakyShane/gulp-browser-sync)
+No problem, here's a [setup guide](http://www.browsersync.io/docs/gulp)
 
 ## Screencasts
 [Some listed here](https://github.com/shakyShane/browser-sync/wiki/Screencasts)
