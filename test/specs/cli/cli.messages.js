@@ -4,7 +4,7 @@ var index    = require("../../../index");
 var messages = require("../../../lib/messages");
 var config   = require("../../../lib/config");
 
-var ansiTrim = require("cli-color/lib/trim");
+var ansiTrim = require("cli-color/trim");
 var assert   = require("chai").assert;
 
 

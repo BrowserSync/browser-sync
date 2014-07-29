@@ -2,12 +2,13 @@
 
 var browserSync = require("../../../index");
 
-var http    = require("http");
-var connect = require("connect");
-var _       = require("lodash");
-var request = require("supertest");
-var assert  = require("chai").assert;
-var client  = require("socket.io-client");
+var http        = require("http");
+var connect     = require("connect");
+var serveStatic = require("serve-static");
+var _           = require("lodash");
+var request     = require("supertest");
+var assert      = require("chai").assert;
+var client      = require("socket.io-client");
 
 describe("E2E proxy test", function () {
 
@@ -22,7 +23,7 @@ describe("E2E proxy test", function () {
         };
 
         var testApp = connect()
-            .use(connect.static(__dirname + "/../../fixtures"));
+            .use(serveStatic(__dirname + "/../../fixtures"));
 
         // server to proxy
         stubServer = http.createServer(testApp).listen(8080);

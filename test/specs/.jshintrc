@@ -12,15 +12,5 @@
     "boss": true,
     "eqnull": true,
     "node": true,
-    "globals": {
-        "describe" : false,
-        "it" : false,
-        "expect" : false,
-        "runs" : false,
-        "waitsFor" : false,
-        "beforeEach" : false,
-        "afterEach" : false,
-        "before" : false,
-        "after" : false
-    }
+    "mocha": true
 }

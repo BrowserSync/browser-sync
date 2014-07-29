@@ -3,7 +3,6 @@
 var gulp        = require("gulp");
 var jshint      = require("gulp-jshint");
 var contribs    = require("gulp-contribs");
-var sass        = require("gulp-sass");
 var rubySass    = require("gulp-ruby-sass");
 var filter      = require("gulp-filter");
 var browserSync = require("./index");
