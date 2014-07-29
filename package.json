@@ -52,10 +52,10 @@
   "devDependencies": {
     "optimist": "~0.6.0",
     "socket.io-client": "1.0.4",
-    "cli-color": "~0.2.3",
     "chai": "~1.8.1",
     "sinon": "~1.7.3",
     "lodash": "~2.4.1",
+    "cli-color": "~0.3.2",
     "supertest": "~0.13.0",
     "mocha": "*",
     "gulp": "~3.5.2",
