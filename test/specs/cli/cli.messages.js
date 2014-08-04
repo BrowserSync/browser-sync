@@ -277,7 +277,7 @@ describe("CLI: Messages", function () {
     describe("Outputting generic messages", function () {
         it("should output browser connected correctly", function () {
             var expected = "[BS] Browser Connected! (Chrome, version: 21.222)";
-            var actual = ansiTrim(messages.browser.connection({name: "Chrome", version: "21.222"}));
+            var actual = ansiTrim(messages.browser.connection({name: "Chrome", version: "21.222"}, true));
             assert.equal(actual, expected);
         });
         it("should output invalid base dir message", function () {
