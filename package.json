@@ -1,7 +1,7 @@
 {
   "name": "browser-sync",
   "description": "Live CSS Reload & Browser Syncing",
-  "version": "1.3.4",
+  "version": "1.3.5",
   "homepage": "https://github.com/shakyshane/browser-sync",
   "author": {
     "name": "Shane Osbourne"
@@ -42,12 +42,11 @@
     "opt-merger": "0.1.3",
     "optimist": "~0.6.1",
     "portscanner-plus": "0.1.0",
-    "resp-modifier": "0.1.0",
+    "resp-modifier": "0.1.1",
     "serve-index": "^1.1.5",
     "serve-static": "^1.4.2",
     "socket.io": "1.0.6",
-    "ua-parser-js": "~0.7.0",
-    "through": "^2.3.4"
+    "ua-parser-js": "~0.7.0"
   },
   "devDependencies": {
     "optimist": "~0.6.0",
