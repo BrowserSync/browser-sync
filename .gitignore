@@ -8,3 +8,4 @@ test/fixtures/js/*
 example.js
 .DS_store
 doc/
+.coveralls.yml

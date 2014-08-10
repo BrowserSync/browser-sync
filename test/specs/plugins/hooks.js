@@ -7,7 +7,7 @@ var _       = require("lodash");
 var request = require("supertest");
 var assert  = require("chai").assert;
 
-describe("Plugins: Registering a plugin", function () {
+describe("Plugins: Registering Hooks:", function () {
 
     var instance;
     var initSpy;
