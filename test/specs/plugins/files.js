@@ -30,7 +30,7 @@ describe("Plugins: Watching Files:", function () {
                     done();
                 });
             },
-            name: PLUGIN_NAME
+            "plugin:name": PLUGIN_NAME
         }, {files: "test.html"});
 
         var instance = browserSync(config, function (err, bs) {
