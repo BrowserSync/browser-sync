@@ -8,6 +8,7 @@ var serveStatic = require("serve-static");
 var request     = require("supertest");
 var assert      = require("chai").assert;
 var client      = require("socket.io-client");
+var portScanner = require("portscanner-plus");
 
 describe("E2E proxy test", function () {
 
@@ -15,19 +16,22 @@ describe("E2E proxy test", function () {
 
     before(function (done) {
 
-        var config = {
-            proxy: "localhost:8080",
-            debugInfo: false,
-            open: false
-        };
+        portScanner.getPorts(1).then(function (ports) {
 
-        var testApp = connect()
-            .use(serveStatic(__dirname + "/../../fixtures"));
+            var config = {
+                proxy: "localhost:" + ports[0],
+                debugInfo: false,
+                open: false
+            };
 
-        // server to proxy
-        stubServer = http.createServer(testApp).listen(8080);
+            var testApp = connect()
+                .use(serveStatic(__dirname + "/../../fixtures"));
 
-        instance = browserSync.init([], config, done);
+            // server to proxy
+            stubServer = http.createServer(testApp).listen(ports[0]);
+
+            instance = browserSync.init([], config, done);
+        });
     });
 
     after(function () {

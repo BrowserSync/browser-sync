@@ -5,7 +5,7 @@ var BrowserSync = require("../../../lib/browser-sync");
 
 var assert  = require("chai").assert;
 
-describe("Plugins: Adding options:", function () {
+describe.skip("Plugins: Adding options:", function () {
 
     it("allows plugins to have access to options passed in '.use()'", function (done) {
 
@@ -22,12 +22,12 @@ describe("Plugins: Adding options:", function () {
         browserSync.use({
 
             plugin: function (bs, opts) {
-
                 assert.equal(opts.name, "shane");
                 assert.isTrue(bs instanceof BrowserSync);
                 instance.cleanup();
                 done();
-            }
+            },
+            "plugin:name": "test"
 
         }, {name: "shane"});
 
