@@ -8,7 +8,14 @@ var filter      = require("gulp-filter");
 var browserSync = require("./index");
 
 gulp.task("lint", function () {
-    gulp.src(["test/specs/**/*.js", "!test/fixtures/**", "lib/*"])
+    gulp.src([
+        "*.js",
+        "lib/**/*.js",
+        "!lib/cli/cli-template.js",
+        "!lib/public/socket.io.js",
+        "test/specs/**/*.js",
+        "!test/fixtures/**"
+    ])
         .pipe(jshint("test/specs/.jshintrc"))
         .pipe(jshint.reporter("default"))
         .pipe(jshint.reporter("fail"));
