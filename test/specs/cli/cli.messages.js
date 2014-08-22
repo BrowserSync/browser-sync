@@ -1,6 +1,5 @@
 "use strict";
 
-var index    = require("../../../index");
 var messages = require("../../../lib/messages");
 var config   = require("../../../lib/config");
 

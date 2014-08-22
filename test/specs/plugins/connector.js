@@ -1,7 +1,6 @@
 "use strict";
 
 var browserSync = require("../../../index");
-var BrowserSync = require("../../../lib/browser-sync");
 
 var request = require("supertest");
 var _       = require("lodash");
@@ -25,7 +24,7 @@ describe("Plugins: Using the connector middleware:", function () {
 
         browserSync.use({
 
-            plugin: function (bs, opts) {
+            plugin: function (bs) {
 
                 var connectorMw = bs.getMiddleware("connector");
                 var app = connect();

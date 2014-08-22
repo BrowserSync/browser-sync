@@ -4,10 +4,8 @@ var fileWatcher = require("../../../lib/file-watcher");
 
 var events      = require("events");
 var path        = require("path");
-var _           = require("lodash");
 var fs          = require("graceful-fs");
 var assert      = require("chai").assert;
-var sinon       = require("sinon");
 
 var outpath = path.join(__dirname, "/../../fixtures");
 

@@ -1,10 +1,7 @@
 "use strict";
 
-var defaultConfig = require("../../../lib/default-config");
-var server        = require("../../../lib/server/");
 var utils         = require("../../../lib/server/utils");
 
-var assert        = require("chai").assert;
 var sinon         = require("sinon");
 
 describe("Server: Server Utils: ", function () {

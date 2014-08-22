@@ -1,14 +1,10 @@
 "use strict";
 
 var defaultConfig = require("../../../lib/default-config");
-var server        = require("../../../lib/server/");
 var canNavigate   = require("../../../lib/server/utils.js").canNavigate;
 
 var assert        = require("chai").assert;
 var sinon         = require("sinon");
-var request       = require("supertest");
-
-var options = { server: {} };
 
 describe("Server: the navigateCallback function (ghostmode links ON)", function () {
 

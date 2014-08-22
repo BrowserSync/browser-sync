@@ -2,15 +2,9 @@
 
 var browserSync = require("../../../index");
 
-var sinon   = require("sinon");
-var _       = require("lodash");
-var path    = require("path");
-var fs      = require("graceful-fs");
-var request = require("supertest");
 var assert  = require("chai").assert;
 
 describe("Plugins: Watching Files:", function () {
-
 
     it("should add a namespaced watcher when given as plugin config", function (done) {
 
@@ -23,7 +17,7 @@ describe("Plugins: Watching Files:", function () {
         var PLUGIN_NAME = "KITTENZ";
 
         browserSync.use({
-            plugin: function (bs, opts) {
+            plugin: function (bs) {
                 bs.events.on("file:changed", function (data) {
                     assert.equal(data.namespace, PLUGIN_NAME);
                     instance.cleanup();
@@ -48,7 +42,7 @@ describe("Plugins: Watching Files:", function () {
         };
 
         browserSync.use({
-            plugin: function (bs, opts) {}
+            plugin: function () {}
         }, {files: "test.html"});
 
         var instance = browserSync(config, function (err, bs) {
@@ -66,7 +60,7 @@ describe("Plugins: Watching Files:", function () {
         };
 
         browserSync.use({
-            plugin: function (bs, opts) {}
+            plugin: function () {}
         });
 
         var instance = browserSync(config, function (err, bs) {

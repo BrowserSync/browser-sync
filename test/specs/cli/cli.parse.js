@@ -3,7 +3,6 @@
 var init    = require("../../../lib/cli/cli-init");
 var program = require("commander");
 
-var assert  = require("chai").assert;
 var sinon   = require("sinon");
 
 describe("CLI: Options: Parsing Command-line usage: ", function () {

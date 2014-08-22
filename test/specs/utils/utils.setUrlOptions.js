@@ -26,7 +26,7 @@ describe("Utils: creating URLs", function () {
         port = 3000;
     });
     it("should return the external", function () {
-        var actual = utils.setUrlOptions(port, opts);
+        utils.setUrlOptions(port, opts);
         assert.deepEqual(opts.external, external);
     });
     it("should return the host (BACKWARDS COMPAT)", function () {

@@ -2,9 +2,6 @@
 
 var browserSync   = require("../../../index");
 
-var path    = require("path");
-
-var sinon   = require("sinon");
 var _       = require("lodash");
 var request = require("supertest");
 var assert  = require("chai").assert;

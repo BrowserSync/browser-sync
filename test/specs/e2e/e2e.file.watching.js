@@ -2,8 +2,6 @@
 
 var browserSync   = require("../../../index");
 
-var sinon   = require("sinon");
-var fs      = require("fs");
 var path    = require("path");
 var assert  = require("chai").assert;
 

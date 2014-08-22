@@ -1,6 +1,5 @@
 "use strict";
 
-var defaultConfig   = require("../../../lib/default-config");
 var cli             = require("../../../lib/cli/");
 var options         = cli.options;
 

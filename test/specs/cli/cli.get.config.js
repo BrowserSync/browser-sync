@@ -1,12 +1,9 @@
 "use strict";
 
-var index        = require("../../../index");
-var config       = require("../../../lib/config");
 var loadedConfig = require("../../../lib/default-config");
 var info         = require("../../../lib/cli/cli-info");
 
 var _            = require("lodash");
-var sinon        = require("sinon");
 var assert       = require("chai").assert;
 
 var configFilePath = "test/fixtures/config/si-config.js";

@@ -1,7 +1,5 @@
 "use strict";
 
-var browserSync = require("../../../index");
-
 var http        = require("http");
 var path        = require("path");
 var connect     = require("connect");
@@ -9,7 +7,6 @@ var serveStatic = require("serve-static");
 var _           = require("lodash");
 var request     = require("supertest");
 var assert      = require("chai").assert;
-var client      = require("socket.io-client");
 var fork        = require("child_process").fork;
 
 var index   = path.resolve( __dirname + "/../../../index.js");

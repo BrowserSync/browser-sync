@@ -2,7 +2,6 @@
 
 var browserSync = require("../../../index");
 
-var assert      = require("chai").assert;
 var sinon       = require("sinon");
 var File        = require("vinyl");
 
