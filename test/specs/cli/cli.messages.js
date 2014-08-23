@@ -19,7 +19,7 @@ describe("CLI: Messages", function () {
             var expected = "[BS] Copy the following snippet into your website, just before the closing </body> tag";
             expected    += "\n\n<script type='text/javascript'>//<![CDATA[\n";
             expected    += "document.write(\"";
-            expected    += "<script async src='//HOST:3000/browser-sync-client.1.2.3.js'><\\/script>\".replace(/HOST/g, location.hostname));";
+            expected    += "<script async src='//HOST:PORT/browser-sync-client.1.2.3.js'><\\/script>\".replace(/HOST/g, location.hostname).replace(/PORT/g, location.port));";
             expected    += "\n//]]></script>\n";
 
             var actual   = ansiTrim(messages.initSnippet(3000, {version: "1.2.3"}));
