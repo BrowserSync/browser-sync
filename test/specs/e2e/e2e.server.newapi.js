@@ -52,7 +52,7 @@ describe("E2E server test with only a config option", function () {
             }
         });
 
-        instance.events.on("init", function (bs) {
+        instance.events.on("init", function () {
             if (!called) {
                 done();
                 called = true;

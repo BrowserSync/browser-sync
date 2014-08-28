@@ -1,15 +1,11 @@
 "use strict";
 
-var index        = require("../../../index");
-var messages     = require("../../../lib/messages");
-var config       = require("../../../lib/config");
 var loadedConfig = require("../../../lib/default-config");
 var info         = require("../../../lib/cli/cli-info");
 var init         = require("../../../lib/cli/cli-init");
 
 var _            = require("lodash");
 var sinon        = require("sinon");
-var assert       = require("chai").assert;
 
 describe("CLI: Resolving Config Files:", function () {
 

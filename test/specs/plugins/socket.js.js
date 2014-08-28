@@ -1,10 +1,8 @@
 "use strict";
 
 var browserSync = require("../../../index");
-var BrowserSync = require("../../../lib/browser-sync");
 
 var request = require("supertest");
-var _       = require("lodash");
 var http    = require("http");
 var connect = require("connect");
 var assert  = require("chai").assert;
@@ -25,7 +23,7 @@ describe("Plugins: Using the Socket.io js file:", function () {
 
         browserSync.use({
 
-            plugin: function (bs, opts) {
+            plugin: function (bs) {
 
                 var connectorMw = bs.getMiddleware("socket-js");
                 var app = connect();

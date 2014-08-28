@@ -4,8 +4,6 @@ var browserSync   = require("../../../index");
 var tunnel        = require("../../../lib/tunnel");
 
 var sinon   = require("sinon");
-var request = require("supertest");
-var assert  = require("chai").assert;
 
 describe("E2E server test with tunnel", function () {
 

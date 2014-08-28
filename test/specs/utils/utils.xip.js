@@ -4,7 +4,6 @@ var defaultConfig = require("../../../lib/default-config");
 var utils         = require("../../../lib/utils").utils;
 
 var assert = require("chai").assert;
-var sinon = require("sinon");
 
 describe("Utils: Adding xip", function () {
     it("can add xip.io when set in options", function () {

@@ -1,3 +1,5 @@
+"use strict";
+
 var cli             = require("../../../lib/cli/");
 var options         = cli.options;
 var callbacks       = options.callbacks;

@@ -3,7 +3,6 @@
 var browserSync = require("../../../index");
 
 var sinon   = require("sinon");
-var assert  = require("chai").assert;
 
 describe("E2E Events test", function () {
 

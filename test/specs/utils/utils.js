@@ -1,7 +1,6 @@
 "use strict";
 
 var defaultConfig = require("../../../lib/default-config");
-var messages      = require("../../../lib/messages");
 var utils         = require("../../../lib/utils").utils;
 var BrowserSync   = require("../../../lib/browser-sync");
 var browserSync   = new BrowserSync();
@@ -9,8 +8,6 @@ browserSync.cwd   = "/Users/shakshane/app";
 
 var assert = require("chai").assert;
 var sinon = require("sinon");
-
-var options = browserSync.options;
 
 describe("Utils: Exposed Methods", function () {
 
