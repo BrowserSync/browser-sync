@@ -3,7 +3,6 @@
 var browserSync = require("../../../index");
 
 var sinon   = require("sinon");
-var _       = require("lodash");
 var request = require("supertest");
 var assert  = require("chai").assert;
 
@@ -60,10 +59,10 @@ describe("Plugins: Registering Hooks:", function () {
         sinon.assert.calledOnce(initSpy); // the plugin init method
     });
     it("adds an item to the clientEvents array", function(){
-        assert.isTrue(_.contains(instance.clientEvents, "cp:goto"));
+        assert.include(instance.clientEvents, "cp:goto");
     });
     it("adds an item to the Server Middleware array", function(){
-        assert.isTrue(_.contains(instance.clientJs, "SHANE123456"));
+        assert.include(instance.clientJs, "SHANE123456");
     });
     it("adds an item to the Server Middleware array", function(done){
 

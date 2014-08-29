@@ -10,6 +10,8 @@
  *
  */
 
+"use strict";
+
 var browserSync = require("browser-sync");
 
 browserSync.init(["app/css/*.css"], {
@@ -18,4 +20,3 @@ browserSync.init(["app/css/*.css"], {
     },
     https: true
 });
-

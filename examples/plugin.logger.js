@@ -1,3 +1,5 @@
+"use strict";
+
 var browserSync = require("browser-sync");
 
 var files = ["test/fixtures/assets/*", "test/fixtures/*.html"];

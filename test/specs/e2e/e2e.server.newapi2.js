@@ -4,7 +4,6 @@ var browserSync = require("../../../index");
 
 var sinon   = require("sinon");
 var request = require("supertest");
-var _       = require("lodash");
 var assert  = require("chai").assert;
 
 describe("E2E server test with only a callback", function () {
@@ -28,7 +27,7 @@ describe("E2E server test with only a callback", function () {
             .get(instance.options.scriptPaths.versioned)
             .expect(200)
             .end(function (err, res) {
-                assert.isTrue(_.contains(res.text, "Connected to BrowserSync"));
+                assert.include(res.text, "Connected to BrowserSync");
                 done();
             });
     });
@@ -61,7 +60,7 @@ describe("E2E server test with config & callback", function () {
             .get(instance.options.scriptPaths.versioned)
             .expect(200)
             .end(function (err, res) {
-                assert.isTrue(_.contains(res.text, "Connected to BrowserSync"));
+                assert.include(res.text, "Connected to BrowserSync");
                 done();
             });
     });
