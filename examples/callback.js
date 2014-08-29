@@ -10,6 +10,8 @@
  *
  */
 
+"use strict";
+
 var browserSync = require("browser-sync");
 
 var files   = ["app/css/*.css"];
@@ -22,4 +24,3 @@ browserSync.init(files, config, function (err, bs) {
     console.log(bs.api.snippet);
     console.log(bs.options.url);
 });
-
