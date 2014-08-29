@@ -13,8 +13,8 @@ var cli           = require("./lib/cli/index");
 var init          = cli.init;
 var info          = cli.info;
 
-var args          = require("optimist").argv;
 var argv          = process.argv;
+var args          = require("minimist")(argv.slice(2));
 
 var browserSync   = new BrowserSync();
 
