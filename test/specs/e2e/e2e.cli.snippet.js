@@ -1,7 +1,6 @@
 "use strict";
 
 var path    = require("path");
-var _       = require("lodash");
 var assert  = require("chai").assert;
 var request = require("supertest");
 var fork    = require("child_process").fork;
@@ -36,7 +35,7 @@ describe("E2E CLI Snippet test", function () {
             .get(options.scriptPaths.versioned)
             .expect(200)
             .end(function (err, res) {
-                assert.isTrue(_.contains(res.text, "Connected to BrowserSync"));
+                assert.include(res.text, "Connected to BrowserSync");
                 done();
             });
     });

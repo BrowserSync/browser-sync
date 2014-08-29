@@ -2,7 +2,6 @@
 
 var browserSync   = require("../../../index");
 
-var _       = require("lodash");
 var request = require("supertest");
 var assert  = require("chai").assert;
 
@@ -29,7 +28,7 @@ describe("E2E Snippet tests", function () {
             .get(instance.options.scriptPaths.versioned)
             .expect(200)
             .end(function (err, res) {
-                assert.isTrue(_.contains(res.text, "Connected to BrowserSync"));
+                assert.include(res.text, "Connected to BrowserSync");
                 done();
             });
     });

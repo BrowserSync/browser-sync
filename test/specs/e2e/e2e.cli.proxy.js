@@ -4,7 +4,6 @@ var http        = require("http");
 var path        = require("path");
 var connect     = require("connect");
 var serveStatic = require("serve-static");
-var _           = require("lodash");
 var request     = require("supertest");
 var assert      = require("chai").assert;
 var fork        = require("child_process").fork;
@@ -46,8 +45,8 @@ describe("E2E CLI proxy test", function () {
             .get(options.scriptPaths.versioned)
             .expect(200)
             .end(function (err, res) {
-                assert.isTrue(_.contains(res.text, "Connected to BrowserSync"));
-                done();
+                assert.include(res.text, "Connected to BrowserSync");
+                done(err);
             });
     });
 
@@ -56,7 +55,7 @@ describe("E2E CLI proxy test", function () {
             .get("/")
             .expect(200)
             .end(function (err, res) {
-                assert.isTrue(_.contains(res.text, "BrowserSync + Public URL"));
+                assert.include(res.text, "BrowserSync + Public URL");
                 done();
             });
     });
@@ -67,7 +66,7 @@ describe("E2E CLI proxy test", function () {
             .set("accept", "text/html")
             .expect(200)
             .end(function (err, res) {
-                assert.isTrue(_.contains(res.text, options.snippet));
+                assert.include(res.text, options.snippet);
                 done();
             });
     });
