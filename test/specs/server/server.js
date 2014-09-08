@@ -88,5 +88,17 @@ describe("Server: The createServer method", function () {
                 .get("/style-alt.css")
                 .expect(200, done);
         });
+
+        it("can serve an index.htm from multiple dirs", function (done) {
+            
+            options.server.baseDir = ["test/fixtures2", "test/fixtures/alt"];
+            options.server.index = "index.htm";
+
+            var bsServer = server.createServer(options, io, {});
+
+            request(bsServer)
+                .get("/")
+                .expect(200, done);
+        });
     });
 });
