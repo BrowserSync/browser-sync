@@ -73,6 +73,7 @@ If you've found Browser-sync useful and would like to contribute to its continue
      1	Yazhong Liu
      1	mericson
      1	Cameron Spear
+     1  Craig Morris (morrislaptop)
 ```
 
 ## License
