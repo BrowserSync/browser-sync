@@ -45,7 +45,7 @@
     "resp-modifier": "~0.1.2",
     "serve-index": "^1.1.5",
     "serve-static": "^1.4.2",
-    "socket.io": "1.0.6",
+    "socket.io": "1.1.0",
     "ua-parser-js": "~0.7.0"
   },
   "devDependencies": {
@@ -62,7 +62,7 @@
     "mocha": "*",
     "mocha-lcov-reporter": "0.0.1",
     "sinon": "~1.10.3",
-    "socket.io-client": "^1.0.6",
+    "socket.io-client": "^1.1.0",
     "supertest": "~0.13.0",
     "vinyl": "^0.3.0"
   },
