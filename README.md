@@ -49,20 +49,24 @@ If you've found Browser-sync useful and would like to contribute to its continue
 ## Contributors
 
 ```
-   603	Shane Osbourne
-    15	Shinnosuke Watanabe
+   613	Shane Osbourne
+    16	Shinnosuke Watanabe
     13	Hugo Bessa
     11	Paul Kinlan
-     3	Werner van Deventer
+     8	Shane Daniel
      3	Marek 'saji' Augustynowicz
-     2	Dan Tello
+     3	Werner van Deventer
+     2	Paul Robertson
      2	Michael Branch
      2	brutaldev
      2	chase_chou
      2	Hugo Dias
-     2	Paul Robertson
+     2	Dan Tello
+     1	Cameron Spear
      1	viktor hesselbom
      1	Carl Henderson
+     1	Cedric Kastner
+     1	Craig Morris
      1	Dave Hall
      1	Guillaume Lambert
      1	Jory Graham
@@ -72,8 +76,6 @@ If you've found Browser-sync useful and would like to contribute to its continue
      1	Victor Fernandez de Alba
      1	Yazhong Liu
      1	mericson
-     1	Cameron Spear
-     1  Craig Morris (morrislaptop)
 ```
 
 ## License
