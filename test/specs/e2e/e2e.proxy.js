@@ -60,7 +60,8 @@ describe("E2E proxy test", function () {
             }
         });
 
-        var clientSockets = client.connect(instance.options.urls.local, {"force new connection": true});
+        var connectionUrl = instance.options.urls.local+instance.options.socket.namespace;
+        var clientSockets = client(connectionUrl, {path: instance.options.socket.path});
 
         clientSockets.emit("shane", {name:"shane"});
     });
