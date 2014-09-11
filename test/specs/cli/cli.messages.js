@@ -18,7 +18,7 @@ describe("CLI: Messages", function () {
             var expected = "[BS] Copy the following snippet into your website, just before the closing </body> tag";
             expected    += "\n\n<script type='text/javascript'>//<![CDATA[\n";
             expected    += "document.write(\"";
-            expected    += "<script async src='//HOST:3000/browser-sync-client.1.2.3.js'><\\/script>\".replace(/HOST/g, location.hostname));";
+            expected    += "<script async src='//HOST:PORT/browser-sync-client.1.2.3.js'><\\/script>\".replace(/HOST/g, location.hostname).replace(/PORT/g, location.port));";
             expected    += "\n//]]></script>\n";
 
             var actual   = ansiTrim(messages.initSnippet(3000, {version: "1.2.3"}));
@@ -205,7 +205,7 @@ describe("CLI: Messages", function () {
         it("can output the new snippet", function () {
             var expected = "\n<script type='text/javascript'>//<![CDATA[\n";
             expected    += "document.write(\"";
-            expected    += "<script async src='//HOST:3000/browser-sync-client.2.3.4.js'><\\/script>\".replace(/HOST/g, location.hostname));";
+            expected    += "<script async src='//HOST:PORT/browser-sync-client.2.3.4.js'><\\/script>\".replace(/HOST/g, location.hostname).replace(/PORT/g, location.port));";
             expected    += "\n//]]></script>\n";
 
             var actual = messages.scriptTags(3000, {version:"2.3.4"});
@@ -214,7 +214,7 @@ describe("CLI: Messages", function () {
         it("can output the new snippet for the tunnel", function () {
             var expected = "\n<script type='text/javascript'>//<![CDATA[\n";
             expected    += "document.write(\"";
-            expected    += "<script async src='/browser-sync-client.2.3.4.js'><\\/script>\".replace(/HOST/g, location.hostname));";
+            expected    += "<script async src='/browser-sync-client.2.3.4.js'><\\/script>\".replace(/HOST/g, location.hostname).replace(/PORT/g, location.port));";
             expected    += "\n//]]></script>\n";
 
             var actual = messages.scriptTags(3000, {version:"2.3.4", tunnel: true});
@@ -223,7 +223,7 @@ describe("CLI: Messages", function () {
         it("can retrieve the injector", function () {
             var expected = "\n<script type='text/javascript'>//<![CDATA[\n";
             expected    += "document.write(\"";
-            expected    += "<script async src='//HOST:3000/browser-sync-client.2.3.5.js'><\\/script>\".replace(/HOST/g, location.hostname));";
+            expected    += "<script async src='//HOST:PORT/browser-sync-client.2.3.5.js'><\\/script>\".replace(/HOST/g, location.hostname).replace(/PORT/g, location.port));";
             expected    += "\n//]]></script>\n";
 
             var actual = messages.scriptTags(3000, {version:"2.3.5"});
