@@ -18,7 +18,7 @@ describe("CLI: Messages", function () {
             var expected = "[BS] Copy the following snippet into your website, just before the closing </body> tag";
             expected    += "\n\n<script type='text/javascript'>//<![CDATA[\n";
             expected    += "document.write(\"";
-            expected    += "<script async src='//HOST:3000/browser-sync-client.1.2.3.js'><\\/script>\".replace(/HOST/g, location.hostname));";
+            expected    += "<script async src='//HOST:3000/browser-sync/browser-sync-client.1.2.3.js'><\\/script>\".replace(/HOST/g, location.hostname));";
             expected    += "\n//]]></script>\n";
 
             var actual   = ansiTrim(messages.initSnippet(3000, {version: "1.2.3"}));
@@ -205,7 +205,7 @@ describe("CLI: Messages", function () {
         it("can output the new snippet", function () {
             var expected = "\n<script type='text/javascript'>//<![CDATA[\n";
             expected    += "document.write(\"";
-            expected    += "<script async src='//HOST:3000/browser-sync-client.2.3.4.js'><\\/script>\".replace(/HOST/g, location.hostname));";
+            expected    += "<script async src='//HOST:3000/browser-sync/browser-sync-client.2.3.4.js'><\\/script>\".replace(/HOST/g, location.hostname));";
             expected    += "\n//]]></script>\n";
 
             var actual = messages.scriptTags(3000, {version:"2.3.4"});
@@ -214,7 +214,7 @@ describe("CLI: Messages", function () {
         it("can output the new snippet for the tunnel", function () {
             var expected = "\n<script type='text/javascript'>//<![CDATA[\n";
             expected    += "document.write(\"";
-            expected    += "<script async src='/browser-sync-client.2.3.4.js'><\\/script>\".replace(/HOST/g, location.hostname));";
+            expected    += "<script async src='/browser-sync/browser-sync-client.2.3.4.js'><\\/script>\".replace(/HOST/g, location.hostname));";
             expected    += "\n//]]></script>\n";
 
             var actual = messages.scriptTags(3000, {version:"2.3.4", tunnel: true});
@@ -223,7 +223,7 @@ describe("CLI: Messages", function () {
         it("can retrieve the injector", function () {
             var expected = "\n<script type='text/javascript'>//<![CDATA[\n";
             expected    += "document.write(\"";
-            expected    += "<script async src='//HOST:3000/browser-sync-client.2.3.5.js'><\\/script>\".replace(/HOST/g, location.hostname));";
+            expected    += "<script async src='//HOST:3000/browser-sync/browser-sync-client.2.3.5.js'><\\/script>\".replace(/HOST/g, location.hostname));";
             expected    += "\n//]]></script>\n";
 
             var actual = messages.scriptTags(3000, {version:"2.3.5"});
@@ -236,7 +236,7 @@ describe("CLI: Messages", function () {
             var options = {
                 version: "0.5.5"
             };
-            var expected = "/browser-sync-client.0.5.5.js";
+            var expected = "/browser-sync/browser-sync-client.0.5.5.js";
             var actual   = messages.clientScript(options);
             assert.equal(actual, expected);
         });
@@ -244,7 +244,7 @@ describe("CLI: Messages", function () {
             var options = {
                 version: "1.2.3"
             };
-            var expected = "/browser-sync-client.1.2.3.js";
+            var expected = "/browser-sync/browser-sync-client.1.2.3.js";
             var actual   = messages.clientScript(options);
             assert.equal(actual, expected);
         });
@@ -323,7 +323,7 @@ describe("CLI: Messages", function () {
             assert.equal(actual, expected);
         });
         it("should output the socket connector", function () {
-            var expected = "var ___socket___ = io.connect(location.hostname + ':3001');";
+            var expected = "window.___browserSync___ = {};___browserSync___.io = window.io; delete window.io;___browserSync___.socketConfig = {}; ___browserSync___.socketConfig.path = '/browser-sync/socket.io';___browserSync___.socket = ___browserSync___.io('/browser-sync', ___browserSync___.socketConfig);";
             var actual   = messages.socketConnector(3001, {});
             assert.equal(actual, expected);
         });
