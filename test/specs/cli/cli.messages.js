@@ -323,7 +323,7 @@ describe("CLI: Messages", function () {
             assert.equal(actual, expected);
         });
         it("should output the socket connector", function () {
-            var expected = "var ___socket___ = io.connect(location.hostname + ':3001');";
+            var expected = "window.___browserSync___ = {};___browserSync___.io = window.io; delete window.io;___browserSync___.socketConfig = {}; ___browserSync___.socketConfig.path = '/browser-sync/socket.io';___browserSync___.socket = ___browserSync___.io('/browser-sync', ___browserSync___.socketConfig);";
             var actual   = messages.socketConnector(3001, {});
             assert.equal(actual, expected);
         });

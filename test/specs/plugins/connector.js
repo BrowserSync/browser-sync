@@ -37,8 +37,7 @@ describe("Plugins: Using the connector middleware:", function () {
                     .get("/shane")
                     .expect(200)
                     .end(function (err, res) {
-                        assert.isTrue(_.contains(res.text, "var ___socket___"));
-                        assert.isTrue(_.contains(res.text, bs.options.port));
+                        assert.isTrue(_.contains(res.text, "window.___browserSync___ = {};"));
                         instance.cleanup(done);
                     });
             }
