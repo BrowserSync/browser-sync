@@ -23,7 +23,7 @@ describe("Plugins: Using the Socket.io js file:", function () {
 
         browserSync.use({
 
-            plugin: function (bs) {
+            plugin: function (opts, bs) {
 
                 var connectorMw = bs.getMiddleware("socket-js");
                 var app = connect();

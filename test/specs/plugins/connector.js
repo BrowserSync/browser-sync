@@ -24,7 +24,7 @@ describe("Plugins: Using the connector middleware:", function () {
 
         browserSync.use({
 
-            plugin: function (bs) {
+            plugin: function (opts, bs) {
 
                 var connectorMw = bs.getMiddleware("connector");
                 var app = connect();

@@ -34,14 +34,16 @@ describe("Plugins: Registering Hooks:", function () {
 
         browserSync.use({
             plugin: initSpy,
-            "client:events": function () {
-                return "cp:goto";
-            },
-            "client:js": function () {
-                return "SHANE123456";
-            },
-            "server:middleware": function () {
-                return [mwSpy2, mwSpy1];
+            hooks: {
+                "client:events": function () {
+                    return "cp:goto";
+                },
+                "client:js": function () {
+                    return "SHANE123456";
+                },
+                "server:middleware": function () {
+                    return [mwSpy2, mwSpy1];
+                }
             }
         });
 

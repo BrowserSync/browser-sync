@@ -17,7 +17,7 @@ describe("Plugins: Watching Files:", function () {
         var PLUGIN_NAME = "KITTENZ";
 
         browserSync.use({
-            plugin: function (bs) {
+            plugin: function (opts, bs) {
                 bs.events.on("file:changed", function (data) {
                     assert.equal(data.namespace, PLUGIN_NAME);
                     instance.cleanup();
