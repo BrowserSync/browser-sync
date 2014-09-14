@@ -47,7 +47,8 @@
     "serve-static": "^1.4.2",
     "socket.io": "1.1.0",
     "ua-parser-js": "~0.7.0",
-    "easy-extender": "^1.1.0"
+    "easy-extender": "^1.1.0",
+    "object-path": "^0.6.0"
   },
   "devDependencies": {
     "chai": "~1.9.1",
