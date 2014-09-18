@@ -49,7 +49,7 @@
     "ua-parser-js": "~0.7.0",
     "easy-extender": "^1.1.0",
     "object-path": "^0.6.0",
-    "eazy-logger": "^1.2.1",
+    "eazy-logger": "^1.3.0",
     "multiline": "^1.0.0"
   },
   "devDependencies": {
