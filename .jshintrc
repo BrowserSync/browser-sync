@@ -2,6 +2,7 @@
   "curly": true,
   "eqeqeq": true,
   "immed": true,
+  "laxbreak": false,
   "latedef": "nofunc",
   "newcap": true,
   "noarg": true,
