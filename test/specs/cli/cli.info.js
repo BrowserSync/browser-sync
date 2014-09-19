@@ -48,7 +48,7 @@ describe("CLI: Info Helpers:", function () {
         });
     });
 
-    describe("When confirming the config file creation:", function () {
+    describe.skip("When confirming the config file creation:", function () {
         var confirm;
         var messageStub;
         var consoleStub;
@@ -78,7 +78,7 @@ describe("CLI: Info Helpers:", function () {
         });
     });
 
-    describe("When creating the config file:", function () {
+    describe.skip("When creating the config file:", function () {
 
         var readStub;
         var writeStub;

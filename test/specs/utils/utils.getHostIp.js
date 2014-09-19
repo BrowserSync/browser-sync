@@ -1,6 +1,6 @@
 "use strict";
 
-var utils    = require("../../../lib/utils").utils;
+var utils    = require("../../../lib/utils");
 var messages = require("../../../lib/messages");
 
 var devIp    = require("dev-ip");
@@ -11,9 +11,8 @@ var sinon    = require("sinon");
 describe("Utils: getting the Host IP", function () {
 
     var regex;
-    var stub, ipStub;
+    var ipStub;
     before(function () {
-        stub = sinon.stub(messages.host, "multiple");
         ipStub = sinon.stub(devIp, "getIp").returns("192.168.0.4");
     });
     beforeEach(function () {
@@ -23,7 +22,6 @@ describe("Utils: getting the Host IP", function () {
         ipStub.reset();
     });
     after(function () {
-        stub.restore();
         ipStub.restore();
     });
 

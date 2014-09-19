@@ -12,7 +12,7 @@ describe("E2E server test with tunnel", function () {
 
     before(function (done) {
 
-        stub = sinon.stub(tunnel, "init");
+        stub = sinon.stub(tunnel, "plugin");
 
         var config = {
             server: {

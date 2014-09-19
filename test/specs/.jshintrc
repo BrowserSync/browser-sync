@@ -3,6 +3,7 @@
     "eqeqeq": true,
     "immed": true,
     "latedef": "nofunc",
+    "laxbreak": false,
     "newcap": true,
     "noarg": true,
     "sub": true,

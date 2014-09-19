@@ -1,6 +1,6 @@
 "use strict";
 
-var utils  = require("../../../lib/utils").utils;
+var utils  = require("../../../lib/utils");
 var assert = require("chai").assert;
 
 describe("Utils: getting a file extension", function () {
