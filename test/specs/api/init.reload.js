@@ -10,7 +10,7 @@ describe("API: .reload()", function () {
     var emitterStub;
 
     before(function(){
-        emitterStub = sinon.stub(browserSync.emitter, "emit");
+        emitterStub = sinon.spy(browserSync.emitter, "emit");
     });
 
     afterEach(function () {
@@ -72,6 +72,16 @@ describe("API: .reload()", function () {
             sinon.assert.calledWithExactly(emitterStub, "browser:reload");
             sinon.assert.calledWithExactly(emitterStub, "file:changed", {path: "styles.css", log: false, namespace: "core"});
             sinon.assert.calledWithExactly(emitterStub, "stream:changed", {changed: ["styles.css"]});
+        });
+        it("should be able to call stream:changed when stream flushed", function (done) {
+
+            var instance = browserSync({}, function () {
+                var stream = browserSync.reload({stream: true});
+                stream.write(new File({path: "styles.css"}));
+                stream.end();
+                instance.cleanup();
+                done();
+            });
         });
     });
 });

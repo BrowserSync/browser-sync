@@ -6,6 +6,14 @@ var sinon   = require("sinon");
 var request = require("supertest");
 var assert  = require("chai").assert;
 
+var config = {
+    server: {
+        baseDir: "test/fixtures"
+    },
+    debugInfo: false,
+    open: false
+};
+
 describe("Plugins: Registering Hooks:", function () {
 
     var instance;
@@ -14,17 +22,7 @@ describe("Plugins: Registering Hooks:", function () {
     var mwSpy2;
 
     before(function (done) {
-
-        var config = {
-            server: {
-                baseDir: "test/fixtures"
-            },
-            debugInfo: false,
-            open: false
-        };
-
         initSpy = sinon.spy();
-
         mwSpy2 = sinon.spy(function (res, req, next) {
             next();
         });
@@ -74,6 +72,68 @@ describe("Plugins: Registering Hooks:", function () {
             .end(function () {
                 sinon.assert.calledOnce(mwSpy1);
                 sinon.assert.calledOnce(mwSpy2);
+                done();
+            });
+    });
+});
+
+describe("Plugins: Registering hooks - client events:", function () {
+
+    var instance;
+
+    before(function (done) {
+        browserSync.use({
+            plugin: function(){},
+            hooks: {
+                "client:events": function () {
+                    return ["cp:goto", "custom:event"];
+                }
+            }
+        });
+
+        instance = browserSync.init(config, function (err, bs) {
+            done();
+        });
+    });
+    after(function () {
+        instance.cleanup();
+    });
+    it("adds multiple items to the clientEvents array", function() {
+        assert.include(instance.clientEvents, "cp:goto");
+        assert.include(instance.clientEvents, "custom:event");
+    });
+});
+
+describe("Plugins: Registering hooks - server middleware", function () {
+
+    var instance, mwSpy1;
+
+    before(function (done) {
+
+        mwSpy1 = sinon.spy(function (res, req, next) {
+            next();
+        });
+
+        browserSync.use({
+            plugin: function(){},
+            hooks: {
+                "server:middleware": function () {
+                    return mwSpy1;
+                }
+            }
+        });
+
+        instance = browserSync(config, done);
+    });
+    after(function () {
+        instance.cleanup();
+    });
+    it("Calls the middleware function", function(done) {
+        request(instance.server)
+            .get("/")
+            .expect(200)
+            .end(function () {
+                sinon.assert.calledOnce(mwSpy1);
                 done();
             });
     });
