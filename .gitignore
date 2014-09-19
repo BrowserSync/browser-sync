@@ -5,7 +5,8 @@ npm-debug.log
 bower_components
 test/fixtures/files/*
 test/fixtures/js/*
-example.js
+example.server.js
+example.proxy.js
 .DS_store
 doc/
 .coveralls.yml
