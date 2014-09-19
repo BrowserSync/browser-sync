@@ -45,8 +45,15 @@ describe("Server: Server Utils: ", function () {
             base = "app";
         });
         it("Should add the directory option to the server app", function(){
-            utils.addDirectory(app, base, true);
+            utils.addDirectory(app, base);
             sinon.assert.called(spy);
+        });
+        it("Should add the directory option to the server app when array given", function(){
+            var path     = require("path");
+            var serveSpy = sinon.spy(path, "resolve");
+            utils.addDirectory(app, [base, "base-2"]);
+            sinon.assert.calledWithExactly(serveSpy, base);
+            serveSpy.restore();
         });
     });
 });

@@ -14,6 +14,7 @@ describe("Server: the navigateCallback function (ghostmode links ON)", function 
     var func;
     var next;
     var options;
+    var clock;
 
     before(function () {
         clientsSpy = sinon.stub().returns([]);
@@ -31,12 +32,15 @@ describe("Server: the navigateCallback function (ghostmode links ON)", function 
         };
         func = require("../../../lib/server/utils.js").navigateCallback(io, options);
         next = sinon.spy();
+        clock = sinon.useFakeTimers();
     });
     afterEach(function () {
         clientsSpy.reset();
         emitSpy.reset();
     });
-
+    after(function () {
+        clock.restore();
+    });
     it("should return a function to be used as middleware", function () {
         assert.isFunction(func);
     });
@@ -69,6 +73,21 @@ describe("Server: the navigateCallback function (ghostmode links ON)", function 
         clientsSpy.returns(["1", "2"]);
         func({url: "/about-us", method:"GET"}, {}, next);
         sinon.assert.calledWithExactly(emitSpy, "location", {url: "/about-us"});
+    });
+    it("should only emit event once if called rapidly", function () {
+        var func = require("../../../lib/server/utils.js").navigateCallback(io, options);
+        clientsSpy.returns(["1", "2"]);
+        func({url: "/about-us", method:"GET"}, {}, next);
+        func({url: "/about-us-2", method:"GET"}, {}, next);
+        sinon.assert.calledOnce(emitSpy);
+    });
+    it("should emit the event after the given timeout", function () {
+        var func = require("../../../lib/server/utils.js").navigateCallback(io, options);
+        clientsSpy.returns(["1", "2"]);
+        func({url: "/about-us", method:"GET"}, {}, next);
+        clock.tick(500);
+        func({url: "/about-us-2", method:"GET"}, {}, next);
+        sinon.assert.calledTwice(emitSpy);
     });
 });
 describe("the canNavigate function Check", function () {

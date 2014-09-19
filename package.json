@@ -24,7 +24,8 @@
     "node": ">= 0.8.0"
   },
   "scripts": {
-    "test": "gulp lint && mocha --recursive test/specs --reporter spec"
+    "test": "gulp lint && mocha --recursive test/specs --reporter spec",
+    "cover": "istanbul cover ./node_modules/mocha/bin/_mocha --report lcovonly -- -R spec --recursive ./test/specs && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js && rm -rf ./coverage"
   },
   "dependencies": {
     "browser-sync-client": "0.3.2",
@@ -68,7 +69,9 @@
     "sinon": "~1.10.3",
     "socket.io-client": "^1.1.0",
     "supertest": "~0.13.0",
-    "vinyl": "^0.3.0"
+    "vinyl": "^0.3.0",
+    "istanbul-coveralls": "^1.0.0",
+    "q": "^1.0.1"
   },
   "keywords": [
     "browser sync",

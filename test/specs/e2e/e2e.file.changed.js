@@ -7,9 +7,10 @@ var assert  = require("chai").assert;
 
 describe("E2E Responding to events", function () {
 
-    var instance;
+    var instance, socketsStub;
 
     before(function (done) {
+
 
         var config = {
             server: {
@@ -20,42 +21,56 @@ describe("E2E Responding to events", function () {
             open: false
         };
 
-        instance = browserSync.init(config, done);
+        instance = browserSync.init(config, function () {
+            socketsStub = sinon.stub(instance.io.sockets, "emit");
+            done();
+        });
     });
 
+    afterEach(function () {
+        socketsStub.reset();
+    });
     after(function () {
+        socketsStub.restore();
         instance.cleanup();
     });
 
     it("fires the file:reload event to the browser", function () {
 
-        // Stub the socket
-        var stub = sinon.stub(instance.io.sockets, "emit");
-
         // Emit the event as it comes from the file-watcher
         instance.events.emit("file:changed", {path: "styles.css", log: true, namespace: "core"});
 
-        var eventName = stub.getCall(0).args[0];
-        var args      = stub.getCall(0).args[1];
+        var eventName = socketsStub.getCall(0).args[0];
+        var args      = socketsStub.getCall(0).args[1];
 
-        assert.equal(eventName, "file:reload"); // check correct event sent to client
+        assert.equal(eventName, "file:reload");         // check correct event sent to client
         assert.equal(args.assetFileName, "styles.css"); // Check the asset name is sent
+    });
 
-        stub.restore();
+    it("Sets `log: false` if `log` is undefined in event", function () {
+
+        // Emit the event as it comes from the file-watcher
+        instance.events.emit("file:changed", {path: "styles.css", namespace: "core"});
+
+        var args = socketsStub.getCall(0).args[1];
+
+        assert.isTrue(args.log);
     });
 
     it("fires the browser:reload event to the browser", function () {
 
-        // Stub the socket
-        var stub = sinon.stub(instance.io.sockets, "emit");
-
         // Emit the event as it comes from the file-watcher
         instance.events.emit("browser:reload");
 
-        var eventName = stub.getCall(0).args[0];
+        var eventName = socketsStub.getCall(0).args[0];
 
         assert.equal(eventName, "browser:reload"); // check correct event sent to client
+    });
+    it("fires the browser:notify event to the browser", function () {
 
-        stub.restore();
+        // Emit the event as it comes from the file-watcher
+        instance.events.emit("browser:notify", "DATA");
+
+        sinon.assert.calledWithExactly(socketsStub, "browser:notify", "DATA");
     });
 });
