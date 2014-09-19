@@ -4,19 +4,17 @@ var browserSync   = require("../../../index");
 var tunnel        = require("../../../lib/tunnel");
 
 var sinon   = require("sinon");
+var assert  = require("assert");
 
 describe("E2E server test with tunnel", function () {
 
     var instance;
-    var stub;
 
     before(function (done) {
 
-        stub = sinon.stub(tunnel, "plugin");
-
         var config = {
             server: {
-                baseDir: "test/fixtures"
+                baseDir:"test/fixtures"
             },
             debugInfo: false,
             open: false,
@@ -24,15 +22,22 @@ describe("E2E server test with tunnel", function () {
             online: true
         };
 
-        instance = browserSync.init([], config, done);
+        browserSync.use({
+            "plugin:name": "tunnel",
+            "plugin": function (bs, port, finished) {
+                finished("http://localhost:8080", true);
+            }
+        });
+
+        instance = browserSync(config, done);
     });
 
     after(function () {
-        stub.reset();
+//        stub.reset();
         instance.cleanup();
     });
 
     it("should call init on the tunnel", function () {
-        sinon.assert.calledOnce(stub);
+        assert.equal(instance.options.urls.tunnel, "http://localhost:8080");
     });
 });
