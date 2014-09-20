@@ -4,25 +4,31 @@ var path     = require("path");
 var request  = require("supertest");
 var server   = require("./commands.server.json");
 var assert   = require("chai").assert;
-var fork     = require("child_process").fork;
+var exec     = require("child_process").exec;
 
 var index   = path.resolve( __dirname + "/../../../index.js");
 
-describe("E2E CLI server test", function () {
+describe.skip("E2E CLI server test", function () {
 
     var bs, options;
 
     before(function (done) {
-        bs = fork(index, server.commands[0].args);
-        bs.on("message", function (data) {
-            options = data.options;
+
+        bs = exec("node " + index, server.commands[0].args);
+
+        bs.stdout.on("data", function (data) {
+            console.log(data);
             done();
         });
-        bs.send({send: "options"});
+//        bs.on("message", function (data) {
+//            options = data.options;
+//            done();
+//        });
+//        bs.send({send: "options"});
     });
 
     after(function () {
-        bs.disconnect();
+        bs.close();
     });
 
     it("returns the snippet", function (done) {
