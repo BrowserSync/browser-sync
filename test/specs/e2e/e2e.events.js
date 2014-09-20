@@ -9,7 +9,7 @@ describe("E2E Events test", function () {
     var instance;
 
     before(function (done) {
-        instance = browserSync.init([], {
+        instance = browserSync({
             open: false,
             debugInfo: false
         }, done);
