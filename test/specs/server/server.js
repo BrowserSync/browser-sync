@@ -105,7 +105,7 @@ describe("Server: The createServer method", function () {
 
         it("can show a directory listing", function (done) {
 
-            options.server.baseDir   = "/Users/shakyshane/Sites/os-browser-sync/test/fixtures";
+            options.server.baseDir   = "test/fixtures";
             options.server.directory = true;
 
             var bsServer = server.createServer(options, io, {});
@@ -121,7 +121,7 @@ describe("Server: The createServer method", function () {
         });
         it("can show a directory listing", function (done) {
 
-            options.server.baseDir   = "/Users/shakyshane/Sites/os-browser-sync/test/fixtures";
+            options.server.baseDir   = "test/fixtures";
             options.server.directory = true;
 
             var bsServer = server.createServer(options, io, {});

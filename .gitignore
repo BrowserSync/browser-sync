@@ -7,6 +7,7 @@ test/fixtures/files/*
 test/fixtures/js/*
 example.server.js
 example.proxy.js
+example.snippet.js
 .DS_store
 doc/
 .coveralls.yml
