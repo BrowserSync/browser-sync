@@ -2,7 +2,7 @@
     "commands": [
         {
             "desc": "Static file server using test/fixtures as the base",
-            "args": ["start", "--server=test/fixtures", "--no-open", "--logLevel=silent"]
+            "args": ["start", "--server=test/fixtures", "--no-open", "--logLevel=silent", "--no-online"]
         }
     ]
 }

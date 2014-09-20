@@ -2,34 +2,27 @@
 
 var path     = require("path");
 var request  = require("supertest");
-var server = require("./commands.server.json");
+var server   = require("./commands.server.json");
 var assert   = require("chai").assert;
 var fork     = require("child_process").fork;
 
 var index   = path.resolve( __dirname + "/../../../index.js");
 
-describe.skip("E2E CLI server test", function () {
-
-    // use `mocha --timeout` option instead
-    //this.timeout(5000);
+describe("E2E CLI server test", function () {
 
     var bs, options;
 
     before(function (done) {
-
         bs = fork(index, server.commands[0].args);
-
         bs.on("message", function (data) {
             options = data.options;
             done();
         });
-
         bs.send({send: "options"});
     });
 
-    after(function (done) {
-        bs.kill("SIGINT");
-        setTimeout(done, 200);
+    after(function () {
+        bs.disconnect();
     });
 
     it("returns the snippet", function (done) {
