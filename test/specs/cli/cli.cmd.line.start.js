@@ -20,16 +20,13 @@ describe("CLI: Resolving Config Files:", function () {
         var cbSpy;
         var getFileStub;
         before(function () {
-            getDefaultFileStub = sinon.stub(info, "getDefaultConfigFile").returns({});
             getFileStub        = sinon.stub(info, "_getConfigFile").returns({});
             cbSpy = sinon.spy();
         });
         afterEach(function () {
-            getDefaultFileStub.reset();
             getFileStub.reset();
         });
         after(function () {
-            getDefaultFileStub.restore();
             cbSpy.reset();
             getFileStub.restore();
         });
@@ -47,9 +44,6 @@ describe("CLI: Resolving Config Files:", function () {
             beforeEach(function () {
                 args = {config: "config/bs-config.js"};
                 init.startFromCommandLine(args, cbSpy);
-            });
-            it("should attempt to retrieve the config file", function () {
-                sinon.assert.notCalled(getDefaultFileStub);
             });
             it("should call '_getConfigFile' with the path given", function(){
                 sinon.assert.calledWithExactly(getFileStub, args.config);

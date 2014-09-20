@@ -32,7 +32,7 @@ if (require.main === module) {
             _start(data.files, data.config);
         }
         if (data.configFile) {
-            info.makeConfig(browserSync);
+            info.makeConfig(browserSync.cwd);
         }
     });
 }
