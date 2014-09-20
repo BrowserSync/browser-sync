@@ -44,7 +44,7 @@ describe("E2E OPEN options with external", function () {
             server: "test/fixtures",
             open: "external"
         };
-        stub = sinon.stub(utils, "open");
+        stub = sinon.spy(utils, "open");
         instance = browserSync(config, done);
     });
 
