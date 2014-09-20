@@ -4,6 +4,7 @@ var init    = require("../../../lib/cli/cli-init");
 var program = require("commander");
 
 var sinon   = require("sinon");
+var assert  = require("chai").assert;
 
 describe("CLI: Options: Parsing Command-line usage: ", function () {
 
@@ -49,5 +50,10 @@ describe("CLI: Options: Parsing Command-line usage: ", function () {
     it("should show the help if no commands given", function() {
         init.parse("0.0.0", { _: []}, ["", ""], cbSpy);
         sinon.assert.calledOnce(helpStub);
+    });
+    it("show the help screen", function() {
+        assert.doesNotThrow(function () {
+            init.help();
+        });
     });
 });
