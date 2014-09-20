@@ -24,7 +24,7 @@
     "node": ">= 0.8.0"
   },
   "scripts": {
-    "test": "TESTING=true gulp lint && mocha --recursive test/specs --reporter spec --timeout 5000",
+    "test": "TESTING=true gulp lint && mocha --recursive test/specs --reporter spec --timeout 10000",
     "cover": "istanbul cover ./node_modules/mocha/bin/_mocha --report lcovonly -- -R spec --timeout 10000 --recursive ./test/specs && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js && rm -rf ./coverage"
   },
   "dependencies": {
@@ -80,6 +80,6 @@
     "sync"
   ],
   "bin": {
-    "browser-sync": "index.js"
+    "browser-sync": "./bin/browser-sync"
   }
 }

@@ -4,38 +4,11 @@
 /**
  * @module BrowserSync
  */
-
 var pjson         = require("./package.json");
-
-var BrowserSync   = require("./lib/browser-sync");
 var utils         = require("./lib/utils");
-var cli           = require("./lib/cli/index");
-var init          = cli.init;
-var info          = cli.info;
-
-var argv          = process.argv;
-var args          = require("minimist")(argv.slice(2));
+var BrowserSync   = require("./lib/browser-sync");
 
 var browserSync   = new BrowserSync();
-
-/**
- * Handle Command-line usage
- */
-if (require.main === module) {
-
-    init.parse(pjson.version, args, argv, function (err, data) {
-
-        if (err) {
-            utils.fail(err, {}, true);
-        }
-        if (data.config) {
-            _start(data.files, data.config);
-        }
-        if (data.configFile) {
-            info.makeConfig(browserSync.cwd);
-        }
-    });
-}
 
 /**
  * @method browserSync
@@ -45,20 +18,10 @@ if (require.main === module) {
  * is useful when you need to wait for information (for example: urls, port etc) or perform other tasks synchronously.
  * @returns {BrowserSync}
  */
-var publicInit      = require("./lib/public/init")(_start);
+var publicInit      = require("./lib/public/init")(browserSync, pjson);
 
 module.exports      = publicInit;
 module.exports.init = publicInit;
-
-/**
- * @param {Array|Null} files
- * @param {Object} config
- * @param {Function} [cb]
- * @returns {BrowserSync}
- */
-function _start(files, config, cb) {
-    return browserSync.init(files || [], config, pjson.version, cb);
-}
 
 /**
  * The `reload` method will inform all browsers about changed files and will either cause the browser to refresh, or inject the files where possible.
@@ -69,17 +32,6 @@ function _start(files, config, cb) {
  * @returns {*}
  */
 module.exports.reload = require("./lib/public/reload")(browserSync);
-
-/**
- * A simple true/false flag that you can use to determine if there's a currently-running BrowserSync instance.
- *
- * @property active
- */
-Object.defineProperty(module.exports, "active", {
-    get: function () {
-        return browserSync.active;
-    }
-});
 
 /**
  * Helper method for browser notifications
@@ -117,3 +69,13 @@ module.exports.emitter = browserSync.events;
  */
 module.exports.exit = require("./lib/public/exit")(browserSync);
 
+/**
+ * A simple true/false flag that you can use to determine if there's a currently-running BrowserSync instance.
+ *
+ * @property active
+ */
+Object.defineProperty(module.exports, "active", {
+    get: function () {
+        return browserSync.active;
+    }
+});
