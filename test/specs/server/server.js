@@ -6,13 +6,6 @@ var assert  = require("chai").assert;
 var sinon   = require("sinon");
 var request = require("supertest");
 
-var options = {
-    server: {},
-    port: 3000,
-    version: "0.0.1",
-    host: "localhost"
-};
-
 describe("Server: module", function () {
 
     it("should have the createServer method", function () {
@@ -25,6 +18,7 @@ describe("Server: The createServer method", function () {
     var io;
     var clientsSpy;
     var emitSpy;
+    var options;
 
     before(function () {
         clientsSpy = sinon.stub().returns([]);
@@ -34,6 +28,14 @@ describe("Server: The createServer method", function () {
                 clients: clientsSpy,
                 emit: emitSpy
             }
+        };
+    });
+    beforeEach(function () {
+        options = {
+            server: {},
+            port: 3000,
+            version: "0.0.1",
+            host: "localhost"
         };
     });
     afterEach(function () {
@@ -90,7 +92,7 @@ describe("Server: The createServer method", function () {
         });
 
         it("can serve an index.htm from multiple dirs", function (done) {
-            
+
             options.server.baseDir = ["test/fixtures2", "test/fixtures/alt"];
             options.server.index = "index.htm";
 
@@ -99,6 +101,39 @@ describe("Server: The createServer method", function () {
             request(bsServer)
                 .get("/")
                 .expect(200, done);
+        });
+
+        it("can show a directory listing", function (done) {
+
+            options.server.baseDir   = "/Users/shakyshane/Sites/os-browser-sync/test/fixtures";
+            options.server.directory = true;
+
+            var bsServer = server.createServer(options, io, {});
+
+            request(bsServer)
+                .get("/")
+                .expect(200)
+                .set("accept", "text/html")
+                .end(function (err, res) {
+                    assert.include(res.text, "<title>listing directory /</title>");
+                    done();
+                });
+        });
+        it("can show a directory listing", function (done) {
+
+            options.server.baseDir   = "/Users/shakyshane/Sites/os-browser-sync/test/fixtures";
+            options.server.directory = true;
+
+            var bsServer = server.createServer(options, io, {});
+
+            request(bsServer)
+                .get("/")
+                .expect(200)
+                .set("accept", "text/html")
+                .end(function (err, res) {
+                    assert.include(res.text, "<title>listing directory /</title>");
+                    done();
+                });
         });
     });
 });

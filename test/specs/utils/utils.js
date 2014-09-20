@@ -23,27 +23,6 @@ describe("Utils: Exposed Methods", function () {
         assert.isDefined(browserSync);
     });
 
-    describe("logging messages to the console", function () {
-
-        var stub;
-        before(function () {
-            stub = sinon.stub(console, "log");
-        });
-        afterEach(function () {
-            stub.reset();
-        });
-        after(function () {
-            stub.restore();
-        });
-        it("should log a message", function () {
-            utils.log("info", "ERROR", {debugInfo: true});
-            assert.isTrue(stub.called);
-        });
-        it("should not log if disabled in options", function () {
-            utils.log("info", "ERROR", {debugInfo: false});
-            assert.isFalse(stub.called);
-        });
-    });
     describe("changing a file", function () {
 
         var data;

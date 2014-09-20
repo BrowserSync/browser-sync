@@ -1,12 +1,14 @@
 "use strict";
 
 var browserSync = require("../../../index");
+var server      = require("../../../lib/server");
 
 var http        = require("http");
 var connect     = require("connect");
 var serveStatic = require("serve-static");
 var request     = require("supertest");
 var assert      = require("chai").assert;
+var sinon       = require("sinon");
 var client      = require("socket.io-client");
 var portScanner = require("portscanner-plus");
 
@@ -90,5 +92,27 @@ describe("E2E proxy test", function () {
                 assert.include(res.text, instance.options.snippet);
                 done();
             });
+    });
+});
+
+describe("E2E proxy test", function () {
+
+    it("can check if the proxy is reachable", function (done) {
+
+        var instance;
+
+        var config = {
+            proxy: "localhost:3434",
+            debugInfo: false,
+            open: false
+        };
+
+        browserSync.emitter.on("config:warn", function (data) {
+            assert.equal(data.msg, "Proxy address not reachable - is your server running?");
+            instance.cleanup();
+            done();
+        });
+        // Success if this event called
+        instance = browserSync(config);
     });
 });
