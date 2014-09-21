@@ -24,8 +24,10 @@
     "node": ">= 0.8.0"
   },
   "scripts": {
-    "test": "gulp lint && mocha --recursive test/specs --reporter spec --timeout 10000",
-    "cover": "istanbul cover ./node_modules/mocha/bin/_mocha --report lcovonly -- -R spec --timeout 10000 --recursive ./test/specs && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js && rm -rf ./coverage",
+    "test": "npm run lint && node ./test/env.js && npm run unit",
+    "lint": "gulp lint",
+    "unit": "mocha --recursive test/specs --reporter spec --timeout 10000",
+    "cover": "node ./test/env.js && istanbul cover ./node_modules/mocha/bin/_mocha --report lcovonly -- -R spec --timeout 10000 --recursive ./test/specs && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js && rm -rf ./coverage",
     "_cover": "istanbul cover ./node_modules/mocha/bin/_mocha --report lcovonly -- -R spec --timeout 10000 --recursive ./test/specs && cat ./coverage/lcov.info && rm -rf ./coverage"
   },
   "dependencies": {
