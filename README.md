@@ -49,11 +49,11 @@ If you've found Browser-sync useful and would like to contribute to its continue
 ## Contributors
 
 ```
-   613	Shane Osbourne
+   655	Shane Osbourne
     16	Shinnosuke Watanabe
     13	Hugo Bessa
     11	Paul Kinlan
-     8	Shane Daniel
+    10	Shane Daniel
      3	Marek 'saji' Augustynowicz
      3	Werner van Deventer
      2	Paul Robertson
