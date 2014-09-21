@@ -15,8 +15,6 @@ describe("E2E TLS server test", function () {
 
     before(function (done) {
 
-        this.timeout(15000);
-
         var config = {
             server: {
                 baseDir: "test/fixtures"
@@ -56,5 +54,34 @@ describe("E2E TLS server test", function () {
                 assert.include(res.text, "Connected to BrowserSync");
                 done();
             });
+    });
+});
+
+describe("E2E TLS server test", function () {
+
+    this.timeout(15000);
+
+    var instance;
+
+    before(function (done) {
+
+        var config = {
+            server: {
+                baseDir: "test/fixtures"
+            },
+            https: false,
+            logLevel: "silent",
+            open: false
+        };
+
+        instance = browserSync(config, done);
+    });
+
+    after(function () {
+        instance.cleanup();
+    });
+
+    it("Does not use HTTPS if false", function () {
+        assert.notInclude(instance.options.urls.local, "https");
     });
 });
