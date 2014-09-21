@@ -25,7 +25,8 @@
   },
   "scripts": {
     "test": "TESTING=true gulp lint && mocha --recursive test/specs --reporter spec --timeout 10000",
-    "cover": "istanbul cover ./node_modules/mocha/bin/_mocha --report lcovonly -- -R spec --timeout 10000 --recursive ./test/specs && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js && rm -rf ./coverage"
+    "cover": "istanbul cover ./node_modules/mocha/bin/_mocha --report lcovonly -- -R spec --timeout 10000 --recursive ./test/specs && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js && rm -rf ./coverage",
+    "_cover": "istanbul cover ./node_modules/mocha/bin/_mocha --report lcovonly -- -R spec --timeout 10000 --recursive ./test/specs && cat ./coverage/lcov.info && rm -rf ./coverage"
   },
   "dependencies": {
     "browser-sync-client": "0.3.2",
@@ -33,6 +34,8 @@
     "commander": "~2.3.0",
     "connect": "~3.1.0",
     "dev-ip": "~0.1.7",
+    "easy-extender": "^1.1.0",
+    "eazy-logger": "^1.3.1",
     "emitter-steward": "0.0.1",
     "foxy": "^0.2.1",
     "glob-watcher": "0.0.6",
@@ -40,6 +43,7 @@
     "localtunnel": "^1.3.0",
     "lodash": "~2.4.1",
     "minimist": "^1.1.0",
+    "object-path": "^0.6.0",
     "opn": "^1.0.0",
     "opt-merger": "0.1.3",
     "portscanner-plus": "0.1.0",
@@ -47,10 +51,7 @@
     "serve-index": "^1.1.5",
     "serve-static": "^1.4.2",
     "socket.io": "1.1.0",
-    "ua-parser-js": "~0.7.0",
-    "easy-extender": "^1.1.0",
-    "object-path": "^0.6.0",
-    "eazy-logger": "^1.3.0"
+    "ua-parser-js": "~0.7.0"
   },
   "devDependencies": {
     "chai": "~1.9.1",
