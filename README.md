@@ -1,10 +1,10 @@
-# browser-sync [![Build Status](https://travis-ci.org/shakyShane/browser-sync.svg?branch=master)] (https://travis-ci.org/shakyShane/browser-sync)[![Build status] (https://ci.appveyor.com/api/projects/status/r5vung2ipn9uj4sy)](https://ci.appveyor.com/project/shakyShane/browser-sync)[![NPM version](https://badge.fury.io/js/browser-sync.svg)](http://badge.fury.io/js/browser-sync)[![Stories in Ready](https://badge.waffle.io/shakyshane/browser-sync.png?label=ready&title=Ready)](https://waffle.io/shakyshane/browser-sync)
+# BrowserSync [![Build Status](https://travis-ci.org/shakyShane/browser-sync.svg?branch=master)] (https://travis-ci.org/shakyShane/browser-sync) [![Build status] (https://ci.appveyor.com/api/projects/status/r5vung2ipn9uj4sy)](https://ci.appveyor.com/project/shakyShane/browser-sync) [![Coverage Status](https://img.shields.io/coveralls/shakyShane/browser-sync.svg)](https://coveralls.io/r/shakyShane/browser-sync?branch=master) [![NPM version](https://badge.fury.io/js/browser-sync.svg)](http://badge.fury.io/js/browser-sync)
 
 > Keep multiple browsers & devices in sync when building websites.
 
 <a href="http://www.wearejh.com"><img src="http://cl.ly/image/3Y3O0M2z310j/jh-100-red.png" /></a>
 
-BrowserSync is developed and maintained internally at <a href="http://www.wearejh.com">JH</a>, follow <a href="http://www.twitter.com/browsersync">@browsersync</a> on twitter for news & updates.
+BrowserSync is developed and maintained internally at <a href="http://www.wearejh.com">JH</a>, follow <a href="http://www.twitter.com/browsersync">@BrowserSync</a> on twitter for news & updates.
 
 ##Features
 1. **Scroll** - I can keep your pages in sync when scrolling.
