@@ -2,3 +2,4 @@ test/
 doc/
 .sass-cache
 .idea
+.coveralls.yml
