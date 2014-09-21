@@ -11,8 +11,7 @@ describe("E2E Sockets test", function () {
 
     before(function (done) {
         instance = browserSync({
-            open: false,
-            debugInfo: false
+            open: false
         }, done);
     });
 

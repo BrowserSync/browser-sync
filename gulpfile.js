@@ -75,13 +75,6 @@ gulp.task("browser-sync-css", function () {
     });
 });
 
-///**
-// * Reload task
-// */
-//gulp.task("bs-reload", function () {
-//    browserSync.reload();
-//});
-
 /**
  * Watch stuff
  */
