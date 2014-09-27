@@ -11,3 +11,4 @@ example.snippet.js
 .DS_store
 doc/
 .coveralls.yml
+coverage/
