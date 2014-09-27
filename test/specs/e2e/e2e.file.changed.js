@@ -11,7 +11,6 @@ describe("E2E Responding to events", function () {
 
     before(function (done) {
 
-
         var config = {
             server: {
                 baseDir: __dirname + "/../../fixtures"

@@ -27,13 +27,13 @@ describe("CLI: Options: Parsing Command-line usage: ", function () {
         helpStub.restore();
     });
 
-    it("should call the callback when `init` command given", function() {
+    it("should call the callback when `init` command given", function () {
         var argv = [
             "",
             "",
             "init"
         ];
-        init.parse("0.0.0", { _: []}, argv, cbSpy);
+        init.parse("0.0.0", {_: []}, argv, cbSpy);
         sinon.assert.called(cbSpy);
     });
 
@@ -43,15 +43,15 @@ describe("CLI: Options: Parsing Command-line usage: ", function () {
             "",
             "start"
         ];
-        init.parse("0.0.0", { _: []}, argv, cbSpy);
+        init.parse("0.0.0", {_: []}, argv, cbSpy);
         sinon.assert.called(startStub);
     });
 
-    it("should show the help if no commands given", function() {
-        init.parse("0.0.0", { _: []}, ["", ""], cbSpy);
+    it("should show the help if no commands given", function () {
+        init.parse("0.0.0", {_: []}, ["", ""], cbSpy);
         sinon.assert.calledOnce(helpStub);
     });
-    it("show the help screen", function() {
+    it("show the help screen", function () {
         assert.doesNotThrow(function () {
             init.help();
         });

@@ -19,21 +19,20 @@ describe("Server: Server Utils: ", function () {
         spy.reset();
     });
 
-
     describe("The server utils: addBaseDir", function () {
         var base;
         beforeEach(function () {
             base = "app";
         });
-        it("Should add the static middleware", function(){
+        it("Should add the static middleware", function () {
             utils.addBaseDir(app, base, true);
             sinon.assert.calledOnce(spy);
         });
-        it("Should add the static middleware with multiple middlewares", function(){
+        it("Should add the static middleware with multiple middlewares", function () {
             utils.addBaseDir(app, ["app", "dist"], true);
             sinon.assert.calledTwice(spy);
         });
-        it("Should add the static middleware with multiple middlewares", function(){
+        it("Should add the static middleware with multiple middlewares", function () {
             utils.addBaseDir(app, ["app", "dist", "alt"], true);
             sinon.assert.calledThrice(spy);
         });
@@ -44,11 +43,11 @@ describe("Server: Server Utils: ", function () {
         beforeEach(function () {
             base = "app";
         });
-        it("Should add the directory option to the server app", function(){
+        it("Should add the directory option to the server app", function () {
             utils.addDirectory(app, base);
             sinon.assert.called(spy);
         });
-        it("Should add the directory option to the server app when array given", function(){
+        it("Should add the directory option to the server app when array given", function () {
             var path     = require("path");
             var serveSpy = sinon.spy(path, "resolve");
             utils.addDirectory(app, [base, "base-2"]);

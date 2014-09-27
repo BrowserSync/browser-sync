@@ -63,6 +63,7 @@
     "gulp": "~3.8.6",
     "gulp-contribs": "0.0.2",
     "gulp-filter": "^1.0.0",
+    "gulp-jscs": "^1.1.2",
     "gulp-jshint": "~1.8.0",
     "gulp-ruby-sass": "^0.7.1",
     "gulp-yuidoc": "0.1.2",

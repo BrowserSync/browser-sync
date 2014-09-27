@@ -11,12 +11,11 @@ describe("CLI: Resolving Config Files:", function () {
 
     var defaultConfig;
 
-    beforeEach(function(){
+    beforeEach(function () {
         defaultConfig = _.cloneDeep(loadedConfig);
     });
 
     describe("When the config option", function () {
-        var getDefaultFileStub;
         var cbSpy;
         var getFileStub;
         before(function () {
@@ -45,7 +44,7 @@ describe("CLI: Resolving Config Files:", function () {
                 args = {config: "config/bs-config.js"};
                 init.startFromCommandLine(args, cbSpy);
             });
-            it("should call '_getConfigFile' with the path given", function(){
+            it("should call '_getConfigFile' with the path given", function () {
                 sinon.assert.calledWithExactly(getFileStub, args.config);
             });
             it("should call the callback", function () {

@@ -2,9 +2,7 @@
 
 var browserSync   = require("../../../index");
 var tunnel        = require("../../../lib/tunnel");
-var localTunnel   = require("localtunnel");
 
-var sinon   = require("sinon");
 var http    = require("http");
 var assert  = require("chai").assert;
 
@@ -45,18 +43,17 @@ describe("E2E server test with tunnel", function () {
 
 describe("E2E server test with tunnel", function () {
 
-
     var _port;
     var server;
 
     before(function (done) {
 
         server = http.createServer();
-        server.on("request", function(req, res) {
+        server.on("request", function (req, res) {
             res.write(req.headers.host);
             res.end();
         });
-        server.listen(function() {
+        server.listen(function () {
             _port = server.address().port;
             done();
         });
@@ -87,4 +84,3 @@ describe("E2E server test with tunnel", function () {
         });
     });
 });
-

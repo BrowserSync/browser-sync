@@ -1,7 +1,6 @@
 "use strict";
 
 var messages = require("../../../lib/messages");
-var config   = require("../../../lib/config");
 var info     = require("../../../lib/cli/cli-info");
 
 var assert   = require("chai").assert;

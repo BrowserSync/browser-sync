@@ -8,7 +8,7 @@ describe("API: .notify() - Public Notify Method", function () {
 
     var emitterStub;
 
-    before(function(){
+    before(function () {
         emitterStub = sinon.stub(browserSync.emitter, "emit");
     });
 

@@ -9,7 +9,7 @@ var port = 3002;
 
 describe("Utils: creating URLs", function () {
     var options;
-    beforeEach(function(){
+    beforeEach(function () {
         options = {
             startPath: false
         };

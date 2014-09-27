@@ -1,7 +1,6 @@
 "use strict";
 
 var defaultConfig = require("../../../lib/default-config");
-var utils         = require("../../../lib/utils");
 var BrowserSync   = require("../../../lib/browser-sync");
 var browserSync   = new BrowserSync();
 browserSync.cwd   = "/Users/shakshane/app";

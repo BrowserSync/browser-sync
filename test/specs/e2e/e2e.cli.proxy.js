@@ -9,7 +9,7 @@ var assert      = require("chai").assert;
 var fork        = require("child_process").fork;
 var portScanner = require("portscanner-plus");
 
-var index   = path.resolve( __dirname + "/../../../index.js");
+var index   = path.resolve(__dirname + "/../../../index.js");
 
 describe.skip("E2E CLI proxy test", function () {
 

@@ -58,13 +58,13 @@ describe("Plugins: Registering Hooks:", function () {
     it("calls the function returned from the plugin method", function () {
         sinon.assert.calledOnce(initSpy); // the plugin init method
     });
-    it("adds an item to the clientEvents array", function(){
+    it("adds an item to the clientEvents array", function () {
         assert.include(instance.clientEvents, "cp:goto");
     });
-    it("adds an item to the Server Middleware array", function(){
+    it("adds an item to the Server Middleware array", function () {
         assert.include(instance.clientJs, "SHANE123456");
     });
-    it("adds an item to the Server Middleware array", function(done){
+    it("adds an item to the Server Middleware array", function (done) {
 
         request(instance.server)
             .get("/")
@@ -83,7 +83,7 @@ describe("Plugins: Registering hooks - client events:", function () {
 
     before(function (done) {
         browserSync.use({
-            plugin: function(){},
+            plugin: function () {},
             hooks: {
                 "client:events": function () {
                     return ["cp:goto", "custom:event"];
@@ -91,14 +91,14 @@ describe("Plugins: Registering hooks - client events:", function () {
             }
         });
 
-        instance = browserSync.init(config, function (err, bs) {
+        instance = browserSync.init(config, function () {
             done();
         });
     });
     after(function () {
         instance.cleanup();
     });
-    it("adds multiple items to the clientEvents array", function() {
+    it("adds multiple items to the clientEvents array", function () {
         assert.include(instance.clientEvents, "cp:goto");
         assert.include(instance.clientEvents, "custom:event");
     });
@@ -115,7 +115,7 @@ describe("Plugins: Registering hooks - server middleware", function () {
         });
 
         browserSync.use({
-            plugin: function(){},
+            plugin: function () {},
             hooks: {
                 "server:middleware": function () {
                     return mwSpy1;
@@ -128,7 +128,7 @@ describe("Plugins: Registering hooks - server middleware", function () {
     after(function () {
         instance.cleanup();
     });
-    it("Calls the middleware function", function(done) {
+    it("Calls the middleware function", function (done) {
         request(instance.server)
             .get("/")
             .expect(200)

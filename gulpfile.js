@@ -2,6 +2,7 @@
 
 var gulp        = require("gulp");
 var jshint      = require("gulp-jshint");
+var jscs        = require("gulp-jscs");
 var contribs    = require("gulp-contribs");
 var rubySass    = require("gulp-ruby-sass");
 var filter      = require("gulp-filter");
@@ -9,14 +10,11 @@ var browserSync = require("./index");
 
 gulp.task("lint", function () {
     gulp.src([
-        "*.js",
-        "lib/**/*.js",
-        "!lib/cli/cli-template.js",
-        "!lib/public/socket.io.js",
-        "test/specs/**/*.js",
-        "!test/fixtures/**"
+        "{,{lib,test/specs}/**/}*.js",
+        "!lib/{cli/cli-template,public/socket.io}.js"
     ])
-        .pipe(jshint("test/specs/.jshintrc"))
+        .pipe(jscs(".jscs.json"))
+        .pipe(jshint())
         .pipe(jshint.reporter("default"))
         .pipe(jshint.reporter("fail"));
 });
@@ -93,7 +91,6 @@ gulp.task("watch-css", ["browser-sync-css"], function () {
     gulp.watch(paths.html, browserSync.reload);
 });
 
-
 gulp.task("docs", function () {
 
     var yuidoc = require("gulp-yuidoc");
@@ -102,5 +99,3 @@ gulp.task("docs", function () {
         .pipe(yuidoc.parser({spaces: 4}))
         .pipe(gulp.dest("./doc"));
 });
-
-

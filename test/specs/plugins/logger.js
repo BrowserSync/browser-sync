@@ -1,7 +1,6 @@
 "use strict";
 
 var browserSync = require("../../../index");
-var BrowserSync = require("../../../lib/browser-sync");
 
 var assert  = require("chai").assert;
 var sinon   = require("sinon");

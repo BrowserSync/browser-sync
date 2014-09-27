@@ -1,3 +1,4 @@
+// jscs:disable maximumLineLength
 "use strict";
 
 var defaultConfig = require("../../../lib/default-config");
@@ -189,7 +190,7 @@ describe("Header replacement for IE8", function () {
         req = {
             url: "/",
             headers: {
-                "accept": "image/jpeg, application/x-ms-application, image/gif, application/xaml+xml, image/pjpeg, application/x-ms-xbap, */*",
+                accept: "image/jpeg, application/x-ms-application, image/gif, application/xaml+xml, image/pjpeg, application/x-ms-xbap, */*",
                 "user-agent": "Mozilla/5.0 (compatible; MSIE 7.0; Windows NT 5.1; Trident/4.0; .NET CLR 1.1.4322; .NET CLR 2.0.50727)"
             }
         };
