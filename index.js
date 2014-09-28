@@ -5,7 +5,6 @@
  * @module BrowserSync
  */
 var pjson         = require("./package.json");
-var utils         = require("./lib/utils");
 var BrowserSync   = require("./lib/browser-sync");
 
 var browserSync   = new BrowserSync();

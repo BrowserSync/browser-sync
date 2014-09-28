@@ -14,8 +14,8 @@ describe("E2E server test with directory listings", function () {
         var config = {
             server: {
                 baseDir: [
-                	"test/fixtures/alt",
-                	"test/fixtures",
+                    "test/fixtures/alt",
+                    "test/fixtures"
                 ],
                 index: "index.htm"
             },

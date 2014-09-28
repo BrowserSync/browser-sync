@@ -6,7 +6,7 @@ var server   = require("./commands.server.json");
 var assert   = require("chai").assert;
 var exec     = require("child_process").exec;
 
-var index   = path.resolve( __dirname + "/../../../index.js");
+var index   = path.resolve(__dirname + "/../../../index.js");
 
 describe.skip("E2E CLI server test", function () {
 

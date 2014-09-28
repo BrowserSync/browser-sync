@@ -1,14 +1,12 @@
 "use strict";
 
 var browserSync = require("../../../index");
-var server      = require("../../../lib/server");
 
 var http        = require("http");
 var connect     = require("connect");
 var serveStatic = require("serve-static");
 var request     = require("supertest");
 var assert      = require("chai").assert;
-var sinon       = require("sinon");
 var client      = require("socket.io-client");
 var portScanner = require("portscanner-plus");
 
@@ -56,7 +54,7 @@ describe("E2E proxy test", function () {
             });
     });
 
-    it("Can proxy websockets", function(done){
+    it("Can proxy websockets", function (done) {
 
         var called;
         instance.io.sockets.on("connection", function () {
@@ -66,7 +64,7 @@ describe("E2E proxy test", function () {
             }
         });
 
-        var connectionUrl = instance.options.urls.local+instance.options.socket.namespace;
+        var connectionUrl = instance.options.urls.local + instance.options.socket.namespace;
         var clientSockets = client(connectionUrl, {path: instance.options.socket.path});
 
         clientSockets.emit("shane", {name:"shane"});

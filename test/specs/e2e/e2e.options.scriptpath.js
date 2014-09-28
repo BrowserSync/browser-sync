@@ -4,11 +4,10 @@ var browserSync = require("../../../index");
 var messages = require("../../../lib/messages");
 
 var assert      = require("chai").assert;
-var sinon       = require("sinon");
 
 describe("E2E script path test - given a callback", function () {
 
-    var instance, port;
+    var instance;
 
     before(function (done) {
 
@@ -30,6 +29,6 @@ describe("E2E script path test - given a callback", function () {
 
     it("Sets the available port", function () {
         var script = messages.clientScript({version: instance.version});
-        assert.include(instance.options.snippet, "src='"+script+"'");
+        assert.include(instance.options.snippet, "src='" + script + "'");
     });
 });

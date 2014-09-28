@@ -4,7 +4,7 @@ var browserSync = require("../../../index");
 
 var assert  = require("chai").assert;
 
-describe("Setting options during runtime", function(){
+describe("Setting options during runtime", function () {
 
     var instance;
 
@@ -16,7 +16,7 @@ describe("Setting options during runtime", function(){
         instance.cleanup();
     });
 
-    it("should update options with event", function(done){
+    it("should update options with event", function (done) {
 
         instance.events.on("options:set", function () {
 

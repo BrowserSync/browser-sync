@@ -1,5 +1,6 @@
-test/
+coverage/
 doc/
+test/
 .sass-cache
 .idea
 .coveralls.yml

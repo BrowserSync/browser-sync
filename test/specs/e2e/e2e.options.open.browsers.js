@@ -6,13 +6,10 @@ var assert      = require("chai").assert;
 var sinon       = require("sinon");
 var browserSync = require("../../../index");
 
-var open        = require("opn");
-
 describe("E2E OPEN Browsers options (1)", function () {
 
     var instance;
     var stub;
-    var opnStub;
 
     before(function (done) {
         var config = {

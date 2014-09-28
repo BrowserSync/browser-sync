@@ -13,11 +13,11 @@ var tempFileContent = "A test generated this file and it is safe to delete";
 
 var writeTimeout = 125; // Wait for it to get to the filesystem
 
-var writeFileWait = function(name, content, cb) {
+var writeFileWait = function (name, content, cb) {
     if (!cb) {
-        cb = function() {};
+        cb = function () {};
     }
-    setTimeout(function() {
+    setTimeout(function () {
         fs.writeFile(name, content, cb);
     }, writeTimeout);
 };
@@ -53,7 +53,7 @@ describe("File Watcher Module", function () {
 
         var emitter = new events.EventEmitter();
 
-        fs.writeFile(tempFile, tempFileContent, function() {
+        fs.writeFile(tempFile, tempFileContent, function () {
 
             // assert: it works if it calls done
             fileWatcher.plugin(arg, {}, emitter);
@@ -66,7 +66,7 @@ describe("File Watcher Module", function () {
             });
 
             // act: change file
-            writeFileWait(tempFile, tempFileContent+" changed");
+            writeFileWait(tempFile, tempFileContent + " changed");
         });
     });
 });

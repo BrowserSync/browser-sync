@@ -6,7 +6,6 @@ var utils       = require("../../../lib/utils");
 var assert      = require("chai").assert;
 var sinon       = require("sinon");
 
-
 describe("E2E OPEN options", function () {
 
     var instance;

@@ -1,7 +1,6 @@
 "use strict";
 
 var utils    = require("../../../lib/utils");
-var messages = require("../../../lib/messages");
 
 var devIp    = require("dev-ip");
 

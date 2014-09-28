@@ -12,7 +12,7 @@ describe("CLI: Resolving Config file:", function () {
 
     var defaultConfig;
 
-    beforeEach(function(){
+    beforeEach(function () {
         defaultConfig = _.cloneDeep(loadedConfig);
     });
 

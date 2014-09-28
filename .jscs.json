@@ -1,0 +1,19 @@
+{
+  "preset": "google",
+  "validateIndentation": 4,
+  "validateQuoteMarks": "\"",
+  "requireSpacesInFunctionExpression": {
+    "beforeOpeningRoundBrace": true,
+    "beforeOpeningCurlyBrace": true
+  },
+  "disallowSpacesInAnonymousFunctionExpression": null,
+  "disallowSpacesInAnonymousFunctionExpression": null,
+  "disallowMultipleVarDecl": null,
+  "maximumLineLength": {
+    "value": 110,
+    "allowComments": true
+  },
+  "validateJSDoc": {
+    "checkParamNames": true
+  }
+}

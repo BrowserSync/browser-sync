@@ -1,7 +1,6 @@
 "use strict";
 
 var browserSync = require("../../../index");
-var sinon       = require("sinon");
 
 var socket = require("socket.io-client");
 
@@ -31,7 +30,7 @@ describe("E2E Sockets test", function () {
             }
         });
 
-        var connectionUrl = instance.options.urls.local+instance.options.socket.namespace;
+        var connectionUrl = instance.options.urls.local + instance.options.socket.namespace;
         var client1 = socket(connectionUrl, {path: instance.options.socket.path});
 
         client1.emit("scroll", {name:"shane"});

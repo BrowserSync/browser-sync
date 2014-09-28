@@ -18,7 +18,7 @@ describe("Utils: creating URLs", function () {
     afterEach(function () {
         ipStub.reset();
     });
-    beforeEach(function() {
+    beforeEach(function () {
         opts = {
             startPath: false,
             online: true

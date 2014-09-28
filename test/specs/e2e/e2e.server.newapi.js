@@ -34,7 +34,6 @@ describe("E2E server test with only a callback", function () {
     });
 });
 
-
 describe("E2E server test with only a config option", function () {
 
     var instance;
