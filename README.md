@@ -36,6 +36,9 @@ There's a [separate plugin](https://github.com/shakyShane/grunt-browser-sync) fo
 ## Using Gulp?
 No problem, here's a [setup guide](http://www.browsersync.io/docs/gulp)
 
+## Using Brunch?
+Enjoy the [browser-sync-brunch plugin](https://github.com/ocombe/browser-sync-brunch)
+
 ## Screencasts
 [Some listed here](https://github.com/shakyShane/browser-sync/wiki/Screencasts)
 Want any more? Something specific? ask me nicely [@shaneOsbourne](http://www.twitter.com/shaneOsbourne)
