@@ -9,10 +9,7 @@
   "disallowSpacesInAnonymousFunctionExpression": null,
   "disallowSpacesInAnonymousFunctionExpression": null,
   "disallowMultipleVarDecl": null,
-  "maximumLineLength": {
-    "value": 110,
-    "allowComments": true
-  },
+  "maximumLineLength": null,
   "validateJSDoc": {
     "checkParamNames": true
   }
