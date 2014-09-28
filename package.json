@@ -32,12 +32,11 @@
   },
   "dependencies": {
     "browser-sync-client": "0.3.2",
-    "cl-strings": "0.0.5",
     "commander": "~2.3.0",
     "connect": "~3.2.0",
     "dev-ip": "~0.1.7",
     "easy-extender": "1.1.0",
-    "eazy-logger": "^1.3.3",
+    "eazy-logger": "1.3.3",
     "emitter-steward": "0.0.1",
     "foxy": "^0.2.1",
     "glob-watcher": "0.0.6",
