@@ -14,7 +14,8 @@ var assert  = require("chai").assert;
 var options = {
     version: "0.1.0",
     port: 3000,
-    host: "localhost"
+    host: "localhost",
+    server: true
 };
 
 var snippet = messages.scriptTags(options.port, options);
