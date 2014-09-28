@@ -2,9 +2,7 @@
 
 var browserSync = require("../../../index");
 
-var assert      = require("chai").assert;
 var sinon       = require("sinon");
-
 
 describe("E2E `logSnippet` option", function () {
 
