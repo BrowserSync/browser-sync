@@ -38,7 +38,7 @@
     "easy-extender": "1.1.0",
     "eazy-logger": "1.3.3",
     "emitter-steward": "0.0.1",
-    "foxy": "^0.2.1",
+    "foxy": "^2.0.0",
     "glob-watcher": "0.0.6",
     "http-proxy": "~1.4.3",
     "localtunnel": "^1.3.0",

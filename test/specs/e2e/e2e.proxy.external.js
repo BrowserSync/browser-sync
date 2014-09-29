@@ -2,15 +2,12 @@
 
 var browserSync = require("../../../index");
 
-var http        = require("http");
-var connect     = require("connect");
 var request     = require("supertest");
 var assert      = require("chai").assert;
-var client      = require("socket.io-client");
 
-describe.only("E2E proxy test external", function () {
+describe("E2E proxy test external", function () {
 
-    var instance, stubServer;
+    var instance;
 
     before(function (done) {
         instance = browserSync({
@@ -33,9 +30,7 @@ describe.only("E2E proxy test external", function () {
             .set("accept", "text/html")
             .expect(200)
             .end(function (err, res) {
-//                console.log(res.text);
                 assert.include(res.text, "browser-sync-client");
-                assert.include(res.text, "http://192.168.0.2:3000/about");
                 done();
             });
     });
