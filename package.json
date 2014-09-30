@@ -52,6 +52,7 @@
     "serve-index": "^1.1.5",
     "serve-static": "^1.4.2",
     "socket.io": "1.1.0",
+    "tfunk": "^2.0.2",
     "ua-parser-js": "~0.7.0"
   },
   "devDependencies": {
