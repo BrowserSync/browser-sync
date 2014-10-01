@@ -31,7 +31,7 @@
     "_cover": "istanbul cover ./node_modules/mocha/bin/_mocha --report lcovonly -- -R spec --timeout 10000 --recursive ./test/specs && cat ./coverage/lcov.info && rm -rf ./coverage"
   },
   "dependencies": {
-    "browser-sync-client": "0.3.2",
+    "browser-sync-client": "SC5/browser-sync-client#master",
     "cl-strings": "0.0.5",
     "commander": "~2.3.0",
     "connect": "~3.1.0",
