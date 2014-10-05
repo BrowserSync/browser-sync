@@ -21,7 +21,9 @@ describe("API: .active - Retrieving the active state of browserSync", function (
                 open: false
             };
 
-            instance = browserSync(config, done);
+            instance = browserSync(config, function () {
+                done();
+            });
         });
 
         after(function () {

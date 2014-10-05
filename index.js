@@ -6,8 +6,26 @@
  */
 var pjson         = require("./package.json");
 var BrowserSync   = require("./lib/browser-sync");
+var tfunk         = require("tfunk");
+var events        = require("events");
 
-var browserSync   = new BrowserSync();
+var firstInstance = false;
+var firstEmitter  = false;
+
+function newEmitter() {
+    var emitter       = new events.EventEmitter();
+    emitter.setMaxListeners(20);
+    return emitter;
+}
+
+function getFirstEmitter() {
+    if (firstEmitter) {
+        return firstEmitter;
+    }
+
+    firstEmitter = newEmitter();
+    return firstEmitter;
+}
 
 /**
  * @method browserSync
@@ -17,10 +35,6 @@ var browserSync   = new BrowserSync();
  * is useful when you need to wait for information (for example: urls, port etc) or perform other tasks synchronously.
  * @returns {BrowserSync}
  */
-var publicInit      = require("./lib/public/init")(browserSync, pjson);
-
-module.exports      = publicInit;
-module.exports.init = publicInit;
 
 /**
  * The `reload` method will inform all browsers about changed files and will either cause the browser to refresh, or inject the files where possible.
@@ -30,7 +44,6 @@ module.exports.init = publicInit;
  * details and examples of Streams support, please see the [GulpJS]({{site.links.gulp}}) examples
  * @returns {*}
  */
-module.exports.reload = require("./lib/public/reload")(browserSync);
 
 /**
  * Helper method for browser notifications
@@ -39,7 +52,7 @@ module.exports.reload = require("./lib/public/reload")(browserSync);
  * @param {String|HTML} msg Can be a simple message such as 'Connected' or HTML
  * @param {Number} [timeout] How long the message will remain in the browser. @since 1.3.0
  */
-module.exports.notify = require("./lib/public/notify")(browserSync);
+//module.exports.notify = require("./lib/public/notify")(browserSync);
 
 /**
  * Method to pause file change events
@@ -64,7 +77,7 @@ module.exports.resume = require("./lib/public/resume")(browserSync);
  * @param {Object} module The object to be `required`.
  * @param {Function} [cb] A callback function that will return any errors.
  */
-module.exports.use = browserSync.registerPlugin.bind(browserSync);
+//module.exports.use = browserSync.registerPlugin.bind(browserSync);
 
 /**
  * The internal Event Emitter used by the running BrowserSync instance (if there is one).
@@ -73,19 +86,56 @@ module.exports.use = browserSync.registerPlugin.bind(browserSync);
  * @property emitter
  * @type Events.EventEmitter
  */
-module.exports.emitter = browserSync.events;
-
-/**
- * This method will close any running server, stop file watching & exit the current process.
- *
- * @method exit
- */
-module.exports.exit = require("./lib/public/exit")(browserSync);
 
 /**
  * A simple true/false flag that you can use to determine if there's a currently-running BrowserSync instance.
  *
  * @property active
+ */
+
+function noop(name) {
+    return function () {
+        var args = Array.prototype.slice.call(arguments);
+        if (firstInstance) {
+            firstInstance[name].apply(firstInstance, args);
+            return firstInstance;
+        } else {
+            deprecated(name);
+        }
+    }
+}
+
+function deprecated(name) {
+    console.log(tfunk("{yellow:Warning:} This functionality will change in BrowserSync 2.0. You'll have to first call browserSync.create() before {cyan:`.%s()`"), name);
+}
+
+module.exports = function () {
+    var args = Array.prototype.slice.call(arguments);
+    firstInstance = create(getFirstEmitter());
+    firstInstance.init.apply(null, args);
+    return firstInstance;
+};
+
+module.exports.use     = noop("use");
+module.exports.reload  = noop("reload");
+module.exports.notify  = noop("notify");
+module.exports.exit    = noop("exit");
+
+/**
+ *
+ */
+Object.defineProperty(module.exports, "emitter", {
+    get: function () {
+        if (!firstEmitter) {
+            firstEmitter = newEmitter();
+            return firstEmitter;
+        }
+        return false;
+    }
+});
+
+/**
+ *
  */
 Object.defineProperty(module.exports, "active", {
     get: function () {
@@ -101,5 +151,37 @@ Object.defineProperty(module.exports, "active", {
 Object.defineProperty(module.exports, "paused", {
     get: function () {
         return browserSync.paused;
+        if (firstInstance) {
+            return firstInstance.active;
+        }
+        return false;
     }
 });
+
+/**
+ * @returns {{init: *}}
+ */
+function create (emitter) {
+
+    var browserSync = new BrowserSync(emitter || newEmitter());
+
+    var publicApi = {
+        init:    require("./lib/public/init")(browserSync, pjson),
+        exit:    require("./lib/public/exit")(browserSync),
+        notify:  require("./lib/public/notify")(browserSync),
+        reload:  require("./lib/public/reload")(browserSync.events),
+        cleanup: browserSync.cleanup.bind(browserSync),
+        emitter: browserSync.events,
+        use:     browserSync.registerPlugin.bind(browserSync)
+    };
+
+    Object.defineProperty(publicApi, "active", {
+        get: function () {
+            return browserSync.active;
+        }
+    });
+
+    return publicApi;
+}
+
+module.exports.create = create;

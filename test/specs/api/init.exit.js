@@ -7,13 +7,6 @@ var sinon       = require("sinon");
 
 describe("API: .exit() - Using the public exit method", function () {
 
-    it("should exit without BS being started", function () {
-        var stub = sinon.stub(process, "exit");
-        browserSync.exit();
-        sinon.assert.calledOnce(stub);
-        stub.restore();
-    });
-
     describe("should exit when BrowserSync is running.", function () {
 
         var instance;
