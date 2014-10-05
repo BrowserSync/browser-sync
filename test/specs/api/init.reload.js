@@ -33,18 +33,27 @@ describe("API: .reload()", function () {
             namespace: "core"
         });
     });
-    it("should accept an array of file paths as strings", function () {
+    it("only calls reload once if the array contains a filepath that will cause a reload", function () {
         browserSync.reload(["css/core.css", "index.html"]);
+        sinon.assert.calledOnce(emitterStub);
+    });
+    it("calls reload multiple times if all items can be injected", function () {
+        browserSync.reload(["css/core.css", "ie.css"]);
+        sinon.assert.calledTwice(emitterStub);
         sinon.assert.calledWithExactly(emitterStub, "file:changed", {
             path: "css/core.css",
             log: true,
             namespace: "core"
         });
         sinon.assert.calledWithExactly(emitterStub, "file:changed", {
-            path: "index.html",
+            path: "ie.css",
             log: true,
             namespace: "core"
         });
+    });
+    it("should accept an array of file paths as strings", function () {
+        browserSync.reload(["index.html", "css/core.css"]);
+        sinon.assert.calledWithExactly(emitterStub, "browser:reload");
     });
 
     describe("Dealing with Streams", function () {

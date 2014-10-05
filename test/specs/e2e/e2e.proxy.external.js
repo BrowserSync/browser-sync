@@ -5,7 +5,7 @@ var browserSync = require("../../../index");
 var request     = require("supertest");
 var assert      = require("chai").assert;
 
-describe("E2E proxy test external", function () {
+describe.skip("E2E proxy test external", function () {
 
     var instance;
 
