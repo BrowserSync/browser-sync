@@ -31,7 +31,7 @@
     "_cover": "istanbul cover _mocha --report lcovonly -- -R spec --timeout 10000 --recursive ./test/specs && istanbul-coveralls"
   },
   "dependencies": {
-    "browser-sync-client": "0.3.2",
+    "browser-sync-client": "0.4.0",
     "commander": "~2.3.0",
     "connect": "~3.2.0",
     "dev-ip": "~0.1.7",
