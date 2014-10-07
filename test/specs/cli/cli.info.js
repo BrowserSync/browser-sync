@@ -1,6 +1,5 @@
 "use strict";
 
-var messages = require("../../../lib/messages");
 var info     = require("../../../lib/cli/cli-info");
 
 var assert   = require("chai").assert;
@@ -14,10 +13,10 @@ describe("CLI: Info Helpers:", function () {
 
         var consoleLogStub;
         before(function () {
-            consoleLogStub = sinon.stub(console, "log");
+            consoleLogStub = sinon.spy(console, "log");
         });
         after(function () {
-            consoleLogStub.restore();
+            console.log.restore();
         });
         it("should be a function", function () {
             assert.isDefined(info);
@@ -48,36 +47,6 @@ describe("CLI: Info Helpers:", function () {
         });
     });
 
-    describe.skip("When confirming the config file creation:", function () {
-        var confirm;
-        var messageStub;
-        var consoleStub;
-        before(function () {
-            messageStub = sinon.stub(messages.config, "confirm").returns("MESSAGE");
-            consoleStub = sinon.stub(console, "log");
-        });
-        beforeEach(function () {
-            confirm = info.confirmConfig("/path");
-            confirm();
-        });
-        afterEach(function () {
-            messageStub.reset();
-        });
-        after(function () {
-            messageStub.restore();
-            consoleStub.restore();
-        });
-        it("should return a function", function () {
-            assert.isFunction(confirm);
-        });
-        it("should get the correct message", function () {
-            sinon.assert.calledWithExactly(messageStub, "/path");
-        });
-        it("should log the message to the console", function () {
-            sinon.assert.calledWithExactly(consoleStub, "MESSAGE");
-        });
-    });
-
     describe("When creating the config file:", function () {
 
         var readStub;
@@ -87,7 +56,7 @@ describe("CLI: Info Helpers:", function () {
         before(function () {
             readStub    = sinon.stub(fs, "readFileSync").returns("DATA");
             writeStub   = sinon.stub(fs, "writeFile").yields(null);
-            consoleStub = sinon.stub(console, "log");
+            consoleStub = sinon.spy(console, "log");
         });
         afterEach(function () {
             readStub.reset();
@@ -97,7 +66,7 @@ describe("CLI: Info Helpers:", function () {
         after(function () {
             readStub.restore();
             writeStub.restore();
-            consoleStub.restore();
+            console.log.restore();
         });
         it("should call the readFileSync method", function () {
             info.makeConfig("/Users/shakyshane");

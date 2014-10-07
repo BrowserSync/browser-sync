@@ -12,25 +12,24 @@ describe("E2E server test with only a callback", function () {
     var stub;
 
     before(function (done) {
-        stub = sinon.stub(console, "log");
+        stub = sinon.spy(console, "log");
         instance = browserSync(done);
     });
 
     after(function () {
         instance.cleanup();
-        stub.restore();
+        console.log.restore();
     });
 
-    it("Can return the script", function () {
+    it("Can return the script", function (done) {
 
-        console.log(instance.options);
-//        request(instance.server)
-//            .get(instance.options.scriptPaths.versioned)
-//            .expect(200)
-//            .end(function (err, res) {
-//                assert.include(res.text, "Connected to BrowserSync");
-//                done();
-//            });
+        request(instance.server)
+            .get(instance.options.scriptPaths.versioned)
+            .expect(200)
+            .end(function (err, res) {
+                assert.include(res.text, "Connected to BrowserSync");
+                done();
+            });
     });
 });
 

@@ -15,13 +15,13 @@ describe("E2E `logSnippet` option", function () {
             open: false,
             logSnippet: false
         };
-        instance = browserSync(config, done);
         spy      = sinon.spy(console, "log");
+        instance = browserSync(config, done);
     });
 
     after(function () {
         instance.cleanup();
-        spy.restore();
+        console.log.restore();
     });
 
     it("Can set the log snippet when given in options", function () {

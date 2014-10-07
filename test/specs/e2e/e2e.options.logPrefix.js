@@ -5,6 +5,7 @@ var browserSync = require("../../../index");
 var assert      = require("chai").assert;
 var sinon       = require("sinon");
 var stripColor  = require("chalk").stripColor;
+var logger      = require("../../../lib/logger").logger;
 
 describe("E2E `logPrefix` option", function () {
 
@@ -13,17 +14,18 @@ describe("E2E `logPrefix` option", function () {
 
     before(function (done) {
         var config = {
-            online: false,
             open: false,
-            logPrefix: "BS2"
+            logPrefix: "BS2",
+            logLevel:  "info"
         };
-        instance = browserSync(config, done);
+        logger.mute(false);
         spy      = sinon.spy(console, "log");
+        instance = browserSync(config, done);
     });
 
     after(function () {
         instance.cleanup();
-        spy.restore();
+        console.log.restore();
     });
 
     it("Can set the log prefix when given in options", function () {

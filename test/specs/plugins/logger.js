@@ -8,12 +8,17 @@ var chalk   = require("chalk");
 
 describe("Plugins: Getting a logger", function () {
 
+    var stub;
+    before(function () {
+        stub = sinon.spy(console, "log");
+    });
+    after(function () {
+        console.log.restore();
+    });
     it("Can use a plugin-specific logger", function (done) {
 
         var instance;
         var PLUGIN_NAME = "HTML";
-
-        var stub = sinon.stub(console, "log");
 
         var config = {
             logLevel: "silent",
@@ -24,18 +29,11 @@ describe("Plugins: Getting a logger", function () {
 
             "plugin:name": PLUGIN_NAME,
             "plugin": function (opts, bs) {
-
                 var logger = bs.getLogger(PLUGIN_NAME);
-
-                logger.info("Connected!");
-
-                stub.restore();
-
+                logger.setLevel("info").setLevelPrefixes(false).info("Connected!");
                 var msg = chalk.stripColor(stub.getCall(0).args[0]);
-
                 assert.equal(msg, "[BS] [HTML] Connected!");
-
-                instance.cleanup();
+                bs.cleanup();
                 done();
             }
         }, {name: "shane"});

@@ -12,13 +12,13 @@ describe("E2E server test with only a callback", function () {
     var stub;
 
     before(function (done) {
-        stub = sinon.stub(console, "log");
+        stub = sinon.spy(console, "log");
         instance = browserSync(done);
     });
 
     after(function () {
         instance.cleanup();
-        stub.restore();
+        console.log.restore();
     });
 
     it("returns the script", function (done) {

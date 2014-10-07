@@ -85,13 +85,13 @@ describe("E2E NO OPTIONS test with snippet", function () {
     var stub;
 
     before(function (done) {
-        stub = sinon.stub(console, "log");
+        stub = sinon.spy(console, "log");
         instance = browserSync.init([], null, done);
     });
 
     after(function () {
         instance.cleanup();
-        stub.restore();
+        console.log.restore();
     });
 
     it("Sets the available port", function () {
@@ -161,6 +161,111 @@ describe("E2E GHOST OPTIONS", function () {
         assert.deepEqual(ghostMode.forms.inputs, true);
         assert.deepEqual(ghostMode.forms.toggles, true);
         assert.deepEqual(ghostMode.location, false);
+    });
+});
+
+describe("E2E GHOST OPTIONS (NO GHOSTMODE)", function () {
+
+    var instance;
+
+    var config = {
+        ghostMode: false,
+        logLevel: "silent"
+    };
+
+    before(function (done) {
+        instance = browserSync(config, done);
+    });
+
+    after(function () {
+        instance.cleanup();
+    });
+
+    it("Sets the ghostMode options in shorthand", function () {
+        var ghostMode = instance.options.ghostMode;
+        assert.deepEqual(ghostMode.forms.submit, false);
+        assert.deepEqual(ghostMode.forms.inputs, false);
+        assert.deepEqual(ghostMode.forms.toggles, false);
+    });
+});
+describe("E2E GHOST OPTIONS (WITH GHOSTMODE)", function () {
+
+    var instance;
+
+    var config = {
+        ghostMode: true,
+        logLevel: "silent"
+    };
+
+    before(function (done) {
+        instance = browserSync(config, done);
+    });
+
+    after(function () {
+        instance.cleanup();
+    });
+
+    it("Sets the ghostMode options in shorthand", function () {
+        var ghostMode = instance.options.ghostMode;
+        assert.deepEqual(ghostMode.clicks, true);
+        assert.deepEqual(ghostMode.location, true);
+        assert.deepEqual(ghostMode.scroll, true);
+        assert.deepEqual(ghostMode.forms.submit, true);
+        assert.deepEqual(ghostMode.forms.inputs, true);
+        assert.deepEqual(ghostMode.forms.toggles, true);
+    });
+});
+
+describe("E2E GHOST OPTIONS (NO FORMS)", function () {
+
+    var instance;
+
+    var config = {
+        ghostMode: {
+            forms: false
+        },
+        logLevel: "silent"
+    };
+
+    before(function (done) {
+        instance = browserSync(config, done);
+    });
+
+    after(function () {
+        instance.cleanup();
+    });
+
+    it("Sets the ghostMode options in shorthand", function () {
+        var ghostMode = instance.options.ghostMode;
+        assert.deepEqual(ghostMode.forms.submit, false);
+        assert.deepEqual(ghostMode.forms.inputs, false);
+        assert.deepEqual(ghostMode.forms.toggles, false);
+    });
+});
+describe("E2E GHOST OPTIONS (ALL FORMS)", function () {
+
+    var instance;
+
+    var config = {
+        ghostMode: {
+            forms: true
+        },
+        logLevel: "silent"
+    };
+
+    before(function (done) {
+        instance = browserSync(config, done);
+    });
+
+    after(function () {
+        instance.cleanup();
+    });
+
+    it("Sets the ghostMode options in shorthand", function () {
+        var ghostMode = instance.options.ghostMode;
+        assert.deepEqual(ghostMode.forms.submit, true);
+        assert.deepEqual(ghostMode.forms.inputs, true);
+        assert.deepEqual(ghostMode.forms.toggles, true);
     });
 });
 
