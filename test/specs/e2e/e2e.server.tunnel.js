@@ -4,6 +4,10 @@ var browserSync   = require("../../../index");
 var tunnel        = require("../../../lib/tunnel");
 
 var http    = require("http");
+/**
+* @type {sinon}
+*/
+var sinon   = require("sinon");
 var assert  = require("chai").assert;
 
 describe("E2E server test with tunnel", function () {
@@ -11,7 +15,6 @@ describe("E2E server test with tunnel", function () {
     var instance;
 
     before(function (done) {
-
         var config = {
             server: {
                 baseDir:"test/fixtures"
@@ -21,15 +24,10 @@ describe("E2E server test with tunnel", function () {
             tunnel: true,
             online: true
         };
-
-        browserSync.use({
-            "plugin:name": "tunnel",
-            "plugin": function (bs, port, finished) {
-                finished("http://localhost:8080", true);
-            }
+        instance = browserSync(config);
+        instance.events.on("service:running", function () {
+            done();
         });
-
-        instance = browserSync(config, done);
     });
 
     after(function () {
@@ -37,7 +35,7 @@ describe("E2E server test with tunnel", function () {
     });
 
     it("should call init on the tunnel", function () {
-        assert.equal(instance.options.urls.tunnel, "http://localhost:8080");
+        assert.include(instance.options.urls.tunnel, "localtunnel.me");
     });
 });
 
@@ -47,7 +45,6 @@ describe("E2E server test with tunnel", function () {
     var server;
 
     before(function (done) {
-
         server = http.createServer();
         server.on("request", function (req, res) {
             res.write(req.headers.host);
@@ -61,10 +58,11 @@ describe("E2E server test with tunnel", function () {
     it("can create a tunnel connection", function (done) {
         tunnel.plugin({
             options: {
-                urls: {}
+                urls: {},
+                port: _port
             },
             events: {}
-        }, _port, function (url, bool) {
+        }, require("localtunnel"), function (url, bool) {
             assert.include(url, "localtunnel.me");
             assert.isTrue(bool);
             done();
@@ -74,13 +72,72 @@ describe("E2E server test with tunnel", function () {
         tunnel.plugin({
             options: {
                 urls: {},
-                tunnel: "shane0987654321"
+                tunnel: "shane0987654321",
+                port: _port
             },
             events: {}
-        }, _port, function (url, bool) {
+        }, require("localtunnel"), function (url, bool) {
             assert.include(url, "shane0987654321");
             assert.isTrue(bool);
             done();
         });
+    });
+});
+
+describe("Creating tunnels", function () {
+
+    var tunnelStub;
+
+    before(function () {
+        tunnelStub = sinon.stub().yields(null, {
+            url: "http://localhost:403"
+        });
+    });
+
+    afterEach(function () {
+        tunnelStub.reset();
+    });
+
+    it("should return the URL & boolean if successful", function (done) {
+        tunnel.plugin({
+            options: {
+                urls: {},
+                tunnel: true,
+                port: 1234
+            }
+        }, tunnelStub, function (url, tunnel) {
+            assert.equal(url,    "http://localhost:403");
+            assert.equal(tunnel, true);
+            done();
+        });
+    });
+    it("should throw if localtunnel throws", function () {
+        var spy = sinon.spy();
+        tunnelStub.yields({
+            msg: "ERR bro"
+        });
+        assert.throws(function () {
+            tunnel.plugin({
+                options: {
+                    urls: {},
+                    tunnel: true,
+                    port: 1234
+                }
+            }, tunnelStub, spy);
+        });
+    });
+    it("should create a tunnel with a subdomain", function () {
+        tunnelStub.yields(null, {
+            url: "http://localhost:403"
+        });
+        var spy = sinon.spy();
+        tunnel.plugin({
+            options: {
+                urls: {},
+                tunnel: "shane",
+                port: 1234
+            }
+        }, tunnelStub, spy);
+        sinon.assert.called(tunnelStub);
     });
 });
