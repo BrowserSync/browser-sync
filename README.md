@@ -86,7 +86,7 @@ If you've found Browser-sync useful and would like to contribute to its continue
 
 ## Troubleshooting
 
-The way browser-sync works is by injecting an asynchronous script tag (`<script async>...</script>`) right after the `<body>` tag during initial request. The role of this tag is to request a browser-sync's JS file when loading the page. In order for this to work properly the `<body>` tag must be present.
+The way BrowserSync works is by injecting an asynchronous script tag (`<script async>...</script>`) right after the `<body>` tag during initial request. The role of this tag is to request a BrowserSync's JS file when loading the page. In order for this to work properly the `<body>` tag must be present.
 
 ## License
 Copyright (c) 2014 Shane Osbourne
