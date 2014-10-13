@@ -27,7 +27,7 @@ describe("CLI: Options: Parsing Command-line usage: ", function () {
         helpStub.restore();
     });
 
-    it("should call the callback when `init` command given", function () {
+    it.skip("should call the callback when `init` command given", function () {
         var argv = [
             "",
             "",
@@ -51,6 +51,7 @@ describe("CLI: Options: Parsing Command-line usage: ", function () {
         init.parse("0.0.0", {_: []}, ["", ""], cbSpy);
         sinon.assert.calledOnce(helpStub);
     });
+
     it("show the help screen", function () {
         assert.doesNotThrow(function () {
             init.help();
