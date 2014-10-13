@@ -52,7 +52,7 @@ If you've found Browser-sync useful and would like to contribute to its continue
 ## Contributors
 
 ```
-   700	Shane Osbourne
+   703	Shane Osbourne
     16	Shinnosuke Watanabe
     13	Hugo Bessa
     11	Paul Kinlan
