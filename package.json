@@ -36,7 +36,7 @@
     "connect": "~3.2.0",
     "dev-ip": "~0.1.7",
     "easy-extender": "^2.0.0",
-    "eazy-logger": "1.4.0",
+    "eazy-logger": "^1.5.0",
     "emitter-steward": "0.0.1",
     "foxy": "^3.0.0",
     "glob-watcher": "0.0.6",
