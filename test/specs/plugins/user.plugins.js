@@ -32,7 +32,7 @@ describe("Plugins: Retrieving user plugins", function () {
     });
     it("Should access to only the user-specified plugins", function (done) {
         var plugin = instance.getUserPlugins()[0];
-        assert.equal(plugin["plugin:name"], PLUGIN_NAME);
+        assert.equal(plugin.name, PLUGIN_NAME);
         done();
     });
 });
