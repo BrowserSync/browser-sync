@@ -1,0 +1,25 @@
+# http://EditorConfig.org
+
+# top-most EditorConfig file
+root = true
+
+[*]
+charset = "utf8"
+
+
+[*.css]
+indent_style = space
+indent_size = 4
+trim_trailing_whitespace = true
+
+
+[*.js]
+indent_style = space
+indent_size = 4
+trim_trailing_whitespace = true
+
+
+[*.json]
+indent_style = space
+indent_size = 2
+trim_trailing_whitespace = true
