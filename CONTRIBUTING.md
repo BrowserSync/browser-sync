@@ -55,7 +55,7 @@ To ensure consistency throughout the source code, keep these rules in mind as yo
 * All features or bug fixes **must be tested** by one or more [specs](https://github.com/shakyShane/browser-sync/tree/master/test/specs).
 * Don't be put off by this, I'm more than happy to help you implement tests - so don't be shy! I'd much rather spend time helping
 you to provide tests than risk losing you as a contributor :)
-* Follow the code style (Builds will fail if you don't, check at any time with `npm test`)
+* Follow the code style (Builds will fail if you don't, check at any time with `npm test`). Also, this project has a [.editorconfig](.editorconfig) file to help with code style; go to [EditorConfig.org](http://editorconfig.org) and download the plugin for your IDE.
 * Don't introduce any extra 3rd party libraries unless you're creating a brand new feature that requires it.
 * Don't fight async! Avoid promises or any other similar types of abstraction, BrowserSync loves simple
 callbacks and events.
