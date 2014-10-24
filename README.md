@@ -52,7 +52,7 @@ If you've found Browser-sync useful and would like to contribute to its continue
 ## Contributors
 
 ```
-   703	Shane Osbourne
+   706	Shane Osbourne
     16	Shinnosuke Watanabe
     13	Hugo Bessa
     11	Paul Kinlan
@@ -60,14 +60,16 @@ If you've found Browser-sync useful and would like to contribute to its continue
      5	shinnn
      3	Marek 'saji' Augustynowicz
      3	Werner van Deventer
-     2	chase_chou
+     2	Dan Tello
+     2	Piotr Kaleta
      2	Michael Branch
      2	brutaldev
-     2	Hugo Dias
+     2	chase_chou
      2	Olivier Combe
-     2	Dan Tello
+     2	Hugo Dias
      2	Paul Robertson
      1	viktor hesselbom
+     1	Benjamín Eidelman
      1	Cameron Spear
      1	Carl Henderson
      1	Cedric Kastner
@@ -81,12 +83,8 @@ If you've found Browser-sync useful and would like to contribute to its continue
      1	Victor Fernandez de Alba
      1	Yazhong Liu
      1	mericson
-     1	Benjamín Eidelman
+     1	Adam Lynch
 ```
-
-## Troubleshooting
-
-The way BrowserSync works is by injecting an asynchronous script tag (`<script async>...</script>`) right after the `<body>` tag during initial request. The role of this tag is to request a BrowserSync's JS file when loading the page. In order for this to work properly the `<body>` tag must be present.
 
 ## License
 Copyright (c) 2014 Shane Osbourne

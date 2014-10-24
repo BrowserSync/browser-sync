@@ -114,3 +114,50 @@ describe("E2E proxy test", function () {
         instance = browserSync(config);
     });
 });
+
+//describe("E2E localhost test", function() {
+//
+//    var instance;
+//
+//    before(function (done) {
+//
+//        var config = {
+//            proxy: "localhost",
+//            logLevel: "silent",
+//            open: false
+//        };
+//        // Success if this event called
+//        instance = browserSync(config, done);
+//    });
+//    it("proxies `localhost`", function(done) {
+//        request(instance.server)
+//            .get("/")
+//            .set("accept", "text/html")
+//            .expect(200)
+//            .end(function (err, res) {
+//                assert.include(res.text, "browser-sync-client");
+//                done();
+//            });
+//    });
+//    it("proxies `localhost/sites1/`", function(done) {
+//        request(instance.server)
+//            .get("/site1/")
+//            .set("accept", "text/html")
+//            .expect(200)
+//            .end(function (err, res) {
+//                assert.include(res.text, "From sub-dir");
+//                done();
+//            });
+//    });
+//    it("proxies `localhost/sites1`", function(done) {
+//        request(instance.server)
+//            .get("/site1")
+//            .set("accept", "text/html")
+//            .expect(200)
+//            .end(function (err, res) {
+//                console.log(res.text);
+//                assert.include(res.text, "From sub-dir");
+//                done();
+//            });
+//    });
+//});
