@@ -55,6 +55,7 @@
     "ua-parser-js": "~0.7.0"
   },
   "devDependencies": {
+    "async": "^0.9.0",
     "chai": "~1.9.1",
     "chalk": "^0.5.1",
     "cli-color": "~0.3.2",
