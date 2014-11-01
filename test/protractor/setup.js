@@ -1,5 +1,6 @@
 var browserSync = require("../../index");
 var async       = require("async");
+
 var logger      = require("eazy-logger").Logger({
     prefix: "{magenta:[BS E2E] ",
     useLevelPrefixes: true,
@@ -9,31 +10,18 @@ var logger      = require("eazy-logger").Logger({
         }
     }
 });
+
 var run         = require("./_run")(logger);
+var tests       = require("./_tests");
 
-var config = {
-    "Proxy Test Laravel App": {
-        proxy:   "http://homestead.app:8000/",
-        open:     false,
-        logLevel: "silent"
-    },
-    "Proxy Test Wordpress": {
-        proxy:   "http://wordpress.dev",
-        open:     false,
-        logLevel: "silent"
-    },
-    "Server": {
-        server:   "./test/fixtures",
-        open:     false,
-        logLevel: "silent"
-    }
-};
-
-async.eachSeries(Object.keys(config), function (item, cb) {
+async.eachSeries(Object.keys(tests), function (item, cb) {
     logger.info("Running: {yellow:%s", item);
-    var bs = run(config[item], function (err, out) {
+    process.env["BS_TEST_NAME"] = item;
+    var bs = run(tests[item], function (err, out) {
         bs.cleanup();
-        console.log(out);
+        if (out) {
+            console.log(out);
+        }
         if (err) {
             return cb(err);
         }
@@ -41,6 +29,7 @@ async.eachSeries(Object.keys(config), function (item, cb) {
     });
 }, function (err) {
     if (err) {
+        console.log(err.message);
         logger.error("Tests failed");
         process.exit(1);
     }
