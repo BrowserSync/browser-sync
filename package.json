@@ -46,7 +46,7 @@
     "minimist": "^1.1.0",
     "object-path": "^0.6.0",
     "opn": "^1.0.0",
-    "opt-merger": "0.2.1",
+    "opt-merger": "^1.1.0",
     "portscanner-plus": "0.1.0",
     "resp-modifier": "~0.1.2",
     "serve-index": "^1.1.5",
