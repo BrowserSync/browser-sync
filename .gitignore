@@ -13,3 +13,5 @@ example.js
 doc/
 .coveralls.yml
 coverage/
+/screenshots
+changelog.js

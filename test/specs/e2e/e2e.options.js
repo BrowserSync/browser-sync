@@ -208,7 +208,7 @@ describe("E2E GHOST OPTIONS (WITH GHOSTMODE)", function () {
     it("Sets the ghostMode options in shorthand", function () {
         var ghostMode = instance.options.ghostMode;
         assert.deepEqual(ghostMode.clicks, true);
-        assert.deepEqual(ghostMode.location, true);
+        assert.deepEqual(ghostMode.location, false); // never turn this on, it's buggy as hell
         assert.deepEqual(ghostMode.scroll, true);
         assert.deepEqual(ghostMode.forms.submit, true);
         assert.deepEqual(ghostMode.forms.inputs, true);

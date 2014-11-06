@@ -1,7 +1,7 @@
 {
   "name": "browser-sync",
   "description": "Live CSS Reload & Browser Syncing",
-  "version": "1.6.2",
+  "version": "1.6.3",
   "homepage": "https://github.com/shakyshane/browser-sync",
   "author": {
     "name": "Shane Osbourne"
@@ -28,7 +28,8 @@
     "lint": "gulp lint",
     "unit": "mocha --recursive test/specs --reporter spec --timeout 10000",
     "cover": "node ./test/env.js && istanbul cover _mocha --report lcovonly -- -R spec --timeout 10000 --recursive ./test/specs && istanbul-coveralls",
-    "_cover": "istanbul cover _mocha --report lcovonly -- -R spec --timeout 10000 --recursive ./test/specs && istanbul-coveralls"
+    "_cover": "istanbul cover _mocha --report lcovonly -- -R spec --timeout 10000 --recursive ./test/specs && istanbul-coveralls",
+    "pre-release": "npm test && node test/protractor/setup.js"
   },
   "dependencies": {
     "browser-sync-client": "0.4.1",
@@ -45,7 +46,7 @@
     "minimist": "^1.1.0",
     "object-path": "^0.6.0",
     "opn": "^1.0.0",
-    "opt-merger": "0.2.1",
+    "opt-merger": "^1.1.0",
     "portscanner-plus": "0.1.0",
     "resp-modifier": "~0.1.2",
     "serve-index": "^1.1.5",
@@ -55,9 +56,11 @@
     "ua-parser-js": "~0.7.0"
   },
   "devDependencies": {
+    "async": "^0.9.0",
     "chai": "~1.9.1",
     "chalk": "^0.5.1",
     "cli-color": "~0.3.2",
+    "conventional-changelog": "0.0.11",
     "graceful-fs": "^3.0.2",
     "gulp": "~3.8.6",
     "gulp-contribs": "0.0.2",
@@ -69,8 +72,10 @@
     "istanbul-coveralls": "^1.0.0",
     "mocha": "*",
     "mocha-lcov-reporter": "0.0.1",
+    "portscanner": "^1.0.0",
     "q": "^1.0.1",
     "sinon": "~1.10.3",
+    "slugify": "^0.1.0",
     "socket.io-client": "^1.1.0",
     "supertest": "~0.13.0",
     "vinyl": "^0.4.3"

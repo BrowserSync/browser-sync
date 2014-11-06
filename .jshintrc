@@ -15,6 +15,6 @@
   "indent": 4,
   "eqnull": true,
   "node": true,
-  "strict": true,
+  "strict": false,
   "mocha": true
 }
