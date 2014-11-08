@@ -4,3 +4,4 @@ test/
 .sass-cache
 .idea
 .coveralls.yml
+screenshots/
