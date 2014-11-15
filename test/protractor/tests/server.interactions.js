@@ -2,7 +2,7 @@ var init = require("../bs.init");
 var path = require("path");
 var assert = require("chai").assert;
 
-describe('Page Navigation', function() {
+describe('Interactions on Server Pages', function() {
     var ptor     = protractor.getInstance();
     var instance;
     var urls;
@@ -68,7 +68,7 @@ describe('Page Navigation', function() {
 
         browser.get(urls.local + "/forms.html");
         element(by.id("name")).sendKeys("Hi there");
-        //ptor.pause();
+        instance.cleanup();
     });
 });
 

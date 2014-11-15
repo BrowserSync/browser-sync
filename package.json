@@ -29,7 +29,7 @@
     "unit": "mocha --recursive test/specs --reporter spec --timeout 10000",
     "cover": "node ./test/env.js && istanbul cover _mocha --report lcovonly -- -R spec --timeout 10000 --recursive ./test/specs && istanbul-coveralls",
     "_cover": "istanbul cover _mocha --report lcovonly -- -R spec --timeout 10000 --recursive ./test/specs && istanbul-coveralls",
-    "pre-release": "npm test && node test/protractor/setup.js"
+    "pre-release": "npm test && node test/protractor/setup.js && protractor test/protractor/config.single.js"
   },
   "dependencies": {
     "browser-sync-client": "^0.4.1",
