@@ -1,31 +1,24 @@
 var browserSync = require("../../index");
 var async       = require("async");
-
-var logger      = require("eazy-logger").Logger({
-    prefix: "{magenta:[BS E2E] ",
-    useLevelPrefixes: true,
-    custom: {
-        "i": function (string) {
-            return this.compile("{cyan:" + string + "}");
-        }
-    }
-});
-
+var path        = require("path");
+var logger      = require("./logger");
 var run         = require("./_run")(logger);
-var tests       = require("./_tests");
 
-async.eachSeries(Object.keys(tests), function (item, cb) {
+var tests       = require("./tests.multi");
+var configFile  = path.resolve(__dirname + "/config.multi");
+
+async.eachSeries(Object.keys(tests), function (item, asyncCallback) {
     logger.info("Running: {yellow:%s", item);
     process.env["BS_TEST_NAME"] = item;
-    var bs = run(tests[item], function (err, out) {
+    var bs = run(tests[item], configFile, function (err, out) {
         bs.cleanup();
         if (out) {
-            console.log(out);
+            //console.log(out);
         }
         if (err) {
-            return cb(err);
+            return asyncCallback(err);
         }
-        cb();
+        asyncCallback();
     });
 }, function (err) {
     if (err) {

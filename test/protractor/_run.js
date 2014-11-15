@@ -1,11 +1,10 @@
 var browserSync = require("../../index");
 var exec        = require("child_process").exec;
 var path        = require("path");
-var configFile  = path.resolve(__dirname + "/config.js");
 
 module.exports = function (logger) {
 
-    return function (config, cb) {
+    return function (config, configFile, cb) {
 
         var instance = browserSync(config.bsConfig, function (err, bs) {
             var url = bs.getOption("urls.local");
@@ -15,10 +14,10 @@ module.exports = function (logger) {
 
             if (config.before) {
                 config.before(bs, function () {
-                    runTests(config, bs, cb);
+                    runTests(config, configFile, bs, cb);
                 });
             } else {
-                runTests(config, bs, cb);
+                runTests(config, configFile, bs, cb);
             }
         });
         return instance;
@@ -26,13 +25,13 @@ module.exports = function (logger) {
 };
 
 
-function runTests (config, bs, cb) {
+function runTests (config, configFile, bs, cb) {
     var out = "";
     exec("protractor " + configFile, function (err, stdout) {
         if (err) {
             doCallback({
                 code: 1,
-                message: stdout
+                message: err.message ? err.message : stdout
             })
             process.exit(1);
         }
