@@ -72,6 +72,7 @@
     "istanbul-coveralls": "^1.0.0",
     "mocha": "*",
     "mocha-lcov-reporter": "^0.0.1",
+    "multiline": "^1.0.1",
     "portscanner": "^1.0.0",
     "q": "^1.0.1",
     "sinon": "^1.10.3",
