@@ -1,25 +1,39 @@
-var init = require("../bs.init");
-var path = require("path");
-var assert = require("chai").assert;
+var init    = require("../bs.init");
+var path    = require("path");
+var connect = require("connect");
+var serveStatic = require("serve-static");
+var http    = require("http");
+var assert  = require("chai").assert;
 
-describe('Interactions on Server Pages', function() {
+describe('Interactions on proxy Pages', function() {
     var ptor     = protractor.getInstance();
     var instance;
     var urls;
+    var proxy;
+    var server;
     beforeEach(function () {
+
         browser.ignoreSynchronization = true;
-        if (instance) {
-            return;
+
+        if (!server) {
+
+            var app   = connect();
+
+            app.use(serveStatic(path.resolve("test/fixtures")));
+
+            server = http.createServer(app).listen(function () {
+                proxy = server.address().port;
+                var config = {
+                    proxy: "http://localhost:" + server.address().port,
+                    open: false,
+                    logLevel: "silent"
+                };
+                init(protractor, config).then(function (bs) {
+                    instance = bs;
+                    urls = instance.getOption("urls");
+                });
+            });
         }
-        var config = {
-            server: "test/fixtures",
-            open: false,
-            logLevel: "silent"
-        };
-        init(protractor, config).then(function (bs) {
-            instance = bs;
-            urls = instance.getOption("urls");
-        });
     });
     it("should contain the BS script & notify element", function () {
         browser.get(urls.local);
