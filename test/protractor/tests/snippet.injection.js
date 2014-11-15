@@ -24,7 +24,6 @@ describe('Section Navigation', function() {
         });
     });
     it("should contain the BS script element", function () {
-        process.emit("BS_EMIT", {"name": "shane"});
         expect(element(by.id('__bs_script__')).isPresent()).toBeTruthy();
     });
     it("should contain the BS NOTIFY ELEMENT", function () {
