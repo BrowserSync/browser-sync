@@ -47,7 +47,8 @@ describe("Server: Launching a server with snippets", function () {
                 injectScripts: true
             },
             version: "0.1.0",
-            port: 3000
+            port: 3000,
+            snippetOptions: defaultConfig.snippetOptions
         };
         reqOptions = {
             hostname: "0.0.0.0",

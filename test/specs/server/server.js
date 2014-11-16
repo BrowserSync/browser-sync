@@ -1,6 +1,7 @@
 "use strict";
 
 var server        = require("../../../lib/server/");
+var defaultConfig = require("../../../lib/default-config");
 
 var assert  = require("chai").assert;
 var sinon   = require("sinon");
@@ -35,7 +36,8 @@ describe("Server: The createServer method", function () {
             server: {},
             port: 3000,
             version: "0.0.1",
-            host: "localhost"
+            host: "localhost",
+            snippetOptions: defaultConfig.snippetOptions
         };
     });
     afterEach(function () {

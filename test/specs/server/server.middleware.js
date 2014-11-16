@@ -1,6 +1,7 @@
 "use strict";
 
 var server        = require("../../../lib/server/");
+var defaultConfig = require("../../../lib/default-config");
 
 var sinon   = require("sinon");
 var request = require("supertest");
@@ -9,7 +10,8 @@ var options = {
     host: "localhost",
     port: 3000,
     server: {},
-    version: "2.1.0"
+    version: "2.1.0",
+    snippetOptions: defaultConfig.snippetOptions
 };
 
 describe("Server:  Adding custom middleware", function () {

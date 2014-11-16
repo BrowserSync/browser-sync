@@ -45,9 +45,6 @@ describe('Interactions on proxy Pages', function() {
     });
     it("should know when a client scrolls", function () {
 
-        var flow = protractor.promise.controlFlow();
-        var deferred = protractor.promise.defer();
-
         instance.io.sockets.on("connection", function (client) {
             client.on("scroll", function (data) {
                 expect(data.position.raw.y).toBe(100);
