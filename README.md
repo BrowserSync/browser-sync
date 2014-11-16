@@ -52,38 +52,38 @@ If you've found Browser-sync useful and would like to contribute to its continue
 ## Contributors
 
 ```
-   706	Shane Osbourne
-    16	Shinnosuke Watanabe
+   738	Shane Osbourne
+    22	Shinnosuke Watanabe
     13	Hugo Bessa
     11	Paul Kinlan
     10	Shane Daniel
      5	shinnn
      3	Marek 'saji' Augustynowicz
      3	Werner van Deventer
+     3	Adam Lynch
+     2	Paul Robertson
      2	Dan Tello
-     2	Piotr Kaleta
+     2	Hugo Dias
      2	Michael Branch
+     2	Olivier Combe
+     2	Piotr Kaleta
      2	brutaldev
      2	chase_chou
-     2	Olivier Combe
-     2	Hugo Dias
-     2	Paul Robertson
-     1	viktor hesselbom
-     1	Benjamín Eidelman
-     1	Cameron Spear
-     1	Carl Henderson
-     1	Cedric Kastner
-     1	Craig Morris
      1	Dave Hall
-     1	Guillaume Lambert
-     1	Jory Graham
      1	Robert Vock
+     1	Craig Morris
+     1	Cedric Kastner
+     1	Carl Henderson
      1	Sylvain Emery
      1	Tony Holdstock-Brown
      1	Victor Fernandez de Alba
+     1	Cameron Spear
      1	Yazhong Liu
+     1	Jory Graham
+     1	Benjamín Eidelman
+     1	viktor hesselbom
+     1	Guillaume Lambert
      1	mericson
-     1	Adam Lynch
 ```
 
 ## License

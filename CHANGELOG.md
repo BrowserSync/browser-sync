@@ -1,3 +1,16 @@
+### 1.6.5 (2014-11-16)
+
+
+#### Bug Fixes
+
+* **snippet:** Add snippet.ignorePaths option - ([dd9b284b](https://github.com/shakyShane/browser-sync/commit/dd9b284b47f01884996619c012f134c982639b8c), closes [#330](https://github.com/shakyShane/browser-sync/issues/330))
+
+
+#### Features
+
+* **snippet:** Allow user-provided rule for writing the snippet ([33c4586d](https://github.com/shakyShane/browser-sync/commit/33c4586dce26a4c9672b99d14d29adb064dac6ec))
+
+
 ### 1.6.4 (2014-11-08)
 
 
