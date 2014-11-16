@@ -37,6 +37,7 @@ describe('Interactions on proxy Pages', function() {
             "scrolling.html",
             "index-large.html",
             "index-amd.html"
+
         ].forEach(function (url) {
             browser.get(path.join(urls.local, url));
             assertScripts();
@@ -80,7 +81,15 @@ describe('Interactions on proxy Pages', function() {
         });
 
         browser.get(urls.local + "/forms.html");
-        element(by.id("name")).sendKeys("Hi there");
+
+        var waitLoading = by.css('input[name="name"');
+
+        browser.wait(function() {
+            return ptor.isElementPresent(waitLoading);
+        }, 8000);
+
+        element(by.css('input[name="name"')).sendKeys("Hi there");
+
         instance.cleanup();
     });
 });

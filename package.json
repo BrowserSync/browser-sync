@@ -48,7 +48,7 @@
     "opn": "^1.0.0",
     "opt-merger": "^1.1.0",
     "portscanner-plus": "^0.1.0",
-    "resp-modifier": "^0.1.2",
+    "resp-modifier": "^1.0.0",
     "serve-index": "^1.1.5",
     "serve-static": "^1.4.2",
     "socket.io": "^1.1.0",
