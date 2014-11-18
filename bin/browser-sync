@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 var cli           = require("../lib/cli/index");
 var pjson         = require("../package.json");
+var utils         = require("../lib/utils");
 
 var init          = cli.init;
 var info          = cli.info;
