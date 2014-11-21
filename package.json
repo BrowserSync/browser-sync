@@ -32,7 +32,7 @@
     "pre-release": "npm test && node test/protractor/setup.js && protractor test/protractor/config.single.js"
   },
   "dependencies": {
-    "browser-sync-client": "^0.4.2",
+    "browser-sync-client": "^0.5.0",
     "commander": "^2.3.0",
     "connect": "^3.2.0",
     "dev-ip": "^0.1.7",

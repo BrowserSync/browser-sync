@@ -7,17 +7,20 @@ var File        = require("vinyl");
 
 describe("API: .reload()", function () {
 
-    var emitterStub;
+    var emitterStub, clock;
 
     before(function () {
         emitterStub = sinon.spy(browserSync.emitter, "emit");
+        clock = sinon.useFakeTimers();
     });
 
     afterEach(function () {
         emitterStub.reset();
+        clock.now = 0;
     });
 
     after(function () {
+        clock.restore();
         emitterStub.restore();
     });
 

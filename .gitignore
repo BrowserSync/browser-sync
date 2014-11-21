@@ -15,3 +15,4 @@ doc/
 coverage/
 /screenshots
 changelog.js
+test/fixtures/multi/
