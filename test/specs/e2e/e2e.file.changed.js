@@ -7,7 +7,7 @@ var assert  = require("chai").assert;
 
 describe("E2E Responding to events", function () {
 
-    var instance, socketsStub;
+    var instance, socketsStub, clock;
 
     before(function (done) {
 
@@ -24,6 +24,8 @@ describe("E2E Responding to events", function () {
             socketsStub = sinon.stub(instance.io.sockets, "emit");
             done();
         });
+
+        clock = sinon.useFakeTimers();
     });
 
     afterEach(function () {
@@ -32,12 +34,15 @@ describe("E2E Responding to events", function () {
     after(function () {
         socketsStub.restore();
         instance.cleanup();
+        clock.restore();
     });
 
     it("fires the file:reload event to the browser", function () {
 
         // Emit the event as it comes from the file-watcher
         instance.events.emit("file:changed", {path: "styles.css", log: true, namespace: "core"});
+
+        clock.tick();
 
         var eventName = socketsStub.getCall(0).args[0];
         var args      = socketsStub.getCall(0).args[1];
@@ -50,6 +55,8 @@ describe("E2E Responding to events", function () {
 
         // Emit the event as it comes from the file-watcher
         instance.events.emit("file:changed", {path: "styles.css", namespace: "core"});
+
+        clock.tick();
 
         var args = socketsStub.getCall(0).args[1];
 
