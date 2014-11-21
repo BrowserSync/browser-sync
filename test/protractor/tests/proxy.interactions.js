@@ -87,7 +87,11 @@ describe('Interactions on proxy Pages', function() {
 
         element(by.css('input[name="name"')).sendKeys("Hi there");
 
-        instance.cleanup();
+        var flow = protractor.promise.controlFlow();
+
+        flow.execute(function () {
+            instance.cleanup();
+        });
     });
 });
 
