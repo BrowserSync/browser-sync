@@ -68,6 +68,8 @@ describe("E2E Responding to events", function () {
         // Emit the event as it comes from the file-watcher
         instance.events.emit("browser:reload");
 
+        clock.tick();
+
         var eventName = socketsStub.getCall(0).args[0];
 
         assert.equal(eventName, "browser:reload"); // check correct event sent to client

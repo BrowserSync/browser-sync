@@ -61,4 +61,14 @@ describe("File Watcher Module - reloadDelay", function () {
         sinon.assert.calledOnce(stub);
         sinon.assert.calledWith(stub, "browser:reload");
     });
+    it("calls browser:reload with a delay", function () {
+        bs.events.emit("browser:reload");
+        bs.events.emit("browser:reload");
+        bs.events.emit("browser:reload");
+        sinon.assert.notCalled(stub);
+        clock.tick(1000);
+        sinon.assert.notCalled(stub);
+        clock.tick(2000); // 2001
+        sinon.assert.calledOnce(stub);
+    });
 });
