@@ -20,6 +20,12 @@
     }
   ],
   "main": "index.js",
+  "files": [
+    "bin",
+    "index.js",
+    "lib",
+    "LICENSE-GPL"
+  ],
   "engines": {
     "node": ">= 0.8.0"
   },
