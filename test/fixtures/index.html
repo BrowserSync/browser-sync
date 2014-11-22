@@ -8,11 +8,30 @@
     <link rel="stylesheet" href="assets/style.css"/>
     <link rel="stylesheet" href="fonts/roboto/stylesheet.css"/>
 </head>
-<body>
+<body ng-app="BrowserSync">
 
     <h1 style="font-family: robotoregular, serif">BrowserSync + Public URL</h1>
     <a href="forms.html">Forms</a>
     <a href="scrolling.html">Scrolling Window</a>
+
+    <div ng-controller="MainCtrl as app">
+
+        <a href="#" ng-click="app.click()" id="clickme">Click me</a>
+
+    </div>
     <!-- BrowserSync -->
+
+    <script src="js/jquery.js"></script>
+    <script src="js/angular.js"></script>
+
+    <script type="text/javascript">
+
+        var app = angular.module("BrowserSync", []);
+        app.controller("MainCtrl", function () {
+            this.click = function () {
+                console.log("oh yeah");
+            };
+        });
+    </script>
 </body>
 </html>

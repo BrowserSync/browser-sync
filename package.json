@@ -1,7 +1,7 @@
 {
   "name": "browser-sync",
   "description": "Live CSS Reload & Browser Syncing",
-  "version": "1.7.0",
+  "version": "1.7.1",
   "homepage": "http://www.browsersync.io/",
   "author": {
     "name": "Shane Osbourne"
@@ -32,7 +32,7 @@
     "pre-release": "npm test && node test/protractor/setup.js && protractor test/protractor/config.single.js"
   },
   "dependencies": {
-    "browser-sync-client": "^0.5.0",
+    "browser-sync-client": "^0.5.1",
     "commander": "^2.3.0",
     "connect": "^3.3.3",
     "dev-ip": "^0.1.7",
