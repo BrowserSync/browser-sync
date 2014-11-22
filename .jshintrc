@@ -11,10 +11,9 @@
   "undef": true,
   "quotmark": "double",
   "unused": true,
-  "boss": true,
   "indent": 4,
   "eqnull": true,
   "node": true,
-  "strict": false,
+  "strict": true,
   "mocha": true
 }
