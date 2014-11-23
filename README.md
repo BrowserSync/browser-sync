@@ -21,6 +21,11 @@ BrowserSync is developed and maintained internally at <a href="http://www.wearej
 ##When is it useful?
 It's pretty useful when used with a single browser, watching a CSS file for changes & injecting it. But the real power comes when you're building responsive sites and using multiple devices/monitors because it can keep all browsers in sync & make your workflow much faster.
 
+##Requirements
+BrowserSync works by injecting an asynchronous script tag (`<script async>...</script>`) right after the `<body>` tag 
+during initial request. In order for this to work properly the `<body>` tag must be present. Alternatively you 
+can provide a custom rule for the snippet using [snippetOptions](http://www.browsersync.io/docs/options/#option-snippetOptions)
+
 ##Install
 ```
 npm install -g browser-sync
@@ -52,12 +57,12 @@ If you've found Browser-sync useful and would like to contribute to its continue
 ## Contributors
 
 ```
-   738	Shane Osbourne
+   769	Shane Osbourne
     22	Shinnosuke Watanabe
     13	Hugo Bessa
     11	Paul Kinlan
     10	Shane Daniel
-     5	shinnn
+     8	shinnn
      3	Marek 'saji' Augustynowicz
      3	Werner van Deventer
      3	Adam Lynch
@@ -70,6 +75,7 @@ If you've found Browser-sync useful and would like to contribute to its continue
      2	brutaldev
      2	chase_chou
      1	Dave Hall
+     1	mericson
      1	Robert Vock
      1	Craig Morris
      1	Cedric Kastner
@@ -83,7 +89,7 @@ If you've found Browser-sync useful and would like to contribute to its continue
      1	Benjamín Eidelman
      1	viktor hesselbom
      1	Guillaume Lambert
-     1	mericson
+     1	Peter Blazejewicz
 ```
 
 ## License
