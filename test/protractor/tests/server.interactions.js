@@ -1,8 +1,9 @@
+"use strict";
+
 var init = require("../bs.init");
 var path = require("path");
-var assert = require("chai").assert;
 
-describe('Interactions on Server Pages', function() {
+describe("Interactions on Server Pages", function () {
     var ptor     = protractor.getInstance();
     var instance;
     var urls;
@@ -33,10 +34,6 @@ describe('Interactions on Server Pages', function() {
         });
     });
     it("should know when a client scrolls", function () {
-
-        var flow = protractor.promise.controlFlow();
-        var deferred = protractor.promise.defer();
-
         instance.io.sockets.on("connection", function (client) {
             client.on("scroll", function (data) {
                 expect(data.position.raw.y).toBe(100);
@@ -50,7 +47,7 @@ describe('Interactions on Server Pages', function() {
 
         browser.get(urls.local + "/scrolling.html");
         ptor.executeScript("window.scrollBy(0, 100);");
-        var elem = element(by.css('a'));
+        var elem = element(by.css("a"));
         elem.click();
     });
 
@@ -76,6 +73,6 @@ describe('Interactions on Server Pages', function() {
 });
 
 function assertScripts () {
-    expect(element(by.id('__bs_script__')).isPresent()).toBeTruthy();
-    expect(element(by.id('__bs_notify__')).isPresent()).toBeTruthy();
+    expect(element(by.id("__bs_script__")).isPresent()).toBeTruthy();
+    expect(element(by.id("__bs_notify__")).isPresent()).toBeTruthy();
 }

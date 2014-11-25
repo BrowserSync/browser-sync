@@ -19,7 +19,7 @@ describe("CLI: Resolving Config Files:", function () {
         var cbSpy;
         var getFileStub;
         before(function () {
-            getFileStub        = sinon.stub(info, "_getConfigFile").returns({});
+            getFileStub = sinon.stub(info, "_getConfigFile").returns({});
             cbSpy = sinon.spy();
         });
         afterEach(function () {

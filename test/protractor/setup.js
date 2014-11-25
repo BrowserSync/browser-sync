@@ -1,5 +1,6 @@
-var browserSync = require("../../index");
 var async       = require("async");
+"use strict";
+
 var path        = require("path");
 var logger      = require("./logger");
 var run         = require("./_run")(logger);
@@ -28,4 +29,3 @@ async.eachSeries(Object.keys(tests), function (item, asyncCallback) {
     }
     process.exit(0);
 });
-

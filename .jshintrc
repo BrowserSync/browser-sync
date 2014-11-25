@@ -15,5 +15,12 @@
   "eqnull": true,
   "node": true,
   "strict": true,
-  "mocha": true
+  "mocha": true,
+  "jasmine": true,
+  "globals": {
+    "browser": false,
+    "by": false,
+    "element": false,
+    "protractor": false
+  }
 }

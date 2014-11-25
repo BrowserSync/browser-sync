@@ -1,11 +1,12 @@
+"use strict";
+
 var init    = require("../bs.init");
 var path    = require("path");
 var connect = require("connect");
 var serveStatic = require("serve-static");
 var http    = require("http");
-var assert  = require("chai").assert;
 
-describe('Interactions on proxy Pages', function() {
+describe("Interactions on proxy Pages", function () {
     var ptor     = protractor.getInstance();
     var instance;
     var urls;
@@ -58,7 +59,7 @@ describe('Interactions on proxy Pages', function() {
 
         browser.get(urls.local + "/scrolling.html");
         ptor.executeScript("window.scrollBy(0, 100);");
-        var elem = element(by.css('a'));
+        var elem = element(by.css("a"));
         elem.click();
     });
 
@@ -79,13 +80,13 @@ describe('Interactions on proxy Pages', function() {
 
         browser.get(urls.local + "/forms.html");
 
-        var waitLoading = by.css('input[name="name"');
+        var waitLoading = by.css("input[name=\"name\"");
 
-        browser.wait(function() {
+        browser.wait(function () {
             return ptor.isElementPresent(waitLoading);
         }, 8000);
 
-        element(by.css('input[name="name"')).sendKeys("Hi there");
+        element(by.css("input[name=\"name\"")).sendKeys("Hi there");
 
         var flow = protractor.promise.controlFlow();
 
@@ -96,6 +97,6 @@ describe('Interactions on proxy Pages', function() {
 });
 
 function assertScripts () {
-    expect(element(by.id('__bs_script__')).isPresent()).toBeTruthy();
-    expect(element(by.id('__bs_notify__')).isPresent()).toBeTruthy();
+    expect(element(by.id("__bs_script__")).isPresent()).toBeTruthy();
+    expect(element(by.id("__bs_notify__")).isPresent()).toBeTruthy();
 }

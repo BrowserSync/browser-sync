@@ -1,8 +1,8 @@
-var init = require("../bs.init");
-var path = require("path");
-var assert = require("chai").assert;
+"use strict";
 
-describe('Scrolling around', function() {
+var init = require("../bs.init");
+
+describe("Scrolling around", function () {
     var ptor     = protractor.getInstance();
     var instance;
     var urls;
@@ -28,7 +28,7 @@ describe('Scrolling around', function() {
 
         browser.getAllWindowHandles().then(function (handles) {
             browser.switchTo().window(handles[0]).then(function () {
-                element(by.css('a')).click(); // go to the link
+                element(by.css("a")).click(); // go to the link
                 browser.switchTo().window(handles[1]).then(function () {
                     expect(ptor.getCurrentUrl()).toContain("index.html");
                     instance.cleanup();

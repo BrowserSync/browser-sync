@@ -1,8 +1,8 @@
-var init = require("../bs.init");
-var path = require("path");
-var assert = require("chai").assert;
+"use strict";
 
-describe('Scrolling around', function() {
+var init = require("../bs.init");
+
+describe("Scrolling around", function () {
     var ptor     = protractor.getInstance();
     var instance;
     var urls;

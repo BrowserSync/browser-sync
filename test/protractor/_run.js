@@ -1,6 +1,7 @@
-var browserSync = require("../../index");
+"use strict";
+
+var browserSync = require("../../");
 var exec        = require("child_process").exec;
-var path        = require("path");
 
 module.exports = function (logger) {
 
@@ -21,9 +22,8 @@ module.exports = function (logger) {
             }
         });
         return instance;
-    }
+    };
 };
-
 
 function runTests (config, configFile, bs, cb) {
     var out = "";
@@ -32,7 +32,7 @@ function runTests (config, configFile, bs, cb) {
             doCallback({
                 code: 1,
                 message: err.message ? err.message : stdout
-            })
+            });
             process.exit(1);
         }
         out += stdout;
