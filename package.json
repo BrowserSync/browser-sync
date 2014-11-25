@@ -14,6 +14,7 @@
     }
   ],
   "main": "index.js",
+  "bin": "bin/browser-sync",
   "files": [
     "bin",
     "index.js",
@@ -86,8 +87,5 @@
     "css",
     "live reload",
     "sync"
-  ],
-  "bin": {
-    "browser-sync": "./bin/browser-sync"
-  }
+  ]
 }
