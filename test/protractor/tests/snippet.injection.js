@@ -1,20 +1,21 @@
+"use strict";
+
 /**
  *
  */
 // abstract writing screen shot to a file
-var fs = require('fs');
-var slugify = require('slugify');
+var fs = require("fs");
+var slugify = require("slugify");
 function writeScreenShot(data, filename) {
     var stream = fs.createWriteStream(filename);
-    stream.write(new Buffer(data, 'base64'));
+    stream.write(new Buffer(data, "base64"));
     stream.end();
 }
 
 /**
  *
  */
-describe('Section Navigation', function() {
-    var ptor = protractor.getInstance();
+describe("Section Navigation", function () {
     beforeEach(function () {
         browser.ignoreSynchronization = true;
         browser.get("/");
@@ -24,9 +25,9 @@ describe('Section Navigation', function() {
         });
     });
     it("should contain the BS script element", function () {
-        expect(element(by.id('__bs_script__')).isPresent()).toBeTruthy();
+        expect(element(by.id("__bs_script__")).isPresent()).toBeTruthy();
     });
     it("should contain the BS NOTIFY ELEMENT", function () {
-        expect(element(by.id('__bs_notify__')).isPresent()).toBeTruthy();
+        expect(element(by.id("__bs_notify__")).isPresent()).toBeTruthy();
     });
 });
