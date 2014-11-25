@@ -70,6 +70,7 @@
     "gulp-jshint": "^1.9.0",
     "gulp-ruby-sass": "^0.7.1",
     "gulp-yuidoc": "^0.1.2",
+    "istanbul": "^0.3.2",
     "istanbul-coveralls": "^1.0.0",
     "mocha": "*",
     "mocha-lcov-reporter": "^0.0.1",
