@@ -28,7 +28,10 @@ describe("Scrolling around", function () {
 
         browser.getAllWindowHandles().then(function (handles) {
             browser.switchTo().window(handles[0]).then(function () {
+
                 element(by.css("a")).click(); // go to the link
+                ptor.executeScript("window.close()");
+
                 browser.switchTo().window(handles[1]).then(function () {
                     expect(ptor.getCurrentUrl()).toContain("index.html");
                     instance.cleanup();
