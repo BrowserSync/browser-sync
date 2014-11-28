@@ -27,12 +27,12 @@ describe("Scrolling around", function () {
         ptor.executeScript("window.open('%s')".replace("%s", urls.local + "/scrolling.html"));
 
         browser.getAllWindowHandles().then(function (handles) {
-            browser.switchTo().window(handles[0]).then(function () {
+            browser.switchTo().window(handles[1]).then(function () {
                 ptor.executeScript("window.scrollBy(0, 100);");
-                browser.switchTo().window(handles[1]).then(function () {
+                browser.switchTo().window(handles[0]).then(function () {
                     ptor.executeScript("return window.scrollY").then(function (y) {
-                        expect(y < 110 && y > 90).toBe(true);
                         instance.cleanup();
+                        expect(y < 110 && y > 90).toBe(true);
                     });
                 });
             });
