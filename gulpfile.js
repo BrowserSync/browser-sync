@@ -12,6 +12,7 @@ gulp.task("lint", function () {
     gulp.src([
         "{,{lib,test/{protractor,specs}}/**/}*.js",
         "bin/browser-sync",
+        "!example.*.js",
         "!lib/{cli/cli-template,public/socket.io}.js"
     ])
         .pipe(jscs(".jscs.json"))
