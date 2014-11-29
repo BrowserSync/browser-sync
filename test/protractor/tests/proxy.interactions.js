@@ -13,30 +13,23 @@ describe("Interactions on proxy Pages", function () {
     var proxy;
     var server;
     beforeEach(function () {
-
-        runs(function () {
-            browser.ignoreSynchronization = true;
-            if (instance) {
-                return;
-            }
-            var app   = connect();
-            app.use(serveStatic(path.resolve("test/fixtures")));
-            server = http.createServer(app).listen(function () {
-                proxy = server.address().port;
-                var config = {
-                    proxy: "http://localhost:" + server.address().port,
-                    open: false,
-                    logLevel: "silent"
-                };
-                init(protractor, config).then(function (bs) {
-                    instance = bs;
-                    urls = instance.getOption("urls");
-                });
+        browser.ignoreSynchronization = true;
+        if (instance) {
+            return;
+        }
+        var app   = connect();
+        app.use(serveStatic(path.resolve("test/fixtures")));
+        server = http.createServer(app).listen(function () {
+            proxy = server.address().port;
+            var config = {
+                proxy: "http://localhost:" + server.address().port,
+                open: false,
+                logLevel: "silent"
+            };
+            init(protractor, config).then(function (bs) {
+                instance = bs;
+                urls = instance.getOption("urls");
             });
-        });
-
-        waitsFor(function () {
-            return !!urls;
         });
     });
     it("should contain the BS script & notify element", function () {
