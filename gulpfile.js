@@ -6,14 +6,13 @@ var jscs        = require("gulp-jscs");
 var contribs    = require("gulp-contribs");
 var rubySass    = require("gulp-ruby-sass");
 var filter      = require("gulp-filter");
-var browserSync = require("./index");
+var browserSync = require("./");
 
 gulp.task("lint", function () {
     gulp.src([
         "{,{lib,test/{protractor,specs}}/**/}*.js",
         "bin/browser-sync",
-        "!lib/{cli/cli-template,public/socket.io}.js",
-        "!./example.*"
+        "!lib/{cli/cli-template,public/socket.io}.js"
     ])
         .pipe(jscs(".jscs.json"))
         .pipe(jshint())
@@ -24,7 +23,7 @@ gulp.task("lint", function () {
 gulp.task("contribs", function () {
     gulp.src("README.md")
         .pipe(contribs())
-        .pipe(gulp.dest("./"));
+        .pipe(gulp.dest(""));
 });
 
 gulp.task("default", ["lint"]);
@@ -42,7 +41,7 @@ gulp.task("sass", function () {
         .pipe(rubySass({sourcemap: true}))
         .pipe(gulp.dest(paths.css))
         .pipe(filter("**/*.css"))
-        .pipe(browserSync.reload({stream:true}));
+        .pipe(browserSync.reload({stream: true}));
 });
 
 /**
