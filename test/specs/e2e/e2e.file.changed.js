@@ -30,6 +30,7 @@ describe("E2E Responding to events", function () {
 
     afterEach(function () {
         socketsStub.reset();
+        instance.paused = false;
     });
     after(function () {
         socketsStub.restore();
@@ -49,6 +50,19 @@ describe("E2E Responding to events", function () {
 
         assert.equal(eventName, "file:reload");         // check correct event sent to client
         assert.equal(args.assetFileName, "styles.css"); // Check the asset name is sent
+        assert.isFalse(instance.paused);
+    });
+
+    it("doesn't fire the file:reload event to the browser when paused", function () {
+        instance.paused = true;
+
+        // Emit the event as it comes from the file-watcher
+        instance.events.emit("file:changed", {path: "styles.css", log: true, namespace: "core"});
+
+        clock.tick();
+
+        assert.isTrue(socketsStub.withArgs("file:reload").notCalled); // should not be called
+        assert.isTrue(instance.paused);
     });
 
     it("Sets `log: false` if `log` is undefined in event", function () {
