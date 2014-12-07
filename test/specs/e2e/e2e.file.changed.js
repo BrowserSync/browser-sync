@@ -30,7 +30,6 @@ describe("E2E Responding to events", function () {
 
     afterEach(function () {
         socketsStub.reset();
-        instance.paused = false;
     });
     after(function () {
         socketsStub.restore();
@@ -63,6 +62,16 @@ describe("E2E Responding to events", function () {
 
         assert.isTrue(socketsStub.withArgs("file:reload").notCalled); // should not be called
         assert.isTrue(instance.paused);
+
+        instance.paused = false;
+
+        // Emit the event as it comes from the file-watcher
+        instance.events.emit("file:changed", {path: "styles.css", log: true, namespace: "core"});
+
+        clock.tick();
+
+        assert.isTrue(socketsStub.withArgs("file:reload").called);
+        assert.isFalse(instance.paused);
     });
 
     it("Sets `log: false` if `log` is undefined in event", function () {
