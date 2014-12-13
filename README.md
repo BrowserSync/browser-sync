@@ -57,7 +57,7 @@ If you've found Browser-sync useful and would like to contribute to its continue
 ## Contributors
 
 ```
-   778	Shane Osbourne
+   780	Shane Osbourne
     29	Shinnosuke Watanabe
     19	Shane Daniel
     13	Hugo Bessa
@@ -93,5 +93,5 @@ If you've found Browser-sync useful and would like to contribute to its continue
 ```
 
 ## License
+Apache 2
 Copyright (c) 2014 Shane Osbourne
-Licensed under the GPL license.
