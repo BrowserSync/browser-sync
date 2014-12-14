@@ -124,7 +124,6 @@ describe("E2E NO OPTIONS", function () {
         assert.deepEqual(ghostMode.forms.submit, true);
         assert.deepEqual(ghostMode.forms.inputs, true);
         assert.deepEqual(ghostMode.forms.toggles, true);
-        assert.deepEqual(ghostMode.location, false);
     });
 });
 
@@ -160,7 +159,6 @@ describe("E2E GHOST OPTIONS", function () {
         assert.deepEqual(ghostMode.forms.submit, false);
         assert.deepEqual(ghostMode.forms.inputs, true);
         assert.deepEqual(ghostMode.forms.toggles, true);
-        assert.deepEqual(ghostMode.location, false);
     });
 });
 
