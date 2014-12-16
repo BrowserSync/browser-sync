@@ -1,3 +1,11 @@
+### 1.7.3 (2014-12-16)
+
+
+#### Features
+
+* **files:** pause/resume ([a3c697f6](https://github.com/shakyShane/browser-sync/commit/a3c697f66b4fcec3966ed77a841e55aafb70f69a))
+
+
 ### 1.6.5 (2014-11-16)
 
 
