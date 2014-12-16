@@ -42,6 +42,20 @@ module.exports.reload = require("./lib/public/reload")(browserSync);
 module.exports.notify = require("./lib/public/notify")(browserSync);
 
 /**
+ * Method to pause file change events
+ *
+ * @method pause
+ */
+module.exports.pause = require("./lib/public/pause")(browserSync);
+
+/**
+ * Method to resume paused watchers
+ *
+ * @method resume
+ */
+module.exports.resume = require("./lib/public/resume")(browserSync);
+
+/**
  * Register a plugin. Must implement at least a 'plugin' method that returns a
  * callable function.
  *
@@ -76,5 +90,16 @@ module.exports.exit = require("./lib/public/exit")(browserSync);
 Object.defineProperty(module.exports, "active", {
     get: function () {
         return browserSync.active;
+    }
+});
+
+/**
+ * A simple true/false flag to determine if the current instance is paused
+ *
+ * @property paused
+ */
+Object.defineProperty(module.exports, "paused", {
+    get: function () {
+        return browserSync.paused;
     }
 });
