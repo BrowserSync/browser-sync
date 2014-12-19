@@ -1,3 +1,11 @@
+### 1.8.1 (2014-12-19)
+
+
+#### Bug Fixes
+
+* **proxy:** Bump foxy to fix #376 ([284cf84a](https://github.com/shakyShane/browser-sync/commit/284cf84a0390a07d9824972c8ab67ec95cf8109f))
+
+
 ### 1.7.3 (2014-12-16)
 
 
