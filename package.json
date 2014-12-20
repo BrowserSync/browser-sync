@@ -28,9 +28,9 @@
     "lint": "gulp lint",
     "pro": "node test/protractor/setup.single.js",
     "pro-local": "node test/protractor/setup.js",
-    "unit": "mocha --recursive test/specs --reporter spec --timeout 10000",
-    "cover": "node ./test/env.js && istanbul cover _mocha --report lcovonly -- -R spec --timeout 10000 --recursive ./test/specs && istanbul-coveralls",
-    "_cover": "istanbul cover _mocha --report lcovonly -- -R spec --timeout 10000 --recursive ./test/specs && istanbul-coveralls",
+    "unit": "mocha --recursive test/specs --timeout 10000",
+    "cover": "node ./test/env.js && istanbul cover _mocha --report lcovonly -- --timeout 10000 --recursive ./test/specs && istanbul-coveralls",
+    "_cover": "istanbul cover _mocha --report lcovonly -- --timeout 10000 --recursive ./test/specs && istanbul-coveralls",
     "pre-release": "npm test && npm run pro-local && npm run pro"
   },
   "dependencies": {
