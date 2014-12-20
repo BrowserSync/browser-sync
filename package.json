@@ -9,17 +9,16 @@
   "repository": "shakyshane/browser-sync",
   "licenses": [
     {
-      "type": "GPL",
-      "url": "https://github.com/shakyshane/browser-sync/blob/master/LICENSE-GPL"
+      "type": "Apache-2.0",
+      "url": "https://github.com/shakyshane/browser-sync/blob/master/LICENSE"
     }
   ],
-  "main": "index.js",
   "bin": "bin/browser-sync",
   "files": [
     "bin",
     "index.js",
     "lib",
-    "LICENSE-GPL"
+    "LICENSE"
   ],
   "engines": {
     "node": ">= 0.8.0"
