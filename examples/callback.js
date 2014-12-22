@@ -14,13 +14,12 @@
 
 var browserSync = require("browser-sync");
 
-var files   = ["app/css/*.css"];
 var config = {
-    proxy: "localhost:8000"
+    proxy: "localhost:8000",
+    files: ["app/css/*.css"]
 };
 
-browserSync.init(files, config, function (err, bs) {
+browserSync(files, config, function (err, bs) {
     // Full access to BrowserSync object here
-    console.log(bs.api.snippet);
-    console.log(bs.options.url);
+    console.log(bs.getOption("urls"));
 });

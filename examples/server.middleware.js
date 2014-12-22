@@ -16,7 +16,8 @@
 
 var browserSync = require("browser-sync");
 
-browserSync.init(["app/css/*.css"], {
+browserSync({
+    files: ["app/css/*.css"],
     server: {
         baseDir: "app",
         middleware: function (req, res, next) {

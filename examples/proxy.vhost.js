@@ -13,7 +13,7 @@
 
 var browserSync = require("browser-sync");
 
-browserSync.init(["app/css/*.css"], {
+browserSync(["app/css/*.css"], {
     proxy: "yourvhost.dev"
 });
 
