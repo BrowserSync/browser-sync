@@ -1,5 +1,11 @@
+init:
+  - git config --global core.autocrlf input
+shallow_clone: true
 version: 1.0.{build}
 install:
 - npm install
 test_script:
 - npm test
+build: off
+cache:
+  - node_modules
