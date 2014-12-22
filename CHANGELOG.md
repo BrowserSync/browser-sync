@@ -1,3 +1,16 @@
+### 1.8.2 (2014-12-22)
+
+
+#### Bug Fixes
+
+* **proxy:** Bump foxy to fix #376 ([fe6c73db](https://github.com/shakyShane/browser-sync/commit/fe6c73db47f82d10ea25b0b8c58b032e972a4663))
+
+
+#### Features
+
+* **server:** allow to inject browser-sync client.js in custom middlewares ([841c6c31](https://github.com/shakyShane/browser-sync/commit/841c6c31015955ff92cffd937f19f2c78ce27e8d))
+
+
 ### 1.8.1 (2014-12-19)
 
 
