@@ -4,7 +4,6 @@ var info     = require("../../../lib/cli/cli-info");
 
 var assert   = require("chai").assert;
 var sinon    = require("sinon");
-var chalk    = require("chalk");
 var fs       = require("fs");
 
 describe("CLI: Info Helpers:", function () {

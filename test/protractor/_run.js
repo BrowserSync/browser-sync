@@ -6,7 +6,7 @@ var exec        = require("child_process").exec;
 module.exports = function (logger) {
 
     return function (config, configFile, cb) {
-
+        browserSync.reset();
         var instance = browserSync(config.bsConfig, function (err, bs) {
             var url = bs.getOption("urls.local");
             process.env["BS_BASE"]        = url;
