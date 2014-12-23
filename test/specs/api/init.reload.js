@@ -11,7 +11,7 @@ describe("API: .reload()", function () {
 
     before(function (done) {
         browserSync.reset();
-        bs = browserSync({logLevel:"silent"}, function (err, _bs) {
+        bs = browserSync({logLevel:"silent"}, function () {
             emitterStub = sinon.spy(bs.emitter, "emit");
             done();
         });

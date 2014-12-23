@@ -4,7 +4,6 @@ var browserSync = require("../../../");
 
 var sinon = require("sinon");
 var File = require("vinyl");
-var assert = require("chai").assert;
 
 describe("API: .reload()", function () {
 
@@ -12,7 +11,7 @@ describe("API: .reload()", function () {
 
     before(function (done) {
         browserSync.reset();
-        bs = browserSync({logLevel: "silent"}, function (err, _bs) {
+        bs = browserSync({logLevel: "silent"}, function () {
             emitterStub = sinon.spy(bs.emitter, "emit");
             done();
         });

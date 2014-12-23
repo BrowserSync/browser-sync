@@ -9,6 +9,7 @@ describe("Setting options during runtime", function () {
     var instance;
 
     before(function (done) {
+        browserSync.reset();
         instance = browserSync({logLevel: "silent"}, done).instance;
     });
 

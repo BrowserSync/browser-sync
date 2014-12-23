@@ -11,6 +11,7 @@ describe("Plugins: Retrieving user plugins", function () {
 
     before(function (done) {
 
+        browserSync.reset();
         var config = {
             logLevel: "silent",
             open: false
@@ -21,7 +22,7 @@ describe("Plugins: Retrieving user plugins", function () {
             "plugin:name": PLUGIN_NAME
         });
 
-        instance = browserSync(config, done);
+        instance = browserSync(config, done).instance;
     });
     after(function () {
         instance.cleanup();

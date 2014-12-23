@@ -10,7 +10,9 @@ var assert  = require("chai").assert;
 
 describe("Plugins: Using the connector middleware:", function () {
 
-    it.only("returns middleware for the connector script", function (done) {
+    it("returns middleware for the connector script", function (done) {
+
+        browserSync.reset();
 
         var instance;
 

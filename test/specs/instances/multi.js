@@ -13,6 +13,8 @@ describe("E2E server test", function () {
 
     before(function (done) {
 
+        browserSync.reset();
+
         var config = {
             online: false,
             logLevel: "silent",

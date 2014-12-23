@@ -12,6 +12,7 @@ var events        = require("events");
 var firstInstance = false;
 var firstEmitter  = false;
 var instances     = [];
+var singletonPlugins = [];
 
 function newEmitter() {
     var emitter       = new events.EventEmitter();
@@ -103,7 +104,7 @@ function noop(name) {
         } else {
             deprecated(name);
         }
-    }
+    };
 }
 
 function deprecated(name) {
@@ -123,6 +124,13 @@ function initSingleton() {
     }
     var args = Array.prototype.slice.call(arguments);
     firstInstance = create("singleton", getFirstEmitter());
+
+    if (singletonPlugins.length) {
+        singletonPlugins.forEach(function (obj) {
+            firstInstance.instance.registerPlugin.apply(firstInstance.instance, obj.args);
+        });
+    }
+
     firstInstance.init.apply(null, args);
     return firstInstance;
 }
@@ -130,7 +138,13 @@ function initSingleton() {
 module.exports         = initSingleton;
 module.exports.init    = initSingleton;
 
-module.exports.use     = noop("use");
+module.exports.use     = function () {
+    var args = Array.prototype.slice.call(arguments);
+    singletonPlugins.push({
+        args: args
+    });
+};
+
 module.exports.reload  = noop("reload");
 module.exports.notify  = noop("notify");
 module.exports.exit    = noop("exit");
@@ -185,7 +199,7 @@ Object.defineProperty(module.exports, "paused", {
         if (single) {
             return single.paused;
         }
-        return false
+        return false;
     }
 });
 
@@ -240,9 +254,10 @@ module.exports.reset = function () {
     instances.forEach(function (item) {
         item.cleanup();
     });
-    instances     = [];
-    firstEmitter  = false;
-    firstInstance = false;
+    instances        = [];
+    singletonPlugins = [];
+    firstEmitter     = false;
+    firstInstance    = false;
     process.removeAllListeners();
 };
 

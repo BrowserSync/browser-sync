@@ -9,13 +9,15 @@ describe("Plugins: Adding options:", function () {
 
     it("allows plugins to have access to options passed in '.use()'", function (done) {
 
+        browserSync.reset();
+
         var instance;
 
         var config = {
             server: {
                 baseDir: "test/fixtures"
             },
-            debugInfo: false,
+            logLevel: "silent",
             open: false
         };
 
@@ -31,6 +33,6 @@ describe("Plugins: Adding options:", function () {
 
         }, {name: "shane"});
 
-        instance = browserSync(config);
+        instance = browserSync(config).instance;
     });
 });
