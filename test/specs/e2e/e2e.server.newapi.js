@@ -1,10 +1,10 @@
 "use strict";
 
-var browserSync   = require("../../../index");
+var browserSync = require("../../../index");
 
-var sinon   = require("sinon");
+var sinon = require("sinon");
 var request = require("supertest");
-var assert  = require("chai").assert;
+var assert = require("chai").assert;
 
 describe("E2E server test with only a callback", function () {
 
@@ -12,8 +12,9 @@ describe("E2E server test with only a callback", function () {
     var stub;
 
     before(function (done) {
+        browserSync.reset();
         stub = sinon.spy(console, "log");
-        instance = browserSync(done);
+        instance = browserSync(done).instance;
     });
 
     after(function () {
@@ -39,15 +40,16 @@ describe("E2E server test with only a config option", function () {
 
     before(function (done) {
 
+        browserSync.reset();
         var called;
 
         instance = browserSync({
-            open: false,
+            open:      false,
             debugInfo: false,
-            server: {
+            server:    {
                 baseDir: "test/fixtures"
             }
-        });
+        }).instance;
 
         instance.events.on("init", function () {
             if (!called) {

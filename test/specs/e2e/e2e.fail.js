@@ -11,6 +11,9 @@ describe("E2E Fail tests", function () {
     before(function () {
         stub  = sinon.stub(process, "exit");
     });
+    beforeEach(function () {
+        browserSync.reset();
+    });
     after(function () {
         stub.restore();
     });
@@ -20,7 +23,7 @@ describe("E2E Fail tests", function () {
             server: true,
             proxy: "localhost:8080"
         }, function (err) {
-            assert.include(err, "Invalid config. You cannot specify both a server & proxy option.");
+            assert.include(err.message, "Invalid config. You cannot specify both a server & proxy option.");
             done();
         });
     });
@@ -35,7 +38,7 @@ describe("E2E Fail tests", function () {
         browserSync({
             open: false
         }, function (err) {
-            assert.include(err, "PORT ERROR");
+            assert.include(err.message, "PORT ERROR");
             stub.restore();
             done();
         });

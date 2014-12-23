@@ -11,6 +11,8 @@ describe("E2E server test with routes", function () {
 
     before(function (done) {
 
+        browserSync.reset();
+
         var config = {
             server: {
                 baseDir: "test/fixtures",
@@ -19,11 +21,11 @@ describe("E2E server test with routes", function () {
                     "/kittie": "test/fixtures"
                 }
             },
-            debugInfo: false,
+            logLevel: "silent",
             open: false
         };
 
-        instance = browserSync.init(config, done);
+        instance = browserSync.init(config, done).instance;
     });
 
     after(function () {

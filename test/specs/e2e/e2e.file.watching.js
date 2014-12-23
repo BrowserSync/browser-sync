@@ -13,14 +13,16 @@ describe("E2E Adding namespaced watchers", function () {
 
     before(function (done) {
 
+        browserSync.reset();
+
         file = path.join(outpath, "watch-func.txt");
 
         var config = {
             files: file,
-            debugInfo: false
+            logLevel: "silent"
         };
 
-        instance = browserSync(config, done);
+        instance = browserSync(config, done).instance;
     });
 
     after(function () {
@@ -41,16 +43,18 @@ describe("E2E Adding namespaced watchers", function () {
 
     before(function (done) {
 
+        browserSync.reset();
+
         file = path.join(outpath, "watch-func.txt");
 
         var config = {
             files: {
                 "shane": file
             },
-            debugInfo: false
+            logLevel: "silent"
         };
 
-        instance = browserSync(config, done);
+        instance = browserSync(config, done).instance;
     });
 
     after(function () {

@@ -10,7 +10,7 @@ var assert  = require("chai").assert;
 
 describe("Plugins: Using the connector middleware:", function () {
 
-    it("returns middleware for the connector script", function (done) {
+    it.only("returns middleware for the connector script", function (done) {
 
         var instance;
 

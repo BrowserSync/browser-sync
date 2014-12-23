@@ -2,12 +2,12 @@
 
 var browserSync = require("../../../index");
 
-var http        = require("http");
-var connect     = require("connect");
+var http = require("http");
+var connect = require("connect");
 var serveStatic = require("serve-static");
-var request     = require("supertest");
-var assert      = require("chai").assert;
-var client      = require("socket.io-client");
+var request = require("supertest");
+var assert = require("chai").assert;
+var client = require("socket.io-client");
 var portScanner = require("portscanner-plus");
 
 describe("E2E proxy test", function () {
@@ -15,13 +15,14 @@ describe("E2E proxy test", function () {
     var instance, stubServer;
 
     before(function (done) {
+        browserSync.reset();
 
         portScanner.getPorts(1).then(function (ports) {
 
             var config = {
-                proxy: "localhost:" + ports[0],
+                proxy:     "localhost:" + ports[0],
                 debugInfo: false,
-                open: false
+                open:      false
             };
 
             var testApp = connect()
@@ -30,7 +31,7 @@ describe("E2E proxy test", function () {
             // server to proxy
             stubServer = http.createServer(testApp).listen(ports[0]);
 
-            instance = browserSync.init([], config, done);
+            instance = browserSync.init([], config, done).instance;
         });
     });
 
@@ -67,7 +68,7 @@ describe("E2E proxy test", function () {
         var connectionUrl = instance.options.urls.local + instance.options.socket.namespace;
         var clientSockets = client(connectionUrl, {path: instance.options.socket.path});
 
-        clientSockets.emit("shane", {name:"shane"});
+        clientSockets.emit("shane", {name: "shane"});
     });
 
     it("Can serve the script", function (done) {
@@ -95,14 +96,18 @@ describe("E2E proxy test", function () {
 
 describe("E2E proxy test", function () {
 
+    before(function () {
+        browserSync.reset();
+    });
+
     it("can check if the proxy is reachable", function (done) {
 
         var instance;
 
         var config = {
-            proxy: "localhost:3434",
+            proxy:     "localhost:3434",
             debugInfo: false,
-            open: false
+            open:      false
         };
 
         browserSync.emitter.on("config:warn", function (data) {
@@ -111,53 +116,6 @@ describe("E2E proxy test", function () {
             done();
         });
         // Success if this event called
-        instance = browserSync(config);
+        instance = browserSync(config).instance;
     });
 });
-
-//describe("E2E localhost test", function() {
-//
-//    var instance;
-//
-//    before(function (done) {
-//
-//        var config = {
-//            proxy: "localhost",
-//            logLevel: "silent",
-//            open: false
-//        };
-//        // Success if this event called
-//        instance = browserSync(config, done);
-//    });
-//    it("proxies `localhost`", function(done) {
-//        request(instance.server)
-//            .get("/")
-//            .set("accept", "text/html")
-//            .expect(200)
-//            .end(function (err, res) {
-//                assert.include(res.text, "browser-sync-client");
-//                done();
-//            });
-//    });
-//    it("proxies `localhost/sites1/`", function(done) {
-//        request(instance.server)
-//            .get("/site1/")
-//            .set("accept", "text/html")
-//            .expect(200)
-//            .end(function (err, res) {
-//                assert.include(res.text, "From sub-dir");
-//                done();
-//            });
-//    });
-//    it("proxies `localhost/sites1`", function(done) {
-//        request(instance.server)
-//            .get("/site1")
-//            .set("accept", "text/html")
-//            .expect(200)
-//            .end(function (err, res) {
-//                console.log(res.text);
-//                assert.include(res.text, "From sub-dir");
-//                done();
-//            });
-//    });
-//});

@@ -3,7 +3,7 @@
 var browserSync = require("../../../index");
 
 var request = require("supertest");
-var assert  = require("chai").assert;
+var assert = require("chai").assert;
 
 describe("E2E server test with directory listings", function () {
 
@@ -11,19 +11,21 @@ describe("E2E server test with directory listings", function () {
 
     before(function (done) {
 
+        browserSync.reset();
+
         var config = {
-            server: {
+            server:    {
                 baseDir: [
                     "test/fixtures/alt",
                     "test/fixtures"
                 ],
-                index: "index.htm"
+                index:   "index.htm"
             },
             debugInfo: false,
-            open: false
+            open:      false
         };
 
-        instance = browserSync.init(config, done);
+        instance = browserSync.init(config, done).instance;
     });
 
     after(function () {
@@ -48,15 +50,17 @@ describe("E2E server test with base dir option", function () {
 
     before(function (done) {
 
+        browserSync.reset();
+
         var config = {
-            server: {
+            server:    {
                 baseDir: "./test/fixtures"
             },
             debugInfo: false,
-            open: false
+            open:      false
         };
 
-        instance = browserSync.init(config, done);
+        instance = browserSync.init(config, done).instance;
     });
 
     after(function () {

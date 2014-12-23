@@ -110,7 +110,7 @@ function deprecated(name) {
     console.log(tfunk("{yellow:Warning:} This functionality will change in BrowserSync 2.0. You'll have to first call browserSync.create() before {cyan:`.%s()`"), name);
 }
 
-module.exports = function () {
+function initSingleton() {
     var singleton;
     if (instances.length) {
         singleton = instances.filter(function (item) {
@@ -125,7 +125,10 @@ module.exports = function () {
     firstInstance = create("singleton", getFirstEmitter());
     firstInstance.init.apply(null, args);
     return firstInstance;
-};
+}
+
+module.exports         = initSingleton;
+module.exports.init    = initSingleton;
 
 module.exports.use     = noop("use");
 module.exports.reload  = noop("reload");
@@ -240,6 +243,7 @@ module.exports.reset = function () {
     instances     = [];
     firstEmitter  = false;
     firstInstance = false;
+    process.removeAllListeners();
 };
 
 module.exports.get   = function (name) {

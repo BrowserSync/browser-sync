@@ -9,9 +9,11 @@ describe("E2E Sockets test", function () {
     var instance;
 
     before(function (done) {
+        browserSync.reset();
         instance = browserSync({
-            open: false
-        }, done);
+            open: false,
+            logLevel: "silent"
+        }, done).instance;
     });
 
     after(function () {

@@ -3,7 +3,7 @@
 var browserSync = require("../../../index");
 
 var request = require("supertest");
-var assert  = require("chai").assert;
+var assert = require("chai").assert;
 
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = 0;
 
@@ -14,17 +14,17 @@ describe("E2E TLS server test", function () {
     var instance;
 
     before(function (done) {
-
+        browserSync.reset();
         var config = {
-            server: {
+            server:    {
                 baseDir: "test/fixtures"
             },
-            https: true,
+            https:     true,
             debugInfo: false,
-            open: false
+            open:      false
         };
 
-        instance = browserSync.init(config, done);
+        instance = browserSync.init(config, done).instance;
     });
 
     after(function () {
@@ -64,17 +64,17 @@ describe("E2E TLS server test", function () {
     var instance;
 
     before(function (done) {
-
+        browserSync.reset();
         var config = {
-            server: {
+            server:   {
                 baseDir: "test/fixtures"
             },
-            https: false,
+            https:    false,
             logLevel: "silent",
-            open: false
+            open:     false
         };
 
-        instance = browserSync(config, done);
+        instance = browserSync(config, done).instance;
     });
 
     after(function () {

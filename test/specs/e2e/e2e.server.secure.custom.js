@@ -15,6 +15,8 @@ describe("E2E TLS server with custom certs test", function () {
 
     before(function (done) {
 
+        browserSync.reset();
+
         this.timeout(15000);
 
         var config = {
@@ -29,7 +31,7 @@ describe("E2E TLS server with custom certs test", function () {
             open: false
         };
 
-        instance = browserSync.init(config, done);
+        instance = browserSync.init(config, done).instance;
     });
 
     after(function () {

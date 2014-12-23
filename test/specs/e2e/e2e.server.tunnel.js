@@ -1,30 +1,28 @@
 "use strict";
 
-var browserSync   = require("../../../index");
-var tunnel        = require("../../../lib/tunnel");
+var browserSync = require("../../../index");
+var tunnel = require("../../../lib/tunnel");
 
-var http    = require("http");
-/**
-* @type {sinon}
-*/
-var sinon   = require("sinon");
-var assert  = require("chai").assert;
+var http = require("http");
+var sinon = require("sinon");
+var assert = require("chai").assert;
 
 describe("E2E server test with tunnel", function () {
 
     var instance;
 
     before(function (done) {
+        browserSync.reset();
         var config = {
-            server: {
-                baseDir:"test/fixtures"
+            server:    {
+                baseDir: "test/fixtures"
             },
             debugInfo: false,
-            open: false,
-            tunnel: true,
-            online: true
+            open:      false,
+            tunnel:    true,
+            online:    true
         };
-        instance = browserSync(config);
+        instance = browserSync(config).instance;
         instance.events.on("service:running", function () {
             done();
         });
@@ -61,7 +59,7 @@ describe("E2E server test with tunnel", function () {
                 urls: {},
                 port: _port
             },
-            events: {}
+            events:  {}
         }, require("localtunnel"), function (url, bool) {
             assert.include(url, "localtunnel.me");
             assert.isTrue(bool);
@@ -71,11 +69,11 @@ describe("E2E server test with tunnel", function () {
     it("can create a tunnel connection with sub domain", function (done) {
         tunnel.plugin({
             options: {
-                urls: {},
+                urls:   {},
                 tunnel: "shane0987654321",
-                port: _port
+                port:   _port
             },
-            events: {}
+            events:  {}
         }, require("localtunnel"), function (url, bool) {
             assert.include(url, "shane0987654321");
             assert.isTrue(bool);
@@ -101,12 +99,12 @@ describe("Creating tunnels", function () {
     it("should return the URL & boolean if successful", function (done) {
         tunnel.plugin({
             options: {
-                urls: {},
+                urls:   {},
                 tunnel: true,
-                port: 1234
+                port:   1234
             }
         }, tunnelStub, function (url, tunnel) {
-            assert.equal(url,    "http://localhost:403");
+            assert.equal(url, "http://localhost:403");
             assert.equal(tunnel, true);
             done();
         });
@@ -119,9 +117,9 @@ describe("Creating tunnels", function () {
         assert.throws(function () {
             tunnel.plugin({
                 options: {
-                    urls: {},
+                    urls:   {},
                     tunnel: true,
-                    port: 1234
+                    port:   1234
                 }
             }, tunnelStub, spy);
         });
@@ -133,9 +131,9 @@ describe("Creating tunnels", function () {
         var spy = sinon.spy();
         tunnel.plugin({
             options: {
-                urls: {},
+                urls:   {},
                 tunnel: "shane",
-                port: 1234
+                port:   1234
             }
         }, tunnelStub, spy);
         sinon.assert.called(tunnelStub);

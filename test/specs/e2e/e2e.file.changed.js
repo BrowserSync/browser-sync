@@ -11,19 +11,21 @@ describe("E2E Responding to events", function () {
 
     before(function (done) {
 
+        browserSync.reset();
+
         var config = {
             server: {
                 baseDir: __dirname + "/../../fixtures"
             },
             files: ["test/fixtures/assets/*.css"],
-            debugInfo: false,
+            logLevel: "silent",
             open: false
         };
 
-        instance = browserSync.init(config, function () {
+        instance = browserSync(config, function () {
             socketsStub = sinon.stub(instance.io.sockets, "emit");
             done();
-        });
+        }).instance;
 
         clock = sinon.useFakeTimers();
     });
@@ -31,6 +33,7 @@ describe("E2E Responding to events", function () {
     afterEach(function () {
         socketsStub.reset();
     });
+
     after(function () {
         socketsStub.restore();
         instance.cleanup();

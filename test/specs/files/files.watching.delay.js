@@ -8,6 +8,7 @@ describe("File Watcher Module - reloadDelay", function () {
     var bs, clock, stub, data;
     var delay = 2000;
     before(function (done) {
+        browserSync.reset();
         var config = {
             server: "test/fixtures",
             open: false,
@@ -19,7 +20,7 @@ describe("File Watcher Module - reloadDelay", function () {
         bs = browserSync(config, function () {
             stub = sinon.stub(bs.io.sockets, "emit");
             done();
-        });
+        }).instance;
     });
     beforeEach(function () {
         data = {path: "/index.html"};

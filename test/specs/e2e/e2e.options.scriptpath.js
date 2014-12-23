@@ -2,25 +2,26 @@
 
 var browserSync = require("../../../index");
 
-var assert      = require("chai").assert;
-var request     = require("supertest");
+var assert = require("chai").assert;
+var request = require("supertest");
 
 describe("E2E script path test - given a callback", function () {
 
     var instance;
 
     before(function (done) {
+        browserSync.reset();
 
         var config = {
-            server: {
+            server:     {
                 baseDir: "test/fixtures"
             },
-            open: false,
+            open:       false,
             scriptPath: function (scriptPath) {
                 return "localhost:PORT" + scriptPath;
             }
         };
-        instance = browserSync(config, done);
+        instance = browserSync(config, done).instance;
     });
 
     after(function () {
@@ -37,19 +38,19 @@ describe("E2E Socket path test - given a callback", function () {
     var instance;
 
     before(function (done) {
-
+        browserSync.reset();
         var config = {
             server: {
                 baseDir: "test/fixtures"
             },
-            open: false,
+            open:   false,
             socket: {
                 namespace: function (namespace) {
                     return namespace + "TEST";
                 }
             }
         };
-        instance = browserSync(config, done);
+        instance = browserSync(config, done).instance;
     });
 
     after(function () {
@@ -71,19 +72,20 @@ describe("E2E Socket path test - given a callback 2", function () {
     var instance;
 
     before(function (done) {
+        browserSync.reset();
 
         var config = {
             server: {
                 baseDir: "test/fixtures"
             },
-            open: false,
+            open:   false,
             socket: {
                 namespace: function (namespace) {
                     return "localhost:3003" + namespace;
                 }
             }
         };
-        instance = browserSync(config, done);
+        instance = browserSync(config, done).instance;
     });
 
     after(function () {

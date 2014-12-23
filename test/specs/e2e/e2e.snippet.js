@@ -11,11 +11,13 @@ describe("E2E Snippet tests", function () {
 
     before(function (done) {
 
+        browserSync.reset();
+
         var config = {
             debugInfo: false
         };
 
-        instance = browserSync.init(config, done);
+        instance = browserSync.init(config, done).instance;
     });
 
     after(function () {

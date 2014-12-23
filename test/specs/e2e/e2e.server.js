@@ -13,6 +13,8 @@ describe("E2E server test", function () {
 
     before(function (done) {
 
+        browserSync.reset();
+
         var config = {
             server: {
                 baseDir: "test/fixtures"
@@ -21,7 +23,7 @@ describe("E2E server test", function () {
             open: false
         };
 
-        instance = browserSync(config, done);
+        instance = browserSync(config, done).instance;
     });
 
     after(function () {

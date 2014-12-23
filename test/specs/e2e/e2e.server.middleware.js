@@ -13,6 +13,8 @@ describe("E2E server test with middleware", function () {
 
     before(function (done) {
 
+        browserSync.reset();
+
         var middleware = connect();
 
         middleware.use("/custom/middleware", function (req, res) {
@@ -24,11 +26,11 @@ describe("E2E server test with middleware", function () {
                 baseDir: "test/fixtures",
                 middleware: middleware
             },
-            debugInfo: false,
+            logLevel: "silent",
             open: false
         };
 
-        instance = browserSync.init(config, done);
+        instance = browserSync.init(config, done).instance;
     });
 
     after(function () {
