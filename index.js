@@ -11,6 +11,7 @@ var events        = require("events");
 
 var firstInstance = false;
 var firstEmitter  = false;
+var instances     = [];
 
 function newEmitter() {
     var emitter       = new events.EventEmitter();
@@ -19,6 +20,7 @@ function newEmitter() {
 }
 
 function getFirstEmitter() {
+
     if (firstEmitter) {
         return firstEmitter;
     }
@@ -59,14 +61,14 @@ function getFirstEmitter() {
  *
  * @method pause
  */
-module.exports.pause = require("./lib/public/pause")(browserSync);
+//module.exports.pause = require("./lib/public/pause")(browserSync);
 
 /**
  * Method to resume paused watchers
  *
  * @method resume
  */
-module.exports.resume = require("./lib/public/resume")(browserSync);
+//module.exports.resume = require("./lib/public/resume")(browserSync);
 
 /**
  * Register a plugin. Must implement at least a 'plugin' method that returns a
@@ -110,8 +112,18 @@ function deprecated(name) {
 }
 
 module.exports = function () {
+    var singleton;
+    if (instances.length) {
+        singleton = instances.filter(function (item) {
+            return item.name === "singleton";
+        });
+        if (singleton.length) {
+            console.log(tfunk("{yellow:BrowserSync is already running!} To create multiple instances, use {cyan:browserSync.create().init() "));
+            return singleton;
+        }
+    }
     var args = Array.prototype.slice.call(arguments);
-    firstInstance = create(getFirstEmitter());
+    firstInstance = create("singleton", getFirstEmitter());
     firstInstance.init.apply(null, args);
     return firstInstance;
 };
@@ -159,29 +171,50 @@ Object.defineProperty(module.exports, "paused", {
 });
 
 /**
- * @returns {{init: *}}
+ * @param {String} [name]
+ * @param {Event.Emitter} [emitter]
+ * @returns {{init: *, exit: (exit|exports), notify: *, reload: *, cleanup: *, emitter: (BrowserSync.events|*), use: *}}
  */
-function create (emitter) {
+function create(name, emitter) {
 
-    var browserSync = new BrowserSync(emitter || newEmitter());
+    var browserSync = new BrowserSync(emitter || newEmitter(), name);
+    name = name || new Date().getTime();
 
-    var publicApi = {
-        init:    require("./lib/public/init")(browserSync, pjson),
-        exit:    require("./lib/public/exit")(browserSync),
-        notify:  require("./lib/public/notify")(browserSync),
-        reload:  require("./lib/public/reload")(browserSync.events),
-        cleanup: browserSync.cleanup.bind(browserSync),
-        emitter: browserSync.events,
-        use:     browserSync.registerPlugin.bind(browserSync)
+    var instance = {
+        name:      name,
+        instance:  browserSync,
+        init:      require("./lib/public/init")(browserSync, name, pjson),
+        exit:      require("./lib/public/exit")(browserSync),
+        notify:    require("./lib/public/notify")(browserSync),
+        reload:    require("./lib/public/reload")(browserSync.events),
+        cleanup:   browserSync.cleanup.bind(browserSync),
+        emitter:   browserSync.events,
+        use:       browserSync.registerPlugin.bind(browserSync),
+        getOption: browserSync.getOption.bind(browserSync)
     };
 
-    Object.defineProperty(publicApi, "active", {
+    Object.defineProperty(instance, "active", {
         get: function () {
             return browserSync.active;
         }
     });
 
-    return publicApi;
+    instances.push(instance);
+
+    return instance;
 }
 
-module.exports.create = create;
+module.exports.get = function (name) {
+    if (instances.length) {
+        var match = instances.filter(function (item) {
+            return item.name === name;
+        });
+        if (match.length) {
+            return match[0];
+        }
+    }
+    console.log(tfunk("An instance with the name {yellow:`%s`} was not found."), name);
+};
+
+module.exports.instances = instances;
+module.exports.create    = create;
