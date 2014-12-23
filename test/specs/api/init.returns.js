@@ -7,17 +7,18 @@ var assert      = require("chai").assert;
 
 describe("Main Export", function () {
 
-    var instance;
+    var bs;
 
     before(function (done) {
-        instance = index({debugInfo: false}, done);
+        index.reset();
+        bs = index({logLevel: "silent"}, done);
     });
 
     after(function () {
-        instance.cleanup();
+        bs.cleanup();
     });
 
     it("should be an instance of BrowserSync", function () {
-        assert.isTrue(instance instanceof BrowserSync);
+        assert.isTrue(bs.instance instanceof BrowserSync);
     });
 });

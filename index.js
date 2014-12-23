@@ -99,8 +99,7 @@ function noop(name) {
     return function () {
         var args = Array.prototype.slice.call(arguments);
         if (firstInstance) {
-            firstInstance[name].apply(firstInstance, args);
-            return firstInstance;
+            return firstInstance[name].apply(firstInstance, args);
         } else {
             deprecated(name);
         }
@@ -132,6 +131,8 @@ module.exports.use     = noop("use");
 module.exports.reload  = noop("reload");
 module.exports.notify  = noop("notify");
 module.exports.exit    = noop("exit");
+module.exports.pause   = noop("pause");
+module.exports.resume  = noop("resume");
 
 /**
  *
@@ -151,10 +152,25 @@ Object.defineProperty(module.exports, "emitter", {
  */
 Object.defineProperty(module.exports, "active", {
     get: function () {
-        return browserSync.active;
+        var single = getSingle("singleton");
+        if (single) {
+            return single.active;
+        }
+        return false;
     }
 });
 
+function getSingle(name) {
+    if (instances.length) {
+        var match = instances.filter(function (item) {
+            return item.name === name;
+        });
+        if (match.length) {
+            return match[0];
+        }
+    }
+    return false;
+}
 /**
  * A simple true/false flag to determine if the current instance is paused
  *
@@ -162,11 +178,11 @@ Object.defineProperty(module.exports, "active", {
  */
 Object.defineProperty(module.exports, "paused", {
     get: function () {
-        return browserSync.paused;
-        if (firstInstance) {
-            return firstInstance.active;
+        var single = getSingle("singleton");
+        if (single) {
+            return single.paused;
         }
-        return false;
+        return false
     }
 });
 
@@ -186,9 +202,10 @@ function create(name, emitter) {
         init:      require("./lib/public/init")(browserSync, name, pjson),
         exit:      require("./lib/public/exit")(browserSync),
         notify:    require("./lib/public/notify")(browserSync),
-        reload:    require("./lib/public/reload")(browserSync.events),
+        pause:     require("./lib/public/pause")(browserSync),
+        resume:    require("./lib/public/resume")(browserSync),
+        reload:    require("./lib/public/reload")(emitter),
         cleanup:   browserSync.cleanup.bind(browserSync),
-        emitter:   browserSync.events,
         use:       browserSync.registerPlugin.bind(browserSync),
         getOption: browserSync.getOption.bind(browserSync)
     };
@@ -199,19 +216,36 @@ function create(name, emitter) {
         }
     });
 
+    Object.defineProperty(instance, "emitter", {
+        get: function () {
+            return browserSync.events;
+        }
+    });
+
+    Object.defineProperty(instance, "paused", {
+        get: function () {
+            return browserSync.paused;
+        }
+    });
+
     instances.push(instance);
 
     return instance;
 }
 
-module.exports.get = function (name) {
-    if (instances.length) {
-        var match = instances.filter(function (item) {
-            return item.name === name;
-        });
-        if (match.length) {
-            return match[0];
-        }
+module.exports.reset = function () {
+    instances.forEach(function (item) {
+        item.cleanup();
+    });
+    instances     = [];
+    firstEmitter  = false;
+    firstInstance = false;
+};
+
+module.exports.get   = function (name) {
+    var instance = getSingle(name);
+    if (instance) {
+        return instance;
     }
     console.log(tfunk("An instance with the name {yellow:`%s`} was not found."), name);
 };

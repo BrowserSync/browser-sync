@@ -12,7 +12,7 @@ describe("API: .exit() - Using the public exit method", function () {
         var instance;
 
         before(function (done) {
-
+            browserSync.reset();
             var config = {
                 debugInfo: false,
                 open: false

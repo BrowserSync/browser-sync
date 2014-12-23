@@ -6,6 +6,10 @@ var assert      = require("chai").assert;
 
 describe("API: .active - Retrieving the active state of browserSync", function () {
 
+    before(function () {
+        browserSync.reset();
+    });
+
     it("should know the inactive state of BrowserSync", function () {
         assert.equal(browserSync.active, false);
     });
@@ -15,7 +19,7 @@ describe("API: .active - Retrieving the active state of browserSync", function (
         var instance;
 
         before(function (done) {
-
+            browserSync.reset();
             var config = {
                 debugInfo: false,
                 open: false
