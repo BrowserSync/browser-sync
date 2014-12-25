@@ -6,7 +6,9 @@
  */
 var pjson         = require("./package.json");
 var BrowserSync   = require("./lib/browser-sync");
-var tfunk         = require("tfunk");
+var logger        = require("eazy-logger").Logger({
+    useLevelPrefixes: true
+});
 var events        = require("events");
 
 var singleton        = false;
@@ -165,7 +167,7 @@ function noop(name) {
  * @param name
  */
 function deprecated(name) {
-    console.log(tfunk("{yellow:Warning:} This functionality will change in BrowserSync 2.0. You'll have to first call browserSync.create() before {cyan:`.%s()`"), name);
+    logger.error("This functionality will change in BrowserSync 2.0. You'll have to first call browserSync.create() before {cyan:`.%s()`", name);
 }
 
 /**
@@ -182,7 +184,7 @@ function initSingleton() {
             return item.name === "singleton";
         });
         if (instance.length) {
-            console.log(tfunk("{red:[Error]} {yellow:You tried to start BrowserSync twice!} To create multiple instances, use {cyan:browserSync.create().init() "));
+            logger.error("{yellow:You tried to start BrowserSync twice!} To create multiple instances, use {cyan:browserSync.create().init()");
             return instance;
         }
     }
@@ -296,7 +298,7 @@ module.exports.get   = function (name) {
     if (instance) {
         return instance;
     }
-    throw new Error(tfunk("{red:An instance with the name {yellow:`%s`} was not found.".replace("%s", name)));
+    throw new Error("An instance with the name {yellow:`%s`} was not found.".replace("%s", name));
 };
 
 /**

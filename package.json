@@ -54,7 +54,6 @@
     "serve-index": "^1.5.1",
     "serve-static": "^1.4.2",
     "socket.io": "^1.2.1",
-    "tfunk": "^3.0.0",
     "ua-parser-js": "^0.7.3"
   },
   "devDependencies": {
@@ -62,7 +61,6 @@
     "chai": "^1.10.0",
     "chalk": "^0.5.1",
     "cli-color": "^0.3.2",
-    "portscanner-plus": "^0.2.0",
     "conventional-changelog": "^0.0.11",
     "graceful-fs": "^3.0.2",
     "gulp": "^3.8.10",

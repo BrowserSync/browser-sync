@@ -8,7 +8,7 @@ var serveStatic = require("serve-static");
 var request = require("supertest");
 var assert = require("chai").assert;
 var client = require("socket.io-client");
-var portScanner = require("portscanner-plus");
+var portScanner = require("portscanner");
 
 describe("E2E proxy test", function () {
 
@@ -17,10 +17,16 @@ describe("E2E proxy test", function () {
     before(function (done) {
         browserSync.reset();
 
-        portScanner.getPorts(1).then(function (ports) {
+        portScanner.findAPortNotInUse(3000, 4000, {
+            host: "localhost",
+            timeout: 1000
+        }, function (err, port) {
+            if (err) {
+                throw err;
+            }
 
             var config = {
-                proxy:     "localhost:" + ports[0],
+                proxy:     "localhost:" + port,
                 debugInfo: false,
                 open:      false
             };
@@ -29,7 +35,7 @@ describe("E2E proxy test", function () {
                 .use(serveStatic(__dirname + "/../../fixtures"));
 
             // server to proxy
-            stubServer = http.createServer(testApp).listen(ports[0]);
+            stubServer = http.createServer(testApp).listen(port);
 
             instance = browserSync.init([], config, done).instance;
         });

@@ -7,7 +7,7 @@ var serveStatic = require("serve-static");
 var request     = require("supertest");
 var assert      = require("chai").assert;
 var fork        = require("child_process").fork;
-var portScanner = require("portscanner-plus");
+var portScanner = require("portscanner");
 
 var index   = path.resolve(__dirname + "/../../../index.js");
 
@@ -22,11 +22,18 @@ describe.skip("E2E CLI proxy test", function () {
         var testApp = connect()
             .use(serveStatic(__dirname + "/../../fixtures/"));
 
-        portScanner.getPorts(1).then(function (ports) {
+        portScanner.findAPortNotInUse(3000, 4000, {
+            host: "localhost",
+            timeout: 1000
+        }, function (err, port) {
 
-            stubServer = http.createServer(testApp).listen(ports[0]);
+            if (err) {
+                throw err;
+            }
 
-            bs = fork(index, ["start", "--proxy", "localhost:" + ports[0], "--no-open", "--logLevel=silent"]);
+            stubServer = http.createServer(testApp).listen(port);
+
+            bs = fork(index, ["start", "--proxy", "localhost:" + port, "--no-open", "--logLevel=silent"]);
 
             bs.on("message", function (data) {
                 instance = data;

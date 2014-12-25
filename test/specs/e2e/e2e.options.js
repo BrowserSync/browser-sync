@@ -4,7 +4,7 @@ var browserSync = require("../../../index");
 
 var assert = require("chai").assert;
 var sinon = require("sinon");
-var portScanner = require("portscanner-plus");
+var portScanner = require("portscanner");
 
 describe("e2e options test", function () {
 
@@ -19,19 +19,24 @@ describe("e2e options test", function () {
         before(function (done) {
 
             browserSync.reset();
-            portScanner.getPorts(1).then(function (ports) {
+            portScanner.findAPortNotInUse(3000, 4000, {
+                host:    "localhost",
+                timeout: 1000
+            }, function (err, _port) {
 
-                port = ports[0];
+                port = _port;
 
                 var config = {
-                    server:    {
+                    server:   {
                         baseDir: "test/fixtures"
                     },
-                    port:      port,
-                    open:      false,
+                    port:     port,
+                    open:     false,
                     logLevel: "silent"
                 };
+
                 instance = browserSync(config, done).instance;
+
             });
         });
         after(function () {
@@ -55,15 +60,15 @@ describe("e2e options test", function () {
         before(function (done) {
 
             var config = {
-                server:    {
+                server:   {
                     baseDir: "test/fixtures"
                 },
-                files:     ["*.html"],
-                ports:     {
+                files:    ["*.html"],
+                ports:    {
                     min: 3500
                 },
                 logLevel: "silent",
-                open:      false
+                open:     false
             };
 
             instance = browserSync(config, done).instance;
@@ -145,7 +150,7 @@ describe("e2e options test", function () {
                     submit: false
                 }
             },
-            logLevel: "silent"
+            logLevel:  "silent"
         };
 
         before(function (done) {
@@ -281,7 +286,7 @@ describe("e2e options test", function () {
         var instance;
 
         var config = {
-            host:      "localhost",
+            host:     "localhost",
             logLevel: "silent"
         };
 
@@ -304,8 +309,8 @@ describe("e2e options test", function () {
         var instance;
 
         var config = {
-            host:      "localhost",
-            online:    false,
+            host:     "localhost",
+            online:   false,
             logLevel: "silent"
         };
 
