@@ -24,12 +24,13 @@
     "node": ">= 0.8.0"
   },
   "scripts": {
-    "test": "npm run lint && node ./test/env.js && npm run unit",
+    "env": "node ./test/env.js",
+    "test": "npm run lint && npm run env && npm run unit",
     "lint": "gulp lint",
     "pro": "node test/protractor/setup.single.js",
     "pro-local": "node test/protractor/setup.js",
     "unit": "mocha --recursive test/specs --timeout 10000",
-    "cover": "node ./test/env.js && istanbul cover _mocha --report lcovonly -- --timeout 10000 --recursive ./test/specs && istanbul-coveralls",
+    "cover": "npm run env && npm run _cover",
     "_cover": "istanbul cover _mocha --report lcovonly -- --timeout 10000 --recursive ./test/specs && istanbul-coveralls",
     "pre-release": "npm test && npm run pro-local && npm run pro"
   },
