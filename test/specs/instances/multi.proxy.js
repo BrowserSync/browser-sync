@@ -38,7 +38,7 @@ describe("E2E multi instance with proxy + server", function () {
         browserSync.get("proxy").cleanup();
     });
 
-    it('can serve from built in server & when proxied (inception)', function (done) {
+    it("can serve from built in server & when proxied (inception)", function (done) {
 
         var instance1 = browserSync.get("server");
         var instance2 = browserSync.get("proxy");

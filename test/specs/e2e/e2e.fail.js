@@ -29,16 +29,12 @@ describe("E2E Fail tests", function () {
     });
     it("should fail if empty port cannot be found", function (done) {
 
-        var Q = require("q");
-        var deff = new Q.defer();
-        deff.reject("PORT ERROR");
-
-        var stub = sinon.stub(utils, "getPorts").returns(deff.promise);
+        var stub = sinon.stub(utils, "getPorts").yields(new Error("NOPE"));
 
         browserSync({
             open: false
         }, function (err) {
-            assert.include(err.message, "PORT ERROR");
+            assert.include(err.message, "NOPE");
             stub.restore();
             done();
         });
