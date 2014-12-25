@@ -182,7 +182,7 @@ function initSingleton() {
             return item.name === "singleton";
         });
         if (instance.length) {
-            console.log(tfunk("{yellow:BrowserSync is already running!} To create multiple instances, use {cyan:browserSync.create().init() "));
+            console.log(tfunk("{red:[Error]} {yellow:You tried to start BrowserSync twice!} To create multiple instances, use {cyan:browserSync.create().init() "));
             return instance;
         }
     }
@@ -229,14 +229,15 @@ function getSingle(name) {
 }
 
 /**
+ * Create an instance of BrowserSync
  * @param {String} [name]
- * @param {Event.Emitter} [emitter]
+ * @param {EventEmitter} [emitter]
  * @returns {{init: *, exit: (exit|exports), notify: *, reload: *, cleanup: *, emitter: (BrowserSync.events|*), use: *}}
  */
 function create(name, emitter) {
 
-    var browserSync = new BrowserSync(emitter || newEmitter(), name);
     name = name || new Date().getTime();
+    var browserSync = new BrowserSync(emitter || newEmitter(), name);
 
     var instance = {
         name:      name,
@@ -295,7 +296,7 @@ module.exports.get   = function (name) {
     if (instance) {
         return instance;
     }
-    console.log(tfunk("An instance with the name {yellow:`%s`} was not found."), name);
+    throw new Error(tfunk("{red:An instance with the name {yellow:`%s`} was not found.".replace("%s", name)));
 };
 
 /**
