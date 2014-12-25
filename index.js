@@ -9,26 +9,14 @@ var BrowserSync   = require("./lib/browser-sync");
 var tfunk         = require("tfunk");
 var events        = require("events");
 
-var firstInstance = false;
-var firstEmitter  = false;
-var instances     = [];
+var singleton        = false;
 var singletonPlugins = [];
+var instances        = [];
 
-function newEmitter() {
-    var emitter       = new events.EventEmitter();
-    emitter.setMaxListeners(20);
-    return emitter;
-}
-
-function getFirstEmitter() {
-
-    if (firstEmitter) {
-        return firstEmitter;
-    }
-
-    firstEmitter = newEmitter();
-    return firstEmitter;
-}
+/**
+ * @type {boolean|EventEmitter}
+ */
+var singletonEmitter = false;
 
 /**
  * @method browserSync
@@ -38,38 +26,8 @@ function getFirstEmitter() {
  * is useful when you need to wait for information (for example: urls, port etc) or perform other tasks synchronously.
  * @returns {BrowserSync}
  */
-
-/**
- * The `reload` method will inform all browsers about changed files and will either cause the browser to refresh, or inject the files where possible.
- *
- * @method reload
- * @param {String|Array|Object} [arg] The file or files to be reloaded. For
- * details and examples of Streams support, please see the [GulpJS]({{site.links.gulp}}) examples
- * @returns {*}
- */
-
-/**
- * Helper method for browser notifications
- *
- * @method notify
- * @param {String|HTML} msg Can be a simple message such as 'Connected' or HTML
- * @param {Number} [timeout] How long the message will remain in the browser. @since 1.3.0
- */
-//module.exports.notify = require("./lib/public/notify")(browserSync);
-
-/**
- * Method to pause file change events
- *
- * @method pause
- */
-//module.exports.pause = require("./lib/public/pause")(browserSync);
-
-/**
- * Method to resume paused watchers
- *
- * @method resume
- */
-//module.exports.resume = require("./lib/public/resume")(browserSync);
+module.exports         = initSingleton;
+module.exports.init    = initSingleton;
 
 /**
  * Register a plugin. Must implement at least a 'plugin' method that returns a
@@ -80,64 +38,6 @@ function getFirstEmitter() {
  * @param {Object} module The object to be `required`.
  * @param {Function} [cb] A callback function that will return any errors.
  */
-//module.exports.use = browserSync.registerPlugin.bind(browserSync);
-
-/**
- * The internal Event Emitter used by the running BrowserSync instance (if there is one).
- * You can use this to emit your own events, such as changed files, logging etc.
- *
- * @property emitter
- * @type Events.EventEmitter
- */
-
-/**
- * A simple true/false flag that you can use to determine if there's a currently-running BrowserSync instance.
- *
- * @property active
- */
-
-function noop(name) {
-    return function () {
-        var args = Array.prototype.slice.call(arguments);
-        if (firstInstance) {
-            return firstInstance[name].apply(firstInstance, args);
-        } else {
-            deprecated(name);
-        }
-    };
-}
-
-function deprecated(name) {
-    console.log(tfunk("{yellow:Warning:} This functionality will change in BrowserSync 2.0. You'll have to first call browserSync.create() before {cyan:`.%s()`"), name);
-}
-
-function initSingleton() {
-    var singleton;
-    if (instances.length) {
-        singleton = instances.filter(function (item) {
-            return item.name === "singleton";
-        });
-        if (singleton.length) {
-            console.log(tfunk("{yellow:BrowserSync is already running!} To create multiple instances, use {cyan:browserSync.create().init() "));
-            return singleton;
-        }
-    }
-    var args = Array.prototype.slice.call(arguments);
-    firstInstance = create("singleton", getFirstEmitter());
-
-    if (singletonPlugins.length) {
-        singletonPlugins.forEach(function (obj) {
-            firstInstance.instance.registerPlugin.apply(firstInstance.instance, obj.args);
-        });
-    }
-
-    firstInstance.init.apply(null, args);
-    return firstInstance;
-}
-
-module.exports         = initSingleton;
-module.exports.init    = initSingleton;
-
 module.exports.use     = function () {
     var args = Array.prototype.slice.call(arguments);
     singletonPlugins.push({
@@ -145,38 +45,177 @@ module.exports.use     = function () {
     });
 };
 
+/**
+ * The `reload` method will inform all browsers about changed files and will either cause the browser to refresh, or inject the files where possible.
+ *
+ * @method reload
+ * @param {String|Array|Object} [arg] The file or files to be reloaded. For
+ * details and examples of Streams support, please see the [GulpJS]({{site.links.gulp}}) examples
+ * @returns {*}
+ */
 module.exports.reload  = noop("reload");
+
+/**
+ * Helper method for browser notifications
+ *
+ * @method notify
+ * @param {String|HTML} msg Can be a simple message such as 'Connected' or HTML
+ * @param {Number} [timeout] How long the message will remain in the browser. @since 1.3.0
+ */
 module.exports.notify  = noop("notify");
+
+/**
+ * This method will close any running server, stop file watching & exit the current process.
+ *
+ * @method exit
+ */
 module.exports.exit    = noop("exit");
+
+/**
+ * Method to pause file change events
+ *
+ * @method pause
+ */
 module.exports.pause   = noop("pause");
+
+/**
+ * Method to resume paused watchers
+ *
+ * @method resume
+ */
 module.exports.resume  = noop("resume");
 
 /**
- *
+ * Add properties fo
  */
-Object.defineProperty(module.exports, "emitter", {
-    get: function () {
-        if (!firstEmitter) {
-            firstEmitter = newEmitter();
-            return firstEmitter;
+Object.defineProperties(module.exports, {
+    /**
+     * The internal Event Emitter used by the running BrowserSync instance (if there is one).
+     * You can use this to emit your own events, such as changed files, logging etc.
+     *
+     * @property emitter
+     */
+    "emitter": {
+        get: function () {
+            if (!singletonEmitter) {
+                singletonEmitter = newEmitter();
+                return singletonEmitter;
+            }
+            return false;
         }
-        return false;
+    },
+    /**
+     * A simple true/false flag that you can use to determine if there's a currently-running BrowserSync instance.
+     *
+     * @property active
+     */
+    "active": {
+        get: getSingletonValue.bind(null, "active")
+    },
+    /**
+     * A simple true/false flag to determine if the current instance is paused
+     *
+     * @property paused
+     */
+    "paused": {
+        get: getSingletonValue.bind(null, "paused")
     }
 });
 
 /**
- *
+ * Event emitter factory
+ * @returns {EventEmitter}
  */
-Object.defineProperty(module.exports, "active", {
-    get: function () {
-        var single = getSingle("singleton");
-        if (single) {
-            return single.active;
-        }
-        return false;
-    }
-});
+function newEmitter() {
+    var emitter       = new events.EventEmitter();
+    emitter.setMaxListeners(20);
+    return emitter;
+}
 
+/**
+ * Get the singleton's emitter, or a new one.
+ * @returns {EventEmitter}
+ */
+function getSingletonEmitter() {
+    if (singletonEmitter) {
+        return singletonEmitter;
+    }
+    singletonEmitter = newEmitter();
+    return singletonEmitter;
+}
+
+/**
+ * Helper to allow methods to be called on the module export
+ * before there's a running instance
+ * @param {String} name
+ * @returns {Function}
+ */
+function noop(name) {
+    return function () {
+        var args = Array.prototype.slice.call(arguments);
+        if (singleton) {
+            return singleton[name].apply(singleton, args);
+        } else {
+            deprecated(name); //todo - silent fail here or deprecated message?
+        }
+    };
+}
+
+/**
+ * @param name
+ */
+function deprecated(name) {
+    console.log(tfunk("{yellow:Warning:} This functionality will change in BrowserSync 2.0. You'll have to first call browserSync.create() before {cyan:`.%s()`"), name);
+}
+
+/**
+ * Create a single instance when module export is used directly via browserSync({});
+ * This is mostly for back-compatibility, for also for the nicer api.
+ * This will never be removed to ensure we never break user-land, but
+ * we should discourage it's use.
+ * @returns {*}
+ */
+function initSingleton() {
+    var instance;
+    if (instances.length) {
+        instance = instances.filter(function (item) {
+            return item.name === "singleton";
+        });
+        if (instance.length) {
+            console.log(tfunk("{yellow:BrowserSync is already running!} To create multiple instances, use {cyan:browserSync.create().init() "));
+            return instance;
+        }
+    }
+    var args = Array.prototype.slice.call(arguments);
+    singleton = create("singleton", getSingletonEmitter());
+
+    if (singletonPlugins.length) {
+        singletonPlugins.forEach(function (obj) {
+            singleton.instance.registerPlugin.apply(singleton.instance, obj.args);
+        });
+    }
+
+    singleton.init.apply(null, args);
+    return singleton;
+}
+
+/**
+ * @param {String} prop
+ * @returns {Object|Boolean}
+ */
+function getSingletonValue(prop) {
+    var single = getSingle("singleton");
+    if (single) {
+        return single[prop];
+    }
+    return false;
+}
+
+/**
+ * Get a single instance by name
+ * @param {String} name
+ * @returns {Object|Boolean}
+ */
 function getSingle(name) {
     if (instances.length) {
         var match = instances.filter(function (item) {
@@ -188,20 +227,6 @@ function getSingle(name) {
     }
     return false;
 }
-/**
- * A simple true/false flag to determine if the current instance is paused
- *
- * @property paused
- */
-Object.defineProperty(module.exports, "paused", {
-    get: function () {
-        var single = getSingle("singleton");
-        if (single) {
-            return single.paused;
-        }
-        return false;
-    }
-});
 
 /**
  * @param {String} [name]
@@ -224,18 +249,13 @@ function create(name, emitter) {
         reload:    require("./lib/public/reload")(emitter),
         cleanup:   browserSync.cleanup.bind(browserSync),
         use:       browserSync.registerPlugin.bind(browserSync),
-        getOption: browserSync.getOption.bind(browserSync)
+        getOption: browserSync.getOption.bind(browserSync),
+        emitter:   browserSync.events
     };
 
     Object.defineProperty(instance, "active", {
         get: function () {
             return browserSync.active;
-        }
-    });
-
-    Object.defineProperty(instance, "emitter", {
-        get: function () {
-            return browserSync.events;
         }
     });
 
@@ -250,17 +270,26 @@ function create(name, emitter) {
     return instance;
 }
 
+/**
+ * Reset the state of the module.
+ * (should only be needed for test environments)
+ */
 module.exports.reset = function () {
     instances.forEach(function (item) {
         item.cleanup();
     });
     instances        = [];
     singletonPlugins = [];
-    firstEmitter     = false;
-    firstInstance    = false;
+    singletonEmitter     = false;
+    singleton    = false;
     process.removeAllListeners();
 };
 
+/**
+ * Get a single instance by name
+ * @param {String} name
+ * @returns {Object|Boolean}
+ */
 module.exports.get   = function (name) {
     var instance = getSingle(name);
     if (instance) {
@@ -269,5 +298,13 @@ module.exports.get   = function (name) {
     console.log(tfunk("An instance with the name {yellow:`%s`} was not found."), name);
 };
 
+/**
+ * @type {Array}
+ */
 module.exports.instances = instances;
+
+/**
+ * Create an instance of BrowserSync
+ * @type {create}
+ */
 module.exports.create    = create;
