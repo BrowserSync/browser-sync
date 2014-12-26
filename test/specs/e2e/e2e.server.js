@@ -16,10 +16,8 @@ describe("E2E server test", function () {
         browserSync.reset();
 
         var config = {
-            server: {
-                baseDir: "test/fixtures"
-            },
-            debugInfo: false,
+            server: "test/fixtures",
+            logLevel: "silent",
             open: false
         };
 
