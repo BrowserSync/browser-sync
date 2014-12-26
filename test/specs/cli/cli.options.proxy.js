@@ -2,7 +2,7 @@
 
 var cli             = require("../../../lib/cli/");
 var options         = cli.options;
-
+var merge           = cli.options.merge;
 var assert = require("chai").assert;
 
 describe("CLI: Options: Merging Proxy Options", function () {
@@ -14,15 +14,13 @@ describe("CLI: Options: Merging Proxy Options", function () {
     });
 
     it("should merge a url with HTTP", function () {
-        var arg = "http://localhost:8000";
-        var actual = options.callbacks.proxy(defaultValue, arg);
-        var expected = {
+        var imm = merge({proxy: "http://localhost:8000"});
+        assert.deepEqual(imm.get("proxy").toJS(), {
             protocol: "http",
             host: "localhost",
             port: 8000,
             target: "http://localhost:8000"
-        };
-        assert.deepEqual(actual, expected);
+        });
     });
     it("should merge a url with HTTPS", function () {
         var arg = "https://localhost:8010";

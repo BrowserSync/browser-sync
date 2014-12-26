@@ -18,7 +18,11 @@ describe("E2E server test", function () {
         var config = {
             server: "test/fixtures",
             logLevel: "silent",
-            open: false
+            open: false,
+            test: {
+                level1: "kittie"
+            }
+            //files: ["*.html"]
         };
 
         instance = browserSync(config, done).instance;
