@@ -14,7 +14,7 @@ describe("E2E OPEN options", function () {
     before(function (done) {
         browserSync.reset();
         var config = {
-            debugInfo: false,
+            logLevel: "silent",
             server:    "test/fixtures"
         };
         stub = sinon.stub(utils, "open");
@@ -41,7 +41,7 @@ describe("E2E OPEN options with external", function () {
     before(function (done) {
         browserSync.reset();
         var config = {
-            debugInfo: false,
+            logLevel: "silent",
             server:    "test/fixtures",
             open:      "external"
         };

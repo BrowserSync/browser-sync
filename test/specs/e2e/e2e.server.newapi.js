@@ -45,7 +45,7 @@ describe("E2E server test with only a config option", function () {
 
         instance = browserSync({
             open:      false,
-            debugInfo: false,
+            logLevel: "silent",
             server:    {
                 baseDir: "test/fixtures"
             }

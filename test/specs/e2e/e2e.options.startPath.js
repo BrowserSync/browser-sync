@@ -14,7 +14,7 @@ describe("E2E `startPath` option", function () {
     before(function (done) {
         browserSync.reset();
         var config = {
-            debugInfo: false,
+            logLevel: "silent",
             server:    "test/fixtures",
             startPath: "forms.html",
             online:    true
@@ -42,7 +42,7 @@ describe("E2E `startPath` option", function () {
     before(function (done) {
         browserSync.reset();
         var config = {
-            debugInfo: false,
+            logLevel: "silent",
             server:    "test/fixtures",
             startPath: "forms.html",
             online:    false

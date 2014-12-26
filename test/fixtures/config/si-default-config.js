@@ -1,5 +1,5 @@
 module.exports = {
-    debugInfo: true,
+    logLevel: "info",
     files: "test/fixtures/assets/style.css",
     background: false,
     defaultConfig: true,

@@ -27,7 +27,7 @@ describe("E2E proxy test", function () {
 
             var config = {
                 proxy:     "localhost:" + port,
-                debugInfo: false,
+                logLevel: "silent",
                 open:      false
             };
 
@@ -112,7 +112,7 @@ describe("E2E proxy test", function () {
 
         var config = {
             proxy:     "localhost:3434",
-            debugInfo: false,
+            logLevel: "silent",
             open:      false
         };
 

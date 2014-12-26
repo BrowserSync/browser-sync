@@ -62,7 +62,7 @@ describe("Plugins: Watching Files:", function () {
         browserSync.reset();
 
         var config = {
-            debugInfo: false,
+            logLevel: "silent",
             open: false
         };
 

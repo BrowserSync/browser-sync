@@ -14,7 +14,7 @@ describe("API: .exit() - Using the public exit method", function () {
         before(function (done) {
             browserSync.reset();
             var config = {
-                debugInfo: false,
+                logLevel: "silent",
                 open: false
             };
 

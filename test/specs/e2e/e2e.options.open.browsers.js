@@ -14,7 +14,7 @@ describe("E2E OPEN Browsers options (1)", function () {
     before(function (done) {
         browserSync.reset();
         var config = {
-            debugInfo: false,
+            logLevel: "silent",
             server:    "test/fixtures",
             browser:   "google chrome"
         };
@@ -43,7 +43,7 @@ describe("E2E OPEN Browsers options (multiple)", function () {
     before(function (done) {
         browserSync.reset();
         var config = {
-            debugInfo: false,
+            logLevel: "silent",
             server:    "test/fixtures",
             browser:   ["google chrome", "safari"]
         };

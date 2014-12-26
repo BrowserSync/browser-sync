@@ -20,7 +20,7 @@ describe("E2E TLS server test", function () {
                 baseDir: "test/fixtures"
             },
             https:     true,
-            debugInfo: false,
+            logLevel: "silent",
             open:      false
         };
 

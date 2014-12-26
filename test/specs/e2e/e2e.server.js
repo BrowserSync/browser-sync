@@ -28,7 +28,7 @@ describe("E2E server test", function () {
         instance.cleanup();
     });
 
-    it("serves files with the snippet added", function (done) {
+    it.only("serves files with the snippet added", function (done) {
 
         assert.isString(instance.options.snippet);
 

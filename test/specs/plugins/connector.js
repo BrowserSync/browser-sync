@@ -20,7 +20,7 @@ describe("Plugins: Using the connector middleware:", function () {
             server: {
                 baseDir: "test/fixtures"
             },
-            debugInfo: false,
+            logLevel: "silent",
             open: false
         };
 

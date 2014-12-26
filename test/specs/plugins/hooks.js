@@ -10,7 +10,7 @@ var config = {
     server: {
         baseDir: "test/fixtures"
     },
-    debugInfo: false,
+    logLevel: "silent",
     open: false
 };
 

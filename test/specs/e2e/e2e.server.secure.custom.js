@@ -27,7 +27,7 @@ describe("E2E TLS server with custom certs test", function () {
                 key: __dirname + "/../../certs/server.key",
                 cert: __dirname + "/../../certs/server.cert"
             },
-            debugInfo: false,
+            logLevel: "silent",
             open: false
         };
 

@@ -21,7 +21,7 @@ describe("E2E server test with directory listings", function () {
                 ],
                 index:   "index.htm"
             },
-            debugInfo: false,
+            logLevel: "silent",
             open:      false
         };
 
@@ -56,7 +56,7 @@ describe("E2E server test with base dir option", function () {
             server:    {
                 baseDir: "./test/fixtures"
             },
-            debugInfo: false,
+            logLevel: "silent",
             open:      false
         };
 

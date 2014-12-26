@@ -19,7 +19,7 @@ describe("Tunnel e2e tests", function () {
                 server:    {
                     baseDir: "test/fixtures"
                 },
-                debugInfo: false,
+                logLevel: "silent",
                 open:      false,
                 tunnel:    true,
                 online:    true

@@ -14,7 +14,7 @@ describe("E2E Snippet tests", function () {
         browserSync.reset();
 
         var config = {
-            debugInfo: false
+            logLevel: "silent"
         };
 
         instance = browserSync.init(config, done).instance;

@@ -21,7 +21,7 @@ describe("API: .active - Retrieving the active state of browserSync", function (
         before(function (done) {
             browserSync.reset();
             var config = {
-                debugInfo: false,
+                logLevel: "silent",
                 open: false
             };
 
