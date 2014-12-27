@@ -33,6 +33,7 @@ describe("E2E server test", function () {
             if (err) {
                 throw err;
             }
+            done();
         }).instance;
     });
 
@@ -40,16 +41,16 @@ describe("E2E server test", function () {
         instance.cleanup();
     });
 
-    it.only("serves files with the snippet added", function (done) {
+    it("serves files with the snippet added", function (done) {
 
-        assert.isString(instance.options.snippet);
+        assert.isString(instance.options.get("snippet"));
 
         request(instance.server)
             .get("/index.html")
             .set("accept", "text/html")
             .expect(200)
             .end(function (err, res) {
-                //assert.include(res.text, instance.options.snippet);
+                assert.include(res.text, instance.options.get("snippet"));
                 done();
             });
     });
@@ -57,7 +58,7 @@ describe("E2E server test", function () {
     it("serves the client script", function (done) {
 
         request(instance.server)
-            .get(instance.options.scriptPaths.versioned)
+            .get(instance.options.getIn(["scriptPaths", "versioned"]))
             .expect(200)
             .end(function (err, res) {
                 assert.include(res.text, "Connected to BrowserSync");

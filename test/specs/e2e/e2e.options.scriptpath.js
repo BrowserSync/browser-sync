@@ -29,7 +29,7 @@ describe("E2E script path test - given a callback", function () {
     });
 
     it("Sets the script path", function () {
-        assert.include(instance.options.snippet, "localhost:PORT/browser-sync/browser-sync-client.");
+        assert.include(instance.options.get("snippet"), "localhost:PORT/browser-sync/browser-sync-client.");
     });
 });
 

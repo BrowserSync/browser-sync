@@ -34,28 +34,28 @@ describe("E2E server test with routes", function () {
 
     it("serves files from the route with snippet added", function (done) {
 
-        assert.isString(instance.options.snippet);
+        assert.isString(instance.options.get("snippet"));
 
         request(instance.server)
             .get("/shane/index.html")
             .set("accept", "text/html")
             .expect(200)
             .end(function (err, res) {
-                assert.include(res.text, instance.options.snippet);
+                assert.include(res.text, instance.options.get("snippet"));
                 done();
             });
     });
 
     it("serves files from the route with snippet added", function (done) {
 
-        assert.isString(instance.options.snippet);
+        assert.isString(instance.options.get("snippet"));
 
         request(instance.server)
             .get("/kittie/index.html")
             .set("accept", "text/html")
             .expect(200)
             .end(function (err, res) {
-                assert.include(res.text, instance.options.snippet);
+                assert.include(res.text, instance.options.get("snippet"));
                 done();
             });
     });
@@ -63,7 +63,7 @@ describe("E2E server test with routes", function () {
     it("serves the client script", function (done) {
 
         request(instance.server)
-            .get(instance.options.scriptPaths.versioned)
+            .get(instance.options.getIn(["scriptPaths", "versioned"]))
             .expect(200)
             .end(function (err, res) {
                 assert.include(res.text, "Connected to BrowserSync");

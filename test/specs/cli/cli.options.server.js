@@ -6,6 +6,10 @@ var merge           = cli.options.merge;
 var assert          = require("chai").assert;
 
 describe("CLI: Options: Merging Server Options", function () {
+    it("doesn't touch server option if not given in user config", function () {
+        var imm = merge(null);
+        assert.deepEqual(imm.get("server"), false);
+    });
     it("should merge when only basedir given", function () {
         var imm = merge({server: "base"});
         assert.deepEqual(imm.get("server").toJS(), {

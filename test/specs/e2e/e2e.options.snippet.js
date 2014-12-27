@@ -33,7 +33,7 @@ describe("E2E snippet ignore paths test (1)", function () {
             .set("accept", "text/html")
             .expect(200)
             .end(function (err, res) {
-                assert.notInclude(res.text, instance.options.snippet);
+                assert.notInclude(res.text, instance.options.get("snippet"));
                 done();
             });
     });
@@ -71,7 +71,7 @@ describe("E2E snippet custom regex", function () {
             .set("accept", "text/html")
             .expect(200)
             .end(function (err, res) {
-                assert.include(res.text, "<head>" + instance.options.snippet);
+                assert.include(res.text, "<head>" + instance.options.get("snippet"));
                 done();
             });
     });

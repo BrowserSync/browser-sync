@@ -19,6 +19,7 @@ describe("e2e options test", function () {
         before(function (done) {
 
             browserSync.reset();
+
             portScanner.findAPortNotInUse(3000, 4000, {
                 host:    "localhost",
                 timeout: 1000
@@ -44,11 +45,11 @@ describe("e2e options test", function () {
         });
 
         it("Sets the available port", function () {
-            var match = /\d{2,5}/.exec(instance.options.port)[0];
+            var match = /\d{2,5}/.exec(instance.options.get("port"))[0];
             assert.isNotNull(match);
         });
         it("Uses the given port the available port", function () {
-            var match = /\d{2,5}/.exec(instance.options.port)[0];
+            var match = /\d{2,5}/.exec(instance.options.get("port"))[0];
             assert.equal(match, port);
         });
     });
@@ -58,7 +59,7 @@ describe("e2e options test", function () {
         var instance;
 
         before(function (done) {
-
+            browserSync.reset();
             var config = {
                 server:   {
                     baseDir: "test/fixtures"
@@ -79,15 +80,15 @@ describe("e2e options test", function () {
         });
 
         it("Sets the available port", function () {
-            var match = /\d{2,5}/.exec(instance.options.port)[0];
+            var match = /\d{2,5}/.exec(instance.options.get("port"))[0];
             assert.isNotNull(match);
         });
         it("Uses the given port the available port", function () {
-            var match = /\d{2,5}/.exec(instance.options.port)[0];
+            var match = /\d{2,5}/.exec(instance.options.get("port"))[0];
             assert.equal(match, 3500);
         });
         it("set's the files option", function () {
-            assert.deepEqual(instance.options.files, ["*.html"]);
+            assert.deepEqual(instance.options.get("files").toJS(), ["*.html"]);
         });
     });
 
@@ -107,11 +108,11 @@ describe("e2e options test", function () {
         });
 
         it("Sets the available port", function () {
-            var match = /\d{2,5}/.exec(instance.options.port)[0];
+            var match = /\d{2,5}/.exec(instance.options.get("port"))[0];
             assert.isNotNull(match);
         });
         it("sets the open options to false", function () {
-            assert.deepEqual(instance.options.open, false);
+            assert.deepEqual(instance.options.get("open"), false);
         });
     });
 
@@ -129,7 +130,7 @@ describe("e2e options test", function () {
 
         it("Sets the ghostMode options", function () {
 
-            var ghostMode = instance.options.ghostMode;
+            var ghostMode = instance.options.get("ghostMode").toJS();
 
             assert.deepEqual(ghostMode.clicks, true);
             assert.deepEqual(ghostMode.scroll, true);
@@ -163,7 +164,7 @@ describe("e2e options test", function () {
 
         it("Sets the ghostMode options", function () {
 
-            var ghostMode = instance.options.ghostMode;
+            var ghostMode = instance.options.get("ghostMode").toJS();
 
             assert.deepEqual(ghostMode.links, true);
             assert.deepEqual(ghostMode.clicks, true);
@@ -192,7 +193,7 @@ describe("e2e options test", function () {
         });
 
         it("Sets the ghostMode options in shorthand", function () {
-            var ghostMode = instance.options.ghostMode;
+            var ghostMode = instance.options.get("ghostMode").toJS();
             assert.deepEqual(ghostMode.forms.submit, false);
             assert.deepEqual(ghostMode.forms.inputs, false);
             assert.deepEqual(ghostMode.forms.toggles, false);
@@ -217,9 +218,8 @@ describe("e2e options test", function () {
         });
 
         it("Sets the ghostMode options in shorthand", function () {
-            var ghostMode = instance.options.ghostMode;
+            var ghostMode = instance.options.get("ghostMode").toJS();
             assert.deepEqual(ghostMode.clicks, true);
-            assert.deepEqual(ghostMode.location, false); // never turn this on, it's buggy as hell
             assert.deepEqual(ghostMode.scroll, true);
             assert.deepEqual(ghostMode.forms.submit, true);
             assert.deepEqual(ghostMode.forms.inputs, true);
@@ -247,7 +247,7 @@ describe("e2e options test", function () {
         });
 
         it("Sets the ghostMode options in shorthand", function () {
-            var ghostMode = instance.options.ghostMode;
+            var ghostMode = instance.options.get("ghostMode").toJS();
             assert.deepEqual(ghostMode.forms.submit, false);
             assert.deepEqual(ghostMode.forms.inputs, false);
             assert.deepEqual(ghostMode.forms.toggles, false);
@@ -274,7 +274,7 @@ describe("e2e options test", function () {
         });
 
         it("Sets the ghostMode options in shorthand", function () {
-            var ghostMode = instance.options.ghostMode;
+            var ghostMode = instance.options.get("ghostMode").toJS();
             assert.deepEqual(ghostMode.forms.submit, true);
             assert.deepEqual(ghostMode.forms.inputs, true);
             assert.deepEqual(ghostMode.forms.toggles, true);
@@ -299,8 +299,8 @@ describe("e2e options test", function () {
         });
 
         it("Sets the ghostMode options", function () {
-            assert.ok(instance.options.port.toString().match(/\d\d\d\d/));
-            assert.ok(instance.options.urls.local.match(/\d{4,5}$/));
+            assert.ok(instance.options.get("port").toString().match(/\d\d\d\d/));
+            assert.ok(instance.options.getIn(["urls", "local"]).match(/\d{4,5}$/));
         });
     });
 
@@ -323,7 +323,7 @@ describe("e2e options test", function () {
         });
 
         it("Sets the files option with the old API", function () {
-            assert.deepEqual(instance.options.files, ["*.html"]);
+            assert.deepEqual(instance.options.get("files").toJS(), ["*.html"]);
         });
     });
 
@@ -343,7 +343,7 @@ describe("e2e options test", function () {
         });
 
         it("Sets the files option with the old API", function () {
-            assert.deepEqual(instance.options.files, ["*.html"]);
+            assert.deepEqual(instance.options.get("files").toJS(), ["*.html"]);
         });
     });
 
@@ -363,7 +363,7 @@ describe("e2e options test", function () {
         });
 
         it("Sets the files option with the old API", function () {
-            assert.deepEqual(instance.getOption("files"), ["*.html"]);
+            assert.deepEqual(instance.options.get("files").toJS(), ["*.html"]);
         });
     });
 });

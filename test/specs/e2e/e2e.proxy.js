@@ -48,7 +48,7 @@ describe("E2E proxy test", function () {
 
     it("can init proxy & serve a page", function (done) {
 
-        assert.isString(instance.options.snippet);
+        assert.isString(instance.options.get("snippet"));
         assert.isDefined(instance.server);
 
         request(instance.server)
@@ -80,7 +80,7 @@ describe("E2E proxy test", function () {
     it("Can serve the script", function (done) {
 
         request(instance.server)
-            .get(instance.options.scriptPaths.versioned)
+            .get(instance.options.getIn(["scriptPaths", "versioned"]))
             .expect(200)
             .end(function (err, res) {
                 assert.include(res.text, "Connected to BrowserSync");
@@ -94,7 +94,7 @@ describe("E2E proxy test", function () {
             .set("accept", "text/html")
             .expect(200)
             .end(function (err, res) {
-                assert.include(res.text, instance.options.snippet);
+                assert.include(res.text, instance.options.get("snippet"));
                 done();
             });
     });
