@@ -1,15 +1,16 @@
 "use strict";
 
 var cli             = require("../../../lib/cli/");
+var Immutable       = require("immutable");
 var options         = cli.options;
 var callbacks       = options.callbacks;
 var merge           = cli.options.merge;
 
 var assert = require("chai").assert;
 
-describe("CLI: Options: Merging Options: Files", function () {
+describe.only("CLI: Options: Merging Options: Files", function () {
     it("should return the files property from string", function () {
-        var imm = merge({files:["css/*.css"]});
+        var imm = merge({files: ["css/*.css"]});
         assert.deepEqual(imm.get("files").toJS(), ["css/*.css"]);
     });
     it("should return the files property from string", function () {
@@ -69,5 +70,25 @@ describe("CLI: Options: Merging Options: Files", function () {
             exclude: "node_modules"
         });
         assert.isFalse(imm.get("files"));
+    });
+    it("should merge files option in namespace form", function () {
+        var imm = merge({
+            files: {
+                shane: "test.html"
+            }
+        });
+
+        assert.isTrue(
+            Immutable.List.isList(
+                imm.getIn(["files", "shane"])
+            )
+        );
+
+        assert.deepEqual(
+            imm.get("files").toJS(),
+            {
+                shane: ["test.html"]
+            }
+        );
     });
 });

@@ -1,70 +1,73 @@
 "use strict";
 
-var browserSync   = require("../../../index");
+var browserSync = require("../../../index");
 
-var path    = require("path");
-var assert  = require("chai").assert;
+var path = require("path");
+var assert = require("chai").assert;
 
-var outpath  = path.join(__dirname, "/../../fixtures");
+var outpath = path.join(__dirname, "/../../fixtures");
 
-describe("E2E Adding namespaced watchers", function () {
+describe("file-watching", function () {
 
-    var instance, file;
+    describe("E2E Adding namespaced watchers", function () {
 
-    before(function (done) {
+        var instance, file;
 
-        browserSync.reset();
+        before(function (done) {
 
-        file = path.join(outpath, "watch-func.txt");
+            browserSync.reset();
 
-        var config = {
-            files: file,
-            logLevel: "silent"
-        };
+            file = path.join(outpath, "watch-func.txt");
 
-        instance = browserSync(config, done).instance;
+            var config = {
+                files:    file,
+                logLevel: "silent"
+            };
+
+            instance = browserSync(config, done).instance;
+        });
+
+        after(function () {
+            instance.cleanup();
+        });
+
+        it("Watches files with no namespace", function (done) {
+
+            assert.ok(instance.watchers.core);
+            assert.ok(instance.watchers.core.watcher);
+            done();
+        });
     });
 
-    after(function () {
-        instance.cleanup();
-    });
+    describe("E2E Adding namespaced watchers", function () {
 
-    it("Watches files with no namespace", function (done) {
+        var instance, file;
 
-        assert.ok(instance.watchers.core);
-        assert.ok(instance.watchers.core.watcher);
-        done();
-    });
-});
+        before(function (done) {
 
-describe("E2E Adding namespaced watchers", function () {
+            browserSync.reset();
 
-    var instance, file;
+            file = path.join(outpath, "watch-func.txt");
 
-    before(function (done) {
+            var config = {
+                files:    {
+                    "shane": file
+                },
+                logLevel: "silent"
+            };
 
-        browserSync.reset();
+            instance = browserSync(config, done).instance;
+        });
 
-        file = path.join(outpath, "watch-func.txt");
+        after(function () {
+            instance.cleanup();
+        });
 
-        var config = {
-            files: {
-                "shane": file
-            },
-            logLevel: "silent"
-        };
+        it.only("Watches files with with a namespace", function (done) {
 
-        instance = browserSync(config, done).instance;
-    });
-
-    after(function () {
-        instance.cleanup();
-    });
-
-    it("Watches files with with a namespace", function (done) {
-
-        assert.ok(instance.watchers.shane);
-        assert.ok(instance.watchers.shane.watcher);
-        done();
+            assert.ok(instance.watchers.shane);
+            assert.ok(instance.watchers.shane.watcher);
+            done();
+        });
     });
 });

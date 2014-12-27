@@ -23,7 +23,7 @@ describe("E2E Fail tests", function () {
             server: true,
             proxy: "localhost:8080"
         }, function (err) {
-            assert.include(err.message, "Invalid config. You cannot specify both a server & proxy option.");
+            assert.include(err.message, "Invalid config. You cannot specify both server & proxy options.");
             done();
         });
     });
