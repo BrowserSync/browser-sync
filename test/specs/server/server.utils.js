@@ -1,7 +1,7 @@
 "use strict";
 
 var utils         = require("../../../lib/server/utils");
-
+var Immutable     = require("immutable");
 var sinon         = require("sinon");
 
 describe("Server: Server Utils: ", function () {
@@ -29,11 +29,11 @@ describe("Server: Server Utils: ", function () {
             sinon.assert.calledOnce(spy);
         });
         it("Should add the static middleware with multiple middlewares", function () {
-            utils.addBaseDir(app, ["app", "dist"], true);
+            utils.addBaseDir(app, Immutable.List(["app", "dist"]), true);
             sinon.assert.calledTwice(spy);
         });
         it("Should add the static middleware with multiple middlewares", function () {
-            utils.addBaseDir(app, ["app", "dist", "alt"], true);
+            utils.addBaseDir(app, Immutable.List(["app", "dist", "alt"]), true);
             sinon.assert.calledThrice(spy);
         });
     });

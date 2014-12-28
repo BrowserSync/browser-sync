@@ -1,11 +1,7 @@
 "use strict";
 
-var defaultConfig   = require("../../../lib/default-config");
 var cli             = require("../../../lib/cli/");
-var options         = cli.options;
 var merge           = cli.options.merge;
-var Immutable       = require("immutable");
-var callbacks       = options.callbacks;
 
 var assert = require("chai").assert;
 

@@ -31,10 +31,11 @@ describe("E2E OPEN Browsers options (1)", function () {
         var args = stub.getCall(0).args;
         sinon.assert.called(stub);
 
-        assert.equal(args[0], instance.options.urls.local);
+        assert.equal(args[0], instance.options.getIn(["urls", "local"]));
         assert.equal(args[1], "google chrome");
     });
 });
+
 describe("E2E OPEN Browsers options (multiple)", function () {
 
     var instance;
@@ -59,13 +60,14 @@ describe("E2E OPEN Browsers options (multiple)", function () {
     it("Opens the localhost address as default", function () {
 
         sinon.assert.called(stub);
+        var local = instance.options.getIn(["urls", "local"]);
 
         var args = stub.getCall(0).args;
-        assert.equal(args[0], instance.options.urls.local);
+        assert.equal(args[0], local);
         assert.equal(args[1], "google chrome");
 
         args = stub.getCall(1).args;
-        assert.equal(args[0], instance.options.urls.local);
+        assert.equal(args[0], local);
         assert.equal(args[1], "safari");
     });
 });

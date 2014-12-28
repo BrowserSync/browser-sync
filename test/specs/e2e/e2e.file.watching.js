@@ -63,7 +63,7 @@ describe("file-watching", function () {
             instance.cleanup();
         });
 
-        it.only("Watches files with with a namespace", function (done) {
+        it("Watches files with with a namespace", function (done) {
 
             assert.ok(instance.watchers.shane);
             assert.ok(instance.watchers.shane.watcher);

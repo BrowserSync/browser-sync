@@ -29,7 +29,7 @@ describe("E2E server test", function () {
             files: ["*.html"]
         };
 
-        instance = browserSync(config, function (err, bs) {
+        instance = browserSync(config, function (err) {
             if (err) {
                 throw err;
             }

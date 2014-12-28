@@ -5,7 +5,6 @@ var merge    = require("../../../lib/cli/cli-options").merge;
 
 var assert    = require("chai").assert;
 var sinon     = require("sinon");
-var Immutable = require("immutable");
 
 var external = "192.168.0.4";
 
@@ -47,7 +46,7 @@ describe("Utils: creating URLs", function () {
         });
         assert.deepEqual(utils.setUrlOptions(opts).toJS(), {
             local: "http://localhost:3000",
-            external: "http://"+external+":3000"
+            external: "http://" + external + ":3000"
         });
     });
     it("should return the external/local with xip", function () {
@@ -60,7 +59,7 @@ describe("Utils: creating URLs", function () {
         });
         var out = utils.setUrlOptions(opts);
         assert.equal(out.get("local"), "https://127.0.0.1.xip.io:3000");
-        assert.equal(out.get("external"), "https://"+external+".xip.io:3000");
+        assert.equal(out.get("external"), "https://" + external + ".xip.io:3000");
     });
     it("should return the URLs when OFFLINE & XIP set", function () {
         var opts = merge({

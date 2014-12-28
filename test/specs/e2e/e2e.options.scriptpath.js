@@ -59,7 +59,7 @@ describe("E2E Socket path test - given a callback", function () {
 
     it("sets the socket path", function (done) {
         request(instance.server)
-            .get(instance.options.scriptPaths.path)
+            .get(instance.options.getIn(["scriptPaths", "path"]))
             .expect(200)
             .end(function (err, res) {
                 assert.include(res.text, "io('/browser-sync/socket.ioTEST'");
@@ -94,7 +94,7 @@ describe("E2E Socket path test - given a callback 2", function () {
 
     it("sets the socket path", function (done) {
         request(instance.server)
-            .get(instance.options.scriptPaths.path)
+            .get(instance.options.getIn(["scriptPaths", "path"]))
             .expect(200)
             .end(function (err, res) {
                 assert.include(res.text, "___browserSync___.io('localhost:3003/browser-sync/socket.io',");

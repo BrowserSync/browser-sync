@@ -4,6 +4,7 @@ var browserSync = require("../../../index");
 var tunnel = require("../../../lib/tunnel");
 
 var http = require("http");
+var Immutable = require("immutable");
 var sinon = require("sinon");
 var assert = require("chai").assert;
 
@@ -35,7 +36,7 @@ describe("Tunnel e2e tests", function () {
         });
 
         it("should call init on the tunnel", function () {
-            assert.include(instance.options.urls.tunnel, "localtunnel.me");
+            assert.include(instance.options.getIn(["urls", "tunnel"]), "localtunnel.me");
         });
     });
 
@@ -57,10 +58,10 @@ describe("Tunnel e2e tests", function () {
         });
         it("can create a tunnel connection", function (done) {
             tunnel.plugin({
-                options: {
+                options: Immutable.Map({
                     urls: {},
                     port: _port
-                },
+                }),
                 events:  {}
             }, require("localtunnel"), function (url, bool) {
                 assert.include(url, "localtunnel.me");
@@ -70,11 +71,11 @@ describe("Tunnel e2e tests", function () {
         });
         it("can create a tunnel connection with sub domain", function (done) {
             tunnel.plugin({
-                options: {
+                options: Immutable.Map({
                     urls:   {},
                     tunnel: "shane0987654321",
                     port:   _port
-                },
+                }),
                 events:  {}
             }, require("localtunnel"), function (url, bool) {
                 assert.include(url, "shane0987654321");
@@ -100,11 +101,11 @@ describe("Tunnel e2e tests", function () {
 
         it("should return the URL & boolean if successful", function (done) {
             tunnel.plugin({
-                options: {
+                options: Immutable.Map({
                     urls:   {},
                     tunnel: true,
                     port:   1234
-                }
+                })
             }, tunnelStub, function (url, tunnel) {
                 assert.equal(url, "http://localhost:403");
                 assert.equal(tunnel, true);
@@ -118,11 +119,11 @@ describe("Tunnel e2e tests", function () {
             });
             assert.throws(function () {
                 tunnel.plugin({
-                    options: {
+                    options: Immutable.Map({
                         urls:   {},
                         tunnel: true,
                         port:   1234
-                    }
+                    })
                 }, tunnelStub, spy);
             });
         });
@@ -132,11 +133,11 @@ describe("Tunnel e2e tests", function () {
             });
             var spy = sinon.spy();
             tunnel.plugin({
-                options: {
+                options: Immutable.Map({
                     urls:   {},
                     tunnel: "shane",
                     port:   1234
-                }
+                })
             }, tunnelStub, spy);
             sinon.assert.called(tunnelStub);
         });

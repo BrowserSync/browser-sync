@@ -1,7 +1,6 @@
 "use strict";
 
 var cli             = require("../../../lib/cli/");
-var options         = cli.options;
 var merge           = cli.options.merge;
 var assert = require("chai").assert;
 
@@ -45,7 +44,6 @@ describe("CLI: Options: Merging Proxy Options", function () {
         var imm = merge({
             proxy: "192.168.0.4:9001"
         });
-        var out = imm.get("proxy").toJS();
         assert.equal(imm.getIn(["proxy", "target"]), "http://192.168.0.4:9001");
         assert.equal(imm.getIn(["proxy", "port"]), 9001);
     });

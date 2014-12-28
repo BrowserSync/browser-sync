@@ -88,7 +88,9 @@ describe("e2e options test", function () {
             assert.equal(match, 3500);
         });
         it("set's the files option", function () {
-            assert.deepEqual(instance.options.get("files").toJS(), ["*.html"]);
+            assert.deepEqual(instance.options.get("files").toJS(), {
+                core: ["*.html"]
+            });
         });
     });
 
@@ -323,7 +325,9 @@ describe("e2e options test", function () {
         });
 
         it("Sets the files option with the old API", function () {
-            assert.deepEqual(instance.options.get("files").toJS(), ["*.html"]);
+            assert.deepEqual(instance.options.get("files").toJS(), {
+                core: ["*.html"]
+            });
         });
     });
 
@@ -343,7 +347,9 @@ describe("e2e options test", function () {
         });
 
         it("Sets the files option with the old API", function () {
-            assert.deepEqual(instance.options.get("files").toJS(), ["*.html"]);
+            assert.deepEqual(instance.options.get("files").toJS(), {
+                core: ["*.html"]
+            });
         });
     });
 
@@ -363,7 +369,9 @@ describe("e2e options test", function () {
         });
 
         it("Sets the files option with the old API", function () {
-            assert.deepEqual(instance.options.get("files").toJS(), ["*.html"]);
+            assert.deepEqual(instance.options.get("files").toJS(), {
+                core: ["*.html"]
+            });
         });
     });
 });

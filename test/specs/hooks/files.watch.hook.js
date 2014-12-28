@@ -4,16 +4,16 @@ var assert = require("chai").assert;
 var hook   = require("../../../lib/hooks")["files:watch"];
 var merge  = require("../../../lib/cli/cli-options").merge;
 
-describe("files:watch hook", function() {
+describe("files:watch hook", function () {
     var mock;
     before(function () {
         mock = {
             pluginManager: {
                 pluginOptions: {}
             }
-        }
+        };
     });
-    it("should accept initial as List", function() {
+    it("should accept initial as List", function () {
         var imm = merge({
             files: "*.html"
         });
@@ -21,7 +21,7 @@ describe("files:watch hook", function() {
             core: ["*.html"]
         });
     });
-    it("should accept initial as List", function() {
+    it("should accept initial as List", function () {
         var imm = merge({
             files: ["*.html"]
         });
@@ -29,7 +29,7 @@ describe("files:watch hook", function() {
             core: ["*.html"]
         });
     });
-    it("should accept initial as Map + Strings ", function() {
+    it("should accept initial as Map + Strings ", function () {
         var imm = merge({
             files: {
                 shane: "*.html",
@@ -41,7 +41,7 @@ describe("files:watch hook", function() {
             kittie: ["css/*.css"]
         });
     });
-    it("should accept & merge initial as List + Plugin options", function() {
+    it("should accept & merge initial as List + Plugin options", function () {
         var imm = merge({
             files: {
                 shane: "*.html",
@@ -63,7 +63,7 @@ describe("files:watch hook", function() {
             plugin1: ["*.hbs"]
         });
     });
-    it("should accept & merge initial as List + Plugin options", function() {
+    it("should accept & merge initial as List + Plugin options", function () {
         var imm = merge({
             files: {
                 shane: "*.html",

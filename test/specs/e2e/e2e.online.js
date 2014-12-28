@@ -15,7 +15,7 @@ describe("E2E online test", function () {
             open: false,
             logLevel: "silent"
         }, function (err, bs) {
-            assert.isFalse(bs.options.online);
+            assert.isFalse(bs.options.get("online"));
             instance.cleanup();
             stub.restore();
             process.env.TESTING = true;
@@ -30,7 +30,7 @@ describe("E2E online test", function () {
             open: false,
             logLevel: "silent"
         }, function (err, bs) {
-            assert.isTrue(bs.options.online);
+            assert.isTrue(bs.options.get("online"));
             instance.cleanup();
             stub.restore();
             process.env.TESTING = true;

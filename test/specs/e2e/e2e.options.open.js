@@ -29,7 +29,7 @@ describe("E2E OPEN options", function () {
     it("Opens the localhost address as default", function () {
         var args = stub.getCall(0).args;
         sinon.assert.called(stub);
-        assert.equal(args[0], instance.options.urls.local);
+        assert.equal(args[0], instance.options.getIn(["urls", "local"]));
     });
 });
 

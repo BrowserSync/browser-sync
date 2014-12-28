@@ -1,7 +1,6 @@
 "use strict";
 
 var cli             = require("../../../lib/cli/");
-var options         = cli.options;
 var merge           = cli.options.merge;
 var assert          = require("chai").assert;
 

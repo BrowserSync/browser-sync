@@ -2,8 +2,6 @@
 
 var cli             = require("../../../lib/cli/");
 var Immutable       = require("immutable");
-var options         = cli.options;
-var callbacks       = options.callbacks;
 var merge           = cli.options.merge;
 
 var assert = require("chai").assert;

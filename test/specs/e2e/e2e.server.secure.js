@@ -82,6 +82,6 @@ describe("E2E TLS server test", function () {
     });
 
     it("Does not use HTTPS if false", function () {
-        assert.notInclude(instance.options.urls.local, "https");
+        assert.notInclude(instance.options.get(["urls", "local"]), "https");
     });
 });
