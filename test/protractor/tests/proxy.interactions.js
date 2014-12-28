@@ -28,7 +28,7 @@ describe("Interactions on proxy Pages", function () {
             };
             init(protractor, config).then(function (bs) {
                 instance = bs;
-                urls = instance.getOption("urls");
+                urls = instance.getOption("urls").toJS();
             });
         });
     });

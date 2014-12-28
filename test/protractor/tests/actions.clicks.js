@@ -18,7 +18,7 @@ describe("Scrolling around", function () {
         };
         init(protractor, config).then(function (bs) {
             instance = bs;
-            urls = instance.getOption("urls");
+            urls = instance.getOption("urls").toJS();
         });
     });
     it("should mirror clicks on hrefs", function () {

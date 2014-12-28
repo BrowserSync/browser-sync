@@ -6,10 +6,10 @@
  */
 var pjson         = require("./package.json");
 var BrowserSync   = require("./lib/browser-sync");
+var events        = require("events");
 var logger        = require("eazy-logger").Logger({
     useLevelPrefixes: true
 });
-var events        = require("events");
 
 var singleton        = false;
 var singletonPlugins = [];
@@ -283,8 +283,8 @@ module.exports.reset = function () {
     });
     instances        = [];
     singletonPlugins = [];
-    singletonEmitter     = false;
-    singleton    = false;
+    singletonEmitter = false;
+    singleton        = false;
     process.removeAllListeners();
 };
 

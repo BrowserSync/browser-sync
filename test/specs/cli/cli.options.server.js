@@ -6,7 +6,7 @@ var assert          = require("chai").assert;
 
 describe("CLI: Options: Merging Server Options", function () {
     it("doesn't touch server option if not given in user config", function () {
-        var imm = merge(null);
+        var imm = merge({});
         assert.deepEqual(imm.get("server"), false);
     });
     it("should merge when only basedir given", function () {
@@ -47,9 +47,11 @@ describe("CLI: Options: Merging Server Options", function () {
     });
     it("can merge cli flags into object", function () {
         var argv = {
+            server: true,
             index: "index.htm"
         };
         var imm = merge({}, argv);
+        console.log(imm.get("server"));
         assert.deepEqual(imm.get("server").toJS(), {
             baseDir: "./",
             index: "index.htm"
@@ -57,6 +59,7 @@ describe("CLI: Options: Merging Server Options", function () {
     });
     it("can merge cli flags into object", function () {
         var argv = {
+            server: true,
             directory: true
         };
         var imm = merge({}, argv);
