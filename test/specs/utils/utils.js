@@ -2,7 +2,9 @@
 
 var defaultConfig = require("../../../lib/default-config");
 var BrowserSync   = require("../../../lib/browser-sync");
-var browserSync   = new BrowserSync();
+var events = require("events");
+var emitter = new events.EventEmitter();
+var browserSync   = new BrowserSync(emitter);
 browserSync.cwd   = "/Users/shakshane/app";
 
 var assert = require("chai").assert;

@@ -7,7 +7,7 @@ var init         = require("../../../lib/cli/cli-init");
 var _            = require("lodash");
 var sinon        = require("sinon");
 
-describe("CLI: Resolving Config Files:", function () {
+describe.skip("CLI: Resolving Config Files:", function () {
 
     var defaultConfig;
 

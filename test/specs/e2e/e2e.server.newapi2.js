@@ -2,9 +2,9 @@
 
 var browserSync = require("../../../index");
 
-var sinon   = require("sinon");
+var sinon = require("sinon");
 var request = require("supertest");
-var assert  = require("chai").assert;
+var assert = require("chai").assert;
 
 describe("E2E server test with only a callback", function () {
 
@@ -12,8 +12,9 @@ describe("E2E server test with only a callback", function () {
     var stub;
 
     before(function (done) {
+        browserSync.reset();
         stub = sinon.spy(console, "log");
-        instance = browserSync(done);
+        instance = browserSync(done).instance;
     });
 
     after(function () {
@@ -24,7 +25,7 @@ describe("E2E server test with only a callback", function () {
     it("returns the script", function (done) {
 
         request(instance.server)
-            .get(instance.options.scriptPaths.versioned)
+            .get(instance.options.getIn(["scriptPaths", "versioned"]))
             .expect(200)
             .end(function (err, res) {
                 assert.include(res.text, "Connected to BrowserSync");
@@ -38,16 +39,16 @@ describe("E2E server test with config & callback", function () {
     var instance;
 
     before(function (done) {
-
+        browserSync.reset();
         var config = {
-            server: {
+            server:   {
                 baseDir: "test/fixtures"
             },
-            open: false,
+            open:     false,
             logLevel: "silent"
         };
 
-        instance = browserSync(config, done);
+        instance = browserSync(config, done).instance;
     });
 
     after(function () {
@@ -57,7 +58,7 @@ describe("E2E server test with config & callback", function () {
     it("Can return the script", function (done) {
 
         request(instance.server)
-            .get(instance.options.scriptPaths.versioned)
+            .get(instance.options.getIn(["scriptPaths", "versioned"]))
             .expect(200)
             .end(function (err, res) {
                 assert.include(res.text, "Connected to BrowserSync");

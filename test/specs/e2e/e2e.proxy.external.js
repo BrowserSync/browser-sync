@@ -22,7 +22,7 @@ describe.skip("E2E proxy test external", function () {
 
     it("can init proxy & serve a page", function (done) {
 
-        assert.isString(instance.options.snippet);
+        assert.isString(instance.options.get("snippet"));
         assert.isDefined(instance.server);
 
         request(instance.server)

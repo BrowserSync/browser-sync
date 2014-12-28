@@ -15,6 +15,8 @@ describe("E2E TLS server with custom certs test", function () {
 
     before(function (done) {
 
+        browserSync.reset();
+
         this.timeout(15000);
 
         var config = {
@@ -25,11 +27,11 @@ describe("E2E TLS server with custom certs test", function () {
                 key: __dirname + "/../../certs/server.key",
                 cert: __dirname + "/../../certs/server.cert"
             },
-            debugInfo: false,
+            logLevel: "silent",
             open: false
         };
 
-        instance = browserSync.init(config, done);
+        instance = browserSync.init(config, done).instance;
     });
 
     after(function () {
@@ -38,14 +40,14 @@ describe("E2E TLS server with custom certs test", function () {
 
     it("serves files with the snippet added", function (done) {
 
-        assert.isString(instance.options.snippet);
+        assert.isString(instance.options.get("snippet"));
 
         request(instance.server)
             .get("/index.html")
             .set("accept", "text/html")
             .expect(200)
             .end(function (err, res) {
-                assert.include(res.text, instance.options.snippet);
+                assert.include(res.text, instance.options.get("snippet"));
                 done();
             });
     });
@@ -53,7 +55,7 @@ describe("E2E TLS server with custom certs test", function () {
     it("serves the client script", function (done) {
 
         request(instance.server)
-            .get(instance.options.scriptPaths.versioned)
+            .get(instance.options.getIn(["scriptPaths", "versioned"]))
             .expect(200)
             .end(function (err, res) {
                 assert.include(res.text, "Connected to BrowserSync");

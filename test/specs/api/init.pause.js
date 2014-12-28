@@ -6,6 +6,17 @@ var assert      = require("chai").assert;
 
 describe("API: .pause() / .resume() file reloading - ", function () {
 
+    var bs;
+    before(function (done) {
+        browserSync.reset();
+        bs = browserSync({
+            logLevel: "silent"
+        }, done);
+    });
+    after(function () {
+        bs.cleanup();
+    });
+
     it("should be unpaused", function () {
         assert.isFalse(browserSync.paused);
     });
@@ -19,5 +30,4 @@ describe("API: .pause() / .resume() file reloading - ", function () {
         browserSync.resume();
         assert.isFalse(browserSync.paused);
     });
-
 });

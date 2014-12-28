@@ -4,7 +4,6 @@ var info     = require("../../../lib/cli/cli-info");
 
 var assert   = require("chai").assert;
 var sinon    = require("sinon");
-var chalk    = require("chalk");
 var fs       = require("fs");
 
 describe("CLI: Info Helpers:", function () {
@@ -58,22 +57,14 @@ describe("CLI: Info Helpers:", function () {
             writeStub   = sinon.stub(fs, "writeFile").yields(null);
             consoleStub = sinon.spy(console, "log");
         });
-        afterEach(function () {
-            readStub.reset();
-            writeStub.reset();
-            consoleStub.reset();
-        });
         after(function () {
-            readStub.restore();
-            writeStub.restore();
+            fs.writeFile.restore();
+            fs.readFileSync.restore();
             console.log.restore();
         });
         it("should call the readFileSync method", function () {
             info.makeConfig("/Users/shakyshane");
             sinon.assert.called(readStub);
-            var args = consoleStub.getCall(0).args;
-            assert.include(chalk.stripColor(args[0]), "[BS] Config file created %s");
-            assert.include(chalk.stripColor(args[1]), "bs-config.js");
         });
     });
 });

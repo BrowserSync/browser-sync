@@ -9,56 +9,46 @@ describe("E2E server test", function () {
 
     this.timeout(5000);
 
-    var instance;
+    var bs;
 
     before(function (done) {
 
         browserSync.reset();
 
         var config = {
-            server: {
-                baseDir: "test/fixtures",
-                index: "index.htm"
-            },
-            ghostMode: {
-                clicks: false,
-                scroll: false
-            },
+            online: false,
             logLevel: "silent",
             open: false,
-            files: ["*.html"]
+            server: "test/fixtures"
         };
 
-        instance = browserSync(config, function (err) {
-            if (err) {
-                throw err;
-            }
-            done();
-        }).instance;
+        bs = browserSync(config, done).instance;
     });
 
     after(function () {
-        instance.cleanup();
+        bs.cleanup();
     });
 
     it("serves files with the snippet added", function (done) {
 
-        assert.isString(instance.options.get("snippet"));
+        var snippet = bs.getOption("snippet");
 
-        request(instance.server)
+        assert.isString(snippet);
+
+        request(bs.server)
             .get("/index.html")
             .set("accept", "text/html")
             .expect(200)
             .end(function (err, res) {
-                assert.include(res.text, instance.options.get("snippet"));
+                assert.include(res.text, snippet);
                 done();
             });
     });
 
     it("serves the client script", function (done) {
 
-        request(instance.server)
-            .get(instance.options.getIn(["scriptPaths", "versioned"]))
+        request(bs.server)
+            .get(bs.options.getIn(["scriptPaths", "versioned"]))
             .expect(200)
             .end(function (err, res) {
                 assert.include(res.text, "Connected to BrowserSync");

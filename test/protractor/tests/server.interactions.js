@@ -19,7 +19,7 @@ describe("Interactions on Server Pages", function () {
         };
         init(protractor, config).then(function (bs) {
             instance = bs;
-            urls = instance.getOption("urls");
+            urls = instance.getOption("urls").toJS();
         });
     });
     it("should contain the BS script & notify element", function () {

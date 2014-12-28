@@ -10,7 +10,7 @@ var config = {
     server: {
         baseDir: "test/fixtures"
     },
-    debugInfo: false,
+    logLevel: "silent",
     open: false
 };
 
@@ -22,6 +22,7 @@ describe("Plugins: Registering Hooks:", function () {
     var mwSpy2;
 
     before(function (done) {
+        browserSync.reset();
         initSpy = sinon.spy();
         mwSpy2 = sinon.spy(function (res, req, next) {
             next();
@@ -45,7 +46,7 @@ describe("Plugins: Registering Hooks:", function () {
             }
         });
 
-        instance = browserSync.init(config, done);
+        instance = browserSync.init(config, done).instance;
     });
 
     afterEach(function () {
@@ -82,6 +83,7 @@ describe("Plugins: Registering hooks - client events:", function () {
     var instance;
 
     before(function (done) {
+        browserSync.reset();
         browserSync.use({
             plugin: function () {},
             hooks: {
@@ -93,7 +95,7 @@ describe("Plugins: Registering hooks - client events:", function () {
 
         instance = browserSync.init(config, function () {
             done();
-        });
+        }).instance;
     });
     after(function () {
         instance.cleanup();
@@ -109,6 +111,7 @@ describe("Plugins: Registering hooks - server middleware", function () {
     var instance, mwSpy1;
 
     before(function (done) {
+        browserSync.reset();
 
         mwSpy1 = sinon.spy(function (res, req, next) {
             next();
@@ -123,7 +126,7 @@ describe("Plugins: Registering hooks - server middleware", function () {
             }
         });
 
-        instance = browserSync(config, done);
+        instance = browserSync(config, done).instance;
     });
     after(function () {
         instance.cleanup();

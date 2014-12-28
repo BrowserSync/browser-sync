@@ -2,35 +2,45 @@
 
 var browserSync = require("../../../index");
 
-var http        = require("http");
-var connect     = require("connect");
+var http = require("http");
+var connect = require("connect");
 var serveStatic = require("serve-static");
-var request     = require("supertest");
-var assert      = require("chai").assert;
-var client      = require("socket.io-client");
-var portScanner = require("portscanner-plus");
+var request = require("supertest");
+var assert = require("chai").assert;
+var client = require("socket.io-client");
+var portScanner = require("portscanner");
 
 describe("E2E proxy test", function () {
 
-    var instance, stubServer;
+    var instance, stubServer, options;
 
     before(function (done) {
+        browserSync.reset();
 
-        portScanner.getPorts(1).then(function (ports) {
+        portScanner.findAPortNotInUse(3000, 4000, {
+            host: "localhost",
+            timeout: 1000
+        }, function (err, port) {
+            if (err) {
+                throw err;
+            }
 
             var config = {
-                proxy: "localhost:" + ports[0],
-                debugInfo: false,
-                open: false
+                proxy:     "localhost:" + port,
+                logLevel: "silent",
+                open:      false
             };
 
             var testApp = connect()
                 .use(serveStatic(__dirname + "/../../fixtures"));
 
             // server to proxy
-            stubServer = http.createServer(testApp).listen(ports[0]);
+            stubServer = http.createServer(testApp).listen(port);
 
-            instance = browserSync.init([], config, done);
+            instance = browserSync.init([], config, function (err, bs) {
+                options = bs.options;
+                done();
+            }).instance;
         });
     });
 
@@ -41,7 +51,7 @@ describe("E2E proxy test", function () {
 
     it("can init proxy & serve a page", function (done) {
 
-        assert.isString(instance.options.snippet);
+        assert.isString(options.get("snippet"));
         assert.isDefined(instance.server);
 
         request(instance.server)
@@ -64,16 +74,17 @@ describe("E2E proxy test", function () {
             }
         });
 
-        var connectionUrl = instance.options.urls.local + instance.options.socket.namespace;
-        var clientSockets = client(connectionUrl, {path: instance.options.socket.path});
+        var options = instance.options.toJS();
+        var connectionUrl = options.urls.local + options.socket.namespace;
+        var clientSockets = client(connectionUrl, {path: options.socket.path});
 
-        clientSockets.emit("shane", {name:"shane"});
+        clientSockets.emit("shane", {name: "shane"});
     });
 
     it("Can serve the script", function (done) {
 
         request(instance.server)
-            .get(instance.options.scriptPaths.versioned)
+            .get(options.getIn(["scriptPaths", "versioned"]))
             .expect(200)
             .end(function (err, res) {
                 assert.include(res.text, "Connected to BrowserSync");
@@ -82,12 +93,13 @@ describe("E2E proxy test", function () {
     });
 
     it("Can serve files with snippet added", function (done) {
-        request(instance.options.urls.local)
+
+        request(options.getIn(["urls", "local"]))
             .get("/")
             .set("accept", "text/html")
             .expect(200)
             .end(function (err, res) {
-                assert.include(res.text, instance.options.snippet);
+                assert.include(res.text, instance.options.get("snippet"));
                 done();
             });
     });
@@ -95,14 +107,18 @@ describe("E2E proxy test", function () {
 
 describe("E2E proxy test", function () {
 
+    before(function () {
+        browserSync.reset();
+    });
+
     it("can check if the proxy is reachable", function (done) {
 
         var instance;
 
         var config = {
-            proxy: "localhost:3434",
-            debugInfo: false,
-            open: false
+            proxy:     "localhost:3434",
+            logLevel: "silent",
+            open:      false
         };
 
         browserSync.emitter.on("config:warn", function (data) {
@@ -111,53 +127,6 @@ describe("E2E proxy test", function () {
             done();
         });
         // Success if this event called
-        instance = browserSync(config);
+        instance = browserSync(config).instance;
     });
 });
-
-//describe("E2E localhost test", function() {
-//
-//    var instance;
-//
-//    before(function (done) {
-//
-//        var config = {
-//            proxy: "localhost",
-//            logLevel: "silent",
-//            open: false
-//        };
-//        // Success if this event called
-//        instance = browserSync(config, done);
-//    });
-//    it("proxies `localhost`", function(done) {
-//        request(instance.server)
-//            .get("/")
-//            .set("accept", "text/html")
-//            .expect(200)
-//            .end(function (err, res) {
-//                assert.include(res.text, "browser-sync-client");
-//                done();
-//            });
-//    });
-//    it("proxies `localhost/sites1/`", function(done) {
-//        request(instance.server)
-//            .get("/site1/")
-//            .set("accept", "text/html")
-//            .expect(200)
-//            .end(function (err, res) {
-//                assert.include(res.text, "From sub-dir");
-//                done();
-//            });
-//    });
-//    it("proxies `localhost/sites1`", function(done) {
-//        request(instance.server)
-//            .get("/site1")
-//            .set("accept", "text/html")
-//            .expect(200)
-//            .end(function (err, res) {
-//                console.log(res.text);
-//                assert.include(res.text, "From sub-dir");
-//                done();
-//            });
-//    });
-//});

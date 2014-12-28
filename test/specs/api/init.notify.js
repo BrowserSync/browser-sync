@@ -6,10 +6,18 @@ var sinon       = require("sinon");
 
 describe("API: .notify() - Public Notify Method", function () {
 
-    var emitterStub;
+    var emitterStub, bs;
 
-    before(function () {
-        emitterStub = sinon.stub(browserSync.emitter, "emit");
+    before(function (done) {
+        browserSync.reset();
+        bs = browserSync({
+            open: false,
+            online: false,
+            logLevel: "silent"
+        }, function () {
+            emitterStub = sinon.stub(bs.emitter, "emit");
+            done();
+        });
     });
 
     afterEach(function () {
@@ -18,6 +26,7 @@ describe("API: .notify() - Public Notify Method", function () {
 
     after(function () {
         emitterStub.restore();
+        bs.cleanup();
     });
 
     it("should emit the browser:notify event", function () {

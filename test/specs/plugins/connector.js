@@ -12,13 +12,15 @@ describe("Plugins: Using the connector middleware:", function () {
 
     it("returns middleware for the connector script", function (done) {
 
+        browserSync.reset();
+
         var instance;
 
         var config = {
             server: {
                 baseDir: "test/fixtures"
             },
-            debugInfo: false,
+            logLevel: "silent",
             open: false
         };
 

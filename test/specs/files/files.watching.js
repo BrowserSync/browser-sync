@@ -1,6 +1,7 @@
 "use strict";
 
 var fileWatcher = require("../../../lib/file-watcher");
+var merge       = require("../../../lib/cli/cli-options").merge;
 
 var events      = require("events");
 var path        = require("path");
@@ -25,17 +26,17 @@ var writeFileWait = function (name, content, cb) {
 describe("File Watcher Module", function () {
 
     it("accepts options for Gaze", function (done) {
-        var arg = {
-            "shane": __dirname + "/../../fixtures/test.txt"
-        };
-        var options = { // Gaze options
+        var imm = merge({
+            files: {
+                "shane": __dirname + "/../../fixtures/test.txt"
+            },
             watchOptions: {
                 debounceDelay: 4000
             }
-        };
-        var emitter = new events.EventEmitter();
+        });
 
-        var watchers = fileWatcher.plugin(arg, options, emitter);
+        var emitter = new events.EventEmitter();
+        var watchers = fileWatcher.plugin(imm, emitter);
 
         watchers.shane.watcher._watcher.on("ready", function () { // dig down to find Gaze instance
             assert.equal(this.options.debounceDelay, 4000);
@@ -47,16 +48,18 @@ describe("File Watcher Module", function () {
 
         var tempFile = path.join(outpath, "watch-func.txt");
 
-        var arg = {
-            "shane": tempFile
-        };
+        var imm = merge({
+            files: {
+                "shane": tempFile
+            }
+        });
 
         var emitter = new events.EventEmitter();
 
         fs.writeFile(tempFile, tempFileContent, function () {
 
             // assert: it works if it calls done
-            fileWatcher.plugin(arg, {}, emitter);
+            fileWatcher.plugin(imm, emitter);
 
             emitter.on("file:changed", function (data) {
                 assert.equal(data.namespace, "shane");
