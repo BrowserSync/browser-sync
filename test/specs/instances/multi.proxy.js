@@ -27,7 +27,7 @@ describe("E2E multi instance with proxy + server", function () {
 
         bs.init(config, function (err, bs) {
             bs2.init({
-                proxy: bs.getOption("urls.local"),
+                proxy: bs.options.getIn(["urls", "local"]),
                 open: false
             }, done);
         });

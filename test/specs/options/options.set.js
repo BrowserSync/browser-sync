@@ -19,12 +19,15 @@ describe("Setting options during runtime", function () {
 
     it("should update options with event", function (done) {
 
-        instance.events.on("options:set", function () {
+        instance.events.on("options:set", function (data) {
 
-            assert.deepEqual(instance.options.ghostMode.clicks, false);
+            assert.deepEqual(instance.options.getIn(["ghostMode", "clicks"]), false);
+            assert.deepEqual(data.path,  ["ghostMode", "clicks"]);
+            assert.deepEqual(data.value, false);
+            assert.deepEqual(data.options.getIn(["ghostMode", "clicks"]), false);
             done();
         });
 
-        instance.setOption("ghostMode.clicks", false);
+        instance.setOptionIn(["ghostMode", "clicks"], false);
     });
 });

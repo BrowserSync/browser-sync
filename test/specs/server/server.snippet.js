@@ -2,14 +2,9 @@
 "use strict";
 
 var defaultConfig = require("../../../lib/default-config");
-var messages      = require("../../../lib/messages");
-var server        = require("../../../lib/server/");
 var snippetUtils  = require("../../../lib/snippet").utils;
 var isExcluded    = snippetUtils.isExcluded;
-
-var sinon   = require("sinon");
-var request = require("supertest");
-var assert  = require("chai").assert;
+var assert        = require("chai").assert;
 
 describe("isExcluded spec", function () {
 

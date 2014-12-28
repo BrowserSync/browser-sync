@@ -6,7 +6,7 @@ var merge           = cli.options.merge;
 
 var assert = require("chai").assert;
 
-describe.only("CLI: Options: Merging Options: Files", function () {
+describe("CLI: Options: Merging Options: Files", function () {
     it("should return the files property from string", function () {
         var imm = merge({files: ["css/*.css"]});
         assert.deepEqual(imm.get("files").toJS(), ["css/*.css"]);

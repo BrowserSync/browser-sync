@@ -48,7 +48,7 @@ describe("E2E server test", function () {
     it("serves the client script", function (done) {
 
         request(bs.server)
-            .get(bs.getOption("scriptPaths").versioned)
+            .get(bs.options.getIn(["scriptPaths", "versioned"]))
             .expect(200)
             .end(function (err, res) {
                 assert.include(res.text, "Connected to BrowserSync");
