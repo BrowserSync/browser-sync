@@ -21,6 +21,15 @@ describe("CLI: Options: Merging Server Options", function () {
             baseDir: "./"
         });
     });
+    it("should merge when only an array` given`", function () {
+        var imm = merge({server: ["./dist", ".tmp"]});
+        assert.deepEqual(imm.get("server").toJS(), {
+            baseDir: [
+                "./dist",
+                ".tmp"
+            ]
+        });
+    });
     it("should merge when nested props given", function () {
         var imm = merge({
             server: {

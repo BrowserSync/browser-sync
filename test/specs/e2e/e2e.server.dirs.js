@@ -79,3 +79,37 @@ describe("E2E server test with base dir option", function () {
             });
     });
 });
+
+describe("E2E server test with base dir array option", function () {
+
+    var instance;
+
+    before(function (done) {
+
+        browserSync.reset();
+
+        var config = {
+            server: ["./test/fixtures", "./test/fixtures/alt"],
+            logLevel: "silent",
+            open:      false
+        };
+
+        instance = browserSync.init(config, done).instance;
+    });
+
+    after(function () {
+        instance.cleanup();
+    });
+
+    it("Serves files when baseDir given with leading dot.", function (done) {
+
+        request(instance.server)
+            .get("/")
+            .set("accept", "text/html")
+            .expect(200)
+            .end(function (err, res) {
+                assert.include(res.text, "<title>Test HTML Page</title>");
+                done();
+            });
+    });
+});
