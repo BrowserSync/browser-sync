@@ -13,7 +13,7 @@
       "url": "https://github.com/shakyshane/browser-sync/blob/master/LICENSE"
     }
   ],
-  "bin": "bin/browser-sync",
+  "bin": "bin/browser-sync.js",
   "files": [
     "bin",
     "index.js",
