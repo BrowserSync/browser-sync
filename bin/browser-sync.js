@@ -48,7 +48,10 @@ function handleCli (cli, cmdWhitelist) {
     }
 
     if (cli.input[0] === "start") {
-        return require("../").create("cli").init(merge(cli.flags, cli.flags));
+        return require("../").create("cli").init(merge(
+            cli.flags.config ? info.getConfigFile(cli.flags.config) : cli.flags,
+            cli.flags
+        ));
     }
 
     if (cli.input[0] === "init") {
