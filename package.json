@@ -36,7 +36,6 @@
   },
   "dependencies": {
     "browser-sync-client": "^0.5.1",
-    "commander": "^2.3.0",
     "connect": "^3.3.3",
     "dev-ip": "^0.1.7",
     "easy-extender": "^2.0.0",
@@ -48,7 +47,6 @@
     "localtunnel": "^1.3.0",
     "lodash": "^2.4.1",
     "meow": "^2.0.0",
-    "minimist": "^1.1.0",
     "opn": "^1.0.0",
     "opt-merger": "^1.1.0",
     "portscanner": "^1.0.0",
