@@ -4,19 +4,35 @@
 var meow          = require("meow");
 var fs            = require("fs");
 var path          = require("path");
+var compile       = require("eazy-logger").compile;
+
 var flags         = require("../lib/cli/opts");
 var info          = require("../lib/cli/cli-info");
-var compile       = require("eazy-logger").compile;
 var logger        = require("../lib/logger").logger;
 var merge         = require("../lib/cli/cli-options").merge;
+
 var cmdWhitelist  = ["start", "init"];
 var flagWhitelist = ["ghostMode"];
 
 var cli = meow({
     pkg:  "../package.json",
-    help: compile(
+    help: getHelpText("/../lib/cli/help.txt")
+});
+
+/**
+ * Handle cli input
+ */
+handleCli(cli, cmdWhitelist);
+
+/**
+ * Generate & colour the help text
+ * @param {String} path - relative file path to the help text
+ * @returns {String}
+ */
+function getHelpText(path) {
+    return compile(
         fs.readFileSync(
-            path.resolve(__dirname + "/../lib/cli/help.txt"),
+            path.resolve(__dirname + path),
             "utf8"
         ).replace(
             "%flags%",
@@ -27,14 +43,12 @@ var cli = meow({
                 ).length
             )
         )
-    )
-});
-
-handleCli(cli, cmdWhitelist);
+    );
+}
 
 /**
- * @param cli
- * @param cmdWhitelist
+ * @param {Object} cli
+ * @param {Array} cmdWhitelist
  * @returns {*}
  */
 function handleCli (cli, cmdWhitelist) {
@@ -43,14 +57,17 @@ function handleCli (cli, cmdWhitelist) {
         return console.log(cli.help);
     }
 
-    if (!verifyOpts(flags, cli.flags)) {
+    if (!verifyOpts(flagWhitelist, cli.flags)) {
         return logger.info("For help, run: {cyan:browser-sync --help}");
     }
 
     if (cli.input[0] === "start") {
-        return require("../").create("cli").init(merge(
-            cli.flags.config ? info.getConfigFile(cli.flags.config) : cli.flags,
-            cli.flags
+        return require("../")
+            .create("cli")
+            .init(
+                merge(
+                    cli.flags.config ? info.getConfigFile(cli.flags.config) : cli.flags,
+                    cli.flags
         ));
     }
 
@@ -60,11 +77,11 @@ function handleCli (cli, cmdWhitelist) {
 }
 
 /**
- * @param flag
- * @param cliFlags
- * @returns {*}
+ * @param {Array} flagWhitelist
+ * @param {Object} cliFlags
+ * @returns {Boolean}
  */
-function verifyOpts (flag, cliFlags) {
+function verifyOpts (flagWhitelist, cliFlags) {
     return Object.keys(cliFlags).every(function (key) {
         if (flagWhitelist.indexOf("ghostMode") > -1) {
             return true;
@@ -80,9 +97,9 @@ function verifyOpts (flag, cliFlags) {
 }
 
 /**
- * @param flags
- * @param longest
- * @returns {*}
+ * @param {Object} flags
+ * @param {Number} longest
+ * @returns {String}
  */
 function listFlags (flags, longest) {
     return Object.keys(flags).reduce(function (all, item) {
@@ -91,8 +108,8 @@ function listFlags (flags, longest) {
 }
 
 /**
- * @param len
- * @param max
+ * @param {Number} len
+ * @param {Number} max
  * @returns {string}
  */
 function getPadding (len, max) {
