@@ -33,7 +33,7 @@ describe("Utils: creating URLs", function () {
             scheme: "http",
             online: false
         });
-        assert.deepEqual(utils.setUrlOptions(opts).toJS(), {
+        assert.deepEqual(utils.getUrlOptions(opts).toJS(), {
             local: "http://localhost:3000"
         });
     });
@@ -44,7 +44,7 @@ describe("Utils: creating URLs", function () {
             scheme: "http",
             online: true
         });
-        assert.deepEqual(utils.setUrlOptions(opts).toJS(), {
+        assert.deepEqual(utils.getUrlOptions(opts).toJS(), {
             local: "http://localhost:3000",
             external: "http://" + external + ":3000"
         });
@@ -57,7 +57,7 @@ describe("Utils: creating URLs", function () {
             online: true,
             xip: true
         });
-        var out = utils.setUrlOptions(opts);
+        var out = utils.getUrlOptions(opts);
         assert.equal(out.get("local"), "https://127.0.0.1.xip.io:3000");
         assert.equal(out.get("external"), "https://" + external + ".xip.io:3000");
     });
@@ -69,7 +69,7 @@ describe("Utils: creating URLs", function () {
             online: false,
             xip: true
         });
-        assert.deepEqual(utils.setUrlOptions(opts).toJS(), {
+        assert.deepEqual(utils.getUrlOptions(opts).toJS(), {
             local: "http://localhost:3000"
         });
     });
