@@ -38,4 +38,3 @@ describe("Utils: verifying user-provided config", function () {
         sinon.assert.notCalled(stub);
     });
 });
-
