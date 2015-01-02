@@ -100,6 +100,7 @@ describe("E2E Responding to events", function () {
 
         assert.equal(eventName, "browser:reload"); // check correct event sent to client
     });
+
     it("fires the browser:notify event to the browser", function () {
 
         // Emit the event as it comes from the file-watcher
