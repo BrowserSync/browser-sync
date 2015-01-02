@@ -103,7 +103,7 @@ Object.defineProperties(module.exports, {
                 singletonEmitter = newEmitter();
                 return singletonEmitter;
             }
-            return false;
+            return singletonEmitter;
         }
     },
     /**
