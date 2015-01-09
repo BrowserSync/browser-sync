@@ -6,6 +6,7 @@
  */
 var pjson         = require("./package.json");
 var BrowserSync   = require("./lib/browser-sync");
+var utils         = require("./lib/utils");
 var events        = require("events");
 var logger        = require("eazy-logger").Logger({
     useLevelPrefixes: true
@@ -158,6 +159,9 @@ function noop(name) {
         if (singleton) {
             return singleton[name].apply(singleton, args);
         } else {
+            if (name === "reload" && args[0] && args[0].stream) {
+                return utils.noopStream();
+            }
             deprecated(name); //todo - silent fail here or deprecated message?
         }
     };
