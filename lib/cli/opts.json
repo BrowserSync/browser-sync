@@ -17,5 +17,6 @@
     "--no-notify": "Disable the notify element in browsers",
     "--no-open":   "Don't open a new browser window",
     "--no-ghost":  "Disable Ghost Mode",
-    "--no-online": "Force offline usage"
+    "--no-online": "Force offline usage",
+    "--no-reloadOnRestart": "Don't auto-reload all browsers following a restart"
 }
