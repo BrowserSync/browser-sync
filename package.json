@@ -34,7 +34,7 @@
     "pre-release": "npm test && npm run pro-local && npm run pro"
   },
   "dependencies": {
-    "browser-sync-client": "^0.5.1",
+    "browser-sync-client": "^1.0.0",
     "commander": "^2.3.0",
     "connect": "^3.3.3",
     "dev-ip": "^0.1.7",
