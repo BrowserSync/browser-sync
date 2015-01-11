@@ -1,7 +1,7 @@
 {
   "name": "browser-sync",
   "description": "Live CSS Reload & Browser Syncing",
-  "version": "1.8.2",
+  "version": "1.9.0",
   "homepage": "http://www.browsersync.io/",
   "author": {
     "name": "Shane Osbourne"
@@ -35,7 +35,6 @@
     "pre-release": "npm test && npm run pro-local && npm run pro"
   },
   "dependencies": {
-    "async": "^0.9.0",
     "browser-sync-client": "^0.5.1",
     "connect": "^3.3.3",
     "dev-ip": "^0.1.7",
