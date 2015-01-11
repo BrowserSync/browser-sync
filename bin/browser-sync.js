@@ -12,7 +12,7 @@ var logger        = require("../lib/logger").logger;
 var merge         = require("../lib/cli/cli-options").merge;
 
 var cmdWhitelist  = ["start", "init"];
-var flagWhitelist = ["ghostMode"];
+var flagWhitelist = ["ghostMode", "reloadOnRestart"];
 
 var cli = meow({
     pkg:  "../package.json",
@@ -26,13 +26,13 @@ handleCli(cli, cmdWhitelist);
 
 /**
  * Generate & colour the help text
- * @param {String} path - relative file path to the help text
+ * @param {String} filepath - relative file path to the help text
  * @returns {String}
  */
-function getHelpText(path) {
+function getHelpText(filepath) {
     return compile(
         fs.readFileSync(
-            path.resolve(__dirname + path),
+            path.resolve(__dirname + filepath),
             "utf8"
         ).replace(
             "%flags%",
@@ -83,7 +83,7 @@ function handleCli (cli, cmdWhitelist) {
  */
 function verifyOpts (flagWhitelist, cliFlags) {
     return Object.keys(cliFlags).every(function (key) {
-        if (flagWhitelist.indexOf("ghostMode") > -1) {
+        if (flagWhitelist.indexOf(key) > -1) {
             return true;
         }
         if (!(key in flags)) {
