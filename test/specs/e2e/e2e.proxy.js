@@ -126,6 +126,7 @@ describe("E2E proxy test", function () {
             instance.cleanup();
             done();
         });
+
         // Success if this event called
         instance = browserSync(config).instance;
     });
