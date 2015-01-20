@@ -1,56 +1,94 @@
 "use strict";
 
 var browserSync = require("../../../index");
+var request     = require("supertest");
+var assert      = require("chai").assert;
 
-var assert  = require("chai").assert;
+describe("Plugins: User interface", function () {
 
-describe("Plugins: Retrieving user plugins", function () {
-
-    var PLUGIN_NAME = "KITTENZ";
     var instance;
 
     before(function (done) {
 
         browserSync.reset();
+
         var config = {
             logLevel: "silent",
+            server: "test/fixtures",
             open: false
         };
-
-        browserSync.use({
-            plugin: function () { /* noop */ },
-            "plugin:name": PLUGIN_NAME
-        });
 
         instance = browserSync(config, done).instance;
     });
     after(function () {
         instance.cleanup();
     });
-    it("Should access to only the user-specified plugins", function (done) {
-        assert.equal(instance.getUserPlugins().length, 1);
-        done();
+    it("Should start the UI", function (done) {
+        request(instance.ui.server)
+            .get("/")
+            .expect(200)
+            .end(done);
     });
-    it("Should access to only the user-specified plugins", function (done) {
-        var plugin = instance.getUserPlugins()[0];
-        assert.equal(plugin.name, PLUGIN_NAME);
-        done();
-    });
-    it("Disable/re-enable a plugin from event", function (done) {
-        assert.isTrue(instance.pluginManager.getPlugin(PLUGIN_NAME)._enabled);
-        instance.events.emit("plugins:configure", {
-            name: PLUGIN_NAME,
-            active: false
-        });
-        assert.isFalse(instance.options.get("userPlugins")[0].active);
-        assert.isFalse(instance.pluginManager.getPlugin(PLUGIN_NAME)._enabled);
+});
 
-        instance.events.emit("plugins:configure", {
-            name: PLUGIN_NAME,
-            active: true
-        });
-        assert.isTrue(instance.options.get("userPlugins")[0].active);
-        assert.isTrue(instance.pluginManager.getPlugin(PLUGIN_NAME)._enabled);
+describe("Plugins: User interface", function () {
+
+    var instance;
+
+    before(function (done) {
+
+        browserSync.reset();
+
+        var config = {
+            logLevel: "silent",
+            server: "test/fixtures",
+            open: false,
+            ui: false
+        };
+
+        instance = browserSync(config, done).instance;
+    });
+    after(function () {
+        instance.cleanup();
+    });
+    it("Should ignore the UI if false given in options", function (done) {
+        assert.isUndefined(instance.ui);
+        assert.isFalse(instance.options.get("ui"));
+        done();
+    });
+});
+
+describe("Plugins: User interface - providing an override", function () {
+
+    var instance;
+
+    before(function (done) {
+
+        browserSync.reset();
+
+        var config = {
+            logLevel: "silent",
+            server: "test/fixtures",
+            open: false
+        };
+
+        browserSync.use({
+            "plugin:name": "UI",
+            "plugin": function (opts) {
+                return opts;
+            }
+        }, {port: 3333});
+
+        instance = browserSync(config, done).instance;
+    });
+    after(function () {
+        instance.cleanup();
+    });
+    it("Should use the user-provided plugin", function (done) {
+        assert.deepEqual(
+            instance.pluginManager.getReturnValues("UI")[0].value, {
+                port: 3333
+            });
         done();
     });
 });
