@@ -60,7 +60,6 @@ describe("CLI: Options: Merging Server Options", function () {
             index: "index.htm"
         };
         var imm = merge({}, argv);
-        console.log(imm.get("server"));
         assert.deepEqual(imm.get("server").toJS(), {
             baseDir: "./",
             index: "index.htm"

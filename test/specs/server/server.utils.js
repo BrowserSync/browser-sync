@@ -50,7 +50,7 @@ describe("Server: Server Utils: ", function () {
         it("Should add the directory option to the server app when array given", function () {
             var path     = require("path");
             var serveSpy = sinon.spy(path, "resolve");
-            utils.addDirectory(app, [base, "base-2"]);
+            utils.addDirectory(app, Immutable.List([base, "base-2"]));
             sinon.assert.calledWithExactly(serveSpy, base);
             serveSpy.restore();
         });
