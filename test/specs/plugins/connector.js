@@ -94,3 +94,36 @@ describe("Plugins: Using the connector middleware:", function () {
         instance = browserSync(config);
     });
 });
+
+describe("Plugins: Using the connector as a string", function () {
+
+    it("returns middleware for the connector script as a string", function (done) {
+
+        browserSync.reset();
+
+        var instance;
+
+        var config = {
+            server: {
+                baseDir: "test/fixtures"
+            },
+            logLevel: "silent",
+            open: false
+        };
+
+        browserSync.use({
+
+            plugin: function (opts, bs) {
+
+                var connectorString = bs.getExternalSocketConnector({
+                    namespace: "/browser-sync-cp"
+                });
+
+                assert.include(connectorString, "/browser-sync-cp");
+                done();
+            }
+        });
+
+        instance = browserSync(config);
+    });
+});
