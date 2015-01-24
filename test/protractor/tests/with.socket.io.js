@@ -3,7 +3,6 @@
 var init = require("../bs.init");
 
 describe("works with Socket IO on same page", function () {
-    var ptor     = protractor.getInstance();
     var instance;
     var urls;
     beforeEach(function () {
@@ -19,7 +18,8 @@ describe("works with Socket IO on same page", function () {
                 }
             },
             open: false,
-            logLevel: "silent"
+            logLevel: "silent",
+            ui: false
         };
         init(protractor, config).then(function (bs) {
             instance = bs;
@@ -29,8 +29,15 @@ describe("works with Socket IO on same page", function () {
     it("should leave window.io available to others people", function () {
         browser.get(urls.local + "/socket.io.html");
         assertScripts();
-        ptor.executeScript("return typeof window.io;").then(function (io) {
+        browser.executeScript("return typeof window.io;").then(function (io) {
+
             expect(io).toBe("function");
+
+            var flow = protractor.promise.controlFlow();
+
+            flow.execute(function () {
+                instance.cleanup();
+            });
         });
     });
 });

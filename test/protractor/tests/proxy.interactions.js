@@ -7,7 +7,6 @@ var serveStatic = require("serve-static");
 var http    = require("http");
 
 describe("Interactions on proxy Pages", function () {
-    var ptor     = protractor.getInstance();
     var instance;
     var urls;
     var proxy;
@@ -19,17 +18,16 @@ describe("Interactions on proxy Pages", function () {
         }
         var app   = connect();
         app.use(serveStatic(path.resolve("test/fixtures")));
-        server = http.createServer(app).listen(function () {
-            proxy = server.address().port;
-            var config = {
-                proxy: "http://localhost:" + server.address().port,
-                open: false,
-                logLevel: "silent"
-            };
-            init(protractor, config).then(function (bs) {
-                instance = bs;
-                urls = instance.getOption("urls").toJS();
-            });
+        server = http.createServer(app).listen();
+        proxy = server.address().port;
+        var config = {
+            proxy: "http://localhost:" + server.address().port,
+            open: false,
+            logLevel: "silent"
+        };
+        init(protractor, config).then(function (bs) {
+            instance = bs;
+            urls = instance.getOption("urls").toJS();
         });
     });
     it("should contain the BS script & notify element", function () {
@@ -58,7 +56,7 @@ describe("Interactions on proxy Pages", function () {
         });
 
         browser.get(urls.local + "/scrolling.html");
-        ptor.executeScript("window.scrollBy(0, 100);");
+        browser.executeScript("window.scrollBy(0, 100);");
         var elem = element(by.css("a"));
         elem.click();
     });
@@ -83,7 +81,7 @@ describe("Interactions on proxy Pages", function () {
         var waitLoading = by.css("input[name=\"name\"");
 
         browser.wait(function () {
-            return ptor.isElementPresent(waitLoading);
+            return browser.isElementPresent(waitLoading);
         }, 8000);
 
         element(by.css("input[name=\"name\"")).sendKeys("Hi there");

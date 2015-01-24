@@ -27,7 +27,7 @@
     "env": "node ./test/env.js",
     "test": "npm run lint && npm run env && npm run unit",
     "lint": "gulp lint",
-    "pro": "node test/protractor/setup.single.js",
+    "pro": "protractor test/protractor/config.single.js",
     "pro-local": "node test/protractor/setup.js",
     "unit": "mocha --recursive test/specs --timeout 10000",
     "cover": "npm run env && npm run _cover",

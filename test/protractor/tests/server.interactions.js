@@ -4,7 +4,6 @@ var init = require("../bs.init");
 var path = require("path");
 
 describe("Interactions on Server Pages", function () {
-    var ptor     = protractor.getInstance();
     var instance;
     var urls;
     beforeEach(function () {
@@ -30,6 +29,7 @@ describe("Interactions on Server Pages", function () {
             "index-amd.html"
         ].forEach(function (url) {
             browser.get(path.join(urls.local, url));
+            browser.sleep(500);
             assertScripts();
         });
     });
@@ -46,7 +46,7 @@ describe("Interactions on Server Pages", function () {
         });
 
         browser.get(urls.local + "/scrolling.html");
-        ptor.executeScript("window.scrollBy(0, 100);");
+        browser.executeScript("window.scrollBy(0, 100);");
         var elem = element(by.css("a"));
         elem.click();
     });
@@ -69,6 +69,7 @@ describe("Interactions on Server Pages", function () {
         browser.get(urls.local + "/forms.html");
         element(by.id("name")).sendKeys("Hi there");
         instance.cleanup();
+
     });
 });
 
