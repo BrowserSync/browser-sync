@@ -10,7 +10,7 @@ describe("E2E CLI help test", function () {
 
     before(function (done) {
         bs = exec(__dirname + "/../../../bin/browser-sync.js", function () {
-            bs.emit("end");
+            bs.kill("SIGTERM");
             done();
         });
         bs.stdout.on("data", function (data) {
