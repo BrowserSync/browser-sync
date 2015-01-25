@@ -10,7 +10,7 @@ browserSync.cwd   = "/Users/shakshane/app";
 var assert = require("chai").assert;
 var sinon = require("sinon");
 
-describe("Utils: Exposed Methods", function () {
+describe.skip("Utils: Exposed Methods", function () {
 
     var emitter, emitterStub;
     before(function () {
