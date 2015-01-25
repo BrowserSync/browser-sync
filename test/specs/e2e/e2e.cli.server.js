@@ -33,13 +33,13 @@ describe("E2E CLI server test", function () {
         request(url[0] + "/browser-sync/browser-sync-client.js", function (req, res, body) {
             assert.include(body, "window.___browserSync___oldSocketIo");
             done();
-        })
+        });
     });
     it("returns the index", function (done) {
         var url = chunks.join("").match("http://localhost:(\\d){4}");
         request(url[0], function (req, res, body) {
             assert.include(body, "<title>Test HTML Page</title>");
             done();
-        })
+        });
     });
 });

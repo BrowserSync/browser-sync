@@ -18,6 +18,11 @@ describe("E2E CLI init test", function () {
         });
     });
 
+    after(function () {
+        var fs = require("fs");
+        fs.unlinkSync("bs-config.js");
+    });
+
     it("creates a config file in cwd", function () {
         assert.include(chunks.join(""), "Config file created bs-config.js");
     });
