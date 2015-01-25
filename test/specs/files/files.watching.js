@@ -52,7 +52,7 @@ describe("File Watcher Module", function () {
 
             // assert: it works if it calls done
             browserSync.reset();
-            browserSync.create().init({files: tempFile, ui: false, online: false}, function (err, bs) {
+            browserSync.create().init({files: tempFile, ui: false, online: false, logSnippet: false}, function (err, bs) {
 
                 bs.events.on("file:changed", function (data) {
                     assert.equal(data.namespace, "core");
@@ -75,7 +75,7 @@ describe("File Watcher Module", function () {
 
             // assert: it works if it calls done
             browserSync.reset();
-            browserSync.create().init({files: {shane:tempFile}, ui: false, online: false}, function (err, bs) {
+            browserSync.create().init({files: {shane:tempFile}, ui: false, online: false, logSnippet: false}, function (err, bs) {
 
                 bs.events.on("file:changed", function (data) {
                     assert.equal(data.namespace, "shane");
