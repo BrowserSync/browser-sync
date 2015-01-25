@@ -2,7 +2,6 @@
 
 var browserSync = require("../../../index");
 
-var assert  = require("chai").assert;
 var sinon   = require("sinon");
 
 describe("Plugins: Allowing plugins to register cleanup tasks", function () {
