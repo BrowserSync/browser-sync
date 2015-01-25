@@ -17,7 +17,6 @@ describe("E2E CLI server test", function () {
             chunks.push(data);
             count += 1;
             if (chunks.join("").indexOf("Local") > -1) {
-                //bs.emit("end");
                 if (!called) {
                     called = true;
                     return done();
