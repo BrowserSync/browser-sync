@@ -37,7 +37,7 @@
   "dependencies": {
     "async": "^0.9.0",
     "browser-sync-client": "^1.0.1",
-    "browser-sync-ui": "^0.1.0",
+    "browser-sync-ui": "^0.2.0",
     "connect": "^3.3.3",
     "dev-ip": "^1.0.1",
     "easy-extender": "^2.2.0",
