@@ -309,7 +309,7 @@ describe("Plugins: Should be able to add middleware with no paths on the fly in 
 
         browserSync.use({
             plugin: function (opts, bs) {
-                bs.addMiddleware("*", function (req, res) {
+                bs.addMiddleware("/shane", function (req, res) {
                     res.end("shane");
                 });
                 done();
@@ -331,6 +331,17 @@ describe("Plugins: Should be able to add middleware with no paths on the fly in 
             .expect(200)
             .end(function (err, res) {
                 assert.include(res.text, "shane");
+                done();
+            });
+    });
+    it("should still proxy after middleware added", function (done) {
+
+        request(instance.server)
+            .get("/index.html")
+            .set("accept", "text/html")
+            .expect(200)
+            .end(function (err, res) {
+                console.log(res.text);
                 done();
             });
     });
