@@ -67,7 +67,7 @@ describe("Plugins: Should be able to add Middlewares with no paths on the fly", 
 
         browserSync.use({
             plugin: function (opts, bs) {
-                bs.addMiddleware(function (req, res) {
+                bs.addMiddleware("*", function (req, res) {
                     res.end("shane is dev");
                 });
                 done();
@@ -87,6 +87,64 @@ describe("Plugins: Should be able to add Middlewares with no paths on the fly", 
             .expect(200)
             .end(function (err, res) {
                 assert.include(res.text, "shane is dev");
+                done();
+            });
+    });
+});
+
+describe("Plugins: Should be able to add overriding middlewares on the fly", function () {
+
+    var PLUGIN_NAME = "KITTENZ";
+    var instance;
+
+    before(function (done) {
+
+        browserSync.reset();
+
+        var config = {
+            logLevel: "silent",
+            open: false,
+            server: "test/fixtures"
+        };
+
+        browserSync.use({
+            plugin: function (opts, bs) {
+                bs.addMiddleware("*", function testMiddlewareAdditions (req, res) {
+                    res.end("shane is dev");
+                }, {override: true, id: "bs-mw"});
+            },
+            "plugin:name": PLUGIN_NAME
+        });
+
+        instance = browserSync(config, function () {
+            done();
+        }).instance;
+    });
+    after(function () {
+        instance.cleanup();
+    });
+    it("should serve the overriding mw file", function (done) {
+        assert.equal(instance.app.stack[0].id, "bs-mw");
+        request(instance.server)
+            .get("/index.html") // should normally match index.html and return it
+            .set("accept", "text/html")
+            .expect(200)
+            .end(function (err, res) {
+                assert.include(res.text, "shane is dev");
+                done();
+            });
+    });
+    it("should remove the overrriding mw", function (done) {
+        var countBefore = instance.app.stack.length;
+        instance.removeMiddleware("bs-mw");
+        assert.equal(countBefore - 1, instance.app.stack.length);
+
+        request(instance.server)
+            .get("/index.html") // should normally match index.html and return it
+            .set("accept", "text/html")
+            .expect(200)
+            .end(function (err, res) {
+                assert.notInclude(res.text, "shane is dev");
                 done();
             });
     });
@@ -149,7 +207,7 @@ describe("Plugins: Should be able to add Middlewares with no path on the fly in 
 
         browserSync.use({
             plugin: function (opts, bs) {
-                bs.addMiddleware(function (req, res) {
+                bs.addMiddleware("*", function (req, res) {
                     res.end("shane is dev");
                 });
                 done();
@@ -251,7 +309,7 @@ describe("Plugins: Should be able to add middleware with no paths on the fly in 
 
         browserSync.use({
             plugin: function (opts, bs) {
-                bs.addMiddleware(function (req, res) {
+                bs.addMiddleware("*", function (req, res) {
                     res.end("shane");
                 });
                 done();
