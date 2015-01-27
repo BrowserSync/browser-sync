@@ -27,8 +27,11 @@ describe("works with Socket IO on same page", function () {
         });
     });
     it("should leave window.io available to others people", function () {
+
         browser.get(urls.local + "/socket.io.html");
+
         assertScripts();
+
         browser.executeScript("return typeof window.io;").then(function (io) {
 
             expect(io).toBe("function");

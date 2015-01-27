@@ -32,7 +32,6 @@ describe.skip("E2E server test - 404 pages", function () {
 
     it("serves files with the snippet added", function (done) {
 
-
         request(instance.server)
             .get("/erthert-404wewefq")
             .set("accept", "text/html")
@@ -43,5 +42,4 @@ describe.skip("E2E server test - 404 pages", function () {
                 done();
             });
     });
-
 });
