@@ -162,7 +162,7 @@ function noop(name) {
             if (name === "reload" && args[0] && args[0].stream) {
                 return utils.noopStream();
             }
-            deprecated(name); //todo - silent fail here or deprecated message?
+            //deprecated(name); //todo - silent fail here or deprecated message?
         }
     };
 }
