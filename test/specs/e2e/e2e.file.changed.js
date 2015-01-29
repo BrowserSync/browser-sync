@@ -22,8 +22,8 @@ describe("E2E Responding to events", function () {
             open: false
         };
 
-        instance = browserSync(config, function () {
-            socketsStub = sinon.stub(instance.io.sockets, "emit");
+        instance = browserSync(config, function (err, bs) {
+            socketsStub = sinon.stub(bs.io.sockets, "emit");
             done();
         }).instance;
 
@@ -35,7 +35,7 @@ describe("E2E Responding to events", function () {
     });
 
     after(function () {
-        socketsStub.restore();
+        instance.io.sockets.emit.restore();
         instance.cleanup();
         clock.restore();
     });
