@@ -11,13 +11,15 @@ describe("Plugins: Using the Socket.io js file:", function () {
 
     it("returns middleware for the socket.io js", function (done) {
 
+        browserSync.reset();
+
         var instance;
 
         var config = {
             server: {
                 baseDir: "test/fixtures"
             },
-            debugInfo: false,
+            logLevel: "silent",
             open: false
         };
 
@@ -42,6 +44,6 @@ describe("Plugins: Using the Socket.io js file:", function () {
             }
         });
 
-        instance = browserSync(config);
+        instance = browserSync(config).instance;
     });
 });

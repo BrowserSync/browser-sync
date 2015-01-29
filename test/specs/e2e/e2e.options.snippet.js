@@ -2,25 +2,25 @@
 
 var browserSync = require("../../../index");
 
-var assert      = require("chai").assert;
-var request     = require("supertest");
+var assert = require("chai").assert;
+var request = require("supertest");
 
-describe("E2E snippet ignore paths test", function () {
+describe("E2E snippet ignore paths test (1)", function () {
 
     var instance;
 
     before(function (done) {
-
+        browserSync.reset();
         var config = {
-            server: {
+            server:         {
                 baseDir: "test/fixtures"
             },
-            open: false,
+            open:           false,
             snippetOptions: {
                 ignorePaths: "iframe.html"
             }
         };
-        instance = browserSync(config, done);
+        instance = browserSync(config, done).instance;
     });
 
     after(function () {
@@ -33,7 +33,7 @@ describe("E2E snippet ignore paths test", function () {
             .set("accept", "text/html")
             .expect(200)
             .end(function (err, res) {
-                assert.notInclude(res.text, instance.options.snippet);
+                assert.notInclude(res.text, instance.options.get("snippet"));
                 done();
             });
     });
@@ -43,22 +43,22 @@ describe("E2E snippet custom regex", function () {
     var instance;
 
     before(function (done) {
-
+        browserSync.reset();
         var config = {
-            server: {
+            server:         {
                 baseDir: "test/fixtures"
             },
-            open: false,
+            open:           false,
             snippetOptions: {
                 rule: {
                     match: /<head[^>]*>/i,
-                    fn: function (snippet, match) {
+                    fn:    function (snippet, match) {
                         return match + snippet;
                     }
                 }
             }
         };
-        instance = browserSync(config, done);
+        instance = browserSync(config, done).instance;
     });
 
     after(function () {
@@ -71,7 +71,7 @@ describe("E2E snippet custom regex", function () {
             .set("accept", "text/html")
             .expect(200)
             .end(function (err, res) {
-                assert.include(res.text, "<head>" + instance.options.snippet);
+                assert.include(res.text, "<head>" + instance.options.get("snippet"));
                 done();
             });
     });

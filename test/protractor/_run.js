@@ -6,11 +6,11 @@ var exec        = require("child_process").exec;
 module.exports = function (logger) {
 
     return function (config, configFile, cb) {
-
+        browserSync.reset();
         var instance = browserSync(config.bsConfig, function (err, bs) {
-            var url = bs.getOption("urls.local");
+            var url = bs.getOptionIn(["urls", "local"]);
             process.env["BS_BASE"]        = url;
-            process.env["BS_SCRIPT_PATH"] = bs.getOption("scriptPaths.path");
+            process.env["BS_SCRIPT_PATH"] = bs.getOptionIn(["scriptPaths", "path"]);
             logger.info("Testing BrowserSync at %s", url);
 
             if (config.before) {

@@ -1,7 +1,7 @@
 module.exports = {
     files: "test/fixtures/**/*.css",
     testConfig: true,
-    debugInfo: true,
+    logLevel: "info",
     background: false,
     reloadFileTypes: ['php', 'html', 'js', 'erb'],
     injectFileTypes: ['css', 'png', 'jpg', 'svg', 'gif'],

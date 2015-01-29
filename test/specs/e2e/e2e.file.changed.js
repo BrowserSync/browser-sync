@@ -11,19 +11,21 @@ describe("E2E Responding to events", function () {
 
     before(function (done) {
 
+        browserSync.reset();
+
         var config = {
             server: {
                 baseDir: __dirname + "/../../fixtures"
             },
             files: ["test/fixtures/assets/*.css"],
-            debugInfo: false,
+            logLevel: "silent",
             open: false
         };
 
-        instance = browserSync.init(config, function () {
-            socketsStub = sinon.stub(instance.io.sockets, "emit");
+        instance = browserSync(config, function (err, bs) {
+            socketsStub = sinon.stub(bs.io.sockets, "emit");
             done();
-        });
+        }).instance;
 
         clock = sinon.useFakeTimers();
     });
@@ -31,8 +33,9 @@ describe("E2E Responding to events", function () {
     afterEach(function () {
         socketsStub.reset();
     });
+
     after(function () {
-        socketsStub.restore();
+        instance.io.sockets.emit.restore();
         instance.cleanup();
         clock.restore();
     });
@@ -97,6 +100,7 @@ describe("E2E Responding to events", function () {
 
         assert.equal(eventName, "browser:reload"); // check correct event sent to client
     });
+
     it("fires the browser:notify event to the browser", function () {
 
         // Emit the event as it comes from the file-watcher

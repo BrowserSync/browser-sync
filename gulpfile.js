@@ -57,9 +57,7 @@ gulp.task("browser-sync", function () {
 //    });
 
     browserSync({
-        server: {
-            baseDir: "test/fixtures"
-        },
+        server: "test/fixtures",
         startPath: "sass.html"
     });
 });
@@ -80,7 +78,7 @@ gulp.task("browser-sync-css", function () {
  */
 gulp.task("watch", ["browser-sync"], function () {
     gulp.watch(paths.scss, ["sass"]);
-//    gulp.watch(paths.html, ["bs-reload"]);
+    gulp.watch(paths.html, browserSync.reload);
 });
 
 /**

@@ -1,83 +1,103 @@
 "use strict";
 
 var cli             = require("../../../lib/cli/");
-var options         = cli.options;
-
-var assert = require("chai").assert;
+var merge           = cli.options.merge;
+var assert          = require("chai").assert;
 
 describe("CLI: Options: Merging Server Options", function () {
-    var defaultValue;
-    beforeEach(function () {
-        defaultValue = false;
+    it("doesn't touch server option if not given in user config", function () {
+        var imm = merge({});
+        assert.deepEqual(imm.get("server"), false);
     });
-    it("should merge default + command line options", function () {
-        var value  = true;
-        var actual = options.callbacks.server(defaultValue, value, value, undefined);
-        var expected = {
+    it("should merge when only basedir given", function () {
+        var imm = merge({server: "base"});
+        assert.deepEqual(imm.get("server").toJS(), {
+            baseDir: "base"
+        });
+    });
+    it("should merge when only `true` given`", function () {
+        var imm = merge({server: true});
+        assert.deepEqual(imm.get("server").toJS(), {
             baseDir: "./"
-        };
-        assert.deepEqual(actual, expected);
+        });
     });
-    it("should set the base dir if given", function () {
-        var value = "app";
-        var actual = options.callbacks.server(defaultValue, value, value, undefined);
-        var expected = {
-            baseDir: "app"
-        };
-        assert.deepEqual(actual, expected);
+    it("should merge when only an array` given`", function () {
+        var imm = merge({server: ["./dist", ".tmp"]});
+        assert.deepEqual(imm.get("server").toJS(), {
+            baseDir: [
+                "./dist",
+                ".tmp"
+            ]
+        });
     });
-    it("should set the base dir if given", function () {
-        var arg = "app/dist";
+    it("should merge when nested props given", function () {
+        var imm = merge({
+            server: {
+                baseDir: "./app"
+            }
+        });
+        assert.deepEqual(imm.get("server").toJS(), {
+            baseDir: "./app"
+        });
+    });
+    it("should merge when multiple nested props given", function () {
+        var imm = merge({
+            server: {
+                index: "index.htm",
+                baseDir: "./app",
+                middleware: function () {
+                    console.log("from fn");
+                }
+            }
+        });
+        assert.equal(imm.getIn(["server", "baseDir"]), "./app");
+        assert.equal(imm.getIn(["server", "index"]), "index.htm");
+        assert.isFunction(imm.getIn(["server", "middleware"]));
+    });
+    it("can merge cli flags into object", function () {
         var argv = {
+            server: true,
             index: "index.htm"
         };
-        var actual = options.callbacks.server(defaultValue, arg, arg, argv);
-        var expected = {
-            baseDir: "app/dist",
-            index: "index.htm"
-        };
-        assert.deepEqual(actual, expected);
-    });
-    it("should set the base dir if given", function () {
-        var arg = true;
-        var argv = {
-            index: "index.htm"
-        };
-        var actual = options.callbacks.server(defaultValue, arg, arg, argv);
-        var expected = {
+        var imm = merge({}, argv);
+        assert.deepEqual(imm.get("server").toJS(), {
             baseDir: "./",
             index: "index.htm"
-        };
-        assert.deepEqual(actual, expected);
+        });
     });
-    it("should set the base dir if given in object", function () {
-        var arg = {
-            baseDir: "./app"
-        };
-        var actual = options.callbacks.server(defaultValue, arg, arg, undefined);
-        var expected = {
-            baseDir: "./app"
-        };
-        assert.deepEqual(actual, expected);
-    });
-    it("should set the base dir & index if given in object", function () {
-        var arg = {
-            baseDir: "./app",
-            index: "mypage.html"
-        };
-        var actual = options.callbacks.server(defaultValue, arg, arg, undefined);
-        assert.deepEqual(actual, arg);
-    });
-    it("should set the directory if given on the command line", function () {
-        var arg = "app";
+    it("can merge cli flags into object", function () {
         var argv = {
+            server: true,
             directory: true
         };
-        var expected = {
+        var imm = merge({}, argv);
+        assert.deepEqual(imm.get("server").toJS(), {
+            baseDir: "./",
+            directory: true
+        });
+    });
+    it("can merge cli flags into object", function () {
+        var argv = {
+            server: true,
+            directory: true
+        };
+        var imm = merge({}, argv);
+        assert.deepEqual(imm.get("server").toJS(), {
+            baseDir: "./",
+            directory: true
+        });
+    });
+    it("can merge cli flags into object", function () {
+        var argv = {
+            server: "app",
+            directory: true,
+            index: "file.html"
+        };
+        var imm = merge({server: "app"}, argv);
+        assert.deepEqual(imm.get("server").toJS(), {
             baseDir: "app",
-            directory: true
-        };
-        var actual   = options.callbacks.server(defaultValue, arg, arg, argv);
-        assert.deepEqual(actual, expected);
+            directory: true,
+            index: "file.html"
+        });
     });
 });

@@ -11,11 +11,13 @@ describe("E2E Snippet tests", function () {
 
     before(function (done) {
 
+        browserSync.reset();
+
         var config = {
-            debugInfo: false
+            logLevel: "silent"
         };
 
-        instance = browserSync.init(config, done);
+        instance = browserSync.init(config, done).instance;
     });
 
     after(function () {
@@ -25,7 +27,7 @@ describe("E2E Snippet tests", function () {
     it("returns the snippet URL", function (done) {
 
         request(instance.server)
-            .get(instance.options.scriptPaths.versioned)
+            .get(instance.options.getIn(["scriptPaths", "versioned"]))
             .expect(200)
             .end(function (err, res) {
                 assert.include(res.text, "Connected to BrowserSync");

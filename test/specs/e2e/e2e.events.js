@@ -9,10 +9,12 @@ describe("E2E Events test", function () {
     var instance, clock;
 
     before(function (done) {
+        browserSync.reset();
         instance = browserSync({
             open: false,
-            debugInfo: false
-        }, done);
+            logLevel: "silent",
+            logSnippet: false
+        }, done).instance;
         clock = sinon.useFakeTimers();
     });
 

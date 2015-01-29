@@ -1,8 +1,7 @@
 "use strict";
 
 var cli             = require("../../../lib/cli/");
-var options         = cli.options;
-
+var merge           = cli.options.merge;
 var assert = require("chai").assert;
 
 describe("CLI: Options: Merging Proxy Options", function () {
@@ -14,107 +13,75 @@ describe("CLI: Options: Merging Proxy Options", function () {
     });
 
     it("should merge a url with HTTP", function () {
-        var arg = "http://localhost:8000";
-        var actual = options.callbacks.proxy(defaultValue, arg);
-        var expected = {
-            protocol: "http",
-            host: "localhost",
-            port: 8000,
-            target: "http://localhost:8000"
-        };
-        assert.deepEqual(actual, expected);
+        var imm = merge({
+            proxy: "http://localhost:8000"
+        });
+        var out = imm.get("proxy").toJS();
+        assert.equal(out.target, "http://localhost:8000");
     });
     it("should merge a url with HTTPS", function () {
-        var arg = "https://localhost:8010";
-        var actual = options.callbacks.proxy(defaultValue, arg);
-        var expected = {
-            protocol: "https",
-            host: "localhost",
-            port: 8010,
-            target: "https://localhost:8010"
-        };
-        assert.deepEqual(actual, expected);
+        var imm = merge({
+            proxy: "https://localhost:8010"
+        });
+        var out = imm.get("proxy").toJS();
+        assert.equal(out.target, "https://localhost:8010");
     });
     it("should merge a url with no protocol", function () {
-        var arg = "localhost:8010";
-        var actual = options.callbacks.proxy(defaultValue, arg);
-        var expected = {
-            protocol: "http",
-            host: "localhost",
-            port: 8010,
-            target: "http://localhost:8010"
-        };
-        assert.deepEqual(actual, expected);
+        var imm = merge({
+            proxy: "localhost:8010"
+        });
+        var out = imm.get("proxy").toJS();
+        assert.equal(out.target, "http://localhost:8010");
     });
     it("should merge IP hostname", function () {
-        var arg = "192.168.0.4";
-        var actual = options.callbacks.proxy(defaultValue, arg);
-        var expected = {
-            protocol: "http",
-            host: "192.168.0.4",
-            port: 80,
-            target: "http://192.168.0.4"
-        };
-        assert.deepEqual(actual, expected);
+        var imm = merge({
+            proxy: "192.168.0.4"
+        });
+        var out = imm.get("proxy").toJS();
+        assert.equal(out.target, "http://192.168.0.4");
     });
     it("should merge IP hostname with port", function () {
-        var arg = "192.168.0.4:9001";
-        var actual = options.callbacks.proxy(defaultValue, arg);
-        var expected = {
-            protocol: "http",
-            host: "192.168.0.4",
-            port: 9001,
-            target: "http://192.168.0.4:9001"
-        };
-        assert.deepEqual(actual, expected);
+        var imm = merge({
+            proxy: "192.168.0.4:9001"
+        });
+        assert.equal(imm.getIn(["proxy", "target"]), "http://192.168.0.4:9001");
+        assert.equal(imm.getIn(["proxy", "port"]), 9001);
     });
     it("should merge a url with no protocol & no port", function () {
-        var arg = "localhost";
-        var actual = options.callbacks.proxy(defaultValue, arg);
-        var expected = {
-            protocol: "http",
-            host: "localhost",
-            port: 80,
-            target: "http://localhost"
-        };
-        assert.deepEqual(actual, expected);
+        var imm = merge({
+            proxy: "localhost"
+        });
+        assert.equal(imm.getIn(["proxy", "target"]), "http://localhost");
+        assert.equal(imm.getIn(["proxy", "port"]), 80);
     });
     it("should merge a url with no protocol & no port", function () {
-        var arg = "local.dev";
-        var actual = options.callbacks.proxy(defaultValue, arg);
-        var expected = {
-            protocol: "http",
-            host: "local.dev",
-            port: 80,
-            target: "http://local.dev"
-        };
-        assert.deepEqual(actual, expected);
+        var imm = merge({
+            proxy: "local.dev"
+        });
+        assert.equal(imm.getIn(["proxy", "target"]), "http://local.dev");
     });
-
     describe("Setting the start path", function () {
         it("should merge a url with path", function () {
-            var arg = "http://local.dev/subdir";
-            var actual = options.callbacks.proxy(defaultValue, arg);
-            var expected = {
-                protocol: "http",
-                host: "local.dev",
-                port: 80,
-                startPath: "subdir",
-                target: "http://local.dev"
-            };
-            assert.deepEqual(actual, expected);
+            var imm = merge({
+                proxy: "http://local.dev/subdir"
+            });
+            assert.equal(imm.getIn(["proxy", "target"]), "http://local.dev");
         });
         it("should merge a url with path & query params", function () {
-            var arg = "http://local.dev/subdir/another/path?rel=123";
-            var actual = options.callbacks.proxy(defaultValue, arg);
-            var expected = {
-                protocol: "http",
-                host: "local.dev",
-                port: 80,
-                startPath: "subdir/another/path?rel=123",
-                target: "http://local.dev"
-            };
-            assert.deepEqual(actual, expected);
+            var imm = merge({
+                proxy: "http://local.dev/subdir/another/path?rel=123"
+            });
+            assert.equal(imm.getIn(["proxy", "target"]), "http://local.dev");
+            assert.equal(imm.getIn(["proxy", "port"]), 80);
+        });
+        it("should set a start path when given 'startPath'", function () {
+            var imm = merge({
+                proxy: "http://local.dev"
+            }, {
+                startPath: "index.php"
+            });
+            assert.equal(imm.getIn(["proxy", "target"]), "http://local.dev");
+            assert.equal(imm.getIn(["proxy", "path"]), "/index.php");
         });
     });
 });

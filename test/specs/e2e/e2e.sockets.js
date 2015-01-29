@@ -9,9 +9,11 @@ describe("E2E Sockets test", function () {
     var instance;
 
     before(function (done) {
+        browserSync.reset();
         instance = browserSync({
-            open: false
-        }, done);
+            open: false,
+            logLevel: "silent"
+        }, done).instance;
     });
 
     after(function () {
@@ -29,9 +31,10 @@ describe("E2E Sockets test", function () {
                 });
             }
         });
+        var options = instance.options.toJS();
 
-        var connectionUrl = instance.options.urls.local + instance.options.socket.namespace;
-        var client1 = socket(connectionUrl, {path: instance.options.socket.path});
+        var connectionUrl = options.urls.local + options.socket.namespace;
+        var client1 = socket(connectionUrl, {path: options.socket.path});
 
         client1.emit("scroll", {name:"shane"});
     });

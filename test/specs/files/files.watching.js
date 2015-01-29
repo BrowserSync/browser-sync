@@ -1,6 +1,8 @@
 "use strict";
 
+var browserSync = require("../../../");
 var fileWatcher = require("../../../lib/file-watcher");
+var merge       = require("../../../lib/cli/cli-options").merge;
 
 var events      = require("events");
 var path        = require("path");
@@ -25,48 +27,67 @@ var writeFileWait = function (name, content, cb) {
 describe("File Watcher Module", function () {
 
     it("accepts options for Gaze", function (done) {
-        var arg = {
-            "shane": __dirname + "/../../fixtures/test.txt"
-        };
-        var options = { // Gaze options
+        var imm = merge({
+            files: {
+                "shane": __dirname + "/../../fixtures/test.txt"
+            },
             watchOptions: {
                 debounceDelay: 4000
             }
-        };
-        var emitter = new events.EventEmitter();
+        });
 
-        var watchers = fileWatcher.plugin(arg, options, emitter);
+        var emitter = new events.EventEmitter();
+        var watchers = fileWatcher.plugin(imm, emitter);
 
         watchers.shane.watcher._watcher.on("ready", function () { // dig down to find Gaze instance
             assert.equal(this.options.debounceDelay, 4000);
             done();
         });
     });
-
-    it("should emit events about changed files", function (done) {
+    it("should emit events about changed files in core namespace", function (done) {
 
         var tempFile = path.join(outpath, "watch-func.txt");
-
-        var arg = {
-            "shane": tempFile
-        };
-
-        var emitter = new events.EventEmitter();
 
         fs.writeFile(tempFile, tempFileContent, function () {
 
             // assert: it works if it calls done
-            fileWatcher.plugin(arg, {}, emitter);
+            browserSync.reset();
+            browserSync.create().init({files: tempFile, ui: false, online: false, logSnippet: false}, function (err, bs) {
 
-            emitter.on("file:changed", function (data) {
-                assert.equal(data.namespace, "shane");
-                assert.equal(data.type, "changed");
-                assert.equal(data.path, path.resolve(tempFile));
-                done();
+                bs.events.on("file:changed", function (data) {
+                    assert.equal(data.namespace, "core");
+                    assert.equal(data.type, "changed");
+                    assert.equal(data.path, path.resolve(tempFile));
+                    bs.cleanup();
+                    done();
+                });
+
+                // act: change file
+                writeFileWait(tempFile, tempFileContent + " changed");
             });
+        });
+    });
+    it("should emit events about changed files in custom namespace", function (done) {
 
-            // act: change file
-            writeFileWait(tempFile, tempFileContent + " changed");
+        var tempFile = path.join(outpath, "watch-func.txt");
+
+        fs.writeFile(tempFile, tempFileContent, function () {
+
+            // assert: it works if it calls done
+            browserSync.reset();
+            browserSync.create().init({files: {shane:tempFile}, ui: false, online: false, logSnippet: false}, function (err, bs) {
+
+                bs.events.on("file:changed", function (data) {
+                    assert.equal(data.namespace, "shane");
+                    assert.equal(data.type, "changed");
+                    assert.equal(data.path, path.resolve(tempFile));
+                    bs.cleanup();
+                    done();
+                });
+
+                // act: change file
+                writeFileWait(tempFile, tempFileContent + " changed");
+            });
         });
     });
 });

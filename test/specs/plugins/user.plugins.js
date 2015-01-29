@@ -11,6 +11,7 @@ describe("Plugins: Retrieving user plugins", function () {
 
     before(function (done) {
 
+        browserSync.reset();
         var config = {
             logLevel: "silent",
             open: false
@@ -21,7 +22,7 @@ describe("Plugins: Retrieving user plugins", function () {
             "plugin:name": PLUGIN_NAME
         });
 
-        instance = browserSync(config, done);
+        instance = browserSync(config, done).instance;
     });
     after(function () {
         instance.cleanup();
@@ -41,14 +42,14 @@ describe("Plugins: Retrieving user plugins", function () {
             name: PLUGIN_NAME,
             active: false
         });
-        assert.isFalse(instance.options.userPlugins[0].active);
+        assert.isFalse(instance.options.get("userPlugins")[0].active);
         assert.isFalse(instance.pluginManager.getPlugin(PLUGIN_NAME)._enabled);
 
         instance.events.emit("plugins:configure", {
             name: PLUGIN_NAME,
             active: true
         });
-        assert.isTrue(instance.options.userPlugins[0].active);
+        assert.isTrue(instance.options.get("userPlugins")[0].active);
         assert.isTrue(instance.pluginManager.getPlugin(PLUGIN_NAME)._enabled);
         done();
     });

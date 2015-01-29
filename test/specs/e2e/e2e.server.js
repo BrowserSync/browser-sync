@@ -13,15 +13,28 @@ describe("E2E server test", function () {
 
     before(function (done) {
 
+        browserSync.reset();
+
         var config = {
             server: {
-                baseDir: "test/fixtures"
+                baseDir: "test/fixtures",
+                index: "index.htm"
             },
-            debugInfo: false,
-            open: false
+            ghostMode: {
+                clicks: false,
+                scroll: false
+            },
+            logLevel: "silent",
+            open: false,
+            files: ["*.html"]
         };
 
-        instance = browserSync(config, done);
+        instance = browserSync(config, function (err) {
+            if (err) {
+                throw err;
+            }
+            done();
+        }).instance;
     });
 
     after(function () {
@@ -30,14 +43,14 @@ describe("E2E server test", function () {
 
     it("serves files with the snippet added", function (done) {
 
-        assert.isString(instance.options.snippet);
+        assert.isString(instance.options.get("snippet"));
 
         request(instance.server)
             .get("/index.html")
             .set("accept", "text/html")
             .expect(200)
             .end(function (err, res) {
-                assert.include(res.text, instance.options.snippet);
+                assert.include(res.text, instance.options.get("snippet"));
                 done();
             });
     });
@@ -45,7 +58,7 @@ describe("E2E server test", function () {
     it("serves the client script", function (done) {
 
         request(instance.server)
-            .get(instance.options.scriptPaths.versioned)
+            .get(instance.options.getIn(["scriptPaths", "versioned"]))
             .expect(200)
             .end(function (err, res) {
                 assert.include(res.text, "Connected to BrowserSync");

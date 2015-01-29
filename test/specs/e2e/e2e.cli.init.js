@@ -1,33 +1,29 @@
 "use strict";
 
-var path     = require("path");
-var fs       = require("fs");
-var sinon    = require("sinon");
-var assert   = require("chai").assert;
-var exec     = require("child_process").exec;
+var assert  = require("chai").assert;
+var exec    = require("child_process").execFile;
 
-var index   = path.resolve(__dirname + "/../../../index.js");
-
-describe.skip("E2E CLI init test", function () {
+describe("E2E CLI init test", function () {
 
     var bs;
+    var chunks = [];
 
     before(function (done) {
-
-        var out = [];
-        var stub = sinon.stub(fs, "writeFile").yields(null);
-
-        bs = exec("node " + index + " init").on("close", function () {
-            assert.equal(out.length, 2);
-            stub.restore();
+        bs = exec(__dirname + "/../../../bin/browser-sync.js", ["init"], function () {
+            bs.kill("SIGTERM");
             done();
         });
         bs.stdout.on("data", function (data) {
-            out.push(data);
+            chunks.push(data);
         });
     });
 
-    it("returns the snippet", function (done) {
-        done();
+    after(function () {
+        var fs = require("fs");
+        fs.unlinkSync("bs-config.js");
+    });
+
+    it("creates a config file in cwd", function () {
+        assert.include(chunks.join(""), "Config file created bs-config.js");
     });
 });

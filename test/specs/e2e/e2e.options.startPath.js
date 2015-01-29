@@ -1,10 +1,10 @@
 "use strict";
 
 var browserSync = require("../../../index");
-var utils       = require("../../../lib/utils");
+var utils = require("../../../lib/utils");
 
-var assert      = require("chai").assert;
-var sinon       = require("sinon");
+var assert = require("chai").assert;
+var sinon = require("sinon");
 
 describe("E2E `startPath` option", function () {
 
@@ -12,14 +12,15 @@ describe("E2E `startPath` option", function () {
     var stub;
 
     before(function (done) {
+        browserSync.reset();
         var config = {
-            debugInfo: false,
-            server: "test/fixtures",
+            logLevel: "silent",
+            server:    "test/fixtures",
             startPath: "forms.html",
-            online: true
+            online:    true
         };
         stub = sinon.stub(utils, "open");
-        instance = browserSync(config, done);
+        instance = browserSync(config, done).instance;
     });
 
     after(function () {
@@ -39,14 +40,15 @@ describe("E2E `startPath` option", function () {
     var stub;
 
     before(function (done) {
+        browserSync.reset();
         var config = {
-            debugInfo: false,
-            server: "test/fixtures",
+            logLevel: "silent",
+            server:    "test/fixtures",
             startPath: "forms.html",
-            online: false
+            online:    false
         };
         stub = sinon.stub(utils, "open");
-        instance = browserSync(config, done);
+        instance = browserSync(config, done).instance;
     });
 
     after(function () {

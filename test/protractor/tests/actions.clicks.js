@@ -3,7 +3,6 @@
 var init = require("../bs.init");
 
 describe("Scrolling around", function () {
-    var ptor     = protractor.getInstance();
     var instance;
     var urls;
     beforeEach(function () {
@@ -18,22 +17,27 @@ describe("Scrolling around", function () {
         };
         init(protractor, config).then(function (bs) {
             instance = bs;
-            urls = instance.getOption("urls");
+            urls = instance.getOption("urls").toJS();
         });
     });
     it("should mirror clicks on hrefs", function () {
 
         browser.get(urls.local + "/scrolling.html");
-        ptor.executeScript("window.open('%s')".replace("%s", urls.local + "/scrolling.html"));
+
+        browser.executeScript("window.open('%s')".replace("%s", urls.local + "/scrolling.html"));
 
         browser.getAllWindowHandles().then(function (handles) {
+
             browser.switchTo().window(handles[0]).then(function () {
 
+                browser.sleep(500);
                 element(by.css("a")).click(); // go to the link
-                ptor.executeScript("window.close()");
+                browser.close();
+                browser.sleep(500);
 
                 browser.switchTo().window(handles[1]).then(function () {
-                    expect(ptor.getCurrentUrl()).toContain("index.html");
+                    //browser.pause();
+                    expect(browser.getCurrentUrl()).toContain("index.html");
                     instance.cleanup();
                 });
             });

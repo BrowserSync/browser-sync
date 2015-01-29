@@ -17,6 +17,8 @@ describe("Plugins: Getting a logger", function () {
     });
     it("Can use a plugin-specific logger", function (done) {
 
+        browserSync.reset();
+
         var instance;
         var PLUGIN_NAME = "HTML";
 
@@ -26,18 +28,17 @@ describe("Plugins: Getting a logger", function () {
         };
 
         browserSync.use({
-
             "plugin:name": PLUGIN_NAME,
             "plugin": function (opts, bs) {
                 var logger = bs.getLogger(PLUGIN_NAME);
                 logger.setLevel("info").setLevelPrefixes(false).info("Connected!");
                 var msg = chalk.stripColor(stub.getCall(0).args[0]);
                 assert.equal(msg, "[BS] [HTML] Connected!");
-                bs.cleanup();
+                instance.cleanup();
                 done();
             }
         }, {name: "shane"});
 
-        instance = browserSync(config);
+        instance = browserSync(config).instance;
     });
 });

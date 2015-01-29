@@ -1,7 +1,6 @@
 "use strict";
 
 var browserSync = require("../../../index");
-
 var sinon       = require("sinon");
 
 describe("E2E `logSnippet` option", function () {
@@ -10,13 +9,17 @@ describe("E2E `logSnippet` option", function () {
     var spy;
 
     before(function (done) {
+
+        browserSync.reset();
+
         var config = {
             online: false,
             open: false,
             logSnippet: false
         };
+
         spy      = sinon.spy(console, "log");
-        instance = browserSync(config, done);
+        instance = browserSync(config, done).instance;
     });
 
     after(function () {

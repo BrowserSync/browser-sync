@@ -1,65 +1,45 @@
 "use strict";
 
-var path     = require("path");
-var request  = require("supertest");
-var server   = require("./commands.server.json");
-var assert   = require("chai").assert;
-var exec     = require("child_process").exec;
-
-var index   = path.resolve(__dirname + "/../../../index.js");
+var request = require("request");
+var assert  = require("chai").assert;
+var exec    = require("child_process").exec;
 
 describe.skip("E2E CLI server test", function () {
 
-    var bs, options;
+    var bs;
+    var chunks = [];
 
     before(function (done) {
-
-        bs = exec("node " + index, server.commands[0].args);
-
+        var count = 0;
+        var called = false;
+        bs = exec(["node", __dirname + "/../../../bin/browser-sync.js", "start", "--server", "test/fixtures", "--no-open"].join(" "));
         bs.stdout.on("data", function (data) {
-            console.log(data);
+            chunks.push(data);
+            count += 1;
+            if (chunks.join("").indexOf("Local") > -1) {
+                if (!called) {
+                    called = true;
+                    return done();
+                }
+            }
+        });
+    });
+    after(function () {
+        bs.kill("SIGTERM");
+    });
+    it("returns the snippet", function (done) {
+        var url = chunks.join("").match("http://localhost:(\\d){4}");
+        request(url[0] + "/browser-sync/browser-sync-client.js", function (req, res, body) {
+            console.log(url[0] + "/browser-sync/browser-sync-client.js");
+            assert.include(body, "window.___browserSync___oldSocketIo");
             done();
         });
-//        bs.on("message", function (data) {
-//            options = data.options;
-//            done();
-//        });
-//        bs.send({send: "options"});
     });
-
-    after(function () {
-        bs.close();
-    });
-
-    it("returns the snippet", function (done) {
-
-        request(options.urls.local)
-            .get(options.scriptPaths.versioned)
-            .expect(200)
-            .end(function (err, res) {
-                assert.include(res.text, "Connected to BrowserSync");
-                done();
-            });
-    });
-
-    it("Can serve files", function (done) {
-        request(options.urls.local)
-            .get("/")
-            .expect(200)
-            .end(function (err, res) {
-                assert.include(res.text, "BrowserSync + Public URL");
-                done();
-            });
-    });
-
-    it("Can serve files with snippet added", function (done) {
-        request(options.urls.local)
-            .get("/")
-            .set("accept", "text/html")
-            .expect(200)
-            .end(function (err, res) {
-                assert.include(res.text, options.snippet);
-                done();
-            });
+    it("returns the index", function (done) {
+        var url = chunks.join("").match("http://localhost:(\\d){4}");
+        request(url[0], function (req, res, body) {
+            assert.include(body, "<title>Test HTML Page</title>");
+            done();
+        });
     });
 });
