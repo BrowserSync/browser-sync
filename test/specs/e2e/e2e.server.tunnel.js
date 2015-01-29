@@ -82,6 +82,25 @@ describe("E2E server test with tunnel", function () {
             done();
         });
     });
+    it("can create multiple tunnel connections with an array of sub domains", function (done) {
+        tunnel.plugin({
+            options: {
+                urls: {},
+                tunnel: [
+                    "shane0987654321",
+                    "imran0987654321"
+                ],
+                port: _port
+            },
+            events: {}
+        }, require("localtunnel"), function (url, bool) {
+            assert.include(url, "shane0987654321");
+            assert.include(url, "imran0987654321");
+            assert.isTrue(bool);
+            done();
+        });
+    });
+
 });
 
 describe("Creating tunnels", function () {
