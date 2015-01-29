@@ -30,6 +30,7 @@ describe("E2E CLI server test", function () {
     it("returns the snippet", function (done) {
         var url = chunks.join("").match("http://localhost:(\\d){4}");
         request(url[0] + "/browser-sync/browser-sync-client.js", function (req, res, body) {
+            console.log(url[0] + "/browser-sync/browser-sync-client.js");
             assert.include(body, "window.___browserSync___oldSocketIo");
             done();
         });

@@ -22,7 +22,8 @@ describe("E2E `logPrefix` option", function () {
             var config = {
                 open:      false,
                 logPrefix: "BS2",
-                logLevel:  "info"
+                logLevel:  "info",
+                ui: false
             };
             logger.mute(false);
             spy = sinon.spy(console, "log");
@@ -51,7 +52,9 @@ describe("E2E `logPrefix` option", function () {
                 logPrefix: function () {
                     return this.compile("AWESOME");
                 },
-                logLevel:  "info"
+                logLevel:  "info",
+                online: false,
+                ui: false
             };
             logger.mute(false);
             spy = sinon.spy(console, "log");
