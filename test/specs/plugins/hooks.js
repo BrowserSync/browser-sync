@@ -60,7 +60,7 @@ describe("Plugins: Registering Hooks:", function () {
         sinon.assert.calledOnce(initSpy); // the plugin init method
     });
     it("adds an item to the clientEvents array", function () {
-        assert.include(instance.clientEvents, "cp:goto");
+        assert.include(instance.options.get("clientEvents").toJS(), "cp:goto");
     });
     it("adds an item to the Server Middleware array", function () {
         assert.include(instance.clientJs, "SHANE123456");
@@ -101,8 +101,8 @@ describe("Plugins: Registering hooks - client events:", function () {
         instance.cleanup();
     });
     it("adds multiple items to the clientEvents array", function () {
-        assert.include(instance.clientEvents, "cp:goto");
-        assert.include(instance.clientEvents, "custom:event");
+        assert.include(instance.options.get("clientEvents").toJS(), "cp:goto");
+        assert.include(instance.options.get("clientEvents").toJS(), "custom:event");
     });
 });
 
