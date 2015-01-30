@@ -2,6 +2,7 @@
 
 var browserSync = require("../../../index");
 var request     = require("supertest");
+var Immutable   = require("immutable");
 var assert      = require("chai").assert;
 
 describe("Plugins: User interface", function () {
@@ -74,8 +75,15 @@ describe("Plugins: User interface - providing an override", function () {
 
         browserSync.use({
             "plugin:name": "UI",
-            "plugin": function (opts) {
-                return opts;
+            "plugin": function (opts, bs, cb) {
+                opts = Immutable.fromJS(opts).mergeDeep(Immutable.fromJS({
+                    urls: {
+                        ui: "http://localhost:3001"
+                    }
+                }));
+                cb(null, {
+                    options: opts
+                });
             }
         }, {port: 3333});
 
@@ -85,10 +93,7 @@ describe("Plugins: User interface - providing an override", function () {
         instance.cleanup();
     });
     it("Should use the user-provided plugin", function (done) {
-        assert.deepEqual(
-            instance.pluginManager.getReturnValues("UI")[0].value, {
-                port: 3333
-            });
+        assert.deepEqual(instance.ui.options.get("port"), 3333);
         done();
     });
 });
