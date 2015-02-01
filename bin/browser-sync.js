@@ -16,7 +16,7 @@ var flagWhitelist = ["ghostMode", "reloadOnRestart"];
 
 var cli = meow({
     pkg:  "../package.json",
-    help: getHelpText("/../lib/cli/help.txt")
+    help: getHelpText(path.resolve(__dirname, "../lib/cli/help.txt"))
 });
 
 /**
@@ -32,7 +32,7 @@ handleCli(cli, cmdWhitelist);
 function getHelpText(filepath) {
     return compile(
         fs.readFileSync(
-            path.resolve(__dirname + filepath),
+            filepath,
             "utf8"
         ).replace(
             "%flags%",

@@ -1,6 +1,6 @@
 "use strict";
 
-var browserSync = require("../../../index");
+var browserSync = require("../../../");
 
 var request = require("supertest");
 var http    = require("http");

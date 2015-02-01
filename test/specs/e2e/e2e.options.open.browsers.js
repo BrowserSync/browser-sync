@@ -4,7 +4,7 @@ var utils = require("../../../lib/utils");
 
 var assert = require("chai").assert;
 var sinon = require("sinon");
-var browserSync = require("../../../index");
+var browserSync = require("../../../");
 
 describe("E2E OPEN Browsers options (1)", function () {
 

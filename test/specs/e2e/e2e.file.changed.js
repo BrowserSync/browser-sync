@@ -2,6 +2,7 @@
 
 var browserSync   = require("../../../index");
 
+var path    = require("path");
 var sinon   = require("sinon");
 var assert  = require("chai").assert;
 
@@ -15,7 +16,7 @@ describe("E2E Responding to events", function () {
 
         var config = {
             server: {
-                baseDir: __dirname + "/../../fixtures"
+                baseDir: path.resolve(__dirname, "../../fixtures")
             },
             files: ["test/fixtures/assets/*.css"],
             logLevel: "silent",
