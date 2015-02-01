@@ -9,7 +9,7 @@ var path        = require("path");
 var fs          = require("graceful-fs");
 var assert      = require("chai").assert;
 
-var outpath = path.join(__dirname, "/../../fixtures");
+var outpath = path.join(__dirname, "../../fixtures");
 
 var tempFileContent = "A test generated this file and it is safe to delete";
 
@@ -29,7 +29,7 @@ describe("File Watcher Module", function () {
     it("accepts options for Gaze", function (done) {
         var imm = merge({
             files: {
-                "shane": __dirname + "/../../fixtures/test.txt"
+                "shane": path.resolve(__dirname, "../../fixtures/test.txt")
             },
             watchOptions: {
                 debounceDelay: 4000
@@ -52,7 +52,12 @@ describe("File Watcher Module", function () {
 
             // assert: it works if it calls done
             browserSync.reset();
-            browserSync.create().init({files: tempFile, ui: false, online: false, logSnippet: false}, function (err, bs) {
+            browserSync.create().init({
+                files: tempFile,
+                ui: false,
+                online: false,
+                logSnippet: false
+            }, function (err, bs) {
 
                 bs.events.on("file:changed", function (data) {
                     assert.equal(data.namespace, "core");

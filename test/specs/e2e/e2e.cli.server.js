@@ -1,8 +1,11 @@
 "use strict";
 
+var path    = require("path");
 var request = require("request");
 var assert  = require("chai").assert;
 var exec    = require("child_process").exec;
+
+var pkg     = require(path.resolve("package.json"));
 
 describe.skip("E2E CLI server test", function () {
 
@@ -12,7 +15,7 @@ describe.skip("E2E CLI server test", function () {
     before(function (done) {
         var count = 0;
         var called = false;
-        bs = exec(["node", __dirname + "/../../../bin/browser-sync.js", "start", "--server", "test/fixtures", "--no-open"].join(" "));
+        bs = exec(["node", path.resolve(pkg.bin), "start", "--server", "test/fixtures", "--no-open"].join(" "));
         bs.stdout.on("data", function (data) {
             chunks.push(data);
             count += 1;

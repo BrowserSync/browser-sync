@@ -1,11 +1,11 @@
 "use strict";
 
-var browserSync = require("../../../index");
+var browserSync = require("../../../");
 
 var path = require("path");
 var assert = require("chai").assert;
 
-var outpath = path.join(__dirname, "/../../fixtures");
+var outpath = path.join(__dirname, "../../fixtures");
 
 describe("file-watching", function () {
 
