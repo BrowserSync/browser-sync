@@ -131,3 +131,4 @@ function longest (arr) {
 }
 
 module.exports = handleCli;
+module.exports.getHelpText = getHelpText;

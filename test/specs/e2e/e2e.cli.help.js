@@ -2,27 +2,30 @@
 
 var assert  = require("chai").assert;
 var path    = require("path");
-var exec    = require("child_process").exec;
+var sinon   = require("sinon");
 
 var pkg     = require(path.resolve("package.json"));
+var cli     = require(path.resolve(pkg.bin));
 
 describe("E2E CLI help test", function () {
 
-    var bs;
-    var chunks = [];
+    it("displays help text", function (done) {
 
-    before(function (done) {
-        bs = exec("node " + path.resolve(pkg.bin), function () {
-            bs.kill("SIGTERM");
-            done();
-        });
-        bs.stdout.on("data", function (data) {
-            chunks.push(data);
-        });
-    });
+        var spy  = sinon.spy(console, "log");
+        var help = cli.getHelpText(path.resolve("./lib/cli/help.txt"));
 
-    it("returns the help text when no commands given", function (done) {
-        assert.include(chunks.join(""), "Server Example:");
+        cli({
+            cli: {
+                help: help,
+                input: [],
+                flags: {}
+            }
+        });
+
+        var args = spy.getCall(0).args;
+        sinon.assert.called(spy);
+        assert.include(args[0], help);
+        console.log.restore();
         done();
     });
 });
