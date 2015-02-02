@@ -63,3 +63,34 @@ describe("E2E CLI proxy test", function () {
             });
     });
 });
+describe("E2E CLI proxy test", function () {
+
+    var instance;
+
+    before(function (done) {
+
+        browserSync.reset();
+
+        cli({
+            cli: {
+                input: ["start"],
+                flags: {
+                    proxy: true, // this is: `browser-sync start --proxy`
+                    open: false,
+                    online: false,
+                    logLevel: "silent"
+                }
+            },
+            cb: function (err, bs) {
+                instance = bs;
+                done();
+            }
+        });
+    });
+    after(function () {
+        instance.cleanup();
+    });
+    it("should fall back to snippet mode if no string given for proxy on cli", function () {
+        assert.equal(instance.options.get("mode"), "snippet");
+    });
+});
