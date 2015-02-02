@@ -19,10 +19,13 @@ var cli = meow({
     help: getHelpText(path.resolve(__dirname, "../lib/cli/help.txt"))
 });
 
+
 /**
  * Handle cli input
  */
-handleCli(cli, cmdWhitelist);
+if (!module.parent) {
+    handleCli({cli: cli, whitelist: cmdWhitelist});
+}
 
 /**
  * Generate & colour the help text
@@ -47,32 +50,35 @@ function getHelpText(filepath) {
 }
 
 /**
- * @param {Object} cli
- * @param {Array} cmdWhitelist
+ * @param {{cli: object, [whitelist]: array, [cb]: function}} opts
  * @returns {*}
  */
-function handleCli (cli, cmdWhitelist) {
+function handleCli (opts) {
 
-    if (!cli.input.length || cmdWhitelist.indexOf(cli.input[0]) === -1) {
-        return console.log(cli.help);
+    opts.cb   = opts.cb   || function () { /* noop */ };
+    var input = opts.cli.input;
+    var flags = opts.cli.flags;
+
+    if (!opts.whitelist) {
+        opts.whitelist = cmdWhitelist;
     }
 
-    if (!verifyOpts(flagWhitelist, cli.flags)) {
+    if (!input.length || opts.whitelist.indexOf(input[0]) === -1) {
+        return console.log(opts.cli.help);
+    }
+
+    if (!verifyOpts(flagWhitelist, flags)) {
         return logger.info("For help, run: {cyan:browser-sync --help}");
     }
 
-    if (cli.input[0] === "start") {
+    if (input[0] === "start") {
         return require("../")
             .create("cli")
-            .init(
-                merge(
-                    cli.flags.config ? info.getConfigFile(cli.flags.config) : cli.flags,
-                    cli.flags
-        ));
+            .init(flags.config ? info.getConfigFile(flags.config) : flags, opts.cb);
     }
 
-    if (cli.input[0] === "init") {
-        info.makeConfig(process.cwd());
+    if (input[0] === "init") {
+        info.makeConfig(process.cwd(), opts.cb);
     }
 }
 

@@ -62,9 +62,11 @@ describe("CLI: Info Helpers:", function () {
             fs.readFileSync.restore();
             console.log.restore();
         });
-        it("should call the readFileSync method", function () {
-            info.makeConfig("/Users/shakyshane");
-            sinon.assert.called(readStub);
+        it("should call the readFileSync method", function (done) {
+            info.makeConfig("/Users/shakyshane", function () {
+                sinon.assert.called(readStub);
+                done();
+            });
         });
     });
 });
