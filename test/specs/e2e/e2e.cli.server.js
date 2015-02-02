@@ -1,48 +1,58 @@
 "use strict";
 
-var path    = require("path");
-var request = require("request");
-var assert  = require("chai").assert;
-var exec    = require("child_process").exec;
+var path        = require("path");
+var request     = require("supertest");
+var assert      = require("chai").assert;
+var browserSync = require(path.resolve("./"));
 
 var pkg     = require(path.resolve("package.json"));
+var cli     = require(path.resolve(pkg.bin));
 
-describe.skip("E2E CLI server test", function () {
+describe("E2E CLI server test", function () {
 
-    var bs;
-    var chunks = [];
+    var instance;
 
     before(function (done) {
-        var count = 0;
-        var called = false;
-        bs = exec(["node", path.resolve(pkg.bin), "start", "--server", "test/fixtures", "--no-open"].join(" "));
-        bs.stdout.on("data", function (data) {
-            chunks.push(data);
-            count += 1;
-            if (chunks.join("").indexOf("Local") > -1) {
-                if (!called) {
-                    called = true;
-                    return done();
+
+        browserSync.reset();
+
+        cli({
+            cli: {
+                input: ["start"],
+                flags: {
+                    server: "test/fixtures",
+                    open: false,
+                    online: false,
+                    logLevel: "silent"
                 }
+            },
+            cb: function (err, bs) {
+                instance = bs;
+                done();
             }
         });
     });
     after(function () {
-        bs.kill("SIGTERM");
+        instance.cleanup();
     });
-    it("returns the snippet", function (done) {
-        var url = chunks.join("").match("http://localhost:(\\d){4}");
-        request(url[0] + "/browser-sync/browser-sync-client.js", function (req, res, body) {
-            console.log(url[0] + "/browser-sync/browser-sync-client.js");
-            assert.include(body, "window.___browserSync___oldSocketIo");
-            done();
-        });
+    it("serves index.html + snippet injected", function (done) {
+        request(instance.server)
+            .get("/index.html")
+            .set("accept", "text/html")
+            .expect(200)
+            .end(function (err, res) {
+                assert.include(res.text, instance.options.get("snippet"));
+                done();
+            });
     });
-    it("returns the index", function (done) {
-        var url = chunks.join("").match("http://localhost:(\\d){4}");
-        request(url[0], function (req, res, body) {
-            assert.include(body, "<title>Test HTML Page</title>");
-            done();
-        });
+    it("serves browser-sync client js", function (done) {
+        request(instance.server)
+            .get(instance.options.getIn(["scriptPaths", "versioned"]))
+            .set("accept", "text/html")
+            .expect(200)
+            .end(function (err, res) {
+                assert.include(res.text, "Connected to BrowserSync");
+                done();
+            });
     });
 });
