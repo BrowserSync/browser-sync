@@ -32,6 +32,8 @@ describe("works with Socket IO on same page", function () {
 
         assertScripts();
 
+        browser.sleep(1000);
+
         browser.executeScript("return typeof window.io;").then(function (io) {
 
             expect(io).toBe("function");

@@ -1,57 +1,45 @@
 "use strict";
 
-var browserSync = require("../../../index");
+var browserSync = require("../../../../index");
 
-var http = require("http");
 var connect = require("connect");
 var serveStatic = require("serve-static");
 var request = require("supertest");
 var assert = require("chai").assert;
 var client = require("socket.io-client");
-var portScanner = require("portscanner");
 
 describe("E2E proxy test", function () {
 
-    var instance, stubServer, options;
+    var instance, server, options;
 
     before(function (done) {
+
         browserSync.reset();
 
-        portScanner.findAPortNotInUse(3000, 4000, {
-            host: "localhost",
-            timeout: 1000
-        }, function (err, port) {
-            if (err) {
-                throw err;
-            }
+        var app = connect();
+        app.use(serveStatic("./test/fixtures"));
+        server = app.listen();
+        var proxytarget = "http://localhost:" + server.address().port;
 
-            var config = {
-                proxy:     "localhost:" + port,
-                logLevel: "silent",
-                open:      false
-            };
+        var config = {
+            proxy:     proxytarget,
+            logLevel: "silent",
+            open:      false
+        };
 
-            var testApp = connect()
-                .use(serveStatic(__dirname + "/../../fixtures"));
-
-            // server to proxy
-            stubServer = http.createServer(testApp).listen(port);
-
-            instance = browserSync.init([], config, function (err, bs) {
-                options = bs.options;
-                done();
-            }).instance;
-        });
+        instance = browserSync.init([], config, function (err, bs) {
+            options = bs.options;
+            done();
+        }).instance;
     });
 
     after(function () {
         instance.cleanup();
-        stubServer.close();
+        server.close();
     });
 
     it("can init proxy & serve a page", function (done) {
 
-        assert.isString(options.get("snippet"));
         assert.isDefined(instance.server);
 
         request(instance.server)
@@ -59,12 +47,12 @@ describe("E2E proxy test", function () {
             .set("accept", "text/html")
             .expect(200)
             .end(function (err, res) {
-                assert.include(res.text, "browser-sync-client");
+                assert.include(res.text, options.get("snippet"));
                 done();
             });
     });
 
-    it("Can proxy websockets", function (done) {
+    it.skip("Can proxy websockets", function (done) {
 
         var called;
         instance.io.sockets.on("connection", function () {
@@ -102,6 +90,41 @@ describe("E2E proxy test", function () {
                 assert.include(res.text, instance.options.get("snippet"));
                 done();
             });
+    });
+});
+
+describe("E2E proxy test", function () {
+
+    var instance, server, options;
+
+    before(function (done) {
+
+        browserSync.reset();
+
+        var app = connect();
+        app.use(serveStatic("./test/fixtures"));
+        server = app.listen();
+        var proxytarget = "http://localhost:" + server.address().port;
+
+        var config = {
+            proxy:     proxytarget + "/forms.html",
+            logLevel: "silent",
+            open:      false
+        };
+
+        instance = browserSync.init([], config, function (err, bs) {
+            options = bs.options;
+            done();
+        }).instance;
+    });
+
+    after(function () {
+        instance.cleanup();
+        server.close();
+    });
+
+    it("Can serve the script", function () {
+        assert.equal(instance.options.get("startPath"), "/forms.html");
     });
 });
 

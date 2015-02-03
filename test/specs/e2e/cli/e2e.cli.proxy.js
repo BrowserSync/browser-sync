@@ -94,3 +94,34 @@ describe("E2E CLI proxy test", function () {
         assert.equal(instance.options.get("mode"), "snippet");
     });
 });
+describe("E2E CLI proxy test", function () {
+
+    var instance;
+
+    before(function (done) {
+
+        browserSync.reset();
+
+        cli({
+            cli: {
+                input: ["start"],
+                flags: {
+                    proxy: "localhost:8000/path/is/here", // this is: `browser-sync start --proxy localhost:8000/path/is/here`
+                    logLevel: "silent",
+                    open: false
+                }
+            },
+            cb: function (err, bs) {
+                instance = bs;
+                done();
+            }
+        });
+    });
+    after(function () {
+        instance.cleanup();
+    });
+    it("promote paths in the proxy to startPath option", function () {
+
+        assert.equal(instance.options.get("startPath"), "/path/is/here");
+    });
+});

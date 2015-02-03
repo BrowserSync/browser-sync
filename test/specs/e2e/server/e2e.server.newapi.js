@@ -1,6 +1,6 @@
 "use strict";
 
-var browserSync = require("../../../");
+var browserSync = require("../../../../index");
 
 var sinon = require("sinon");
 var request = require("supertest");
@@ -22,7 +22,7 @@ describe("E2E server test with only a callback", function () {
         console.log.restore();
     });
 
-    it("returns the script", function (done) {
+    it("Can return the script", function (done) {
 
         request(instance.server)
             .get(instance.options.getIn(["scriptPaths", "versioned"]))
@@ -34,21 +34,29 @@ describe("E2E server test with only a callback", function () {
     });
 });
 
-describe("E2E server test with config & callback", function () {
+describe("E2E server test with only a config option", function () {
 
     var instance;
 
     before(function (done) {
-        browserSync.reset();
-        var config = {
-            server:   {
-                baseDir: "test/fixtures"
-            },
-            open:     false,
-            logLevel: "silent"
-        };
 
-        instance = browserSync(config, done).instance;
+        browserSync.reset();
+        var called;
+
+        instance = browserSync({
+            open:      false,
+            logLevel: "silent",
+            server:    {
+                baseDir: "test/fixtures"
+            }
+        }).instance;
+
+        instance.events.on("init", function () {
+            if (!called) {
+                done();
+                called = true;
+            }
+        });
     });
 
     after(function () {

@@ -1,13 +1,13 @@
 "use strict";
 
-var browserSync = require("../../../");
+var browserSync = require("../../../../index");
+
+var connect = require("connect");
 
 var request = require("supertest");
 var assert  = require("chai").assert;
 
-describe("E2E server test", function () {
-
-    this.timeout(5000);
+describe("E2E server test with middleware", function () {
 
     var instance;
 
@@ -15,38 +15,34 @@ describe("E2E server test", function () {
 
         browserSync.reset();
 
+        var middleware = connect();
+
+        middleware.use("/custom/middleware", function (req, res) {
+            res.end("<html><body></body></html>");
+        });
+
         var config = {
             server: {
                 baseDir: "test/fixtures",
-                index: "index.htm"
-            },
-            ghostMode: {
-                clicks: false,
-                scroll: false
+                middleware: middleware
             },
             logLevel: "silent",
-            open: false,
-            files: ["*.html"]
+            open: false
         };
 
-        instance = browserSync(config, function (err) {
-            if (err) {
-                throw err;
-            }
-            done();
-        }).instance;
+        instance = browserSync.init(config, done).instance;
     });
 
     after(function () {
         instance.cleanup();
     });
 
-    it("serves files with the snippet added", function (done) {
+    it("serves files from the middleware with snippet added", function (done) {
 
         assert.isString(instance.options.get("snippet"));
 
         request(instance.server)
-            .get("/index.html")
+            .get("/custom/middleware")
             .set("accept", "text/html")
             .expect(200)
             .end(function (err, res) {
