@@ -12,12 +12,13 @@ describe("E2E snippet ignore paths test (1)", function () {
     before(function (done) {
         browserSync.reset();
         var config = {
-            server:         {
+            server: {
                 baseDir: "test/fixtures"
             },
-            open:           false,
+            open: false,
+            logLevel: "silent",
             snippetOptions: {
-                ignorePaths: "iframe.html"
+                ignorePaths: "iframe.html" //back-compat
             }
         };
         instance = browserSync(config, done).instance;
@@ -34,6 +35,73 @@ describe("E2E snippet ignore paths test (1)", function () {
             .expect(200)
             .end(function (err, res) {
                 assert.notInclude(res.text, instance.options.get("snippet"));
+                done();
+            });
+    });
+});
+describe("E2E snippet blacklist paths test (1)", function () {
+
+    var instance;
+
+    before(function (done) {
+        browserSync.reset();
+        var config = {
+            server: {
+                baseDir: "test/fixtures"
+            },
+            open: false,
+            logLevel: "silent",
+            snippetOptions: {
+                blacklist: ["/iframe.html"] // correct syntax
+            }
+        };
+        instance = browserSync(config, done).instance;
+    });
+
+    after(function () {
+        instance.cleanup();
+    });
+
+    it("does not inject the snippet when excluded path hit", function (done) {
+        request(instance.server)
+            .get("/iframe.html")
+            .set("accept", "text/html")
+            .expect(200)
+            .end(function (err, res) {
+                assert.notInclude(res.text, instance.options.get("snippet"));
+                done();
+            });
+    });
+});
+describe("E2E snippet blacklist paths test (1)", function () {
+
+    var instance;
+
+    before(function (done) {
+        browserSync.reset();
+        var config = {
+            server: {
+                baseDir: "test/fixtures"
+            },
+            open: false,
+            logLevel: "silent",
+            snippetOptions: {
+                whitelist: ["/iframe.html"] // correct syntax
+            }
+        };
+        instance = browserSync(config, done).instance;
+    });
+
+    after(function () {
+        instance.cleanup();
+    });
+
+    it("Always injects snippet when path matches in whitelist", function (done) {
+        request(instance.server)
+            .get("/iframe.html")
+            .expect(200)
+            .end(function (err, res) {
+                assert.include(res.text, instance.options.get("snippet"));
                 done();
             });
     });
