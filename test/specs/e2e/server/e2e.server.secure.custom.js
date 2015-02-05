@@ -3,6 +3,7 @@
 var browserSync = require("../../../../index");
 
 var request = require("supertest");
+var path    = require("path");
 var assert  = require("chai").assert;
 
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = 0;
@@ -24,8 +25,8 @@ describe("E2E TLS server with custom certs test", function () {
                 baseDir: "test/fixtures"
             },
             https: {
-                key: __dirname + "/../../certs/server.key",
-                cert: __dirname + "/../../certs/server.cert"
+                key:  path.resolve("./lib/server/certs/server.key"),
+                cert: path.resolve("./lib/server/certs/server.crt")
             },
             logLevel: "silent",
             open: false

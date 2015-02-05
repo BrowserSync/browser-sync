@@ -1,6 +1,7 @@
 {
   "preset": "google",
   "validateIndentation": 4,
+  "requireOperatorBeforeLineBreak": [],
   "validateQuoteMarks": "\"",
   "requireSpacesInFunctionExpression": {
     "beforeOpeningRoundBrace": true,
