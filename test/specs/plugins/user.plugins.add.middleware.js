@@ -304,7 +304,8 @@ describe("Plugins: Should be able to add middleware with no paths on the fly in 
         var config = {
             logLevel: "silent",
             open: false,
-            proxy: "http://localhost:" + port
+            proxy: "http://localhost:" + port,
+            online: false
         };
 
         browserSync.use({
@@ -341,7 +342,7 @@ describe("Plugins: Should be able to add middleware with no paths on the fly in 
             .set("accept", "text/html")
             .expect(200)
             .end(function (err, res) {
-                console.log(res.text);
+                assert.include(res.text, "<title>Test HTML Page</title>");
                 done();
             });
     });
