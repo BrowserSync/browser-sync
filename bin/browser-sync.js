@@ -5,14 +5,13 @@ var meow          = require("meow");
 var fs            = require("fs");
 var path          = require("path");
 var compile       = require("eazy-logger").compile;
-
+var _             = require("lodash");
 var flags         = require("../lib/cli/opts");
 var info          = require("../lib/cli/cli-info");
 var logger        = require("../lib/logger").logger;
-var merge         = require("../lib/cli/cli-options").merge;
 
 var cmdWhitelist  = ["start", "init"];
-var flagWhitelist = ["ghostMode", "reloadOnRestart"];
+var flagWhitelist = Object.keys(flags).map(dropPrefix).map(_.camelCase);
 
 var cli = meow({
     pkg:  "../package.json",
@@ -55,7 +54,12 @@ function getHelpText(filepath) {
  */
 function handleCli (opts) {
 
-    opts.cb   = opts.cb   || function () { /* noop */ };
+    opts.cb = opts.cb || function (err) {
+        if (err) {
+            console.error(err.message);
+        }
+    };
+
     var input = opts.cli.input;
     var flags = opts.cli.flags;
 
@@ -128,6 +132,14 @@ function getPadding (len, max) {
  */
 function longest (arr) {
     return arr.sort(function (a, b) { return b.length - a.length; })[0];
+}
+
+/**
+ * @param {String} item
+ * @returns {String}
+ */
+function dropPrefix (item) {
+    return item.replace("no-", "");
 }
 
 module.exports = handleCli;
