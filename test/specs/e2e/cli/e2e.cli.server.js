@@ -56,3 +56,38 @@ describe("E2E CLI server test", function () {
             });
     });
 });
+
+describe("E2E CLI server test with directory listing/index ", function () {
+
+    var instance;
+
+    before(function (done) {
+
+        browserSync.reset();
+
+        cli({
+            cli: {
+                input: ["start"],
+                flags: {
+                    server: "test/fixtures",
+                    open: false,
+                    online: false,
+                    logLevel: "silent",
+                    directory: true,
+                    index: "index.htm"
+                }
+            },
+            cb: function (err, bs) {
+                instance = bs;
+                done();
+            }
+        });
+    });
+    after(function () {
+        instance.cleanup();
+    });
+    it("Sets the correct server options", function () {
+        assert.equal(instance.options.getIn(["server", "directory"]), true);
+        assert.equal(instance.options.getIn(["server", "index"]), "index.htm");
+    });
+});
