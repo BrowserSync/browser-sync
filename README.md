@@ -1,4 +1,8 @@
-# BrowserSync [![Build status](https://ci.appveyor.com/api/projects/status/r5vung2ipn9uj4sy?svg=true)](https://ci.appveyor.com/project/shakyShane/browser-sync) [![Build Status](https://travis-ci.org/BrowserSync/browser-sync.svg?branch=master)](https://travis-ci.org/BrowserSync/browser-sync) [![Coverage Status](https://img.shields.io/coveralls/shakyShane/browser-sync.svg?style=flat)](https://coveralls.io/r/shakyShane/browser-sync?branch=master) [![NPM version](https://img.shields.io/npm/v/browser-sync.svg?style=flat)](https://www.npmjs.com/package/browser-sync)
+# BrowserSync 
+[![AppVeyor branch](https://img.shields.io/appveyor/ci/shakyshane/browser-sync/master.svg?style=flat-square&label=windows)]() 
+[![Travis branch](https://img.shields.io/travis/BrowserSync/browser-sync/master.svg?style=flat-square&label=linux)]() 
+[![Coverage Status](https://img.shields.io/coveralls/shakyShane/browser-sync.svg?style=flat-square)](https://coveralls.io/r/shakyShane/browser-sync?branch=master) 
+[![NPM version](https://img.shields.io/npm/v/browser-sync.svg?style=flat-square)](https://www.npmjs.com/package/browser-sync)
 
 > Keep multiple browsers & devices in sync when building websites.
 
