@@ -62,13 +62,13 @@ describe("E2E Socket path test - given a callback", function () {
             .get(instance.options.getIn(["scriptPaths", "path"]))
             .expect(200)
             .end(function (err, res) {
-
-                assert.include(res.text, "io('http://' + location.host + '/TEST'");
+                assert.include(res.text, "io('/TEST'");
                 done();
             });
     });
 });
-describe("E2E Socket path test - given a callback 2", function () {
+
+describe("E2E Socket path test - given a callback", function () {
 
     var instance;
 
@@ -81,8 +81,8 @@ describe("E2E Socket path test - given a callback 2", function () {
             },
             open:   false,
             socket: {
-                namespace: function () {
-                    return "/bs";
+                namespace: function (namespace) {
+                    return "https://localhost:9000" + namespace;
                 }
             }
         };
@@ -98,7 +98,7 @@ describe("E2E Socket path test - given a callback 2", function () {
             .get(instance.options.getIn(["scriptPaths", "path"]))
             .expect(200)
             .end(function (err, res) {
-                assert.include(res.text, "___browserSync___.io('http://' + location.host + '/bs',");
+                assert.include(res.text, "___browserSync___.io('https://localhost:9000/browser-sync',");
                 done();
             });
     });
