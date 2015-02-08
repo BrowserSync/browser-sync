@@ -6,6 +6,7 @@ var fs            = require("fs");
 var path          = require("path");
 var compile       = require("eazy-logger").compile;
 var _             = require("lodash");
+var utils         = require("../lib/utils");
 var flags         = require("../lib/cli/opts");
 var info          = require("../lib/cli/cli-info");
 var logger        = require("../lib/logger").logger;
@@ -54,11 +55,7 @@ function getHelpText(filepath) {
  */
 function handleCli (opts) {
 
-    opts.cb = opts.cb || function (err) {
-        if (err) {
-            console.error(err.message);
-        }
-    };
+    opts.cb = opts.cb || utils.defaultCallback;
 
     var input = opts.cli.input;
     var flags = opts.cli.flags;
