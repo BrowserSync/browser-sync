@@ -46,7 +46,7 @@ describe("E2E Socket path test - given a callback", function () {
             open:   false,
             socket: {
                 namespace: function () {
-                    return "/TEST";
+                    return "http://localhost:6000/TEST";
                 }
             }
         };
@@ -62,7 +62,7 @@ describe("E2E Socket path test - given a callback", function () {
             .get(instance.options.getIn(["scriptPaths", "path"]))
             .expect(200)
             .end(function (err, res) {
-                assert.include(res.text, "io('/TEST'");
+                assert.include(res.text, "io('http://localhost:6000/TEST',");
                 done();
             });
     });
