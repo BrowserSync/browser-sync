@@ -45,8 +45,8 @@ describe("E2E Socket path test - given a callback", function () {
             },
             open:   false,
             socket: {
-                namespace: function (namespace) {
-                    return namespace + "TEST";
+                namespace: function () {
+                    return "http://localhost:6000/TEST";
                 }
             }
         };
@@ -62,12 +62,13 @@ describe("E2E Socket path test - given a callback", function () {
             .get(instance.options.getIn(["scriptPaths", "path"]))
             .expect(200)
             .end(function (err, res) {
-                assert.include(res.text, "io('/browser-sync/socket.ioTEST'");
+                assert.include(res.text, "io('http://localhost:6000/TEST',");
                 done();
             });
     });
 });
-describe("E2E Socket path test - given a callback 2", function () {
+
+describe("E2E Socket path test - given a callback", function () {
 
     var instance;
 
@@ -81,7 +82,7 @@ describe("E2E Socket path test - given a callback 2", function () {
             open:   false,
             socket: {
                 namespace: function (namespace) {
-                    return "localhost:3003" + namespace;
+                    return "https://localhost:9000" + namespace;
                 }
             }
         };
@@ -97,7 +98,7 @@ describe("E2E Socket path test - given a callback 2", function () {
             .get(instance.options.getIn(["scriptPaths", "path"]))
             .expect(200)
             .end(function (err, res) {
-                assert.include(res.text, "___browserSync___.io('localhost:3003/browser-sync/socket.io',");
+                assert.include(res.text, "___browserSync___.io('https://localhost:9000/browser-sync',");
                 done();
             });
     });

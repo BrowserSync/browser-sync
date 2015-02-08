@@ -1,7 +1,7 @@
 {
   "name": "browser-sync",
   "description": "Live CSS Reload & Browser Syncing",
-  "version": "2.0.0-rc9",
+  "version": "2.0.0-rc10",
   "homepage": "http://www.browsersync.io/",
   "author": {
     "name": "Shane Osbourne"
@@ -36,7 +36,7 @@
   "dependencies": {
     "async-each-series": "^0.1.1",
     "browser-sync-client": "^1.0.1",
-    "browser-sync-ui": "^0.4.5",
+    "browser-sync-ui": "^0.4.6",
     "connect": "^3.3.3",
     "dev-ip": "^1.0.1",
     "easy-extender": "^2.2.0",

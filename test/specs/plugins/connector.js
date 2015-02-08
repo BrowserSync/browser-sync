@@ -70,7 +70,7 @@ describe("Plugins: Using the connector middleware:", function () {
 
             plugin: function (opts, bs) {
 
-                var connectorMw = bs.getSocketConnector(bs.options.get("port"), {
+                var connectorMw = bs.getSocketConnector({
                     path: bs.options.getIn(["socket", "path"]),
                     namespace: "/browser-sync-cp"
                 });
