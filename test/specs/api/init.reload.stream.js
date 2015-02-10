@@ -66,7 +66,7 @@ describe("API: .reload()", function () {
         stream.write(new File({path: "styles2.css"}));
         stream.write(new File({path: "styles3.css"}));
         stream.end();
-        sinon.assert.calledTwice(emitterStub);
+        sinon.assert.calledOnce(emitterStub);
         sinon.assert.calledWithExactly(emitterStub, "browser:reload");
     });
     it("should be able to call .reload after a stream", function () {
@@ -86,5 +86,14 @@ describe("API: .reload()", function () {
         sinon.assert.calledWithExactly(emitterStub, "stream:changed", {
             changed: ["styles.css"]
         });
+    });
+    it("does not log file info if (once: true)", function () {
+        var stream = browserSync.reload({stream: true, once: true});
+        stream.write(new File({path: "styles.js"}));
+        stream.write(new File({path: "styles2.js"}));
+        stream.write(new File({path: "styles3.js"}));
+        stream.end();
+        sinon.assert.calledOnce(emitterStub);
+        sinon.assert.calledWithExactly(emitterStub, "browser:reload");
     });
 });
