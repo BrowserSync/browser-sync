@@ -1,3 +1,31 @@
+### 2.0.1 (2015-02-10)
+
+
+#### Bug Fixes
+
+* **cli:**
+  * Ensure server options are merged from command line ([8d677328](https://github.com/BrowserSync/browser-sync/commit/8d677328a779502ba6f6e16b74f125dc2caeaf92))
+  * explode files args when given on command line., ([18324f0a](https://github.com/BrowserSync/browser-sync/commit/18324f0a7b4d3c49bd16800a7ba77cf13ea2449a), closes [#425](https://github.com/BrowserSync/browser-sync/issues/425), [#426](https://github.com/BrowserSync/browser-sync/issues/426))
+  * Don't double-merge cli options, re: #417 ([057d97f3](https://github.com/BrowserSync/browser-sync/commit/057d97f35786f120bc2057c884c80c5ce95aaf79))
+* **https:** Ensure HTTPS option is used in legacy mode + top level, re: #427 ([799c0a59](https://github.com/BrowserSync/browser-sync/commit/799c0a59cd152eb11e6f8e66a1d3adcf082624f7))
+* **proxy:**
+  * use path as startPath if given as proxy option ([f4ac4c59](https://github.com/BrowserSync/browser-sync/commit/f4ac4c595a479b44676824cdbdaa34cc1dc9d966))
+  * Bump Foxy module to fix issues with redirects, ([e5d8fe18](https://github.com/BrowserSync/browser-sync/commit/e5d8fe180bfd46f1380ec1f532d81f62f2f6ab11), closes [#381](https://github.com/BrowserSync/browser-sync/issues/381))
+* **reload:** Bump browser-sync-client fix ##369 ([9bcf1086](https://github.com/BrowserSync/browser-sync/commit/9bcf108694f0e51bafc3bd6d0a584781e2950f68))
+* **stream:** Don't log file info when once: true - fixes https://github.com/google/web-starte ([8f4d7275](https://github.com/BrowserSync/browser-sync/commit/8f4d7275d4dfa6e22dec4b87d19b3be51bab8af3))
+
+
+#### Features
+
+* **core:** Use immutable data internally to enable advanced features needed in upcoming UI  ([b5d6d9c1](https://github.com/BrowserSync/browser-sync/commit/b5d6d9c1866cf8451cf235dc3bca674af9e6d767))
+* **options:**
+  * Allow silent setting of options ([31e196a0](https://github.com/BrowserSync/browser-sync/commit/31e196a0e900356cf5cbb9b1e8a4c3202011d01e))
+  * added reloadOnRestart option - https://github.com/shakyShane/browser-sync/issues ([b1bcfa81](https://github.com/BrowserSync/browser-sync/commit/b1bcfa81638b1f99fed7d71ee051c00ceebaf8f9))
+* **server:** add serveFile method for plugin use ([c5007871](https://github.com/BrowserSync/browser-sync/commit/c50078717f291f3cb301b0bc315eac1b42f6d7b6))
+* **snippet:** Add black/white lists - ([6a2a296e](https://github.com/BrowserSync/browser-sync/commit/6a2a296ee05312d56de3ae47f5dfb6e04f877692), closes [#373](https://github.com/BrowserSync/browser-sync/issues/373))
+* **tunnel:** Switch to ngrok - re: #192 ([7359435c](https://github.com/BrowserSync/browser-sync/commit/7359435ca4efd429c9421aa912a036f82d022d82))
+
+
 ### 1.8.2 (2014-12-22)
 
 
