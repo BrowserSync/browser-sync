@@ -11,27 +11,32 @@
 BrowserSync is developed and maintained internally at <a href="http://www.wearejh.com">JH</a>, follow <a href="http://www.twitter.com/browsersync">@BrowserSync</a> on twitter for news & updates.
 
 ## Features
-
-1. **Scroll** - I can keep your pages in sync when scrolling.
-2. **Forms** - You fill out a form in one browser, I'll copy the data to all the others.
-3. **Links** - I'll watch your clicks and make all the other browsers follow you.
-4. **CSS injecting** - I can even watch your CSS files & inject them when they change.
-5. **Live Reload** - I can also watch files like HTML and PHP & when they change I can reload all browsers for you.
-6. **Built-in Server** - Yep, I can serve static files too if you need me to (uses Connect).
-7. **Use with any back-end setup** - I even have a proxy option so that I can be used with existing PHP, Rails, Python, Node or ASP.net setup.
-8. **Public URL** - View your website via a URL that any internet connected device can access & maintain all BrowserSync features.
-9. **Browser Stack support** - Use the all of my features when viewing your site through Browser Stack.
-
-
-## When is it useful?
-
-It's pretty useful when used with a single browser, watching a CSS file for changes & injecting it. But the real power comes when you're building responsive sites and using multiple devices/monitors because it can keep all browsers in sync & make your workflow much faster.
+Please visit [browsersync.io](http://browsersync.io) for a full run-down of features
 
 ## Requirements
 
 BrowserSync works by injecting an asynchronous script tag (`<script async>...</script>`) right after the `<body>` tag 
 during initial request. In order for this to work properly the `<body>` tag must be present. Alternatively you 
 can provide a custom rule for the snippet using [snippetOptions](http://www.browsersync.io/docs/options/#option-snippetOptions)
+
+## Upgrading from 1.x to 2.x ?
+Providing you havn't accessed any internal properties, everything will just work as
+ there are no breaking changes to the public API. Internally however, we now use an 
+ immutable data structure for storing/retrieving options. So whereas before you could access urls like this...
+ 
+```js
+browserSync({server: true}, function(err, bs) {
+    console.log(bs.options.urls.local);
+});
+```
+
+... you now access them in the following way:
+
+```js
+browserSync({server: true}, function(err, bs) {
+    console.log(bs.options.getIn(["urls", "local"]);
+});
+```
 
 ## Install
 
@@ -55,11 +60,6 @@ No problem, here's a [setup guide](http://www.browsersync.io/docs/gulp)
 ## Using Brunch?
 
 Enjoy the [browser-sync-brunch plugin](https://github.com/ocombe/browser-sync-brunch)
-
-## Screencasts
-
-[Some listed here](https://github.com/shakyShane/browser-sync/wiki/Screencasts)
-Want any more? Something specific? ask me nicely [@shaneOsbourne](http://www.twitter.com/shaneOsbourne)
 
 ## Support
 
@@ -111,4 +111,4 @@ If you've found Browser-sync useful and would like to contribute to its continue
 ## License
 
 Apache 2
-Copyright (c) 2014 Shane Osbourne
+Copyright (c) 2015 Shane Osbourne
