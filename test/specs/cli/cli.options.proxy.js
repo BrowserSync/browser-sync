@@ -47,12 +47,18 @@ describe("CLI: Options: Merging Proxy Options", function () {
         assert.equal(imm.getIn(["proxy", "target"]), "http://192.168.0.4:9001");
         assert.equal(imm.getIn(["proxy", "port"]), 9001);
     });
-    it("should merge a url with no protocol & no port", function () {
+    it.only("should merge a url with no protocol & no port", function () {
+
         var imm = merge({
             proxy: "localhost"
         });
-        assert.equal(imm.getIn(["proxy", "target"]), "http://localhost");
-        assert.equal(imm.getIn(["proxy", "port"]), 80);
+
+        //console.log(imm.toJS());
+        //
+        //assert.equal(imm.getIn(["proxy", "target"]), "http://localhost");
+
+        assert.equal(imm.getIn(["proxy", "url", "port"]), 80);
+
     });
     it("should merge a url with no protocol & no port", function () {
         var imm = merge({
