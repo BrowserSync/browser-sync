@@ -1,10 +1,6 @@
 "use strict";
 
 var browserSync = require("../../../../index");
-
-var connect = require("connect");
-
-var request = require("supertest");
 var assert  = require("chai").assert;
 
 describe("Accepting middleware as an option", function () {

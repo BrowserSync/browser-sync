@@ -128,6 +128,51 @@ describe("E2E proxy test", function () {
     });
 });
 
+describe("E2E proxy test with object option", function () {
+
+    var instance, server, options;
+
+    before(function (done) {
+
+        browserSync.reset();
+
+        var app = connect();
+        app.use(serveStatic("./test/fixtures"));
+        server = app.listen();
+        var proxytarget = "http://localhost:" + server.address().port;
+
+        var config = {
+            proxy:     {
+                target: proxytarget
+            },
+            logLevel: "silent",
+            open:      false
+        };
+
+        instance = browserSync.init([], config, function (err, bs) {
+            options = bs.options;
+            done();
+        }).instance;
+    });
+
+    after(function () {
+        instance.cleanup();
+        server.close();
+    });
+
+    it("Can serve the script", function (done) {
+
+        request(instance.server)
+            .get("/index-large.html")
+            .set("accept", "text/html")
+            .expect(200)
+            .end(function (err, res) {
+                assert.include(res.text, options.get("snippet"));
+                done();
+            });
+    });
+});
+
 describe("E2E proxy test", function () {
 
     before(function () {

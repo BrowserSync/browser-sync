@@ -1,10 +1,6 @@
 "use strict";
 
 var browserSync = require("../../../../index");
-
-var connect = require("connect");
-
-var request = require("supertest");
 var assert  = require("chai").assert;
 
 describe("Accepting middleware as a server option", function () {
@@ -15,7 +11,7 @@ describe("Accepting middleware as a server option", function () {
 
         browserSync.reset();
 
-        var fn = function (req, res, next) {
+        var fn = function (req) {
             console.log(req.url);
         };
 
@@ -39,6 +35,7 @@ describe("Accepting middleware as a server option", function () {
         assert.equal(bs.options.get("middleware").size, 1);
     });
 });
+
 describe("Ignoring middleware as a server option when given at top level", function () {
 
     var bs;
@@ -47,10 +44,10 @@ describe("Ignoring middleware as a server option when given at top level", funct
 
         browserSync.reset();
 
-        var fn = function fn(req, res, next) {
+        var fn = function fn (req) {
             console.log(req.url);
         };
-        var fn2 = function fn2(req, res, next) {
+        var fn2 = function fn2 (req) {
             console.log(req.url);
         };
 
