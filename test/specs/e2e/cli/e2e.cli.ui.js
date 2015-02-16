@@ -26,6 +26,9 @@ describe("E2E CLI UI test", function () {
                 }
             },
             cb: function (err, bs) {
+                if (err) {
+                    return done(err);
+                }
                 instance = bs;
                 done();
             }

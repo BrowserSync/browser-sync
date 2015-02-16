@@ -45,14 +45,13 @@ describe("CLI: Options: Merging Proxy Options", function () {
             proxy: "192.168.0.4:9001"
         });
         assert.equal(imm.getIn(["proxy", "target"]), "http://192.168.0.4:9001");
-        assert.equal(imm.getIn(["proxy", "port"]), 9001);
+        assert.equal(imm.getIn(["proxy", "url", "port"]), 9001);
     });
     it("should merge a url with no protocol & no port", function () {
         var imm = merge({
             proxy: "localhost"
         });
-        assert.equal(imm.getIn(["proxy", "target"]), "http://localhost");
-        assert.equal(imm.getIn(["proxy", "port"]), 80);
+        assert.equal(imm.getIn(["proxy", "url", "port"]), 80);
     });
     it("should merge a url with no protocol & no port", function () {
         var imm = merge({
@@ -72,16 +71,7 @@ describe("CLI: Options: Merging Proxy Options", function () {
                 proxy: "http://local.dev/subdir/another/path?rel=123"
             });
             assert.equal(imm.getIn(["proxy", "target"]), "http://local.dev");
-            assert.equal(imm.getIn(["proxy", "port"]), 80);
-        });
-        it("should set a start path when given 'startPath'", function () {
-            var imm = merge({
-                proxy: "http://local.dev"
-            }, {
-                startPath: "index.php"
-            });
-            assert.equal(imm.getIn(["proxy", "target"]), "http://local.dev");
-            assert.equal(imm.getIn(["proxy", "path"]), "/index.php");
+            assert.equal(imm.getIn(["proxy", "url", "port"]), 80);
         });
     });
 });

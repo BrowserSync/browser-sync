@@ -94,6 +94,7 @@ describe("E2E CLI proxy test", function () {
         assert.equal(instance.options.get("mode"), "snippet");
     });
 });
+
 describe("E2E CLI proxy test", function () {
 
     var instance;
