@@ -28,7 +28,7 @@ browserSync({
     files: ["app/css/*.css"],
     proxy: {
         target: "http://yourlocal.dev",
-        middeware: [fn1, fn2]
+        middleware: [fn1, fn2]
     },
     https: true
 });
