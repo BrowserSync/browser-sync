@@ -1,3 +1,12 @@
+## 2.1.0 (2015-02-16)
+
+
+#### Features
+
+* **https:** Add HTTPS proxying - re: #399 ([09dbca6e](https://github.com/BrowserSync/browser-sync/commit/09dbca6e3e60fa699ca2519d56ada3cbd5a2237b))
+* **proxy:** Allow user-specified proxy request headers ([0c303a7e](https://github.com/BrowserSync/browser-sync/commit/0c303a7e4a8bafa554d42c6895698b7338d036f4), closes [#430](https://github.com/BrowserSync/browser-sync/issues/430))
+
+
 ### 2.0.1 (2015-02-10)
 
 
