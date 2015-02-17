@@ -1,7 +1,7 @@
 /**
  *
  * Install:
- *      npm install browser-sync
+ *      npm install browser-sync compression
  *
  * Run:
  *      node <yourfile.js>
