@@ -19,7 +19,7 @@ var config = {
     files: ["app/css/*.css"]
 };
 
-browserSync(files, config, function (err, bs) {
+browserSync(config, function (err, bs) {
     // Full access to BrowserSync object here
     console.log(bs.getOption("urls"));
 });
