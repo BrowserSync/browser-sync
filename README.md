@@ -34,7 +34,7 @@ browserSync({server: true}, function(err, bs) {
 
 ```js
 browserSync({server: true}, function(err, bs) {
-    console.log(bs.options.getIn(["urls", "local"]);
+    console.log(bs.options.getIn(["urls", "local"]));
 });
 ```
 
