@@ -9,6 +9,7 @@ exports.config = {
         "tests/server.interactions.js",
         "tests/proxy.interactions.js",
         "tests/with.baseurl.js",
+        "tests/with.baseurl.https.js"
         //"tests/with.socket.io.js"
     ]
 };

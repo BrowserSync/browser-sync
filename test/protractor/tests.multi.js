@@ -35,6 +35,14 @@ module.exports = {
             logLevel: "silent"
         }
     },
+    "Secure Server": {
+        bsConfig: {
+            server: "./test/fixtures",
+            open: false,
+            logLevel: "silent",
+            https: true
+        }
+    },
     "Snippet": {
         bsConfig: {
             logLevel: "silent"
