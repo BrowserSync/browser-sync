@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width">
+    <title>Forms</title>
+    <link rel="stylesheet" href="assets/style.css"/>
+    <base href="http://www.google.com/" />
+
+</head>
+<body>
+<div class="container">
+    <h1>Browser Sync Ghost Mode: Form sync</h1>
+
+    <p>Links: synced</p>
+    <a href="index.html">Hompage</a>
+
+    <form id="form-01">
+        <p><label for="name">Text Inputs: synced</label></p>
+        <input type="text" name="name" value="" id="name"/>
+
+        <p><label for="email">Email Inputs: synced</label></p>
+        <input type="email" name="email" value="" id="email"/>
+        <p><label for="password">Passwords Inputs: synced</label></p>
+        <input type="password" name="password" value="" id="password"/>
+
+        <p><label for="country">Select Boxes: synced</label></p>
+        <select name="country" id="country">
+            <option value="uk">Uk</option>
+            <option value="spain">Spain</option>
+            <option value="france">France</option>
+        </select>
+
+        <p>Radio Buttons: synced </p>
+
+        <p>
+            <label for="confirm-1">Yes</label>
+            <input type="radio" name="confirm" id="confirm-1" value="1"/>
+            <label for="confirm-0">No</label>
+            <input type="radio" name="confirm" id="confirm-0" value="0"/>
+        </p>
+
+        <p>Check Boxes: synced</p>
+
+        <div>
+            <label for="option-1">Option 1</label>
+            <input type="checkbox" name="checkbox" id="option-1">
+            <label for="option-2">Option 2</label>
+            <input type="checkbox" name="checkbox" id="option-2">
+        </div>
+
+        <p><label for="message">Text Areas: synced</label></p>
+        <textarea name="message" id="message" cols="30" rows="10"></textarea>
+
+        <input type="submit" value="Submit" />
+        <input type="reset" value="Reset" />
+    </form>
+
+</div>
+</body>
+</html>

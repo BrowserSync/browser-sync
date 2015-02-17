@@ -8,6 +8,7 @@ exports.config = {
         "tests/actions.scroll.js",
         "tests/server.interactions.js",
         "tests/proxy.interactions.js",
-        "tests/with.socket.io.js"
+        "tests/with.baseurl.js",
+        //"tests/with.socket.io.js"
     ]
 };

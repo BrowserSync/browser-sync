@@ -55,7 +55,7 @@ describe("E2E server test", function () {
             .set("accept", "text/html")
             .expect(200)
             .end(function (err, res) {
-                assert.include(res.text, snippet);
+                assert.isTrue(res.text.indexOf(snippet2) > -1);
                 done();
             });
     });
