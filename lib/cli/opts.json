@@ -22,5 +22,6 @@
     "no-online":     "Force offline usage",
     "no-ui":         "Don't start the user interface",
     "no-ghost-mode": "Disable Ghost Mode",
+    "no-inject-changes":    "Reload on every file change",
     "no-reload-on-restart": "Don't auto-reload all browsers following a restart"
 }
