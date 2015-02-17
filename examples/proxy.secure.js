@@ -16,6 +16,5 @@ var browserSync = require("browser-sync");
 
 browserSync({
     files: ["app/css/*.css"],
-    proxy: "https://yourlocal.dev",
-    https: true
+    proxy: "https://yourlocal.dev"
 });
