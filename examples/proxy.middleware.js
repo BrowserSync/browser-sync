@@ -18,7 +18,7 @@ browserSync({
     files: ["app/css/*.css"],
     proxy: {
         target: "http://yourlocal.dev",
-        middeware: function (req, res, next) {
+        middleware: function (req, res, next) {
             console.log(req.url);
             next();
         }
