@@ -21,7 +21,7 @@
   * use path as startPath if given as proxy option ([f4ac4c59](https://github.com/BrowserSync/browser-sync/commit/f4ac4c595a479b44676824cdbdaa34cc1dc9d966))
   * Bump Foxy module to fix issues with redirects, ([e5d8fe18](https://github.com/BrowserSync/browser-sync/commit/e5d8fe180bfd46f1380ec1f532d81f62f2f6ab11), closes [#381](https://github.com/BrowserSync/browser-sync/issues/381))
 * **reload:** Bump browser-sync-client fix ##369 ([9bcf1086](https://github.com/BrowserSync/browser-sync/commit/9bcf108694f0e51bafc3bd6d0a584781e2950f68))
-* **stream:** Don't log file info when once: true - fixes https://github.com/google/web-starte ([8f4d7275](https://github.com/BrowserSync/browser-sync/commit/8f4d7275d4dfa6e22dec4b87d19b3be51bab8af3))
+* **stream:** Don't log file info when once: true - fixes https://github.com/google/web-starter-kit/issues/593 ([8f4d7275](https://github.com/BrowserSync/browser-sync/commit/8f4d7275d4dfa6e22dec4b87d19b3be51bab8af3))
 
 
 #### Features
