@@ -1,3 +1,15 @@
+### 2.1.4 (2015-02-18)
+
+
+#### Bug Fixes
+
+* **cli:** allow disable injection via cli - ([12ffbd79](https://github.com/BrowserSync/browser-sync/commit/12ffbd793443c7ede191aad55bcd530e566f0947), closes [#444](https://github.com/BrowserSync/browser-sync/issues/444))
+* **snippet:**
+  * Allow serving the client js over https when in snippet mode - ([196bafbe](https://github.com/BrowserSync/browser-sync/commit/196bafbee2b09c2a1e8b09a988a2c8aa43bac2b9), closes [#459](https://github.com/BrowserSync/browser-sync/issues/459))
+  * Allow serving the snippet on secure server + base url - re: #437 ([96d689c0](https://github.com/BrowserSync/browser-sync/commit/96d689c0830975dbf2baee5aaaaa396415052512))
+  * Always use full url path for scripts - ([14bd6f51](https://github.com/BrowserSync/browser-sync/commit/14bd6f5126c52228a0ed306a118feac0e65c50db), closes [#437](https://github.com/BrowserSync/browser-sync/issues/437))
+
+
 ## 2.1.0 (2015-02-16)
 
 
