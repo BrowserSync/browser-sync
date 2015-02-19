@@ -1,6 +1,6 @@
 # BrowserSync 
-[![AppVeyor branch](https://img.shields.io/appveyor/ci/shakyshane/browser-sync/master.svg?style=flat-square&label=windows)]() 
-[![Travis branch](https://img.shields.io/travis/BrowserSync/browser-sync/master.svg?style=flat-square&label=linux)]() 
+[![AppVeyor branch](https://img.shields.io/appveyor/ci/shakyshane/browser-sync/master.svg?style=flat-square&label=windows)](https://ci.appveyor.com/project/shakyShane/browser-sync) 
+[![Travis branch](https://img.shields.io/travis/BrowserSync/browser-sync/master.svg?style=flat-square&label=linux)](https://travis-ci.org/BrowserSync/browser-sync) 
 [![Coverage Status](https://img.shields.io/coveralls/shakyShane/browser-sync.svg?style=flat-square)](https://coveralls.io/r/shakyShane/browser-sync?branch=master) 
 [![NPM version](https://img.shields.io/npm/v/browser-sync.svg?style=flat-square)](https://www.npmjs.com/package/browser-sync)
 
