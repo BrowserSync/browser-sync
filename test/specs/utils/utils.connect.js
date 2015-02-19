@@ -15,7 +15,7 @@ describe("Connection utils", function () {
     });
     it("should return a connection url with http", function () {
         var actual   = utils.getConnectionUrl(options);
-        var expected = "'http://' + location.host + '/browser-sync'";
+        var expected = "'' + location.host + '/browser-sync'";
         assert.equal(actual, expected);
     });
     it("should return a connection url for snippet mode", function () {
@@ -35,7 +35,7 @@ describe("Connection utils", function () {
             mode: "proxy"
         });
         var actual   = utils.socketConnector(options);
-        assert.include(actual, "'http://' + location.host + '/browser-sync'");
+        assert.include(actual, "'' + location.host + '/browser-sync'");
     });
     it("should return a connection url for server mode", function () {
         var options = merge({
@@ -44,7 +44,7 @@ describe("Connection utils", function () {
             mode: "server"
         });
         var actual   = utils.socketConnector(options);
-        assert.include(actual, "'http://' + location.host + '/browser-sync'");
+        assert.include(actual, "'' + location.host + '/browser-sync'");
     });
     it("should return a connection url for server mode, https", function () {
         var options = merge({
@@ -53,7 +53,7 @@ describe("Connection utils", function () {
             mode: "server"
         });
         var actual   = utils.socketConnector(options);
-        assert.include(actual, "'https://' + location.host + '/browser-sync'");
+        assert.include(actual, "'' + location.host + '/browser-sync'");
     });
     it("should return a connection url for snippet mode", function () {
         var options = merge({
@@ -64,7 +64,7 @@ describe("Connection utils", function () {
         var actual   = utils.socketConnector(options);
         assert.include(actual, "'http://' + location.hostname + ':4002/browser-sync'");
     });
-    it("should return a connection url for snippet mode", function () {
+    it("should return a connection url for secure snippet mode", function () {
         var options = merge({
             port: 4002,
             scheme: "https",

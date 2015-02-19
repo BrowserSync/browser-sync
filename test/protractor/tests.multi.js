@@ -1,10 +1,23 @@
 "use strict";
 
-var fs = require("fs");
-var path = require("path");
 var connect = require("connect");
-var serveStatic = require("serve-static");
-var http = require("http");
+var utils = require("../../lib/server/utils");
+var Immutable  = require("immutable");
+
+function getApp (bs, options) {
+
+    var html = "<!doctype html><html lang=\"en-US\"><head><meta charset=\"UTF-8\"><title>Browsersync</title></head><body>BS</body></html>";
+    var app = connect();
+
+    app.use("/", function (req, res) {
+        res.setHeader("content-type", "text/html");
+        res.end(html.replace("BS", bs.getOption("snippet")));
+    });
+
+    var appserver = utils.getServer(app, options);
+
+    return appserver;
+}
 
 module.exports = {
     "Proxy Test Laravel App": {
@@ -24,6 +37,13 @@ module.exports = {
     "Proxy Test Localhost": {
         bsConfig: {
             proxy: "localhost",
+            open: false,
+            logLevel: "silent"
+        }
+    },
+    "Secure Proxy": {
+        bsConfig: {
+            proxy: "https://grenade.static:8890",
             open: false,
             logLevel: "silent"
         }
@@ -48,23 +68,35 @@ module.exports = {
             logLevel: "silent"
         },
         before: function (bs, cb) {
-            var filepath = path.resolve(__dirname + "/../fixtures/index.html");
-            var file = fs.readFileSync(filepath, "utf-8");
-            var modded = file.replace("<!-- BrowserSync -->", bs.getOption("snippet"));
-            var app = connect();
-            app.use(serveStatic(path.resolve(__dirname + "/../fixtures")));
-            var server = http.createServer(app).listen();
-            var port = server.address().port;
-            var url = "http://localhost:" + port;
-            process.env["BS_BASE"]        = url;
-            fs.writeFileSync(filepath, modded);
+            var app = getApp(bs, Immutable.Map({scheme: "http"}));
+            app.server.listen();
+            process.env["BS_BASE"] = "http://localhost:" + app.server.address().port;
             cb();
+        }
+    },
+    "Secure Snippet on Insecure Website": {
+        bsConfig: {
+            logLevel: "silent",
+            https: true
         },
-        after: function (bs, cb) {
-            var filepath = path.resolve(__dirname + "/../fixtures/index.html");
-            var file = fs.readFileSync(filepath, "utf-8");
-            var modded = file.replace(bs.getOption("snippet"), "<!-- BrowserSync -->");
-            fs.writeFileSync(filepath, modded);
+        before: function (bs, cb) {
+
+            var app = getApp(bs, Immutable.Map({scheme: "http"}));
+            app.server.listen();
+            process.env["BS_BASE"] = "http://localhost:" + app.server.address().port;
+            cb();
+        }
+    },
+    "Secure Snippet on Secure Website": {
+        bsConfig: {
+            logLevel: "silent",
+            https: true
+        },
+        before: function (bs, cb) {
+
+            var app = getApp(bs, Immutable.Map({scheme: "https"}));
+            app.server.listen();
+            process.env["BS_BASE"] = "https://localhost:" + app.server.address().port;
             cb();
         }
     }

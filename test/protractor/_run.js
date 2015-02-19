@@ -8,8 +8,10 @@ module.exports = function (logger) {
     return function (config, configFile, cb) {
         browserSync.reset();
         var instance = browserSync(config.bsConfig, function (err, bs) {
-            var url = bs.getOptionIn(["urls", "local"]);
+            var url   = bs.getOptionIn(["urls", "local"]);
+            var uiurl = bs.getOptionIn(["urls", "ui"]);
             process.env["BS_BASE"]        = url;
+            process.env["BS_UI"]          = uiurl;
             process.env["BS_SCRIPT_PATH"] = bs.getOptionIn(["scriptPaths", "path"]);
             logger.info("Testing BrowserSync at %s", url);
 
@@ -28,6 +30,7 @@ module.exports = function (logger) {
 function runTests (config, configFile, bs, cb) {
     var out = "";
     exec("protractor " + configFile, function (err, stdout) {
+        console.log(stdout);
         if (err) {
             doCallback({
                 code: 1,
