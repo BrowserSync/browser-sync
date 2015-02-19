@@ -19,6 +19,9 @@ describe("works when base url set in HTML", function () {
             },
             open: false,
             logLevel: "silent",
+            scriptPath: function (path, port, options) {
+                return options.get("absolute");
+            },
             ui: false
         };
         init(protractor, config).then(function (bs) {
@@ -29,7 +32,7 @@ describe("works when base url set in HTML", function () {
     it("should ", function () {
 
         browser.get(urls.local + "/base.html");
-
+        browser.pause();
         assertScripts();
     });
 });

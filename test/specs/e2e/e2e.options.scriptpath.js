@@ -103,3 +103,60 @@ describe("E2E Socket path test - given a callback", function () {
             });
     });
 });
+
+describe("E2E script path test - Using absolute path", function () {
+
+    var instance;
+
+    before(function (done) {
+        browserSync.reset();
+
+        var config = {
+            server:     {
+                baseDir: "test/fixtures"
+            },
+            open:       false,
+            scriptPath: function (scriptPath, port, options) {
+                return options.get("absolute")
+            }
+        };
+        instance = browserSync(config, done).instance;
+    });
+
+    after(function () {
+        instance.cleanup();
+    });
+
+    it("Sets the script path", function () {
+        assert.include(instance.options.get("snippet"), "http://HOST:3000/browser-sync/browser-sync-client.");
+    });
+});
+
+describe("E2E script path test - Using absolute path + secure server", function () {
+
+    var instance;
+
+    before(function (done) {
+        browserSync.reset();
+
+        var config = {
+            server:     {
+                baseDir: "test/fixtures"
+            },
+            https: true,
+            open: false,
+            scriptPath: function (scriptPath, port, options) {
+                return options.get("absolute")
+            }
+        };
+        instance = browserSync(config, done).instance;
+    });
+
+    after(function () {
+        instance.cleanup();
+    });
+
+    it("Sets the script path", function () {
+        assert.include(instance.options.get("snippet"), "https://HOST:3000/browser-sync/browser-sync-client.");
+    });
+});

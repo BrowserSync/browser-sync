@@ -20,6 +20,9 @@ describe("works when base url set in HTML", function () {
             https: true,
             open: false,
             logLevel: "silent",
+            scriptPath: function (path, port, options) {
+                return options.get("absolute");
+            },
             ui: false
         };
         init(protractor, config).then(function (bs) {
