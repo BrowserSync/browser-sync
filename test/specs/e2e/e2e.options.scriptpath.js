@@ -117,7 +117,7 @@ describe("E2E script path test - Using absolute path", function () {
             },
             open:       false,
             scriptPath: function (scriptPath, port, options) {
-                return options.get("absolute")
+                return options.get("absolute");
             }
         };
         instance = browserSync(config, done).instance;
@@ -146,7 +146,7 @@ describe("E2E script path test - Using absolute path + secure server", function 
             https: true,
             open: false,
             scriptPath: function (scriptPath, port, options) {
-                return options.get("absolute")
+                return options.get("absolute");
             }
         };
         instance = browserSync(config, done).instance;
