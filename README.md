@@ -1,8 +1,8 @@
-# BrowserSync 
-[![AppVeyor branch](https://img.shields.io/appveyor/ci/shakyshane/browser-sync/master.svg?style=flat-square&label=windows)](https://ci.appveyor.com/project/shakyShane/browser-sync) 
-[![Travis branch](https://img.shields.io/travis/BrowserSync/browser-sync/master.svg?style=flat-square&label=linux)](https://travis-ci.org/BrowserSync/browser-sync) 
-[![Coverage Status](https://img.shields.io/coveralls/shakyShane/browser-sync.svg?style=flat-square)](https://coveralls.io/r/shakyShane/browser-sync?branch=master) 
-[![NPM version](https://img.shields.io/npm/v/browser-sync.svg?style=flat-square)](https://www.npmjs.com/package/browser-sync)
+# BrowserSync
+[![AppVeyor branch](https://img.shields.io/appveyor/ci/shakyshane/browser-sync/master.svg?style=flat-square&label=windows)](https://ci.appveyor.com/project/shakyShane/browser-sync)
+[![Travis branch](https://img.shields.io/travis/BrowserSync/browser-sync/master.svg?style=flat-square&label=linux)](https://travis-ci.org/BrowserSync/browser-sync)
+[![Coverage Status](https://img.shields.io/coveralls/shakyShane/browser-sync.svg?style=flat-square)](https://coveralls.io/r/shakyShane/browser-sync?branch=master)
+[![NPM version](https://img.shields.io/npm/v/browser-sync.svg?style=flat-square)](https://www.npmjs.com/package/browser-sync) [![Dependency Status](https://img.shields.io/david/BrowserSync/browser-sync.svg?style=flat-square)](https://david-dm.org/BrowserSync/browser-sync) [![devDependency Status](https://img.shields.io/david/dev/BrowserSync/browser-sync.svg?style=flat-square)](https://david-dm.org/BrowserSync/browser-sync#info=devDependencies)
 
 > Keep multiple browsers & devices in sync when building websites.
 
@@ -15,15 +15,15 @@ Please visit [browsersync.io](http://browsersync.io) for a full run-down of feat
 
 ## Requirements
 
-BrowserSync works by injecting an asynchronous script tag (`<script async>...</script>`) right after the `<body>` tag 
-during initial request. In order for this to work properly the `<body>` tag must be present. Alternatively you 
+BrowserSync works by injecting an asynchronous script tag (`<script async>...</script>`) right after the `<body>` tag
+during initial request. In order for this to work properly the `<body>` tag must be present. Alternatively you
 can provide a custom rule for the snippet using [snippetOptions](http://www.browsersync.io/docs/options/#option-snippetOptions)
 
 ## Upgrading from 1.x to 2.x ?
 Providing you havn't accessed any internal properties, everything will just work as
- there are no breaking changes to the public API. Internally however, we now use an 
+ there are no breaking changes to the public API. Internally however, we now use an
  immutable data structure for storing/retrieving options. So whereas before you could access urls like this...
- 
+
 ```js
 browserSync({server: true}, function(err, bs) {
     console.log(bs.options.urls.local);
