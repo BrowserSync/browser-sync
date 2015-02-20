@@ -39,28 +39,13 @@ browserSync({server: true}, function(err, bs) {
 });
 ```
 
-## Install
+## Install and trouble shooting
 
-```
-npm install -g browser-sync
-```
+[browsersync.io docs](http://browsersync.io)
 
-## How to use it
+## Integrations / recipes
 
-1. [Command line](http://www.browsersync.io/docs/command-line/)
-2. [API](http://www.browsersync.io/docs/api/)
-
-## Using Grunt?
-
-There's a [separate plugin](https://github.com/shakyShane/grunt-browser-sync) for that
-
-## Using Gulp?
-
-No problem, here's a [setup guide](http://www.browsersync.io/docs/gulp)
-
-## Using Brunch?
-
-Enjoy the [browser-sync-brunch plugin](https://github.com/ocombe/browser-sync-brunch)
+[BrowserSync recipes](https://github.com/BrowserSync/recipes)
 
 ## Support
 
