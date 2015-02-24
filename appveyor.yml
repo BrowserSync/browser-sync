@@ -1,11 +1,24 @@
 init:
   - git config --global core.autocrlf input
+
 shallow_clone: true
-version: 1.0.{build}
+
+version: '1.0.{build}'
+
+environment:
+  matrix:
+    - nodejs_version: '1.2'
+    - nodejs_version: '0.12'
+
 install:
-- npm install
+  - ps: Install-Product node $env:nodejs_version
+  - npm install
+
 test_script:
-- npm test
+  - npm test
+
 build: off
+
 cache:
-  - node_modules
+  - node_modules -> package.json
+
