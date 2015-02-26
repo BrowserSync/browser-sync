@@ -69,7 +69,8 @@ function handleCli (opts) {
     }
 
     if (!verifyOpts(flagWhitelist, flags)) {
-        return logger.info("For help, run: {cyan:browser-sync --help}");
+        logger.info("For help, run: {cyan:browser-sync --help}");
+        return opts.cb(new Error("Unknown flag given. Please refer to the documentation for help."));
     }
 
     if (input[0] === "start") {
