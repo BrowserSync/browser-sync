@@ -4,7 +4,7 @@ var browserSync = require("../../../../index");
 
 var assert = require("chai").assert;
 
-describe.skip("Tunnel e2e tests", function () {
+describe("Tunnel e2e tests", function () {
 
     describe("E2E server test with tunnel", function () {
 
