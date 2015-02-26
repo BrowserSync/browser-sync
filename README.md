@@ -1,7 +1,7 @@
 # BrowserSync
 [![AppVeyor branch](https://img.shields.io/appveyor/ci/shakyshane/browser-sync/master.svg?style=flat-square&label=windows)](https://ci.appveyor.com/project/shakyShane/browser-sync)
 [![Travis branch](https://img.shields.io/travis/BrowserSync/browser-sync/master.svg?style=flat-square&label=linux)](https://travis-ci.org/BrowserSync/browser-sync)
-[![Coverage Status](https://img.shields.io/coveralls/shakyShane/browser-sync.svg?style=flat-square&label=cov)](https://coveralls.io/r/shakyShane/browser-sync?branch=master)
+[![Coverage Status](https://img.shields.io/coveralls/BrowserSync/browser-sync.svg?style=flat-square)](https://coveralls.io/r/BrowserSync/browser-sync?branch=master)
 [![NPM version](https://img.shields.io/npm/v/browser-sync.svg?style=flat-square)](https://www.npmjs.com/package/browser-sync)
 [![Dependency Status](https://img.shields.io/david/BrowserSync/browser-sync.svg?style=flat-square&label=deps)](https://david-dm.org/BrowserSync/browser-sync)
 [![devDependency Status](https://img.shields.io/david/dev/BrowserSync/browser-sync.svg?style=flat-square&label=devDeps)](https://david-dm.org/BrowserSync/browser-sync#info=devDependencies)
