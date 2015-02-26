@@ -12,7 +12,7 @@ describe("CLI: Options: Merging Options: Files", function () {
         assert.deepEqual(imm.get("files").toJS(), ["css/*.css"]);
     });
     it("should return the files property from string", function () {
-        var imm = merge({}, {
+        var imm = merge({
             files: "css/*.css, *.html"
         });
         assert.deepEqual(
@@ -21,7 +21,7 @@ describe("CLI: Options: Merging Options: Files", function () {
         );
     });
     it("should return the files property from string", function () {
-        var imm = merge({}, {
+        var imm = merge({
             files: "css/*.css, test/fixtures/*.html"
         });
         assert.deepEqual(
@@ -43,26 +43,6 @@ describe("CLI: Options: Merging Options: Files", function () {
             ["css/*.css", "*.html"]
         );
     });
-    it("should return the files property Merged with excluded array (cli)", function () {
-        var imm = merge({}, {
-            files: "css/*.css, *.html",
-            exclude: "node_modules"
-        });
-        assert.deepEqual(
-            imm.get("files").toJS(),
-            ["css/*.css", "*.html", "!node_modules/**"]
-        );
-    });
-    it("should return the files property Merged with excluded array (cli)", function () {
-        var imm = merge({}, {
-            files: "css/*.css, *.html",
-            exclude: ["node_modules"]
-        });
-        assert.deepEqual(
-            imm.get("files").toJS(),
-            ["css/*.css", "*.html", "!node_modules/**"]
-        );
-    });
     it("should not break if 'exclude' option is provided without 'files' option", function () {
         var imm = merge({}, {
             exclude: "node_modules"
@@ -75,13 +55,11 @@ describe("CLI: Options: Merging Options: Files", function () {
                 shane: "test.html"
             }
         });
-
         assert.isTrue(
             Immutable.List.isList(
                 imm.getIn(["files", "shane"])
             )
         );
-
         assert.deepEqual(
             imm.get("files").toJS(),
             {
