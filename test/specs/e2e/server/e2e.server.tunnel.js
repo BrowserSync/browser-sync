@@ -43,7 +43,7 @@ describe("Tunnel e2e tests with subdomain", function () {
             },
             logLevel: "silent",
             open:      false,
-            tunnel:    Math.floor(Math.random() * 2e10),
+            tunnel:    String(Math.floor(Math.random() * 2e10)),
             online:    true
         };
         instance = browserSync(config, done).instance;
