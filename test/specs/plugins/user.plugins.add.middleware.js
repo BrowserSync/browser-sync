@@ -347,3 +347,20 @@ describe("Plugins: Should be able to add middleware with no paths on the fly in 
             });
     });
 });
+
+describe("Plugins: does not blow up if middleware added before app ready", function () {
+    it("returns early if not active", function () {
+        browserSync.reset();
+        var first = browserSync.create("1");
+        assert.doesNotThrow(function () {
+            first.instance.addMiddleware();
+        });
+    });
+    it("returns early if not active", function () {
+        browserSync.reset();
+        var first = browserSync.create("1");
+        assert.doesNotThrow(function () {
+            first.instance.removeMiddleware();
+        });
+    });
+});
