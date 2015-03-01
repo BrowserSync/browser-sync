@@ -8,11 +8,12 @@ var compile       = require("eazy-logger").compile;
 var _             = require("lodash");
 var utils         = require("../lib/utils");
 var flags         = require("../lib/cli/opts");
+var flagKeys      = Object.keys(flags);
 var info          = require("../lib/cli/cli-info");
 var logger        = require("../lib/logger").logger;
 
 var cmdWhitelist  = ["start", "init"];
-var flagWhitelist = Object.keys(flags).map(dropPrefix).map(_.camelCase);
+var flagWhitelist = flagKeys.map(dropPrefix).map(_.camelCase);
 
 var cli = meow({
     pkg:  "../package.json",
@@ -42,7 +43,7 @@ function getHelpText(filepath) {
             listFlags(
                 flags,
                 longest(
-                    Object.keys(flags)
+                    flagKeys
                 ).length
             )
         )
@@ -90,17 +91,16 @@ function handleCli (opts) {
  * @returns {Boolean}
  */
 function verifyOpts (flagWhitelist, cliFlags) {
+
     return Object.keys(cliFlags).every(function (key) {
-        if (flagWhitelist.indexOf(key) > -1) {
+
+        if (_.contains(flagWhitelist, key) || _.contains(flagKeys, key)) {
             return true;
         }
-        if (!(key in flags)) {
-            if (!("no-" + key in flags)) {
-                logger.info("Unknown flag:  {yellow:`%s`", key);
-                return false;
-            }
-        }
-        return true;
+
+        logger.info("Unknown flag:  {yellow:`%s`", key);
+
+        return false;
     });
 }
 
@@ -110,7 +110,7 @@ function verifyOpts (flagWhitelist, cliFlags) {
  * @returns {String}
  */
 function listFlags (flags, longest) {
-    return Object.keys(flags).reduce(function (all, item) {
+    return flagKeys.reduce(function (all, item) {
         return all + "    {bold:--" + item + "}" + getPadding(item.length, longest + 8) + flags[item] + "\n";
     }, "");
 }
