@@ -289,12 +289,12 @@ module.exports.reset = function () {
  * @param {String} name
  * @returns {Object|Boolean}
  */
-module.exports.get   = function (name) {
+module.exports.get = function (name) {
     var instance = getSingle(name);
     if (instance) {
         return instance;
     }
-    throw new Error("An instance with the name {yellow:`%s`} was not found.".replace("%s", name));
+    throw new Error("An instance with the name `%s` was not found.".replace("%s", name));
 };
 
 /**
