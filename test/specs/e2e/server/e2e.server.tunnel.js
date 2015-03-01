@@ -57,3 +57,31 @@ describe("Tunnel e2e tests with subdomain", function () {
         assert.include(instance.options.getIn(["urls", "tunnel"]), "localtunnel.me");
     });
 });
+
+describe("Tunnel e2e tests with Error", function () {
+
+    it("does not blow up if tunnel unavailable", function (done) {
+        browserSync.reset();
+        var config = {
+            server:    {
+                baseDir: "test/fixtures"
+            },
+            logLevel: "silent",
+            open:      false,
+            tunnel:    true,
+            online:    true
+        };
+
+        var tunnelPath = require.resolve("localtunnel");
+
+        require("localtunnel");
+
+        require("sinon").stub(require.cache[tunnelPath], "exports").yields(new Error("Some error from localtunnel.me"));
+
+        browserSync(config, function (err, bs) {
+            assert.isUndefined(bs.options.getIn(["urls", "tunnel"]));
+            delete require.cache[tunnelPath];
+            done();
+        });
+    });
+});
