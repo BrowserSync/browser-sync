@@ -35,30 +35,32 @@ describe("E2E OPEN options", function () {
 
 describe("E2E OPEN options with external", function () {
 
-    var instance;
+    var bs;
     var stub;
+    var opnPath;
+    var opnStub;
 
     before(function (done) {
         browserSync.reset();
         var config = {
             logLevel: "silent",
             server:    "test/fixtures",
-            open:      "external"
+            open:      "local"
         };
         stub = sinon.spy(utils, "open");
-        instance = browserSync(config, done).instance;
+        opnPath = require.resolve("opn");
+        require(opnPath);
+        opnStub = require("sinon").stub(require.cache[opnPath], "exports");
+        bs = browserSync(config, done).instance;
     });
 
     after(function () {
-        instance.cleanup();
+        bs.cleanup();
         stub.restore();
     });
 
     it("Opens the external address when specified in options", function () {
-        if (instance.options.online) {
-            var args = stub.getCall(0).args;
-            sinon.assert.called(stub);
-            assert.equal(args[0], instance.options.urls.external);
-        }
+        sinon.assert.calledWith(opnStub, bs.options.getIn(["urls", "local"]));
+        require.cache[opnPath].exports.restore();
     });
 });
