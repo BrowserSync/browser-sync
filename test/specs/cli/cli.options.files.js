@@ -67,4 +67,26 @@ describe("CLI: Options: Merging Options: Files", function () {
             }
         );
     });
+    it.only("can register a cb fn for watchers", function (done) {
+        var config = {
+            files: {
+                "css/*.css" : function  () {
+                    console.log("hey");
+                }
+            }
+        };
+        var imm = merge({
+            files: {
+                "css/*.css" : function  () {
+                    console.log("hey");
+                }
+            }
+        });
+        var hooks = require("../../../lib/hooks");
+        var out   = hooks["files:watch"]([], imm.get('files'), {});
+        require("../../../")(config, function (err, bs) {
+            bs.cleanup();
+            done();
+        })
+    });
 });
