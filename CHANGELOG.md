@@ -1,3 +1,13 @@
+### 2.2.2 (2015-03-04)
+
+
+#### Bug Fixes
+
+* **paths:** Fix regression with absolute/relative paths to scripts/sockets/https etc - ([2386fe1b](https://github.com/BrowserSync/browser-sync/commit/2386fe1bbde175b18211ef9b242b6af0bf11128c), closes [#463](https://github.com/BrowserSync/browser-sync/issues/463))
+* **snippet:** Allow serving the client js over https when in snippet mode - ([196bafbe](https://github.com/BrowserSync/browser-sync/commit/196bafbee2b09c2a1e8b09a988a2c8aa43bac2b9), closes [#459](https://github.com/BrowserSync/browser-sync/issues/459))
+* **socket:** Bump socket io + client to fix #477 & https://github.com/BrowserSync/browser-syn ([659c281e](https://github.com/BrowserSync/browser-sync/commit/659c281eac8ab8343a7ba7b13fa532560dc1bd9c))
+
+
 ### 2.1.4 (2015-02-18)
 
 
