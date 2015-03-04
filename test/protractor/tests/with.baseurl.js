@@ -29,10 +29,8 @@ describe("works when base url set in HTML", function () {
             urls = instance.getOption("urls").toJS();
         });
     });
-    it("should ", function () {
-
+    it("should have script tags", function () {
         browser.get(urls.local + "/base.html");
-        browser.pause();
         assertScripts();
     });
 });
