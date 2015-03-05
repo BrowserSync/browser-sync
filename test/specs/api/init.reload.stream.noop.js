@@ -5,7 +5,7 @@ var assert      = require("chai").assert;
 var File        = require("vinyl");
 var sinon       = require("sinon");
 
-describe("API: .reload()", function () {
+describe("API: .stream() noop", function () {
 
     before(function () {
         browserSync.reset();
@@ -13,9 +13,7 @@ describe("API: .reload()", function () {
 
     it("should can handle a reload + stream call when there's no instance", function () {
         assert.doesNotThrow(function () {
-            var stream = browserSync.reload({
-                stream: true
-            });
+            var stream = browserSync.stream();
             stream.write(new File({path: "styles.css"}));
             stream.end();
         });
@@ -24,7 +22,7 @@ describe("API: .reload()", function () {
         var emitterStub;
         var bs = browserSync(function () {
 
-            var stream = bs.reload({stream:true});
+            var stream = bs.stream();
 
             emitterStub = sinon.spy(bs.emitter, "emit");
 

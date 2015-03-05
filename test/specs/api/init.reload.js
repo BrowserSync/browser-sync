@@ -4,6 +4,7 @@ var browserSync = require("../../../");
 
 var sinon       = require("sinon");
 var assert      = require("chai").assert;
+var File        = require("vinyl");
 
 describe("API: .reload()", function () {
 
@@ -64,6 +65,15 @@ describe("API: .reload()", function () {
     });
     it("should accept an array of file paths as strings", function () {
         browserSync.reload(["index.html", "css/core.css"]);
+        sinon.assert.calledWithExactly(emitterStub, "browser:reload");
+    });
+    it("should reload browser if once:true given as arg", function () {
+        var stream = browserSync.reload({stream: true, once: true});
+        stream.write(new File({path: "styles.css"}));
+        stream.write(new File({path: "styles2.css"}));
+        stream.write(new File({path: "styles3.css"}));
+        stream.end();
+        sinon.assert.calledOnce(emitterStub);
         sinon.assert.calledWithExactly(emitterStub, "browser:reload");
     });
 });
