@@ -44,7 +44,7 @@ describe("E2E Responding to events", function () {
     it("fires the file:reload event to the browser", function () {
 
         // Emit the event as it comes from the file-watcher
-        instance.events.emit("file:changed", {path: "styles.css", log: true, namespace: "core"});
+        instance.events.emit("file:changed", {path: "styles.css", event: "change", log: true, namespace: "core"});
 
         clock.tick();
 
@@ -60,7 +60,7 @@ describe("E2E Responding to events", function () {
         instance.paused = true;
 
         // Emit the event as it comes from the file-watcher
-        instance.events.emit("file:changed", {path: "styles.css", log: true, namespace: "core"});
+        instance.events.emit("file:changed", {path: "styles.css", log: true, event: "change", namespace: "core"});
 
         clock.tick();
 
@@ -69,8 +69,8 @@ describe("E2E Responding to events", function () {
 
         instance.paused = false;
 
-        // Emit the event as it comes from the file-watcher
-        instance.events.emit("file:changed", {path: "styles.css", log: true, namespace: "core"});
+        //// Emit the event as it comes from the file-watcher
+        instance.events.emit("file:changed", {path: "styles.css", log: true, event: "change", namespace: "core"});
 
         clock.tick();
 
@@ -81,7 +81,7 @@ describe("E2E Responding to events", function () {
     it("Sets `log: false` if `log` is undefined in event", function () {
 
         // Emit the event as it comes from the file-watcher
-        instance.events.emit("file:changed", {path: "styles.css", namespace: "core"});
+        instance.events.emit("file:changed", {path: "styles.css", event: "change", namespace: "core"});
 
         clock.tick();
 

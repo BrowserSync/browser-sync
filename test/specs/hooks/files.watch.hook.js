@@ -21,23 +21,10 @@ describe("files:watch hook", function () {
             core: ["*.html"]
         });
     });
-    it("should accept initial as Map + Strings ", function () {
-        var imm = merge({
-            files: {
-                shane:  "*.html",
-                kittie: "css/*.css"
-            }
-        });
-        assert.deepEqual(hook([], imm.get("files")).toJS(), {
-            shane:  ["*.html"],
-            kittie: ["css/*.css"]
-        });
-    });
     it("should accept & merge initial as List + Plugin options", function () {
         var imm = merge({
             files: {
-                shane:  "*.html",
-                kittie: "css/*.css"
+                "*.html": true
             }
         });
         var pluginOptions = {
@@ -45,27 +32,9 @@ describe("files:watch hook", function () {
                 files: "*.hbs"
             }
         };
+
         assert.deepEqual(hook([], imm.get("files"), pluginOptions).toJS(), {
-            shane:   ["*.html"],
-            kittie:  ["css/*.css"],
-            plugin1: ["*.hbs"]
-        });
-    });
-    it("should accept & merge initial as List + Plugin options", function () {
-        var imm = merge({
-            files: {
-                shane:  "*.html",
-                kittie: "css/*.css"
-            }
-        });
-        var pluginOptions = {
-            "plugin1": {
-                files: ["*.hbs"]
-            }
-        };
-        assert.deepEqual(hook([], imm.get("files"), pluginOptions).toJS(), {
-            shane:   ["*.html"],
-            kittie:  ["css/*.css"],
+            core:    {"*.html": true},
             plugin1: ["*.hbs"]
         });
     });
