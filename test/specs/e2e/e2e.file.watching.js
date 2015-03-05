@@ -34,7 +34,7 @@ describe("file-watching", function () {
         it("Watches files with no namespace", function (done) {
 
             assert.ok(instance.watchers.core);
-            assert.ok(instance.watchers.core.watcher);
+            assert.ok(instance.watchers.core[0]);
             done();
         });
     });
@@ -51,7 +51,7 @@ describe("file-watching", function () {
 
             var config = {
                 files:    {
-                    "shane": file
+                    "*.html": true
                 },
                 logLevel: "silent"
             };
@@ -63,10 +63,10 @@ describe("file-watching", function () {
             instance.cleanup();
         });
 
-        it("Watches files with with a namespace", function (done) {
+        it("Watches files when object given", function (done) {
 
-            assert.ok(instance.watchers.shane);
-            assert.ok(instance.watchers.shane.watcher);
+            assert.ok(instance.watchers.core);
+            assert.ok(instance.watchers.core[0]);
             done();
         });
     });
