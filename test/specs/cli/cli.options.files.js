@@ -1,10 +1,10 @@
 "use strict";
 
 var cli             = require("../../../lib/cli/");
-var Immutable       = require("immutable");
 var merge           = cli.options.merge;
+var hooks           = require("../../../lib/hooks");
 
-var assert = require("chai").assert;
+var assert          = require("chai").assert;
 
 describe("CLI: Options: Merging Options: Files", function () {
     it("should return the files property from string", function () {
@@ -49,44 +49,75 @@ describe("CLI: Options: Merging Options: Files", function () {
         });
         assert.isFalse(imm.get("files"));
     });
-    it("should merge files option in namespace form", function () {
-        var imm = merge({
-            files: {
-                shane: "test.html"
-            }
-        });
-        assert.isTrue(
-            Immutable.List.isList(
-                imm.getIn(["files", "shane"])
-            )
-        );
-        assert.deepEqual(
-            imm.get("files").toJS(),
-            {
-                shane: ["test.html"]
-            }
-        );
+    it("E2E - return default namespaced watcher when string given", function (done) {
+
+        var config = {
+            files: "*.html"
+        };
+
+        var imm   = merge(config);
+        var out   = hooks["files:watch"]([], imm.get("files"), {}).toJS();
+
+        assert.deepEqual({
+            core: ["*.html"]
+        }, out);
+
+        done();
     });
-    it.only("can register a cb fn for watchers", function (done) {
+    it("E2E - return default namespaced watcher when array given", function (done) {
+
+        var config = {
+            files: ["*.html", "test/css/**"]
+        };
+
+        var imm   = merge(config);
+        var out   = hooks["files:watch"]([], imm.get("files"), {}).toJS();
+
+        assert.deepEqual({
+            core: ["*.html", "test/css/**"]
+        }, out);
+
+        done();
+    });
+    it.skip("E2E - return plugin watcher when string given", function (done) {
+
+        var config = {
+            files: ["*.html", "test/css/**"]
+        };
+
+        var imm   = merge(config);
+        var out   = hooks["files:watch"]([], imm.get("files"), {}).toJS();
+
+        assert.deepEqual({
+            core: ["*.html", "test/css/**"]
+        }, out);
+
+        done();
+    });
+    it("E2E - can register a cb fn for watchers", function (done) {
+
+        var cb = function  () {
+            console.log("hey");
+        };
+
         var config = {
             files: {
-                "css/*.css" : function  () {
-                    console.log("hey");
-                }
+                "*.html": true,
+                "css/*.css" : cb
             }
         };
-        var imm = merge({
-            files: {
-                "css/*.css" : function  () {
-                    console.log("hey");
-                }
+
+        var imm   = merge(config);
+        var out   = hooks["files:watch"]([], imm.get("files"), {}).toJS();
+
+        assert.deepEqual({
+            core: {
+                "*.html": true,
+                "css/*.css": cb
             }
-        });
-        var hooks = require("../../../lib/hooks");
-        var out   = hooks["files:watch"]([], imm.get('files'), {});
-        require("../../../")(config, function (err, bs) {
-            bs.cleanup();
-            done();
-        })
+        }, out);
+
+        done();
     });
+
 });
