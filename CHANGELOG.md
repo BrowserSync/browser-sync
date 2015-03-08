@@ -1,3 +1,11 @@
+### 2.2.3 (2015-03-08)
+
+
+#### Bug Fixes
+
+* **socket:** Set heartbeat interval correctly - ([7621c0de](https://github.com/BrowserSync/browser-sync/commit/7621c0dece1fea6c170ffdc117bd7c67be2138ed), closes [#499](https://github.com/BrowserSync/browser-sync/issues/499))
+
+
 ### 2.2.2 (2015-03-04)
 
 
