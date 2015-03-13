@@ -1,3 +1,11 @@
+### 2.2.4 (2015-03-13)
+
+
+#### Bug Fixes
+
+* **reload:** Allow multiple instances to call their own `.reload()` method - ([da53dc21](https://github.com/BrowserSync/browser-sync/commit/da53dc21c6f7afd801a9f00489a6df2ab46156bb), closes [#511](https://github.com/BrowserSync/browser-sync/issues/511))
+
+
 ### 2.2.3 (2015-03-08)
 
 
