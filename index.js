@@ -234,8 +234,10 @@ function getSingle(name) {
  */
 function create(name, emitter) {
 
-    name = name || new Date().getTime();
-    var browserSync = new BrowserSync(emitter || newEmitter(), name);
+    name    = name    || new Date().getTime();
+    emitter = emitter || newEmitter();
+
+    var browserSync = new BrowserSync(emitter, name);
 
     var instance = {
         name:      name,

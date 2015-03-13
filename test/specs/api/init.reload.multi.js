@@ -7,16 +7,20 @@ var assert      = require("chai").assert;
 
 describe("API: .reload() with multi instances", function () {
 
-    var clock, bs1, bs2;
+    var clock, bs1, bs2, emitter1, emitter2;
 
     before(function (done) {
         browserSync.reset();
 
-        bs1 = browserSync.create("Server 1").init({logLevel:"silent"}, function () {
-            bs2 = browserSync.create("Server 2").init({logLevel: "silent"}, function () {
+        browserSync.create("Server 1").init({logLevel:"silent"}, function (err, bs) {
+            bs1 = bs;
+            emitter1 = sinon.spy(bs.events, "emit");
+            browserSync.create("Server 2").init({logLevel: "silent"}, function (err, bs) {
+                bs2 = bs;
+                emitter2 = sinon.spy(bs.events, "emit");
                 done();
-            }).instance;
-        }).instance;
+            });
+        });
 
         clock = sinon.useFakeTimers();
     });
@@ -26,6 +30,8 @@ describe("API: .reload() with multi instances", function () {
     });
 
     after(function () {
+        bs1.cleanup();
+        bs2.cleanup();
         clock.restore();
     });
 
