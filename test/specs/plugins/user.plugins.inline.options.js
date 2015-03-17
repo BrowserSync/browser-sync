@@ -13,12 +13,6 @@ describe("Plugins: Retrieving user plugins when given inline with options", func
 
         browserSync.reset();
 
-        var plugin = {
-            "bs-html-injector": {
-                files: "*.html"
-            }
-        };
-
         var config = {
             logLevel: "silent",
             plugins: [
