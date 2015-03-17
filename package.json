@@ -39,7 +39,7 @@
     "browser-sync-ui": "^0.4.10",
     "connect": "^3.3.3",
     "dev-ip": "^1.0.1",
-    "easy-extender": "^2.2.0",
+    "easy-extender": "^2.3.0",
     "eazy-logger": "^2.1.1",
     "emitter-steward": "^0.0.1",
     "foxy": "^10.0.2",
