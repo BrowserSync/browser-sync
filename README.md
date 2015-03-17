@@ -1,4 +1,3 @@
-# BrowserSync
 [![AppVeyor branch](https://img.shields.io/appveyor/ci/shakyshane/browser-sync/master.svg?style=flat-square&label=windows)](https://ci.appveyor.com/project/shakyShane/browser-sync)
 [![Travis branch](https://img.shields.io/travis/BrowserSync/browser-sync/master.svg?style=flat-square&label=linux)](https://travis-ci.org/BrowserSync/browser-sync)
 [![Coverage Status](https://img.shields.io/coveralls/BrowserSync/browser-sync.svg?style=flat-square)](https://coveralls.io/r/BrowserSync/browser-sync?branch=master)
@@ -6,11 +5,12 @@
 [![Dependency Status](https://img.shields.io/david/BrowserSync/browser-sync.svg?style=flat-square&label=deps)](https://david-dm.org/BrowserSync/browser-sync)
 [![devDependency Status](https://img.shields.io/david/dev/BrowserSync/browser-sync.svg?style=flat-square&label=devDeps)](https://david-dm.org/BrowserSync/browser-sync#info=devDependencies)
 
-> Keep multiple browsers & devices in sync when building websites.
+<p align="center"><a href="http://www.wearejh.com"><img src="http://cl.ly/image/3Y3O0M2z310j/jh-100-red.png" /></a></p>
+<h1 align="center">BrowserSync</h1>
+<blockquote align="center">Keep multiple browsers & devices in sync when building websites.</blockquote>
 
-<a href="http://www.wearejh.com"><img src="http://cl.ly/image/3Y3O0M2z310j/jh-100-red.png" /></a>
-
-BrowserSync is developed and maintained internally at <a href="http://www.wearejh.com">JH</a>, follow <a href="http://www.twitter.com/browsersync">@BrowserSync</a> on twitter for news & updates.
+<p align="center">BrowserSync is developed and maintained internally at <a href="http://www.wearejh.com">JH</a></p>
+<p align="center">Follow <a href="http://www.twitter.com/browsersync">@BrowserSync</a> on twitter for news & updates.</p>
 
 ## Features
 Please visit [browsersync.io](http://browsersync.io) for a full run-down of features
