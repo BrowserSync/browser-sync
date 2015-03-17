@@ -7,7 +7,7 @@
 
 <p align="center"><a href="http://www.wearejh.com"><img src="http://cl.ly/image/3Y3O0M2z310j/jh-100-red.png" /></a></p>
 <h1 align="center">BrowserSync</h1>
-<blockquote align="center">Keep multiple browsers & devices in sync when building websites.</blockquote>
+<p align="center">Keep multiple browsers & devices in sync when building websites.</p>
 
 <p align="center">BrowserSync is developed and maintained internally at <a href="http://www.wearejh.com">JH</a></p>
 <p align="center">Follow <a href="http://www.twitter.com/browsersync">@BrowserSync</a> on twitter for news & updates.</p>
