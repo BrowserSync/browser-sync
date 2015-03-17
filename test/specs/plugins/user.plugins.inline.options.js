@@ -38,4 +38,10 @@ describe("Plugins: Retrieving user plugins when given inline with options", func
         assert.equal(plugin.name, PLUGIN_NAME);
         done();
     });
+    it("should have access to user provided opts", function (done) {
+        var plugin = instance.getUserPlugins()[0];
+        assert.equal(plugin.opts.files, "*.html");
+        assert.equal(plugin.opts.moduleName, "bs-html-injector");
+        done();
+    });
 });
