@@ -1,3 +1,12 @@
+<a name"2.2.5"></a>
+### 2.2.5 (2015-03-17)
+
+
+#### Features
+
+* **plugins:** Allow plugins to be given inline within options hash ([fd4ccd9e](https://github.com/BrowserSync/browser-sync/commit/fd4ccd9e))
+
+
 ### 2.2.4 (2015-03-13)
 
 
