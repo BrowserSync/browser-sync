@@ -1,3 +1,12 @@
+<a name"2.3.2"></a>
+### 2.3.2 (2015-03-21)
+
+
+#### Bug Fixes
+
+* **client:** Bump UI to fix safari deprecated error messages - fix #445 ([6bb7513c](https://github.com/BrowserSync/browser-sync/commit/6bb7513c))
+
+
 <a name"2.2.5"></a>
 ### 2.2.5 (2015-03-17)
 
