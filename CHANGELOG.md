@@ -1,3 +1,12 @@
+<a name"2.4.0"></a>
+## 2.4.0 (2015-03-21)
+
+
+#### Features
+
+* **rewrite:** Allow addtional HTML rewrite rules through server + proxy modes to help with #51 ([76ae686d](https://github.com/BrowserSync/browser-sync/commit/76ae686d))
+
+
 <a name"2.3.2"></a>
 ### 2.3.2 (2015-03-21)
 
