@@ -36,8 +36,8 @@
   "dependencies": {
     "async-each-series": "^0.1.1",
     "browser-sync-client": "^1.0.1",
-    "browser-sync-ui": "^0.4.10",
-    "connect": "^3.3.3",
+    "browser-sync-ui": "^0.4.11",
+    "connect": "^3.3.5",
     "dev-ip": "^1.0.1",
     "easy-extender": "^2.3.0",
     "eazy-logger": "^2.1.1",
