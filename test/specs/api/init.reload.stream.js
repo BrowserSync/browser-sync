@@ -36,7 +36,8 @@ describe("API: .stream()", function () {
         sinon.assert.calledWithExactly(emitterStub, "file:changed", {
             path:      "styles.css",
             log:       false,
-            namespace: "core"
+            namespace: "core",
+            event:     "change"
         });
     });
     it("should accept multiple files in stream", function () {
@@ -47,12 +48,14 @@ describe("API: .stream()", function () {
         sinon.assert.calledWithExactly(emitterStub, "file:changed", {
             path:      "styles.css",
             log:       false,
-            namespace: "core"
+            namespace: "core",
+            event:     "change"
         });
         sinon.assert.calledWithExactly(emitterStub, "file:changed", {
             path:      "styles2.css",
             log:       false,
-            namespace: "core"
+            namespace: "core",
+            event:     "change"
         });
         sinon.assert.calledWithExactly(emitterStub, "stream:changed", {
             changed: ["styles.css", "styles2.css"]
@@ -75,5 +78,29 @@ describe("API: .stream()", function () {
         stream.end();
         sinon.assert.calledOnce(emitterStub);
         sinon.assert.calledWithExactly(emitterStub, "browser:reload");
+    });
+    it("only emits file-changed event if filter matched", function () {
+        var stream = browserSync.stream({match: "**/*.js"});
+        stream.write(new File({path: "/users/shane/styles.js"}));
+        stream.write(new File({path: "core.css"}));
+        stream.end();
+        sinon.assert.calledThrice(emitterStub);
+        sinon.assert.calledWithExactly(emitterStub, "file:changed", {
+            path:      "/users/shane/styles.js",
+            log:       false,
+            namespace: "core",
+            event:     "change"
+        });
+        sinon.assert.calledWithExactly(emitterStub, "stream:changed", {
+            changed: ["styles.js"]
+        });
+    });
+    it("only emits file-changed event if filter returns no results", function () {
+        var stream = browserSync.stream({match: "**/*.md"});
+        stream.write(new File({path: "/users/shane/styles.js"}));
+        stream.write(new File({path: "core.css"}));
+        stream.write(new File({path: "index.html"}));
+        stream.end();
+        sinon.assert.notCalled(emitterStub);
     });
 });

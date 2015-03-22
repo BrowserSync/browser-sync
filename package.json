@@ -34,6 +34,7 @@
     "pre-release": "npm test && npm run pro-local && npm run pro"
   },
   "dependencies": {
+    "anymatch": "^1.1.0",
     "async-each-series": "^0.1.1",
     "browser-sync-client": "^1.0.1",
     "browser-sync-ui": "^0.5.2",
