@@ -39,7 +39,8 @@ describe("API: .reload()", function () {
         sinon.assert.calledWithExactly(emitterStub, "file:changed", {
             path: "css/core.css",
             log: true,
-            namespace: "core"
+            namespace: "core",
+            event: "change"
         });
     });
     it("only calls reload once if the array contains a filepath that will cause a reload", function () {
@@ -55,12 +56,14 @@ describe("API: .reload()", function () {
         sinon.assert.calledWithExactly(emitterStub, "file:changed", {
             path: "css/core.css",
             log: true,
-            namespace: "core"
+            namespace: "core",
+            event: "change"
         });
         sinon.assert.calledWithExactly(emitterStub, "file:changed", {
             path: "ie.css",
             log: true,
-            namespace: "core"
+            namespace: "core",
+            event: "change"
         });
     });
     it("should accept an array of file paths as strings", function () {
