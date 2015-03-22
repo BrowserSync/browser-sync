@@ -67,6 +67,11 @@ describe("API: .reload()", function () {
         browserSync.reload(["index.html", "css/core.css"]);
         sinon.assert.calledWithExactly(emitterStub, "browser:reload");
     });
+    /**
+     * BACKWARDS COMPATIBILITY:
+     * This is an old signature that, whilst we must continue to support,
+     * is now deferred to the stream method.
+     */
     it("should reload browser if once:true given as arg", function () {
         var stream = browserSync.reload({stream: true, once: true});
         stream.write(new File({path: "styles.css"}));
