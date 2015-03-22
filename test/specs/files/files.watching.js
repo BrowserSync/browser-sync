@@ -72,27 +72,4 @@ describe("File Watcher Module", function () {
             });
         });
     });
-    it.skip("should emit events about changed files in custom namespace", function (done) {
-
-        var tempFile = path.join(outpath, "watch-func.txt");
-
-        fs.writeFile(tempFile, tempFileContent, function () {
-
-            // assert: it works if it calls done
-            browserSync.reset();
-            browserSync.create().init({files: {shane:tempFile}, ui: false, online: false, logSnippet: false}, function (err, bs) {
-
-                bs.events.on("file:changed", function (data) {
-                    assert.equal(data.namespace, "shane");
-                    assert.equal(data.type, "changed");
-                    assert.equal(data.path, path.resolve(tempFile));
-                    bs.cleanup();
-                    done();
-                });
-
-                // act: change file
-                writeFileWait(tempFile, tempFileContent + " changed");
-            });
-        });
-    });
 });
