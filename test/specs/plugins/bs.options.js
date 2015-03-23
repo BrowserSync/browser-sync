@@ -21,16 +21,19 @@ describe("Plugins: Retrieving options via API", function () {
         };
 
         browserSync.use({
-
             plugin: function (opts, bs) {
 
+                assert.equal(opts.files, "*.css");
                 assert.ok(require("immutable").Map.isMap(bs.getOptions()));
                 instance.cleanup();
-                done();
             },
             "plugin:name": "test"
-        });
 
-        instance = browserSync(config).instance;
+        }, {files: "*.css"});
+
+        instance = browserSync(config, function (err, bs) {
+            assert.equal(bs.watchers.test.watchers.length, 1);
+            done();
+        }).instance;
     });
 });

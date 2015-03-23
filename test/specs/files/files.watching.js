@@ -29,9 +29,7 @@ describe("File Watcher Module", function () {
 
     it("Passes options for chokidar", function (done) {
         var imm = merge({
-            files: {
-                "css/*.css": true
-            },
+            files: "css/*.css",
             watchOptions: {
                 debounceDelay: 4000
             }
@@ -41,8 +39,8 @@ describe("File Watcher Module", function () {
         var emitter = new events.EventEmitter();
         var watchers = fileWatcher.plugin(imm, emitter);
 
-        assert.equal(watchers["core"][0].options.debounceDelay, 4000);
-        assert.equal(watchers["core"].length, 1);
+        assert.equal(watchers.core.watchers.length, 1);
+        assert.equal(watchers.core.watchers[0].options.debounceDelay, 4000);
         done();
     });
     it("should emit events about changed files in core namespace", function (done) {
