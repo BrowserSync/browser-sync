@@ -10,9 +10,11 @@ describe("files:watch hook", function () {
             files: "*.html"
         });
         assert.deepEqual(hook([], imm.get("files")).toJS(), {
-            core: {
-                "*.html": true,
-                multi: []
+            "core": {
+                "globs": [
+                    "*.html"
+                ],
+                "objs": []
             }
         });
     });
@@ -20,19 +22,20 @@ describe("files:watch hook", function () {
         var imm = merge({
             files: ["*.html"]
         });
+
         assert.deepEqual(hook([], imm.get("files")).toJS(), {
-            core: {
-                "*.html": true,
-                multi: []
+            "core": {
+                "globs": [
+                    "*.html"
+                ],
+                "objs": []
             }
         });
     });
     it("should accept & merge initial as List + Plugin options", function () {
 
         var imm = merge({
-            files: {
-                "*.html": true
-            }
+            files: "*.html"
         });
 
         var pluginOptions = {
@@ -41,9 +44,21 @@ describe("files:watch hook", function () {
             }
         };
 
-        assert.deepEqual(hook([], imm.get("files"), pluginOptions).toJS(), {
-            core:    {"*.html": true, multi: []},
-            plugin1: ["*.hbs"]
+        var files = imm.get("files");
+
+        assert.deepEqual(hook([], files, pluginOptions).toJS(), {
+            "core": {
+                "globs": [
+                    "*.html"
+                ],
+                "objs": []
+            },
+            "plugin1": {
+                "globs": [
+                    "*.hbs"
+                ],
+                "objs": []
+            }
         });
     });
     it("should accept both string globs + objects as file watching patterns", function () {
@@ -62,11 +77,8 @@ describe("files:watch hook", function () {
             ]
         });
 
-        assert.equal(imm.get("files").toJS().length, 2);
-        assert.equal(imm.get("files").toJS()[0], "*.html");
-        assert.equal(imm.get("files").toJS()[1].match, "*.css");
-        assert.equal(imm.get("files").toJS()[1].fn, cb);
-
+        assert.equal(imm.get("files").toJS().core.globs[0], "*.html");
+        assert.equal(imm.get("files").toJS().core.objs[0].match, "*.css");
     });
     it("should string globs + objects as file watching patterns", function () {
 
@@ -90,16 +102,19 @@ describe("files:watch hook", function () {
             }
         };
 
-        assert.deepEqual(hook([], imm.get("files"), pluginOptions).toJS(), {
-            core: {
-                "*.html": true,
-                "*.css":  cb,
-                multi:    []
-            },
-            plugin1: ["*.hbs"]
-        });
+        var out = hook([], imm.get("files"), pluginOptions).toJS();
+
+        assert.equal(out.core.globs.length, 1);
+        assert.equal(out.core.objs.length, 1);
+        assert.equal(out.plugin1.globs.length, 1);
+        assert.equal(out.plugin1.objs.length, 0);
+
+        assert.equal(out.core.globs[0], "*.html");
+        assert.equal(out.core.objs[0].match, "*.css");
+
+        assert.equal(out.plugin1.globs[0], "*.hbs");
     });
-    it("should string globs + objects as file watching multiple patterns", function () {
+    it("should string globs + objects as file watching patterns", function () {
 
         var cb = function (event, file) {
             console.log(file);
@@ -109,7 +124,7 @@ describe("files:watch hook", function () {
             files: [
                 "*.html",
                 {
-                    match: ["*.css", "*.less"],
+                    match: "*.css",
                     fn: cb
                 }
             ]
@@ -117,21 +132,27 @@ describe("files:watch hook", function () {
 
         var pluginOptions = {
             "plugin1": {
-                files: "*.hbs"
+                files: [
+                    "*.hbs",
+                    {
+                        match: "*.css",
+                        fn: cb
+                    }
+                ]
             }
         };
 
-        assert.deepEqual(hook([], imm.get("files"), pluginOptions).toJS(), {
-            core: {
-                multi: [
-                    {
-                        match: ["*.css", "*.less"],
-                        fn: cb
-                    }
-                ],
-                "*.html": true
-            },
-            plugin1: ["*.hbs"]
-        });
+        var out = hook([], imm.get("files"), pluginOptions).toJS();
+
+        assert.equal(out.core.globs.length, 1);
+        assert.equal(out.core.objs.length, 1);
+        assert.equal(out.plugin1.globs.length, 1);
+        assert.equal(out.plugin1.objs.length, 1);
+
+        assert.equal(out.core.globs[0], "*.html");
+        assert.equal(out.core.objs[0].match, "*.css");
+
+        assert.equal(out.plugin1.globs[0], "*.hbs");
+        assert.equal(out.plugin1.objs[0].fn, cb);
     });
 });
