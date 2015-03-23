@@ -2,7 +2,6 @@
 
 var cli             = require("../../../lib/cli/");
 var merge           = cli.options.merge;
-var hooks           = require("../../../lib/hooks");
 
 var assert          = require("chai").assert;
 

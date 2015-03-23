@@ -34,8 +34,8 @@ describe("E2E CLI `files` arg - multi globs", function () {
         instance.cleanup();
     });
     it("Converts cli files arg to correct namespaced watchers", function () {
-        assert.equal(instance.options.getIn(["files", "core"]).size, 2);
-        assert.isTrue(Array.isArray(instance.watchers.core));
+        assert.equal(instance.options.getIn(["files", "core", "globs"]).size, 2);
+        assert.isTrue(Array.isArray(instance.watchers.core.watchers));
     });
 });
 
@@ -66,8 +66,8 @@ describe("E2E CLI `files` arg, single glob", function () {
         instance.cleanup();
     });
     it("Converts cli files arg to correct namespaced watchers", function () {
-        assert.equal(instance.options.getIn(["files", "core"]).size, 1);
+        assert.equal(instance.options.getIn(["files", "core", "globs"]).size, 1);
 
-        assert.isTrue(Array.isArray(instance.watchers.core));
+        assert.isTrue(Array.isArray(instance.watchers.core.watchers));
     });
 });
