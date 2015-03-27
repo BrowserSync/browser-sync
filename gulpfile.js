@@ -50,11 +50,11 @@ gulp.task("sass", function () {
  */
 gulp.task("browser-sync", function () {
 
-//    var clientScript = require("/Users/shakyshane/Sites/browser-sync-modules/browser-sync-client/index");
-//
-//    browserSync.use("client:script", clientScript.middleware, function (err) {
-//        console.log(err);
-//    });
+    // var clientScript = require("/Users/shakyshane/Sites/browser-sync-modules/browser-sync-client/index");
+    //
+    // browserSync.use("client:script", clientScript.middleware, function (err) {
+    //     console.log(err);
+    // });
 
     browserSync({
         server: "test/fixtures",
