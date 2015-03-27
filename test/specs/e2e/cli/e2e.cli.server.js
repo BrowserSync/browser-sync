@@ -74,7 +74,8 @@ describe("E2E CLI server test with directory listing/index ", function () {
                     online: false,
                     logLevel: "silent",
                     directory: true,
-                    index: "index.htm"
+                    index: "index.htm",
+                    extensions: "html"
                 }
             },
             cb: function (err, bs) {
@@ -89,5 +90,6 @@ describe("E2E CLI server test with directory listing/index ", function () {
     it("Sets the correct server options", function () {
         assert.equal(instance.options.getIn(["server", "directory"]), true);
         assert.equal(instance.options.getIn(["server", "index"]), "index.htm");
+        assert.equal(instance.options.getIn(["server", "extensions"]), "html");
     });
 });
