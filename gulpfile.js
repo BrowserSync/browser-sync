@@ -1,11 +1,11 @@
 "use strict";
 
-var gulp        = require("gulp");
-var jshint      = require("gulp-jshint");
-var jscs        = require("gulp-jscs");
-var contribs    = require("gulp-contribs");
-var rubySass    = require("gulp-ruby-sass");
-var filter      = require("gulp-filter");
+var gulp = require("gulp");
+var jshint = require("gulp-jshint");
+var jscs = require("gulp-jscs");
+var contribs = require("gulp-contribs");
+var rubySass = require("gulp-ruby-sass");
+var filter = require("gulp-filter");
 var browserSync = require("./");
 
 gulp.task("lint", function () {
@@ -30,10 +30,10 @@ gulp.task("contribs", function () {
 gulp.task("default", ["lint"]);
 
 var paths = {
-    scss: "test/fixtures/scss/*.scss",
-    css: "test/fixtures/css",
+    scss:    "test/fixtures/scss/*.scss",
+    css:     "test/fixtures/css",
     cssGlob: "test/fixtures/assets/*.css",
-    html: "test/fixtures/*.html"
+    html:    "test/fixtures/*.html"
 };
 
 gulp.task("sass", function () {
@@ -50,14 +50,8 @@ gulp.task("sass", function () {
  */
 gulp.task("browser-sync", function () {
 
-//    var clientScript = require("/Users/shakyshane/Sites/browser-sync-modules/browser-sync-client/index");
-//
-//    browserSync.use("client:script", clientScript.middleware, function (err) {
-//        console.log(err);
-//    });
-
     browserSync({
-        server: "test/fixtures",
+        server:    "test/fixtures",
         startPath: "sass.html"
     });
 });
