@@ -88,6 +88,74 @@ describe("E2E CLI server test with directory listing/index ", function () {
     });
     it("Sets the correct server options", function () {
         assert.equal(instance.options.getIn(["server", "directory"]), true);
-        assert.equal(instance.options.getIn(["server", "index"]), "index.htm");
+        assert.equal(instance.options.getIn(["server", "serveStaticOptions", "index"]), "index.htm");
+    });
+});
+
+describe("E2E CLI server test with extensions option - single", function () {
+
+    var instance;
+
+    before(function (done) {
+
+        browserSync.reset();
+
+        cli({
+            cli: {
+                input: ["start"],
+                flags: {
+                    server: "test/fixtures",
+                    open: false,
+                    online: false,
+                    logLevel: "silent",
+                    extensions: "html"
+                }
+            },
+            cb: function (err, bs) {
+                instance = bs;
+                done();
+            }
+        });
+    });
+    after(function () {
+        instance.cleanup();
+    });
+    it("Sets the extensions option (array) for serve static", function () {
+        assert.equal(instance.options.getIn(["server", "serveStaticOptions", "index"]), "index.html");
+        assert.deepEqual(instance.options.getIn(["server", "serveStaticOptions", "extensions"]).toJS(), ["html"]);
+    });
+});
+
+describe("E2E CLI server test with extensions option - multiple", function () {
+
+    var instance;
+
+    before(function (done) {
+
+        browserSync.reset();
+
+        cli({
+            cli: {
+                input: ["start"],
+                flags: {
+                    server: "test/fixtures",
+                    open: false,
+                    online: false,
+                    logLevel: "silent",
+                    extensions: "html,css"
+                }
+            },
+            cb: function (err, bs) {
+                instance = bs;
+                done();
+            }
+        });
+    });
+    after(function () {
+        instance.cleanup();
+    });
+    it("Sets the extensions option (array) for serve static", function () {
+        assert.equal(instance.options.getIn(["server", "serveStaticOptions", "index"]), "index.html");
+        assert.deepEqual(instance.options.getIn(["server", "serveStaticOptions", "extensions"]).toJS(), ["html", "css"]);
     });
 });

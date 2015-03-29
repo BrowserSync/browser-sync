@@ -25,15 +25,15 @@ describe("Server: Server Utils: ", function () {
             base = "app";
         });
         it("Should add the static middleware", function () {
-            utils.addBaseDir(app, base, true);
+            utils.addBaseDir(app, base, Immutable.Map());
             sinon.assert.calledOnce(spy);
         });
         it("Should add the static middleware with multiple middlewares", function () {
-            utils.addBaseDir(app, Immutable.List(["app", "dist"]), true);
+            utils.addBaseDir(app, Immutable.List(["app", "dist"]), Immutable.Map());
             sinon.assert.calledTwice(spy);
         });
         it("Should add the static middleware with multiple middlewares", function () {
-            utils.addBaseDir(app, Immutable.List(["app", "dist", "alt"]), true);
+            utils.addBaseDir(app, Immutable.List(["app", "dist", "alt"]), Immutable.Map());
             sinon.assert.calledThrice(spy);
         });
     });
