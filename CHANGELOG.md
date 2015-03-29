@@ -1,3 +1,18 @@
+<a name"2.5.0"></a>
+## 2.5.0 (2015-03-29)
+
+
+#### Bug Fixes
+
+* **proxy:** Bump Foxy to stop cookies being altered when parsed ([ff3c46bd](https://github.com/BrowserSync/browser-sync/commit/ff3c46bd))
+
+
+#### Features
+
+* **options:** Allow any serve-static specific configuration under new  property - ([4c58541f](https://github.com/BrowserSync/browser-sync/commit/4c58541f), closes [#539](https://github.com/BrowserSync/browser-sync/issues/539))
+* **throttle:** Bump UI for network throttle ([7e2f588e](https://github.com/BrowserSync/browser-sync/commit/7e2f588e))
+
+
 <a name"2.4.0"></a>
 ## 2.4.0 (2015-03-21)
 
