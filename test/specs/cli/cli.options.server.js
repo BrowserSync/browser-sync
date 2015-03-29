@@ -54,7 +54,7 @@ describe("CLI: Options: Merging Server Options", function () {
         assert.equal(imm.getIn(["server", "index"]), "index.htm");
         assert.isFunction(imm.getIn(["server", "middleware"]));
     });
-    it("can merge cli flags into object", function () {
+    it("can merge cli server, index flags into object", function () {
         var argv = {
             server: true,
             index: "index.htm"
@@ -65,7 +65,7 @@ describe("CLI: Options: Merging Server Options", function () {
             index: "index.htm"
         });
     });
-    it("can merge cli flags into object", function () {
+    it("can merge cli server, directory flags into object", function () {
         var argv = {
             server: true,
             directory: true
@@ -76,18 +76,20 @@ describe("CLI: Options: Merging Server Options", function () {
             directory: true
         });
     });
-    it("can merge cli flags into object", function () {
+    it("can merge cli server, index, extensions flags into object", function () {
         var argv = {
-            server: true,
-            directory: true
+            server: "app",
+            index: "file.html",
+            extensions: ["html", "json"]
         };
-        var imm = merge({}, argv);
+        var imm = merge({server: "app"}, argv);
         assert.deepEqual(imm.get("server").toJS(), {
-            baseDir: "./",
-            directory: true
+            baseDir: "app",
+            index: "file.html",
+            extensions: ["html", "json"]
         });
     });
-    it("can merge cli flags into object", function () {
+    it("can merge cli server, directory, index flags into object", function () {
         var argv = {
             server: "app",
             directory: true,

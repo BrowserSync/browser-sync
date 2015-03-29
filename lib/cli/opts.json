@@ -8,6 +8,7 @@
     "startPath":     "Specify the start path for the opened browser",
     "https":         "Enable SSL for local development",
     "directory":     "Show a directory listing for the server",
+    "extensions":    "Specify file extension fallbacks",
     "proxy":         "Proxy an existing server",
     "xip":           "Use xip.io domain routing",
     "tunnel":        "Use a public URL",
