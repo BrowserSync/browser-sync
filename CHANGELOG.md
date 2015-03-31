@@ -1,3 +1,13 @@
+<a name"2.5.1"></a>
+### 2.5.1 (2015-03-31)
+
+
+#### Bug Fixes
+
+* **proxy:** Bump foxy dep to ensure middlewares work correctly for old IEs ([104e9dd1](https://github.com/BrowserSync/browser-sync/commit/104e9dd1))
+* **snippet:** Log UI access urls when in snippet mode ([c448fa0b](https://github.com/BrowserSync/browser-sync/commit/c448fa0b))
+
+
 <a name"2.5.0"></a>
 ## 2.5.0 (2015-03-29)
 
