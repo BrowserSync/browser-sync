@@ -13,6 +13,8 @@
 <p align="center">Follow <a href="http://www.twitter.com/browsersync">@BrowserSync</a> on twitter for news & updates.</p>
 
 ## Features
+
+[![Join the chat at https://gitter.im/BrowserSync/browser-sync](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/BrowserSync/browser-sync?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 Please visit [browsersync.io](http://browsersync.io) for a full run-down of features
 
 ## Requirements
