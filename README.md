@@ -1,9 +1,23 @@
-[![AppVeyor branch](https://img.shields.io/appveyor/ci/shakyshane/browser-sync/master.svg?style=flat-square&label=windows)](https://ci.appveyor.com/project/shakyShane/browser-sync)
-[![Travis branch](https://img.shields.io/travis/BrowserSync/browser-sync/master.svg?style=flat-square&label=linux)](https://travis-ci.org/BrowserSync/browser-sync)
-[![Coverage Status](https://img.shields.io/coveralls/BrowserSync/browser-sync.svg?style=flat-square)](https://coveralls.io/r/BrowserSync/browser-sync?branch=master)
-[![NPM version](https://img.shields.io/npm/v/browser-sync.svg?style=flat-square)](https://www.npmjs.com/package/browser-sync)
-[![Dependency Status](https://img.shields.io/david/BrowserSync/browser-sync.svg?style=flat-square&label=deps)](https://david-dm.org/BrowserSync/browser-sync)
-[![devDependency Status](https://img.shields.io/david/dev/BrowserSync/browser-sync.svg?style=flat-square&label=devDeps)](https://david-dm.org/BrowserSync/browser-sync#info=devDependencies)
+<p align="center">
+<a href="https://ci.appveyor.com/project/shakyShane/browser-sync" title="AppVeyor branch">
+ <img src="https://img.shields.io/appveyor/ci/shakyshane/browser-sync/master.svg?style=flat-square&label=windows" />
+</a>
+<a href="https://travis-ci.org/BrowserSync/browser-sync" title="Travis branch">
+ <img src="https://img.shields.io/travis/BrowserSync/browser-sync/master.svg?style=flat-square&label=linux" />
+</a>
+<a href="https://coveralls.io/r/BrowserSync/browser-sync?branch=master" title="Coverage Status">
+ <img src="https://img.shields.io/coveralls/BrowserSync/browser-sync.svg?style=flat-square" />
+</a>
+<a href="https://www.npmjs.com/package/browser-sync" title="NPM version">
+ <img src="https://img.shields.io/npm/v/browser-sync.svg?style=flat-square" />
+</a>
+<a href="https://david-dm.org/BrowserSync/browser-sync" title="Dependency Status">
+ <img src="https://img.shields.io/david/BrowserSync/browser-sync.svg?style=flat-square&label=deps" />
+</a>
+<a href="https://david-dm.org/BrowserSync/browser-sync#info=devDependencies" title="devDependency Status">
+ <img src="https://img.shields.io/david/dev/BrowserSync/browser-sync.svg?style=flat-square&label=devDeps" />
+</a>
+</p>
 
 <p align="center"><a href="http://www.wearejh.com"><img src="http://cl.ly/image/3Y3O0M2z310j/jh-100-red.png" /></a></p>
 <h1 align="center">BrowserSync</h1>
@@ -11,10 +25,10 @@
 
 <p align="center">BrowserSync is developed and maintained internally at <a href="http://www.wearejh.com">JH</a></p>
 <p align="center">Follow <a href="http://www.twitter.com/browsersync">@BrowserSync</a> on twitter for news & updates.</p>
+<p align="center">Talk to contributors on <a href="https://gitter.im/BrowserSync/browser-sync"><img src="https://badges.gitter.im/Join%20Chat.svg" /></a></p>
 
 ## Features
 
-[![Join the chat at https://gitter.im/BrowserSync/browser-sync](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/BrowserSync/browser-sync?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 Please visit [browsersync.io](http://browsersync.io) for a full run-down of features
 
 ## Requirements
