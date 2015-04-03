@@ -1,6 +1,6 @@
 "use strict";
 
-var browserSync   = require("../../../index");
+var browserSync   = require("../../../../index");
 
 var path    = require("path");
 var sinon   = require("sinon");

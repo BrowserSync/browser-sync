@@ -43,6 +43,34 @@ describe("File Watcher Module", function () {
         assert.equal(watchers.core.watchers[0].options.debounceDelay, 4000);
         done();
     });
+    it("Passes separate options for chokidar when multi given", function (done) {
+        var imm = merge({
+            files: [
+                "css/*.css",
+                {
+                    match: "*.html",
+                    fn: function (event) {
+                        console.log(event);
+                    },
+                    options: {
+                        interval: 100
+                    }
+                }
+            ],
+            watchOptions: {
+                interval: 200
+            }
+        });
+        imm = imm.set("files", hooks["files:watch"]([], imm.get("files"), {}));
+
+        var emitter = new events.EventEmitter();
+        var watchers = fileWatcher.plugin(imm, emitter);
+
+        assert.equal(watchers.core.watchers.length, 2);
+        assert.equal(watchers.core.watchers[0].options.interval, 200);
+        assert.equal(watchers.core.watchers[1].options.interval, 100);
+        done();
+    });
     it("should emit events about changed files in core namespace", function (done) {
 
         var tempFile = path.join(outpath, "watch-func.txt");
@@ -66,6 +94,7 @@ describe("File Watcher Module", function () {
                 });
 
                 // act: change file
+                writeFileWait(tempFile, tempFileContent + " changed");
                 writeFileWait(tempFile, tempFileContent + " changed");
             });
         });

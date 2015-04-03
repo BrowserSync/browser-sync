@@ -1,6 +1,6 @@
 "use strict";
 
-var browserSync = require("../../../");
+var browserSync = require("../../../../");
 
 var path = require("path");
 var assert = require("chai").assert;
