@@ -5,21 +5,16 @@ var meow          = require("meow");
 var fs            = require("fs");
 var path          = require("path");
 var compile       = require("eazy-logger").compile;
-var _             = require("lodash");
 var utils         = require("../lib/utils");
 var flags         = require("../lib/cli/opts");
 var flagKeys      = Object.keys(flags);
-var info          = require("../lib/cli/cli-info");
-var logger        = require("../lib/logger").logger;
 
-var cmdWhitelist  = ["start", "init"];
-var flagWhitelist = flagKeys.map(dropPrefix).map(_.camelCase);
+var cmdWhitelist  = ["start", "init", "reload"];
 
 var cli = meow({
     pkg:  "../package.json",
     help: getHelpText(path.resolve(__dirname, "../lib/cli/help.txt"))
 });
-
 
 /**
  * Handle cli input
@@ -69,39 +64,14 @@ function handleCli (opts) {
         return console.log(opts.cli.help);
     }
 
-    if (!verifyOpts(flagWhitelist, flags)) {
-        logger.info("For help, run: {cyan:browser-sync --help}");
-        return opts.cb(new Error("Unknown flag given. Please refer to the documentation for help."));
-    }
-
     if (input[0] === "start") {
-        return require("../")
-            .create("cli")
-            .init(flags.config ? info.getConfigFile(flags.config) : flags, opts.cb);
+        require("../lib/cli/command.start")(opts);
     }
 
     if (input[0] === "init") {
-        info.makeConfig(process.cwd(), opts.cb);
+        require("../lib/cli/command.init")(opts);
     }
-}
 
-/**
- * @param {Array} flagWhitelist
- * @param {Object} cliFlags
- * @returns {Boolean}
- */
-function verifyOpts (flagWhitelist, cliFlags) {
-
-    return Object.keys(cliFlags).every(function (key) {
-
-        if (_.contains(flagWhitelist, key) || _.contains(flagKeys, key)) {
-            return true;
-        }
-
-        logger.info("Unknown flag:  {yellow:`%s`", key);
-
-        return false;
-    });
 }
 
 /**
@@ -130,14 +100,6 @@ function getPadding (len, max) {
  */
 function longest (arr) {
     return arr.sort(function (a, b) { return b.length - a.length; })[0];
-}
-
-/**
- * @param {String} item
- * @returns {String}
- */
-function dropPrefix (item) {
-    return item.replace("no-", "");
 }
 
 module.exports = handleCli;

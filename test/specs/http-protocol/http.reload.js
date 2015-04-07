@@ -1,10 +1,10 @@
 "use strict";
 
 var browserSync = require("../../../index");
-var request     = require("request");
-var assert      = require("chai").assert;
-var sinon       = require("sinon");
-var proto       = require("../../../lib/http-protocol");
+var request = require("request");
+var assert = require("chai").assert;
+var sinon = require("sinon");
+var proto = require("../../../lib/http-protocol");
 
 describe("HTTP protocol", function () {
 
@@ -15,10 +15,10 @@ describe("HTTP protocol", function () {
         browserSync.reset();
 
         var config = {
-            server: "test/fixtures",
+            server:   "test/fixtures",
             logLevel: "info",
-            open: false,
-            online: false
+            open:     false,
+            online:   false
         };
 
         bs = browserSync.init(config, done).instance;
@@ -51,7 +51,7 @@ describe("HTTP protocol", function () {
 
         request(url, function (e, r, body) {
             sinon.assert.calledWith(spy, "file:changed");
-            sinon.assert.calledWithExactly(spy, "file:changed", { path: "core.min.css", log: true, namespace: "core" });
+            sinon.assert.calledWithExactly(spy, "file:changed", {path: "core.min.css", log: true, namespace: "core"});
             assert.include(body, "Called public API method `.reload()`");
             assert.include(body, "With args: [\"core.min.css\",\"core.css\"]");
             done();
@@ -63,7 +63,7 @@ describe("HTTP protocol", function () {
 
         request(url, function (e, r, body) {
             sinon.assert.calledWith(spy, "file:changed");
-            sinon.assert.calledWithExactly(spy, "file:changed", { path: "somefile.php", log: true, namespace: "core" });
+            sinon.assert.calledWithExactly(spy, "file:changed", {path: "somefile.php", log: true, namespace: "core"});
             assert.include(body, "Called public API method `.reload()`");
             assert.include(body, "With args: \"somefile.php\"");
             done();
