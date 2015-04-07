@@ -7,7 +7,8 @@ var assert  = require("chai").assert;
 describe("Plugins: Retrieving user plugins when given inline with options", function () {
 
     var instance;
-    var PLUGIN_NAME    = "HTML Injector";
+    var MODULE_REQUIRE = "bs-snippet-injector";
+    var PLUGIN_NAME    = "Snippet Injector";
 
     before(function (done) {
 
@@ -17,7 +18,7 @@ describe("Plugins: Retrieving user plugins when given inline with options", func
             logLevel: "silent",
             plugins: [
                 {
-                    "bs-html-injector": {
+                    "bs-snippet-injector": {
                         files: "*.html"
                     }
                 }
@@ -41,7 +42,7 @@ describe("Plugins: Retrieving user plugins when given inline with options", func
     it("should have access to user provided opts", function (done) {
         var plugin = instance.getUserPlugins()[0];
         assert.equal(plugin.opts.files, "*.html");
-        assert.equal(plugin.opts.moduleName, "bs-html-injector");
+        assert.equal(plugin.opts.moduleName, MODULE_REQUIRE);
         done();
     });
 });

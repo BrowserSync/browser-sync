@@ -7,8 +7,8 @@ var assert  = require("chai").assert;
 describe("Plugins: Retrieving user plugins when given inline", function () {
 
     var instance;
-    var PLUGIN_REQUIRE = "bs-html-injector";
-    var PLUGIN_NAME    = "HTML Injector";
+    var PLUGIN_REQUIRE = "bs-snippet-injector";
+    var PLUGIN_NAME    = "Snippet Injector";
 
     before(function (done) {
 

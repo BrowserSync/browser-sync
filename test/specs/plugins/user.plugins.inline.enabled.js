@@ -15,8 +15,9 @@ describe("Plugins: Setting the default state (false) if given in options", funct
         var config = {
             logLevel: "silent",
             plugins: [{
-                "bs-html-injector": {
-                    enabled: false
+                "bs-snippet-injector": {
+                    enabled: false,
+                    file: ""
                 }
             }]
         };
@@ -44,7 +45,7 @@ describe("Plugins: Setting the default state (true) if given in options", functi
         var config = {
             logLevel: "silent",
             plugins: [{
-                "bs-html-injector": {
+                "bs-snippet-injector": {
                     enabled: true
                 }
             }]

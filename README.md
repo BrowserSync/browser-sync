@@ -11,6 +11,9 @@
 <a href="https://www.npmjs.com/package/browser-sync" title="NPM version">
  <img src="https://img.shields.io/npm/v/browser-sync.svg?style=flat-square" />
 </a>
+<a href="https://www.npmjs.com/package/browser-sync">
+ <img src="https://img.shields.io/npm/dm/browser-sync.svg?style=flat-square" />
+</a>
 <a href="https://david-dm.org/BrowserSync/browser-sync" title="Dependency Status">
  <img src="https://img.shields.io/david/BrowserSync/browser-sync.svg?style=flat-square&label=deps" />
 </a>

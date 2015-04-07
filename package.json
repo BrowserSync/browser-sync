@@ -1,7 +1,7 @@
 {
   "name": "browser-sync",
   "description": "Live CSS Reload & Browser Syncing",
-  "version": "2.5.1",
+  "version": "2.5.3",
   "homepage": "http://www.browsersync.io/",
   "author": {
     "name": "Shane Osbourne"
@@ -57,7 +57,8 @@
     "ua-parser-js": "^0.7.3"
   },
   "devDependencies": {
-    "bs-html-injector": "^1.5.2",
+    "browser-sync-spa": "^1.0.2",
+    "bs-snippet-injector": "^2.0.1",
     "chai": "^2.1.0",
     "chalk": "^1.0.0",
     "cli-color": "^0.3.2",

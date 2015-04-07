@@ -20,7 +20,7 @@ describe("Plugins: Retrieving user plugins", function () {
         browserSync.use({
             plugin: function () { /* noop */ },
             "plugin:name": PLUGIN_NAME
-        });
+        }, {human: "Shane"});
 
         instance = browserSync(config, done).instance;
     });
@@ -52,5 +52,20 @@ describe("Plugins: Retrieving user plugins", function () {
         assert.isTrue(instance.options.get("userPlugins")[0].active);
         assert.isTrue(instance.pluginManager.getPlugin(PLUGIN_NAME)._enabled);
         done();
+    });
+    it("can set options on user plugins", function () {
+
+        var plugin = instance.getUserPlugin(PLUGIN_NAME);
+
+        assert.equal(plugin.opts.human, "Shane");
+
+        instance.events.emit("plugins:opts", {
+            name: PLUGIN_NAME,
+            opts: {
+                human: "kittie"
+            }
+        });
+
+        assert.equal(instance.getUserPlugin(PLUGIN_NAME).opts.human, "kittie");
     });
 });
