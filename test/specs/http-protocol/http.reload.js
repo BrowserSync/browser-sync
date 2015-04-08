@@ -36,7 +36,7 @@ describe("HTTP protocol", function () {
 
     it("responds to reload event with no args", function (done) {
 
-        var url = proto.getUrl({method: "reload"}, bs);
+        var url = proto.getUrl({method: "reload"}, bs.options.getIn(["urls", "local"]));
 
         request(url, function (e, r, body) {
             sinon.assert.calledWith(spy, "browser:reload");
@@ -47,7 +47,7 @@ describe("HTTP protocol", function () {
     });
     it("responds to reload event with multi file paths", function (done) {
 
-        var url = proto.getUrl({method: "reload", args: ["core.min.css", "core.css"]}, bs);
+        var url = proto.getUrl({method: "reload", args: ["core.min.css", "core.css"]}, bs.options.getIn(["urls", "local"]));
 
         request(url, function (e, r, body) {
             sinon.assert.calledWith(spy, "file:changed");
@@ -59,7 +59,7 @@ describe("HTTP protocol", function () {
     });
     it("responds to reload event with single file path", function (done) {
 
-        var url = proto.getUrl({method: "reload", args: "somefile.php"}, bs);
+        var url = proto.getUrl({method: "reload", args: "somefile.php"}, bs.options.getIn(["urls", "local"]));
 
         request(url, function (e, r, body) {
             sinon.assert.calledWith(spy, "file:changed");

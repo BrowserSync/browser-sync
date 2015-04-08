@@ -8,11 +8,17 @@
 
     {bold:init}    Creates a default config file
     {bold:start}   Start Browser Sync
+    {bold:reload}  Send a reload event over HTTP protocol
 
-{bold:Options:}
+{bold:`start` Options:}
 {gray:--------}
 
-%flags%
+%startflags%
+
+{bold:`reload` Options:}
+{gray:--------}
+
+%reloadflags%
 
 {cyan:Server Example:}
 {gray:---------------}

@@ -6,9 +6,7 @@ var fs            = require("fs");
 var path          = require("path");
 var compile       = require("eazy-logger").compile;
 var utils         = require("../lib/utils");
-var flags         = require("../lib/cli/opts");
-var flagKeys      = Object.keys(flags);
-
+var logger        = require("../lib/logger").logger;
 var cmdWhitelist  = ["start", "init", "reload"];
 
 var cli = meow({
@@ -29,20 +27,23 @@ if (!module.parent) {
  * @returns {String}
  */
 function getHelpText(filepath) {
-    return compile(
-        fs.readFileSync(
-            filepath,
-            "utf8"
-        ).replace(
-            "%flags%",
-            listFlags(
-                flags,
-                longest(
-                    flagKeys
-                ).length
-            )
-        )
-    );
+
+    /**
+     * Help text template
+     */
+    var template = fs.readFileSync(filepath, "utf8");
+
+    cmdWhitelist.forEach(function (command) {
+
+        var flags = require("../lib/cli/opts." + command + ".json");
+
+        template = template.replace(
+            ["%", command, "flags%"].join(""),
+            listFlags(flags)
+        );
+    });
+
+    return compile(template);
 }
 
 /**
@@ -54,7 +55,6 @@ function handleCli (opts) {
     opts.cb = opts.cb || utils.defaultCallback;
 
     var input = opts.cli.input;
-    var flags = opts.cli.flags;
 
     if (!opts.whitelist) {
         opts.whitelist = cmdWhitelist;
@@ -64,24 +64,28 @@ function handleCli (opts) {
         return console.log(opts.cli.help);
     }
 
-    if (input[0] === "start") {
-        require("../lib/cli/command.start")(opts);
+    if (!require("../lib/cli/cli-utils").verifyOpts(input[0], opts.cli.flags)) {
+        logger.info("For help, run: {cyan:browser-sync --help}");
+        return opts.cb(new Error("Unknown flag given. Please refer to the documentation for help."));
     }
 
-    if (input[0] === "init") {
-        require("../lib/cli/command.init")(opts);
-    }
-
+    return require("../lib/cli/command." + input[0])(opts);
 }
 
 /**
  * @param {Object} flags
- * @param {Number} longest
- * @returns {String}
  */
-function listFlags (flags, longest) {
+function listFlags (flags) {
+
+    var flagKeys = Object.keys(flags);
+    var longest = getLongest(Object.keys(flags));
+
+    if (!longest || !longest.length) {
+        return;
+    }
+
     return flagKeys.reduce(function (all, item) {
-        return all + "    {bold:--" + item + "}" + getPadding(item.length, longest + 8) + flags[item] + "\n";
+        return all + "    {bold:--" + item + "}" + getPadding(item.length, longest.length + 8) + flags[item] + "\n";
     }, "");
 }
 
@@ -98,7 +102,7 @@ function getPadding (len, max) {
  * @param {Array} arr
  * @returns {String}
  */
-function longest (arr) {
+function getLongest (arr) {
     return arr.sort(function (a, b) { return b.length - a.length; })[0];
 }
 
