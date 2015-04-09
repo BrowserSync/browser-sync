@@ -191,4 +191,57 @@ describe("files:watch hook", function () {
         assert.equal(watchers.core.watchers.length, 2);
         assert.equal(watchers.plugin1.watchers.length, 2);
     });
+    it("should string multi globs + objects as file watching patterns", function () {
+
+        var cb = function (event, file) {
+            console.log(file);
+        };
+
+        var imm = merge({
+            files: [
+                "*.hbs",
+                "*.jade",
+                {
+                    match: ["*.html"],
+                    fn: cb
+                },
+                {
+                    match: ["*.css"],
+                    fn: cb
+                }
+            ]
+        });
+
+        var pluginOptions = {
+            "plugin1": {
+                files: [
+                    "*.hbs",
+                    {
+                        match: "!*.less",
+                        fn: cb
+                    }
+                ]
+            },
+            "plugin2": {
+                files: [
+                    "*.hbs",
+                    {
+                        match: "*.less",
+                        fn: cb
+                    }
+                ]
+            },
+
+        };
+
+        var out = hook([], imm.get("files"), pluginOptions);
+
+        imm = imm.set("files", out);
+
+        var watchers = require("../../../lib/file-watcher").plugin(imm, {});
+
+        assert.equal(3, watchers.core.watchers.length);
+        assert.equal(2, watchers.plugin1.watchers.length);
+        assert.equal(2, watchers.plugin2.watchers.length);
+    });
 });
