@@ -69,4 +69,14 @@ describe("HTTP protocol", function () {
             done();
         });
     });
+    it("Gives a nice error when method not found", function (done) {
+
+        var url = proto.getUrl({method: "relzoad", args: "somefile.php"}, bs.options.getIn(["urls", "local"]));
+
+        request(url, function (e, r, body) {
+            assert.equal(r.statusCode, 404);
+            assert.equal(body, "Public API method `relzoad` not found.");
+            done();
+        });
+    });
 });
