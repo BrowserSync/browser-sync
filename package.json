@@ -38,7 +38,7 @@
     "async-each-series": "^0.1.1",
     "browser-sync-client": "^1.0.1",
     "browser-sync-ui": "^0.5.3",
-    "chokidar": "^1.0.0-rc6",
+    "chokidar": "^1.0.0",
     "connect": "^3.3.5",
     "dev-ip": "^1.0.1",
     "easy-extender": "^2.3.0",
