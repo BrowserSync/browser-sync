@@ -1,8 +1,8 @@
 "use strict";
 
-var cli             = require("../../../lib/cli/");
+var cli             = require("../../../lib/cli/cli-options");
 var Immutable       = require("immutable");
-var merge           = cli.options.merge;
+var merge           = cli.merge;
 
 var assert = require("chai").assert;
 

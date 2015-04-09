@@ -1,7 +1,7 @@
 "use strict";
 
-var cli             = require("../../../lib/cli/");
-var merge           = cli.options.merge;
+var cli             = require("../../../lib/cli/cli-options");
+var merge           = cli.merge;
 var assert          = require("chai").assert;
 
 describe("CLI: Options: Merging Server Options", function () {
