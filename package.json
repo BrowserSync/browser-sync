@@ -60,6 +60,7 @@
   },
   "devDependencies": {
     "browser-sync-spa": "^1.0.2",
+    "bs-html-injector": "^2.0.1",
     "bs-snippet-injector": "^2.0.1",
     "chai": "^2.1.0",
     "chalk": "^1.0.0",

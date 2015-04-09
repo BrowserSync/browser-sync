@@ -4,11 +4,10 @@ var browserSync = require("../../../");
 
 var assert  = require("chai").assert;
 
-describe("Plugins: Retrieving user plugins when given inline with options", function () {
+describe("Plugins: Retrieving user plugins when given inline as object", function () {
 
     var instance;
-    var MODULE_REQUIRE = "bs-snippet-injector";
-    var PLUGIN_NAME    = "Snippet Injector";
+    var PLUGIN_NAME    = "Test Plugin";
 
     before(function (done) {
 
@@ -18,7 +17,12 @@ describe("Plugins: Retrieving user plugins when given inline with options", func
             logLevel: "silent",
             plugins: [
                 {
-                    module: "bs-snippet-injector",
+                    module: {
+                        plugin: function () {
+                            done();
+                        },
+                        "plugin:name": PLUGIN_NAME
+                    },
                     options: {
                         files: "*.html"
                     }
@@ -26,12 +30,13 @@ describe("Plugins: Retrieving user plugins when given inline with options", func
             ]
         };
 
-        instance = browserSync(config, done).instance;
+        instance = browserSync(config).instance;
     });
     after(function () {
         instance.cleanup();
     });
     it("Should access to only the user-specified plugins", function (done) {
+        console.log(instance.getUserPlugins());
         assert.equal(instance.getUserPlugins().length, 1);
         done();
     });
@@ -43,7 +48,6 @@ describe("Plugins: Retrieving user plugins when given inline with options", func
     it("should have access to user provided opts", function (done) {
         var plugin = instance.getUserPlugins()[0];
         assert.equal(plugin.opts.files, "*.html");
-        assert.equal(plugin.opts.moduleName, MODULE_REQUIRE);
         done();
     });
 });
