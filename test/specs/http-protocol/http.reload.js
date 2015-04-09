@@ -51,7 +51,7 @@ describe("HTTP protocol", function () {
 
         request(url, function (e, r, body) {
             sinon.assert.calledWith(spy, "file:changed");
-            sinon.assert.calledWithExactly(spy, "file:changed", {path: "core.min.css", log: true, namespace: "core"});
+            sinon.assert.calledWithExactly(spy, "file:changed", {path: "core.min.css", log: true, namespace: "core", event: "change"});
             assert.include(body, "Called public API method `.reload()`");
             assert.include(body, "With args: [\"core.min.css\",\"core.css\"]");
             done();
@@ -63,7 +63,7 @@ describe("HTTP protocol", function () {
 
         request(url, function (e, r, body) {
             sinon.assert.calledWith(spy, "file:changed");
-            sinon.assert.calledWithExactly(spy, "file:changed", {path: "somefile.php", log: true, namespace: "core"});
+            sinon.assert.calledWithExactly(spy, "file:changed", {path: "somefile.php", log: true, namespace: "core", event: "change"});
             assert.include(body, "Called public API method `.reload()`");
             assert.include(body, "With args: \"somefile.php\"");
             done();

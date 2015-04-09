@@ -53,7 +53,7 @@ describe("E2E CLI `reload` with no files arg", function () {
                         }
                     },
                     cb: function () {
-                        sinon.assert.calledWithExactly(spy, "file:changed", {path: "core.css", log: true, namespace: "core"});
+                        sinon.assert.calledWithExactly(spy, "file:changed", {path: "core.css", log: true, namespace: "core", event: "change"});
                         bs.cleanup();
                         done();
                     }
@@ -80,7 +80,7 @@ describe("E2E CLI `reload` with no files arg", function () {
                         }
                     },
                     cb: function () {
-                        sinon.assert.calledWithExactly(spy, "file:changed", {path: "core.css", log: true, namespace: "core"});
+                        sinon.assert.calledWithExactly(spy, "file:changed", {path: "core.css", log: true, namespace: "core", event: "change"});
                         bs.cleanup();
                         done();
                     }
