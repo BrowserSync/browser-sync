@@ -244,4 +244,91 @@ describe("files:watch hook", function () {
         assert.equal(2, watchers.plugin1.watchers.length);
         assert.equal(2, watchers.plugin2.watchers.length);
     });
+
+    it("should accept objs only as main option", function () {
+
+        var cb = function (event, file) {
+            console.log(file);
+        };
+
+        var imm = merge({
+            files: [
+                {
+                    match: ["*.html"],
+                    fn: cb
+                }
+            ]
+        });
+
+        var pluginOptions = {};
+
+        //console.log(imm.get("files"));
+
+        var out = hook([], imm.get("files"), pluginOptions);
+
+        imm = imm.set("files", out);
+
+        var watchers = require("../../../lib/file-watcher").plugin(imm, {});
+
+        assert.equal(1, watchers.core.watchers.length);
+    });
+
+    it("should accept objs only as plugin options only", function () {
+
+        var cb = function (event, file) {
+            console.log(file);
+        };
+
+        var imm = merge({});
+
+        var pluginOptions = {
+            "plugin1": {
+                files: [
+                    {
+                        match: "!*.less",
+                        fn: cb
+                    }
+                ]
+            }
+        };
+
+        var out = hook([], imm.get("files"), pluginOptions);
+
+        imm = imm.set("files", out);
+
+        var watchers = require("../../../lib/file-watcher").plugin(imm, {});
+
+        assert.equal(1, watchers.plugin1.watchers.length);
+    });
+
+    it("should accept globs only as plugin options only", function () {
+
+        var cb = function (event, file) {
+            console.log(file);
+        };
+
+        var imm = merge({files: "*.html"});
+
+        var pluginOptions = {
+            "plugin1": {
+                files: [
+                    "*.html",
+                    "*.css",
+                    {
+                        match: "*.jade",
+                        fn: cb
+                    }
+                ]
+            }
+        };
+
+        var out = hook([], imm.get("files"), pluginOptions);
+
+        imm = imm.set("files", out);
+
+        var watchers = require("../../../lib/file-watcher").plugin(imm, {});
+
+        assert.equal(2, watchers.plugin1.watchers.length);
+        assert.equal(1, watchers.core.watchers.length);
+    });
 });
