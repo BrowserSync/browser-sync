@@ -43,18 +43,6 @@ describe("File Watcher Module", function () {
         assert.equal(watchers.core.watchers[0].options.debounceDelay, 4000);
         done();
     });
-    it("Closes watchers in cleanup", function (done) {
-        browserSync.reset();
-        browserSync.create().init({
-            files: "test/fixtures"
-        }, function (err, bs) {
-            var sinon = require("sinon");
-            var spy   = sinon.spy(bs.watchers.core.watchers[0], "close");
-            bs.cleanup();
-            sinon.assert.called(spy);
-            done();
-        });
-    });
     it("Passes separate options for chokidar when multi given", function (done) {
         var imm = merge({
             files: [
