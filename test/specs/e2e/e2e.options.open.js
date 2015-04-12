@@ -64,3 +64,34 @@ describe("E2E OPEN options with external", function () {
         require.cache[opnPath].exports.restore();
     });
 });
+
+describe("E2E OPEN options with UI + snippet", function () {
+
+    var bs;
+    var stub;
+    var opnPath;
+    var opnStub;
+
+    before(function (done) {
+        browserSync.reset();
+        var config = {
+            logLevel: "silent",
+            open:      "ui"
+        };
+        stub = sinon.spy(utils, "open");
+        opnPath = require.resolve("opn");
+        require(opnPath);
+        opnStub = require("sinon").stub(require.cache[opnPath], "exports");
+        bs = browserSync(config, done).instance;
+    });
+
+    after(function () {
+        bs.cleanup();
+        stub.restore();
+    });
+
+    it("Opens the external address when specified in options", function () {
+        sinon.assert.calledWith(opnStub, bs.options.getIn(["urls", "ui"]));
+        require.cache[opnPath].exports.restore();
+    });
+});
