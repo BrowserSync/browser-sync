@@ -79,4 +79,15 @@ describe("HTTP protocol", function () {
             done();
         });
     });
+
+    it("Gives a nice error when no params are given", function (done) {
+
+        var url = proto.getUrl(undefined, bs.options.getIn(["urls", "local"]));
+
+        request(url, function (e, r, body) {
+            assert.equal(r.statusCode, 500);
+            assert.include(body, "Error: No Parameters were provided.");
+            done();
+        });
+    });
 });

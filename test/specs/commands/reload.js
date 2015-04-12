@@ -100,4 +100,17 @@ describe("E2E CLI `reload` with no files arg", function () {
             }
         });
     });
+    it("should handle non 200 code results", function (done) {
+        cli({
+            cli: {
+                input: ["reload"],
+                flags: {}
+            },
+            cb: function (err) {
+                assert.equal(err.code, "ECONNREFUSED");
+                assert.equal(err.message, "BrowserSync not running at http://localhost:3000");
+                done();
+            }
+        });
+    });
 });
