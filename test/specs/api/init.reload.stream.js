@@ -35,9 +35,11 @@ describe("API: .stream()", function () {
         stream.end();
         sinon.assert.calledWithExactly(emitterStub, "file:changed", {
             path:      "styles.css",
+            basename:  "styles.css",
             log:       false,
             namespace: "core",
-            event:     "change"
+            event:     "change",
+            ext:       "css"
         });
     });
     it("should accept multiple files in stream", function () {
@@ -47,15 +49,19 @@ describe("API: .stream()", function () {
         stream.end();
         sinon.assert.calledWithExactly(emitterStub, "file:changed", {
             path:      "styles.css",
+            basename:  "styles.css",
             log:       false,
             namespace: "core",
-            event:     "change"
+            event:     "change",
+            ext:       "css"
         });
         sinon.assert.calledWithExactly(emitterStub, "file:changed", {
             path:      "styles2.css",
+            basename:  "styles2.css",
             log:       false,
             namespace: "core",
-            event:     "change"
+            event:     "change",
+            ext:       "css"
         });
         sinon.assert.calledWithExactly(emitterStub, "stream:changed", {
             changed: ["styles.css", "styles2.css"]
@@ -87,9 +93,11 @@ describe("API: .stream()", function () {
         sinon.assert.calledThrice(emitterStub);
         sinon.assert.calledWithExactly(emitterStub, "file:changed", {
             path:      "/users/shane/styles.js",
+            basename:  "styles.js",
             log:       false,
             namespace: "core",
-            event:     "change"
+            event:     "change",
+            ext:       "js"
         });
         sinon.assert.calledWithExactly(emitterStub, "stream:changed", {
             changed: ["styles.js"]

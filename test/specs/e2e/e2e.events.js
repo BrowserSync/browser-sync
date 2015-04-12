@@ -27,11 +27,11 @@ describe("E2E Events test", function () {
 
         var spy = sinon.spy(instance.io.sockets, "emit");
 
-        instance.events.emit("file:reload", {path: "somepath.css"});
+        instance.events.emit("file:reload", {path: "somepath.css", fileExtension: "css"});
 
         clock.tick();
 
-        sinon.assert.calledWithExactly(spy, "file:reload", {path: "somepath.css"});
+        sinon.assert.calledWithExactly(spy, "file:reload", {path: "somepath.css", fileExtension: "css"});
 
         spy.restore();
     });

@@ -38,9 +38,11 @@ describe("API: .reload()", function () {
         browserSync.reload("css/core.css");
         sinon.assert.calledWithExactly(emitterStub, "file:changed", {
             path: "css/core.css",
+            basename: "core.css",
             log: true,
             namespace: "core",
-            event: "change"
+            event: "change",
+            ext: "css"
         });
     });
     it("only calls reload once if the array contains a filepath that will cause a reload", function () {
@@ -55,20 +57,35 @@ describe("API: .reload()", function () {
         assert.equal(calls.callCount, 2);
         sinon.assert.calledWithExactly(emitterStub, "file:changed", {
             path: "css/core.css",
+            basename: "core.css",
             log: true,
             namespace: "core",
-            event: "change"
+            event: "change",
+            ext: "css"
         });
         sinon.assert.calledWithExactly(emitterStub, "file:changed", {
             path: "ie.css",
+            basename: "ie.css",
             log: true,
             namespace: "core",
-            event: "change"
+            event: "change",
+            ext: "css"
         });
     });
     it("should accept an array of file paths as strings", function () {
         browserSync.reload(["index.html", "css/core.css"]);
         sinon.assert.calledWithExactly(emitterStub, "browser:reload");
+    });
+    it("should accept wildcards for files extensions eg: *.css", function () {
+        browserSync.reload("*.css");
+        sinon.assert.calledWithExactly(emitterStub, "file:changed", {
+            path: "*.css",
+            basename: "*.css",
+            log: true,
+            namespace: "core",
+            event: "change",
+            ext: "css"
+        });
     });
     /**
      * BACKWARDS COMPATIBILITY:

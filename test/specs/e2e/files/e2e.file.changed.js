@@ -52,7 +52,24 @@ describe("E2E Responding to events", function () {
         var args      = socketsStub.getCall(0).args[1];
 
         assert.equal(eventName, "file:reload");         // check correct event sent to client
-        assert.equal(args.assetFileName, "styles.css"); // Check the asset name is sent
+        assert.equal(args.basename, "styles.css"); // Check the asset name is sent
+        assert.isFalse(instance.paused);
+    });
+
+    it("fires the file:reload event to the browser when wildcard given", function () {
+
+        // Emit the event as it comes from the file-watcher
+        instance.events.emit("file:changed", {path: "*.css", event: "change", log: true, namespace: "core"});
+
+        clock.tick();
+
+        var eventName = socketsStub.getCall(0).args[0];
+        var args      = socketsStub.getCall(0).args[1];
+
+        assert.equal(eventName,     "file:reload");  // check correct event sent to client
+        assert.equal(args.path,     "*.css");   // Check the asset name is sent
+        assert.equal(args.basename, "*.css");   // Check the asset name is sent
+        assert.equal(args.ext, "css"); // Check the asset name is sent
         assert.isFalse(instance.paused);
     });
 

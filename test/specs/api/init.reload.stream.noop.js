@@ -31,9 +31,11 @@ describe("API: .stream() noop", function () {
 
             sinon.assert.calledWithExactly(emitterStub, "file:changed", {
                 path:      "styles.css",
+                basename:  "styles.css",
                 log:       false,
                 namespace: "core",
-                event:     "change"
+                event:     "change",
+                ext:       "css"
             });
             done();
         });
