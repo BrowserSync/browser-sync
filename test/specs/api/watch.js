@@ -21,6 +21,27 @@ var writeFileWait = function (name, content, cb) {
 
 describe("API: .watch() - Public watch method", function () {
 
+
+    it("Should allow arbitrary watchers with callback fn + no options when not connected to running instance", function (done) {
+
+        browserSync.reset();
+
+        var tempFile = path.join(outpath, "watch-func.txt");
+        var bs       = browserSync.create("test");
+
+        fs.writeFile(tempFile, tempFileContent, function () {
+
+            var watcher = bs.watch(tempFile, function (event, file) {
+                assert.equal(event, "add");
+                assert.equal(file, tempFile);
+                watcher.close();
+                done();
+            });
+
+            writeFileWait(tempFile, tempFileContent + " changed");
+        });
+    });
+
     it("Should allow arbitrary watchers with callback fn when not connected to running instance", function (done) {
 
         browserSync.reset();
