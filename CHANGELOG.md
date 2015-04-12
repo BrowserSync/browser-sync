@@ -1,3 +1,30 @@
+<a name"2.6.0"></a>
+## 2.6.0 (2015-04-12)
+
+
+#### Bug Fixes
+
+* **open:** Allow open: 'ui' and open: 'ui-external' when in snippet mode - ([d0333582](https://github.com/BrowserSync/browser-sync/commit/d0333582), closes [#571](https://github.com/BrowserSync/browser-sync/issues/571))
+* **server:** set index correctly if serveStaticOptions: {index: <path>} given ([34816a76](https://github.com/BrowserSync/browser-sync/commit/34816a76))
+
+
+#### Features
+
+* **cli:** allow 'browser' option from cli - ([ca517d03](https://github.com/BrowserSync/browser-sync/commit/ca517d03), closes [#552](https://github.com/BrowserSync/browser-sync/issues/552))
+* **client:** Bump client to allow wildcards in reload method - ([1e4de8f7](https://github.com/BrowserSync/browser-sync/commit/1e4de8f7), closes [#572](https://github.com/BrowserSync/browser-sync/issues/572))
+* **commands:** Add reload command for http-protocol comms ([c0fe70dc](https://github.com/BrowserSync/browser-sync/commit/c0fe70dc))
+* **file-watcher:** Add `.watch()` to public api ([6a2609f0](https://github.com/BrowserSync/browser-sync/commit/6a2609f0))
+* **http-protocol:**
+  * Add support for https comms ([efd4f39c](https://github.com/BrowserSync/browser-sync/commit/efd4f39c))
+  * Add reload method to http protocol ([f6a3601f](https://github.com/BrowserSync/browser-sync/commit/f6a3601f))
+* **plugins:** Accept object literal as plugin + options ([757f492e](https://github.com/BrowserSync/browser-sync/commit/757f492e))
+* **reload:** Add reload-delay and reload-debounce to cli -, ([38d62c96](https://github.com/BrowserSync/browser-sync/commit/38d62c96), closes [#329](https://github.com/BrowserSync/browser-sync/issues/329), [#562](https://github.com/BrowserSync/browser-sync/issues/562))
+* **stream:** Implement dedicated `.stream()` method for better handling streams & to pave the ([2581e7a1](https://github.com/BrowserSync/browser-sync/commit/2581e7a1))
+* **watchers:**
+  * Allow per-watcher options hash. ([3c069fba](https://github.com/BrowserSync/browser-sync/commit/3c069fba))
+  * switch to chokidar for file-watching, implement callback interface on per-patter ([14afddfc](https://github.com/BrowserSync/browser-sync/commit/14afddfc))
+
+
 <a name"2.5.1"></a>
 ### 2.5.1 (2015-03-31)
 
