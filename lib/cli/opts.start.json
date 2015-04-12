@@ -17,6 +17,8 @@
     "host":          "Specify a hostname to use",
     "logLevel":      "Set the logger output level (silent, info or debug)",
     "port":          "Specify a port to use",
+    "reload-delay":  "Time in milliseconds to delay the reload event following file changes",
+    "reload-debounce": "Time in milliseconds to delay the reload event following file changes",
     "ui-port":       "Specify a port for the UI to use",
     "no-notify":     "Disable the notify element in browsers",
     "no-open":       "Don't open a new browser window",
