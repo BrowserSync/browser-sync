@@ -14,12 +14,15 @@ describe("Plugins: Setting the default state (false) if given in options", funct
 
         var config = {
             logLevel: "silent",
-            plugins: [{
-                "bs-snippet-injector": {
-                    enabled: false,
-                    file: ""
+            plugins: [
+                {
+                    module:  "bs-snippet-injector",
+                    options: {
+                        enabled: false,
+                        file:    ""
+                    }
                 }
-            }]
+            ]
         };
 
         instance = browserSync(config, done).instance;
@@ -44,11 +47,14 @@ describe("Plugins: Setting the default state (true) if given in options", functi
 
         var config = {
             logLevel: "silent",
-            plugins: [{
-                "bs-snippet-injector": {
-                    enabled: true
+            plugins: [
+                {
+                    module: "bs-snippet-injector",
+                    options: {
+                        enabled: true
+                    }
                 }
-            }]
+            ]
         };
 
         instance = browserSync(config, done).instance;

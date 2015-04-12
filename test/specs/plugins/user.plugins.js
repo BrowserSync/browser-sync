@@ -31,6 +31,14 @@ describe("Plugins: Retrieving user plugins", function () {
         assert.equal(instance.getUserPlugins().length, 1);
         done();
     });
+    it("Should access a single user-specified plugin by name", function (done) {
+        assert.equal(instance.getUserPlugin(PLUGIN_NAME).name, PLUGIN_NAME);
+        done();
+    });
+    it("Should return false when single user-specified plugin by name is requested, but does not exist", function (done) {
+        assert.isFalse(instance.getUserPlugin("random-name"));
+        done();
+    });
     it("Should access to only the user-specified plugins", function (done) {
         var plugin = instance.getUserPlugins()[0];
         assert.equal(plugin.name, PLUGIN_NAME);

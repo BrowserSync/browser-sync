@@ -1,6 +1,7 @@
 {
     "help":          "Output usage information",
-    "version":       "utput the version number",
+    "version":       "Output the version number",
+    "browser":       "Choose which browser should be auto-opened",
     "files":         "File paths to watch",
     "exclude":       "File patterns to ignore",
     "server":        "Run a Local server (uses your cwd as the web root)",
@@ -17,6 +18,8 @@
     "host":          "Specify a hostname to use",
     "logLevel":      "Set the logger output level (silent, info or debug)",
     "port":          "Specify a port to use",
+    "reload-delay":  "Time in milliseconds to delay the reload event following file changes",
+    "reload-debounce": "Time in milliseconds to delay the reload event following file changes",
     "ui-port":       "Specify a port for the UI to use",
     "no-notify":     "Disable the notify element in browsers",
     "no-open":       "Don't open a new browser window",

@@ -1,7 +1,6 @@
 "use strict";
 
 var path        = require("path");
-var utils       = require("../../../../lib/utils");
 var assert      = require("chai").assert;
 var browserSync = require(path.resolve("./"));
 
@@ -35,10 +34,8 @@ describe("E2E CLI `files` arg - multi globs", function () {
         instance.cleanup();
     });
     it("Converts cli files arg to correct namespaced watchers", function () {
-        assert.equal(instance.options.getIn(["files", "core"]).size, 2);
-        assert.equal(instance.watchers.core.glob.size, 2);
-
-        assert.isTrue(utils.isList(instance.watchers.core.glob));
+        assert.equal(instance.options.getIn(["files", "core", "globs"]).size, 2);
+        assert.isTrue(Array.isArray(instance.watchers.core.watchers));
     });
 });
 
@@ -69,9 +66,8 @@ describe("E2E CLI `files` arg, single glob", function () {
         instance.cleanup();
     });
     it("Converts cli files arg to correct namespaced watchers", function () {
-        assert.equal(instance.options.getIn(["files", "core"]).size, 1);
-        assert.equal(instance.watchers.core.glob.size, 1);
+        assert.equal(instance.options.getIn(["files", "core", "globs"]).size, 1);
 
-        assert.isTrue(utils.isList(instance.watchers.core.glob));
+        assert.isTrue(Array.isArray(instance.watchers.core.watchers));
     });
 });

@@ -53,7 +53,14 @@ describe("E2E CLI `reload` with no files arg", function () {
                         }
                     },
                     cb: function () {
-                        sinon.assert.calledWithExactly(spy, "file:changed", {path: "core.css", log: true, namespace: "core"});
+                        sinon.assert.calledWithExactly(spy, "file:changed", {
+                            path: "core.css",
+                            basename: "core.css",
+                            log: true,
+                            namespace: "core",
+                            event: "change",
+                            ext: "css"
+                        });
                         bs.cleanup();
                         done();
                     }
@@ -80,7 +87,14 @@ describe("E2E CLI `reload` with no files arg", function () {
                         }
                     },
                     cb: function () {
-                        sinon.assert.calledWithExactly(spy, "file:changed", {path: "core.css", log: true, namespace: "core"});
+                        sinon.assert.calledWithExactly(spy, "file:changed", {
+                            path: "core.css",
+                            basename: "core.css",
+                            ext: "css",
+                            log: true,
+                            namespace: "core",
+                            event: "change"
+                        });
                         bs.cleanup();
                         done();
                     }
@@ -88,6 +102,19 @@ describe("E2E CLI `reload` with no files arg", function () {
             });
     });
     it("should handle ECONNREFUSED errors nicely", function (done) {
+        cli({
+            cli: {
+                input: ["reload"],
+                flags: {}
+            },
+            cb: function (err) {
+                assert.equal(err.code, "ECONNREFUSED");
+                assert.equal(err.message, "BrowserSync not running at http://localhost:3000");
+                done();
+            }
+        });
+    });
+    it("should handle non 200 code results", function (done) {
         cli({
             cli: {
                 input: ["reload"],

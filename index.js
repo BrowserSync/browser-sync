@@ -59,6 +59,15 @@ module.exports.use     = function () {
 module.exports.reload  = noop("reload");
 
 /**
+ * The `stream` method returns a transform stream and can act once or on many files.
+ *
+ * @method stream
+ * @param {Object} [opts] Configuration for the stream method
+ * @returns {*}
+ */
+module.exports.stream  = noop("stream");
+
+/**
  * Helper method for browser notifications
  *
  * @method notify
@@ -73,6 +82,13 @@ module.exports.notify  = noop("notify");
  * @method exit
  */
 module.exports.exit    = noop("exit");
+
+/**
+ * File watcher
+ *
+ * @method watch
+ */
+module.exports.watch   = noop("watch");
 
 /**
  * Method to pause file change events
@@ -159,7 +175,7 @@ function noop(name) {
         if (singleton) {
             return singleton[name].apply(singleton, args);
         } else {
-            if (name === "reload" && args[0] && args[0].stream) {
+            if (name === "stream") {
                 return utils.noopStream();
             }
         }
@@ -248,10 +264,12 @@ function create(name, emitter) {
         pause:     require("./lib/public/pause")(browserSync),
         resume:    require("./lib/public/resume")(browserSync),
         reload:    require("./lib/public/reload")(emitter),
+        stream:    require("./lib/public/stream")(emitter),
         cleanup:   browserSync.cleanup.bind(browserSync),
         use:       browserSync.registerPlugin.bind(browserSync),
         getOption: browserSync.getOption.bind(browserSync),
-        emitter:   browserSync.events
+        emitter:   browserSync.events,
+        watch:     require("./lib/file-watcher").watch
     };
 
     Object.defineProperty(instance, "active", {

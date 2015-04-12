@@ -51,7 +51,14 @@ describe("HTTP protocol", function () {
 
         request(url, function (e, r, body) {
             sinon.assert.calledWith(spy, "file:changed");
-            sinon.assert.calledWithExactly(spy, "file:changed", {path: "core.min.css", log: true, namespace: "core"});
+            sinon.assert.calledWithExactly(spy, "file:changed", {
+                path: "core.min.css",
+                basename: "core.min.css",
+                ext: "css",
+                log: true,
+                namespace: "core",
+                event: "change"
+            });
             assert.include(body, "Called public API method `.reload()`");
             assert.include(body, "With args: [\"core.min.css\",\"core.css\"]");
             done();
@@ -63,9 +70,37 @@ describe("HTTP protocol", function () {
 
         request(url, function (e, r, body) {
             sinon.assert.calledWith(spy, "file:changed");
-            sinon.assert.calledWithExactly(spy, "file:changed", {path: "somefile.php", log: true, namespace: "core"});
+            sinon.assert.calledWithExactly(spy, "file:changed", {
+                path: "somefile.php",
+                basename: "somefile.php",
+                ext: "php",
+                log: true,
+                namespace: "core",
+                event: "change"
+            });
             assert.include(body, "Called public API method `.reload()`");
             assert.include(body, "With args: \"somefile.php\"");
+            done();
+        });
+    });
+    it("Gives a nice error when method not found", function (done) {
+
+        var url = proto.getUrl({method: "relzoad", args: "somefile.php"}, bs.options.getIn(["urls", "local"]));
+
+        request(url, function (e, r, body) {
+            assert.equal(r.statusCode, 404);
+            assert.equal(body, "Public API method `relzoad` not found.");
+            done();
+        });
+    });
+
+    it("Gives a nice error when no params are given", function (done) {
+
+        var url = proto.getUrl(undefined, bs.options.getIn(["urls", "local"]));
+
+        request(url, function (e, r, body) {
+            assert.equal(r.statusCode, 500);
+            assert.include(body, "Error: No Parameters were provided.");
             done();
         });
     });
