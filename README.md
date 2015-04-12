@@ -8,11 +8,13 @@
 <a href="https://coveralls.io/r/BrowserSync/browser-sync?branch=master" title="Coverage Status">
  <img src="https://img.shields.io/coveralls/BrowserSync/browser-sync.svg?style=flat-square" />
 </a>
-<a href="https://www.npmjs.com/package/browser-sync" title="NPM version">
- <img src="https://img.shields.io/npm/v/browser-sync.svg?style=flat-square" />
-</a>
 <a href="https://www.npmjs.com/package/browser-sync">
  <img src="https://img.shields.io/npm/dm/browser-sync.svg?style=flat-square" />
+</a>
+</p>
+<p align="center">
+<a href="https://www.npmjs.com/package/browser-sync" title="NPM version">
+ <img src="https://img.shields.io/npm/v/browser-sync.svg?style=flat-square" />
 </a>
 <a href="https://david-dm.org/BrowserSync/browser-sync" title="Dependency Status">
  <img src="https://img.shields.io/david/BrowserSync/browser-sync.svg?style=flat-square&label=deps" />
@@ -21,7 +23,6 @@
  <img src="https://img.shields.io/david/dev/BrowserSync/browser-sync.svg?style=flat-square&label=devDeps" />
 </a>
 </p>
-
 <p align="center"><a href="http://www.wearejh.com"><img src="http://cl.ly/image/3Y3O0M2z310j/jh-100-red.png" /></a></p>
 <h1 align="center">BrowserSync</h1>
 <p align="center">Keep multiple browsers & devices in sync when building websites.</p>
