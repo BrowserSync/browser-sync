@@ -84,6 +84,13 @@ module.exports.notify  = noop("notify");
 module.exports.exit    = noop("exit");
 
 /**
+ * File watcher
+ *
+ * @method watch
+ */
+module.exports.watch   = noop("watch");
+
+/**
  * Method to pause file change events
  *
  * @method pause
@@ -261,7 +268,8 @@ function create(name, emitter) {
         cleanup:   browserSync.cleanup.bind(browserSync),
         use:       browserSync.registerPlugin.bind(browserSync),
         getOption: browserSync.getOption.bind(browserSync),
-        emitter:   browserSync.events
+        emitter:   browserSync.events,
+        watch:     require("./lib/file-watcher").watch
     };
 
     Object.defineProperty(instance, "active", {
