@@ -20,8 +20,6 @@ var writeFileWait = function (name, content, cb) {
 };
 
 describe("API: .watch() - Public watch method", function () {
-
-
     it("Should allow arbitrary watchers with callback fn + no options when not connected to running instance", function (done) {
 
         browserSync.reset();
