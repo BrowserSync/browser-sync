@@ -6,6 +6,7 @@
  */
 var pjson         = require("./package.json");
 var BrowserSync   = require("./lib/browser-sync");
+var publicUtils   = require("./lib/public/public-utils");
 var utils         = require("./lib/utils");
 var events        = require("events");
 var logger        = require("eazy-logger").Logger({
@@ -175,7 +176,7 @@ function noop(name) {
         if (singleton) {
             return singleton[name].apply(singleton, args);
         } else {
-            if (name === "stream") {
+            if (publicUtils.isStreamArg(name, args)) {
                 return utils.noopStream();
             }
         }
