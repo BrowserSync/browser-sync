@@ -1,3 +1,10 @@
+<a name"2.6.1"></a>
+### 2.6.1 (2015-04-13)
+
+
+#### Bug Fixes
+* **stream:** Allow deprecated .reload({stream: true}) when no instance running, closes [#573](https://github.com/BrowserSync/browser-sync/issues/573)
+
 <a name"2.6.0"></a>
 ## 2.6.0 (2015-04-12)
 
