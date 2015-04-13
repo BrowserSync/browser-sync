@@ -53,8 +53,7 @@ module.exports.use     = function () {
  * The `reload` method will inform all browsers about changed files and will either cause the browser to refresh, or inject the files where possible.
  *
  * @method reload
- * @param {String|Array|Object} [arg] The file or files to be reloaded. For
- * details and examples of Streams support, please see the [GulpJS]({{site.links.gulp}}) examples
+ * @param {String|Array|Object} [arg] The file or files to be reloaded.
  * @returns {*}
  */
 module.exports.reload  = noop("reload");
@@ -64,6 +63,7 @@ module.exports.reload  = noop("reload");
  *
  * @method stream
  * @param {Object} [opts] Configuration for the stream method
+ * @since 2.6.0
  * @returns {*}
  */
 module.exports.stream  = noop("stream");
@@ -85,9 +85,12 @@ module.exports.notify  = noop("notify");
 module.exports.exit    = noop("exit");
 
 /**
- * File watcher
- *
+ * Stand alone file-watcher. Use this along with BrowserSync to create your own, minimal build system
  * @method watch
+ * @param {string} patterns Glob patterns for files to watch
+ * @param {object} [opts] Options to be passed to Chokidar - check what's available in [their docs](https://github.com/paulmillr/chokidar#getting-started)
+ * @param {function} [fn] Callback function for each event.
+ * @since 2.6.0
  */
 module.exports.watch   = noop("watch");
 
