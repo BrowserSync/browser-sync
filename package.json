@@ -1,7 +1,7 @@
 {
   "name": "browser-sync",
   "description": "Live CSS Reload & Browser Syncing",
-  "version": "2.6.1",
+  "version": "2.6.2",
   "homepage": "http://www.browsersync.io/",
   "author": {
     "name": "Shane Osbourne"
@@ -43,7 +43,7 @@
     "connect": "^3.3.5",
     "dev-ip": "^1.0.1",
     "easy-extender": "^2.3.1",
-    "eazy-logger": "^2.1.1",
+    "eazy-logger": "^2.1.2",
     "emitter-steward": "^0.0.1",
     "foxy": "^10.0.2",
     "immutable": "^3.6.4",
