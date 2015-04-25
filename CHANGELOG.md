@@ -1,3 +1,12 @@
+<a name"2.6.5"></a>
+### 2.6.5 (2015-04-25)
+
+
+#### Bug Fixes
+
+* **file-watching:** use canLogFileChange() to determine whether file:reload, stream:changed & browse ([164154ea](https://github.com/BrowserSync/browser-sync/commit/164154ea), closes [#479](https://github.com/BrowserSync/browser-sync/issues/479))
+
+
 <a name"2.6.1"></a>
 ### 2.6.1 (2015-04-13)
 
