@@ -65,7 +65,6 @@
     "bs-snippet-injector": "^2.0.1",
     "chai": "^2.1.0",
     "chalk": "^1.0.0",
-    "cli-color": "^0.3.2",
     "conventional-changelog": "0.0.16",
     "graceful-fs": "^3.0.2",
     "gulp": "^3.8.10",
