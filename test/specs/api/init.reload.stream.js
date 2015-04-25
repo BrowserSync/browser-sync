@@ -2,7 +2,8 @@
 
 var browserSync = require("../../../");
 
-var sinon = require("sinon");
+var sinon  = require("sinon");
+var assert = require("chai").assert;
 var File = require("vinyl");
 
 describe("API: .stream()", function () {
@@ -109,6 +110,27 @@ describe("API: .stream()", function () {
         stream.write(new File({path: "core.css"}));
         stream.write(new File({path: "index.html"}));
         stream.end();
+        clock.tick();
         sinon.assert.notCalled(emitterStub);
+    });
+    it("emits the stream:changed event with an array of changed files", function () {
+
+        var stream    = browserSync.stream();
+
+        stream.write(new File({path: "/users/shane/styles.js"}));
+        stream.write(new File({path: "core.css"}));
+        stream.write(new File({path: "index.html"}));
+
+        stream.end();
+        clock.tick();
+
+        assert.isFalse(emitterStub.getCall(0).args[1].log);
+        assert.isFalse(emitterStub.getCall(1).args[1].log);
+        assert.isFalse(emitterStub.getCall(2).args[1].log);
+
+        sinon.assert.callCount(emitterStub, 7);
+        assert.equal(emitterStub.getCall(6).args[0], "stream:changed");
+        assert.equal(emitterStub.getCall(6).args[1].changed.length, 3);
+        sinon.assert.called(emitterStub);
     });
 });

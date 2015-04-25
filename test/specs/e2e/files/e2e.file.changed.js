@@ -95,18 +95,6 @@ describe("E2E Responding to events", function () {
         assert.isFalse(instance.paused);
     });
 
-    it("Sets `log: false` if `log` is undefined in event", function () {
-
-        // Emit the event as it comes from the file-watcher
-        instance.events.emit("file:changed", {path: "styles.css", event: "change", namespace: "core"});
-
-        clock.tick();
-
-        var args = socketsStub.getCall(0).args[1];
-
-        assert.isTrue(args.log);
-    });
-
     it("fires the browser:reload event to the browser", function () {
 
         // Emit the event as it comes from the file-watcher
