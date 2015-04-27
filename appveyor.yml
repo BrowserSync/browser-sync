@@ -5,10 +5,12 @@ shallow_clone: true
 
 version: '1.0.{build}'
 
+skip_tags: true
+
 environment:
   matrix:
-    - nodejs_version: '1.2'
-    - nodejs_version: '0.12'
+    - nodejs_version: '1'
+    - nodejs_version: '0'
 
 install:
   - ps: Install-Product node $env:nodejs_version
@@ -21,4 +23,3 @@ build: off
 
 cache:
   - node_modules -> package.json
-
