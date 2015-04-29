@@ -35,7 +35,7 @@
     "pre-release": "npm test && npm run pro-local && npm run pro"
   },
   "dependencies": {
-    "anymatch": "^1.2.1",
+    "anymatch": "^1.3.0",
     "async-each-series": "^0.1.1",
     "browser-sync-client": "^2.0.1",
     "browser-sync-ui": "^0.5.6",
@@ -48,16 +48,16 @@
     "foxy": "^10.0.2",
     "immutable": "^3.6.4",
     "localtunnel": "^1.3.0",
-    "lodash": "^3.0.1",
+    "lodash": "^3.7.0",
     "meow": "^3.1.0",
-    "opn": "^1.0.0",
+    "opn": "^1.0.2",
     "portscanner": "^1.0.0",
     "query-string": "^1.0.0",
     "resp-modifier": "^2.0.1",
     "serve-index": "^1.6.3",
     "serve-static": "^1.9.1",
     "socket.io": "^1.3.5",
-    "ua-parser-js": "^0.7.3"
+    "ua-parser-js": "^0.7.6"
   },
   "devDependencies": {
     "browser-sync-spa": "^1.0.2",
