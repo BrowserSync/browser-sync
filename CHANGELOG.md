@@ -1,3 +1,12 @@
+<a name"2.6.8"></a>
+### 2.6.8 (2015-04-29)
+
+
+#### Bug Fixes
+
+* **cli:** Allow absolute paths for config file - ([8fcd9048](https://github.com/BrowserSync/browser-sync/commit/8fcd9048), closes [#583](https://github.com/BrowserSync/browser-sync/issues/583))
+
+
 <a name"2.6.5"></a>
 ### 2.6.5 (2015-04-25)
 
