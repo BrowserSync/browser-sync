@@ -273,7 +273,8 @@ function create(name, emitter) {
         use:       browserSync.registerPlugin.bind(browserSync),
         getOption: browserSync.getOption.bind(browserSync),
         emitter:   browserSync.events,
-        watch:     require("./lib/file-watcher").watch
+        watch:     require("./lib/file-watcher").watch,
+        run:       require("prom-seq")
     };
 
     Object.defineProperty(instance, "active", {
@@ -292,6 +293,13 @@ function create(name, emitter) {
 
     return instance;
 }
+
+/**
+ * prom-seq exposed for simple task-running
+ * @param {Array} tasks
+ * @param {*} [initial]
+ */
+module.exports.run = require("prom-seq");
 
 /**
  * Reset the state of the module.
