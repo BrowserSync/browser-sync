@@ -11,7 +11,7 @@ var cmdWhitelist  = ["start", "init", "reload"];
 
 var cli = meow({
     pkg:  "../package.json",
-    help: getHelpText(path.resolve(__dirname, "../lib/cli/help.txt"))
+    help: getHelpText(path.join(__dirname, "../lib/cli/help.txt"))
 });
 
 /**

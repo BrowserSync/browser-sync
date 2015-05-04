@@ -2,10 +2,11 @@
 
 var browserSync = require("../../../");
 
-var assert  = require("chai").assert;
-var request = require("supertest");
-var http = require("http");
-var connect = require("connect");
+var assert      = require("chai").assert;
+var path        = require("path");
+var request     = require("supertest");
+var http        = require("http");
+var connect     = require("connect");
 var serveStatic = require("serve-static");
 
 describe("Plugins: Should be able to add Middlewares with paths on the fly", function () {
@@ -243,7 +244,7 @@ describe("Plugins: Should be able to add middleware with paths on the fly in pro
         browserSync.reset();
 
         var testApp = connect()
-            .use(serveStatic(__dirname + "/../../fixtures"));
+            .use(serveStatic(path.join(__dirname, "../../fixtures")));
 
         // server to proxy
         stubServer = http.createServer(testApp).listen();
@@ -295,7 +296,7 @@ describe("Plugins: Should be able to add middleware with no paths on the fly in 
         browserSync.reset();
 
         var testApp = connect()
-            .use(serveStatic(__dirname + "/../../fixtures"));
+            .use(serveStatic(path.join(__dirname, "/../../fixtures")));
 
         // server to proxy
         stubServer = http.createServer(testApp).listen();

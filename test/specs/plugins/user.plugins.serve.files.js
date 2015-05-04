@@ -2,10 +2,11 @@
 
 var browserSync = require("../../../");
 
-var assert  = require("chai").assert;
-var request = require("supertest");
-var http = require("http");
-var connect = require("connect");
+var assert      = require("chai").assert;
+var request     = require("supertest");
+var http        = require("http");
+var path        = require("path");
+var connect     = require("connect");
 var serveStatic = require("serve-static");
 
 describe("Plugins: Should be able to call `serveFile` on the instance when in server mode", function () {
@@ -106,7 +107,7 @@ describe("Plugins: Should be able to call `serveFile` on the instance when in pr
         browserSync.reset();
 
         var testApp = connect()
-            .use(serveStatic(__dirname + "/../../fixtures"));
+            .use(serveStatic(path.join(__dirname, "../../fixtures")));
 
         // server to proxy
         stubServer = http.createServer(testApp).listen();
