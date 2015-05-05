@@ -1,13 +1,15 @@
 #!/usr/bin/env node
 "use strict";
 
-var meow          = require("meow");
-var fs            = require("fs");
-var path          = require("path");
-var compile       = require("eazy-logger").compile;
-var utils         = require("../lib/utils");
-var logger        = require("../lib/logger").logger;
-var cmdWhitelist  = ["start", "init", "reload"];
+var meow         = require("meow");
+var fs           = require("fs");
+var path         = require("path");
+var compile      = require("eazy-logger").compile;
+var longest      = require("longest");
+var padLeft      = require("pad-left");
+var utils        = require("../lib/utils");
+var logger       = require("../lib/logger").logger;
+var cmdWhitelist = ["start", "init", "reload"];
 
 var cli = meow({
     pkg:  "../package.json",
@@ -36,11 +38,7 @@ function getHelpText(filepath) {
     cmdWhitelist.forEach(function (command) {
 
         var flags = require("../lib/cli/opts." + command + ".json");
-
-        template = template.replace(
-            ["%", command, "flags%"].join(""),
-            listFlags(flags)
-        );
+        template = template.replace("%" + command + "flags%", listFlags(flags));
     });
 
     return compile(template);
@@ -78,32 +76,12 @@ function handleCli (opts) {
 function listFlags (flags) {
 
     var flagKeys = Object.keys(flags);
-    var longest = getLongest(Object.keys(flags));
+    var maxLength = (longest(Object.keys(flags)) || "").length;
 
-    if (!longest || !longest.length) {
-        return;
-    }
-
-    return flagKeys.reduce(function (all, item) {
-        return all + "    {bold:--" + item + "}" + getPadding(item.length, longest.length + 8) + flags[item] + "\n";
-    }, "");
-}
-
-/**
- * @param {Number} len
- * @param {Number} max
- * @returns {string}
- */
-function getPadding (len, max) {
-    return new Array(max - (len + 1)).join(" ");
-}
-
-/**
- * @param {Array} arr
- * @returns {String}
- */
-function getLongest (arr) {
-    return arr.sort(function (a, b) { return b.length - a.length; })[0];
+    return flagKeys.map(function (item) {
+        return "    {bold:--" + item + "}" +
+               padLeft(flags[item], maxLength + 4 - item.length, " ");
+    }).join("\n");
 }
 
 module.exports = handleCli;
