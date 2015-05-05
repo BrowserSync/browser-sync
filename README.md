@@ -28,7 +28,7 @@
 <p align="center">Keep multiple browsers & devices in sync when building websites.</p>
 
 <p align="center">BrowserSync is developed and maintained internally at <a href="http://www.wearejh.com">JH</a></p>
-<p align="center">Follow <a href="http://www.twitter.com/browsersync">@BrowserSync</a> on twitter for news & updates.</p>
+<p align="center">Follow <a href="https://twitter.com/browsersync">@BrowserSync</a> on twitter for news & updates.</p>
 <p align="center">Talk to contributors on <a href="https://gitter.im/BrowserSync/browser-sync"><img src="https://badges.gitter.im/Join%20Chat.svg" /></a></p>
 
 ## Features
