@@ -7,8 +7,8 @@
 var pjson         = require("./package.json");
 var BrowserSync   = require("./lib/browser-sync");
 var publicUtils   = require("./lib/public/public-utils");
-var utils         = require("./lib/utils");
 var events        = require("events");
+var PassThrough   = require("stream").PassThrough;
 var logger        = require("eazy-logger").Logger({
     useLevelPrefixes: true
 });
@@ -150,7 +150,7 @@ Object.defineProperties(module.exports, {
  * @returns {EventEmitter}
  */
 function newEmitter() {
-    var emitter       = new events.EventEmitter();
+    var emitter = new events.EventEmitter();
     emitter.setMaxListeners(20);
     return emitter;
 }
@@ -180,7 +180,7 @@ function noop(name) {
             return singleton[name].apply(singleton, args);
         } else {
             if (publicUtils.isStreamArg(name, args)) {
-                return utils.noopStream();
+                return new PassThrough({objectMode: true});
             }
         }
     };
