@@ -1,3 +1,12 @@
+<a name"2.7.1"></a>
+### 2.7.1 (2015-05-06)
+
+
+#### Bug Fixes
+
+* **web-sockets:** revert handling upgrade event on proxy as it causes regression fix #606 ([1c6b1c03](https://github.com/BrowserSync/browser-sync/commit/1c6b1c03))
+
+
 <a name"2.6.8"></a>
 ### 2.6.8 (2015-04-29)
 
