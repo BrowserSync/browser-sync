@@ -47,20 +47,20 @@ describe("HTTP protocol", function () {
     });
     it("responds to reload event with multi file paths", function (done) {
 
-        var url = proto.getUrl({method: "reload", args: ["core.min.css", "core.css"]}, bs.options.getIn(["urls", "local"]));
+        var url = proto.getUrl({method: "reload", args: ["a.css", "b.css"]}, bs.options.getIn(["urls", "local"]));
 
         request(url, function (e, r, body) {
             sinon.assert.calledWith(spy, "file:changed");
             sinon.assert.calledWithExactly(spy, "file:changed", {
-                path: "core.min.css",
-                basename: "core.min.css",
+                path: "a.css",
+                basename: "a.css",
                 ext: "css",
                 log: true,
                 namespace: "core",
                 event: "change"
             });
             assert.include(body, "Called public API method `.reload()`");
-            assert.include(body, "With args: [\"core.min.css\",\"core.css\"]");
+            assert.include(body, "With args: [\"a.css\",\"b.css\"]");
             done();
         });
     });
