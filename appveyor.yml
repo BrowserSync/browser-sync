@@ -9,7 +9,7 @@ skip_tags: true
 
 environment:
   matrix:
-    - nodejs_version: '1'
+    - nodejs_version: '2'
     - nodejs_version: '0'
 
 install:
