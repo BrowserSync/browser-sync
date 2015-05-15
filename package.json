@@ -7,12 +7,7 @@
     "name": "Shane Osbourne"
   },
   "repository": "BrowserSync/browser-sync",
-  "licenses": [
-    {
-      "type": "Apache-2.0",
-      "url": "https://github.com/BrowserSync/browser-sync/blob/master/LICENSE"
-    }
-  ],
+  "license": "Apache-2.0",
   "bin": "bin/browser-sync.js",
   "files": [
     "bin",
