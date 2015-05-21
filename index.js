@@ -22,15 +22,40 @@ var instances        = [];
  */
 var singletonEmitter = false;
 
+module.exports         = initSingleton;
+
 /**
- * @method browserSync
+ * Create a Browsersync instance
+ * @method create
+ * @param {String} name an identifier that can used for retrieval later
+ */
+module.exports.create    = create;
+
+/**
+ * Get a single instance by name. This is useful if you have your
+ * build scripts in separate files
+ * @method get
+ * @param {String} name
+ * @returns {Object|Boolean}
+ */
+module.exports.get = function (name) {
+    var instance = getSingle(name);
+    if (instance) {
+        return instance;
+    }
+    throw new Error("An instance with the name `%s` was not found.".replace("%s", name));
+};
+
+/**
+ * Start the Browsersync service. This will launch a server, proxy or start the snippet
+ * mode depending on your use-case.
+ * @method init
  * @param {Object} [config] This is the main configuration for your BrowserSync instance and can contain any of the [available options]({{site.links.options}})
  *  If you do not pass a config an argument for configuration, BrowserSync will still run; but it will be in the `snippet` mode
  * @param {Function} [cb] If you pass a callback function, it will be called when BrowserSync has completed all setup tasks and is ready to use. This
  * is useful when you need to wait for information (for example: urls, port etc) or perform other tasks synchronously.
  * @returns {BrowserSync}
  */
-module.exports         = initSingleton;
 module.exports.init    = initSingleton;
 
 /**
@@ -309,25 +334,6 @@ module.exports.reset = function () {
 };
 
 /**
- * Get a single instance by name
- * @param {String} name
- * @returns {Object|Boolean}
- */
-module.exports.get = function (name) {
-    var instance = getSingle(name);
-    if (instance) {
-        return instance;
-    }
-    throw new Error("An instance with the name `%s` was not found.".replace("%s", name));
-};
-
-/**
  * @type {Array}
  */
 module.exports.instances = instances;
-
-/**
- * Create an instance of BrowserSync
- * @type {create}
- */
-module.exports.create    = create;
