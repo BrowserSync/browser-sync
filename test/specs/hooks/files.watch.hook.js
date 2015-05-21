@@ -187,7 +187,7 @@ describe("files:watch hook", function () {
         var out = hook([], imm.get("files"), pluginOptions);
         imm = imm.set("files", out);
 
-        var watchers = require("../../../lib/file-watcher").plugin(imm, {});
+        var watchers = require("../../../lib/file-watcher").plugin({options: imm});
         assert.equal(watchers.core.watchers.length, 2);
         assert.equal(watchers.plugin1.watchers.length, 2);
     });
@@ -238,7 +238,7 @@ describe("files:watch hook", function () {
 
         imm = imm.set("files", out);
 
-        var watchers = require("../../../lib/file-watcher").plugin(imm, {});
+        var watchers = require("../../../lib/file-watcher").plugin({options: imm});
 
         assert.equal(3, watchers.core.watchers.length);
         assert.equal(2, watchers.plugin1.watchers.length);
@@ -268,7 +268,7 @@ describe("files:watch hook", function () {
 
         imm = imm.set("files", out);
 
-        var watchers = require("../../../lib/file-watcher").plugin(imm, {});
+        var watchers = require("../../../lib/file-watcher").plugin({options: imm});
 
         assert.equal(1, watchers.core.watchers.length);
     });
@@ -296,7 +296,7 @@ describe("files:watch hook", function () {
 
         imm = imm.set("files", out);
 
-        var watchers = require("../../../lib/file-watcher").plugin(imm, {});
+        var watchers = require("../../../lib/file-watcher").plugin({options: imm});
 
         assert.equal(1, watchers.plugin1.watchers.length);
     });
@@ -326,7 +326,7 @@ describe("files:watch hook", function () {
 
         imm = imm.set("files", out);
 
-        var watchers = require("../../../lib/file-watcher").plugin(imm, {});
+        var watchers = require("../../../lib/file-watcher").plugin({options: imm});
 
         assert.equal(2, watchers.plugin1.watchers.length);
         assert.equal(1, watchers.core.watchers.length);

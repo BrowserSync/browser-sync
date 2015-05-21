@@ -287,7 +287,6 @@ function create(name, emitter) {
     var instance = {
         name:      name,
         instance:  browserSync,
-        init:      require("./lib/public/init")(browserSync, name, pjson),
         exit:      require("./lib/public/exit")(browserSync),
         notify:    require("./lib/public/notify")(browserSync),
         pause:     require("./lib/public/pause")(browserSync),
@@ -300,6 +299,9 @@ function create(name, emitter) {
         emitter:   browserSync.events,
         watch:     require("./lib/file-watcher").watch
     };
+
+    browserSync.publicInstance = instance;
+    instance.init = require("./lib/public/init")(browserSync, name, pjson);
 
     Object.defineProperty(instance, "active", {
         get: function () {
