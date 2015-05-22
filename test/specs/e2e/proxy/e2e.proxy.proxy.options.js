@@ -33,7 +33,7 @@ describe("E2E proxy test with `proxyOptions`", function () {
             logLevel: "silent"
         };
 
-        spy = require("sinon").spy(require.cache[foxyPath], "exports");
+        spy = require("sinon").spy(require.cache[foxyPath].exports, "create");
         bs = browserSync.init(config, done).instance;
     });
 

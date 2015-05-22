@@ -33,7 +33,7 @@ describe("E2E proxy test with custom cookies options passed to foxy", function (
             logLevel: "silent"
         };
 
-        spy = require("sinon").spy(require.cache[foxyPath], "exports");
+        spy = require("sinon").spy(require.cache[foxyPath].exports, "create");
         bs = browserSync.init(config, done).instance;
     });
 
@@ -44,7 +44,7 @@ describe("E2E proxy test with custom cookies options passed to foxy", function (
 
     it("sets cookie stripDomain: false", function (done) {
 
-        assert.isFalse(spy.getCall(0).args[1].cookies.toJS().stripDomain); // check fn passed to foxy
+        assert.isFalse(spy.getCall(0).args[1].cookies.stripDomain); // check fn passed to foxy
 
         spy.restore();
 
