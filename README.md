@@ -31,6 +31,13 @@
 <p align="center">Follow <a href="https://twitter.com/browsersync">@BrowserSync</a> on twitter for news & updates.</p>
 <p align="center">Talk to contributors on <a href="https://gitter.im/BrowserSync/browser-sync"><img src="https://badges.gitter.im/Join%20Chat.svg" /></a></p>
 
+***The original project is currently breaking on Windows due to references in the various socket.io/engine.io projects back to old versions of ws.  I forked the socket.io/engine.io projects, updated the references to use latest ws and pointed this forked browser-sync at the updated socket.io and it works for me again on Windows.  This has been an open issue for a while and doesn't seem to be getting much attention.***
+
+***See:***
+(https://github.com/Automattic/socket.io/issues/2056#issuecomment-104475530)
+(https://github.com/Automattic/socket.io/issues/2114)
+
+
 ## Features
 
 Please visit [browsersync.io](http://browsersync.io) for a full run-down of features
