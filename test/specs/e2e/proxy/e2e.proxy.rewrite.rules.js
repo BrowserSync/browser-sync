@@ -9,14 +9,16 @@ var assert = require("chai").assert;
 
 describe("E2E proxy test with rewrite rules", function () {
 
-    var instance, server, options;
+    var bs, server, options;
 
     before(function (done) {
 
         browserSync.reset();
 
         var app = connect();
-        app.use(serveStatic("./test/fixtures"));
+        app.use("/index.html", function (req, res, next) {
+            res.end('some content');
+        });
         server = app.listen();
         var proxytarget = "http://localhost:" + server.address().port;
 
@@ -26,34 +28,48 @@ describe("E2E proxy test with rewrite rules", function () {
             open:      false,
             rewriteRules: [
                 {
-                    match: /Forms/g,
+                    match: /content/g,
                     fn: function () {
-                        return "Shane's forms";
+                        return "awesome content";
                     }
                 }
             ]
         };
 
-        instance = browserSync.init([], config, function (err, bs) {
+        bs = browserSync.init([], config, function (err, bs) {
             options = bs.options;
             done();
         }).instance;
     });
 
     after(function () {
-        instance.cleanup();
+        bs.cleanup();
         server.close();
     });
 
-    it("serves files with HTML rewritten", function (done) {
+    it.only("serves files with HTML rewritten", function (done) {
 
-        request(instance.server)
+        request(bs.server)
             .get("/index.html")
             .set("accept", "text/html")
             .expect(200)
             .end(function (err, res) {
-                assert.include(res.text, "Shane's forms");
-                done();
+
+                assert.include(res.text, "some awesome content");
+
+                bs.addRewriteRule({
+                    match: "some awesome content",
+                    replace: "some REALLY awesome content"
+                });
+
+                request(bs.server)
+                    .get("/index.html")
+                    .set("accept", "text/html")
+                    .expect(200)
+                    .end(function (err, res) {
+                        console.log(res.text);
+                        done();
+                    });
             });
     });
 });
