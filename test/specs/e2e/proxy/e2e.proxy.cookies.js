@@ -33,7 +33,7 @@ describe("E2E proxy test with custom cookies options passed to foxy", function (
             logLevel: "silent"
         };
 
-        spy = require("sinon").spy(require.cache[foxyPath], "exports");
+        spy = require("sinon").spy(require.cache[foxyPath].exports, "create");
         bs = browserSync.init(config, done).instance;
     });
 

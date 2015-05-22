@@ -7,7 +7,7 @@ var serveStatic = require("serve-static");
 var request = require("supertest");
 var assert = require("chai").assert;
 
-describe("E2E proxy test with rewrite rules", function () {
+describe("E2E proxy test with adding and removing rewrite rules dynamically", function () {
 
     var bs, server, options;
 
@@ -24,14 +24,7 @@ describe("E2E proxy test with rewrite rules", function () {
             proxy:     proxytarget,
             logLevel: "silent",
             open:      false,
-            rewriteRules: [
-                {
-                    match: /BrowserSync/g,
-                    fn: function () {
-                        return "BROWSERSYNC";
-                    }
-                }
-            ]
+            online: false
         };
 
         bs = browserSync.init([], config, function (err, bs) {
@@ -46,13 +39,32 @@ describe("E2E proxy test with rewrite rules", function () {
     });
 
     it("can add rules on the fly", function (done) {
+
+        bs.addRewriteRule({
+            match: "BrowserSync",
+            replace: "BROWSERSYNC",
+            id: "myrule"
+        });
+
         request(bs.server)
             .get("/index.html")
             .set("accept", "text/html")
             .expect(200)
             .end(function (err, res) {
+
                 assert.include(res.text, "BROWSERSYNC");
-                done();
+
+                bs.removeRewriteRule("myrule");
+
+                request(bs.server)
+                    .get("/index.html")
+                    .set("accept", "text/html")
+                    .expect(200)
+                    .end(function (err, res) {
+                        assert.include(res.text, "BrowserSync");
+                        assert.notInclude(res.text, "BROWSERSYNC");
+                        done();
+                    });
             });
     });
 });
