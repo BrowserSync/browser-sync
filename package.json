@@ -40,7 +40,7 @@
     "easy-extender": "^2.3.1",
     "eazy-logger": "^2.1.2",
     "emitter-steward": "^0.0.1",
-    "foxy": "^10.1.2",
+    "foxy": "^11.0.0",
     "immutable": "^3.6.4",
     "localtunnel": "^1.3.0",
     "lodash": "^3.8.0",
