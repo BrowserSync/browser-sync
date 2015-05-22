@@ -1,6 +1,6 @@
 <p align="center">
-<a href="https://ci.appveyor.com/project/cchamberlain/browser-sync" title="AppVeyor branch">
- <img src="https://ci.appveyor.com/api/projects/status/xjhva67tkqkvdxxn/branch/master?svg=true&style=flat-square&label=windows" />
+<a href="https://ci.appveyor.com/project/shakyShane/browser-sync" title="AppVeyor branch">
+ <img src="https://img.shields.io/appveyor/ci/shakyshane/browser-sync/master.svg?style=flat-square&label=windows" />
 </a>
 <a href="https://travis-ci.org/BrowserSync/browser-sync" title="Travis branch">
  <img src="https://img.shields.io/travis/BrowserSync/browser-sync/master.svg?style=flat-square&label=linux" />
@@ -30,13 +30,6 @@
 <p align="center">BrowserSync is developed and maintained internally at <a href="http://www.wearejh.com">JH</a></p>
 <p align="center">Follow <a href="https://twitter.com/browsersync">@BrowserSync</a> on twitter for news & updates.</p>
 <p align="center">Talk to contributors on <a href="https://gitter.im/BrowserSync/browser-sync"><img src="https://badges.gitter.im/Join%20Chat.svg" /></a></p>
-
-***The original project is currently breaking on Windows due to references in the various socket.io/engine.io projects back to old versions of ws.  I forked the socket.io/engine.io projects, updated the references to use latest ws and pointed this forked browser-sync at the updated socket.io and it works for me again on Windows.  This has been an open issue for a while and doesn't seem to be getting much attention.***
-
-***See:***
-(https://github.com/Automattic/socket.io/issues/2056#issuecomment-104475530)
-(https://github.com/Automattic/socket.io/issues/2114)
-
 
 ## Features
 
