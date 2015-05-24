@@ -1,3 +1,17 @@
+<a name"2.7.3"></a>
+### 2.7.3 (2015-05-24)
+
+
+#### Bug Fixes
+
+* **file-watching:** bind public running instance to watch callbacks given in options - ([d7c96e4f](https://github.com/BrowserSync/browser-sync/commit/d7c96e4f), closes [#631](https://github.com/BrowserSync/browser-sync/issues/631))
+* **snippet:** Bump resp-modifier to allow more flexible whitelist/blacklist paths for snippet  ([f09c2797](https://github.com/BrowserSync/browser-sync/commit/f09c2797), closes [#553](https://github.com/BrowserSync/browser-sync/issues/553))
+
+#### Features
+
+* **rewrite-rules:** enable live updating of rewrite rules for both static server & proxy ([a4e2bf6f](https://github.com/BrowserSync/browser-sync/commit/a4e2bf6f))
+
+
 <a name"2.7.1"></a>
 ### 2.7.1 (2015-05-06)
 
