@@ -2,11 +2,11 @@
 <a href="https://ci.appveyor.com/project/shakyShane/browser-sync" title="AppVeyor branch">
  <img src="https://img.shields.io/appveyor/ci/shakyshane/browser-sync/master.svg?style=flat-square&label=windows" />
 </a>
-<a href="https://travis-ci.org/BrowserSync/browser-sync" title="Travis branch">
- <img src="https://img.shields.io/travis/BrowserSync/browser-sync/master.svg?style=flat-square&label=linux" />
+<a href="https://travis-ci.org/Browsersync/browser-sync" title="Travis branch">
+ <img src="https://img.shields.io/travis/Browsersync/browser-sync/master.svg?style=flat-square&label=linux" />
 </a>
-<a href="https://coveralls.io/r/BrowserSync/browser-sync?branch=master" title="Coverage Status">
- <img src="https://img.shields.io/coveralls/BrowserSync/browser-sync.svg?style=flat-square" />
+<a href="https://coveralls.io/r/Browsersync/browser-sync?branch=master" title="Coverage Status">
+ <img src="https://img.shields.io/coveralls/Browsersync/browser-sync.svg?style=flat-square" />
 </a>
 <a href="https://www.npmjs.com/package/browser-sync">
  <img src="https://img.shields.io/npm/dm/browser-sync.svg?style=flat-square" />
@@ -16,20 +16,20 @@
 <a href="https://www.npmjs.com/package/browser-sync" title="NPM version">
  <img src="https://img.shields.io/npm/v/browser-sync.svg?style=flat-square" />
 </a>
-<a href="https://david-dm.org/BrowserSync/browser-sync" title="Dependency Status">
- <img src="https://img.shields.io/david/BrowserSync/browser-sync.svg?style=flat-square&label=deps" />
+<a href="https://david-dm.org/Browsersync/browser-sync" title="Dependency Status">
+ <img src="https://img.shields.io/david/Browsersync/browser-sync.svg?style=flat-square&label=deps" />
 </a>
-<a href="https://david-dm.org/BrowserSync/browser-sync#info=devDependencies" title="devDependency Status">
- <img src="https://img.shields.io/david/dev/BrowserSync/browser-sync.svg?style=flat-square&label=devDeps" />
+<a href="https://david-dm.org/Browsersync/browser-sync#info=devDependencies" title="devDependency Status">
+ <img src="https://img.shields.io/david/dev/Browsersync/browser-sync.svg?style=flat-square&label=devDeps" />
 </a>
 </p>
 <p align="center"><a href="http://www.wearejh.com"><img src="http://cl.ly/image/3Y3O0M2z310j/jh-100-red.png" /></a></p>
-<h1 align="center">BrowserSync</h1>
+<h1 align="center">Browsersync</h1>
 <p align="center">Keep multiple browsers & devices in sync when building websites.</p>
 
-<p align="center">BrowserSync is developed and maintained internally at <a href="http://www.wearejh.com">JH</a></p>
-<p align="center">Follow <a href="https://twitter.com/browsersync">@BrowserSync</a> on twitter for news & updates.</p>
-<p align="center">Talk to contributors on <a href="https://gitter.im/BrowserSync/browser-sync"><img src="https://badges.gitter.im/Join%20Chat.svg" /></a></p>
+<p align="center">Browsersync is developed and maintained internally at <a href="http://www.wearejh.com">JH</a></p>
+<p align="center">Follow <a href="https://twitter.com/browsersync">@Browsersync</a> on twitter for news & updates.</p>
+<p align="center">Talk to contributors on <a href="https://gitter.im/Browsersync/browser-sync"><img src="https://badges.gitter.im/Join%20Chat.svg" /></a></p>
 
 ## Features
 
@@ -37,7 +37,7 @@ Please visit [browsersync.io](http://browsersync.io) for a full run-down of feat
 
 ## Requirements
 
-BrowserSync works by injecting an asynchronous script tag (`<script async>...</script>`) right after the `<body>` tag
+Browsersync works by injecting an asynchronous script tag (`<script async>...</script>`) right after the `<body>` tag
 during initial request. In order for this to work properly the `<body>` tag must be present. Alternatively you
 can provide a custom rule for the snippet using [snippetOptions](http://www.browsersync.io/docs/options/#option-snippetOptions)
 
@@ -66,7 +66,7 @@ browserSync({server: true}, function(err, bs) {
 
 ## Integrations / recipes
 
-[BrowserSync recipes](https://github.com/BrowserSync/recipes)
+[Browsersync recipes](https://github.com/Browsersync/recipes)
 
 ## Support
 

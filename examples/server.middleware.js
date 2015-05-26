@@ -8,7 +8,7 @@
  *
  * This example will create a server & use the `app` directory as the root
  *  + use your custom middleware. Note: middleware will be added before
- *  any BrowserSync middlewares
+ *  any Browsersync middlewares
  *
  */
 

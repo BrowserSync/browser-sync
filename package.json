@@ -6,7 +6,7 @@
   "author": {
     "name": "Shane Osbourne"
   },
-  "repository": "BrowserSync/browser-sync",
+  "repository": "Browsersync/browser-sync",
   "license": "Apache-2.0",
   "bin": "bin/browser-sync.js",
   "files": [

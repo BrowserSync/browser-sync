@@ -6,7 +6,7 @@
  * Run:
  *      node <yourfile.js>
  *
- * This example shows how you can access information about BrowserSync when it's running
+ * This example shows how you can access information about Browsersync when it's running
  *
  */
 
@@ -20,6 +20,6 @@ var config = {
 };
 
 browserSync(config, function (err, bs) {
-    // Full access to BrowserSync object here
+    // Full access to Browsersync object here
     console.log(bs.getOption("urls"));
 });

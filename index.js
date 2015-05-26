@@ -50,9 +50,9 @@ module.exports.get = function (name) {
  * Start the Browsersync service. This will launch a server, proxy or start the snippet
  * mode depending on your use-case.
  * @method init
- * @param {Object} [config] This is the main configuration for your BrowserSync instance and can contain any of the [available options]({{site.links.options}})
- *  If you do not pass a config an argument for configuration, BrowserSync will still run; but it will be in the `snippet` mode
- * @param {Function} [cb] If you pass a callback function, it will be called when BrowserSync has completed all setup tasks and is ready to use. This
+ * @param {Object} [config] This is the main configuration for your Browsersync instance and can contain any of the [available options]({{site.links.options}})
+ *  If you do not pass a config an argument for configuration, Browsersync will still run; but it will be in the `snippet` mode
+ * @param {Function} [cb] If you pass a callback function, it will be called when Browsersync has completed all setup tasks and is ready to use. This
  * is useful when you need to wait for information (for example: urls, port etc) or perform other tasks synchronously.
  * @returns {BrowserSync}
  */
@@ -110,7 +110,7 @@ module.exports.notify  = noop("notify");
 module.exports.exit    = noop("exit");
 
 /**
- * Stand alone file-watcher. Use this along with BrowserSync to create your own, minimal build system
+ * Stand alone file-watcher. Use this along with Browsersync to create your own, minimal build system
  * @method watch
  * @param {string} patterns Glob patterns for files to watch
  * @param {object} [opts] Options to be passed to Chokidar - check what's available in [their docs](https://github.com/paulmillr/chokidar#getting-started)
@@ -138,7 +138,7 @@ module.exports.resume  = noop("resume");
  */
 Object.defineProperties(module.exports, {
     /**
-     * The internal Event Emitter used by the running BrowserSync instance (if there is one).
+     * The internal Event Emitter used by the running Browsersync instance (if there is one).
      * You can use this to emit your own events, such as changed files, logging etc.
      *
      * @property emitter
@@ -153,7 +153,7 @@ Object.defineProperties(module.exports, {
         }
     },
     /**
-     * A simple true/false flag that you can use to determine if there's a currently-running BrowserSync instance.
+     * A simple true/false flag that you can use to determine if there's a currently-running Browsersync instance.
      *
      * @property active
      */
@@ -225,7 +225,7 @@ function initSingleton() {
             return item.name === "singleton";
         });
         if (instance.length) {
-            logger.error("{yellow:You tried to start BrowserSync twice!} To create multiple instances, use {cyan:browserSync.create().init()");
+            logger.error("{yellow:You tried to start Browsersync twice!} To create multiple instances, use {cyan:browserSync.create().init()");
             return instance;
         }
     }
@@ -272,10 +272,10 @@ function getSingle(name) {
 }
 
 /**
- * Create an instance of BrowserSync
+ * Create an instance of Browsersync
  * @param {String} [name]
  * @param {EventEmitter} [emitter]
- * @returns {{init: *, exit: (exit|exports), notify: *, reload: *, cleanup: *, emitter: (BrowserSync.events|*), use: *}}
+ * @returns {{init: *, exit: (exit|exports), notify: *, reload: *, cleanup: *, emitter: (Browsersync.events|*), use: *}}
  */
 function create(name, emitter) {
 
