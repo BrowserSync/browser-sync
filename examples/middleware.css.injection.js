@@ -16,10 +16,9 @@
 
 "use strict";
 
-var browserSync = require("browser-sync");
+var browserSync = require("browser-sync").create();
 
-
-browserSync({
+browserSync.init({
     /**
      * Which files to watch for changes
      */
@@ -40,7 +39,7 @@ browserSync({
         var parsed = require("url").parse(req.url);
         if (parsed.pathname.match(/\.less$/)) {
             return less(parsed.pathname).then(function (o) {
-                res.setHeader('Content-Type', 'text/css');
+                res.setHeader("Content-Type", "text/css");
                 res.end(o.css);
             });
         }
@@ -49,6 +48,6 @@ browserSync({
 });
 
 function less(src) {
-    var f = require('fs').readFileSync('src/' + src).toString();
-    return require('less').render(f);
+    var f = require("fs").readFileSync("src/" + src).toString();
+    return require("less").render(f);
 }

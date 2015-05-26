@@ -12,14 +12,14 @@
 
 "use strict";
 
-var browserSync = require("browser-sync");
+var browserSync = require("browser-sync").create();
 
 var config = {
     proxy: "localhost:8000",
     files: ["app/css/*.css"]
 };
 
-browserSync(config, function (err, bs) {
+browserSync.init(config, function (err, bs) {
     // Full access to Browsersync object here
     console.log(bs.getOption("urls"));
 });

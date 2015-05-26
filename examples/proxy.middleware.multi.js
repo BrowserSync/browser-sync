@@ -12,7 +12,7 @@
 
 "use strict";
 
-var browserSync = require("browser-sync");
+var browserSync = require("browser-sync").create();
 
 var fn1 = function (req, res, next) {
     console.log(req.url);
@@ -24,7 +24,7 @@ var fn2 = function (req, res, next) {
     next();
 };
 
-browserSync({
+browserSync.init({
     files: ["app/css/*.css"],
     proxy: {
         target: "http://yourlocal.dev",

@@ -10,7 +10,7 @@ var browserSync = require("./");
 
 gulp.task("lint", function () {
     gulp.src([
-        "{,{bin,lib,test/{protractor,specs}}/**/}*.js",
+        "{,{bin,lib,examples,test/{protractor,specs}}/**/}*.js",
         "!example.*.js",
         "!lib/{cli/cli-template,public/socket.io}.js"
     ])

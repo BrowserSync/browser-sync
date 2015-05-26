@@ -14,9 +14,9 @@
 
 "use strict";
 
-var browserSync = require("browser-sync");
+var browserSync = require("browser-sync").create();
 
-browserSync({
+browserSync.init({
     files: ["app/css/*.css"],
     server: {
         baseDir: "app",
@@ -28,7 +28,7 @@ browserSync({
             function (req, res, next) {
                 console.log("hi from the second middleware");
                 next();
-            },
+            }
         ]
     }
 });

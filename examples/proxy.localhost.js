@@ -13,9 +13,9 @@
 
 "use strict";
 
-var browserSync = require("browser-sync");
+var browserSync = require("browser-sync").create();
 
-browserSync({
+browserSync.init({
     files: ["app/css/*.css"],
     proxy: "localhost:8000"
 });

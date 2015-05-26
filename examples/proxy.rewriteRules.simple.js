@@ -19,9 +19,9 @@
 
 "use strict";
 
-var browserSync = require("browser-sync");
+var browserSync = require("browser-sync").create();
 
-browserSync({
+browserSync.init({
     proxy: "http://www.magento-site.com",
     files: ["assets"],
     middleware: require("serve-static")("."),

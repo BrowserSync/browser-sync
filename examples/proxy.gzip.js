@@ -13,10 +13,10 @@
 
 "use strict";
 
-var browserSync = require("browser-sync");
+var browserSync = require("browser-sync").create();
 var compression = require("compression");
 
-browserSync({
+browserSync.init({
     files: ["app/css/*.css"],
     proxy: {
         target: "http://yourlocal.dev",
