@@ -1,3 +1,12 @@
+<a name"2.7.5"></a>
+### 2.7.5 (2015-05-26)
+
+
+#### Bug Fixes
+
+* **file-watcher:** defer to default callback should `fn` property be absent from file watching obje ([9f826cbe](https://github.com/BrowserSync/browser-sync/commit/9f826cbe), closes [#643](https://github.com/BrowserSync/browser-sync/issues/643))
+
+
 <a name"2.7.3"></a>
 ### 2.7.3 (2015-05-24)
 
