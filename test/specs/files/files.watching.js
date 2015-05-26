@@ -7,6 +7,7 @@ var merge       = require("../../../lib/cli/cli-options").merge;
 
 var events      = require("events");
 var path        = require("path");
+var sinon       = require("sinon");
 var assert      = require("chai").assert;
 
 var outpath = path.join(__dirname, "../../fixtures");
@@ -89,6 +90,44 @@ describe("File Watcher Module", function () {
             logLevel: "silent"
         }, function (err, bs) {
             bs.watchers.core.watchers[0]._events.all("change", tempFile);
+        });
+    });
+    it("should allow obj literal with match & options, but without callback fn", function (done) {
+
+        var tempFile = path.join(outpath, "watch-func.txt");
+
+        // assert: it works if it calls done
+        var bs = browserSync.create();
+
+        bs.init({
+            files: [
+                {
+                    options: {
+                        ignoreInitial: true
+                    },
+                    match: tempFile
+                }
+            ],
+            ui: false,
+            online: false,
+            logSnippet: false,
+            logLevel: "silent"
+        }, function (err, bs) {
+
+            var spy = sinon.spy(bs.events, "emit");
+
+            bs.watchers.core.watchers[0]._events.all("change", tempFile);
+
+            var callArgs = spy.getCall(0).args;
+
+            assert.equal(callArgs[0], "file:changed");
+            assert.equal(callArgs[1].basename, "watch-func.txt");
+            assert.equal(callArgs[1].event, "change");
+            assert.equal(callArgs[1].namespace, "core");
+
+            bs.cleanup();
+
+            done();
         });
     });
 });
