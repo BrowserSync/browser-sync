@@ -3,10 +3,10 @@
  <img src="https://img.shields.io/appveyor/ci/shakyshane/browser-sync/master.svg?style=flat-square&label=windows" />
 </a>
 <a href="https://travis-ci.org/Browsersync/browser-sync" title="Travis branch">
- <img src="https://img.shields.io/travis/Browsersync/browser-sync/master.svg?style=flat-square&label=linux" />
+ <img src="https://img.shields.io/travis/BrowserSync/browser-sync/master.svg?style=flat-square&label=linux" />
 </a>
 <a href="https://coveralls.io/r/Browsersync/browser-sync?branch=master" title="Coverage Status">
- <img src="https://img.shields.io/coveralls/Browsersync/browser-sync.svg?style=flat-square" />
+ <img src="https://img.shields.io/coveralls/BrowserSync/browser-sync.svg?style=flat-square" />
 </a>
 <a href="https://www.npmjs.com/package/browser-sync">
  <img src="https://img.shields.io/npm/dm/browser-sync.svg?style=flat-square" />
