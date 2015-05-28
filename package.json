@@ -79,7 +79,7 @@
     "sinon": "^1.12.1",
     "slugify": "^0.1.0",
     "socket.io-client": "^1.3.5",
-    "supertest": "^0.15.0",
+    "supertest": "^1.0.1",
     "vinyl": "^0.4.5"
   },
   "keywords": [
