@@ -1,3 +1,12 @@
+<a name"2.7.6"></a>
+### 2.7.6 (2015-05-28)
+
+
+#### Bug Fixes
+
+* **plugins:** allow module references in options.plugins array - ([aabc03c8](https://github.com/Browsersync/browser-sync/commit/aabc03c8), closes [#648](https://github.com/Browsersync/browser-sync/issues/648))
+
+
 <a name"2.7.5"></a>
 ### 2.7.5 (2015-05-26)
 
