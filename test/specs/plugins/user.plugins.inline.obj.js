@@ -36,7 +36,6 @@ describe("Plugins: Retrieving user plugins when given inline as object", functio
         instance.cleanup();
     });
     it("Should access to only the user-specified plugins", function (done) {
-        console.log(instance.getUserPlugins());
         assert.equal(instance.getUserPlugins().length, 1);
         done();
     });
