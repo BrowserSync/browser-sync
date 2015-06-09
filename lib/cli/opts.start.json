@@ -3,7 +3,6 @@
     "version":          "Output the version number",
     "browser":          "Choose which browser should be auto-opened",
     "files":            "File paths to watch",
-    "exclude":          "File patterns to ignore",
     "server":           "Run a Local server (uses your cwd as the web root)",
     "index":            "Specify which file should be used as the index page",
     "extensions":       "Specify file extension fallbacks",
