@@ -1,3 +1,12 @@
+<a name"2.7.7"></a>
+### 2.7.7 (2015-06-09)
+
+
+#### Bug Fixes
+
+* **plugins:** Allow plugins to register middleware via server:middleware hook when in proxy mo ([104dbb4a](https://github.com/Browsersync/browser-sync/commit/104dbb4a), closes [#663](https://github.com/Browsersync/browser-sync/issues/663))
+
+
 <a name"2.7.6"></a>
 ### 2.7.6 (2015-05-28)
 
