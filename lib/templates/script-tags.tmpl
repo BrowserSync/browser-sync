@@ -1,3 +1,10 @@
 <script type='text/javascript' id="__bs_script__">//<![CDATA[
-    document.write("<script async src='%script%'><\/script>".replace("HOST", location.hostname));
+(function (d, s, h) {
+    "use strict";
+    var f = d.getElementsByTagName(s)[0],
+        j = d.createElement(s);
+    j.async = true;
+    j.src = String("%script%").replace("HOST", h);
+    f.parentNode.insertBefore(j, f);
+}(document, "script", location.hostname));
 //]]></script>
