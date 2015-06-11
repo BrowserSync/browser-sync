@@ -1,3 +1,13 @@
+<a name"2.7.9"></a>
+### 2.7.9 (2015-06-11)
+
+
+#### Bug Fixes
+
+* **cli:** Remove --exclude flag - ([133aa1a6](https://github.com/Browsersync/browser-sync/commit/133aa1a6), closes [#667](https://github.com/Browsersync/browser-sync/issues/667))
+* **proxy:** only rewrite domains within attributes (via foxy bump to 11.0.2) - ([d80d9481](https://github.com/Browsersync/browser-sync/commit/d80d9481), closes [#647](https://github.com/Browsersync/browser-sync/issues/647))
+
+
 <a name"2.7.7"></a>
 ### 2.7.7 (2015-06-09)
 
