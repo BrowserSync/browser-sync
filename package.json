@@ -1,7 +1,7 @@
 {
   "name": "browser-sync",
   "description": "Live CSS Reload & Browser Syncing",
-  "version": "2.7.10",
+  "version": "2.7.11",
   "homepage": "http://www.browsersync.io/",
   "author": {
     "name": "Shane Osbourne"

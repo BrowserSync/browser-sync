@@ -1,3 +1,12 @@
+<a name"2.7.11"></a>
+### 2.7.11 (2015-06-16)
+
+
+#### Bug Fixes
+
+* **client-scroll:** add scrollRestoreTechnique option as alternative to cookie for restoring scroll  ([7897ea6a](https://github.com/Browsersync/browser-sync/commit/7897ea6a), closes [#630](https://github.com/Browsersync/browser-sync/issues/630))
+
+
 <a name"2.7.9"></a>
 ### 2.7.9 (2015-06-11)
 
