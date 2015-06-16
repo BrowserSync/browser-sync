@@ -1,10 +1,10 @@
 <script type='text/javascript' id="__bs_script__">//<![CDATA[
-(function (d, s, h) {
+(function () {
     "use strict";
-    var f = d.getElementsByTagName(s)[0],
-        j = d.createElement(s);
-    j.async = true;
-    j.src = String("%script%").replace("HOST", h);
-    f.parentNode.insertBefore(j, f);
-}(document, "script", location.hostname));
+    var previousScriptTag = document.getElementsByTagName('script')[0],
+        newScriptTag = document.createElement('script');
+    newScriptTag.async = true;
+    newScriptTag.src = String("%script%").replace("HOST", location.hostname);
+    previousScriptTag.parentNode.insertBefore(newScriptTag, previousScriptTag);
+}());
 //]]></script>
