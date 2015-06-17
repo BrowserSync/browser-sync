@@ -315,6 +315,24 @@ function create(name, emitter) {
         }
     });
 
+    /**
+     * Access to client-side socket for emitting events
+     *
+     * @property sockets
+     */
+    Object.defineProperty(instance, "sockets", {
+        get: function () {
+            if (!browserSync.active) {
+                return {
+                    emit: function () {},
+                    on: function () {}
+                };
+            } else {
+                return browserSync.io.sockets;
+            }
+        }
+    });
+
     instances.push(instance);
 
     return instance;
