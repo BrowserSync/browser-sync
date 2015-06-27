@@ -4,6 +4,10 @@ var utils  = require("../../../lib/connect-utils");
 var merge  = require("../../../lib/cli/cli-options").merge;
 var assert = require("chai").assert;
 
+// server,proxy: ['' + location.host + '/browser-sync']
+// snippet:      ['http://' + location.hostname + ':3000/browser-sync']
+// domain:       ['<domain>/browser-sync']
+
 describe("Connection utils", function () {
     var options;
     beforeEach(function () {
@@ -72,5 +76,17 @@ describe("Connection utils", function () {
         });
         var actual   = utils.socketConnector(options);
         assert.include(actual, "'https://' + location.hostname + ':4002/browser-sync'");
+    });
+    it("should allow setting of the socket domain", function () {
+        var options = merge({
+            port: 3000,
+            server: "test/fixtures",
+            mode: "server",
+            socket: {
+                domain: 'localhost:3000'
+            }
+        });
+        var actual   = utils.socketConnector(options);
+        assert.include(actual, "___browserSync___.io('localhost:3000/browser-sync', ___browserSync___.socketConfig);");
     });
 });
