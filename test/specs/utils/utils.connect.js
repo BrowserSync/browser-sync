@@ -120,4 +120,21 @@ describe("Connection utils", function () {
         var actual   = utils.socketConnector(options);
         assert.include(actual, "___browserSync___.io('http://localhost:3002/shane', ___browserSync___.socketConfig);");
     });
+    it("should allow setting of the socket namespace with fn (back compat)", function () {
+        var options = merge({
+            port: 3000,
+            server: "test/fixtures",
+            mode: "server",
+            urls: {
+                local: "http://localhost:3002"
+            },
+            socket: {
+                namespace: function () {
+                    return "/browser-sync";
+                }
+            }
+        });
+        var actual   = utils.socketConnector(options);
+        assert.include(actual, "___browserSync___.io('' + location.host + '/browser-sync', ___browserSync___.socketConfig);");
+    });
 });
