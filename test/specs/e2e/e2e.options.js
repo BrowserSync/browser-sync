@@ -88,7 +88,6 @@ describe("e2e options test", function () {
             assert.equal(match, 3500);
         });
         it("set's the files option", function () {
-            console.log(instance.options.get("files").toJS());
             assert.deepEqual(instance.options.get("files").toJS(), {
                 core: {
                     globs: ["*.html"],

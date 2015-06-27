@@ -83,7 +83,7 @@ describe("Connection utils", function () {
             server: "test/fixtures",
             mode: "server",
             socket: {
-                domain: 'localhost:3000'
+                domain: "localhost:3000"
             }
         });
         var actual   = utils.socketConnector(options);
@@ -95,8 +95,8 @@ describe("Connection utils", function () {
             server: "test/fixtures",
             mode: "server",
             socket: {
-                namespace: 'shane',
-                domain: 'localhost:3000'
+                namespace: "shane",
+                domain: "localhost:3000"
             }
         });
         var actual   = utils.socketConnector(options);
@@ -108,12 +108,12 @@ describe("Connection utils", function () {
             server: "test/fixtures",
             mode: "server",
             urls: {
-                local: 'http://localhost:3002'
+                local: "http://localhost:3002"
             },
             socket: {
-                namespace: 'shane',
+                namespace: "shane",
                 domain: function (options) {
-                    return options.getIn(['urls', 'local']);
+                    return options.getIn(["urls", "local"]);
                 }
             }
         });
