@@ -89,4 +89,35 @@ describe("Connection utils", function () {
         var actual   = utils.socketConnector(options);
         assert.include(actual, "___browserSync___.io('localhost:3000/browser-sync', ___browserSync___.socketConfig);");
     });
+    it("should allow setting of the socket domain + namespace", function () {
+        var options = merge({
+            port: 3000,
+            server: "test/fixtures",
+            mode: "server",
+            socket: {
+                namespace: 'shane',
+                domain: 'localhost:3000'
+            }
+        });
+        var actual   = utils.socketConnector(options);
+        assert.include(actual, "___browserSync___.io('localhost:3000/shane', ___browserSync___.socketConfig);");
+    });
+    it("should allow setting of the socket domain (fn)+ namespace", function () {
+        var options = merge({
+            port: 3000,
+            server: "test/fixtures",
+            mode: "server",
+            urls: {
+                local: 'http://localhost:3002'
+            },
+            socket: {
+                namespace: 'shane',
+                domain: function (options) {
+                    return options.getIn(['urls', 'local']);
+                }
+            }
+        });
+        var actual   = utils.socketConnector(options);
+        assert.include(actual, "___browserSync___.io('http://localhost:3002/shane', ___browserSync___.socketConfig);");
+    });
 });
