@@ -142,12 +142,14 @@ describe("E2E proxy test with proxyRes option", function () {
         var proxytarget = "http://localhost:" + server.address().port;
 
         var config = {
-            proxy: proxytarget,
-            proxyRes: [
-                function (res) {
-                    res.headers["cache-control"] = "private"; // default is 'public, max-age=0'
-                }
-            ],
+            proxy: {
+                target: proxytarget,
+                proxyRes: [
+                    function (res) {
+                        res.headers["cache-control"] = "private"; // default is 'public, max-age=0'
+                    }
+                ]
+            },
             logLevel: "silent",
             open:      false
         };
