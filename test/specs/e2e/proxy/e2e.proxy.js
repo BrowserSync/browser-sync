@@ -128,6 +128,55 @@ describe("E2E proxy test", function () {
     });
 });
 
+describe("E2E proxy test with proxyRes option", function () {
+
+    var instance, server, options;
+
+    before(function (done) {
+
+        browserSync.reset();
+
+        var app = connect();
+        app.use(serveStatic("./test/fixtures"));
+        server = app.listen();
+        var proxytarget = "http://localhost:" + server.address().port;
+
+        var config = {
+            proxy: {
+                target: proxytarget,
+                proxyRes: [
+                    function (res) {
+                        res.headers["cache-control"] = "private"; // default is 'public, max-age=0'
+                    }
+                ]
+            },
+            logLevel: "silent",
+            open:      false
+        };
+
+        instance = browserSync.init([], config, function (err, bs) {
+            options = bs.options;
+            done();
+        }).instance;
+    });
+
+    after(function () {
+        instance.cleanup();
+        server.close();
+    });
+
+    it("Can override the cache-control header", function (done) {
+        request(instance.server)
+            .get("/")
+            .set("accept", "text/html")
+            .expect(200)
+            .end(function (err, res) {
+                assert.include(res.headers["cache-control"], "private");
+                done();
+            });
+    });
+});
+
 describe("E2E proxy test with object option", function () {
 
     var instance, server, options;
