@@ -120,6 +120,7 @@ If you've found Browser-sync useful and would like to contribute to its continue
      1	Dave Hall
      1	Cameron Spear
      1	Yazhong Liu
+     1  Jon Scott Stevens
 ```
 
 ## License
