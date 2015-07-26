@@ -36,10 +36,13 @@ describe("Connection utils", function () {
         var options = merge({
             port: 3002,
             scheme: "http",
-            mode: "proxy"
+            mode: "proxy",
+            socket: {
+                port: 4000
+            }
         });
         var actual   = utils.socketConnector(options);
-        assert.include(actual, "'' + location.host + '/browser-sync'");
+        assert.include(actual, "'http://' + location.hostname + ':4000/browser-sync'");
     });
     it("should return a connection url for server mode", function () {
         var options = merge({
