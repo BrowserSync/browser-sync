@@ -56,7 +56,7 @@ describe("E2E proxy test with adding rewrite rules dynamically", function () {
                 assert.include(res.text, "BROWSERSYNC");
 
                 bs.addRewriteRule({
-                    match: "BROWSERSYNC",
+                    match: new RegExp("BROWSERSYNC", "g"),
                     replace: "browsersync"
                 }, {id: "myrule"});
 
