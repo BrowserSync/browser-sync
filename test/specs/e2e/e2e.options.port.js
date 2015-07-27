@@ -37,7 +37,10 @@ describe("E2E `port` option", function () {
 
         var config = {
             logLevel: "silent",
-            proxy:   "localhost",
+            proxy:   {
+                target: "localhost",
+                ws: true
+            },
             online:   false,
             open:     false
         };
@@ -61,7 +64,10 @@ describe("E2E `port` option", function () {
 
         var config = {
             logLevel: "silent",
-            proxy:   "localhost",
+            proxy:   {
+                target: "localhost",
+                ws: true
+            },
             socket: {
                 port: 8001
             },

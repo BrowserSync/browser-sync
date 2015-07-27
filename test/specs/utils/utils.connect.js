@@ -37,6 +37,10 @@ describe("Connection utils", function () {
             port: 3002,
             scheme: "http",
             mode: "proxy",
+            proxy: {
+                target: "localhost",
+                ws: true
+            },
             socket: {
                 port: 4000
             }
