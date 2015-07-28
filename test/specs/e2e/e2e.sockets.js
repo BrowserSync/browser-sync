@@ -23,6 +23,7 @@ describe("E2E Sockets test", function () {
     it("should accept an event & broadcast it", function (done) {
 
         var called;
+
         instance.io.sockets.on("connection", function (client) {
             if (!called) {
                 called = true;
@@ -34,7 +35,7 @@ describe("E2E Sockets test", function () {
         var options = instance.options.toJS();
 
         var connectionUrl = options.urls.local + options.socket.namespace;
-        var client1 = socket(connectionUrl, {path: options.socket.path});
+        var client1 = socket(connectionUrl, {path: options.socket.path, forceNew: true});
 
         client1.emit("scroll", {name:"shane"});
     });

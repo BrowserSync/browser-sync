@@ -1,11 +1,11 @@
 "use strict";
 
 var path        = require("path");
-//var request     = require("supertest");
 var assert      = require("chai").assert;
 var connect     = require("connect");
 var browserSync = require(path.resolve("./"));
-var serveStatic = require("serve-static");
+var socket      = require("socket.io");
+var client      = require("socket.io-client");
 
 var pkg     = require(path.resolve("package.json"));
 var cli     = require(path.resolve(pkg.bin));
@@ -17,9 +17,9 @@ describe("E2E CLI proxy + websockets test", function () {
     before(function (done) {
 
         browserSync.reset();
-        var app = connect();
-        app.use(serveStatic("./test/fixtures"));
-        server = app.listen();
+        var app  = connect();
+        server   = app.listen();
+
         var proxytarget = "http://localhost:" + server.address().port;
 
         cli({
@@ -43,7 +43,16 @@ describe("E2E CLI proxy + websockets test", function () {
         server.close();
         instance.cleanup();
     });
-    it("Adds the proxy.ws options", function () {
+    it("can proxy websocket upgrades", function (done) {
+
         assert.equal(instance.options.getIn(["proxy", "ws"]), true);
+
+        socket(server);
+
+        server.on("upgrade", function () {
+            done();
+        });
+
+        client.connect(instance.options.getIn(["urls", "local"]), {forceNew: true});
     });
 });
