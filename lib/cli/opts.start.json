@@ -10,6 +10,7 @@
     "https":            "Enable SSL for local development",
     "directory":        "Show a directory listing for the server",
     "proxy":            "Proxy an existing server",
+    "ws":               "Proxy mode only - enable websocket proxying",
     "xip":              "Use xip.io domain routing",
     "tunnel":           "Use a public URL",
     "open":             "Choose which URL is auto-opened (local, external or tunnel)",
