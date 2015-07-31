@@ -1,4 +1,14 @@
 <a name="2.8.1"></a>
+## 2.8.1 (2015-07-31)
+
+
+### Bug Fixes
+
+* **https:** add newly generated ssl self-signed certs that will expire for 10 years - fixes  ([45104a7](https://github.com/browsersync/browser-sync/commit/45104a7)), closes [#750](https://github.com/browsersync/browser-sync/issues/750)
+
+
+
+<a name="2.8.1"></a>
 ## 2.8.1 (2015-07-28)
 
 
