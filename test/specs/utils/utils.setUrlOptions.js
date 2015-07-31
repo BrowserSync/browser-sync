@@ -73,4 +73,43 @@ describe("Utils: creating URLs", function () {
             local: "http://localhost:3000"
         });
     });
+    it("should return the external/local namespace", function () {
+        var opts = merge({
+            port: 3000,
+            server: true,
+            scheme: "http",
+            online: true,
+            localNamespace: "local.dev"
+        });
+        assert.deepEqual(utils.getUrlOptions(opts).toJS(), {
+            local: "http://local.dev:3000",
+            external: "http://" + external + ":3000"
+        });
+    });
+    it("should return the URLs when local namespace, OFFLINE, & XIP set", function () {
+        var opts = merge({
+            port: 3000,
+            server: true,
+            scheme: "http",
+            online: false,
+            xip: true,
+            localNamespace: "local.dev"
+        });
+        assert.deepEqual(utils.getUrlOptions(opts).toJS(), {
+            local: "http://local.dev:3000"
+        });
+    });
+    it("should return the external/local namespace with XIP", function () {
+        var opts = merge({
+            port: 3000,
+            server: true,
+            scheme: "https",
+            online: true,
+            xip: true,
+            localNamespace: "local.dev"
+        });
+        var out = utils.getUrlOptions(opts);
+        assert.equal(out.get("local"), "https://127.0.0.1.xip.io:3000");
+        assert.equal(out.get("external"), "https://" + external + ".xip.io:3000");
+    });
 });
