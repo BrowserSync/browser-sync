@@ -1,3 +1,43 @@
+<a name="2.8.1"></a>
+## 2.8.1 (2015-07-28)
+
+
+### Bug Fixes
+
+* **web-sockets:** Use separate server for web sockets in proxy mode - fixes #625 ([40017b4](https://github.com/browsersync/browser-sync/commit/40017b4)), closes [#625](https://github.com/browsersync/browser-sync/issues/625)
+
+### Features
+
+* **serve-static:** Added option `serveStatic` to allow proxy/snippet mode to easily serve local fil ([384ef67](https://github.com/browsersync/browser-sync/commit/384ef67))
+
+
+
+<a name="2.7.13"></a>
+## 2.7.13 (2015-06-28)
+
+
+### Bug Fixes
+
+* **snippet:** Allow async attribute to be removed from snippet with snippetOptions.async = fal ([c32bec6](https://github.com/browsersync/browser-sync/commit/c32bec6)), closes [#670](https://github.com/browsersync/browser-sync/issues/670)
+* **socket-options:** allow socket.domain string|fn for setting domain only on socket path - fixes #69 ([5157432](https://github.com/browsersync/browser-sync/commit/5157432)), closes [#690](https://github.com/browsersync/browser-sync/issues/690)
+
+### Features
+
+* **api:** expose sockets to public api ([985682c](https://github.com/browsersync/browser-sync/commit/985682c))
+
+
+
+<a name="2.7.12"></a>
+## 2.7.12 (2015-06-17)
+
+
+### Bug Fixes
+
+* **client-script:** allow proxy to also use client script middleware ([c5fdbbf](https://github.com/browsersync/browser-sync/commit/c5fdbbf))
+* **client-script:** serve cached/gzipped client JS file - fixes #657 ([dbe9ffe](https://github.com/browsersync/browser-sync/commit/dbe9ffe)), closes [#657](https://github.com/browsersync/browser-sync/issues/657)
+
+
+
 <a name"2.7.11"></a>
 ### 2.7.11 (2015-06-16)
 
