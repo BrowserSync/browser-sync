@@ -7,6 +7,7 @@ var contribs = require("gulp-contribs");
 var rubySass = require("gulp-ruby-sass");
 var filter = require("gulp-filter");
 var browserSync = require("./");
+var conventionalChangelog = require("gulp-conventional-changelog");
 
 gulp.task("lint", function () {
     gulp.src([
@@ -91,4 +92,14 @@ gulp.task("docs", function () {
     gulp.src(["./index.js", "./lib/default-config.js"])
         .pipe(yuidoc.parser({spaces: 4}))
         .pipe(gulp.dest("./doc"));
+});
+
+gulp.task("changelog", function () {
+    return gulp.src("CHANGELOG.md", {
+        buffer: false
+    })
+        .pipe(conventionalChangelog({
+            preset: "angular"
+        }))
+        .pipe(gulp.dest("./"));
 });
