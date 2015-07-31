@@ -14,8 +14,6 @@ doc/
 .coveralls.yml
 coverage/
 /screenshots
-changelog.js
-write-changelog.js
 test/fixtures/multi/
 before.json
 after.json
