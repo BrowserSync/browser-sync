@@ -5,7 +5,7 @@ var testUtils       = require("../../../protractor/utils");
 var Immutable       = require("immutable");
 var assert          = require("chai").assert;
 
-describe("E2E proxy test with custom proxy error handler", function () {
+describe.skip("E2E proxy test with custom proxy error handler", function () {
 
     this.timeout(15000);
 
