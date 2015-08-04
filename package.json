@@ -62,6 +62,7 @@
     "bs-snippet-injector": "^2.0.1",
     "chai": "^3.2.0",
     "chalk": "^1.1.0",
+    "conventional-github-releaser": "^0.2.0",
     "graceful-fs": "^3.0.8",
     "gulp": "^3.9.0",
     "gulp-contribs": "0.0.3",
