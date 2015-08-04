@@ -8,6 +8,7 @@ var rubySass = require("gulp-ruby-sass");
 var filter = require("gulp-filter");
 var browserSync = require("./");
 var conventionalChangelog = require("gulp-conventional-changelog");
+var conventionalGithubReleaser = require("conventional-github-releaser");
 
 gulp.task("lint", function () {
     gulp.src([
@@ -102,4 +103,14 @@ gulp.task("changelog", function () {
             preset: "angular"
         }))
         .pipe(gulp.dest("./"));
+});
+
+gulp.task("githubRelease", function(done) {
+    conventionalGithubReleaser({
+        type: "oauth",
+        token: process.env.GITHUB_AUTHTOKEN
+    }, {
+        preset: "angular",
+        releaseCount: 0
+    }, done);
 });
