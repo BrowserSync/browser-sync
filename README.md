@@ -28,7 +28,7 @@
 
 <p align="center">Browsersync is developed and maintained internally at <a href="http://www.wearejh.com">JH</a></p>
 <p align="center">Follow <a href="https://twitter.com/browsersync">@Browsersync</a> on twitter for news & updates.</p>
-<p align="center">Talk to contributors on <a href="https://gitter.im/Browsersync/browser-sync"><img src="https://badges.gitter.im/Join%20Chat.svg" /></a></p>
+<p align="center">Community <a href="https://browsersync.herokuapp.com"><img src="https://browsersync.herokuapp.com/badge.svg" /></a></p>
 
 ## Features
 
