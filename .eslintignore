@@ -1,0 +1,4 @@
+lib/public/socket.io.js
+lib/templates/**/*
+lib/server/certs/**
+lib/cli/cli-template.js
