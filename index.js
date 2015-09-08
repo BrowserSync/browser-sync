@@ -350,7 +350,6 @@ module.exports.reset = function () {
     singletonPlugins = [];
     singletonEmitter = false;
     singleton        = false;
-    process.removeAllListeners("SIGINT");
 };
 
 /**
