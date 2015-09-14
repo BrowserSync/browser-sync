@@ -41,7 +41,7 @@ during initial request. In order for this to work properly the `<body>` tag must
 can provide a custom rule for the snippet using [snippetOptions](http://www.browsersync.io/docs/options/#option-snippetOptions)
 
 ## Upgrading from 1.x to 2.x ?
-Providing you havn't accessed any internal properties, everything will just work as
+Providing you haven't accessed any internal properties, everything will just work as
  there are no breaking changes to the public API. Internally however, we now use an
  immutable data structure for storing/retrieving options. So whereas before you could access urls like this...
 
