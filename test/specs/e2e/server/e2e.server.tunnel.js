@@ -84,4 +84,21 @@ describe("Tunnel e2e tests with Error", function () {
             done();
         });
     });
+
+    it("does not crash if tunnel restarts", function(done) {
+        browserSync.reset();
+        var config = {
+            server: {
+                baseDir: "test/fixtures"
+            },
+            open: false,
+            tunnel: true,
+            online: true
+        };
+
+        browserSync(config, function(err, bs) {
+            bs.tunnel.tunnel_cluster.emit('error', new Error('connection refused: (check your firewall settings)'));
+            done();
+        });
+    });
 });
