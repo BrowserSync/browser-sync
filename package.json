@@ -46,8 +46,8 @@
     "lodash": "^3.9.3",
     "longest": "^1.0.1",
     "meow": "^3.3.0",
-    "opn": "^2.0.1",
-    "pad-left": "^1.0.2",
+    "opn": "^3.0.2",
+    "pad-left": "^2.0.0",
     "portscanner": "^1.0.0",
     "query-string": "^2.4.0",
     "resp-modifier": "^5.0.0",
@@ -55,7 +55,7 @@
     "serve-static": "^1.10.0",
     "socket.io": "^1.3.7",
     "ua-parser-js": "^0.7.9",
-    "ucfirst": "0.0.1"
+    "ucfirst": "^1.0.0"
   },
   "devDependencies": {
     "browser-sync-spa": "1.0.2",
