@@ -19,7 +19,7 @@ for actual bugs with code & implementation.
 
 ## <a name="issue"></a> Found an Issue?
 On that note, if you think you *have* found a bug in Browsersync, please report
-it via [Github Issues](https://github.com/shakyShane/browser-sync/issues).
+it via [Github Issues](https://github.com/BrowserSync/browser-sync/issues).
 
 ## <a name="tips"></a> Tips for a creating a great issue report
 
@@ -39,11 +39,11 @@ An example project might contain a single `index.html` file with some JS/CSS fro
 respond with something from giphy :p)
 
 ## <a name="feature"></a> Want a Feature?
-You can request a new feature by submitting an issue to our [Github Issues](https://github.com/shakyShane/browser-sync/issues) page.
+You can request a new feature by submitting an issue to our [Github Issues](https://github.com/BrowserSync/browser-sync/issues) page.
 Prefix the title of your issue with "Feature Request:".
 
 ## <a name="docs"></a> Want a Doc Fix?
-Head over to the [Browsersync Website Repo](https://github.com/shakyShane/browser-sync-website) & submit issues there.
+Head over to the [Browsersync Website Repo](https://github.com/BrowserSync/browsersync.github.io) & submit issues there.
 
 ## <a name="pull"></a> Submitting a Pull Request
 Pull requests should be branched off the main Master branch. (There's no guarantee that what lives on the develop
@@ -52,7 +52,7 @@ branch will ever make it back to master, I do a **lot** of experimentation)
 ## <a name="rules"></a> Coding Rules
 To ensure consistency throughout the source code, keep these rules in mind as you are working:
 
-* All features or bug fixes **must be tested** by one or more [specs](https://github.com/shakyShane/browser-sync/tree/master/test/specs).
+* All features or bug fixes **must be tested** by one or more [specs](https://github.com/BrowserSync/browser-sync/tree/master/test/specs).
 * Don't be put off by this, I'm more than happy to help you implement tests - so don't be shy! I'd much rather spend time helping
 you to provide tests than risk losing you as a contributor :)
 * Follow the code style (Builds will fail if you don't, check at any time with `npm test`). Also, this project has a [.editorconfig](.editorconfig) file to help with code style; go to [EditorConfig.org](http://editorconfig.org) and download the plugin for your IDE.
