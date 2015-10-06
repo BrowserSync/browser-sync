@@ -45,7 +45,7 @@
     "localtunnel": "^1.7.0",
     "lodash": "^3.9.3",
     "longest": "^1.0.1",
-    "meow": "^3.3.0",
+    "meow": "3.3.0",
     "opn": "^3.0.2",
     "pad-left": "^2.0.0",
     "portscanner": "^1.0.0",
