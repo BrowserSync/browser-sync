@@ -10,7 +10,7 @@ var path        = require("path");
 var sinon       = require("sinon");
 var assert      = require("chai").assert;
 
-var outpath = path.join(__dirname, "../../fixtures");
+var outpath     = path.join(__dirname, "../../fixtures");
 
 describe("File Watcher Module", function () {
 
@@ -61,6 +61,8 @@ describe("File Watcher Module", function () {
         var tempFile = path.join(outpath, "watch-func.txt");
         var called = false;
 
+        browserSync.reset();
+
         // assert: it works if it calls done
         var bs = browserSync.create();
 
@@ -93,6 +95,8 @@ describe("File Watcher Module", function () {
         });
     });
     it("should allow obj literal with match & options, but without callback fn", function (done) {
+
+        browserSync.reset();
 
         var tempFile = path.join(outpath, "watch-func.txt");
 
