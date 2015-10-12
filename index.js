@@ -282,7 +282,7 @@ function create(name, emitter) {
     name    = name    || new Date().getTime();
     emitter = emitter || newEmitter();
 
-    var browserSync = new BrowserSync(emitter, name);
+    var browserSync = new BrowserSync(emitter);
 
     var instance = {
         name:      name,
