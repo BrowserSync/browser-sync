@@ -25,6 +25,6 @@ browserSync.init({
         res.writeHead(302, {
             "location": "404.html"
         });
-        res.end('Redirecting!');
+        res.end("Redirecting!");
     });
 });
