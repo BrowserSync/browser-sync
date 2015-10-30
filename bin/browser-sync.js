@@ -6,7 +6,7 @@ var fs           = require("fs");
 var path         = require("path");
 var compile      = require("eazy-logger").compile;
 var longest      = require("longest");
-var padLeft      = require("pad-left");
+var padRight     = require("pad-right");
 var utils        = require("../lib/utils");
 var logger       = require("../lib/logger").logger;
 var cmdWhitelist = ["start", "init", "reload"];
@@ -79,8 +79,7 @@ function listFlags (flags) {
     var maxLength = (longest(Object.keys(flags)) || "").length;
 
     return flagKeys.map(function (item) {
-        return "    {bold:--" + item + "}" +
-               padLeft(flags[item], maxLength + 4 - item.length, " ");
+        return "    {bold:--" + padRight(item, maxLength + 4, " ") + "}" + flags[item];
     }).join("\n");
 }
 

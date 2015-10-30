@@ -47,7 +47,7 @@
     "longest": "^1.0.1",
     "meow": "3.3.0",
     "opn": "^3.0.2",
-    "pad-left": "^2.0.0",
+    "pad-right": "^0.2.2",
     "portscanner": "^1.0.0",
     "query-string": "^2.4.0",
     "resp-modifier": "^5.0.0",
