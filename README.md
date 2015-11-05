@@ -77,56 +77,62 @@ If you've found Browser-sync useful and would like to contribute to its continue
 ## Contributors
 
 ```
-  1228	Shane Osbourne
-    58	Shinnosuke Watanabe
+  1294	Shane Osbourne
+    60	Shinnosuke Watanabe
     19	Shane Daniel
     13	Hugo Bessa
     11	Paul Kinlan
      8	shinnn
      4	Matt Green
+     3	Jon Stevens
      3	Werner van Deventer
-     3	Adam Lynch
      3	Simen Bekkhus
+     3	Adam Lynch
+     3	Dave Hall
      3	Marek 'saji' Augustynowicz
-     2	Eugeny Vlasenko
-     2	Dan Tello
-     2	Hugo Dias
-     2	Jon Stevens
-     2	Michael Branch
-     2	Olivier Combe
-     2	Paul Robertson
+     2	38elements
      2	Piotr Kaleta
+     2	Eugeny Vlasenko
+     2	Steve Mao
+     2	Michael Branch
      2	The Gitter Badger
+     2	Dan Tello
+     2	Olivier Combe
      2	brutaldev
      2	chase_chou
-     1	Craig Morris
-     1	Michael Leigeber
-     1	Austin Pray
-     1	Christian Vuerings
-     1	Paul Love
-     1	Paul Miller
-     1	viktor hesselbom
-     1	Peter Blazejewicz
-     1	Philipp Nowinski
-     1	dsc
-     1	Robert Vock
-     1	Cedric Kastner
-     1	Carl Henderson
-     1	Cameron Spear
-     1	Björn Söderqvist
-     1	Stian Didriksen
-     1	Sylvain Emery
-     1	mericson
+     2	Hugo Dias
+     2	Paul Robertson
      1	Tony Holdstock-Brown
-     1	Guillaume Lambert
-     1	Dimitri Nicolas
      1	Victor Fernandez de Alba
+     1	Yazhong Liu
+     1	dsc
+     1	mericson
+     1	viktor hesselbom
+     1	wesruv
+     1	Andrew Schmadel
+     1	Austin Pray
+     1	Benjamín Eidelman
+     1	Björn Söderqvist
+     1	Cameron Spear
+     1	Carl Henderson
+     1	Cedric Kastner
+     1	Christian Vuerings
+     1	Craig Morris
+     1	Dimitri Nicolas
+     1	Guillaume Lambert
      1	Imran Sulemanji
      1	Jason Dreyzehner
-     1	Benjamín Eidelman
      1	Jory Graham
-     1	Dave Hall
-     1	Yazhong Liu
+     1	Michael Leigeber
+     1	Naoya Kanai
+     1	Paul Love
+     1	Paul Miller
+     1	Peter Blazejewicz
+     1	Philipp Nowinski
+     1	Plou
+     1	Robert Vock
+     1	Stian Didriksen
+     1	Sylvain Emery
 ```
 
 ## License
