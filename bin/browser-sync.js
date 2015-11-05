@@ -6,7 +6,6 @@ var fs           = require("fs");
 var path         = require("path");
 var compile      = require("eazy-logger").compile;
 var longest      = require("longest");
-var padLeft      = require("pad-left");
 var utils        = require("../lib/utils");
 var logger       = require("../lib/logger").logger;
 var cmdWhitelist = ["start", "init", "reload"];
@@ -76,12 +75,17 @@ function handleCli (opts) {
 function listFlags (flags) {
 
     var flagKeys = Object.keys(flags);
-    var maxLength = (longest(Object.keys(flags)) || "").length;
+    var maxLength = (longest(Object.keys(flags)) || "").length + 4;
 
     return flagKeys.map(function (item) {
-        return "    {bold:--" + item + "}" +
-               padLeft(flags[item], maxLength + 4 - item.length, " ");
+        var length = maxLength - item.length;
+        return "    {bold:--" + item + chars(length, " ") + "}" +
+               flags[item];
     }).join("\n");
+}
+
+function chars (length, char) {
+    return new Array(length).join(char);
 }
 
 module.exports = handleCli;
