@@ -8,7 +8,7 @@ var compile      = require("eazy-logger").compile;
 var longest      = require("longest");
 var utils        = require("../lib/utils");
 var logger       = require("../lib/logger").logger;
-var cmdWhitelist = ["start", "init", "reload"];
+var cmdWhitelist = ["start", "init", "reload", "recipe"];
 
 var cli = meow({
     pkg:  "../package.json",
