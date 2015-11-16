@@ -58,6 +58,37 @@ describe("Tunnel e2e tests with subdomain", function () {
     });
 });
 
+describe("Tunnel e2e tests with options object", function (){
+
+    var instance;
+
+    before(function (done) {
+        browserSync.reset();
+        var config = {
+            server:    {
+                baseDir: "test/fixtures"
+            },
+            logLevel: "silent",
+            open:      false,
+            tunnel:    {
+                host:       "https://localtunnel.me",
+                local_host: "localhost",
+                subdomain:  String(Math.floor(Math.random() * 2e10))
+            },
+            online:    true
+        };
+        instance = browserSync(config, done).instance;
+    });
+
+    after(function () {
+        instance.cleanup();
+    });
+
+    it("should call init on the tunnel", function () {
+        assert.include(instance.options.getIn(["urls", "tunnel"]), "localtunnel.me");
+    });
+});
+
 describe("Tunnel e2e tests with Error", function () {
 
     it("does not blow up if tunnel unavailable", function (done) {
