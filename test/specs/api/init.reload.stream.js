@@ -113,6 +113,31 @@ describe("API: .stream()", function () {
         clock.tick();
         sinon.assert.notCalled(emitterStub);
     });
+    it("accepts file paths beginning with dots", function () {
+        var stream = browserSync.stream({match: "**/*.css"});
+        stream.write(new File({path: "/users/shakyshane/.tmp/css/core.css"}));
+        stream.write(new File({path: "/users/shakyshane/.tmp/css/core.css.map"}));
+        stream.end();
+        clock.tick();
+        sinon.assert.calledWithExactly(emitterStub, "file:changed", {
+            path:      "/users/shakyshane/.tmp/css/core.css",
+            basename:  "core.css",
+            log:       false,
+            namespace: "core",
+            event:     "change",
+            ext:       "css"
+        });
+        sinon.assert.calledWithExactly(emitterStub, "file:reload", {
+            ext: "css",
+            path: "/users/shakyshane/.tmp/css/core.css",
+            basename: "core.css",
+            type: "inject",
+            log: false
+        });
+        sinon.assert.calledWithExactly(emitterStub, "stream:changed", {
+            changed: ["core.css"]
+        });
+    });
     it("emits the stream:changed event with an array of changed files", function () {
 
         var stream    = browserSync.stream();

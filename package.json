@@ -30,12 +30,11 @@
     "pre-release": "npm test && npm run pro-local && npm run pro"
   },
   "dependencies": {
-    "anymatch": "^1.3.0",
     "async-each-series": "^0.1.1",
     "browser-sync-client": "^2.3.3",
     "browser-sync-ui": "^0.5.16",
     "bs-recipes": "^1.0.5",
-    "chokidar": "^1.0.5",
+    "chokidar": "1.4.1",
     "connect": "^3.4.0",
     "dev-ip": "^1.0.1",
     "easy-extender": "^2.3.1",
@@ -48,6 +47,7 @@
     "lodash": "^3.9.3",
     "longest": "^1.0.1",
     "meow": "3.3.0",
+    "micromatch": "2.3.5",
     "opn": "^3.0.2",
     "portscanner": "^1.0.0",
     "query-string": "^2.4.0",
