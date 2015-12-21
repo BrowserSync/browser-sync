@@ -3,6 +3,7 @@ git:
   depth: 2
 language: node_js
 node_js:
-  - node
+  - "5.3"
+  - "4.2"
   - '0.10'
 after_script: npm run cover
