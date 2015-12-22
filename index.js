@@ -47,6 +47,20 @@ module.exports.get = function (name) {
 };
 
 /**
+ * Check if an instance has been created.
+ * @method has
+ * @param {String} name
+ * @returns {Boolean}
+ */
+module.exports.has = function (name) {
+    var instance = getSingle(name);
+    if (instance) {
+        return true;
+    }
+    return false;
+};
+
+/**
  * Start the Browsersync service. This will launch a server, proxy or start the snippet
  * mode depending on your use-case.
  * @method init
