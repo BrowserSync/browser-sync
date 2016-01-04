@@ -6,4 +6,5 @@ node_js:
   - "5.3"
   - "4.2"
   - '0.10'
+  - '0.12'
 after_script: npm run cover
