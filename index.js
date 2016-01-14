@@ -314,7 +314,7 @@ function create(name, emitter) {
         watch:     require("./lib/file-watcher").watch
     };
 
-    browserSync.publicInstance = instance;
+    browserSync.publicInstance = Object.create(instance);
     instance.init = require("./lib/public/init")(browserSync, name, pjson);
 
     Object.defineProperty(instance, "active", {
