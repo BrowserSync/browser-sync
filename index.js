@@ -9,6 +9,7 @@ var BrowserSync   = require("./lib/browser-sync");
 var publicUtils   = require("./lib/public/public-utils");
 var events        = require("events");
 var PassThrough   = require("stream").PassThrough;
+var _             = require("lodash");
 var logger        = require("eazy-logger").Logger({
     useLevelPrefixes: true
 });
@@ -300,7 +301,7 @@ function create(name, emitter) {
 
     var instance = {
         name:      name,
-        instance:  browserSync,
+        instance:  _.clone(browserSync),
         exit:      require("./lib/public/exit")(browserSync),
         notify:    require("./lib/public/notify")(browserSync),
         pause:     require("./lib/public/pause")(browserSync),
@@ -314,7 +315,7 @@ function create(name, emitter) {
         watch:     require("./lib/file-watcher").watch
     };
 
-    browserSync.publicInstance = Object.create(instance);
+    browserSync.publicInstance = _.clone(instance);
     instance.init = require("./lib/public/init")(browserSync, name, pjson);
 
     Object.defineProperty(instance, "active", {
