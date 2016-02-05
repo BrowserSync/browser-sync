@@ -37,7 +37,11 @@ describe("API: .reload()", function () {
         sinon.assert.calledWithExactly(emitterStub, "browser:reload");
     });
     
-    it("should be called with a callback to perform a reload");
+    it("should be called with a callback to perform a reload", function(done) {
+        var cb = function() { done() }
+        browserSync.reload(cb);
+        sinon.assert.calledWithExactly(emitterStub, "browser:reload");
+    });
 
     it("should accept a file path as a string", function () {
         browserSync.reload("css/core.css");
