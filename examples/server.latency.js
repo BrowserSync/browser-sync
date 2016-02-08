@@ -7,7 +7,7 @@
  *      node <yourfile.js>
  *
  * This example will create a server & use the `app` directory as the root
- *  - any requests begining with /json will have fake latency applied
+ *  - any requests beginning with /json will have fake latency applied
  *  - for 3 seconds
  *
  */
