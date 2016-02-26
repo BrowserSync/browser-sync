@@ -3,4 +3,8 @@ ___browserSync___.io = window.io;
 window.io = window.___browserSync___oldSocketIo;
 window.___browserSync___oldSocketIo=undefined;
 ___browserSync___.socketConfig = %config%;
-___browserSync___.socket = ___browserSync___.io(%url%, ___browserSync___.socketConfig);
+___browserSync___.url = %url%;
+if (location.protocol == "https:" && /^http:/.test(___browserSync___.url)) {
+    ___browserSync___.url = ___browserSync___.url.replace(/^http:/, "https:");
+}
+___browserSync___.socket = ___browserSync___.io(___browserSync___.url, ___browserSync___.socketConfig);
