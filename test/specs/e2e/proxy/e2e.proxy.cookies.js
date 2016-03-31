@@ -8,7 +8,7 @@ var assert          = require("chai").assert;
 var foxyPath        = require.resolve("foxy");
 var foxy            = require(foxyPath); // jshint ignore:line
 
-describe("E2E proxy test with custom cookies options passed to foxy", function () {
+describe.skip("E2E proxy test with custom cookies options passed to foxy", function () {
 
     this.timeout(15000);
 

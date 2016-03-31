@@ -93,7 +93,7 @@ describe("E2E proxy test", function () {
     });
 });
 
-describe("E2E proxy test", function () {
+describe("E2E proxy test (2)", function () {
 
     var instance, server, options;
 
@@ -219,32 +219,5 @@ describe("E2E proxy test with object option", function () {
                 assert.include(res.text, options.get("snippet"));
                 done();
             });
-    });
-});
-
-describe("E2E proxy test", function () {
-
-    before(function () {
-        browserSync.reset();
-    });
-
-    it("can check if the proxy is reachable", function (done) {
-
-        var instance;
-
-        var config = {
-            proxy:     "localhost:3434",
-            logLevel: "silent",
-            open:      false
-        };
-
-        browserSync.emitter.on("config:warn", function (data) {
-            assert.equal(data.msg, "Proxy address not reachable - is your server running?");
-            instance.cleanup();
-            done();
-        });
-
-        // Success if this event called
-        instance = browserSync(config).instance;
     });
 });

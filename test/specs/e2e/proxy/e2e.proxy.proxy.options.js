@@ -12,7 +12,7 @@ describe("E2E proxy test with `proxyOptions`", function () {
 
     this.timeout(15000);
 
-    var bs, app, spy;
+    var bs, app;
 
     before(function (done) {
 
@@ -33,7 +33,6 @@ describe("E2E proxy test with `proxyOptions`", function () {
             logLevel: "silent"
         };
 
-        spy = require("sinon").spy(require.cache[foxyPath].exports, "create");
         bs = browserSync.init(config, done).instance;
     });
 
@@ -44,12 +43,9 @@ describe("E2E proxy test with `proxyOptions`", function () {
 
     it("sets options for node-http-proxy", function (done) {
 
-        assert.isTrue(spy.getCall(0).args[1].proxyOptions.xfwd); // check fn passed to foxy
-
-        spy.restore();
-
         var expected = app.html.replace("BS", bs.options.get("snippet") + "BS");
         var headers;
+
         app.app.stack.unshift({
             route: "/index.html",
             handle: function (req, res, next) {
