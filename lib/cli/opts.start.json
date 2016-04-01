@@ -14,6 +14,7 @@
     "desc": "File paths to watch"
   },
   "server": {
+    "alias": "s",
     "desc": "Run a Local server (uses your cwd as the web root)"
   },
   "serveStatic": {
@@ -24,6 +25,10 @@
   "index": {
     "type": "string",
     "desc": "Specify which file should be used as the index page"
+  },
+  "plugins": {
+    "type": "array",
+    "desc": "Load Browsersync plugins"
   },
   "extensions": {
     "type": "array",
