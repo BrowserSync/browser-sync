@@ -1,50 +1,50 @@
-var startOpts  = require('../lib/cli/opts.start.json');
-var reloadOpts = require('../lib/cli/opts.reload.json');
-var recipeOpts = require('../lib/cli/opts.recipe.json');
-var pkg        = require('../package.json');
-var utils      = require('../lib/utils');
+var startOpts = require("../lib/cli/opts.start.json");
+var reloadOpts = require("../lib/cli/opts.reload.json");
+var recipeOpts = require("../lib/cli/opts.recipe.json");
+var pkg = require("../package.json");
+var utils = require("../lib/utils");
 var commands = {
     "start": {
-        command: 'start [options]',
-        description: 'Start Browsersync',
+        command: "start [options]",
+        description: "Start Browsersync",
         builder: startOpts,
         handler: function (argv) {
-            handleCli({cli: {flags: argv, input: ['start']}});
+            handleCli({cli: {flags: argv, input: ["start"]}});
         }
     },
     "reload": {
-        command: 'reload [options]',
-        description: 'Send a reload event over HTTP protocol',
+        command: "reload [options]",
+        description: "Send a reload event over HTTP protocol",
         builder: reloadOpts,
         handler: function (argv) {
-            handleCli({cli: {flags: argv, input: ['reload']}});
+            handleCli({cli: {flags: argv, input: ["reload"]}});
         }
     },
     "init": {
-        command: 'init',
-        description: 'Creates a default config file',
+        command: "init",
+        description: "Creates a default config file",
         builder: {},
         handler: function (argv) {
-            handleCli({cli: {flags: argv, input: ['init']}});
+            handleCli({cli: {flags: argv, input: ["init"]}});
         }
     },
     "recipe": {
-        command: 'recipe <recipe-name> [options]',
-        description: 'Generate the files for a recipe',
+        command: "recipe <recipe-name> [options]",
+        description: "Generate the files for a recipe",
         builder: recipeOpts,
         handler: function (argv) {
             //console.log(argv);
-            handleCli({cli: {flags: argv, input: ['recipe', argv['recipe-name']]}});
+            handleCli({cli: {flags: argv, input: ["recipe", argv["recipe-name"]]}});
         }
     }
 };
 
-var yargs = attachCommands(require('yargs'), commands)
+var yargs = attachCommands(require("yargs"), commands)
     .demand(1)
     .version(function () {
-    	return pkg.version;
+        return pkg.version;
     })
-    .epilogue('For help running a certain command, type <command> --help\neg: browser-sync start --help');
+    .epilogue("For help running a certain command, type <command> --help\neg: browser-sync start --help");
 var argv = yargs.argv;
 var command = argv._[0];
 
@@ -58,7 +58,7 @@ if (Object.keys(commands).indexOf(command) > -1) {
  * @param {{cli: object, [whitelist]: array, [cb]: function}} opts
  * @returns {*}
  */
-function handleCli (opts) {
+function handleCli(opts) {
 
     opts.cb = opts.cb || utils.defaultCallback;
     return require("../lib/cli/command." + opts.cli.input[0])(opts);
@@ -66,7 +66,7 @@ function handleCli (opts) {
 
 module.exports = handleCli;
 
-function attachCommands (yargs, commands) {
+function attachCommands(yargs, commands) {
     Object.keys(commands).forEach(function (key) {
         yargs.command(key, commands[key].description);
     });
