@@ -2,14 +2,14 @@ var startOpts  = require('../lib/cli/opts.start.json');
 var reloadOpts = require('../lib/cli/opts.reload.json');
 var recipeOpts = require('../lib/cli/opts.recipe.json');
 var pkg        = require('../package.json');
+var utils      = require('../lib/utils');
 var commands = {
     "start": {
         command: 'start [options]',
         description: 'Start Browsersync',
         builder: startOpts,
         handler: function (argv) {
-            console.log('From start');
-            console.log(argv);
+            handleCli({cli: {flags: argv, input: ['start']}});
         }
     },
     "reload": {
@@ -51,8 +51,7 @@ var argv = yargs.argv;
 var command = argv._[0];
 
 if (Object.keys(commands).indexOf(command) > -1) {
-    handleCli(command, yargs.argv)
-    handleIncoming(commands[command]);
+    var output = handleIncoming(commands[command]);
 } else {
     yargs.showHelp();
 }
@@ -61,11 +60,10 @@ if (Object.keys(commands).indexOf(command) > -1) {
  * @param {{cli: object, [whitelist]: array, [cb]: function}} opts
  * @returns {*}
  */
-function handleCli (command, opts) {
+function handleCli (opts) {
 
     opts.cb = opts.cb || utils.defaultCallback;
-
-    return require("../lib/cli/command." + command)(opts);
+    return require("../lib/cli/command." + opts.cli.input[0])(opts);
 }
 
 module.exports = handleCli;
@@ -74,7 +72,7 @@ function attachCommands (yargs, commands) {
     Object.keys(commands).forEach(function (key) {
         yargs.command(key, commands[key].description);
     });
-    return yargs;
+    return yargs
 }
 
 function handleIncoming(obj) {
