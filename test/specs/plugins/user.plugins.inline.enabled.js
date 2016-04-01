@@ -30,7 +30,7 @@ describe("Plugins: Setting the default state (false) if given in options", funct
     after(function () {
         instance.cleanup();
     });
-    it("Should auto disable a plugin when options given", function (done) {
+    it("Should auto disable a plugin when options given (1)", function (done) {
         assert.equal(instance.getUserPlugins().length, 1);
         assert.isFalse(instance.getUserPlugins()[0].active);
         done();
@@ -62,7 +62,7 @@ describe("Plugins: Setting the default state (true) if given in options", functi
     after(function () {
         instance.cleanup();
     });
-    it("Should auto disable a plugin when options given", function (done) {
+    it("Should auto disable a plugin when options given (2)", function (done) {
         assert.equal(instance.getUserPlugins().length, 1);
         assert.isTrue(instance.getUserPlugins()[0].active);
         done();
