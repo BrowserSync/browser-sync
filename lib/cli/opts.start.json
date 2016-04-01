@@ -47,6 +47,7 @@
     "desc": "Show a directory listing for the server"
   },
   "proxy": {
+    "alias": "p",
     "desc": "Proxy an existing server",
     "example": "$0 shane is cool"
   },

@@ -1,8 +1,9 @@
-var startOpts = require("../lib/cli/opts.start.json");
+var startOpts  = require("../lib/cli/opts.start.json");
 var reloadOpts = require("../lib/cli/opts.reload.json");
 var recipeOpts = require("../lib/cli/opts.recipe.json");
 var pkg = require("../package.json");
 var utils = require("../lib/utils");
+
 var commands = {
     "start": {
         command: "start [options]",
@@ -33,7 +34,6 @@ var commands = {
         description: "Generate the files for a recipe",
         builder: recipeOpts,
         handler: function (argv) {
-            //console.log(argv);
             handleCli({cli: {flags: argv, input: ["recipe", argv["recipe-name"]]}});
         }
     }
@@ -53,7 +53,7 @@ if (!module.parent) {
     var command = argv._[0];
 
     if (Object.keys(commands).indexOf(command) > -1) {
-        var output = handleIncoming(commands[command]);
+        handleIncoming(commands[command]);
     } else {
         yargs.showHelp();
     }
