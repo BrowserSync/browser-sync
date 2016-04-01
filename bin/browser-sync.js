@@ -1,92 +1,196 @@
-#!/usr/bin/env node
-"use strict";
+// var bs = require("./").create();
+//
+// /**
+//  * Start the Browsersync server and
+//  * load the express app as middleware
+//  */
+// bs.init({
+//     https: true,
+//     scriptPath: function (path, port, options) {
+//         return options.get('absolute').replace('HOST', 'localhost');
+//     }
+// });
 
-var meow         = require("meow");
-var fs           = require("fs");
-var path         = require("path");
-var compile      = require("eazy-logger").compile;
-var longest      = require("longest");
-var utils        = require("../lib/utils");
-var logger       = require("../lib/logger").logger;
-var cmdWhitelist = ["start", "init", "reload", "recipe"];
+var input = [
+    '--server.baseDir', '.',
+    '--server.index', 'index.htm',
+    '--server.extensions', '.html', '.css',
+    '--proxy.ws', 'true',
+    '--index',
+    '--serveStatic', '.', 'another',
+    '--ss', '.tmp', 'app',
+    '--open',
+    '--browser', 'chrome', 'firefox',
+    '--files', '*.css', '*.html',
+    '--plugins', 'bs-html-injector?files[]=*.html&files[]=*.css'
+];
 
-var cli = meow({
-    pkg:  "../package.json",
-    help: getHelpText(path.join(__dirname, "../lib/cli/help.txt"))
-});
+var qs         = require('qs');
+var startOpts  = require('../lib/cli/opts.start.json');
+var reloadOpts = require('../lib/cli/opts.reload.json');
+var recipeOpts = require('../lib/cli/opts.recipe.json');
 
-/**
- * Handle cli input
- */
-if (!module.parent) {
-    handleCli({cli: cli, whitelist: cmdWhitelist});
+var commands = {
+    "start": {
+        command: 'start [options]',
+        description: 'Start Browsersync',
+        builder: startOpts,
+        handler: function (argv) {
+            console.log('From start', argv);
+        }
+    },
+    "reload": {
+        command: 'reload [options]',
+        description: 'Send a reload event over HTTP protocol',
+        builder: reloadOpts,
+        handler: function (argv) {
+            console.log('From reload', argv);
+        }
+    },
+    "init": {
+        command: 'init',
+        description: 'Creates a default config file',
+        builder: {},
+        handler: function (argv) {
+            console.log('From init', argv);
+        }
+    },
+    "recipe-ls": {
+        command: 'recipe ls [options]',
+        description: 'list all recipes',
+        builder: {},
+        handler: function (argv) {
+            console.log('From recipe ls', argv);
+        }
+    },
+    "recipe": {
+        command: 'recipe <recipe-name> [options]',
+        description: 'Generate the files for a recipe',
+        builder: recipeOpts,
+        handler: function (argv) {
+            console.log('From recipe', argv);
+        }
+    }
+};
+
+var yargs = attachCommands(require('yargs'), commands)
+    .demand(1)
+    .epilogue(`For help running a certain command, type <command> --help
+eg: browser-sync start --help`);
+
+
+var argv = yargs.argv;
+var command = argv._[0];
+
+if (Object.keys(commands).indexOf(command) > -1) {
+    handleIncoming(commands[command]);
+} else {
+    yargs.showHelp();
 }
 
-/**
- * Generate & colour the help text
- * @param {String} filepath - relative file path to the help text
- * @returns {String}
- */
-function getHelpText(filepath) {
-
-    /**
-     * Help text template
-     */
-    var template = fs.readFileSync(filepath, "utf8");
-
-    cmdWhitelist.forEach(function (command) {
-
-        var flags = require("../lib/cli/opts." + command + ".json");
-        template = template.replace("%" + command + "flags%", listFlags(flags));
+function attachCommands (yargs, commands) {
+    Object.keys(commands).forEach(function (key) {
+        yargs.command(key, commands[key].description);
     });
-
-    return compile(template);
+    return yargs;
 }
 
-/**
- * @param {{cli: object, [whitelist]: array, [cb]: function}} opts
- * @returns {*}
- */
-function handleCli (opts) {
-
-    opts.cb = opts.cb || utils.defaultCallback;
-
-    var input = opts.cli.input;
-
-    if (!opts.whitelist) {
-        opts.whitelist = cmdWhitelist;
-    }
-
-    if (!input.length || opts.whitelist.indexOf(input[0]) === -1) {
-        return console.log(opts.cli.help);
-    }
-
-    if (!require("../lib/cli/cli-utils").verifyOpts(input[0], opts.cli.flags)) {
-        logger.info("For help, run: {cyan:browser-sync --help}");
-        return opts.cb(new Error("Unknown flag given. Please refer to the documentation for help."));
-    }
-
-    return require("../lib/cli/command." + input[0])(opts);
+function handleIncoming(obj) {
+    return yargs
+        .command(obj.command, obj.description, {
+            builder: obj.builder,
+            handler: obj.handler
+        })
+        .help()
+        .argv;
 }
 
-/**
- * @param {Object} flags
- */
-function listFlags (flags) {
 
-    var flagKeys = Object.keys(flags);
-    var maxLength = (longest(Object.keys(flags)) || "").length + 4;
+// console.log(
+//     yargs
+//     .options(startOpts)
+//     .argv);
 
-    return flagKeys.map(function (item) {
-        var length = maxLength - item.length;
-        return "    {bold:--" + item + chars(length, " ") + "}" +
-               flags[item];
-    }).join("\n");
-}
+// var out = yargs
+//     .command('start [options]', 'Start the Browsersync server', {
+//         builder: startOpts,
+//         handler: function (argv) {
+//             console.log('From start');
+//             // console.log(argv.version);
+//         }
+//     })
+//     .version(function() {
+//         return require('./package.json').version;
+//     })
+//     .help()
+//     .argv;
 
-function chars (length, char) {
-    return new Array(length).join(char);
-}
+// var out2 = yargs
+//     .command('reload [options]', 'Send a reload command over http', {
+//         builder: reloadOpts,
+//         handler: function (argv) {
+//
+//             console.log('From reload', argv);
+//             // console.log(argv.version);
+//         }
+//     })
+//     .version(function() {
+//         return require('./package.json').version;
+//     })
+//     .help()
+//     .argv;
 
-module.exports = handleCli;
-module.exports.getHelpText = getHelpText;
+
+// console.log(out);
+
+// var out = Object.keys(ops).reduce(function (acc, key) {
+//     acc[key] = {
+//         desc: ops[key]
+//     }
+//     return acc;
+// }, {});
+// console.log(JSON.stringify(out, null, 4));
+// var opts = {
+//     "browser": {
+//         alias: "b",
+//         type: "array",
+//         desc: "Choose which browser should be auto-opened"
+//     },
+//     "files": {
+//         alias: "f",
+//         type: "array",
+//         desc: "File paths to watch"
+//     },
+//     "server": {
+//         desc: "Run a Local server from a directory",
+//     },
+//     "serveStatic": {
+//         type: "array",
+//         desc: "Directories to serve static files from"
+//     },
+//     "index": {
+//         type: "string",
+//         desc: "Specify which file should be used as the index page"
+//     },
+//     "extensions": {
+//         desc: "Specify file extension fallbacks"
+//     }
+// }
+//
+// var out = yargs
+//     .option('server')
+//     .options(opts);
+// // .array('files')
+// // // server
+// // .alias('ss', 'serveStatic')
+// // .string('index')
+// // .array('serveStatic')
+// // .array('server.extensions')
+// // .boolean('open')
+// // .alias('ws', 'proxy.ws')
+// // .alias('s', 'server')
+// // .array('plugins');
+//
+// console.log(out.argv);
+
+// console.log(qs.parse(out.argv.plugins[0].split('?')[1]));
