@@ -17,8 +17,7 @@ var commands = {
         description: 'Send a reload event over HTTP protocol',
         builder: reloadOpts,
         handler: function (argv) {
-            console.log('From reload');
-            console.log(argv);
+            handleCli({cli: {flags: argv, input: ['reload']}});
         }
     },
     "init": {
@@ -26,8 +25,7 @@ var commands = {
         description: 'Creates a default config file',
         builder: {},
         handler: function (argv) {
-            console.log('From init');
-            console.log(argv);
+            handleCli({cli: {flags: argv, input: ['init']}});
         }
     },
     "recipe": {
@@ -35,8 +33,8 @@ var commands = {
         description: 'Generate the files for a recipe',
         builder: recipeOpts,
         handler: function (argv) {
-            console.log('From recipe');
-            console.log(argv);
+            //console.log(argv);
+            handleCli({cli: {flags: argv, input: ['recipe', argv['recipe-name']]}});
         }
     }
 };
