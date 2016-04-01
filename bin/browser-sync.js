@@ -39,19 +39,24 @@ var commands = {
     }
 };
 
-var yargs = attachCommands(require("yargs"), commands)
-    .demand(1)
-    .version(function () {
-        return pkg.version;
-    })
-    .epilogue("For help running a certain command, type <command> --help\neg: browser-sync start --help");
-var argv = yargs.argv;
-var command = argv._[0];
+/**
+ * Handle cli input
+ */
+if (!module.parent) {
+    var yargs = attachCommands(require("yargs"), commands)
+        .demand(1)
+        .version(function () {
+            return pkg.version;
+        })
+        .epilogue("For help running a certain command, type <command> --help\neg: browser-sync start --help");
+    var argv = yargs.argv;
+    var command = argv._[0];
 
-if (Object.keys(commands).indexOf(command) > -1) {
-    var output = handleIncoming(commands[command]);
-} else {
-    yargs.showHelp();
+    if (Object.keys(commands).indexOf(command) > -1) {
+        var output = handleIncoming(commands[command]);
+    } else {
+        yargs.showHelp();
+    }
 }
 
 /**
