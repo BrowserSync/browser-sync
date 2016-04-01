@@ -2,7 +2,6 @@ var startOpts  = require('../lib/cli/opts.start.json');
 var reloadOpts = require('../lib/cli/opts.reload.json');
 var recipeOpts = require('../lib/cli/opts.recipe.json');
 var pkg        = require('../package.json');
-
 var commands = {
     "start": {
         command: 'start [options]',
@@ -48,15 +47,28 @@ var yargs = attachCommands(require('yargs'), commands)
     	return pkg.version;
     })
     .epilogue('For help running a certain command, type <command> --help\neg: browser-sync start --help');
-
 var argv = yargs.argv;
 var command = argv._[0];
 
 if (Object.keys(commands).indexOf(command) > -1) {
+    handleCli(command, yargs.argv)
     handleIncoming(commands[command]);
 } else {
     yargs.showHelp();
 }
+
+/**
+ * @param {{cli: object, [whitelist]: array, [cb]: function}} opts
+ * @returns {*}
+ */
+function handleCli (command, opts) {
+
+    opts.cb = opts.cb || utils.defaultCallback;
+
+    return require("../lib/cli/command." + command)(opts);
+}
+
+module.exports = handleCli;
 
 function attachCommands (yargs, commands) {
     Object.keys(commands).forEach(function (key) {
