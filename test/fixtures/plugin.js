@@ -1,5 +1,6 @@
 module.exports = {
-    plugin: function () {
+    "plugin:name": "My Plugin",
+    "plugin": function () {
         console.log('running here');
     }
 };
