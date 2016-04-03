@@ -4,15 +4,12 @@ var browserSync     = require("../../../../index");
 var testUtils       = require("../../../protractor/utils");
 var Immutable       = require("immutable");
 var request         = require("supertest");
-var assert          = require("chai").assert;
-var foxyPath        = require.resolve("foxy");
-var foxy            = require(foxyPath); // jshint ignore:line
 
 describe.skip("E2E proxy test with custom cookies options passed to foxy", function () {
 
     this.timeout(15000);
 
-    var bs, app, spy;
+    var bs, app;
 
     before(function (done) {
 
@@ -33,7 +30,6 @@ describe.skip("E2E proxy test with custom cookies options passed to foxy", funct
             logLevel: "silent"
         };
 
-        spy = require("sinon").spy(require.cache[foxyPath].exports, "create");
         bs = browserSync.init(config, done).instance;
     });
 
@@ -43,10 +39,6 @@ describe.skip("E2E proxy test with custom cookies options passed to foxy", funct
     });
 
     it("sets cookie stripDomain: false", function (done) {
-
-        assert.isFalse(spy.getCall(0).args[1].cookies.stripDomain); // check fn passed to foxy
-
-        spy.restore();
 
         var expected = app.html.replace("BS", bs.options.get("snippet") + "BS");
 

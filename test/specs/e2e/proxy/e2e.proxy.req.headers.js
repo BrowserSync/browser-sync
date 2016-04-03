@@ -5,8 +5,6 @@ var testUtils       = require("../../../protractor/utils");
 var Immutable       = require("immutable");
 var request         = require("supertest");
 var assert          = require("chai").assert;
-var foxyPath        = require.resolve("foxy");
-var foxy            = require(foxyPath); // jshint ignore:line
 
 describe("E2E proxy test with custom req headers", function () {
 
