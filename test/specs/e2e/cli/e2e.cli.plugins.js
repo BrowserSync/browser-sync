@@ -16,12 +16,12 @@ describe("E2E CLI `plugins` arg", function () {
                 flags: {
                     logLevel: "silent",
                     open: false,
-                    plugins: ["bs-html-injector"]
+                    plugins: ["bs-snippet-injector"]
                 }
             },
             cb: function (err, bs) {
-                var plugin = bs.getUserPlugin("HTML Injector");
-                assert.equal(plugin.name, "HTML Injector");
+                var plugin = bs.getUserPlugin("Snippet Injector");
+                assert.equal(plugin.name, "Snippet Injector");
                 assert.equal(plugin.active, true);
                 bs.cleanup();
                 done();
@@ -36,14 +36,14 @@ describe("E2E CLI `plugins` arg", function () {
                 flags: {
                     logLevel: "silent",
                     open: false,
-                    plugins: ["bs-html-injector?files[]=*.html"]
+                    plugins: ["bs-snippet-injector?files[]=*.html"]
                 }
             },
             cb: function (err, bs) {
-                var plugin = bs.getUserPlugin("HTML Injector");
-                assert.equal(plugin.name, "HTML Injector");
+                var plugin = bs.getUserPlugin("Snippet Injector");
+                assert.equal(plugin.name, "Snippet Injector");
                 assert.equal(plugin.active, true);
-                assert.deepEqual(plugin.opts, {files: ["*.html"]});
+                assert.deepEqual(plugin.opts.files, ["*.html"]);
                 bs.cleanup();
                 done();
             }
