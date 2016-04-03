@@ -8,7 +8,7 @@ var assert = require("chai").assert;
 // snippet:      ['http://' + location.hostname + ':3000/browser-sync']
 // domain:       ['<domain>/browser-sync']
 
-describe("Connection utils", function () {
+describe("Connection snippetUtils", function () {
     var options;
     beforeEach(function () {
         options = merge({

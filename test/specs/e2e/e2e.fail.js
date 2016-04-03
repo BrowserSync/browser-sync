@@ -1,7 +1,7 @@
 //"use strict";
 //
 //var browserSync = require("../../../index");
-//var utils       = require("../../../lib/utils");
+//var snippetUtils       = require("../../../lib/snippetUtils");
 //
 //var assert      = require("chai").assert;
 //var sinon       = require("sinon");
@@ -30,7 +30,7 @@
 //    });
 //    it("should fail if empty port cannot be found", function (done) {
 //
-//        var stub = sinon.stub(utils, "getPorts").yields(new Error("NOPE"));
+//        var stub = sinon.stub(snippetUtils, "getPorts").yields(new Error("NOPE"));
 //
 //        browserSync({
 //            open: false
