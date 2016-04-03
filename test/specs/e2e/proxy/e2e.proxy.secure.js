@@ -45,7 +45,7 @@ describe("E2E TLS proxy test", function () {
 
         assert.isString(bs.options.get("snippet"));
 
-        var expected = app.html.replace("BS", bs.options.get("snippet") + "BS");
+        var expected = app.html + bs.options.get("snippet");
 
         request(bs.options.getIn(["urls", "local"]))
             .get("/index.html")

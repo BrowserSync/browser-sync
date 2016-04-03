@@ -48,7 +48,7 @@ describe("E2E proxy test with custom req headers", function () {
 
     it("sets custom headers on proxy reqs", function (done) {
 
-        var expected = app.html.replace("BS", bs.options.get("snippet") + "BS");
+        var expected = app.html + bs.options.get("snippet");
         var headers;
 
         app.app.stack.unshift({
