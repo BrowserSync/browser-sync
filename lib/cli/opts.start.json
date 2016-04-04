@@ -68,6 +68,7 @@
   },
   "config": {
     "type": "string",
+    "alias": "c",
     "desc": "Specify a path to a configuration file"
   },
   "host": {
