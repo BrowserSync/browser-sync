@@ -1,59 +1,29 @@
 var startOpts  = require("../lib/cli/opts.start.json");
 var reloadOpts = require("../lib/cli/opts.reload.json");
 var recipeOpts = require("../lib/cli/opts.recipe.json");
-var pkg = require("../package.json");
-var utils = require("../lib/utils");
-
-var commands = {
-    "start": {
-        command: "start [options]",
-        description: "Start Browsersync",
-        builder: startOpts,
-        handler: function (argv) {
-            handleCli({cli: {flags: argv, input: ["start"]}});
-        }
-    },
-    "reload": {
-        command: "reload [options]",
-        description: "Send a reload event over HTTP protocol",
-        builder: reloadOpts,
-        handler: function (argv) {
-            handleCli({cli: {flags: argv, input: ["reload"]}});
-        }
-    },
-    "init": {
-        command: "init",
-        description: "Creates a default config file",
-        builder: {},
-        handler: function (argv) {
-            handleCli({cli: {flags: argv, input: ["init"]}});
-        }
-    },
-    "recipe": {
-        command: "recipe <recipe-name> [options]",
-        description: "Generate the files for a recipe",
-        builder: recipeOpts,
-        handler: function (argv) {
-            handleCli({cli: {flags: argv, input: ["recipe", argv["recipe-name"]]}});
-        }
-    }
-};
+var pkg        = require("../package.json");
+var utils      = require("../lib/utils");
 
 /**
  * Handle cli input
  */
 if (!module.parent) {
-    var yargs = attachCommands(require("yargs"), commands)
-        .demand(1)
+    var yargs = require("yargs")
+        .command("start", "Start the server")
+        .command("init", "Create a configuration file")
+        .command("reload", "Send a reload event over HTTP protocol")
+        .command("recipe", "Generate the files for a recipe")
         .version(function () {
             return pkg.version;
         })
-        .epilogue("For help running a certain command, type <command> --help\neg: browser-sync start --help");
-    var argv = yargs.argv;
+        .epilogue("For help running a certain command, type <command> --help\neg: $0 start --help");
+
+    var argv    = yargs.argv;
     var command = argv._[0];
 
-    if (Object.keys(commands).indexOf(command) > -1) {
-        handleIncoming(commands[command]);
+    var valid = ["start", "init", "reload", "recipe"];
+    if (valid.indexOf(command) > -1) {
+        handleIncoming(command, yargs.reset());
     } else {
         yargs.showHelp();
     }
@@ -71,19 +41,50 @@ function handleCli(opts) {
 
 module.exports = handleCli;
 
-function attachCommands(yargs, commands) {
-    Object.keys(commands).forEach(function (key) {
-        yargs.command(key, commands[key].description);
-    });
-    return yargs
-}
+/**
+ * @param {string} command
+ * @param {object} yargs
+ */
+function handleIncoming(command, yargs) {
+    var out;
+    if (command === "start") {
+        out = yargs
+            .usage("Usage: $0 start [options]")
+            .options(startOpts)
+            .example("$0 start -s app", "- Use the App directory to serve files")
+            .example("$0 start -p www.bbc.co.uk", "- Proxy an existing website")
+            .help()
+            .argv;
+    }
+    if (command === "init") {
+        out = yargs
+            .usage("Usage: $0 init")
+            .example("$0 init")
+            .help()
+            .argv;
+    }
+    if (command === "reload") {
+        out = yargs
+            .usage("Usage: $0 reload")
+            .options(reloadOpts)
+            .example("$0 reload")
+            .example("$0 reload --port 4000")
+            .help()
+            .argv;
+    }
+    if (command === "recipe") {
+        out = yargs
+            .usage("Usage: $0 recipe <recipe-name>")
+            .option(recipeOpts)
+            .example("$0 recipe ls", "list the recipes")
+            .example("$0 recipe gulp.sass", "use the gulp.sass recipe")
+            .help()
+            .argv;
+    }
 
-function handleIncoming(obj) {
-    return yargs
-        .command(obj.command, obj.description, {
-            builder: obj.builder,
-            handler: obj.handler
-        })
-        .help()
-        .argv;
+    if (out.help) {
+        return yargs.showHelp();
+    }
+
+    handleCli({cli: {flags: out, input: out._}});
 }
