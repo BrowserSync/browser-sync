@@ -1,7 +1,25 @@
 {
+  "server": {
+    "alias": "s",
+    "desc": "Run a Local server (uses your cwd as the web root)"
+  },
+  "serveStatic": {
+    "type": "array",
+    "alias": "ss",
+    "desc": "Directories to serve static files from"
+  },
   "port": {
     "type": "number",
     "desc": "Specify a port to use"
+  },
+  "proxy": {
+    "alias": "p",
+    "desc": "Proxy an existing server",
+    "example": "$0 shane is cool"
+  },
+  "ws": {
+    "type": "boolean",
+    "desc": "Proxy mode only - enable websocket proxying"
   },
   "browser": {
     "type": "array",
@@ -12,15 +30,6 @@
     "type": "array",
     "alias": "f",
     "desc": "File paths to watch"
-  },
-  "server": {
-    "alias": "s",
-    "desc": "Run a Local server (uses your cwd as the web root)"
-  },
-  "serveStatic": {
-    "type": "array",
-    "alias": "ss",
-    "desc": "Directories to serve static files from"
   },
   "index": {
     "type": "string",
@@ -45,15 +54,6 @@
   "directory": {
     "type": "boolean",
     "desc": "Show a directory listing for the server"
-  },
-  "proxy": {
-    "alias": "p",
-    "desc": "Proxy an existing server",
-    "example": "$0 shane is cool"
-  },
-  "ws": {
-    "type": "boolean",
-    "desc": "Proxy mode only - enable websocket proxying"
   },
   "xip": {
     "type": "boolean",
