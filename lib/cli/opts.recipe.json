@@ -2,9 +2,5 @@
   "output": {
     "alias": "o",
     "desc": "Specify an output directory"
-  },
-  "list": {
-    "alias": "ls",
-    "desc": "Show all available recipes"
   }
 }
