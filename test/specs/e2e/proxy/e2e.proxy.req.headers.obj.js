@@ -6,7 +6,7 @@ var Immutable       = require("immutable");
 var request         = require("supertest");
 var assert          = require("chai").assert;
 
-describe("E2E proxy test with custom req headers", function () {
+describe("E2E proxy test with custom req headers as object", function () {
 
     this.timeout(15000);
 
@@ -26,10 +26,8 @@ describe("E2E proxy test with custom req headers", function () {
                 proxyOptions: {
                     xfwd: true
                 },
-                reqHeaders: function () {
-                    return {
-                        "is-dev": "yeah"
-                    }
+                reqHeaders: {
+                    "is-dev": "true"
                 }
             },
             open: false,
@@ -44,7 +42,7 @@ describe("E2E proxy test with custom req headers", function () {
         app.server.close();
     });
 
-    it("sets custom headers on proxy reqs", function (done) {
+    it("sets custom headers on proxy reqs from an object", function (done) {
 
         var expected = app.html + bs.options.get("snippet");
         var headers;

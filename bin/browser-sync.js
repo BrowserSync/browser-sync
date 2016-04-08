@@ -1,92 +1,90 @@
-#!/usr/bin/env node
-"use strict";
-
-var meow         = require("meow");
-var fs           = require("fs");
-var path         = require("path");
-var compile      = require("eazy-logger").compile;
-var longest      = require("longest");
-var utils        = require("../lib/utils");
-var logger       = require("../lib/logger").logger;
-var cmdWhitelist = ["start", "init", "reload", "recipe"];
-
-var cli = meow({
-    pkg:  "../package.json",
-    help: getHelpText(path.join(__dirname, "../lib/cli/help.txt"))
-});
+var startOpts  = require("../lib/cli/opts.start.json");
+var reloadOpts = require("../lib/cli/opts.reload.json");
+var recipeOpts = require("../lib/cli/opts.recipe.json");
+var pkg        = require("../package.json");
+var utils      = require("../lib/utils");
 
 /**
  * Handle cli input
  */
 if (!module.parent) {
-    handleCli({cli: cli, whitelist: cmdWhitelist});
-}
+    var yargs = require("yargs")
+        .command("start", "Start the server")
+        .command("init", "Create a configuration file")
+        .command("reload", "Send a reload event over HTTP protocol")
+        .command("recipe", "Generate the files for a recipe")
+        .version(function () {
+            return pkg.version;
+        })
+        .epilogue("For help running a certain command, type <command> --help\neg: $0 start --help");
 
-/**
- * Generate & colour the help text
- * @param {String} filepath - relative file path to the help text
- * @returns {String}
- */
-function getHelpText(filepath) {
+    var argv    = yargs.argv;
+    var command = argv._[0];
+    var valid   = ["start", "init", "reload", "recipe"];
 
-    /**
-     * Help text template
-     */
-    var template = fs.readFileSync(filepath, "utf8");
-
-    cmdWhitelist.forEach(function (command) {
-
-        var flags = require("../lib/cli/opts." + command + ".json");
-        template = template.replace("%" + command + "flags%", listFlags(flags));
-    });
-
-    return compile(template);
+    if (valid.indexOf(command) > -1) {
+        handleIncoming(command, yargs.reset());
+    } else {
+        yargs.showHelp();
+    }
 }
 
 /**
  * @param {{cli: object, [whitelist]: array, [cb]: function}} opts
  * @returns {*}
  */
-function handleCli (opts) {
+function handleCli(opts) {
 
     opts.cb = opts.cb || utils.defaultCallback;
-
-    var input = opts.cli.input;
-
-    if (!opts.whitelist) {
-        opts.whitelist = cmdWhitelist;
-    }
-
-    if (!input.length || opts.whitelist.indexOf(input[0]) === -1) {
-        return console.log(opts.cli.help);
-    }
-
-    if (!require("../lib/cli/cli-utils").verifyOpts(input[0], opts.cli.flags)) {
-        logger.info("For help, run: {cyan:browser-sync --help}");
-        return opts.cb(new Error("Unknown flag given. Please refer to the documentation for help."));
-    }
-
-    return require("../lib/cli/command." + input[0])(opts);
-}
-
-/**
- * @param {Object} flags
- */
-function listFlags (flags) {
-
-    var flagKeys = Object.keys(flags);
-    var maxLength = (longest(Object.keys(flags)) || "").length + 4;
-
-    return flagKeys.map(function (item) {
-        var length = maxLength - item.length;
-        return "    {bold:--" + item + chars(length, " ") + "}" +
-               flags[item];
-    }).join("\n");
-}
-
-function chars (length, char) {
-    return new Array(length).join(char);
+    return require("../lib/cli/command." + opts.cli.input[0])(opts);
 }
 
 module.exports = handleCli;
-module.exports.getHelpText = getHelpText;
+
+/**
+ * @param {string} command
+ * @param {object} yargs
+ */
+function handleIncoming(command, yargs) {
+    var out;
+    if (command === "start") {
+        out = yargs
+            .usage("Usage: $0 start [options]")
+            .options(startOpts)
+            .example("$0 start -s app", "- Use the App directory to serve files")
+            .example("$0 start -p www.bbc.co.uk", "- Proxy an existing website")
+            .help()
+            .argv;
+    }
+    if (command === "init") {
+        out = yargs
+            .usage("Usage: $0 init")
+            .example("$0 init")
+            .help()
+            .argv;
+    }
+    if (command === "reload") {
+        out = yargs
+            .usage("Usage: $0 reload")
+            .options(reloadOpts)
+            .example("$0 reload")
+            .example("$0 reload --port 4000")
+            .help()
+            .argv;
+    }
+    if (command === "recipe") {
+        out = yargs
+            .usage("Usage: $0 recipe <recipe-name>")
+            .option(recipeOpts)
+            .example("$0 recipe ls", "list the recipes")
+            .example("$0 recipe gulp.sass", "use the gulp.sass recipe")
+            .help()
+            .argv;
+    }
+
+    if (out.help) {
+        return yargs.showHelp();
+    }
+
+    handleCli({cli: {flags: out, input: out._}});
+}

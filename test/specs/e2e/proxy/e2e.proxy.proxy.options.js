@@ -5,14 +5,12 @@ var testUtils       = require("../../../protractor/utils");
 var Immutable       = require("immutable");
 var request         = require("supertest");
 var assert          = require("chai").assert;
-var foxyPath        = require.resolve("foxy");
-var foxy            = require(foxyPath); // jshint ignore:line
 
 describe("E2E proxy test with `proxyOptions`", function () {
 
     this.timeout(15000);
 
-    var bs, app, spy;
+    var bs, app;
 
     before(function (done) {
 
@@ -33,7 +31,6 @@ describe("E2E proxy test with `proxyOptions`", function () {
             logLevel: "silent"
         };
 
-        spy = require("sinon").spy(require.cache[foxyPath].exports, "create");
         bs = browserSync.init(config, done).instance;
     });
 
@@ -44,12 +41,9 @@ describe("E2E proxy test with `proxyOptions`", function () {
 
     it("sets options for node-http-proxy", function (done) {
 
-        assert.isTrue(spy.getCall(0).args[1].proxyOptions.xfwd); // check fn passed to foxy
-
-        spy.restore();
-
-        var expected = app.html.replace("BS", bs.options.get("snippet") + "BS");
+        var expected = app.html + bs.options.get("snippet");
         var headers;
+
         app.app.stack.unshift({
             route: "/index.html",
             handle: function (req, res, next) {
