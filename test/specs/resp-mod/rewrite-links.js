@@ -136,121 +136,70 @@ describe("Rewriting Domains", function() {
             assert.equal(actual, expected);
         });
         it("should use the regex to replace links that contain hashes (2)", function() {
-            var getBase = function (host) {
-                return `
-<ul class="navigation__items">
-    <li class="navigation__items__page">
-        <a href="${host}/careers/?number=4">« Previous</a>
-    </li>
-    <li class="navigation__items__page">
-        <a href="${host}/careers/#search">1</a>
-    </li>
-    <li class="navigation__items__page">
-        <a href="${host}/careers/?number=2#search">2</a>
-    </li>
-    <li class="navigation__items__page">
-        <a href="${host}/careers/?number=3#search">3</a>
-    </li>
-    <li class="navigation__items__page">
-        <a href="${host}/careers/?number=4#search">4</a>
-    </li>
-    <li class="navigation__items__page navigation__items__page--active">
-        <a href="${host}/careers/?number=5#search">5</a>
-    </li>
-</ul>
-        `;
-            };
-            var original = getBase("http://www.example.local.colinr.com");
-            var expected = getBase("//" + proxyUrl);
+            var input    = fs.readFileSync('test/fixtures/rewrites/hashes.input.html', 'utf8');
+            var expected = fs.readFileSync('test/fixtures/rewrites/hashes.expected.html', 'utf8');
             var rewrite  = utils.rewriteLinks({hostname: "www.example.local.colinr.com", port: 80}, proxyUrl);
             var bound    = rewrite.fn.bind(null, {headers:{host:proxyUrl}}, {});
-            var actual   = original.replace(rewrite.match, bound);
+            var actual   = input.replace(rewrite.match, bound);
             assert.equal(actual, expected);
         });
         it("should use the regex to replace links that contain port + ", function() {
-            var input = `
-<!--//<a href="http://example.com:1234/foo">Link 1</a>-->
-<a href="http://example.com.gov/foo">Link 1</a>
-`;
-            var expected = `
-<!--//<a href="//${proxyUrl}/foo">Link 1</a>-->
-<a href="http://example.com.gov/foo">Link 1</a>
-`;
+            var input = '<!--//<a href="http://example.com:1234/foo">Link 1</a>--><a href="http://example.com.gov/foo">Link 1</a>';
+            var expected = '<!--//<a href="//192.168.0.4:3002/foo">Link 1</a>--><a href="http://example.com.gov/foo">Link 1</a>';
 
             var rewrite  = utils.rewriteLinks({hostname: "example.com", port: 1234}, proxyUrl);
             var bound    = rewrite.fn.bind(null, {headers: {host: proxyUrl}}, {});
             var actual   = input.replace(rewrite.match, bound);
-
             assert.equal(actual, expected);
         });
-        it("should use the regex to replace links that contain port + ", function() {
-            var input = `
-<!doctype html>
-<html><body>
-<p>This is an experiment.dev</p>
-<p><img src="/images/experiment.dev/example.jpg"></p>
-<!-- This experiment.dev should prove interesting -->
-<p><a href="http://experiment.dev/example.html">Link</a></p>
-</body></html>
-`;
-            var expected = `
-<!doctype html>
-<html><body>
-<p>This is an experiment.dev</p>
-<p><img src="/images/experiment.dev/example.jpg"></p>
-<!-- This experiment.dev should prove interesting -->
-<p><a href="//${proxyUrl}/example.html">Link</a></p>
-</body></html>
-`;
-
+        it("should use the regex to replace links + comments", function() {
+            var input    = fs.readFileSync('test/fixtures/rewrites/comment.html', 'utf8');
+            var expected = fs.readFileSync('test/fixtures/rewrites/comment.expected.html', 'utf8');
             var rewrite  = utils.rewriteLinks({hostname: "experiment.dev"}, proxyUrl);
             var bound    = rewrite.fn.bind(null, {headers: {host: proxyUrl}}, {});
             var actual   = input.replace(rewrite.match, bound);
             assert.equal(actual, expected);
         });
         it("should use the regex to replace links that contain port + ", function() {
-            var input = `
-<link href="/sites/default/themes/mclinic/css/styles.css" media="screen" rel="stylesheet">
-`;
-
+            var input = '<link href="/sites/default/themes/mclinic/css/styles.css" media="screen" rel="stylesheet">';
             var rewrite  = utils.rewriteLinks({hostname: "mclinic"}, proxyUrl);
             var bound    = rewrite.fn.bind(null, {headers: {host: proxyUrl}}, {});
             var actual   = input.replace(rewrite.match, bound);
             assert.equal(actual, input);
         });
         it("should not replace when host + subdomain ", function() {
-            var input = `<a href="http://assets.cdn.example.com:1234/foo">Link 1</a>`;
+            var input = '<a href="http://assets.cdn.example.com:1234/foo">Link 1</a>';
             var rewrite  = utils.rewriteLinks({hostname: "example.com", port: 1234}, proxyUrl);
             var actual   = input.replace(rewrite.match, rewrite.fn);
             assert.equal(actual, input);
         });
         it("should not remove trailing slash", function() {
-            var input    = `<a href="http://example.com:1234/foo/">Link 1</a>`;
-            var expected = `<a href="//${proxyUrl}/foo/">Link 1</a>`;
+            var input    = '<a href="http://example.com:1234/foo/">Link 1</a>';
+            var expected = '<a href="//' + proxyUrl + '/foo/">Link 1</a>';
             var rewrite  = utils.rewriteLinks({hostname: "example.com", port: 1234}, proxyUrl);
             var bound    = rewrite.fn.bind(null, {headers: {host: proxyUrl}}, {});
             var actual   = input.replace(rewrite.match, bound);
             assert.equal(actual, expected);
         });
         it("should not greedy match when not inside attr - with paths", function() {
-            var input    = `<a href="https://example.com/calendar/2015/06/24/20471/">https://example.com/calendar/2015/06/24/20471/</a></p></div></li></ol></td><td  class="cal-current-month">`;
-            var expected = `<a href="//${proxyUrl}/calendar/2015/06/24/20471/">//${proxyUrl}/calendar/2015/06/24/20471/</a></p></div></li></ol></td><td  class="cal-current-month">`;
+            var input    = '<a href="https://example.com/calendar/2015/06/24/20471/">https://example.com/calendar/2015/06/24/20471/</a></p></div></li></ol></td><td  class="cal-current-month">';
+            var expected = '<a href="//' + proxyUrl + '/calendar/2015/06/24/20471/">//' + proxyUrl + '/calendar/2015/06/24/20471/</a></p></div></li></ol></td><td  class="cal-current-month">';
             var rewrite  = utils.rewriteLinks({hostname: "example.com"}, proxyUrl);
             var bound    = rewrite.fn.bind(null, {headers: {host: proxyUrl}}, {});
             var actual   = input.replace(rewrite.match, bound);
             assert.equal(actual, expected);
         });
         it("should not greedy match when not inside attr", function() {
-            var input    = `<a href="https://example.com/">https://example.com/</a></p></div></li></ol></td><td  class="cal-current-month">`;
-            var expected = `<a href="//${proxyUrl}/">//${proxyUrl}/</a></p></div></li></ol></td><td  class="cal-current-month">`;
+            var input    = '<a href="https://example.com/">https://example.com/</a></p></div></li></ol></td><td  class="cal-current-month">';
+            var expected = '<a href="//192.168.0.4:3002/">//192.168.0.4:3002/</a></p></div></li></ol></td><td  class="cal-current-month">';
             var rewrite  = utils.rewriteLinks({hostname: "example.com"}, proxyUrl);
             var bound    = rewrite.fn.bind(null, {headers: {host: proxyUrl}}, {});
             var actual   = input.replace(rewrite.match, bound);
             assert.equal(actual, expected);
         });
         it("handles escaped urls correctly", function() {
-            const input    = fs.readFileSync("test/fixtures/escaped.1.html", "utf8");
-            const expected = fs.readFileSync("test/fixtures/escaped.1.expected.html", "utf8");
+            var input      = fs.readFileSync("test/fixtures/rewrites/escaped.1.html", "utf8");
+            var expected   = fs.readFileSync("test/fixtures/rewrites/escaped.1.expected.html", "utf8");
             var rewrite    = utils.rewriteLinks({hostname: "demo.l5"}, proxyUrl);
             var bound      = rewrite.fn.bind(null, {headers: {host: proxyUrl}}, {});
             var actual     = input.replace(rewrite.match, bound);

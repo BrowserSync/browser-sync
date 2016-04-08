@@ -7,7 +7,7 @@ var browserSync = require(path.resolve("./"));
 var pkg         = require(path.resolve("package.json"));
 var cli         = require(path.resolve(pkg.bin));
 
-describe("E2E CLI - fail on invalid config", function () {
+describe.skip("E2E CLI - fail on invalid config", function () {
 
     var stub;
 
