@@ -5,7 +5,7 @@
 <a href="https://travis-ci.org/BrowserSync/browser-sync" title="Travis branch">
  <img src="https://img.shields.io/travis/BrowserSync/browser-sync/master.svg?style=flat-square&label=linux" />
 </a>
-<a href="https://coveralls.io/r/BrowsersSync/browser-sync?branch=master" title="Coverage Status">
+<a href="https://coveralls.io/r/BrowserSync/browser-sync?branch=master" title="Coverage Status">
  <img src="https://img.shields.io/coveralls/BrowserSync/browser-sync.svg?style=flat-square" />
 </a>
 <a href="https://www.npmjs.com/package/browser-sync">
