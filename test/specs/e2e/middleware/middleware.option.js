@@ -2,8 +2,9 @@
 
 var browserSync = require("../../../../index");
 var assert  = require("chai").assert;
+var request = require("supertest");
 
-describe("Accepting middleware as an option", function () {
+describe("Accepting middleware as an option (1)", function () {
 
     var bs;
 
@@ -36,7 +37,7 @@ describe("Accepting middleware as an option", function () {
     });
 });
 
-describe("Accepting middleware as an option", function () {
+describe("Accepting middleware as an option (2)", function () {
 
     var bs;
 
@@ -69,5 +70,49 @@ describe("Accepting middleware as an option", function () {
 
     it("should accept middlewares when given as top-level", function () {
         assert.equal(bs.options.get("middleware").size, 2);
+    });
+});
+
+describe("Accepting middleware as a plain object", function () {
+
+    it("should accept middlewares with routes", function (done) {
+        browserSync.reset();
+
+        var called = 0;
+        var mw1 =  function myMiddleware(req, res, next) {
+            called += 1;
+            next();
+        };
+        var mw2 =  function bodyResp(req, res) {
+            called += 1;
+            res.end("<html><body>MW2</body></html>");
+        };
+        var config = {
+            server: {
+                baseDir: "test/fixtures"
+            },
+            middleware: [
+                mw1,
+                {
+                    route: "/shane",
+                    handle: mw2
+                }
+            ],
+            logLevel: "silent",
+            open: false
+        };
+
+        browserSync.init(config, function (err, bs) {
+            request(bs.server)
+                .get("/")
+                .set("accept", "text/html")
+                .expect(200)
+                .end(function () {
+                    assert.equal(called, 1, "should call the first middleware");
+                    bs.cleanup();
+                    done();
+                });
+        });
+
     });
 });

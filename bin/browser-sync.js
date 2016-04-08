@@ -20,8 +20,8 @@ if (!module.parent) {
 
     var argv    = yargs.argv;
     var command = argv._[0];
+    var valid   = ["start", "init", "reload", "recipe"];
 
-    var valid = ["start", "init", "reload", "recipe"];
     if (valid.indexOf(command) > -1) {
         handleIncoming(command, yargs.reset());
     } else {
