@@ -23,7 +23,7 @@ describe("Plugins: Exit when plugin not found", function () {
             },
             cb: function (err, bs) {
                 var err = stub.getCall(0).args[1];
-                assert.equal(err.message, "Plugin: bs-oops-typos not found");
+                assert.include(err.message, "bs-oops-typos");
                 utils.fail.restore();
                 bs.cleanup();
                 done();
