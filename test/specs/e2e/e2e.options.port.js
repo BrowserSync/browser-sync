@@ -27,24 +27,31 @@ describe("E2E `port` option", function () {
             done();
         });
     });
-    it("Calls cb with Error if port detection errors when proxy.ws=true", function (done) {
+    it("sets extra port option for socket in proxy mode (handle error)", function (done) {
         browserSync.reset();
+
+        var stub = sinon.stub(utils, "getPort");
+
+        stub.onCall(0).yields(null, 3000);
+        stub.onCall(1).yields(new Error("Some error about ports"));
+
         var config = {
             logLevel: "silent",
             proxy:   {
                 target: "localhost",
                 ws: true
             },
-            open: false,
-            online: false
+            online:   false,
+            open:     false
         };
-        sinon.stub(utils, "getPorts").yields(new Error("Some error about a port"));
+
         sinon.stub(utils, "fail", function (override, errMessage, cb) {
             assert.instanceOf(errMessage, Error);
-            utils.getPorts.restore();
+            utils.getPort.restore();
             utils.fail.restore();
             cb();
         });
+
         browserSync(config, function () {
             done();
         });
