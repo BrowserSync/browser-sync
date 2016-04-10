@@ -31,7 +31,7 @@
   },
   "dependencies": {
     "browser-sync-client": "^2.3.3",
-    "browser-sync-ui": "0.5.18",
+    "browser-sync-ui": "0.5.19",
     "bs-recipes": "1.2.2",
     "chokidar": "1.4.1",
     "connect": "3.4.1",
