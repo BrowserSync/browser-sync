@@ -40,7 +40,7 @@ describe("Plugins: Using the connector middleware:", function () {
                     .get("/shane")
                     .expect(200)
                     .end(function (err, res) {
-                        assert.isTrue(_.contains(res.text, "window.___browserSync___ = {};"));
+                        assert.isTrue(_.includes(res.text, "window.___browserSync___ = {};"));
                         instance.cleanup(done);
                     });
             }
@@ -85,7 +85,7 @@ describe("Plugins: Using the connector middleware:", function () {
                     .get("/shane")
                     .expect(200)
                     .end(function (err, res) {
-                        assert.isTrue(_.contains(res.text, "/browser-sync-cp"));
+                        assert.isTrue(_.includes(res.text, "/browser-sync-cp"));
                         instance.cleanup(done);
                     });
             }

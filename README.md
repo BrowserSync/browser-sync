@@ -74,68 +74,6 @@ If you've found Browser-sync useful and would like to contribute to its continue
 [![Support via Gittip](https://rawgithub.com/chris---/Donation-Badges/master/gittip.jpeg)](https://www.gittip.com/shakyshane)
 [![Support via PayPal](https://rawgithub.com/chris---/Donation-Badges/master/paypal.jpeg)](https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=shakyshane%40gmail%2ecom&lc=US&item_name=browser%2dsync)
 
-## Contributors
-
-```
-  1294	Shane Osbourne
-    60	Shinnosuke Watanabe
-    19	Shane Daniel
-    13	Hugo Bessa
-    11	Paul Kinlan
-     8	shinnn
-     4	Matt Green
-     3	Jon Stevens
-     3	Werner van Deventer
-     3	Simen Bekkhus
-     3	Adam Lynch
-     3	Dave Hall
-     3	Marek 'saji' Augustynowicz
-     2	38elements
-     2	Piotr Kaleta
-     2	Eugeny Vlasenko
-     2	Steve Mao
-     2	Michael Branch
-     2	The Gitter Badger
-     2	Dan Tello
-     2	Olivier Combe
-     2	brutaldev
-     2	chase_chou
-     2	Hugo Dias
-     2	Paul Robertson
-     1	Tony Holdstock-Brown
-     1	Victor Fernandez de Alba
-     1	Yazhong Liu
-     1	dsc
-     1	mericson
-     1	viktor hesselbom
-     1	wesruv
-     1	Andrew Schmadel
-     1	Austin Pray
-     1	Benjamín Eidelman
-     1	Björn Söderqvist
-     1	Cameron Spear
-     1	Carl Henderson
-     1	Cedric Kastner
-     1	Christian Vuerings
-     1	Craig Morris
-     1	Dimitri Nicolas
-     1	Guillaume Lambert
-     1	Imran Sulemanji
-     1	Jason Dreyzehner
-     1	Jory Graham
-     1	Michael Leigeber
-     1	Naoya Kanai
-     1	Paul Love
-     1	Paul Miller
-     1	Peter Blazejewicz
-     1	Philipp Nowinski
-     1	Plou
-     1	Robert Vock
-     1	Stian Didriksen
-     1	Sylvain Emery
-```
-
-## License
 
 Apache 2
-Copyright (c) 2015 Shane Osbourne
+Copyright (c) 2016 Shane Osbourne
