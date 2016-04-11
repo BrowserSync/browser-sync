@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 var startOpts  = require("../lib/cli/opts.start.json");
 var reloadOpts = require("../lib/cli/opts.reload.json");
 var recipeOpts = require("../lib/cli/opts.recipe.json");
