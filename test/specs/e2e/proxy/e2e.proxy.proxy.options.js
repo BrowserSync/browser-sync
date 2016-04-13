@@ -41,7 +41,7 @@ describe("E2E proxy test with `proxyOptions`", function () {
 
     it("sets options for node-http-proxy", function (done) {
 
-        var expected = app.html + bs.options.get("snippet");
+        var expected = app.html.replace("BS", bs.options.get("snippet") + "BS");
         var headers;
 
         app.app.stack.unshift({
