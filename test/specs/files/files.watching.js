@@ -134,4 +134,21 @@ describe("File Watcher Module", function () {
             done();
         });
     });
+    it("should allow arrays with , in API mode", function (done) {
+
+        browserSync.reset();
+        var bs = browserSync.create();
+
+        bs.init({
+            files: ["test/fixtures/**/*.{css,html}"],
+            ui: false,
+            online: false,
+            logSnippet: false,
+            logLevel: "silent"
+        }, function (err, bs) {
+            assert.equal(bs.options.getIn(["files", "core", "globs"]).size, 1);
+            bs.cleanup();
+            done();
+        });
+    });
 });
