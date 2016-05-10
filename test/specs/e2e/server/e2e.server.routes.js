@@ -18,7 +18,8 @@ describe("E2E server test with routes", function () {
                 baseDir: "test/fixtures",
                 routes: {
                     "/shane": "test/fixtures",
-                    "/kittie": "test/fixtures"
+                    "/kittie": "test/fixtures",
+                    "/node_modules/": "node_modules"
                 }
             },
             logLevel: "silent",
@@ -69,5 +70,12 @@ describe("E2E server test with routes", function () {
                 assert.include(res.text, "Connected to BrowserSync");
                 done();
             });
+    });
+
+    it("serves from the node_modules directory", function (done) {
+
+        request(instance.server)
+            .get("/node_modules/chai/index.js")
+            .expect(200, done);
     });
 });
