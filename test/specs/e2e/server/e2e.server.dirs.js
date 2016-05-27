@@ -153,7 +153,7 @@ describe("E2E server test with base dir array option + directory", function () {
 
 describe("E2E server test with base dir array = false", function () {
 
-    it.only("should ignore the directory option if a falsey value was given", function (done) {
+    it("should ignore the directory option if a falsey value was given", function (done) {
         browserSync.reset();
 
         var config = {
