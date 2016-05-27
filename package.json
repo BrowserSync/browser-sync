@@ -26,7 +26,7 @@
     "pro-local": "node test/protractor/setup.js",
     "unit": "mocha --recursive test/specs --timeout 10000",
     "cover": "npm run env && npm run cover-local && npm run coveralls",
-    "cover-local": "istanbul cover _mocha -- --timeout 10000 --recursive ./test/specs",
+    "cover-local": "istanbul cover -x lodash.custom.js _mocha -- --timeout 10000 --recursive ./test/specs",
     "coveralls": "istanbul-coveralls",
     "pre-release": "npm test && npm run pro-local && npm run pro",
     "lodash": "lodash include=isUndefined,isFunction,toArray,includes,union,each,isString,merge,isObject exports=node"
