@@ -3,7 +3,6 @@
 var browserSync = require("../../../");
 
 var request = require("supertest");
-var _       = require("lodash");
 var http    = require("http");
 var connect = require("connect");
 var assert  = require("chai").assert;
@@ -40,7 +39,7 @@ describe("Plugins: Using the connector middleware:", function () {
                     .get("/shane")
                     .expect(200)
                     .end(function (err, res) {
-                        assert.isTrue(_.includes(res.text, "window.___browserSync___ = {};"));
+                        assert.include(res.text, "window.___browserSync___ = {};");
                         instance.cleanup(done);
                     });
             }
@@ -85,7 +84,7 @@ describe("Plugins: Using the connector middleware:", function () {
                     .get("/shane")
                     .expect(200)
                     .end(function (err, res) {
-                        assert.isTrue(_.includes(res.text, "/browser-sync-cp"));
+                        assert.include(res.text, "/browser-sync-cp");
                         instance.cleanup(done);
                     });
             }
