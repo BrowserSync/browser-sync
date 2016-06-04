@@ -60,6 +60,7 @@
     "browser-sync-spa": "1.0.2",
     "bs-html-injector": "3.0.1",
     "bs-latency": "1.0.0",
+    "bs-rewrite-rules": "1.0.0",
     "bs-snippet-injector": "2.0.1",
     "chai": "3.2.0",
     "chalk": "1.1.1",
