@@ -1,10 +1,7 @@
 "use strict";
 
 var browserSync = require("../../../");
-var fileWatcher = require("../../../lib/file-watcher");
 var hooks       = require("../../../lib/hooks");
-var merge       = require("../../../lib/cli/cli-options").merge;
-
 var events      = require("events");
 var path        = require("path");
 var sinon       = require("sinon");
@@ -14,23 +11,28 @@ var outpath     = path.join(__dirname, "../../fixtures");
 
 describe("File Watcher Module", function () {
 
-    it("Passes options for chokidar", function () {
-        var imm = merge({
+    it("Passes options for chokidar", function (done) {
+        browserSync.reset();
+        browserSync.create().init({
+            logLevel: "silent",
+            online: false,
             files: "css/*.css",
             watchOptions: {
                 debounceDelay: 4000
             }
+        }, function (err, bs) {
+            assert.equal(bs.watchers.core.watchers.length, 1);
+            assert.equal(bs.watchers.core.watchers[0].options.debounceDelay, 4000);
+            bs.cleanup();
+            done();
         });
-        imm = imm.set("files", hooks["files:watch"]([], imm.get("files"), {}));
 
-        var emitter = new events.EventEmitter();
-        var watchers = fileWatcher.plugin({options: imm, emitter: emitter});
-
-        assert.equal(watchers.core.watchers.length, 1);
-        assert.equal(watchers.core.watchers[0].options.debounceDelay, 4000);
     });
-    it("Passes separate options for chokidar when multi given", function () {
-        var imm = merge({
+    it("Passes separate options for chokidar when multi given", function (done) {
+        browserSync.reset();
+        browserSync.create().init({
+            logLevel: "silent",
+            online: false,
             files: [
                 "css/*.css",
                 {
@@ -45,16 +47,16 @@ describe("File Watcher Module", function () {
             ],
             watchOptions: {
                 interval: 200
+                
             }
+        }, function (err, bs) {
+            assert.equal(bs.watchers.core.watchers.length, 2);
+            assert.equal(bs.watchers.core.watchers[0].options.interval, 200);
+            assert.equal(bs.watchers.core.watchers[1].options.interval, 100);
+            bs.cleanup();
+            done();
         });
-        imm = imm.set("files", hooks["files:watch"]([], imm.get("files"), {}));
 
-        var emitter = new events.EventEmitter();
-        var watchers = fileWatcher.plugin({options: imm, emitter: emitter});
-
-        assert.equal(watchers.core.watchers.length, 2);
-        assert.equal(watchers.core.watchers[0].options.interval, 200);
-        assert.equal(watchers.core.watchers[1].options.interval, 100);
     });
     it("should emit events about changed files in core namespace", function (done) {
 

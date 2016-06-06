@@ -4,84 +4,107 @@ var browserSync = require("../../../");
 var sinon       = require("sinon");
 var assert      = require("chai").assert;
 
-describe("File Watcher Module - reloadDebounce = 0", function () {
-    var bs, clock, stub, data;
-    before(function (done) {
+describe("File Watcher Module - reloadDebounce", function () {
+    it("Fires as fast as possible with no debounce", function (done) {
         browserSync.reset();
+        var scheduler = require("../../utils").getScheduler();
         var config = {
             server: "test/fixtures",
             open: false,
             logLevel: "silent",
             reloadDebounce: 0,
-            online: false
+            online: false,
+            files: "test/fixtures/*.html",
+            debug: {
+                scheduler: scheduler
+            }
         };
-        clock = sinon.useFakeTimers();
-        bs = browserSync(config, function () {
-            stub = sinon.stub(bs.io.sockets, "emit");
-            done();
-        }).instance;
-    });
-    beforeEach(function () {
-        data = {path: "/index.html"};
-        clock.now = 0;
-    });
-    after(function () {
-        clock.restore();
-        bs.io.sockets.emit.restore();
-        bs.cleanup();
-    });
-    afterEach(function () {
-        stub.reset();
-    });
-    it("Fires as fast as possible with no debounce", function (done) {
-        bs.events.emit("file:reload", data);
-        clock.tick();
-        bs.events.emit("file:reload", data);
-        clock.tick();
-        assert.isTrue(stub.withArgs("browser:reload").calledTwice); // should be called for each
-        done();
-    });
-});
+        browserSync(config, function (err, bs) {
 
-describe("File Watcher Module - reloadDebounce = 1000", function () {
-    var bs, clock, stub, data;
-    before(function (done) {
+            var fn = bs.watchers.core.watchers[0]._events.all;
+
+            var stub = sinon.stub(bs.io.sockets, "emit");
+
+            fn("change", "index.html");
+            fn("change", "index.html");
+            fn("change", "index.html");
+            fn("change", "index.html");
+            fn("change", "index.html");
+            fn("change", "index.html");
+            fn("change", "index.html");
+
+            assert.isTrue(stub.withArgs("browser:reload").getCalls().length === 7, "Should emit 7 times");
+
+            bs.cleanup();
+            done();
+        });
+    });
+    it("only calls file:reload once within the time window", function (done) {
         browserSync.reset();
+        var scheduler = require("../../utils").getScheduler();
         var config = {
             server: "test/fixtures",
             open: false,
             logLevel: "silent",
             reloadDebounce: 1000,
-            online: false
+            online: false,
+            files: "test/fixtures/*.html",
+            debug: {
+                scheduler: scheduler
+            }
         };
-        clock = sinon.useFakeTimers();
-        bs = browserSync(config, function () {
-            stub = sinon.stub(bs.io.sockets, "emit");
+        browserSync(config, function (err, bs) {
+
+            var fn = bs.watchers.core.watchers[0]._events.all;
+            var stub = sinon.stub(bs.io.sockets, "emit");
+
+            fn("change", "index.html");
+
+            // debounced by 1000, so shouldn't fire right away
+            sinon.assert.notCalled(stub);
+
+            // now we advance the clock
+            scheduler.advanceBy(1000);
+
+            // And now we should see that the method was called
+            sinon.assert.called(stub);
+
+            bs.cleanup();
             done();
-        }).instance;
+        });
     });
-    beforeEach(function () {
-        data = {path: "/index.html"};
-        clock.now = 0;
-    });
-    after(function () {
-        clock.restore();
-        bs.io.sockets.emit.restore();
-        bs.cleanup();
-    });
-    afterEach(function () {
-        stub.reset();
-    });
-    it("limits events to a 1000 interval", function (done) {
-        bs.events.emit("file:reload", data);
-        clock.tick(50);
-        bs.events.emit("file:reload", data);
-        clock.tick(50);
-        bs.events.emit("file:reload", data);
-        clock.tick(50);
-        bs.events.emit("file:reload", data);
-        clock.tick(1000);
-        assert.isTrue(stub.withArgs("browser:reload").calledOnce);
-        done();
+    it("waits for 1000 event silence before reloading", function (done) {
+        browserSync.reset();
+        var scheduler = require("../../utils").getScheduler();
+        var config = {
+            server: "test/fixtures",
+            files: "test/fixtures/*.html",
+            open: false,
+            logLevel: "silent",
+            reloadDebounce: 1000,
+            online: false,
+            debug: {
+                scheduler: scheduler
+            }
+        };
+        browserSync(config, function (err, bs) {
+            var fn = bs.watchers.core.watchers[0]._events.all;
+            var stub = sinon.stub(bs.io.sockets, "emit");
+
+            fn("change", "index.html");
+
+            scheduler.advanceTo(900);
+
+            // Should not be called yet
+            sinon.assert.notCalled(stub.withArgs("browser:reload"));
+
+            // Should now be called as we're over the debounce
+            scheduler.advanceTo(1001);
+
+            assert.equal(stub.withArgs("browser:reload").getCalls().length, 1);
+
+            bs.cleanup();
+            done();
+        });
     });
 });

@@ -4,105 +4,65 @@ var browserSync = require("../../../../");
 
 var path = require("path");
 var assert = require("chai").assert;
-
 var outpath = path.join(__dirname, "../../fixtures");
 
-describe("file-watching", function () {
+describe("file-watching (2)", function () {
 
-    describe("E2E Adding namespaced watchers", function () {
+    it("Watches files with no namespace", function (done) {
+        browserSync.reset();
 
-        var instance, file;
+        var file = path.join(outpath, "watch-func.txt");
 
-        before(function (done) {
+        var config = {
+            files:    file,
+            logLevel: "silent"
+        };
 
-            browserSync.reset();
+        browserSync(config, function (err, bs) {
 
-            file = path.join(outpath, "watch-func.txt");
-
-            var config = {
-                files:    file,
-                logLevel: "silent"
-            };
-
-            instance = browserSync(config, done).instance;
-        });
-
-        after(function () {
-            instance.cleanup();
-        });
-
-        it("Watches files with no namespace", function (done) {
-
-            assert.ok(instance.watchers.core.watchers);
-            assert.equal(instance.watchers.core.watchers.length, 1);
+            assert.ok(bs.watchers.core.watchers);
+            assert.equal(bs.watchers.core.watchers.length, 1);
+            bs.cleanup();
             done();
         });
     });
 
-    describe("E2E Adding namespaced watchers", function () {
+    it("Watches files when multi given", function (done) {
+        browserSync.reset();
 
-        var instance, file;
+        var config = {
+            files:    "*.html",
+            logLevel: "silent"
+        };
 
-        before(function (done) {
-
-            browserSync.reset();
-
-            file = path.join(outpath, "watch-func.txt");
-
-            var config = {
-                files:    "*.html",
-                logLevel: "silent"
-            };
-
-            instance = browserSync(config, done).instance;
-        });
-
-        after(function () {
-            instance.cleanup();
-        });
-
-        it("Watches files when multi given", function (done) {
-
-            assert.ok(instance.watchers.core.watchers);
-            assert.ok(instance.watchers.core.watchers[0]);
+        browserSync(config, function (err, bs) {
+            assert.ok(bs.watchers.core.watchers);
+            assert.ok(bs.watchers.core.watchers[0]);
+            bs.cleanup();
             done();
         });
     });
 
-    describe("E2E Adding namespaced watchers", function () {
+    it("Watches files when multi given + objs", function (done) {
+        browserSync.reset();
 
-        var instance, file;
-
-        before(function (done) {
-
-            browserSync.reset();
-
-            file = path.join(outpath, "watch-func.txt");
-
-            var config = {
-                files:    [
-                    "*.html",
-                    {
-                        match: "*.css",
-                        fn: function (event, file) {
-                            console.log(file);
-                        }
+        var config = {
+            files:    [
+                "*.html",
+                {
+                    match: "*.css",
+                    fn: function (event, file) {
+                        console.log(file);
                     }
-                ],
-                logLevel: "silent"
-            };
+                }
+            ],
+            logLevel: "silent"
+        };
 
-            instance = browserSync(config, done).instance;
-        });
-
-        after(function () {
-            instance.cleanup();
-        });
-
-        it("Watches files when multi given + objs", function (done) {
-
-            assert.ok(instance.watchers.core.watchers);
-            assert.equal(instance.watchers.core.watchers.length, 2);
+        browserSync(config, function (err, bs) {
+            assert.ok(bs.watchers.core.watchers);
+            assert.equal(bs.watchers.core.watchers.length, 2);
+            bs.cleanup();
             done();
         });
     });
