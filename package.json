@@ -49,7 +49,7 @@
     "opn": "^3.0.2",
     "portscanner": "^1.0.0",
     "qs": "6.2.0",
-    "resp-modifier": "6.0.1",
+    "resp-modifier": "6.0.2",
     "rx": "4.1.0",
     "serve-index": "1.7.3",
     "serve-static": "1.10.3",
