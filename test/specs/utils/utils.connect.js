@@ -1,6 +1,8 @@
 "use strict";
 
 var utils  = require("../../../lib/connect-utils");
+var bs     = require("../../../");
+var req    = require("supertest");
 var merge  = require("../../../lib/cli/cli-options").merge;
 var assert = require("chai").assert;
 
@@ -143,5 +145,82 @@ describe("Connection snippetUtils", function () {
         });
         var actual   = utils.socketConnector(options);
         assert.include(actual, "___browserSync___.io('' + location.host + '/browser-sync', ___browserSync___.socketConfig);");
+    });
+    it("E2E Should allow setting of socket.domain + script.domain as strings", function (done) {
+        bs.reset();
+        bs.create().init({
+            ui: false,
+            logLevel: "silent",
+            script: {
+                domain: "http://localhost:3000"
+            },
+            socket: {
+                domain: "http://localhost:3000"
+            }
+        }, function (err, bs) {
+
+            assert.include(bs.options.get("snippet"), "<script async id=\"__bs_script__\" src=\"http://localhost:3000/browser-sync");
+
+            var expected = "___browserSync___.io('http://localhost:3000/browser-sync'";
+
+            req(bs.server)
+                .get(bs.options.getIn(["scriptPaths", "path"]))
+                .expect(200)
+                .end(function (err, res) {
+                    assert.include(res.text, expected, "Socket domain updated in response");
+                    bs.cleanup();
+                    done();
+                });
+        });
+    });
+    it("E2E Should allow setting of script.domain as functions", function (done) {
+        bs.reset();
+        bs.create().init({
+            ui: false,
+            logLevel: "silent",
+            script: {
+                domain: function (options) {
+                    return "http://mylocal:" + options.get("port");
+                }
+            }
+        }, function (err, bs) {
+            assert.include(bs.options.get("snippet"), "<script async id=\"__bs_script__\" src=\"http://mylocal:3000/browser-sync");
+            bs.cleanup();
+            done();
+        });
+    });
+    it("E2E Should allow setting of script.domain with placeholder", function (done) {
+        bs.reset();
+        bs.create().init({
+            ui: false,
+            logLevel: "silent",
+            script: {
+                domain: "http://localhost:{port}"
+            }
+        }, function (err, bs) {
+            assert.ok(bs.options.get("snippet").match(/http:\/\/localhost:\d{4,5}\/browser-sync/));
+            bs.cleanup();
+            done();
+        });
+    });
+    it("E2E Should allow setting of socket.domain with placeholder", function (done) {
+        bs.reset();
+        bs.create().init({
+            ui: false,
+            logLevel: "silent",
+            socket: {
+                domain: "http://localhost:{port}"
+            }
+        }, function (err, bs) {
+            req(bs.server)
+                .get(bs.options.getIn(["scriptPaths", "path"]))
+                .expect(200)
+                .end(function (err, res) {
+                    // console.log(res.text)
+                    assert.ok(res.text.match(/io\('http:\/\/localhost:\d{4,5}\/browser-sync/));
+                    bs.cleanup();
+                    done();
+                });
+        });
     });
 });
