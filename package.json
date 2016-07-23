@@ -43,7 +43,7 @@
     "emitter-steward": "^1.0.0",
     "fs-extra": "0.26.7",
     "http-proxy": "1.13.3",
-    "http2": "^3.3.4",
+    "http2": "3.3.4",
     "immutable": "3.8.1",
     "localtunnel": "1.8.1",
     "micromatch": "2.3.8",
