@@ -48,8 +48,7 @@ describe("E2E TLS server with custom certs test", function () {
             .set("accept", "text/html")
             .expect(200)
             .end(function (err, res) {
-                console.log(res);
-                assert.include(res.text, instance.options.get("snippet"));
+                assert.include(res.body, instance.options.get("snippet"));
                 done();
             });
     });
