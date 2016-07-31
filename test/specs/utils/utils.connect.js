@@ -157,7 +157,7 @@ describe("Connection snippetUtils", function () {
 
             assert.include(bs.options.get("snippet"), "<script async id=\"__bs_script__\" src=\"http://localhost:3000/browser-sync");
 
-            var expected = "___browserSync___.io('http://localhost:3000/browser-sync'";
+            var expected = "___browserSync___.url = 'http://localhost:3000/browser-sync'";
 
             req(bs.server)
                 .get(bs.options.getIn(["scriptPaths", "path"]))
@@ -180,7 +180,7 @@ describe("Connection snippetUtils", function () {
             var port = bs.options.get("port");
             assert.include(bs.options.get("snippet"), "<script async id=\"__bs_script__\" src=\"http://localhost:" + port + "/browser-sync");
 
-            var expected = "___browserSync___.io('http://localhost:" + port + "/browser-sync'";
+            var expected = "___browserSync___.url = 'http://localhost:" + port + "/browser-sync'";
 
             req(bs.server)
                 .get(bs.options.getIn(["scriptPaths", "path"]))
@@ -231,12 +231,14 @@ describe("Connection snippetUtils", function () {
                 domain: "http://localhost:{port}"
             }
         }, function (err, bs) {
+            var port = bs.options.get("port");
             req(bs.server)
                 .get(bs.options.getIn(["scriptPaths", "path"]))
                 .expect(200)
                 .end(function (err, res) {
-                    // console.log(res.text)
-                    assert.ok(res.text.match(/io\('http:\/\/localhost:\d{4,5}\/browser-sync/));
+
+                    var expected = "___browserSync___.url = 'http://localhost:" + port + "/browser-sync'";
+                    assert.include(res.text, expected);
                     bs.cleanup();
                     done();
                 });
