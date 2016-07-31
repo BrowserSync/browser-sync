@@ -6,10 +6,6 @@ var req    = require("supertest");
 var merge  = require("../../../lib/cli/cli-options").merge;
 var assert = require("chai").assert;
 
-// server,proxy: ['' + location.host + '/browser-sync']
-// snippet:      ['http://' + location.hostname + ':3000/browser-sync']
-// domain:       ['<domain>/browser-sync']
-
 describe("Connection snippetUtils", function () {
     var options;
     beforeEach(function () {
@@ -162,6 +158,29 @@ describe("Connection snippetUtils", function () {
             assert.include(bs.options.get("snippet"), "<script async id=\"__bs_script__\" src=\"http://localhost:3000/browser-sync");
 
             var expected = "___browserSync___.io('http://localhost:3000/browser-sync'";
+
+            req(bs.server)
+                .get(bs.options.getIn(["scriptPaths", "path"]))
+                .expect(200)
+                .end(function (err, res) {
+                    assert.include(res.text, expected, "Socket domain updated in response");
+                    bs.cleanup();
+                    done();
+                });
+        });
+    });
+    it("E2E Should allow setting of socket.domain + script.domain as strings when using --localOnly flag", function (done) {
+        bs.reset();
+        bs.create().init({
+            ui: false,
+            online: false,
+            logLevel: "silent",
+            localOnly: true
+        }, function (err, bs) {
+            var port = bs.options.get("port");
+            assert.include(bs.options.get("snippet"), "<script async id=\"__bs_script__\" src=\"http://localhost:" + port + "/browser-sync");
+
+            var expected = "___browserSync___.io('http://localhost:" + port + "/browser-sync'";
 
             req(bs.server)
                 .get(bs.options.getIn(["scriptPaths", "path"]))
