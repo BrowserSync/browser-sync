@@ -92,7 +92,7 @@ describe("Connection snippetUtils", function () {
             }
         });
         var actual   = utils.socketConnector(options);
-        assert.include(actual, "___browserSync___.io('localhost:3000/browser-sync', ___browserSync___.socketConfig);");
+        assert.include(actual, "___browserSync___.url = 'localhost:3000/browser-sync';");
     });
     it("should allow setting of the socket domain + namespace", function () {
         var options = merge({
@@ -105,7 +105,7 @@ describe("Connection snippetUtils", function () {
             }
         });
         var actual   = utils.socketConnector(options);
-        assert.include(actual, "___browserSync___.io('localhost:3000/shane', ___browserSync___.socketConfig);");
+        assert.include(actual, "___browserSync___.url = 'localhost:3000/shane';");
     });
     it("should allow setting of the socket domain (fn)+ namespace", function () {
         var options = merge({
@@ -123,7 +123,7 @@ describe("Connection snippetUtils", function () {
             }
         });
         var actual   = utils.socketConnector(options);
-        assert.include(actual, "___browserSync___.io('http://localhost:3002/shane', ___browserSync___.socketConfig);");
+        assert.include(actual, "___browserSync___.url = 'http://localhost:3002/shane';");
     });
     it("should allow setting of the socket namespace with fn (back compat)", function () {
         var options = merge({
@@ -140,7 +140,7 @@ describe("Connection snippetUtils", function () {
             }
         });
         var actual   = utils.socketConnector(options);
-        assert.include(actual, "___browserSync___.io('' + location.host + '/browser-sync', ___browserSync___.socketConfig);");
+        assert.include(actual, "___browserSync___.url = '' + location.host + '/browser-sync';");
     });
     it("E2E Should allow setting of socket.domain + script.domain as strings", function (done) {
         bs.reset();
