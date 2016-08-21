@@ -23,7 +23,7 @@
  <img src="https://img.shields.io/david/dev/Browsersync/browser-sync.svg?style=flat-square&label=devDeps" />
 </a>
 </p>
-<p align="center"><a href="http://www.browsersync.io"><img src="https://raw.githubusercontent.com/BrowserSync/browsersync.github.io/master/img/logo-gh.png" /></a></p>
+<p align="center"><a href="http://www.browsersync.io"><img src="https://raw.githubusercontent.com/BrowserSync/browsersync.github.io/master/public/img/logo-gh.png" /></a></p>
 <p align="center">Keep multiple browsers & devices in sync when building websites.</p>
 
 <p align="center">Browsersync is developed and maintained internally at <a href="http://www.wearejh.com">JH</a></p>
