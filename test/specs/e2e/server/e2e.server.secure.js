@@ -52,7 +52,7 @@ describe("E2E TLS server options test", function () {
     });
 });
 
-describe("E2E TLS server test", function () {
+describe("E2E TLS server test (1)", function () {
 
     this.timeout(15000);
 
@@ -104,13 +104,11 @@ describe("E2E TLS server test", function () {
     });
 });
 
-describe("E2E TLS server test", function () {
+describe("E2E TLS server test (2)", function () {
 
     this.timeout(15000);
 
-    var bs;
-
-    before(function (done) {
+    it("Does not use HTTPS if false", function (done) {
 
         browserSync.reset();
 
@@ -123,14 +121,9 @@ describe("E2E TLS server test", function () {
             open:     false
         };
 
-        bs = browserSync(config, done).instance;
-    });
-
-    after(function () {
-        bs.cleanup();
-    });
-
-    it("Does not use HTTPS if false", function () {
-        assert.notInclude(bs.options.get(["urls", "local"]), "https");
+        browserSync(config, function (err, bs) {
+            assert.notInclude(bs.options.getIn(["urls", "local"]), "https");
+            done();
+        });
     });
 });
