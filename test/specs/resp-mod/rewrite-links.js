@@ -167,6 +167,14 @@ describe("Rewriting Domains", function() {
             var actual   = input.replace(rewrite.match, bound);
             assert.equal(actual, input);
         });
+        it("should use the regex to replace links that have protocol relative URLS", function() {
+            var input = '<script type="text/javascript" src="//test.dev/file.js">';
+            var expected = '<script type="text/javascript" src="//' + proxyUrl + '/file.js">';
+            var rewrite  = utils.rewriteLinks({hostname: "test.dev"}, proxyUrl);
+            var bound    = rewrite.fn.bind(null, {headers: {host: proxyUrl}}, {});
+            var actual   = input.replace(rewrite.match, bound);
+            assert.equal(actual, expected);
+        });
         it("should not replace when host + subdomain ", function() {
             var input = '<a href="http://assets.cdn.example.com:1234/foo">Link 1</a>';
             var rewrite  = utils.rewriteLinks({hostname: "example.com", port: 1234}, proxyUrl);
