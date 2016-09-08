@@ -143,6 +143,11 @@ describe("Rewriting Domains", function() {
             var actual   = input.replace(rewrite.match, bound);
             assert.equal(actual, expected);
         });
+        it("should use the regex to replace links that URL format only", function() {
+            var input = testRegex('[0 => \\"http://localhost:8000\\",\\n 1 => \\"//localhost:8000\\"\\n]');
+            var actual = '[0 => \\"//192.168.0.4:3002\\",\\n 1 => \\"//192.168.0.4:3002\\"\\n]';
+            assert.equal(actual, input);
+        });
         it("should use the regex to replace links that contain port + ", function() {
             var input = '<!--//<a href="http://example.com:1234/foo">Link 1</a>--><a href="http://example.com.gov/foo">Link 1</a>';
             var expected = '<!--//<a href="//192.168.0.4:3002/foo">Link 1</a>--><a href="http://example.com.gov/foo">Link 1</a>';
