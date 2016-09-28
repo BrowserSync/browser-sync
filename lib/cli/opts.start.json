@@ -49,6 +49,7 @@
   },
   "https": {
     "type": "boolean",
+    "default": null,
     "desc": "Enable SSL for local development"
   },
   "directory": {
