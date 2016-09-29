@@ -48,7 +48,6 @@
     "desc": "Specify the start path for the opened browser"
   },
   "https": {
-    "type": "boolean",
     "desc": "Enable SSL for local development"
   },
   "directory": {
