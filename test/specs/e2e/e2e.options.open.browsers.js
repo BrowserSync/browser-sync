@@ -71,3 +71,78 @@ describe("E2E OPEN Browsers options (multiple)", function () {
         assert.equal(args[1], "safari");
     });
 });
+
+describe("E2E browser option with app args", function () {
+
+    it("opens with object literal", function (done) {
+        browserSync.reset();
+        var appArg = {
+            app: [
+                "chromium-browser",
+                "--app=http://localhost:8080",
+                "--proxy-server=localhost:8080",
+                "--user-data-dir=.tmp/chomium"
+            ]
+        };
+        var config = {
+            logLevel: "silent",
+            server:   "test/fixtures",
+            online:   false,
+            browser: appArg
+        };
+
+        var stub = sinon.spy(utils, "open");
+        var opnPath = require.resolve("opn");
+        require(opnPath);
+        var opnStub = require("sinon").stub(require.cache[opnPath], "exports");
+
+        browserSync(config, function (err, bs) {
+            bs.cleanup();
+            stub.restore();
+            var args = opnStub.getCall(0).args;
+            assert.equal(args[0], bs.options.getIn(["urls", "local"]));
+            assert.deepEqual(args[1], appArg);
+            require.cache[opnPath].exports.restore();
+            done()
+        })
+    });
+    it("opens with mix of string + objects", function (done) {
+        browserSync.reset();
+        var appArg = {
+            app: [
+                "chromium-browser",
+                "--app=http://localhost:8080",
+                "--proxy-server=localhost:8080",
+                "--user-data-dir=.tmp/chomium"
+            ]
+        };
+        var config = {
+            logLevel: "silent",
+            server:   "test/fixtures",
+            online:   false,
+            browser: [appArg, "safari", "firefox"]
+        };
+
+        var stub = sinon.spy(utils, "open");
+        var opnPath = require.resolve("opn");
+        require(opnPath);
+        var opnStub = require("sinon").stub(require.cache[opnPath], "exports");
+
+        browserSync(config, function (err, bs) {
+            bs.cleanup();
+            stub.restore();
+            var args1 = opnStub.getCall(0).args;
+            assert.equal(args1[0], bs.options.getIn(["urls", "local"]));
+            assert.deepEqual(args1[1], appArg);
+
+            var args2 = opnStub.getCall(1).args;
+            assert.deepEqual(args2[1], {app: "safari"});
+
+            var args3 = opnStub.getCall(2).args;
+            assert.deepEqual(args3[1], {app: "firefox"});
+
+            require.cache[opnPath].exports.restore();
+            done()
+        })
+    });
+});
