@@ -5,7 +5,7 @@ var browserSync = require("../../../index");
 var request     = require("supertest");
 var page        = require("fs").readFileSync("test/fixtures/index.html", "utf-8");
 var css         = require("fs").readFileSync("test/fixtures/assets/style.css", "utf-8");
-var Rx          = require('rx');
+var Rx          = require("rx");
 
 function getRequests (reqs, server) {
     return reqs.map(function (req) {
@@ -37,7 +37,6 @@ describe("E2E `serveStatic` option", function () {
             online:    false,
             serveStatic: ["test/fixtures"]
         };
-
         browserSync(config, function (err, bs) {
             request(bs.server)
                 .get("/index.html")
@@ -57,7 +56,10 @@ describe("E2E `serveStatic` option", function () {
         browserSync(config, function (err, bs) {
             var reqs = getRequests([["/index.html", page], ["/style.css", css]], bs.server);
             var obs = Rx.Observable.merge(reqs);
-            obs.subscribeOnCompleted(done);
+            obs.subscribeOnCompleted(function () {
+                bs.cleanup();
+                done();
+            });
         });
     });
     it("can serve static files with multiple objects", function (done) {
@@ -71,9 +73,12 @@ describe("E2E `serveStatic` option", function () {
             ]
         };
         browserSync(config, function (err, bs) {
-            var reqs = getRequests([['/index.html', page], ['/style.css', css]], bs.server);
+            var reqs = getRequests([["/index.html", page], ["/style.css", css]], bs.server);
             var obs = Rx.Observable.merge(reqs);
-            obs.subscribeOnCompleted(done);
+            obs.subscribeOnCompleted(function () {
+                bs.cleanup();
+                done();
+            });
         });
     });
     it("can serve static files with multiple roots", function (done) {
@@ -89,12 +94,83 @@ describe("E2E `serveStatic` option", function () {
         };
         browserSync(config, function (err, bs) {
             var reqs = getRequests([
-                ['/index.html', page],
-                ['/shane/style.css', css],
-                ['/kittie/style.css', css]
+                ["/index.html", page],
+                ["/shane/style.css", css],
+                ["/kittie/style.css", css]
             ], bs.server);
             var obs = Rx.Observable.merge(reqs);
-            obs.subscribeOnCompleted(done);
+            obs.subscribeOnCompleted(function () {
+                bs.cleanup();
+                done();
+            });
+        });
+    });
+    it("can serve static files with multiple dirs", function (done) {
+        browserSync.reset();
+        var config = {
+            logLevel: "silent",
+            online:    false,
+            serveStatic: [
+                {route: "",   dir: ["test/fixtures", "test/fixtures/assets"]}
+            ]
+        };
+        browserSync(config, function (err, bs) {
+            var reqs = getRequests([
+                ["/index.html", page],
+                ["/style.css", css]
+            ], bs.server);
+            var obs = Rx.Observable.merge(reqs);
+            obs.subscribeOnCompleted(function () {
+                bs.cleanup();
+                done();
+            });
+        });
+    });
+    it("can serve static files with dir + NO route", function (done) {
+        browserSync.reset();
+        var config = {
+            logLevel: "silent",
+            online:    false,
+            serveStatic: [
+                {dir: ["test/fixtures", "test/fixtures/assets"]}
+            ]
+        };
+        browserSync(config, function (err, bs) {
+            var reqs = getRequests([
+                ["/index.html", page],
+                ["/style.css", css]
+            ], bs.server);
+            var obs = Rx.Observable.merge(reqs);
+            obs.subscribeOnCompleted(function () {
+                bs.cleanup();
+                done();
+            });
+        });
+    });
+    it("can serve static files with mix of inputs", function (done) {
+        browserSync.reset();
+        var config = {
+            logLevel: "silent",
+            online:    false,
+            serveStatic: [
+                "test/fixtures",
+                {dir: ["test/fixtures/assets"]},
+                {route: "shane", dir: ["test/fixtures"]},
+                {route: ["shane", "kittie"], dir: ["test/fixtures"]}
+            ]
+        };
+        browserSync(config, function (err, bs) {
+            var reqs = getRequests([
+                ["/index.html", page],
+                ["/style.css", css],
+                ["/shane/index.html", page],
+                ["/kittie/assets/style.css", css]
+            ], bs.server);
+            var obs = Rx.Observable.merge(reqs);
+            obs.subscribeOnCompleted(function () {
+                bs.cleanup();
+                done();
+            });
         });
     });
 });
