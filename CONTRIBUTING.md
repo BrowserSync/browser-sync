@@ -46,8 +46,10 @@ Prefix the title of your issue with "Feature Request:".
 Head over to the [Browsersync Website Repo](https://github.com/BrowserSync/browsersync.github.io) & submit issues there.
 
 ## <a name="pull"></a> Submitting a Pull Request
-Pull requests should be branched off the main Master branch. (There's no guarantee that what lives on the develop
+Pull requests should always be branched off the main **Master** branch. (There's no guarantee that what lives on the develop
 branch will ever make it back to master, I do a **lot** of experimentation).
+
+Never commit directly to the master branch, instead create a new branch and submit a PR. This applies to users who have write access also.
 
 Note: If your first PR is merged, you'll get write access to all Browsersync repos.
 
