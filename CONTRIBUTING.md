@@ -47,23 +47,21 @@ Head over to the [Browsersync Website Repo](https://github.com/BrowserSync/brows
 
 ## <a name="pull"></a> Submitting a Pull Request
 Pull requests should be branched off the main Master branch. (There's no guarantee that what lives on the develop
-branch will ever make it back to master, I do a **lot** of experimentation)
+branch will ever make it back to master, I do a **lot** of experimentation).
 
-## <a name="rules"></a> Coding Rules
-To ensure consistency throughout the source code, keep these rules in mind as you are working:
+Note: If your first PR is merged, you'll get write access to all Browsersync repos.
 
-* All features or bug fixes **must be tested** by one or more [specs](https://github.com/BrowserSync/browser-sync/tree/master/test/specs).
-* Don't be put off by this, I'm more than happy to help you implement tests - so don't be shy! I'd much rather spend time helping
-you to provide tests than risk losing you as a contributor :)
-* Follow the code style (Builds will fail if you don't, check at any time with `npm test`). Also, this project has a [.editorconfig](.editorconfig) file to help with code style; go to [EditorConfig.org](http://editorconfig.org) and download the plugin for your IDE.
+## <a name="rules"></a> Coding Advice
+To ensure consistency throughout the source code, keep these rules in mind as you are working. 
+
+* If you're not sure how to provide tests for a feature or bug fix, you should still submit it and we'll help you complete the PR in one of the following ways:
+  * we can advise you how to go about it
+  * we can write the test, and then explain them to you.
+* This project has a [.editorconfig](.editorconfig) file to help with code style; go to [EditorConfig.org](http://editorconfig.org) and download the plugin for your IDE.
 * Don't introduce any extra 3rd party libraries unless you're creating a brand new feature that requires it.
-* Don't fight async! Avoid promises or any other similar types of abstraction, Browsersync loves simple
-callbacks and events.
-* Keep your code simple and readable. If I can't tell what it's doing at first glance, it's too complex.
-* Improve my code. Browsersync has a lot of moving parts and I don't pretend to be skilled in any particular area.
-If *you* have particular experience though, then feel free to rip my code apart and tell me a better way to do something - I'll be
-extremely grateful (as will the growing number of users!).
-
+* Try to keep your code simple and readable.
+* Improve my code! Browsersync has a lot of moving parts and I don't pretend to be skilled in any particular area.
+If *you* have particular experience though, then feel free to rip my code apart and tell me a better way to do something - I'll be extremely grateful (as will the growing number of users!).
 
 ## <a name="thanks"></a> Thank you!
 If you contribute to Browsersync, or any other Open Source project, you're awesome! This project has been vastly improved
