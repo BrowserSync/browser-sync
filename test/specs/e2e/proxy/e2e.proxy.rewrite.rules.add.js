@@ -7,7 +7,7 @@ var serveStatic = require("serve-static");
 var request = require("supertest");
 var assert = require("chai").assert;
 var Rx = require("rx");
-var utils = require('../../../utils');
+var utils = require("../../../utils");
 
 describe("E2E proxy test with adding rewrite rules dynamically", function () {
 
@@ -19,9 +19,9 @@ describe("E2E proxy test with adding rewrite rules dynamically", function () {
         var server = app.listen();
         var proxytarget = "http://localhost:" + server.address().port;
 
-        app.use('/index.html', function (req, res) {
-            res.setHeader('content-type', 'text/html');
-            res.end('<a href="'+proxytarget+'/my-link">Browsersync</a>');
+        app.use("/index.html", function (req, res) {
+            res.setHeader("content-type", "text/html");
+            res.end("<a href=\""+proxytarget+"/my-link\">Browsersync</a>");
         });
 
         var config = {
@@ -41,7 +41,7 @@ describe("E2E proxy test with adding rewrite rules dynamically", function () {
         browserSync.init([], config, function (err, bs) {
 
             var reqs = utils.getRequests([
-                ['/index.html', '<a href="//127.0.0.1:3000/my-link">BROWSERSYNC</a>']
+                ["/index.html", "<a href=\"//127.0.0.1:3000/my-link\">BROWSERSYNC</a>"]
             ], bs.server);
 
             var obs = Rx.Observable.concat(reqs);
@@ -62,9 +62,9 @@ describe("E2E proxy test with adding rewrite rules dynamically", function () {
         var server = app.listen();
         var proxytarget = "http://localhost:" + server.address().port;
 
-        app.use('/index.html', function (req, res) {
-            res.setHeader('content-type', 'text/html');
-            res.end('<a href="'+proxytarget+'/my-link">Browsersync</a>');
+        app.use("/index.html", function (req, res) {
+            res.setHeader("content-type", "text/html");
+            res.end("<a href=\""+proxytarget+"/my-link\">Browsersync</a>");
         });
 
         var config = {
@@ -84,19 +84,19 @@ describe("E2E proxy test with adding rewrite rules dynamically", function () {
         browserSync.init([], config, function (err, bs) {
 
             var reqs = utils.getRequests([
-                ['/index.html', '<a href="//127.0.0.1:3000/my-link">BROWSERSYNC</a>'],
+                ["/index.html", "<a href=\"//127.0.0.1:3000/my-link\">BROWSERSYNC</a>"],
                 function () {
                     bs.addRewriteRule({
                         match: /BROWSERSYNC/,
-                        replace: 'shane',
-                        id: 'my-rewrite-rule'
+                        replace: "shane",
+                        id: "my-rewrite-rule"
                     });
                 },
-                ['/index.html', '<a href="//127.0.0.1:3000/my-link">shane</a>'],
+                ["/index.html", "<a href=\"//127.0.0.1:3000/my-link\">shane</a>"],
                 function () {
-                    bs.removeRewriteRule('my-rewrite-rule');
+                    bs.removeRewriteRule("my-rewrite-rule");
                 },
-                ['/index.html', '<a href="//127.0.0.1:3000/my-link">BROWSERSYNC</a>']
+                ["/index.html", "<a href=\"//127.0.0.1:3000/my-link\">BROWSERSYNC</a>"]
             ], bs.server);
 
             var obs = Rx.Observable.concat(reqs);

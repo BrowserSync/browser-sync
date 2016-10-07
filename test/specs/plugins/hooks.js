@@ -62,10 +62,7 @@ describe("Plugins: Registering Hooks:", function () {
     it("adds an item to the clientEvents array", function () {
         assert.include(instance.options.get("clientEvents").toJS(), "cp:goto");
     });
-    it("adds an item to the Server Middleware array", function () {
-        assert.include(instance.clientJs, "SHANE123456");
-    });
-    it("adds an item to the Server Middleware array", function (done) {
+    it("adds an item to the Server Middleware array (2)", function (done) {
 
         request(instance.server)
             .get("/")
