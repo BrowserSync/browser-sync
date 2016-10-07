@@ -55,7 +55,11 @@ describe("E2E proxy test with replacing rewrite rules dynamically", function () 
 
                 assert.include(res.text, "BROWSERSYNC");
 
-                bs.setRewriteRules([]);
+                bs.options = bs.options.update('rewriteRules', function () {
+                    return require('immutable').List([]);
+                });
+
+                bs.resetMiddlewareStack();
 
                 request(bs.server)
                     .get("/index.html")

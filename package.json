@@ -42,7 +42,7 @@
     "eazy-logger": "3.0.2",
     "emitter-steward": "^1.0.0",
     "fs-extra": "0.30.0",
-    "http-proxy": "1.14.0",
+    "http-proxy": "1.15.1",
     "immutable": "3.8.1",
     "localtunnel": "1.8.1",
     "micromatch": "2.3.11",

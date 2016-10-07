@@ -45,7 +45,7 @@ describe("Accepting single middleware as a proxy option", function () {
     });
 
     it("serves files from the middleware with snippet added", function () {
-        assert.equal(bs.options.get("middleware").size, 1);
+        assert.equal(bs.options.get("middleware").size, 2);
     });
     it("should call the middlewares", function (done) {
         var path = "/forms.html";
@@ -99,7 +99,7 @@ describe("Accepting single middleware as a top-level proxy option", function () 
     });
 
     it("serves files from the middleware with snippet added", function () {
-        assert.equal(bs.options.get("middleware").size, 1);
+        assert.equal(bs.options.get("middleware").size, 2);
     });
     it("should call the middlewares", function (done) {
         var path = "/forms.html";
@@ -158,7 +158,7 @@ describe("Accepting multiple middlewares as a proxy option", function () {
     });
 
     it("serves files from the middleware with snippet added", function () {
-        assert.equal(bs.options.get("middleware").size, 2);
+        assert.equal(bs.options.get("middleware").size, 3);
     });
     it("should call the middlewares", function (done) {
         var path = "/forms.html";
@@ -219,7 +219,7 @@ describe("Accepting multiple middlewares as a proxy option", function () {
     });
 
     it("serves files from the middleware with snippet added", function () {
-        assert.equal(bs.options.get("middleware").size, 2);
+        assert.equal(bs.options.get("middleware").size, 3);
     });
     it("should call the middlewares", function (done) {
         var path = "/forms.html";
