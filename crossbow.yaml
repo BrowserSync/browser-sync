@@ -1,0 +1,16 @@
+tasks:
+  unit:
+    - '@npm mocha test/specs/api/** --recursive'
+    - '@npm mocha test/specs/cli/** --recursive'
+    - '@npm mocha test/specs/commands/** --recursive'
+    - '@npm mocha test/specs/e2e/** --recursive'
+    - '@npm mocha test/specs/files/** --recursive'
+    - '@npm mocha test/specs/hooks/** --recursive'
+    - '@npm mocha test/specs/http-protocol/** --recursive'
+    - '@npm mocha test/specs/instances/** --recursive'
+    - '@npm mocha test/specs/logger/** --recursive'
+    - '@npm mocha test/specs/options/** --recursive'
+    - '@npm mocha test/specs/plugins/** --recursive'
+    - '@npm mocha test/specs/resp-mod/** --recursive'
+    - '@npm mocha test/specs/server/** --recursive'
+    - '@npm mocha test/specs/utils/** --recursive'

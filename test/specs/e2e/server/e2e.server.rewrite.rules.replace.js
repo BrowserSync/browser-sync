@@ -30,12 +30,12 @@ describe("E2E server test with rewrite rules replaced on the fly", function () {
 
     it("serves files with HTML rewritten", function (done) {
 
-        bs.setRewriteRules([{
+        bs.addRewriteRule({
             match: /Forms/g,
             fn: function () {
                 return "Shane's forms";
             }
-        }]);
+        });
 
         request(bs.server)
             .get("/index.html")

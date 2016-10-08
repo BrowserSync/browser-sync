@@ -37,7 +37,7 @@ describe("Accepting single middleware as a server option", function () {
     });
 
     it("serves files from the middleware with snippet added", function () {
-        assert.equal(bs.options.get("middleware").size, 1);
+        assert.equal(bs.options.get("middleware").size, 2);
     });
     it("should call the middlewares", function (done) {
         request(bs.server)
@@ -83,7 +83,7 @@ describe("Accepting single middleware as a top-level option", function () {
     });
 
     it("serves files from the middleware with snippet added", function () {
-        assert.equal(bs.options.get("middleware").size, 1);
+        assert.equal(bs.options.get("middleware").size, 2);
     });
     it("should call the middlewares", function (done) {
         request(bs.server)
@@ -134,7 +134,7 @@ describe("Accepting multiple middleware as a server option", function () {
     });
 
     it("serves files from the middleware with snippet added", function () {
-        assert.equal(bs.options.get("middleware").size, 2);
+        assert.equal(bs.options.get("middleware").size, 3);
     });
     it("should call the middlewares", function (done) {
         request(bs.server)
@@ -184,7 +184,7 @@ describe("Accepting multiple server middlewares as top-level option", function (
     });
 
     it("serves files from the middleware with snippet added", function () {
-        assert.equal(bs.options.get("middleware").size, 2);
+        assert.equal(bs.options.get("middleware").size, 3);
     });
     it("should call the middlewares", function (done) {
         request(bs.server)
