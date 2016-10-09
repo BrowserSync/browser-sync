@@ -7,9 +7,7 @@ var assert  = require("chai").assert;
 
 describe("E2E server test with rewrite rules", function () {
 
-    var instance;
-
-    before(function (done) {
+    it("serves files with HTML rewritten", function (done) {
 
         browserSync.reset();
 
@@ -29,22 +27,41 @@ describe("E2E server test with rewrite rules", function () {
             open: false
         };
 
-        instance = browserSync.init(config, done).instance;
+        browserSync.init(config, function (err, bs) {
+            request(bs.server)
+                .get("/index.html")
+                .set("accept", "text/html")
+                .expect(200)
+                .end(function (err, res) {
+                    if (err) return done(err);
+                    assert.include(res.text, "Shane's forms");
+                    bs.cleanup(done);
+                });
+        });
     });
+    it("supports legacy boolean for rewriteRules", function (done) {
 
-    after(function () {
-        instance.cleanup();
-    });
+        browserSync.reset();
 
-    it("serves files with HTML rewritten", function (done) {
+        var config = {
+            server: {
+                baseDir: "test/fixtures"
+            },
+            rewriteRules: false,
+            logLevel: "silent",
+            open: false
+        };
 
-        request(instance.server)
-            .get("/index.html")
-            .set("accept", "text/html")
-            .expect(200)
-            .end(function (err, res) {
-                assert.include(res.text, "Shane's forms");
-                done();
-            });
+        browserSync.init(config, function (err, bs) {
+
+            request(bs.server)
+                .get("/index.html")
+                .set("accept", "text/html")
+                .expect(200)
+                .end(function (err) {
+                    if (err) return done(err);
+                    bs.cleanup(done);
+                });
+        });
     });
 });
