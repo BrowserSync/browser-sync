@@ -9,18 +9,17 @@ var request = require("supertest");
 
 describe("Accepting single middleware as a proxy option", function () {
 
-    var bs, spy, server;
+    it("should call the middleware", function (done) {
 
-    before(function (done) {
+        var path = "/forms.html";
 
         browserSync.reset();
 
         var app = connect();
         app.use(require("serve-static")("./test/fixtures"));
 
-        server = app.listen();
-
-        spy  = sinon.spy();
+        var server = app.listen();
+        var spy    = sinon.spy();
 
         var fn = function (req, res, next) {
             spy(req.url);
@@ -36,28 +35,67 @@ describe("Accepting single middleware as a proxy option", function () {
             open: false
         };
 
-        bs = browserSync.init(config, done).instance;
-    });
+        browserSync.init(config, function (err, bs) {
 
-    after(function () {
-        bs.cleanup();
-        server.close();
-    });
+            assert.equal(bs.options.get("middleware").size, 2);
 
-    it("serves files from the middleware with snippet added", function () {
-        assert.equal(bs.options.get("middleware").size, 2);
+            request(bs.server)
+                .get(path)
+                .set("accept", "text/html")
+                .expect(200)
+                .end(function (err, res) {
+
+                    sinon.assert.calledWithExactly(spy,  path);
+                    assert.include(res.text, bs.options.get("snippet"));
+
+                    bs.cleanup(function () {
+                        server.close();
+                        done();
+                    });
+                });
+        });
     });
-    it("should call the middlewares", function (done) {
+    it("can add middleware at run-time", function (done) {
+
         var path = "/forms.html";
-        request(bs.server)
-            .get(path)
-            .set("accept", "text/html")
-            .expect(200)
-            .end(function (err, res) {
-                sinon.assert.calledWithExactly(spy,  path);
-                assert.include(res.text, bs.options.get("snippet"));
-                done();
-            });
+
+        browserSync.reset();
+
+        var app = connect();
+        app.use(require("serve-static")("./test/fixtures"));
+
+        var server = app.listen();
+        var spy    = sinon.spy();
+
+        var fn = function (req, res, next) {
+            spy(req.url);
+            next();
+        };
+
+        var config = {
+            proxy: "http://localhost:" + server.address().port,
+            logLevel: "silent",
+            open: false
+        };
+
+        browserSync.init(config, function (err, bs) {
+
+            bs.addMiddleware("*", fn);
+
+            request(bs.server)
+                .get(path)
+                .set("accept", "text/html")
+                .expect(200)
+                .end(function () {
+
+                    sinon.assert.calledWithExactly(spy,  path);
+
+                    bs.cleanup(function () {
+                        server.close();
+                        done();
+                    });
+                });
+        });
     });
 });
 

@@ -24,7 +24,7 @@
     "lint": "eslint index.js lib bin examples test/specs gulpfile.js",
     "pro": "protractor test/protractor/config.single.js",
     "pro-local": "node test/protractor/setup.js",
-    "unit": "mocha --recursive test/specs --timeout 10000",
+    "unit": "mocha --recursive test/specs --timeout 10000 --bail",
     "cover": "npm run env && npm run cover-local && npm run coveralls",
     "cover-local": "istanbul cover -x lodash.custom.js _mocha -- --timeout 10000 --recursive ./test/specs",
     "coveralls": "istanbul-coveralls",
