@@ -15,9 +15,9 @@ describe("E2E server test with extension option", function () {
             server: {
                 baseDir: "test/fixtures"
             },
-            extensions: ['html'],
+            extensions: ["html"],
             snippetOptions: {
-                blacklist: ['/forms']
+                blacklist: ["/forms"]
             },
             logLevel: "silent",
             open: false
