@@ -70,7 +70,6 @@ describe("E2E CLI `reload` with no files arg", function () {
     it("should make a http request with files arg over HTTPS", function (done) {
 
         browserSync.reset();
-        process.env.NODE_TLS_REJECT_UNAUTHORIZED = 0;
 
         browserSync
             .create()
