@@ -4,7 +4,7 @@ var browserSync = require("../../../../index");
 
 var assert = require("chai").assert;
 
-describe("Tunnel e2e tests", function () {
+describe.skip("Tunnel e2e tests", function () {
 
     var instance;
 
@@ -31,7 +31,7 @@ describe("Tunnel e2e tests", function () {
     });
 });
 
-describe("Tunnel e2e tests with subdomain", function () {
+describe.skip("Tunnel e2e tests with subdomain", function () {
 
     var instance;
 

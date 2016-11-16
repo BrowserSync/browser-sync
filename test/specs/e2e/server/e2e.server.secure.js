@@ -41,7 +41,7 @@ describe("E2E TLS server options test", function () {
 
         assert.isString(bs.options.get("snippet"));
 
-        request(bs.server)
+        request(bs.options.getIn(['urls', 'local']))
             .get("/index.html")
             .set("accept", "text/html")
             .expect(200)
@@ -82,7 +82,7 @@ describe("E2E TLS server test (1)", function () {
 
         assert.isString(bs.options.get("snippet"));
 
-        request(bs.server)
+        request(bs.options.getIn(['urls', 'local']))
             .get("/index.html")
             .set("accept", "text/html")
             .expect(200)
@@ -94,7 +94,7 @@ describe("E2E TLS server test (1)", function () {
 
     it("serves the client script", function (done) {
 
-        request(bs.server)
+        request(bs.options.getIn(['urls', 'local']))
             .get(bs.options.getIn(["scriptPaths", "versioned"]))
             .expect(200)
             .end(function (err, res) {

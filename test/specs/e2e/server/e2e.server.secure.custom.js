@@ -40,14 +40,12 @@ describe("E2E TLS server with custom certs test", function () {
     });
 
     it("serves files with the snippet added", function (done) {
-
-        assert.isString(instance.options.get("snippet"));
-
-        request(instance.server)
+        request(instance.options.getIn(['urls', 'local']))
             .get("/index.html")
             .set("accept", "text/html")
             .expect(200)
             .end(function (err, res) {
+                console.log(res.text);
                 assert.include(res.text, instance.options.get("snippet"));
                 done();
             });
@@ -55,7 +53,7 @@ describe("E2E TLS server with custom certs test", function () {
 
     it("serves the client script", function (done) {
 
-        request(instance.server)
+        request(instance.options.getIn(['urls', 'local']))
             .get(instance.options.getIn(["scriptPaths", "versioned"]))
             .expect(200)
             .end(function (err, res) {
