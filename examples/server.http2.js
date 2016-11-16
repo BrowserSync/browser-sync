@@ -12,7 +12,6 @@
 
 "use strict";
 
-var http2 = require("http2");
 var browserSync = require("browser-sync").create();
 
 browserSync.init({
@@ -21,5 +20,5 @@ browserSync.init({
         baseDir: "app"
     },
     https: true,
-    httpModule: http2
+    httpModule: "http2"
 });

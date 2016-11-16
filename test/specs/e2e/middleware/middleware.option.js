@@ -103,7 +103,7 @@ describe("Accepting middleware as a plain object", function () {
         };
 
         browserSync.init(config, function (err, bs) {
-            request(bs.server)
+            request(bs.options.getIn(["urls", "local"]))
                 .get("/")
                 .set("accept", "text/html")
                 .expect(200)

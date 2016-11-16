@@ -21,7 +21,7 @@
   "scripts": {
     "env": "node ./test/env.js",
     "test": "npm run lint && npm run env && npm run unit",
-    "lint": "eslint index.js lib bin examples test/specs gulpfile.js",
+    "lint": "eslint index.js lib bin examples test/specs gulpfile.js --fix",
     "pro": "protractor test/protractor/config.single.js",
     "pro-local": "node test/protractor/setup.js",
     "unit": "mocha --recursive test/specs --timeout 10000 --bail",
@@ -73,6 +73,7 @@
     "gulp-contribs": "0.0.3",
     "gulp-conventional-changelog": "1.1.0",
     "gulp-filter": "4.0.0",
+    "http2": "^3.3.6",
     "istanbul": "0.4.5",
     "istanbul-coveralls": "1.0.3",
     "lodash-cli": "4.15.0",

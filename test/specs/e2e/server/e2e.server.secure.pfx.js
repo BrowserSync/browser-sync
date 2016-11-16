@@ -42,7 +42,7 @@ describe("E2E TLS server with PFX certs test", function () {
 
         assert.isString(instance.options.get("snippet"));
 
-        request(instance.options.getIn(['urls', 'local']))
+        request(instance.options.getIn(["urls", "local"]))
             .get("/index.html")
             .set("accept", "text/html")
             .expect(200)
@@ -54,7 +54,7 @@ describe("E2E TLS server with PFX certs test", function () {
 
     it("serves the client script", function (done) {
 
-        request(instance.options.getIn(['urls', 'local']))
+        request(instance.options.getIn(["urls", "local"]))
             .get(instance.options.getIn(["scriptPaths", "versioned"]))
             .expect(200)
             .end(function (err, res) {
