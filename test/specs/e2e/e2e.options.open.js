@@ -50,7 +50,8 @@ describe("E2E OPEN options with external", function () {
         stub = sinon.spy(utils, "open");
         opnPath = require.resolve("opn");
         require(opnPath);
-        opnStub = require("sinon").stub(require.cache[opnPath], "exports");
+        opnStub = require("sinon").stub(require.cache[opnPath], "exports")
+            .returns({catch: function(){}});
         bs = browserSync(config, done).instance;
     });
 
@@ -81,7 +82,8 @@ describe("E2E OPEN options with UI + snippet", function () {
         stub = sinon.spy(utils, "open");
         opnPath = require.resolve("opn");
         require(opnPath);
-        opnStub = require("sinon").stub(require.cache[opnPath], "exports");
+        opnStub = require("sinon").stub(require.cache[opnPath], "exports")
+            .returns({catch: function(){}});
         bs = browserSync(config, done).instance;
     });
 
