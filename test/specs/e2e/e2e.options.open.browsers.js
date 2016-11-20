@@ -94,7 +94,8 @@ describe("E2E browser option with app args", function () {
         var stub = sinon.spy(utils, "open");
         var opnPath = require.resolve("opn");
         require(opnPath);
-        var opnStub = require("sinon").stub(require.cache[opnPath], "exports");
+        var opnStub = require("sinon").stub(require.cache[opnPath], "exports")
+            .returns({catch: function(){}});
 
         browserSync(config, function (err, bs) {
             bs.cleanup();
@@ -126,7 +127,8 @@ describe("E2E browser option with app args", function () {
         var stub = sinon.spy(utils, "open");
         var opnPath = require.resolve("opn");
         require(opnPath);
-        var opnStub = require("sinon").stub(require.cache[opnPath], "exports");
+        var opnStub = require("sinon").stub(require.cache[opnPath], "exports")
+            .returns({catch: function(){}});
 
         browserSync(config, function (err, bs) {
             bs.cleanup();
