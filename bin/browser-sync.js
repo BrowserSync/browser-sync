@@ -4,6 +4,8 @@ var reloadOpts = require("../lib/cli/opts.reload.json");
 var recipeOpts = require("../lib/cli/opts.recipe.json");
 var pkg        = require("../package.json");
 var utils      = require("../lib/utils");
+var join       = require("path").join;
+var fs         = require("fs");
 
 /**
  * Handle cli input
@@ -26,7 +28,15 @@ if (!module.parent) {
     if (valid.indexOf(command) > -1) {
         handleIncoming(command, yargs.reset());
     } else {
-        yargs.showHelp();
+        var maybePath = join(process.cwd(), 'bs-config.js');
+        var maybeLocalConfigFile = fs.existsSync(maybePath);
+        if (maybeLocalConfigFile) {
+            var argv = yargs.reset().options(startOpts).argv;
+            argv.config = maybePath;
+            handleCli({cli: {flags: argv, input: ['start']}});
+        } else {
+            yargs.showHelp();
+        }
     }
 }
 
