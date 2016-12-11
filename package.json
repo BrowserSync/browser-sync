@@ -33,7 +33,7 @@
   },
   "dependencies": {
     "browser-sync-client": "^2.3.3",
-    "browser-sync-ui": "0.6.1",
+    "browser-sync-ui": "0.6.2",
     "bs-recipes": "1.3.2",
     "chokidar": "1.6.1",
     "connect": "3.5.0",
