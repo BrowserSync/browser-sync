@@ -46,7 +46,7 @@ describe("E2E CLI `recipes` command", function () {
                     return call.args[0].trim();
                 });
 
-                assert.include(calls, "gulp.jade");
+                assert.include(calls, "gulp.pug");
                 assert.include(calls, "server");
                 assert.include(calls, "html.injection");
                 done();
@@ -106,7 +106,7 @@ describe("E2E CLI `recipes` command", function () {
                     return call.args[0].trim();
                 });
 
-                assert.include(calls, "gulp.jade");
+                assert.include(calls, "gulp.pug");
                 assert.include(calls, "server");
                 assert.include(calls, "html.injection");
 
