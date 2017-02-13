@@ -125,14 +125,15 @@ describe("API: .stream()", function () {
             log:       false,
             namespace: "core",
             event:     "change",
-            ext:       "css"
+            ext:       "css",
         });
         sinon.assert.calledWithExactly(emitterStub, "file:reload", {
             ext: "css",
             path: "/users/shakyshane/.tmp/css/core.css",
             basename: "core.css",
             type: "inject",
-            log: false
+            log: false,
+            event: "change"
         });
         sinon.assert.calledWithExactly(emitterStub, "stream:changed", {
             changed: ["core.css"]
