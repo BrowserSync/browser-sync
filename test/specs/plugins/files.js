@@ -32,7 +32,7 @@ describe("Plugins: Watching Files:", function () {
         var instance = browserSync(config, function (err, bs) {
             assert.equal(Object.keys(bs.watchers).length, 2);
             assert.ok(bs.watchers[PLUGIN_NAME]);
-            instance.events.emit("file:changed", {namespace: PLUGIN_NAME});
+            instance.events.emit("file:changed", {namespace: PLUGIN_NAME, path: "test.html"});
             instance.cleanup();
         }).instance;
     });

@@ -32,7 +32,7 @@ describe("API: .reload()", function () {
 
     it("should be callable with no args & perform a reload", function () {
         browserSync.reload();
-        sinon.assert.calledWithExactly(emitterStub, "browser:reload");
+        sinon.assert.calledWithExactly(emitterStub, "_browser:reload");
     });
     it("should accept a file path as a string", function () {
         browserSync.reload("css/core.css");
@@ -98,7 +98,7 @@ describe("API: .reload()", function () {
         stream.write(new File({path: "styles2.css"}));
         stream.write(new File({path: "styles3.css"}));
         stream.end();
-        sinon.assert.calledOnce(emitterStub);
+        sinon.assert.calledWithExactly(emitterStub, "_browser:reload");
         sinon.assert.calledWithExactly(emitterStub, "browser:reload");
     });
 });

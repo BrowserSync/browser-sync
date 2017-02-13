@@ -15,10 +15,10 @@ describe("HTTP protocol", function () {
         browserSync.reset();
 
         var config = {
-            server:   "test/fixtures",
+            server: "test/fixtures",
             logLevel: "info",
-            open:     false,
-            online:   false
+            open: false,
+            online: false
         };
 
         bs = browserSync.init(config, done).instance;
@@ -69,15 +69,13 @@ describe("HTTP protocol", function () {
         var url = proto.getUrl({method: "reload", args: "somefile.php"}, bs.options.getIn(["urls", "local"]));
 
         request(url, function (e, r, body) {
-            sinon.assert.calledWith(spy, "file:changed");
-            sinon.assert.calledWithExactly(spy, "file:changed", {
+            sinon.assert.calledWith(spy, "file:changed", {
                 path: "somefile.php",
-                basename: "somefile.php",
-                ext: "php",
                 log: true,
                 namespace: "core",
                 event: "change"
             });
+            sinon.assert.calledWithExactly(spy, "browser:reload");
             assert.include(body, "Called public API method `.reload()`");
             assert.include(body, "With args: \"somefile.php\"");
             done();
