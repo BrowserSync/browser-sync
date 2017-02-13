@@ -74,8 +74,8 @@ describe("API: .stream()", function () {
         stream.write(new File({path: "styles2.css"}));
         stream.write(new File({path: "styles3.css"}));
         stream.end();
-        sinon.assert.calledOnce(emitterStub);
         sinon.assert.calledWithExactly(emitterStub, "_browser:reload");
+        sinon.assert.calledWithExactly(emitterStub, "browser:reload");
     });
     it("does not log file info if (once: true)", function () {
         var stream = browserSync.stream({once: true});
@@ -83,8 +83,8 @@ describe("API: .stream()", function () {
         stream.write(new File({path: "styles2.js"}));
         stream.write(new File({path: "styles3.js"}));
         stream.end();
-        sinon.assert.calledOnce(emitterStub);
         sinon.assert.calledWithExactly(emitterStub, "_browser:reload");
+        sinon.assert.calledWithExactly(emitterStub, "browser:reload");
     });
     it("only emits file-changed event if filter matched", function () {
         var stream = browserSync.stream({match: "**/*.js"});
