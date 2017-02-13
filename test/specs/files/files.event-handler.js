@@ -4,7 +4,7 @@ var Immutable = require("immutable");
 var fromJS = Immutable.fromJS;
 var assert = require("chai").assert;
 var injectFileTypes = require("../../../lib/default-config").injectFileTypes;
-var handler = require("../../../lib/file-event-handler");
+var handler = require("../../../lib/file-event-handler").fileChanges;
 
 describe("globally handling fle:changed events", function() {
     it("takes an observable + options", function() {
