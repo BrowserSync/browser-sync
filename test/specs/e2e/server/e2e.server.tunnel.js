@@ -60,7 +60,7 @@ describe.skip("Tunnel e2e tests with subdomain", function () {
 
 describe("Tunnel e2e tests with Error", function () {
 
-    it("does not blow up if tunnel unavailable", function (done) {
+    it.skip("does not blow up if tunnel unavailable", function (done) {
         browserSync.reset();
         var config = {
             server:    {
@@ -86,7 +86,7 @@ describe("Tunnel e2e tests with Error", function () {
         });
     });
 
-    it("does not crash if tunnel restarts", function(done) {
+    it.skip("does not crash if tunnel restarts", function(done) {
         browserSync.reset();
         var config = {
             server: {

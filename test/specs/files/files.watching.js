@@ -166,7 +166,6 @@ describe("File Watcher Module", function () {
             var callArgs = spy.getCall(0).args;
 
             assert.equal(callArgs[0], "file:changed");
-            assert.equal(callArgs[1].basename, "watch-func.txt");
             assert.equal(callArgs[1].event, "change");
             assert.equal(callArgs[1].namespace, "core");
 
