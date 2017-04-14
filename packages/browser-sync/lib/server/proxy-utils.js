@@ -1,7 +1,9 @@
 var url = require("url");
 
-module.exports.rewriteLinks = function(userServer) {
-    var host = userServer.hostname;
+module.exports.rewriteLinks = function (userServer) {
+
+    var proto  = userServer.protocol || ""; // example "https:"
+    var host   = userServer.hostname;
     var string = host;
     var port = userServer.port;
 
@@ -91,6 +93,7 @@ module.exports.rewriteLinks = function(userServer) {
              */
             return [
                 captured,
+                proto,
                 pre,
                 proxyUrl,
                 out.path || "",
