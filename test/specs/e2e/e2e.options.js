@@ -239,4 +239,31 @@ describe("e2e options test", function () {
         });
         var bs = browserSync.init(["*.html"], {}).instance;
     });
+
+    it("Sets the local domain option", function (done) {
+        browserSync.reset();
+        var config = {
+            localDomain: "localhost.example.com"
+        };
+        browserSync(config, function (err, bs) {
+            assert.equal(bs.options.get("localDomain"), "localhost.example.com");
+            assert.ok(bs.options.getIn(["urls", "local"]).match(/http\:\/\/localhost.example.com:\d{4,5}$/));
+            bs.cleanup();
+            done();
+        });
+    });
+
+    it("Sets the local domain option with https", function (done) {
+        browserSync.reset();
+        var config = {
+            localDomain: "localhost.example.com",
+            https: true
+        };
+        browserSync(config, function (err, bs) {
+            assert.equal(bs.options.get("localDomain"), "localhost.example.com");
+            assert.ok(bs.options.getIn(["urls", "local"]).match(/https\:\/\/localhost.example.com:\d{4,5}$/));
+            bs.cleanup();
+            done();
+        });
+    });
 });
