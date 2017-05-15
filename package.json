@@ -78,7 +78,7 @@
     "istanbul": "0.4.5",
     "istanbul-coveralls": "1.0.3",
     "lodash-cli": "4.15.0",
-    "mocha": "3.0.2",
+    "mocha": "3.4.1",
     "q": "1.4.1",
     "request": "2.79.0",
     "rimraf": "2.5.4",
