@@ -133,7 +133,7 @@ describe("Plugins: Registering hooks - server middleware", function () {
             .get("/")
             .expect(200)
             .end(function () {
-                sinon.assert.calledOnce(mwSpy1);
+                sinon.assert.called(mwSpy1);
                 done();
             });
     });
