@@ -53,7 +53,7 @@ describe("Plugins: Should be able to register middleware when in proxy mode", fu
             .get("/")
             .set("accept", "text/html")
             .end(function () {
-                sinon.assert.calledOnce(spy);
+                sinon.assert.called(spy);
                 done();
             });
     });
