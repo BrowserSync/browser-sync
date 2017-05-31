@@ -54,8 +54,8 @@
     "serve-index": "1.8.0",
     "serve-static": "1.12.2",
     "server-destroy": "1.0.1",
-    "socket.io": "1.6.0",
-    "socket.io-client": "1.6.0",
+      "socket.io": "^2.0.1",
+    "socket.io-client": "^2.0.1",
     "ua-parser-js": "0.7.12",
     "yargs": "6.4.0"
   },
