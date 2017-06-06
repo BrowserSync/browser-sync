@@ -12,11 +12,13 @@ describe("API: .reload()", function () {
 
     before(function (done) {
         browserSync.reset();
-        bs = browserSync({logLevel:"silent"}, function () {
+        bs = browserSync({
+            logLevel: "silent"
+        }, function  (argument) {
             emitterStub = sinon.spy(bs.emitter, "emit");
+            clock = sinon.useFakeTimers();
             done();
         });
-        clock = sinon.useFakeTimers();
     });
 
     afterEach(function () {
@@ -34,6 +36,13 @@ describe("API: .reload()", function () {
         browserSync.reload();
         sinon.assert.calledWithExactly(emitterStub, "_browser:reload");
     });
+    
+    it("should be called with a callback to perform a reload", function(done) {
+        var cb = function() { done() }
+        browserSync.reload(cb);
+        sinon.assert.calledWithExactly(emitterStub, "browser:reload");
+    });
+
     it("should accept a file path as a string", function () {
         browserSync.reload("css/core.css");
         sinon.assert.calledWithExactly(emitterStub, "file:changed", {
