@@ -6,10 +6,7 @@ var Immutable   = require("immutable");
 var assert      = require("chai").assert;
 
 describe("Plugins: User interface", function () {
-
-    var instance;
-
-    before(function (done) {
+    it("Should start the UI", function (done) {
 
         browserSync.reset();
 
@@ -19,24 +16,21 @@ describe("Plugins: User interface", function () {
             open: false
         };
 
-        instance = browserSync(config, done).instance;
-    });
-    after(function () {
-        instance.cleanup();
-    });
-    it("Should start the UI", function (done) {
-        request(instance.ui.server)
-            .get("/")
-            .expect(200)
-            .end(done);
+        browserSync(config, function(err, bs) {
+            request(bs.ui.server)
+                .get("/")
+                .expect(200)
+                .end(function() {
+                    bs.cleanup();
+                    done();
+                });
+        });
     });
 });
 
 describe("Plugins: User interface", function () {
 
-    var instance;
-
-    before(function (done) {
+    it("Should ignore the UI if false given in options", function (done) {
 
         browserSync.reset();
 
@@ -47,24 +41,18 @@ describe("Plugins: User interface", function () {
             ui: false
         };
 
-        instance = browserSync(config, done).instance;
-    });
-    after(function () {
-        instance.cleanup();
-    });
-    it("Should ignore the UI if false given in options", function (done) {
-        assert.isUndefined(instance.ui);
-        assert.isFalse(instance.options.get("ui"));
-        done();
+        browserSync(config, function(err, bs) {
+            assert.isUndefined(bs.ui);
+            assert.isFalse(bs.options.get("ui"));
+            bs.cleanup();
+            done();
+        });
     });
 });
 
 describe("Plugins: User interface - providing an override", function () {
 
-    var instance;
-
-    before(function (done) {
-
+    it("Should use the user-provided plugin", function (done) {
         browserSync.reset();
 
         var config = {
@@ -87,13 +75,10 @@ describe("Plugins: User interface - providing an override", function () {
             }
         }, {port: 3333});
 
-        instance = browserSync(config, done).instance;
-    });
-    after(function () {
-        instance.cleanup();
-    });
-    it("Should use the user-provided plugin", function (done) {
-        assert.deepEqual(instance.ui.options.get("port"), 3333);
-        done();
+        browserSync(config, function(err, bs) {
+            assert.deepEqual(bs.ui.options.get("port"), 3333);
+            bs.cleanup();
+            done();
+        });
     });
 });

@@ -6,18 +6,14 @@ var sinon   = require("sinon");
 
 describe("Plugins: Allowing plugins to register cleanup tasks", function () {
 
-    var PLUGIN_NAME = "KITTENZ";
-    var instance;
-    var spy;
-
-    before(function (done) {
-
+    it("Should access to only the user-specified plugins", function (done) {
+        var PLUGIN_NAME = "KITTENZ";
         browserSync.reset();
         var config = {
             logLevel: "silent",
             open: false
         };
-        spy = sinon.spy();
+        var spy = sinon.spy();
 
         browserSync.use({
             plugin: function (opts, bs) {
@@ -26,11 +22,10 @@ describe("Plugins: Allowing plugins to register cleanup tasks", function () {
             "plugin:name": PLUGIN_NAME
         });
 
-        instance = browserSync(config, done).instance;
-    });
-    it("Should access to only the user-specified plugins", function (done) {
-        instance.cleanup();
-        sinon.assert.calledOnce(spy);
-        done();
+        browserSync(config, function(err, bs) {
+            bs.cleanup();
+            sinon.assert.calledOnce(spy);
+            done();
+        });
     });
 });

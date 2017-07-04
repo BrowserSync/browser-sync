@@ -2,6 +2,7 @@
 
 var assert  = require("chai").assert;
 var sinon  = require("sinon");
+var browserSync = require("../../../");
 
 describe("Plugins: Retrieving user plugins when given inline as object reference", function () {
 
@@ -12,7 +13,6 @@ describe("Plugins: Retrieving user plugins when given inline as object reference
 
     before(function (done) {
 
-        var browserSync = require("../../../");
         spy1 = sinon.spy();
         spy2 = sinon.spy();
         browserSync.reset();
@@ -38,13 +38,11 @@ describe("Plugins: Retrieving user plugins when given inline as object reference
     after(function () {
         instance.cleanup();
     });
-    it("Should access to only the user-specified plugins", function (done) {
+    it("Should access to only the user-specified plugins", function () {
         assert.equal(instance.getUserPlugins().length, 2);
-        done();
     });
-    it("Should have access to only the user-specified plugins", function (done) {
+    it("Should have access to only the user-specified plugins", function () {
         assert.equal(instance.getUserPlugins()[0].name, PLUGIN_NAME_1);
         assert.equal(instance.getUserPlugins()[1].name, PLUGIN_NAME_2);
-        done();
     });
 });

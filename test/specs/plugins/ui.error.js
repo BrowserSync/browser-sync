@@ -5,10 +5,7 @@ var assert      = require("chai").assert;
 
 describe("Plugins: User interface with error on init", function () {
 
-    var instance;
-
-    before(function (done) {
-
+    it("Should start even when UI errors", function (done) {
         browserSync.reset();
         browserSync.use({
             "plugin:name": "UI",
@@ -23,12 +20,10 @@ describe("Plugins: User interface with error on init", function () {
             open: false
         };
 
-        instance = browserSync(config, done).instance;
-    });
-    after(function () {
-        instance.cleanup();
-    });
-    it("Should start even when UI errors", function () {
-        assert.isUndefined(instance.ui);
+        browserSync(config, function(err, bs) {
+            assert.isUndefined(bs.ui);
+            bs.cleanup();
+            done();
+        });
     });
 });

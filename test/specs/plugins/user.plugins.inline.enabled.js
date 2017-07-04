@@ -6,10 +6,7 @@ var assert  = require("chai").assert;
 
 describe("Plugins: Setting the default state (false) if given in options", function () {
 
-    var instance;
-
-    before(function (done) {
-
+    it("Should auto disable a plugin when options given (1)", function (done) {
         browserSync.reset();
 
         var config = {
@@ -25,24 +22,18 @@ describe("Plugins: Setting the default state (false) if given in options", funct
             ]
         };
 
-        instance = browserSync(config, done).instance;
-    });
-    after(function () {
-        instance.cleanup();
-    });
-    it("Should auto disable a plugin when options given (1)", function (done) {
-        assert.equal(instance.getUserPlugins().length, 1);
-        assert.isFalse(instance.getUserPlugins()[0].active);
-        done();
+        browserSync(config, function(err, bs) {
+            assert.equal(bs.getUserPlugins().length, 1);
+            assert.isFalse(bs.getUserPlugins()[0].active);
+            bs.cleanup();
+            done();
+        });
     });
 });
 
 describe("Plugins: Setting the default state (true) if given in options", function () {
 
-    var instance;
-
-    before(function (done) {
-
+    it("Should auto disable a plugin when options given (2)", function (done) {
         browserSync.reset();
 
         var config = {
@@ -57,14 +48,11 @@ describe("Plugins: Setting the default state (true) if given in options", functi
             ]
         };
 
-        instance = browserSync(config, done).instance;
-    });
-    after(function () {
-        instance.cleanup();
-    });
-    it("Should auto disable a plugin when options given (2)", function (done) {
-        assert.equal(instance.getUserPlugins().length, 1);
-        assert.isTrue(instance.getUserPlugins()[0].active);
-        done();
+        browserSync(config, function(err, bs) {
+            assert.equal(bs.getUserPlugins().length, 1);
+            assert.isTrue(bs.getUserPlugins()[0].active);
+            bs.cleanup();
+            done();
+        });
     });
 });

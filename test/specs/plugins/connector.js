@@ -100,8 +100,6 @@ describe("Plugins: Using the connector as a string", function () {
 
         browserSync.reset();
 
-        var instance;
-
         var config = {
             server: {
                 baseDir: "test/fixtures"
@@ -119,21 +117,21 @@ describe("Plugins: Using the connector as a string", function () {
                 });
 
                 assert.include(connectorString, "/browser-sync-cp");
-                done();
             }
         });
 
-        instance = browserSync(config);
+        browserSync(config, function(err, bs) {
+            bs.cleanup();
+            done();
+        });
     });
 });
 
-describe("Plugins: Using the same socke.io as BS", function () {
+describe("Plugins: Using the same socket.io as BS", function () {
 
     it("returns socket.io script as a string", function (done) {
 
         browserSync.reset();
-
-        var instance;
 
         var config = {
             server: {
@@ -150,10 +148,12 @@ describe("Plugins: Using the same socke.io as BS", function () {
                 var socketio = bs.getSocketIoScript();
 
                 assert.include(socketio, "Socket");
-                done();
             }
         });
 
-        instance = browserSync(config);
+        browserSync(config, function(err, bs) {
+            bs.cleanup();
+            done();
+        });
     });
 });
