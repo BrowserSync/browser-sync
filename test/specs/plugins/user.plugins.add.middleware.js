@@ -12,9 +12,7 @@ var serveStatic = require("serve-static");
 describe("Plugins: Should be able to add Middlewares with paths on the fly", function () {
 
     var PLUGIN_NAME = "KITTENZ";
-    var instance;
-
-    before(function (done) {
+    it("should serve the file", function (done) {
 
         browserSync.reset();
 
@@ -29,34 +27,30 @@ describe("Plugins: Should be able to add Middlewares with paths on the fly", fun
                 bs.addMiddleware("/shane", function (req, res) {
                     res.end("shane is dev");
                 });
-                done();
             },
             "plugin:name": PLUGIN_NAME
         });
 
-        instance = browserSync(config).instance;
-    });
-    after(function () {
-        instance.cleanup();
-    });
-    it("should serve the file", function (done) {
-        request(instance.server)
-            .get("/shane")
-            .set("accept", "text/html")
-            .expect(200)
-            .end(function (err, res) {
-                assert.include(res.text, "shane is dev");
-                done();
-            });
+        browserSync(config, function(err, bs) {
+            request(bs.server)
+                .get("/shane")
+                .set("accept", "text/html")
+                .expect(200)
+                .end(function (err, res) {
+                    assert.include(res.text, "shane is dev");
+                    bs.cleanup();
+                    done();
+                });
+        });
+
     });
 });
 
 describe("Plugins: Should be able to add Middlewares with no paths on the fly", function () {
 
     var PLUGIN_NAME = "KITTENZ";
-    var instance;
 
-    before(function (done) {
+    it("should serve the file", function (done) {
 
         browserSync.reset();
 
@@ -71,25 +65,22 @@ describe("Plugins: Should be able to add Middlewares with no paths on the fly", 
                 bs.addMiddleware("*", function (req, res) {
                     res.end("shane is dev");
                 });
-                done();
             },
             "plugin:name": PLUGIN_NAME
         });
 
-        instance = browserSync(config).instance;
-    });
-    after(function () {
-        instance.cleanup();
-    });
-    it("should serve the file", function (done) {
-        request(instance.server)
-            .get("/shane")// this matches no static files, so will call through to middleware
-            .set("accept", "text/html")
-            .expect(200)
-            .end(function (err, res) {
-                assert.include(res.text, "shane is dev");
-                done();
-            });
+        browserSync(config, function(err, bs) {
+            request(bs.server)
+                .get("/shane")// this matches no static files, so will call through to middleware
+                .set("accept", "text/html")
+                .expect(200)
+                .end(function (err, res) {
+                    assert.include(res.text, "shane is dev");
+                    bs.cleanup();
+                    done();
+                });
+        });
+
     });
 });
 
@@ -154,10 +145,8 @@ describe("Plugins: Should be able to add overriding middlewares on the fly", fun
 describe("Plugins: Should be able to add Middlewares with paths on the fly in snippet mode", function () {
 
     var PLUGIN_NAME = "KITTENZ";
-    var instance;
 
-    before(function (done) {
-
+    it("should serve the file", function (done) {
         browserSync.reset();
 
         var config = {
@@ -170,35 +159,28 @@ describe("Plugins: Should be able to add Middlewares with paths on the fly in sn
                 bs.addMiddleware("/shane", function (req, res) {
                     res.end("shane is dev");
                 });
-                done();
             },
             "plugin:name": PLUGIN_NAME
         });
 
-        instance = browserSync(config).instance;
-    });
-    after(function () {
-        instance.cleanup();
-    });
-    it("should serve the file", function (done) {
-        request(instance.server)
-            .get("/shane")
-            .set("accept", "text/html")
-            .expect(200)
-            .end(function (err, res) {
-                assert.include(res.text, "shane is dev");
-                done();
-            });
+        browserSync(config, function(err, bs) {
+            request(bs.server)
+                .get("/shane")
+                .set("accept", "text/html")
+                .expect(200)
+                .end(function (err, res) {
+                    assert.include(res.text, "shane is dev");
+                    bs.cleanup();
+                    done();
+                });
+        });
     });
 });
 
 describe("Plugins: Should be able to add Middlewares with no path on the fly in snippet mode", function () {
 
     var PLUGIN_NAME = "KITTENZ";
-    var instance;
-
-    before(function (done) {
-
+    it("should serve the file", function (done) {
         browserSync.reset();
 
         var config = {
@@ -211,35 +193,29 @@ describe("Plugins: Should be able to add Middlewares with no path on the fly in 
                 bs.addMiddleware("*", function (req, res) {
                     res.end("shane is dev");
                 });
-                done();
             },
             "plugin:name": PLUGIN_NAME
         });
 
-        instance = browserSync(config).instance;
-    });
-    after(function () {
-        instance.cleanup();
-    });
-    it("should serve the file", function (done) {
-        request(instance.server)
-            .get("/shane")
-            .set("accept", "text/html")
-            .expect(200)
-            .end(function (err, res) {
-                assert.include(res.text, "shane is dev");
-                done();
-            });
+        browserSync(config, function(err, bs) {
+            request(bs.server)
+                .get("/shane")
+                .set("accept", "text/html")
+                .expect(200)
+                .end(function (err, res) {
+                    assert.include(res.text, "shane is dev");
+                    bs.cleanup();
+                    done();
+                });
+        });
     });
 });
 
 describe("Plugins: Should be able to add middleware with paths on the fly in proxy mode", function () {
 
     var PLUGIN_NAME = "KITTENZ";
-    var instance;
-    var stubServer;
 
-    before(function (done) {
+    it("should serve the file + browserSync file", function (done) {
 
         browserSync.reset();
 
@@ -247,7 +223,7 @@ describe("Plugins: Should be able to add middleware with paths on the fly in pro
             .use(serveStatic(path.join(__dirname, "../../fixtures")));
 
         // server to proxy
-        stubServer = http.createServer(testApp).listen();
+        var stubServer = http.createServer(testApp).listen();
         var port = stubServer.address().port;
 
         var config = {
@@ -261,27 +237,23 @@ describe("Plugins: Should be able to add middleware with paths on the fly in pro
                 bs.addMiddleware("/shane", function (req, res) {
                     res.end("shane");
                 });
-                done();
             },
             "plugin:name": PLUGIN_NAME
         });
 
-        instance = browserSync(config).instance;
-    });
-    after(function () {
-        instance.cleanup();
-        stubServer.close();
-    });
-    it("should serve the file + browserSync file", function (done) {
+        browserSync(config, function(err, bs) {
+            request(bs.server)
+                .get("/shane")
+                .set("accept", "text/html")
+                .expect(200)
+                .end(function (err, res) {
+                    assert.include(res.text, "shane");
+                    bs.cleanup();
+                    stubServer.close();
+                    done();
+                });
+        });
 
-        request(instance.server)
-            .get("/shane")
-            .set("accept", "text/html")
-            .expect(200)
-            .end(function (err, res) {
-                assert.include(res.text, "shane");
-                done();
-            });
     });
 });
 

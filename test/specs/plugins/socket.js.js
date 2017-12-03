@@ -39,7 +39,8 @@ describe("Plugins: Using the Socket.io js file:", function () {
                     .expect(200)
                     .end(function (err, res) {
                         assert.equal(res.headers["content-type"], "text/javascript");
-                        instance.cleanup(done);
+                        instance.cleanup();
+                        done();
                     });
             }
         });

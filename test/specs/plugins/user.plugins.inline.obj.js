@@ -9,8 +9,7 @@ describe("Plugins: Retrieving user plugins when given inline as object", functio
     var instance;
     var PLUGIN_NAME    = "Test Plugin";
 
-    before(function (done) {
-
+    it("has access to user options", function(done) {
         browserSync.reset();
 
         var config = {
@@ -18,9 +17,7 @@ describe("Plugins: Retrieving user plugins when given inline as object", functio
             plugins: [
                 {
                     module: {
-                        plugin: function () {
-                            done();
-                        },
+                        plugin: function () {},
                         "plugin:name": PLUGIN_NAME
                     },
                     options: {
@@ -30,23 +27,13 @@ describe("Plugins: Retrieving user plugins when given inline as object", functio
             ]
         };
 
-        instance = browserSync(config).instance;
-    });
-    after(function () {
-        instance.cleanup();
-    });
-    it("Should access to only the user-specified plugins", function (done) {
-        assert.equal(instance.getUserPlugins().length, 1);
-        done();
-    });
-    it("Should have access to only the user-specified plugins", function (done) {
-        var plugin = instance.getUserPlugins()[0];
-        assert.equal(plugin.name, PLUGIN_NAME);
-        done();
-    });
-    it("should have access to user provided opts", function (done) {
-        var plugin = instance.getUserPlugins()[0];
-        assert.equal(plugin.opts.files, "*.html");
-        done();
+        browserSync(config, function(err, bs) {
+            assert.equal(bs.getUserPlugins().length, 1);
+            var plugin = bs.getUserPlugins()[0];
+            assert.equal(plugin.name, PLUGIN_NAME);
+            assert.equal(plugin.opts.files, "*.html");
+            bs.cleanup();
+            done();
+        });
     });
 });

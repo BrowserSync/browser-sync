@@ -10,8 +10,6 @@ describe("Plugins: Retrieving options via API", function () {
 
         browserSync.reset();
 
-        var instance;
-
         var config = {
             server: {
                 baseDir: "test/fixtures"
@@ -25,15 +23,14 @@ describe("Plugins: Retrieving options via API", function () {
 
                 assert.equal(opts.files, "*.css");
                 assert.ok(require("immutable").Map.isMap(bs.getOptions()));
-                instance.cleanup();
             },
             "plugin:name": "test"
-
         }, {files: "*.css"});
 
-        instance = browserSync(config, function (err, bs) {
+        browserSync(config, function (err, bs) {
             assert.equal(bs.watchers.test.watchers.length, 1);
+            bs.cleanup();
             done();
-        }).instance;
+        });
     });
 });

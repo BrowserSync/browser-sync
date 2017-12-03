@@ -8,11 +8,10 @@ var request     = require("supertest");
 
 describe("Plugins: Should be able to register middleware when in proxy mode", function () {
 
-    var bs;
     var app;
     var spy;
 
-    before(function (done) {
+    it("should serve the file", function (done) {
 
         browserSync.reset();
 
@@ -42,19 +41,16 @@ describe("Plugins: Should be able to register middleware when in proxy mode", fu
             "plugin:name": "KITTENZ"
         });
 
-        bs = browserSync(config, done).instance;
-    });
+        browserSync(config, function(err, bs) {
+            request(bs.server)
+                .get("/")
+                .set("accept", "text/html")
+                .end(function () {
+                    sinon.assert.called(spy);
+                    bs.cleanup();
+                    done();
+                });
+        });
 
-    after(function () {
-        bs.cleanup();
-    });
-    it("should serve the file", function (done) {
-        request(bs.server)
-            .get("/")
-            .set("accept", "text/html")
-            .end(function () {
-                sinon.assert.calledOnce(spy);
-                done();
-            });
     });
 });

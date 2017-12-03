@@ -1,4 +1,4 @@
-#Contributing to Browsersync
+# Contributing to Browsersync
 
 We'd love for you to contribute to Browsersync and help make it even better than it is
 today! Here are the guidelines we'd like you to follow:
@@ -35,8 +35,7 @@ then it's very likely to fall to the bottom of the heap. Help us out by providin
 * Provide a reduced test case. "Browsersync is not working with my app" is far less helpful than "Here's a example project showing the problem".
 An example project might contain a single `index.html` file with some JS/CSS from CDNs & a short description of the issue. If we
  can just pull a repo/gist and see the problem for ourselves, your issue will jump straight to the top of the stack.
-* Screencast or GIF - not always appropriate, but can be very helpful where possible. (non-issue related gifs are always welcome, we'll often
-respond with something from giphy :p)
+* Screencast or GIF - not always appropriate, but can be very helpful where possible. (non-issue related gifs are always welcome, we'll often respond with something from giphy :p)
 
 ## <a name="feature"></a> Want a Feature?
 You can request a new feature by submitting an issue to our [Github Issues](https://github.com/BrowserSync/browser-sync/issues) page.
@@ -49,9 +48,9 @@ Head over to the [Browsersync Website Repo](https://github.com/BrowserSync/brows
 Pull requests should always be branched off the main **Master** branch. (There's no guarantee that what lives on the develop
 branch will ever make it back to master, I do a **lot** of experimentation).
 
-Never commit directly to the master branch, instead create a new branch and submit a PR. This applies to users who have write access also.
+**Never** commit directly to the master branch, instead create a new branch and submit a PR. This applies to users who have write access also.
 
-Note: If your first PR is merged, you'll get write access to all Browsersync repos.
+**Note:** If your first PR is merged, you'll get write access to all Browsersync repos.
 
 ## <a name="rules"></a> Coding Advice
 To ensure consistency throughout the source code, keep these rules in mind as you are working. 
@@ -66,5 +65,4 @@ To ensure consistency throughout the source code, keep these rules in mind as yo
 If *you* have particular experience though, then feel free to rip my code apart and tell me a better way to do something - I'll be extremely grateful (as will the growing number of users!).
 
 ## <a name="thanks"></a> Thank you!
-If you contribute to Browsersync, or any other Open Source project, you're awesome! This project has been vastly improved
- by community input & contributions and we look forward to continuing that trend.
+If you contribute to Browsersync, or any other Open Source project, you're awesome! This project has been vastly improved by community input & contributions and we look forward to continuing that trend.

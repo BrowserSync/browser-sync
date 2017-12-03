@@ -32,9 +32,8 @@ describe("Plugins: Watching Files:", function () {
         var instance = browserSync(config, function (err, bs) {
             assert.equal(Object.keys(bs.watchers).length, 2);
             assert.ok(bs.watchers[PLUGIN_NAME]);
-            instance.events.emit("file:changed", {namespace: PLUGIN_NAME});
-            instance.cleanup();
-        }).instance;
+            bs.events.emit("file:changed", {namespace: PLUGIN_NAME, path: "test.html"});
+        });
     });
 
     it("should only add watchers if globs given", function (done) {
@@ -50,11 +49,11 @@ describe("Plugins: Watching Files:", function () {
             plugin: function () {}
         }, {files: "test.html"});
 
-        var instance = browserSync(config, function (err, bs) {
+        browserSync(config, function (err, bs) {
             assert.equal(Object.keys(bs.watchers).length, 1);
-            instance.cleanup();
+            bs.cleanup();
             done();
-        }).instance;
+        });
     });
 
     it("should only add watchers if globs given", function (done) {
@@ -70,10 +69,10 @@ describe("Plugins: Watching Files:", function () {
             plugin: function () {}
         });
 
-        var instance = browserSync(config, function (err, bs) {
+        browserSync(config, function (err, bs) {
             assert.equal(Object.keys(bs.watchers).length, 0);
-            instance.cleanup();
+            bs.cleanup();
             done();
-        }).instance;
+        });
     });
 });

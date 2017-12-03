@@ -14,6 +14,7 @@ describe("CLI: Options: Merging Ghostmode options", function () {
         });
         assert.isFalse(imm.getIn(["ghostMode", "clicks"]));
         assert.isTrue(imm.getIn(["ghostMode", "scroll"]));
+        assert.isTrue(imm.getIn(["ghostMode", "location"]));
         assert.isTrue(imm.getIn(["ghostMode", "forms", "submit"]));
         assert.isTrue(imm.getIn(["ghostMode", "forms", "inputs"]));
         assert.isTrue(imm.getIn(["ghostMode", "forms", "toggles"]));

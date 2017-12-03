@@ -102,6 +102,10 @@ module.exports.reload  = noop("reload");
  *
  * @method stream
  * @param {Object} [opts] Configuration for the stream method
+ * @param {Object} [opts.match] Resulting files to reload. The path is from the
+ * root of the site (not the root of your project).  You can use '**' to recurse
+ * directories.
+ * @param {Object} [opts.once] Only reload on the first changed file in teh stream.
  * @since 2.6.0
  * @returns {*}
  */

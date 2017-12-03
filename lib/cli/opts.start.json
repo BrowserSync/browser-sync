@@ -92,6 +92,10 @@
     "type": "number",
     "desc": "Specify a port for the UI to use"
   },
+  "watchEvents": {
+    "type": "array",
+    "desc": "Specify which file events to respond to"
+  },
   "no-notify": {
     "desc": "Disable the notify element in browsers"
   },

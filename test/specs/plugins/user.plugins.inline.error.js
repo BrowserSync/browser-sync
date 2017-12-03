@@ -21,7 +21,10 @@ describe("Plugins: Retrieving user plugins when given inline, but with error", f
             },
             open: false,
             logLevel: "silent"
-        }, done);
+        }, function(err, bs) {
+            bs.cleanup();
+            done();
+        });
     });
     it("Should fail if a plugin is missing both module & plugin properties", function (done) {
         browserSync.reset();
@@ -39,6 +42,9 @@ describe("Plugins: Retrieving user plugins when given inline, but with error", f
             ],
             open: false,
             logLevel: "silent"
-        }, done);
+        }, function(err, bs) {
+            bs.cleanup();
+            done();
+        });
     });
 });
