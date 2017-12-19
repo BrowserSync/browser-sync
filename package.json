@@ -2,11 +2,11 @@
   "name": "browser-sync",
   "description": "Live CSS Reload & Browser Syncing",
   "version": "2.19.0",
-  "homepage": "http://www.browsersync.io/",
+  "homepage": "https://browsersync.io/",
   "author": {
     "name": "Shane Osbourne"
   },
-  "repository": "Browsersync/browser-sync",
+  "repository": "BrowserSync/browser-sync",
   "license": "Apache-2.0",
   "bin": "bin/browser-sync.js",
   "files": [
