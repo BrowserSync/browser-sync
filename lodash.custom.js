@@ -1,8 +1,8 @@
 /**
  * @license
- * lodash (Custom Build) <https://lodash.com/>
+ * Lodash (Custom Build) <https://lodash.com/>
  * Build: `lodash include="isUndefined,isFunction,toArray,includes,union,each,isString,merge,isObject,set" exports="node"`
- * Copyright jQuery Foundation and other contributors <https://jquery.org/>
+ * Copyright JS Foundation and other contributors <https://js.foundation/>
  * Released under MIT license <https://lodash.com/license>
  * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
  * Copyright Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
@@ -13,20 +13,32 @@
   var undefined;
 
   /** Used as the semantic version number. */
-  var VERSION = '4.13.1';
+  var VERSION = '4.17.4';
 
   /** Used as the size to enable large array optimizations. */
   var LARGE_ARRAY_SIZE = 200;
 
-  /** Used as the `TypeError` message for "Functions" methods. */
+  /** Error message constants. */
   var FUNC_ERROR_TEXT = 'Expected a function';
 
   /** Used to stand-in for `undefined` hash values. */
   var HASH_UNDEFINED = '__lodash_hash_undefined__';
 
-  /** Used to compose bitmasks for comparison styles. */
-  var UNORDERED_COMPARE_FLAG = 1,
-      PARTIAL_COMPARE_FLAG = 2;
+  /** Used as the maximum memoize cache size. */
+  var MAX_MEMOIZE_SIZE = 500;
+
+  /** Used to compose bitmasks for cloning. */
+  var CLONE_DEEP_FLAG = 1,
+      CLONE_FLAT_FLAG = 2,
+      CLONE_SYMBOLS_FLAG = 4;
+
+  /** Used to compose bitmasks for value comparisons. */
+  var COMPARE_PARTIAL_FLAG = 1,
+      COMPARE_UNORDERED_FLAG = 2;
+
+  /** Used to detect hot functions by number of calls within a span of milliseconds. */
+  var HOT_COUNT = 800,
+      HOT_SPAN = 16;
 
   /** Used as references for various `Number` constants. */
   var INFINITY = 1 / 0,
@@ -37,6 +49,7 @@
   /** `Object#toString` result references. */
   var argsTag = '[object Arguments]',
       arrayTag = '[object Array]',
+      asyncTag = '[object AsyncFunction]',
       boolTag = '[object Boolean]',
       dateTag = '[object Date]',
       errorTag = '[object Error]',
@@ -44,12 +57,15 @@
       genTag = '[object GeneratorFunction]',
       mapTag = '[object Map]',
       numberTag = '[object Number]',
+      nullTag = '[object Null]',
       objectTag = '[object Object]',
       promiseTag = '[object Promise]',
+      proxyTag = '[object Proxy]',
       regexpTag = '[object RegExp]',
       setTag = '[object Set]',
       stringTag = '[object String]',
       symbolTag = '[object Symbol]',
+      undefinedTag = '[object Undefined]',
       weakMapTag = '[object WeakMap]';
 
   var arrayBufferTag = '[object ArrayBuffer]',
@@ -67,11 +83,12 @@
   /** Used to match property names within property paths. */
   var reIsDeepProp = /\.|\[(?:[^[\]]*|(["'])(?:(?!\1)[^\\]|\\.)*?\1)\]/,
       reIsPlainProp = /^\w*$/,
-      rePropName = /[^.[\]]+|\[(?:(-?\d+(?:\.\d+)?)|(["'])((?:(?!\2)[^\\]|\\.)*?)\2)\]|(?=(\.|\[\])(?:\4|$))/g;
+      reLeadingDot = /^\./,
+      rePropName = /[^.[\]]+|\[(?:(-?\d+(?:\.\d+)?)|(["'])((?:(?!\2)[^\\]|\\.)*?)\2)\]|(?=(?:\.|\[\])(?:\.|\[\]|$))/g;
 
   /**
    * Used to match `RegExp`
-   * [syntax characters](http://ecma-international.org/ecma-262/6.0/#sec-patterns).
+   * [syntax characters](http://ecma-international.org/ecma-262/7.0/#sec-patterns).
    */
   var reRegExpChar = /[\\^$.*+?()[\]{}|]/g;
 
@@ -101,13 +118,15 @@
 
   /** Used to compose unicode character classes. */
   var rsAstralRange = '\\ud800-\\udfff',
-      rsComboMarksRange = '\\u0300-\\u036f\\ufe20-\\ufe23',
-      rsComboSymbolsRange = '\\u20d0-\\u20f0',
+      rsComboMarksRange = '\\u0300-\\u036f',
+      reComboHalfMarksRange = '\\ufe20-\\ufe2f',
+      rsComboSymbolsRange = '\\u20d0-\\u20ff',
+      rsComboRange = rsComboMarksRange + reComboHalfMarksRange + rsComboSymbolsRange,
       rsVarRange = '\\ufe0e\\ufe0f';
 
   /** Used to compose unicode capture groups. */
   var rsAstral = '[' + rsAstralRange + ']',
-      rsCombo = '[' + rsComboMarksRange + rsComboSymbolsRange + ']',
+      rsCombo = '[' + rsComboRange + ']',
       rsFitz = '\\ud83c[\\udffb-\\udfff]',
       rsModifier = '(?:' + rsCombo + '|' + rsFitz + ')',
       rsNonAstral = '[^' + rsAstralRange + ']',
@@ -123,7 +142,10 @@
       rsSymbol = '(?:' + [rsNonAstral + rsCombo + '?', rsCombo, rsRegional, rsSurrPair, rsAstral].join('|') + ')';
 
   /** Used to match [string symbols](https://mathiasbynens.be/notes/javascript-unicode). */
-  var reComplexSymbol = RegExp(rsFitz + '(?=' + rsFitz + ')|' + rsSymbol + rsSeq, 'g');
+  var reUnicode = RegExp(rsFitz + '(?=' + rsFitz + ')|' + rsSymbol + rsSeq, 'g');
+
+  /** Used to detect strings with [zero-width joiners or code points from the astral planes](http://eev.ee/blog/2015/09/12/dark-corners-of-unicode/). */
+  var reHasUnicode = RegExp('[' + rsZWJ + rsAstralRange  + rsComboRange + rsVarRange + ']');
 
   /** Used to identify `toStringTag` values of typed arrays. */
   var typedArrayTags = {};
@@ -160,26 +182,36 @@
   /** Built-in method references without a dependency on `root`. */
   var freeParseInt = parseInt;
 
+  /** Detect free variable `global` from Node.js. */
+  var freeGlobal = typeof global == 'object' && global && global.Object === Object && global;
+
+  /** Detect free variable `self`. */
+  var freeSelf = typeof self == 'object' && self && self.Object === Object && self;
+
+  /** Used as a reference to the global object. */
+  var root = freeGlobal || freeSelf || Function('return this')();
+
   /** Detect free variable `exports`. */
-  var freeExports = typeof exports == 'object' && exports;
+  var freeExports = typeof exports == 'object' && exports && !exports.nodeType && exports;
 
   /** Detect free variable `module`. */
-  var freeModule = freeExports && typeof module == 'object' && module;
+  var freeModule = freeExports && typeof module == 'object' && module && !module.nodeType && module;
 
   /** Detect the popular CommonJS extension `module.exports`. */
   var moduleExports = freeModule && freeModule.exports === freeExports;
 
-  /** Detect free variable `global` from Node.js. */
-  var freeGlobal = checkGlobal(typeof global == 'object' && global);
+  /** Detect free variable `process` from Node.js. */
+  var freeProcess = moduleExports && freeGlobal.process;
 
-  /** Detect free variable `self`. */
-  var freeSelf = checkGlobal(typeof self == 'object' && self);
+  /** Used to access faster Node.js helpers. */
+  var nodeUtil = (function() {
+    try {
+      return freeProcess && freeProcess.binding && freeProcess.binding('util');
+    } catch (e) {}
+  }());
 
-  /** Detect `this` as the global object. */
-  var thisGlobal = checkGlobal(typeof this == 'object' && this);
-
-  /** Used as a reference to the global object. */
-  var root = freeGlobal || freeSelf || thisGlobal || Function('return this')();
+  /* Node.js helper references. */
+  var nodeIsTypedArray = nodeUtil && nodeUtil.isTypedArray;
 
   /*--------------------------------------------------------------------------*/
 
@@ -192,7 +224,7 @@
    * @returns {Object} Returns `map`.
    */
   function addMapEntry(map, pair) {
-    // Don't return `Map#set` because it doesn't return the map instance in IE 11.
+    // Don't return `map.set` because it's not chainable in IE 11.
     map.set(pair[0], pair[1]);
     return map;
   }
@@ -206,6 +238,7 @@
    * @returns {Object} Returns `set`.
    */
   function addSetEntry(set, value) {
+    // Don't return `set.add` because it's not chainable in IE 11.
     set.add(value);
     return set;
   }
@@ -221,8 +254,7 @@
    * @returns {*} Returns the result of `func`.
    */
   function apply(func, thisArg, args) {
-    var length = args.length;
-    switch (length) {
+    switch (args.length) {
       case 0: return func.call(thisArg);
       case 1: return func.call(thisArg, args[0]);
       case 2: return func.call(thisArg, args[0], args[1]);
@@ -242,7 +274,7 @@
    */
   function arrayEach(array, iteratee) {
     var index = -1,
-        length = array ? array.length : 0;
+        length = array == null ? 0 : array.length;
 
     while (++index < length) {
       if (iteratee(array[index], index, array) === false) {
@@ -253,16 +285,40 @@
   }
 
   /**
+   * A specialized version of `_.filter` for arrays without support for
+   * iteratee shorthands.
+   *
+   * @private
+   * @param {Array} [array] The array to iterate over.
+   * @param {Function} predicate The function invoked per iteration.
+   * @returns {Array} Returns the new filtered array.
+   */
+  function arrayFilter(array, predicate) {
+    var index = -1,
+        length = array == null ? 0 : array.length,
+        resIndex = 0,
+        result = [];
+
+    while (++index < length) {
+      var value = array[index];
+      if (predicate(value, index, array)) {
+        result[resIndex++] = value;
+      }
+    }
+    return result;
+  }
+
+  /**
    * A specialized version of `_.includes` for arrays without support for
    * specifying an index to search from.
    *
    * @private
-   * @param {Array} [array] The array to search.
+   * @param {Array} [array] The array to inspect.
    * @param {*} target The value to search for.
    * @returns {boolean} Returns `true` if `target` is found, else `false`.
    */
   function arrayIncludes(array, value) {
-    var length = array ? array.length : 0;
+    var length = array == null ? 0 : array.length;
     return !!length && baseIndexOf(array, value, 0) > -1;
   }
 
@@ -270,14 +326,14 @@
    * This function is like `arrayIncludes` except that it accepts a comparator.
    *
    * @private
-   * @param {Array} [array] The array to search.
+   * @param {Array} [array] The array to inspect.
    * @param {*} target The value to search for.
    * @param {Function} comparator The comparator invoked per element.
    * @returns {boolean} Returns `true` if `target` is found, else `false`.
    */
   function arrayIncludesWith(array, value, comparator) {
     var index = -1,
-        length = array ? array.length : 0;
+        length = array == null ? 0 : array.length;
 
     while (++index < length) {
       if (comparator(value, array[index])) {
@@ -298,7 +354,7 @@
    */
   function arrayMap(array, iteratee) {
     var index = -1,
-        length = array ? array.length : 0,
+        length = array == null ? 0 : array.length,
         result = Array(length);
 
     while (++index < length) {
@@ -340,7 +396,7 @@
    */
   function arrayReduce(array, iteratee, accumulator, initAccum) {
     var index = -1,
-        length = array ? array.length : 0;
+        length = array == null ? 0 : array.length;
 
     if (initAccum && length) {
       accumulator = array[++index];
@@ -363,7 +419,7 @@
    */
   function arraySome(array, predicate) {
     var index = -1,
-        length = array ? array.length : 0;
+        length = array == null ? 0 : array.length;
 
     while (++index < length) {
       if (predicate(array[index], index, array)) {
@@ -374,27 +430,76 @@
   }
 
   /**
+   * Converts an ASCII `string` to an array.
+   *
+   * @private
+   * @param {string} string The string to convert.
+   * @returns {Array} Returns the converted array.
+   */
+  function asciiToArray(string) {
+    return string.split('');
+  }
+
+  /**
+   * The base implementation of `_.findIndex` and `_.findLastIndex` without
+   * support for iteratee shorthands.
+   *
+   * @private
+   * @param {Array} array The array to inspect.
+   * @param {Function} predicate The function invoked per iteration.
+   * @param {number} fromIndex The index to search from.
+   * @param {boolean} [fromRight] Specify iterating from right to left.
+   * @returns {number} Returns the index of the matched value, else `-1`.
+   */
+  function baseFindIndex(array, predicate, fromIndex, fromRight) {
+    var length = array.length,
+        index = fromIndex + (fromRight ? 1 : -1);
+
+    while ((fromRight ? index-- : ++index < length)) {
+      if (predicate(array[index], index, array)) {
+        return index;
+      }
+    }
+    return -1;
+  }
+
+  /**
    * The base implementation of `_.indexOf` without `fromIndex` bounds checks.
    *
    * @private
-   * @param {Array} array The array to search.
+   * @param {Array} array The array to inspect.
    * @param {*} value The value to search for.
    * @param {number} fromIndex The index to search from.
    * @returns {number} Returns the index of the matched value, else `-1`.
    */
   function baseIndexOf(array, value, fromIndex) {
-    if (value !== value) {
-      return indexOfNaN(array, fromIndex);
-    }
-    var index = fromIndex - 1,
-        length = array.length;
+    return value === value
+      ? strictIndexOf(array, value, fromIndex)
+      : baseFindIndex(array, baseIsNaN, fromIndex);
+  }
 
-    while (++index < length) {
-      if (array[index] === value) {
-        return index;
-      }
-    }
-    return -1;
+  /**
+   * The base implementation of `_.isNaN` without support for number objects.
+   *
+   * @private
+   * @param {*} value The value to check.
+   * @returns {boolean} Returns `true` if `value` is `NaN`, else `false`.
+   */
+  function baseIsNaN(value) {
+    return value !== value;
+  }
+
+  /**
+   * The base implementation of `_.property` without support for deep paths.
+   *
+   * @private
+   * @param {string} key The key of the property to get.
+   * @returns {Function} Returns the new accessor function.
+   */
+  function baseProperty(key) {
+    return function(object) {
+      return object == null ? undefined : object[key];
+    };
   }
 
   /**
@@ -417,6 +522,19 @@
   }
 
   /**
+   * The base implementation of `_.unary` without support for storing metadata.
+   *
+   * @private
+   * @param {Function} func The function to cap arguments for.
+   * @returns {Function} Returns the new capped function.
+   */
+  function baseUnary(func) {
+    return function(value) {
+      return func(value);
+    };
+  }
+
+  /**
    * The base implementation of `_.values` and `_.valuesIn` which creates an
    * array of `object` property values corresponding to the property names
    * of `props`.
@@ -433,7 +551,7 @@
   }
 
   /**
-   * Checks if a cache value for `key` exists.
+   * Checks if a `cache` value for `key` exists.
    *
    * @private
    * @param {Object} cache The cache to query.
@@ -442,17 +560,6 @@
    */
   function cacheHas(cache, key) {
     return cache.has(key);
-  }
-
-  /**
-   * Checks if `value` is a global object.
-   *
-   * @private
-   * @param {*} value The value to check.
-   * @returns {null|Object} Returns `value` if it's a global object, else `null`.
-   */
-  function checkGlobal(value) {
-    return (value && value.Object === Object) ? value : null;
   }
 
   /**
@@ -468,44 +575,14 @@
   }
 
   /**
-   * Gets the index at which the first occurrence of `NaN` is found in `array`.
+   * Checks if `string` contains Unicode symbols.
    *
    * @private
-   * @param {Array} array The array to search.
-   * @param {number} fromIndex The index to search from.
-   * @param {boolean} [fromRight] Specify iterating from right to left.
-   * @returns {number} Returns the index of the matched `NaN`, else `-1`.
+   * @param {string} string The string to inspect.
+   * @returns {boolean} Returns `true` if a symbol is found, else `false`.
    */
-  function indexOfNaN(array, fromIndex, fromRight) {
-    var length = array.length,
-        index = fromIndex + (fromRight ? 1 : -1);
-
-    while ((fromRight ? index-- : ++index < length)) {
-      var other = array[index];
-      if (other !== other) {
-        return index;
-      }
-    }
-    return -1;
-  }
-
-  /**
-   * Checks if `value` is a host object in IE < 9.
-   *
-   * @private
-   * @param {*} value The value to check.
-   * @returns {boolean} Returns `true` if `value` is a host object, else `false`.
-   */
-  function isHostObject(value) {
-    // Many host objects are `Object` objects that can coerce to strings
-    // despite having improperly defined `toString` methods.
-    var result = false;
-    if (value != null && typeof value.toString != 'function') {
-      try {
-        result = !!(value + '');
-      } catch (e) {}
-    }
-    return result;
+  function hasUnicode(string) {
+    return reHasUnicode.test(string);
   }
 
   /**
@@ -543,6 +620,20 @@
   }
 
   /**
+   * Creates a unary function that invokes `func` with its argument transformed.
+   *
+   * @private
+   * @param {Function} func The function to wrap.
+   * @param {Function} transform The argument transform.
+   * @returns {Function} Returns the new function.
+   */
+  function overArg(func, transform) {
+    return function(arg) {
+      return func(transform(arg));
+    };
+  }
+
+  /**
    * Converts `set` to an array of its values.
    *
    * @private
@@ -560,6 +651,28 @@
   }
 
   /**
+   * A specialized version of `_.indexOf` which performs strict equality
+   * comparisons of values, i.e. `===`.
+   *
+   * @private
+   * @param {Array} array The array to inspect.
+   * @param {*} value The value to search for.
+   * @param {number} fromIndex The index to search from.
+   * @returns {number} Returns the index of the matched value, else `-1`.
+   */
+  function strictIndexOf(array, value, fromIndex) {
+    var index = fromIndex - 1,
+        length = array.length;
+
+    while (++index < length) {
+      if (array[index] === value) {
+        return index;
+      }
+    }
+    return -1;
+  }
+
+  /**
    * Converts `string` to an array.
    *
    * @private
@@ -567,17 +680,37 @@
    * @returns {Array} Returns the converted array.
    */
   function stringToArray(string) {
-    return string.match(reComplexSymbol);
+    return hasUnicode(string)
+      ? unicodeToArray(string)
+      : asciiToArray(string);
+  }
+
+  /**
+   * Converts a Unicode `string` to an array.
+   *
+   * @private
+   * @param {string} string The string to convert.
+   * @returns {Array} Returns the converted array.
+   */
+  function unicodeToArray(string) {
+    return string.match(reUnicode) || [];
   }
 
   /*--------------------------------------------------------------------------*/
 
   /** Used for built-in method references. */
   var arrayProto = Array.prototype,
+      funcProto = Function.prototype,
       objectProto = Object.prototype;
 
   /** Used to detect overreaching core-js shims. */
   var coreJsData = root['__core-js_shared__'];
+
+  /** Used to resolve the decompiled source of functions. */
+  var funcToString = funcProto.toString;
+
+  /** Used to check objects for own properties. */
+  var hasOwnProperty = objectProto.hasOwnProperty;
 
   /** Used to detect methods masquerading as native. */
   var maskSrcKey = (function() {
@@ -585,21 +718,15 @@
     return uid ? ('Symbol(src)_1.' + uid) : '';
   }());
 
-  /** Used to resolve the decompiled source of functions. */
-  var funcToString = Function.prototype.toString;
-
-  /** Used to check objects for own properties. */
-  var hasOwnProperty = objectProto.hasOwnProperty;
+  /**
+   * Used to resolve the
+   * [`toStringTag`](http://ecma-international.org/ecma-262/7.0/#sec-object.prototype.tostring)
+   * of values.
+   */
+  var nativeObjectToString = objectProto.toString;
 
   /** Used to infer the `Object` constructor. */
   var objectCtorString = funcToString.call(Object);
-
-  /**
-   * Used to resolve the
-   * [`toStringTag`](http://ecma-international.org/ecma-262/6.0/#sec-object.prototype.tostring)
-   * of values.
-   */
-  var objectToString = objectProto.toString;
 
   /** Used to detect if a method is native. */
   var reIsNative = RegExp('^' +
@@ -609,20 +736,31 @@
 
   /** Built-in value references. */
   var Buffer = moduleExports ? root.Buffer : undefined,
-      Reflect = root.Reflect,
       Symbol = root.Symbol,
       Uint8Array = root.Uint8Array,
-      enumerate = Reflect ? Reflect.enumerate : undefined,
-      getOwnPropertySymbols = Object.getOwnPropertySymbols,
-      iteratorSymbol = typeof (iteratorSymbol = Symbol && Symbol.iterator) == 'symbol' ? iteratorSymbol : undefined,
+      allocUnsafe = Buffer ? Buffer.allocUnsafe : undefined,
+      getPrototype = overArg(Object.getPrototypeOf, Object),
       objectCreate = Object.create,
       propertyIsEnumerable = objectProto.propertyIsEnumerable,
-      splice = arrayProto.splice;
+      splice = arrayProto.splice,
+      spreadableSymbol = Symbol ? Symbol.isConcatSpreadable : undefined,
+      symIterator = Symbol ? Symbol.iterator : undefined,
+      symToStringTag = Symbol ? Symbol.toStringTag : undefined;
+
+  var defineProperty = (function() {
+    try {
+      var func = getNative(Object, 'defineProperty');
+      func({}, '', {});
+      return func;
+    } catch (e) {}
+  }());
 
   /* Built-in method references for those with the same name as other `lodash` methods. */
-  var nativeGetPrototype = Object.getPrototypeOf,
-      nativeKeys = Object.keys,
-      nativeMax = Math.max;
+  var nativeGetSymbols = Object.getOwnPropertySymbols,
+      nativeIsBuffer = Buffer ? Buffer.isBuffer : undefined,
+      nativeKeys = overArg(Object.keys, Object),
+      nativeMax = Math.max,
+      nativeNow = Date.now;
 
   /* Built-in method references that are verified to be native. */
   var DataView = getNative(root, 'DataView'),
@@ -667,9 +805,9 @@
    * Shortcut fusion is an optimization to merge iteratee calls; this avoids
    * the creation of intermediate arrays and can greatly reduce the number of
    * iteratee executions. Sections of a chain sequence qualify for shortcut
-   * fusion if the section is applied to an array of at least `200` elements
-   * and any iteratees accept only one argument. The heuristic for whether a
-   * section qualifies for shortcut fusion is subject to change.
+   * fusion if the section is applied to an array and iteratees accept only
+   * one argument. The heuristic for whether a section qualifies for shortcut
+   * fusion is subject to change.
    *
    * Chaining is supported in custom builds as long as the `_#value` method is
    * directly or indirectly included in the build.
@@ -715,16 +853,16 @@
    *
    * The wrapper methods that are **not** chainable by default are:
    * `add`, `attempt`, `camelCase`, `capitalize`, `ceil`, `clamp`, `clone`,
-   * `cloneDeep`, `cloneDeepWith`, `cloneWith`, `deburr`, `divide`, `each`,
-   * `eachRight`, `endsWith`, `eq`, `escape`, `escapeRegExp`, `every`, `find`,
-   * `findIndex`, `findKey`, `findLast`, `findLastIndex`, `findLastKey`, `first`,
-   * `floor`, `forEach`, `forEachRight`, `forIn`, `forInRight`, `forOwn`,
-   * `forOwnRight`, `get`, `gt`, `gte`, `has`, `hasIn`, `head`, `identity`,
-   * `includes`, `indexOf`, `inRange`, `invoke`, `isArguments`, `isArray`,
-   * `isArrayBuffer`, `isArrayLike`, `isArrayLikeObject`, `isBoolean`,
-   * `isBuffer`, `isDate`, `isElement`, `isEmpty`, `isEqual`, `isEqualWith`,
-   * `isError`, `isFinite`, `isFunction`, `isInteger`, `isLength`, `isMap`,
-   * `isMatch`, `isMatchWith`, `isNaN`, `isNative`, `isNil`, `isNull`,
+   * `cloneDeep`, `cloneDeepWith`, `cloneWith`, `conformsTo`, `deburr`,
+   * `defaultTo`, `divide`, `each`, `eachRight`, `endsWith`, `eq`, `escape`,
+   * `escapeRegExp`, `every`, `find`, `findIndex`, `findKey`, `findLast`,
+   * `findLastIndex`, `findLastKey`, `first`, `floor`, `forEach`, `forEachRight`,
+   * `forIn`, `forInRight`, `forOwn`, `forOwnRight`, `get`, `gt`, `gte`, `has`,
+   * `hasIn`, `head`, `identity`, `includes`, `indexOf`, `inRange`, `invoke`,
+   * `isArguments`, `isArray`, `isArrayBuffer`, `isArrayLike`, `isArrayLikeObject`,
+   * `isBoolean`, `isBuffer`, `isDate`, `isElement`, `isEmpty`, `isEqual`,
+   * `isEqualWith`, `isError`, `isFinite`, `isFunction`, `isInteger`, `isLength`,
+   * `isMap`, `isMatch`, `isMatchWith`, `isNaN`, `isNative`, `isNil`, `isNull`,
    * `isNumber`, `isObject`, `isObjectLike`, `isPlainObject`, `isRegExp`,
    * `isSafeInteger`, `isSet`, `isString`, `isUndefined`, `isTypedArray`,
    * `isWeakMap`, `isWeakSet`, `join`, `kebabCase`, `last`, `lastIndexOf`,
@@ -770,6 +908,30 @@
     // No operation performed.
   }
 
+  /**
+   * The base implementation of `_.create` without support for assigning
+   * properties to the created object.
+   *
+   * @private
+   * @param {Object} proto The object to inherit from.
+   * @returns {Object} Returns the new object.
+   */
+  var baseCreate = (function() {
+    function object() {}
+    return function(proto) {
+      if (!isObject(proto)) {
+        return {};
+      }
+      if (objectCreate) {
+        return objectCreate(proto);
+      }
+      object.prototype = proto;
+      var result = new object;
+      object.prototype = undefined;
+      return result;
+    };
+  }());
+
   /*------------------------------------------------------------------------*/
 
   /**
@@ -781,7 +943,7 @@
    */
   function Hash(entries) {
     var index = -1,
-        length = entries ? entries.length : 0;
+        length = entries == null ? 0 : entries.length;
 
     this.clear();
     while (++index < length) {
@@ -799,6 +961,7 @@
    */
   function hashClear() {
     this.__data__ = nativeCreate ? nativeCreate(null) : {};
+    this.size = 0;
   }
 
   /**
@@ -812,7 +975,9 @@
    * @returns {boolean} Returns `true` if the entry was removed, else `false`.
    */
   function hashDelete(key) {
-    return this.has(key) && delete this.__data__[key];
+    var result = this.has(key) && delete this.__data__[key];
+    this.size -= result ? 1 : 0;
+    return result;
   }
 
   /**
@@ -844,7 +1009,7 @@
    */
   function hashHas(key) {
     var data = this.__data__;
-    return nativeCreate ? data[key] !== undefined : hasOwnProperty.call(data, key);
+    return nativeCreate ? (data[key] !== undefined) : hasOwnProperty.call(data, key);
   }
 
   /**
@@ -859,6 +1024,7 @@
    */
   function hashSet(key, value) {
     var data = this.__data__;
+    this.size += this.has(key) ? 0 : 1;
     data[key] = (nativeCreate && value === undefined) ? HASH_UNDEFINED : value;
     return this;
   }
@@ -881,7 +1047,7 @@
    */
   function ListCache(entries) {
     var index = -1,
-        length = entries ? entries.length : 0;
+        length = entries == null ? 0 : entries.length;
 
     this.clear();
     while (++index < length) {
@@ -899,6 +1065,7 @@
    */
   function listCacheClear() {
     this.__data__ = [];
+    this.size = 0;
   }
 
   /**
@@ -923,6 +1090,7 @@
     } else {
       splice.call(data, index, 1);
     }
+    --this.size;
     return true;
   }
 
@@ -970,6 +1138,7 @@
         index = assocIndexOf(data, key);
 
     if (index < 0) {
+      ++this.size;
       data.push([key, value]);
     } else {
       data[index][1] = value;
@@ -995,7 +1164,7 @@
    */
   function MapCache(entries) {
     var index = -1,
-        length = entries ? entries.length : 0;
+        length = entries == null ? 0 : entries.length;
 
     this.clear();
     while (++index < length) {
@@ -1012,6 +1181,7 @@
    * @memberOf MapCache
    */
   function mapCacheClear() {
+    this.size = 0;
     this.__data__ = {
       'hash': new Hash,
       'map': new (Map || ListCache),
@@ -1029,7 +1199,9 @@
    * @returns {boolean} Returns `true` if the entry was removed, else `false`.
    */
   function mapCacheDelete(key) {
-    return getMapData(this, key)['delete'](key);
+    var result = getMapData(this, key)['delete'](key);
+    this.size -= result ? 1 : 0;
+    return result;
   }
 
   /**
@@ -1069,7 +1241,11 @@
    * @returns {Object} Returns the map cache instance.
    */
   function mapCacheSet(key, value) {
-    getMapData(this, key).set(key, value);
+    var data = getMapData(this, key),
+        size = data.size;
+
+    data.set(key, value);
+    this.size += data.size == size ? 0 : 1;
     return this;
   }
 
@@ -1092,7 +1268,7 @@
    */
   function SetCache(values) {
     var index = -1,
-        length = values ? values.length : 0;
+        length = values == null ? 0 : values.length;
 
     this.__data__ = new MapCache;
     while (++index < length) {
@@ -1142,7 +1318,8 @@
    * @param {Array} [entries] The key-value pairs to cache.
    */
   function Stack(entries) {
-    this.__data__ = new ListCache(entries);
+    var data = this.__data__ = new ListCache(entries);
+    this.size = data.size;
   }
 
   /**
@@ -1154,6 +1331,7 @@
    */
   function stackClear() {
     this.__data__ = new ListCache;
+    this.size = 0;
   }
 
   /**
@@ -1166,7 +1344,11 @@
    * @returns {boolean} Returns `true` if the entry was removed, else `false`.
    */
   function stackDelete(key) {
-    return this.__data__['delete'](key);
+    var data = this.__data__,
+        result = data['delete'](key);
+
+    this.size = data.size;
+    return result;
   }
 
   /**
@@ -1206,11 +1388,18 @@
    * @returns {Object} Returns the stack cache instance.
    */
   function stackSet(key, value) {
-    var cache = this.__data__;
-    if (cache instanceof ListCache && cache.__data__.length == LARGE_ARRAY_SIZE) {
-      cache = this.__data__ = new MapCache(cache.__data__);
+    var data = this.__data__;
+    if (data instanceof ListCache) {
+      var pairs = data.__data__;
+      if (!Map || (pairs.length < LARGE_ARRAY_SIZE - 1)) {
+        pairs.push([key, value]);
+        this.size = ++data.size;
+        return this;
+      }
+      data = this.__data__ = new MapCache(pairs);
     }
-    cache.set(key, value);
+    data.set(key, value);
+    this.size = data.size;
     return this;
   }
 
@@ -1224,6 +1413,41 @@
   /*------------------------------------------------------------------------*/
 
   /**
+   * Creates an array of the enumerable property names of the array-like `value`.
+   *
+   * @private
+   * @param {*} value The value to query.
+   * @param {boolean} inherited Specify returning inherited property names.
+   * @returns {Array} Returns the array of property names.
+   */
+  function arrayLikeKeys(value, inherited) {
+    var isArr = isArray(value),
+        isArg = !isArr && isArguments(value),
+        isBuff = !isArr && !isArg && isBuffer(value),
+        isType = !isArr && !isArg && !isBuff && isTypedArray(value),
+        skipIndexes = isArr || isArg || isBuff || isType,
+        result = skipIndexes ? baseTimes(value.length, String) : [],
+        length = result.length;
+
+    for (var key in value) {
+      if ((inherited || hasOwnProperty.call(value, key)) &&
+          !(skipIndexes && (
+             // Safari 9 has enumerable `arguments.length` in strict mode.
+             key == 'length' ||
+             // Node.js 0.10 has enumerable non-index properties on buffers.
+             (isBuff && (key == 'offset' || key == 'parent')) ||
+             // PhantomJS 2 has enumerable non-index properties on typed arrays.
+             (isType && (key == 'buffer' || key == 'byteLength' || key == 'byteOffset')) ||
+             // Skip index properties.
+             isIndex(key, length)
+          ))) {
+        result.push(key);
+      }
+    }
+    return result;
+  }
+
+  /**
    * This function is like `assignValue` except that it doesn't assign
    * `undefined` values.
    *
@@ -1234,14 +1458,14 @@
    */
   function assignMergeValue(object, key, value) {
     if ((value !== undefined && !eq(object[key], value)) ||
-        (typeof key == 'number' && value === undefined && !(key in object))) {
-      object[key] = value;
+        (value === undefined && !(key in object))) {
+      baseAssignValue(object, key, value);
     }
   }
 
   /**
    * Assigns `value` to `key` of `object` if the existing value is not equivalent
-   * using [`SameValueZero`](http://ecma-international.org/ecma-262/6.0/#sec-samevaluezero)
+   * using [`SameValueZero`](http://ecma-international.org/ecma-262/7.0/#sec-samevaluezero)
    * for equality comparisons.
    *
    * @private
@@ -1253,7 +1477,7 @@
     var objValue = object[key];
     if (!(hasOwnProperty.call(object, key) && eq(objValue, value)) ||
         (value === undefined && !(key in object))) {
-      object[key] = value;
+      baseAssignValue(object, key, value);
     }
   }
 
@@ -1261,7 +1485,7 @@
    * Gets the index at which the `key` is found in `array` of key-value pairs.
    *
    * @private
-   * @param {Array} array The array to search.
+   * @param {Array} array The array to inspect.
    * @param {*} key The key to search for.
    * @returns {number} Returns the index of the matched value, else `-1`.
    */
@@ -1289,21 +1513,62 @@
   }
 
   /**
+   * The base implementation of `_.assignIn` without support for multiple sources
+   * or `customizer` functions.
+   *
+   * @private
+   * @param {Object} object The destination object.
+   * @param {Object} source The source object.
+   * @returns {Object} Returns `object`.
+   */
+  function baseAssignIn(object, source) {
+    return object && copyObject(source, keysIn(source), object);
+  }
+
+  /**
+   * The base implementation of `assignValue` and `assignMergeValue` without
+   * value checks.
+   *
+   * @private
+   * @param {Object} object The object to modify.
+   * @param {string} key The key of the property to assign.
+   * @param {*} value The value to assign.
+   */
+  function baseAssignValue(object, key, value) {
+    if (key == '__proto__' && defineProperty) {
+      defineProperty(object, key, {
+        'configurable': true,
+        'enumerable': true,
+        'value': value,
+        'writable': true
+      });
+    } else {
+      object[key] = value;
+    }
+  }
+
+  /**
    * The base implementation of `_.clone` and `_.cloneDeep` which tracks
    * traversed objects.
    *
    * @private
    * @param {*} value The value to clone.
-   * @param {boolean} [isDeep] Specify a deep clone.
-   * @param {boolean} [isFull] Specify a clone including symbols.
+   * @param {boolean} bitmask The bitmask flags.
+   *  1 - Deep clone
+   *  2 - Flatten inherited properties
+   *  4 - Clone symbols
    * @param {Function} [customizer] The function to customize cloning.
    * @param {string} [key] The key of `value`.
    * @param {Object} [object] The parent object of `value`.
    * @param {Object} [stack] Tracks traversed objects and their clone counterparts.
    * @returns {*} Returns the cloned value.
    */
-  function baseClone(value, isDeep, isFull, customizer, key, object, stack) {
-    var result;
+  function baseClone(value, bitmask, customizer, key, object, stack) {
+    var result,
+        isDeep = bitmask & CLONE_DEEP_FLAG,
+        isFlat = bitmask & CLONE_FLAT_FLAG,
+        isFull = bitmask & CLONE_SYMBOLS_FLAG;
+
     if (customizer) {
       result = object ? customizer(value, key, object, stack) : customizer(value);
     }
@@ -1327,12 +1592,11 @@
         return cloneBuffer(value, isDeep);
       }
       if (tag == objectTag || tag == argsTag || (isFunc && !object)) {
-        if (isHostObject(value)) {
-          return object ? value : {};
-        }
-        result = initCloneObject(isFunc ? {} : value);
+        result = (isFlat || isFunc) ? {} : initCloneObject(value);
         if (!isDeep) {
-          return copySymbols(value, baseAssign(result, value));
+          return isFlat
+            ? copySymbolsIn(value, baseAssignIn(result, value))
+            : copySymbols(value, baseAssign(result, value));
         }
       } else {
         if (!cloneableTags[tag]) {
@@ -1349,30 +1613,20 @@
     }
     stack.set(value, result);
 
-    if (!isArr) {
-      var props = isFull ? getAllKeys(value) : keys(value);
-    }
-    // Recursively populate clone (susceptible to call stack limits).
+    var keysFunc = isFull
+      ? (isFlat ? getAllKeysIn : getAllKeys)
+      : (isFlat ? keysIn : keys);
+
+    var props = isArr ? undefined : keysFunc(value);
     arrayEach(props || value, function(subValue, key) {
       if (props) {
         key = subValue;
         subValue = value[key];
       }
-      assignValue(result, key, baseClone(subValue, isDeep, isFull, customizer, key, value, stack));
+      // Recursively populate clone (susceptible to call stack limits).
+      assignValue(result, key, baseClone(subValue, bitmask, customizer, key, value, stack));
     });
     return result;
-  }
-
-  /**
-   * The base implementation of `_.create` without support for assigning
-   * properties to the created object.
-   *
-   * @private
-   * @param {Object} prototype The object to inherit from.
-   * @returns {Object} Returns the new object.
-   */
-  function baseCreate(proto) {
-    return isObject(proto) ? objectCreate(proto) : {};
   }
 
   /**
@@ -1453,7 +1707,7 @@
    * @returns {*} Returns the resolved value.
    */
   function baseGet(object, path) {
-    path = isKey(path, object) ? [path] : castPath(path);
+    path = castPath(path, object);
 
     var index = 0,
         length = path.length;
@@ -1481,20 +1735,19 @@
   }
 
   /**
-   * The base implementation of `_.has` without support for deep paths.
+   * The base implementation of `getTag` without fallbacks for buggy environments.
    *
    * @private
-   * @param {Object} [object] The object to query.
-   * @param {Array|string} key The key to check.
-   * @returns {boolean} Returns `true` if `key` exists, else `false`.
+   * @param {*} value The value to query.
+   * @returns {string} Returns the `toStringTag`.
    */
-  function baseHas(object, key) {
-    // Avoid a bug in IE 10-11 where objects with a [[Prototype]] of `null`,
-    // that are composed entirely of index properties, return `false` for
-    // `hasOwnProperty` checks of them.
-    return object != null &&
-      (hasOwnProperty.call(object, key) ||
-        (typeof object == 'object' && key in object && getPrototype(object) === null));
+  function baseGetTag(value) {
+    if (value == null) {
+      return value === undefined ? undefinedTag : nullTag;
+    }
+    return (symToStringTag && symToStringTag in Object(value))
+      ? getRawTag(value)
+      : objectToString(value);
   }
 
   /**
@@ -1510,28 +1763,38 @@
   }
 
   /**
+   * The base implementation of `_.isArguments`.
+   *
+   * @private
+   * @param {*} value The value to check.
+   * @returns {boolean} Returns `true` if `value` is an `arguments` object,
+   */
+  function baseIsArguments(value) {
+    return isObjectLike(value) && baseGetTag(value) == argsTag;
+  }
+
+  /**
    * The base implementation of `_.isEqual` which supports partial comparisons
    * and tracks traversed objects.
    *
    * @private
    * @param {*} value The value to compare.
    * @param {*} other The other value to compare.
+   * @param {boolean} bitmask The bitmask flags.
+   *  1 - Unordered comparison
+   *  2 - Partial comparison
    * @param {Function} [customizer] The function to customize comparisons.
-   * @param {boolean} [bitmask] The bitmask of comparison flags.
-   *  The bitmask may be composed of the following flags:
-   *     1 - Unordered comparison
-   *     2 - Partial comparison
    * @param {Object} [stack] Tracks traversed `value` and `other` objects.
    * @returns {boolean} Returns `true` if the values are equivalent, else `false`.
    */
-  function baseIsEqual(value, other, customizer, bitmask, stack) {
+  function baseIsEqual(value, other, bitmask, customizer, stack) {
     if (value === other) {
       return true;
     }
-    if (value == null || other == null || (!isObject(value) && !isObjectLike(other))) {
+    if (value == null || other == null || (!isObjectLike(value) && !isObjectLike(other))) {
       return value !== value && other !== other;
     }
-    return baseIsEqualDeep(value, other, baseIsEqual, customizer, bitmask, stack);
+    return baseIsEqualDeep(value, other, bitmask, customizer, baseIsEqual, stack);
   }
 
   /**
@@ -1542,38 +1805,39 @@
    * @private
    * @param {Object} object The object to compare.
    * @param {Object} other The other object to compare.
+   * @param {number} bitmask The bitmask flags. See `baseIsEqual` for more details.
+   * @param {Function} customizer The function to customize comparisons.
    * @param {Function} equalFunc The function to determine equivalents of values.
-   * @param {Function} [customizer] The function to customize comparisons.
-   * @param {number} [bitmask] The bitmask of comparison flags. See `baseIsEqual`
-   *  for more details.
    * @param {Object} [stack] Tracks traversed `object` and `other` objects.
    * @returns {boolean} Returns `true` if the objects are equivalent, else `false`.
    */
-  function baseIsEqualDeep(object, other, equalFunc, customizer, bitmask, stack) {
+  function baseIsEqualDeep(object, other, bitmask, customizer, equalFunc, stack) {
     var objIsArr = isArray(object),
         othIsArr = isArray(other),
-        objTag = arrayTag,
-        othTag = arrayTag;
+        objTag = objIsArr ? arrayTag : getTag(object),
+        othTag = othIsArr ? arrayTag : getTag(other);
 
-    if (!objIsArr) {
-      objTag = getTag(object);
-      objTag = objTag == argsTag ? objectTag : objTag;
-    }
-    if (!othIsArr) {
-      othTag = getTag(other);
-      othTag = othTag == argsTag ? objectTag : othTag;
-    }
-    var objIsObj = objTag == objectTag && !isHostObject(object),
-        othIsObj = othTag == objectTag && !isHostObject(other),
+    objTag = objTag == argsTag ? objectTag : objTag;
+    othTag = othTag == argsTag ? objectTag : othTag;
+
+    var objIsObj = objTag == objectTag,
+        othIsObj = othTag == objectTag,
         isSameTag = objTag == othTag;
 
+    if (isSameTag && isBuffer(object)) {
+      if (!isBuffer(other)) {
+        return false;
+      }
+      objIsArr = true;
+      objIsObj = false;
+    }
     if (isSameTag && !objIsObj) {
       stack || (stack = new Stack);
       return (objIsArr || isTypedArray(object))
-        ? equalArrays(object, other, equalFunc, customizer, bitmask, stack)
-        : equalByTag(object, other, objTag, equalFunc, customizer, bitmask, stack);
+        ? equalArrays(object, other, bitmask, customizer, equalFunc, stack)
+        : equalByTag(object, other, objTag, bitmask, customizer, equalFunc, stack);
     }
-    if (!(bitmask & PARTIAL_COMPARE_FLAG)) {
+    if (!(bitmask & COMPARE_PARTIAL_FLAG)) {
       var objIsWrapped = objIsObj && hasOwnProperty.call(object, '__wrapped__'),
           othIsWrapped = othIsObj && hasOwnProperty.call(other, '__wrapped__');
 
@@ -1582,14 +1846,14 @@
             othUnwrapped = othIsWrapped ? other.value() : other;
 
         stack || (stack = new Stack);
-        return equalFunc(objUnwrapped, othUnwrapped, customizer, bitmask, stack);
+        return equalFunc(objUnwrapped, othUnwrapped, bitmask, customizer, stack);
       }
     }
     if (!isSameTag) {
       return false;
     }
     stack || (stack = new Stack);
-    return equalObjects(object, other, equalFunc, customizer, bitmask, stack);
+    return equalObjects(object, other, bitmask, customizer, equalFunc, stack);
   }
 
   /**
@@ -1636,7 +1900,7 @@
           var result = customizer(objValue, srcValue, key, object, source, stack);
         }
         if (!(result === undefined
-              ? baseIsEqual(srcValue, objValue, customizer, UNORDERED_COMPARE_FLAG | PARTIAL_COMPARE_FLAG, stack)
+              ? baseIsEqual(srcValue, objValue, COMPARE_PARTIAL_FLAG | COMPARE_UNORDERED_FLAG, customizer, stack)
               : result
             )) {
           return false;
@@ -1658,8 +1922,20 @@
     if (!isObject(value) || isMasked(value)) {
       return false;
     }
-    var pattern = (isFunction(value) || isHostObject(value)) ? reIsNative : reIsHostCtor;
+    var pattern = isFunction(value) ? reIsNative : reIsHostCtor;
     return pattern.test(toSource(value));
+  }
+
+  /**
+   * The base implementation of `_.isTypedArray` without Node.js optimizations.
+   *
+   * @private
+   * @param {*} value The value to check.
+   * @returns {boolean} Returns `true` if `value` is a typed array, else `false`.
+   */
+  function baseIsTypedArray(value) {
+    return isObjectLike(value) &&
+      isLength(value.length) && !!typedArrayTags[baseGetTag(value)];
   }
 
   /**
@@ -1687,40 +1963,45 @@
   }
 
   /**
-   * The base implementation of `_.keys` which doesn't skip the constructor
-   * property of prototypes or treat sparse arrays as dense.
+   * The base implementation of `_.keys` which doesn't treat sparse arrays as dense.
    *
    * @private
    * @param {Object} object The object to query.
    * @returns {Array} Returns the array of property names.
    */
   function baseKeys(object) {
-    return nativeKeys(Object(object));
+    if (!isPrototype(object)) {
+      return nativeKeys(object);
+    }
+    var result = [];
+    for (var key in Object(object)) {
+      if (hasOwnProperty.call(object, key) && key != 'constructor') {
+        result.push(key);
+      }
+    }
+    return result;
   }
 
   /**
-   * The base implementation of `_.keysIn` which doesn't skip the constructor
-   * property of prototypes or treat sparse arrays as dense.
+   * The base implementation of `_.keysIn` which doesn't treat sparse arrays as dense.
    *
    * @private
    * @param {Object} object The object to query.
    * @returns {Array} Returns the array of property names.
    */
   function baseKeysIn(object) {
-    object = object == null ? object : Object(object);
+    if (!isObject(object)) {
+      return nativeKeysIn(object);
+    }
+    var isProto = isPrototype(object),
+        result = [];
 
-    var result = [];
     for (var key in object) {
-      result.push(key);
+      if (!(key == 'constructor' && (isProto || !hasOwnProperty.call(object, key)))) {
+        result.push(key);
+      }
     }
     return result;
-  }
-
-  // Fallback for IE < 9 with es6-shim.
-  if (enumerate && !propertyIsEnumerable.call({ 'valueOf': 1 }, 'valueOf')) {
-    baseKeysIn = function(object) {
-      return iteratorToArray(enumerate(object));
-    };
   }
 
   /**
@@ -1756,7 +2037,7 @@
       var objValue = get(object, path);
       return (objValue === undefined && objValue === srcValue)
         ? hasIn(object, path)
-        : baseIsEqual(srcValue, objValue, undefined, UNORDERED_COMPARE_FLAG | PARTIAL_COMPARE_FLAG);
+        : baseIsEqual(srcValue, objValue, COMPARE_PARTIAL_FLAG | COMPARE_UNORDERED_FLAG);
     };
   }
 
@@ -1775,14 +2056,7 @@
     if (object === source) {
       return;
     }
-    if (!(isArray(source) || isTypedArray(source))) {
-      var props = keysIn(source);
-    }
-    arrayEach(props || source, function(srcValue, key) {
-      if (props) {
-        key = srcValue;
-        srcValue = source[key];
-      }
+    baseFor(source, function(srcValue, key) {
       if (isObject(srcValue)) {
         stack || (stack = new Stack);
         baseMergeDeep(object, source, key, srcIndex, baseMerge, customizer, stack);
@@ -1797,7 +2071,7 @@
         }
         assignMergeValue(object, key, newValue);
       }
-    });
+    }, keysIn);
   }
 
   /**
@@ -1831,56 +2105,50 @@
     var isCommon = newValue === undefined;
 
     if (isCommon) {
+      var isArr = isArray(srcValue),
+          isBuff = !isArr && isBuffer(srcValue),
+          isTyped = !isArr && !isBuff && isTypedArray(srcValue);
+
       newValue = srcValue;
-      if (isArray(srcValue) || isTypedArray(srcValue)) {
+      if (isArr || isBuff || isTyped) {
         if (isArray(objValue)) {
           newValue = objValue;
         }
         else if (isArrayLikeObject(objValue)) {
           newValue = copyArray(objValue);
         }
-        else {
+        else if (isBuff) {
           isCommon = false;
-          newValue = baseClone(srcValue, true);
+          newValue = cloneBuffer(srcValue, true);
+        }
+        else if (isTyped) {
+          isCommon = false;
+          newValue = cloneTypedArray(srcValue, true);
+        }
+        else {
+          newValue = [];
         }
       }
       else if (isPlainObject(srcValue) || isArguments(srcValue)) {
+        newValue = objValue;
         if (isArguments(objValue)) {
           newValue = toPlainObject(objValue);
         }
         else if (!isObject(objValue) || (srcIndex && isFunction(objValue))) {
-          isCommon = false;
-          newValue = baseClone(srcValue, true);
-        }
-        else {
-          newValue = objValue;
+          newValue = initCloneObject(srcValue);
         }
       }
       else {
         isCommon = false;
       }
     }
-    stack.set(srcValue, newValue);
-
     if (isCommon) {
       // Recursively merge objects and arrays (susceptible to call stack limits).
+      stack.set(srcValue, newValue);
       mergeFunc(newValue, srcValue, srcIndex, customizer, stack);
+      stack['delete'](srcValue);
     }
-    stack['delete'](srcValue);
     assignMergeValue(object, key, newValue);
-  }
-
-  /**
-   * The base implementation of `_.property` without support for deep paths.
-   *
-   * @private
-   * @param {string} key The key of the property to get.
-   * @returns {Function} Returns the new accessor function.
-   */
-  function baseProperty(key) {
-    return function(object) {
-      return object == null ? undefined : object[key];
-    };
   }
 
   /**
@@ -1897,17 +2165,32 @@
   }
 
   /**
+   * The base implementation of `_.rest` which doesn't validate or coerce arguments.
+   *
+   * @private
+   * @param {Function} func The function to apply a rest parameter to.
+   * @param {number} [start=func.length-1] The start position of the rest parameter.
+   * @returns {Function} Returns the new function.
+   */
+  function baseRest(func, start) {
+    return setToString(overRest(func, start, identity), func + '');
+  }
+
+  /**
    * The base implementation of `_.set`.
    *
    * @private
-   * @param {Object} object The object to query.
+   * @param {Object} object The object to modify.
    * @param {Array|string} path The path of the property to set.
    * @param {*} value The value to set.
    * @param {Function} [customizer] The function to customize path creation.
    * @returns {Object} Returns `object`.
    */
   function baseSet(object, path, value, customizer) {
-    path = isKey(path, object) ? [path] : castPath(path);
+    if (!isObject(object)) {
+      return object;
+    }
+    path = castPath(path, object);
 
     var index = -1,
         length = path.length,
@@ -1915,24 +2198,40 @@
         nested = object;
 
     while (nested != null && ++index < length) {
-      var key = toKey(path[index]);
-      if (isObject(nested)) {
-        var newValue = value;
-        if (index != lastIndex) {
-          var objValue = nested[key];
-          newValue = customizer ? customizer(objValue, key, nested) : undefined;
-          if (newValue === undefined) {
-            newValue = objValue == null
-              ? (isIndex(path[index + 1]) ? [] : {})
-              : objValue;
-          }
+      var key = toKey(path[index]),
+          newValue = value;
+
+      if (index != lastIndex) {
+        var objValue = nested[key];
+        newValue = customizer ? customizer(objValue, key, nested) : undefined;
+        if (newValue === undefined) {
+          newValue = isObject(objValue)
+            ? objValue
+            : (isIndex(path[index + 1]) ? [] : {});
         }
-        assignValue(nested, key, newValue);
       }
+      assignValue(nested, key, newValue);
       nested = nested[key];
     }
     return object;
   }
+
+  /**
+   * The base implementation of `setToString` without support for hot loop shorting.
+   *
+   * @private
+   * @param {Function} func The function to modify.
+   * @param {Function} string The `toString` result.
+   * @returns {Function} Returns `func`.
+   */
+  var baseSetToString = !defineProperty ? identity : function(func, string) {
+    return defineProperty(func, 'toString', {
+      'configurable': true,
+      'enumerable': false,
+      'value': constant(string),
+      'writable': true
+    });
+  };
 
   /**
    * The base implementation of `_.toString` which doesn't convert nullish
@@ -1946,6 +2245,10 @@
     // Exit early for strings to avoid a performance hit in some environments.
     if (typeof value == 'string') {
       return value;
+    }
+    if (isArray(value)) {
+      // Recursively convert values (susceptible to call stack limits).
+      return arrayMap(value, baseToString) + '';
     }
     if (isSymbol(value)) {
       return symbolToString ? symbolToString.call(value) : '';
@@ -2020,10 +2323,14 @@
    *
    * @private
    * @param {*} value The value to inspect.
+   * @param {Object} [object] The object to query keys on.
    * @returns {Array} Returns the cast property path array.
    */
-  function castPath(value) {
-    return isArray(value) ? value : stringToPath(value);
+  function castPath(value, object) {
+    if (isArray(value)) {
+      return value;
+    }
+    return isKey(value, object) ? [value] : stringToPath(toString(value));
   }
 
   /**
@@ -2038,7 +2345,9 @@
     if (isDeep) {
       return buffer.slice();
     }
-    var result = new buffer.constructor(buffer.length);
+    var length = buffer.length,
+        result = allocUnsafe ? allocUnsafe(length) : new buffer.constructor(length);
+
     buffer.copy(result);
     return result;
   }
@@ -2079,7 +2388,7 @@
    * @returns {Object} Returns the cloned map.
    */
   function cloneMap(map, isDeep, cloneFunc) {
-    var array = isDeep ? cloneFunc(mapToArray(map), true) : mapToArray(map);
+    var array = isDeep ? cloneFunc(mapToArray(map), CLONE_DEEP_FLAG) : mapToArray(map);
     return arrayReduce(array, addMapEntry, new map.constructor);
   }
 
@@ -2106,7 +2415,7 @@
    * @returns {Object} Returns the cloned set.
    */
   function cloneSet(set, isDeep, cloneFunc) {
-    var array = isDeep ? cloneFunc(setToArray(set), true) : setToArray(set);
+    var array = isDeep ? cloneFunc(setToArray(set), CLONE_DEEP_FLAG) : setToArray(set);
     return arrayReduce(array, addSetEntry, new set.constructor);
   }
 
@@ -2164,6 +2473,7 @@
    * @returns {Object} Returns `object`.
    */
   function copyObject(source, props, object, customizer) {
+    var isNew = !object;
     object || (object = {});
 
     var index = -1,
@@ -2174,15 +2484,22 @@
 
       var newValue = customizer
         ? customizer(object[key], source[key], key, object, source)
-        : source[key];
+        : undefined;
 
-      assignValue(object, key, newValue);
+      if (newValue === undefined) {
+        newValue = source[key];
+      }
+      if (isNew) {
+        baseAssignValue(object, key, newValue);
+      } else {
+        assignValue(object, key, newValue);
+      }
     }
     return object;
   }
 
   /**
-   * Copies own symbol properties of `source` to `object`.
+   * Copies own symbols of `source` to `object`.
    *
    * @private
    * @param {Object} source The object to copy symbols from.
@@ -2194,6 +2511,18 @@
   }
 
   /**
+   * Copies own and inherited symbols of `source` to `object`.
+   *
+   * @private
+   * @param {Object} source The object to copy symbols from.
+   * @param {Object} [object={}] The object to copy symbols to.
+   * @returns {Object} Returns `object`.
+   */
+  function copySymbolsIn(source, object) {
+    return copyObject(source, getSymbolsIn(source), object);
+  }
+
+  /**
    * Creates a function like `_.assign`.
    *
    * @private
@@ -2201,7 +2530,7 @@
    * @returns {Function} Returns the new assigner function.
    */
   function createAssigner(assigner) {
-    return rest(function(object, sources) {
+    return baseRest(function(object, sources) {
       var index = -1,
           length = sources.length,
           customizer = length > 1 ? sources[length - 1] : undefined,
@@ -2280,7 +2609,7 @@
   }
 
   /**
-   * Creates a set of `values`.
+   * Creates a set object of `values`.
    *
    * @private
    * @param {Array} values The values to add to the set.
@@ -2297,15 +2626,14 @@
    * @private
    * @param {Array} array The array to compare.
    * @param {Array} other The other array to compare.
-   * @param {Function} equalFunc The function to determine equivalents of values.
+   * @param {number} bitmask The bitmask flags. See `baseIsEqual` for more details.
    * @param {Function} customizer The function to customize comparisons.
-   * @param {number} bitmask The bitmask of comparison flags. See `baseIsEqual`
-   *  for more details.
+   * @param {Function} equalFunc The function to determine equivalents of values.
    * @param {Object} stack Tracks traversed `array` and `other` objects.
    * @returns {boolean} Returns `true` if the arrays are equivalent, else `false`.
    */
-  function equalArrays(array, other, equalFunc, customizer, bitmask, stack) {
-    var isPartial = bitmask & PARTIAL_COMPARE_FLAG,
+  function equalArrays(array, other, bitmask, customizer, equalFunc, stack) {
+    var isPartial = bitmask & COMPARE_PARTIAL_FLAG,
         arrLength = array.length,
         othLength = other.length;
 
@@ -2314,14 +2642,15 @@
     }
     // Assume cyclic values are equal.
     var stacked = stack.get(array);
-    if (stacked) {
+    if (stacked && stack.get(other)) {
       return stacked == other;
     }
     var index = -1,
         result = true,
-        seen = (bitmask & UNORDERED_COMPARE_FLAG) ? new SetCache : undefined;
+        seen = (bitmask & COMPARE_UNORDERED_FLAG) ? new SetCache : undefined;
 
     stack.set(array, other);
+    stack.set(other, array);
 
     // Ignore non-index properties.
     while (++index < arrLength) {
@@ -2343,9 +2672,9 @@
       // Recursively compare arrays (susceptible to call stack limits).
       if (seen) {
         if (!arraySome(other, function(othValue, othIndex) {
-              if (!seen.has(othIndex) &&
-                  (arrValue === othValue || equalFunc(arrValue, othValue, customizer, bitmask, stack))) {
-                return seen.add(othIndex);
+              if (!cacheHas(seen, othIndex) &&
+                  (arrValue === othValue || equalFunc(arrValue, othValue, bitmask, customizer, stack))) {
+                return seen.push(othIndex);
               }
             })) {
           result = false;
@@ -2353,13 +2682,14 @@
         }
       } else if (!(
             arrValue === othValue ||
-              equalFunc(arrValue, othValue, customizer, bitmask, stack)
+              equalFunc(arrValue, othValue, bitmask, customizer, stack)
           )) {
         result = false;
         break;
       }
     }
     stack['delete'](array);
+    stack['delete'](other);
     return result;
   }
 
@@ -2374,14 +2704,13 @@
    * @param {Object} object The object to compare.
    * @param {Object} other The other object to compare.
    * @param {string} tag The `toStringTag` of the objects to compare.
-   * @param {Function} equalFunc The function to determine equivalents of values.
+   * @param {number} bitmask The bitmask flags. See `baseIsEqual` for more details.
    * @param {Function} customizer The function to customize comparisons.
-   * @param {number} bitmask The bitmask of comparison flags. See `baseIsEqual`
-   *  for more details.
+   * @param {Function} equalFunc The function to determine equivalents of values.
    * @param {Object} stack Tracks traversed `object` and `other` objects.
    * @returns {boolean} Returns `true` if the objects are equivalent, else `false`.
    */
-  function equalByTag(object, other, tag, equalFunc, customizer, bitmask, stack) {
+  function equalByTag(object, other, tag, bitmask, customizer, equalFunc, stack) {
     switch (tag) {
       case dataViewTag:
         if ((object.byteLength != other.byteLength) ||
@@ -2400,22 +2729,18 @@
 
       case boolTag:
       case dateTag:
-        // Coerce dates and booleans to numbers, dates to milliseconds and
-        // booleans to `1` or `0` treating invalid dates coerced to `NaN` as
-        // not equal.
-        return +object == +other;
+      case numberTag:
+        // Coerce booleans to `1` or `0` and dates to milliseconds.
+        // Invalid dates are coerced to `NaN`.
+        return eq(+object, +other);
 
       case errorTag:
         return object.name == other.name && object.message == other.message;
 
-      case numberTag:
-        // Treat `NaN` vs. `NaN` as equal.
-        return (object != +object) ? other != +other : object == +other;
-
       case regexpTag:
       case stringTag:
         // Coerce regexes to strings and treat strings, primitives and objects,
-        // as equal. See http://www.ecma-international.org/ecma-262/6.0/#sec-regexp.prototype.tostring
+        // as equal. See http://www.ecma-international.org/ecma-262/7.0/#sec-regexp.prototype.tostring
         // for more details.
         return object == (other + '');
 
@@ -2423,7 +2748,7 @@
         var convert = mapToArray;
 
       case setTag:
-        var isPartial = bitmask & PARTIAL_COMPARE_FLAG;
+        var isPartial = bitmask & COMPARE_PARTIAL_FLAG;
         convert || (convert = setToArray);
 
         if (object.size != other.size && !isPartial) {
@@ -2434,11 +2759,13 @@
         if (stacked) {
           return stacked == other;
         }
-        bitmask |= UNORDERED_COMPARE_FLAG;
-        stack.set(object, other);
+        bitmask |= COMPARE_UNORDERED_FLAG;
 
         // Recursively compare objects (susceptible to call stack limits).
-        return equalArrays(convert(object), convert(other), equalFunc, customizer, bitmask, stack);
+        stack.set(object, other);
+        var result = equalArrays(convert(object), convert(other), bitmask, customizer, equalFunc, stack);
+        stack['delete'](object);
+        return result;
 
       case symbolTag:
         if (symbolValueOf) {
@@ -2455,18 +2782,17 @@
    * @private
    * @param {Object} object The object to compare.
    * @param {Object} other The other object to compare.
-   * @param {Function} equalFunc The function to determine equivalents of values.
+   * @param {number} bitmask The bitmask flags. See `baseIsEqual` for more details.
    * @param {Function} customizer The function to customize comparisons.
-   * @param {number} bitmask The bitmask of comparison flags. See `baseIsEqual`
-   *  for more details.
+   * @param {Function} equalFunc The function to determine equivalents of values.
    * @param {Object} stack Tracks traversed `object` and `other` objects.
    * @returns {boolean} Returns `true` if the objects are equivalent, else `false`.
    */
-  function equalObjects(object, other, equalFunc, customizer, bitmask, stack) {
-    var isPartial = bitmask & PARTIAL_COMPARE_FLAG,
-        objProps = keys(object),
+  function equalObjects(object, other, bitmask, customizer, equalFunc, stack) {
+    var isPartial = bitmask & COMPARE_PARTIAL_FLAG,
+        objProps = getAllKeys(object),
         objLength = objProps.length,
-        othProps = keys(other),
+        othProps = getAllKeys(other),
         othLength = othProps.length;
 
     if (objLength != othLength && !isPartial) {
@@ -2475,17 +2801,18 @@
     var index = objLength;
     while (index--) {
       var key = objProps[index];
-      if (!(isPartial ? key in other : baseHas(other, key))) {
+      if (!(isPartial ? key in other : hasOwnProperty.call(other, key))) {
         return false;
       }
     }
     // Assume cyclic values are equal.
     var stacked = stack.get(object);
-    if (stacked) {
+    if (stacked && stack.get(other)) {
       return stacked == other;
     }
     var result = true;
     stack.set(object, other);
+    stack.set(other, object);
 
     var skipCtor = isPartial;
     while (++index < objLength) {
@@ -2500,7 +2827,7 @@
       }
       // Recursively compare objects (susceptible to call stack limits).
       if (!(compared === undefined
-            ? (objValue === othValue || equalFunc(objValue, othValue, customizer, bitmask, stack))
+            ? (objValue === othValue || equalFunc(objValue, othValue, bitmask, customizer, stack))
             : compared
           )) {
         result = false;
@@ -2521,6 +2848,7 @@
       }
     }
     stack['delete'](object);
+    stack['delete'](other);
     return result;
   }
 
@@ -2533,6 +2861,18 @@
    */
   function getAllKeys(object) {
     return baseGetAllKeys(object, keys, getSymbols);
+  }
+
+  /**
+   * Creates an array of own and inherited enumerable property names and
+   * symbols of `object`.
+   *
+   * @private
+   * @param {Object} object The object to query.
+   * @returns {Array} Returns the array of property names and symbols.
+   */
+  function getAllKeysIn(object) {
+    return baseGetAllKeys(object, keysIn, getSymbolsIn);
   }
 
   /**
@@ -2551,19 +2891,6 @@
     result = result === iteratee ? baseIteratee : result;
     return arguments.length ? result(arguments[0], arguments[1]) : result;
   }
-
-  /**
-   * Gets the "length" property value of `object`.
-   *
-   * **Note:** This function is used to avoid a
-   * [JIT bug](https://bugs.webkit.org/show_bug.cgi?id=142792) that affects
-   * Safari on at least iOS 8.1-8.3 ARM64.
-   *
-   * @private
-   * @param {Object} object The object to query.
-   * @returns {*} Returns the "length" value.
-   */
-  var getLength = baseProperty('length');
 
   /**
    * Gets the data for `map`.
@@ -2614,33 +2941,64 @@
   }
 
   /**
-   * Gets the `[[Prototype]]` of `value`.
+   * A specialized version of `baseGetTag` which ignores `Symbol.toStringTag` values.
    *
    * @private
    * @param {*} value The value to query.
-   * @returns {null|Object} Returns the `[[Prototype]]`.
+   * @returns {string} Returns the raw `toStringTag`.
    */
-  function getPrototype(value) {
-    return nativeGetPrototype(Object(value));
+  function getRawTag(value) {
+    var isOwn = hasOwnProperty.call(value, symToStringTag),
+        tag = value[symToStringTag];
+
+    try {
+      value[symToStringTag] = undefined;
+      var unmasked = true;
+    } catch (e) {}
+
+    var result = nativeObjectToString.call(value);
+    if (unmasked) {
+      if (isOwn) {
+        value[symToStringTag] = tag;
+      } else {
+        delete value[symToStringTag];
+      }
+    }
+    return result;
   }
 
   /**
-   * Creates an array of the own enumerable symbol properties of `object`.
+   * Creates an array of the own enumerable symbols of `object`.
    *
    * @private
    * @param {Object} object The object to query.
    * @returns {Array} Returns the array of symbols.
    */
-  function getSymbols(object) {
-    // Coerce `object` to an object to avoid non-object errors in V8.
-    // See https://bugs.chromium.org/p/v8/issues/detail?id=3443 for more details.
-    return getOwnPropertySymbols(Object(object));
-  }
+  var getSymbols = !nativeGetSymbols ? stubArray : function(object) {
+    if (object == null) {
+      return [];
+    }
+    object = Object(object);
+    return arrayFilter(nativeGetSymbols(object), function(symbol) {
+      return propertyIsEnumerable.call(object, symbol);
+    });
+  };
 
-  // Fallback for IE < 11.
-  if (!getOwnPropertySymbols) {
-    getSymbols = stubArray;
-  }
+  /**
+   * Creates an array of the own and inherited enumerable symbols of `object`.
+   *
+   * @private
+   * @param {Object} object The object to query.
+   * @returns {Array} Returns the array of symbols.
+   */
+  var getSymbolsIn = !nativeGetSymbols ? stubArray : function(object) {
+    var result = [];
+    while (object) {
+      arrayPush(result, getSymbols(object));
+      object = getPrototype(object);
+    }
+    return result;
+  };
 
   /**
    * Gets the `toStringTag` of `value`.
@@ -2649,21 +3007,18 @@
    * @param {*} value The value to query.
    * @returns {string} Returns the `toStringTag`.
    */
-  function getTag(value) {
-    return objectToString.call(value);
-  }
+  var getTag = baseGetTag;
 
-  // Fallback for data views, maps, sets, and weak maps in IE 11,
-  // for data views in Edge, and promises in Node.js.
+  // Fallback for data views, maps, sets, and weak maps in IE 11 and promises in Node.js < 6.
   if ((DataView && getTag(new DataView(new ArrayBuffer(1))) != dataViewTag) ||
       (Map && getTag(new Map) != mapTag) ||
       (Promise && getTag(Promise.resolve()) != promiseTag) ||
       (Set && getTag(new Set) != setTag) ||
       (WeakMap && getTag(new WeakMap) != weakMapTag)) {
     getTag = function(value) {
-      var result = objectToString.call(value),
+      var result = baseGetTag(value),
           Ctor = result == objectTag ? value.constructor : undefined,
-          ctorString = Ctor ? toSource(Ctor) : undefined;
+          ctorString = Ctor ? toSource(Ctor) : '';
 
       if (ctorString) {
         switch (ctorString) {
@@ -2688,11 +3043,11 @@
    * @returns {boolean} Returns `true` if `path` exists, else `false`.
    */
   function hasPath(object, path, hasFunc) {
-    path = isKey(path, object) ? [path] : castPath(path);
+    path = castPath(path, object);
 
-    var result,
-        index = -1,
-        length = path.length;
+    var index = -1,
+        length = path.length,
+        result = false;
 
     while (++index < length) {
       var key = toKey(path[index]);
@@ -2701,12 +3056,12 @@
       }
       object = object[key];
     }
-    if (result) {
+    if (result || ++index != length) {
       return result;
     }
-    var length = object ? object.length : 0;
+    length = object == null ? 0 : object.length;
     return !!length && isLength(length) && isIndex(key, length) &&
-      (isArray(object) || isString(object) || isArguments(object));
+      (isArray(object) || isArguments(object));
   }
 
   /**
@@ -2791,23 +3146,6 @@
   }
 
   /**
-   * Creates an array of index keys for `object` values of arrays,
-   * `arguments` objects, and strings, otherwise `null` is returned.
-   *
-   * @private
-   * @param {Object} object The object to query.
-   * @returns {Array|null} Returns index keys, else `null`.
-   */
-  function indexKeys(object) {
-    var length = object ? object.length : undefined;
-    if (isLength(length) &&
-        (isArray(object) || isString(object) || isArguments(object))) {
-      return baseTimes(length, String);
-    }
-    return null;
-  }
-
-  /**
    * Checks if `value` is a flattenable `arguments` object or array.
    *
    * @private
@@ -2815,7 +3153,8 @@
    * @returns {boolean} Returns `true` if `value` is flattenable, else `false`.
    */
   function isFlattenable(value) {
-    return isArray(value) || isArguments(value);
+    return isArray(value) || isArguments(value) ||
+      !!(spreadableSymbol && value && value[spreadableSymbol]);
   }
 
   /**
@@ -2949,15 +3288,137 @@
   }
 
   /**
+   * A specialized version of `_.memoize` which clears the memoized function's
+   * cache when it exceeds `MAX_MEMOIZE_SIZE`.
+   *
+   * @private
+   * @param {Function} func The function to have its output memoized.
+   * @returns {Function} Returns the new memoized function.
+   */
+  function memoizeCapped(func) {
+    var result = memoize(func, function(key) {
+      if (cache.size === MAX_MEMOIZE_SIZE) {
+        cache.clear();
+      }
+      return key;
+    });
+
+    var cache = result.cache;
+    return result;
+  }
+
+  /**
+   * This function is like
+   * [`Object.keys`](http://ecma-international.org/ecma-262/7.0/#sec-object.keys)
+   * except that it includes inherited enumerable properties.
+   *
+   * @private
+   * @param {Object} object The object to query.
+   * @returns {Array} Returns the array of property names.
+   */
+  function nativeKeysIn(object) {
+    var result = [];
+    if (object != null) {
+      for (var key in Object(object)) {
+        result.push(key);
+      }
+    }
+    return result;
+  }
+
+  /**
+   * Converts `value` to a string using `Object.prototype.toString`.
+   *
+   * @private
+   * @param {*} value The value to convert.
+   * @returns {string} Returns the converted string.
+   */
+  function objectToString(value) {
+    return nativeObjectToString.call(value);
+  }
+
+  /**
+   * A specialized version of `baseRest` which transforms the rest array.
+   *
+   * @private
+   * @param {Function} func The function to apply a rest parameter to.
+   * @param {number} [start=func.length-1] The start position of the rest parameter.
+   * @param {Function} transform The rest array transform.
+   * @returns {Function} Returns the new function.
+   */
+  function overRest(func, start, transform) {
+    start = nativeMax(start === undefined ? (func.length - 1) : start, 0);
+    return function() {
+      var args = arguments,
+          index = -1,
+          length = nativeMax(args.length - start, 0),
+          array = Array(length);
+
+      while (++index < length) {
+        array[index] = args[start + index];
+      }
+      index = -1;
+      var otherArgs = Array(start + 1);
+      while (++index < start) {
+        otherArgs[index] = args[index];
+      }
+      otherArgs[start] = transform(array);
+      return apply(func, this, otherArgs);
+    };
+  }
+
+  /**
+   * Sets the `toString` method of `func` to return `string`.
+   *
+   * @private
+   * @param {Function} func The function to modify.
+   * @param {Function} string The `toString` result.
+   * @returns {Function} Returns `func`.
+   */
+  var setToString = shortOut(baseSetToString);
+
+  /**
+   * Creates a function that'll short out and invoke `identity` instead
+   * of `func` when it's called `HOT_COUNT` or more times in `HOT_SPAN`
+   * milliseconds.
+   *
+   * @private
+   * @param {Function} func The function to restrict.
+   * @returns {Function} Returns the new shortable function.
+   */
+  function shortOut(func) {
+    var count = 0,
+        lastCalled = 0;
+
+    return function() {
+      var stamp = nativeNow(),
+          remaining = HOT_SPAN - (stamp - lastCalled);
+
+      lastCalled = stamp;
+      if (remaining > 0) {
+        if (++count >= HOT_COUNT) {
+          return arguments[0];
+        }
+      } else {
+        count = 0;
+      }
+      return func.apply(undefined, arguments);
+    };
+  }
+
+  /**
    * Converts `string` to a property path array.
    *
    * @private
    * @param {string} string The string to convert.
    * @returns {Array} Returns the property path array.
    */
-  var stringToPath = memoize(function(string) {
+  var stringToPath = memoizeCapped(function(string) {
     var result = [];
-    toString(string).replace(rePropName, function(match, number, quote, string) {
+    if (reLeadingDot.test(string)) {
+      result.push('');
+    }
+    string.replace(rePropName, function(match, number, quote, string) {
       result.push(quote ? string.replace(reEscapeChar, '$1') : (number || match));
     });
     return result;
@@ -2982,7 +3443,7 @@
    * Converts `func` to its source code.
    *
    * @private
-   * @param {Function} func The function to process.
+   * @param {Function} func The function to convert.
    * @returns {string} Returns the source code.
    */
   function toSource(func) {
@@ -3001,7 +3462,7 @@
 
   /**
    * Creates an array of unique values, in order, from all given arrays using
-   * [`SameValueZero`](http://ecma-international.org/ecma-262/6.0/#sec-samevaluezero)
+   * [`SameValueZero`](http://ecma-international.org/ecma-262/7.0/#sec-samevaluezero)
    * for equality comparisons.
    *
    * @static
@@ -3015,7 +3476,7 @@
    * _.union([2], [1, 2]);
    * // => [2, 1]
    */
-  var union = rest(function(arrays) {
+  var union = baseRest(function(arrays) {
     return baseUniq(baseFlatten(arrays, 1, isArrayLikeObject, true));
   });
 
@@ -3041,7 +3502,7 @@
    * @see _.forEachRight
    * @example
    *
-   * _([1, 2]).forEach(function(value) {
+   * _.forEach([1, 2], function(value) {
    *   console.log(value);
    * });
    * // => Logs `1` then `2`.
@@ -3059,7 +3520,7 @@
   /**
    * Checks if `value` is in `collection`. If `collection` is a string, it's
    * checked for a substring of `value`, otherwise
-   * [`SameValueZero`](http://ecma-international.org/ecma-262/6.0/#sec-samevaluezero)
+   * [`SameValueZero`](http://ecma-international.org/ecma-262/7.0/#sec-samevaluezero)
    * is used for equality comparisons. If `fromIndex` is negative, it's used as
    * the offset from the end of `collection`.
    *
@@ -3067,7 +3528,7 @@
    * @memberOf _
    * @since 0.1.0
    * @category Collection
-   * @param {Array|Object|string} collection The collection to search.
+   * @param {Array|Object|string} collection The collection to inspect.
    * @param {*} value The value to search for.
    * @param {number} [fromIndex=0] The index to search from.
    * @param- {Object} [guard] Enables use as an iteratee for methods like `_.reduce`.
@@ -3080,10 +3541,10 @@
    * _.includes([1, 2, 3], 1, 2);
    * // => false
    *
-   * _.includes({ 'user': 'fred', 'age': 40 }, 'fred');
+   * _.includes({ 'a': 1, 'b': 2 }, 1);
    * // => true
    *
-   * _.includes('pebbles', 'eb');
+   * _.includes('abcd', 'bc');
    * // => true
    */
   function includes(collection, value, fromIndex, guard) {
@@ -3111,8 +3572,8 @@
    * **Note:** The cache is exposed as the `cache` property on the memoized
    * function. Its creation may be customized by replacing the `_.memoize.Cache`
    * constructor with one whose instances implement the
-   * [`Map`](http://ecma-international.org/ecma-262/6.0/#sec-properties-of-the-map-prototype-object)
-   * method interface of `delete`, `get`, `has`, and `set`.
+   * [`Map`](http://ecma-international.org/ecma-262/7.0/#sec-properties-of-the-map-prototype-object)
+   * method interface of `clear`, `delete`, `get`, `has`, and `set`.
    *
    * @static
    * @memberOf _
@@ -3146,7 +3607,7 @@
    * _.memoize.Cache = WeakMap;
    */
   function memoize(func, resolver) {
-    if (typeof func != 'function' || (resolver && typeof resolver != 'function')) {
+    if (typeof func != 'function' || (resolver != null && typeof resolver != 'function')) {
       throw new TypeError(FUNC_ERROR_TEXT);
     }
     var memoized = function() {
@@ -3158,75 +3619,21 @@
         return cache.get(key);
       }
       var result = func.apply(this, args);
-      memoized.cache = cache.set(key, result);
+      memoized.cache = cache.set(key, result) || cache;
       return result;
     };
     memoized.cache = new (memoize.Cache || MapCache);
     return memoized;
   }
 
-  // Assign cache to `_.memoize`.
+  // Expose `MapCache`.
   memoize.Cache = MapCache;
-
-  /**
-   * Creates a function that invokes `func` with the `this` binding of the
-   * created function and arguments from `start` and beyond provided as
-   * an array.
-   *
-   * **Note:** This method is based on the
-   * [rest parameter](https://mdn.io/rest_parameters).
-   *
-   * @static
-   * @memberOf _
-   * @since 4.0.0
-   * @category Function
-   * @param {Function} func The function to apply a rest parameter to.
-   * @param {number} [start=func.length-1] The start position of the rest parameter.
-   * @returns {Function} Returns the new function.
-   * @example
-   *
-   * var say = _.rest(function(what, names) {
-   *   return what + ' ' + _.initial(names).join(', ') +
-   *     (_.size(names) > 1 ? ', & ' : '') + _.last(names);
-   * });
-   *
-   * say('hello', 'fred', 'barney', 'pebbles');
-   * // => 'hello fred, barney, & pebbles'
-   */
-  function rest(func, start) {
-    if (typeof func != 'function') {
-      throw new TypeError(FUNC_ERROR_TEXT);
-    }
-    start = nativeMax(start === undefined ? (func.length - 1) : toInteger(start), 0);
-    return function() {
-      var args = arguments,
-          index = -1,
-          length = nativeMax(args.length - start, 0),
-          array = Array(length);
-
-      while (++index < length) {
-        array[index] = args[start + index];
-      }
-      switch (start) {
-        case 0: return func.call(this, array);
-        case 1: return func.call(this, args[0], array);
-        case 2: return func.call(this, args[0], args[1], array);
-      }
-      var otherArgs = Array(start + 1);
-      index = -1;
-      while (++index < start) {
-        otherArgs[index] = args[index];
-      }
-      otherArgs[start] = array;
-      return apply(func, this, otherArgs);
-    };
-  }
 
   /*------------------------------------------------------------------------*/
 
   /**
    * Performs a
-   * [`SameValueZero`](http://ecma-international.org/ecma-262/6.0/#sec-samevaluezero)
+   * [`SameValueZero`](http://ecma-international.org/ecma-262/7.0/#sec-samevaluezero)
    * comparison between two values to determine if they are equivalent.
    *
    * @static
@@ -3238,8 +3645,8 @@
    * @returns {boolean} Returns `true` if the values are equivalent, else `false`.
    * @example
    *
-   * var object = { 'user': 'fred' };
-   * var other = { 'user': 'fred' };
+   * var object = { 'a': 1 };
+   * var other = { 'a': 1 };
    *
    * _.eq(object, object);
    * // => true
@@ -3268,7 +3675,7 @@
    * @since 0.1.0
    * @category Lang
    * @param {*} value The value to check.
-   * @returns {boolean} Returns `true` if `value` is correctly classified,
+   * @returns {boolean} Returns `true` if `value` is an `arguments` object,
    *  else `false`.
    * @example
    *
@@ -3278,11 +3685,10 @@
    * _.isArguments([1, 2, 3]);
    * // => false
    */
-  function isArguments(value) {
-    // Safari 8.1 incorrectly makes `arguments.callee` enumerable in strict mode.
-    return isArrayLikeObject(value) && hasOwnProperty.call(value, 'callee') &&
-      (!propertyIsEnumerable.call(value, 'callee') || objectToString.call(value) == argsTag);
-  }
+  var isArguments = baseIsArguments(function() { return arguments; }()) ? baseIsArguments : function(value) {
+    return isObjectLike(value) && hasOwnProperty.call(value, 'callee') &&
+      !propertyIsEnumerable.call(value, 'callee');
+  };
 
   /**
    * Checks if `value` is classified as an `Array` object.
@@ -3290,11 +3696,9 @@
    * @static
    * @memberOf _
    * @since 0.1.0
-   * @type {Function}
    * @category Lang
    * @param {*} value The value to check.
-   * @returns {boolean} Returns `true` if `value` is correctly classified,
-   *  else `false`.
+   * @returns {boolean} Returns `true` if `value` is an array, else `false`.
    * @example
    *
    * _.isArray([1, 2, 3]);
@@ -3337,7 +3741,7 @@
    * // => false
    */
   function isArrayLike(value) {
-    return value != null && isLength(getLength(value)) && !isFunction(value);
+    return value != null && isLength(value.length) && !isFunction(value);
   }
 
   /**
@@ -3386,9 +3790,7 @@
    * _.isBuffer(new Uint8Array(2));
    * // => false
    */
-  var isBuffer = !Buffer ? stubFalse : function(value) {
-    return value instanceof Buffer;
-  };
+  var isBuffer = nativeIsBuffer || stubFalse;
 
   /**
    * Checks if `value` is classified as a `Function` object.
@@ -3398,8 +3800,7 @@
    * @since 0.1.0
    * @category Lang
    * @param {*} value The value to check.
-   * @returns {boolean} Returns `true` if `value` is correctly classified,
-   *  else `false`.
+   * @returns {boolean} Returns `true` if `value` is a function, else `false`.
    * @example
    *
    * _.isFunction(_);
@@ -3409,26 +3810,27 @@
    * // => false
    */
   function isFunction(value) {
+    if (!isObject(value)) {
+      return false;
+    }
     // The use of `Object#toString` avoids issues with the `typeof` operator
-    // in Safari 8 which returns 'object' for typed array and weak map constructors,
-    // and PhantomJS 1.9 which returns 'function' for `NodeList` instances.
-    var tag = isObject(value) ? objectToString.call(value) : '';
-    return tag == funcTag || tag == genTag;
+    // in Safari 9 which returns 'object' for typed arrays and other constructors.
+    var tag = baseGetTag(value);
+    return tag == funcTag || tag == genTag || tag == asyncTag || tag == proxyTag;
   }
 
   /**
    * Checks if `value` is a valid array-like length.
    *
-   * **Note:** This function is loosely based on
-   * [`ToLength`](http://ecma-international.org/ecma-262/6.0/#sec-tolength).
+   * **Note:** This method is loosely based on
+   * [`ToLength`](http://ecma-international.org/ecma-262/7.0/#sec-tolength).
    *
    * @static
    * @memberOf _
    * @since 4.0.0
    * @category Lang
    * @param {*} value The value to check.
-   * @returns {boolean} Returns `true` if `value` is a valid length,
-   *  else `false`.
+   * @returns {boolean} Returns `true` if `value` is a valid length, else `false`.
    * @example
    *
    * _.isLength(3);
@@ -3450,7 +3852,7 @@
 
   /**
    * Checks if `value` is the
-   * [language type](http://www.ecma-international.org/ecma-262/6.0/#sec-ecmascript-language-types)
+   * [language type](http://www.ecma-international.org/ecma-262/7.0/#sec-ecmascript-language-types)
    * of `Object`. (e.g. arrays, functions, objects, regexes, `new Number(0)`, and `new String('')`)
    *
    * @static
@@ -3475,7 +3877,7 @@
    */
   function isObject(value) {
     var type = typeof value;
-    return !!value && (type == 'object' || type == 'function');
+    return value != null && (type == 'object' || type == 'function');
   }
 
   /**
@@ -3503,7 +3905,7 @@
    * // => false
    */
   function isObjectLike(value) {
-    return !!value && typeof value == 'object';
+    return value != null && typeof value == 'object';
   }
 
   /**
@@ -3515,8 +3917,7 @@
    * @since 0.8.0
    * @category Lang
    * @param {*} value The value to check.
-   * @returns {boolean} Returns `true` if `value` is a plain object,
-   *  else `false`.
+   * @returns {boolean} Returns `true` if `value` is a plain object, else `false`.
    * @example
    *
    * function Foo() {
@@ -3536,8 +3937,7 @@
    * // => true
    */
   function isPlainObject(value) {
-    if (!isObjectLike(value) ||
-        objectToString.call(value) != objectTag || isHostObject(value)) {
+    if (!isObjectLike(value) || baseGetTag(value) != objectTag) {
       return false;
     }
     var proto = getPrototype(value);
@@ -3545,8 +3945,8 @@
       return true;
     }
     var Ctor = hasOwnProperty.call(proto, 'constructor') && proto.constructor;
-    return (typeof Ctor == 'function' &&
-      Ctor instanceof Ctor && funcToString.call(Ctor) == objectCtorString);
+    return typeof Ctor == 'function' && Ctor instanceof Ctor &&
+      funcToString.call(Ctor) == objectCtorString;
   }
 
   /**
@@ -3557,8 +3957,7 @@
    * @memberOf _
    * @category Lang
    * @param {*} value The value to check.
-   * @returns {boolean} Returns `true` if `value` is correctly classified,
-   *  else `false`.
+   * @returns {boolean} Returns `true` if `value` is a string, else `false`.
    * @example
    *
    * _.isString('abc');
@@ -3569,7 +3968,7 @@
    */
   function isString(value) {
     return typeof value == 'string' ||
-      (!isArray(value) && isObjectLike(value) && objectToString.call(value) == stringTag);
+      (!isArray(value) && isObjectLike(value) && baseGetTag(value) == stringTag);
   }
 
   /**
@@ -3580,8 +3979,7 @@
    * @since 4.0.0
    * @category Lang
    * @param {*} value The value to check.
-   * @returns {boolean} Returns `true` if `value` is correctly classified,
-   *  else `false`.
+   * @returns {boolean} Returns `true` if `value` is a symbol, else `false`.
    * @example
    *
    * _.isSymbol(Symbol.iterator);
@@ -3592,7 +3990,7 @@
    */
   function isSymbol(value) {
     return typeof value == 'symbol' ||
-      (isObjectLike(value) && objectToString.call(value) == symbolTag);
+      (isObjectLike(value) && baseGetTag(value) == symbolTag);
   }
 
   /**
@@ -3603,8 +4001,7 @@
    * @since 3.0.0
    * @category Lang
    * @param {*} value The value to check.
-   * @returns {boolean} Returns `true` if `value` is correctly classified,
-   *  else `false`.
+   * @returns {boolean} Returns `true` if `value` is a typed array, else `false`.
    * @example
    *
    * _.isTypedArray(new Uint8Array);
@@ -3613,10 +4010,7 @@
    * _.isTypedArray([]);
    * // => false
    */
-  function isTypedArray(value) {
-    return isObjectLike(value) &&
-      isLength(value.length) && !!typedArrayTags[objectToString.call(value)];
-  }
+  var isTypedArray = nodeIsTypedArray ? baseUnary(nodeIsTypedArray) : baseIsTypedArray;
 
   /**
    * Checks if `value` is `undefined`.
@@ -3669,8 +4063,8 @@
     if (isArrayLike(value)) {
       return isString(value) ? stringToArray(value) : copyArray(value);
     }
-    if (iteratorSymbol && value[iteratorSymbol]) {
-      return iteratorToArray(value[iteratorSymbol]());
+    if (symIterator && value[symIterator]) {
+      return iteratorToArray(value[symIterator]());
     }
     var tag = getTag(value),
         func = tag == mapTag ? mapToArray : (tag == setTag ? setToArray : values);
@@ -3717,7 +4111,7 @@
    * Converts `value` to an integer.
    *
    * **Note:** This method is loosely based on
-   * [`ToInteger`](http://www.ecma-international.org/ecma-262/6.0/#sec-tointeger).
+   * [`ToInteger`](http://www.ecma-international.org/ecma-262/7.0/#sec-tointeger).
    *
    * @static
    * @memberOf _
@@ -3777,7 +4171,7 @@
       return NAN;
     }
     if (isObject(value)) {
-      var other = isFunction(value.valueOf) ? value.valueOf() : value;
+      var other = typeof value.valueOf == 'function' ? value.valueOf() : value;
       value = isObject(other) ? (other + '') : other;
     }
     if (typeof value != 'string') {
@@ -3826,8 +4220,8 @@
    * @memberOf _
    * @since 4.0.0
    * @category Lang
-   * @param {*} value The value to process.
-   * @returns {string} Returns the string.
+   * @param {*} value The value to convert.
+   * @returns {string} Returns the converted string.
    * @example
    *
    * _.toString(null);
@@ -3847,7 +4241,7 @@
 
   /**
    * Gets the value at `path` of `object`. If the resolved value is
-   * `undefined`, the `defaultValue` is used in its place.
+   * `undefined`, the `defaultValue` is returned in its place.
    *
    * @static
    * @memberOf _
@@ -3909,7 +4303,7 @@
    * Creates an array of the own enumerable property names of `object`.
    *
    * **Note:** Non-object values are coerced to objects. See the
-   * [ES spec](http://ecma-international.org/ecma-262/6.0/#sec-object.keys)
+   * [ES spec](http://ecma-international.org/ecma-262/7.0/#sec-object.keys)
    * for more details.
    *
    * @static
@@ -3934,23 +4328,7 @@
    * // => ['0', '1']
    */
   function keys(object) {
-    var isProto = isPrototype(object);
-    if (!(isProto || isArrayLike(object))) {
-      return baseKeys(object);
-    }
-    var indexes = indexKeys(object),
-        skipIndexes = !!indexes,
-        result = indexes || [],
-        length = result.length;
-
-    for (var key in object) {
-      if (baseHas(object, key) &&
-          !(skipIndexes && (key == 'length' || isIndex(key, length))) &&
-          !(isProto && key == 'constructor')) {
-        result.push(key);
-      }
-    }
-    return result;
+    return isArrayLike(object) ? arrayLikeKeys(object) : baseKeys(object);
   }
 
   /**
@@ -3977,23 +4355,7 @@
    * // => ['a', 'b', 'c'] (iteration order is not guaranteed)
    */
   function keysIn(object) {
-    var index = -1,
-        isProto = isPrototype(object),
-        props = baseKeysIn(object),
-        propsLength = props.length,
-        indexes = indexKeys(object),
-        skipIndexes = !!indexes,
-        result = indexes || [],
-        length = result.length;
-
-    while (++index < propsLength) {
-      var key = props[index];
-      if (!(skipIndexes && (key == 'length' || isIndex(key, length))) &&
-          !(key == 'constructor' && (isProto || !hasOwnProperty.call(object, key)))) {
-        result.push(key);
-      }
-    }
-    return result;
+    return isArrayLike(object) ? arrayLikeKeys(object, true) : baseKeysIn(object);
   }
 
   /**
@@ -4016,16 +4378,16 @@
    * @returns {Object} Returns `object`.
    * @example
    *
-   * var users = {
-   *   'data': [{ 'user': 'barney' }, { 'user': 'fred' }]
+   * var object = {
+   *   'a': [{ 'b': 2 }, { 'd': 4 }]
    * };
    *
-   * var ages = {
-   *   'data': [{ 'age': 36 }, { 'age': 40 }]
+   * var other = {
+   *   'a': [{ 'c': 3 }, { 'e': 5 }]
    * };
    *
-   * _.merge(users, ages);
-   * // => { 'data': [{ 'user': 'barney', 'age': 36 }, { 'user': 'fred', 'age': 40 }] }
+   * _.merge(object, other);
+   * // => { 'a': [{ 'b': 2, 'c': 3 }, { 'd': 4, 'e': 5 }] }
    */
   var merge = createAssigner(function(object, source, srcIndex) {
     baseMerge(object, source, srcIndex);
@@ -4090,13 +4452,38 @@
    * // => ['h', 'i']
    */
   function values(object) {
-    return object ? baseValues(object, keys(object)) : [];
+    return object == null ? [] : baseValues(object, keys(object));
   }
 
   /*------------------------------------------------------------------------*/
 
   /**
-   * This method returns the first argument given to it.
+   * Creates a function that returns `value`.
+   *
+   * @static
+   * @memberOf _
+   * @since 2.4.0
+   * @category Util
+   * @param {*} value The value to return from the new function.
+   * @returns {Function} Returns the new constant function.
+   * @example
+   *
+   * var objects = _.times(2, _.constant({ 'a': 1 }));
+   *
+   * console.log(objects);
+   * // => [{ 'a': 1 }, { 'a': 1 }]
+   *
+   * console.log(objects[0] === objects[1]);
+   * // => true
+   */
+  function constant(value) {
+    return function() {
+      return value;
+    };
+  }
+
+  /**
+   * This method returns the first argument it receives.
    *
    * @static
    * @since 0.1.0
@@ -4106,7 +4493,7 @@
    * @returns {*} Returns `value`.
    * @example
    *
-   * var object = { 'user': 'fred' };
+   * var object = { 'a': 1 };
    *
    * console.log(_.identity(object) === object);
    * // => true
@@ -4158,11 +4545,11 @@
    * // => ['def']
    */
   function iteratee(func) {
-    return baseIteratee(typeof func == 'function' ? func : baseClone(func, true));
+    return baseIteratee(typeof func == 'function' ? func : baseClone(func, CLONE_DEEP_FLAG));
   }
 
   /**
-   * A method that returns `undefined`.
+   * This method returns `undefined`.
    *
    * @static
    * @memberOf _
@@ -4204,7 +4591,7 @@
   }
 
   /**
-   * A method that returns a new empty array.
+   * This method returns a new empty array.
    *
    * @static
    * @memberOf _
@@ -4226,7 +4613,7 @@
   }
 
   /**
-   * A method that returns `false`.
+   * This method returns `false`.
    *
    * @static
    * @memberOf _
@@ -4245,13 +4632,13 @@
   /*------------------------------------------------------------------------*/
 
   // Add methods that return wrapped values in chain sequences.
+  lodash.constant = constant;
   lodash.iteratee = iteratee;
   lodash.keys = keys;
   lodash.keysIn = keysIn;
   lodash.memoize = memoize;
   lodash.merge = merge;
   lodash.property = property;
-  lodash.rest = rest;
   lodash.set = set;
   lodash.toArray = toArray;
   lodash.toPlainObject = toPlainObject;

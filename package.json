@@ -77,7 +77,7 @@
     "http2": "^3.3.6",
     "istanbul": "0.4.5",
     "istanbul-coveralls": "1.0.3",
-    "lodash-cli": "4.15.0",
+    "lodash-cli": "4.17.4",
     "mocha": "3.4.1",
     "q": "1.4.1",
     "request": "2.79.0",
