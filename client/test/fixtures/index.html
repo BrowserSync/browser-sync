@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width">
+    <title>Test HTML Page</title>
+    <link rel="stylesheet" href="css/style.css"/>
+    <!--<link rel="stylesheet" href="fonts/roboto/stylesheet.css"/>-->
+</head>
+<body>
+
+    <h1 style="font-family: robotoregular, serif">Hello from the test Page</h1>
+    <a href="forms.html">Forms</a>
+    <a href="scrolling.html">Scrolling Window</a>
+
+    <!--<audio src="http://mp3.miselec.com/wp-content/uploads/2013/04/05%20-%20We%20No%20Speak%20Americano.mp3" preload="auto" controls></audio>-->
+    <!--<audio src="Heal8-Bit.ogg" preload="auto" controls></audio>-->
+    <video src="320x240.ogg" controls>
+        Your browser does not support the <code>video</code> element.
+    </video>
+
+    <p id="shower">Click me</p>
+    <p id="toggle"></p>
+
+    <script type="text/javascript">
+
+        var old = window.addEventListener ? false : true;
+//        alert(old);
+        var elem = document.getElementById("shower");
+        var elem2 = document.getElementById("toggle");
+
+<!---->
+        elem[old ? "attachEvent" : "addEventListener"]((old ? "on" : "")  + "click", function () {
+            console.log("~~~~~Click event occured~~~~~~");
+        }, true);
+    </script>
+
+</body>
+</html>
