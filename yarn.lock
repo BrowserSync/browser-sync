@@ -407,14 +407,15 @@ browser-sync-spa@1.0.3:
     connect-history-api-fallback "0.0.5"
     opt-merger "^1.1.0"
 
-browser-sync-ui@1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/browser-sync-ui/-/browser-sync-ui-1.0.0.tgz#80c6cb5214e04218f1f2a3c8e2b1b830420f0b9f"
+browser-sync-ui@v1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/browser-sync-ui/-/browser-sync-ui-1.0.1.tgz#9740527b26d1d7ace259acc0c79e5b5e37d0fdf2"
   dependencies:
     async-each-series "0.1.1"
     connect-history-api-fallback "^1.1.0"
     immutable "^3.7.6"
     server-destroy "1.0.1"
+    socket.io-client "2.0.4"
     stream-throttle "^0.1.3"
 
 bs-html-injector@3.0.3:
