@@ -53,7 +53,7 @@ describe("E2E Socket namespace test - given a string", function () {
             .get(instance.options.getIn(["scriptPaths", "path"]))
             .expect(200)
             .end(function (err, res) {
-                assert.include(res.text, "___browserSync___.url = '' + location.host + '/TEST';");
+                assert.include(res.text, "___browserSync___.socketUrl = '' + location.host + '/TEST';");
                 done();
             });
     });

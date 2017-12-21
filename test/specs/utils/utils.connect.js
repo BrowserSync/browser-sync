@@ -92,7 +92,7 @@ describe("Connection snippetUtils", function () {
             }
         });
         var actual   = utils.socketConnector(options);
-        assert.include(actual, "___browserSync___.url = 'localhost:3000/browser-sync';");
+        assert.include(actual, "___browserSync___.socketUrl = 'localhost:3000/browser-sync';");
     });
     it("should allow setting of the socket domain + namespace", function () {
         var options = merge({
@@ -105,7 +105,7 @@ describe("Connection snippetUtils", function () {
             }
         });
         var actual   = utils.socketConnector(options);
-        assert.include(actual, "___browserSync___.url = 'localhost:3000/shane';");
+        assert.include(actual, "___browserSync___.socketUrl = 'localhost:3000/shane';");
     });
     it("should allow setting of the socket domain (fn)+ namespace", function () {
         var options = merge({
@@ -123,7 +123,7 @@ describe("Connection snippetUtils", function () {
             }
         });
         var actual   = utils.socketConnector(options);
-        assert.include(actual, "___browserSync___.url = 'http://localhost:3002/shane';");
+        assert.include(actual, "___browserSync___.socketUrl = 'http://localhost:3002/shane';");
     });
     it("should allow setting of the socket namespace with fn (back compat)", function () {
         var options = merge({
@@ -140,7 +140,7 @@ describe("Connection snippetUtils", function () {
             }
         });
         var actual   = utils.socketConnector(options);
-        assert.include(actual, "___browserSync___.url = '' + location.host + '/browser-sync';");
+        assert.include(actual, "___browserSync___.socketUrl = '' + location.host + '/browser-sync';");
     });
     it("E2E Should allow setting of socket.domain + script.domain as strings", function (done) {
         bs.reset();
@@ -157,7 +157,7 @@ describe("Connection snippetUtils", function () {
 
             assert.include(bs.options.get("snippet"), "<script async id=\"__bs_script__\" src=\"http://localhost:3000/browser-sync");
 
-            var expected = "___browserSync___.url = 'http://localhost:3000/browser-sync'";
+            var expected = "___browserSync___.socketUrl = 'http://localhost:3000/browser-sync'";
 
             req(bs.server)
                 .get(bs.options.getIn(["scriptPaths", "path"]))
@@ -180,7 +180,7 @@ describe("Connection snippetUtils", function () {
             var port = bs.options.get("port");
             assert.include(bs.options.get("snippet"), "<script async id=\"__bs_script__\" src=\"http://localhost:" + port + "/browser-sync");
 
-            var expected = "___browserSync___.url = 'http://localhost:" + port + "/browser-sync'";
+            var expected = "___browserSync___.socketUrl = 'http://localhost:" + port + "/browser-sync'";
 
             req(bs.server)
                 .get(bs.options.getIn(["scriptPaths", "path"]))
@@ -237,7 +237,7 @@ describe("Connection snippetUtils", function () {
                 .expect(200)
                 .end(function (err, res) {
 
-                    var expected = "___browserSync___.url = 'http://localhost:" + port + "/browser-sync'";
+                    var expected = "___browserSync___.socketUrl = 'http://localhost:" + port + "/browser-sync'";
                     assert.include(res.text, expected);
                     bs.cleanup();
                     done();

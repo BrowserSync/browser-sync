@@ -126,34 +126,3 @@ describe("Plugins: Using the connector as a string", function () {
         });
     });
 });
-
-describe("Plugins: Using the same socket.io as BS", function () {
-
-    it("returns socket.io script as a string", function (done) {
-
-        browserSync.reset();
-
-        var config = {
-            server: {
-                baseDir: "test/fixtures"
-            },
-            logLevel: "silent",
-            open: false
-        };
-
-        browserSync.use({
-
-            plugin: function (opts, bs) {
-
-                var socketio = bs.getSocketIoScript();
-
-                assert.include(socketio, "Socket");
-            }
-        });
-
-        browserSync(config, function(err, bs) {
-            bs.cleanup();
-            done();
-        });
-    });
-});
