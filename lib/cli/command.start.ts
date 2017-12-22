@@ -1,10 +1,8 @@
-"use strict";
-
-var path = require("path");
-var fs = require("fs");
-var _ = require("../lodash.custom");
-var utils = require("../utils");
-var opts = require("./cli-options").utils;
+import * as path from "path";
+import { existsSync } from "fs";
+import * as utils from "../utils";
+import { explodeFilesArg } from "./cli-options";
+const _ = require("../lodash.custom");
 
 /**
  * $ browser-sync start <options>
@@ -15,28 +13,26 @@ var opts = require("./cli-options").utils;
  * @param opts
  * @returns {Function}
  */
-module.exports = function(opts) {
-    var flags = preprocessFlags(opts.cli.flags);
-    var maybepkg = path.resolve(process.cwd(), "package.json");
-    var input = flags;
+export default function(opts) {
+    const flags = preprocessFlags(opts.cli.flags);
+    const maybepkg = path.resolve(process.cwd(), "package.json");
+    let input = flags;
 
     if (flags.config) {
-        var maybeconf = path.resolve(process.cwd(), flags.config);
-        if (fs.existsSync(maybeconf)) {
-            var conf = require(maybeconf);
+        const maybeconf = path.resolve(process.cwd(), flags.config);
+        if (existsSync(maybeconf)) {
+            const conf = require(maybeconf);
             input = _.merge({}, conf, flags);
         } else {
             utils.fail(
                 true,
-                new Error(
-                    "Configuration file '" + flags.config + "' not found"
-                ),
+                new Error(`Configuration file '${flags.config}' not found`),
                 opts.cb
             );
         }
     } else {
-        if (fs.existsSync(maybepkg)) {
-            var pkg = require(maybepkg);
+        if (existsSync(maybepkg)) {
+            const pkg = require(maybepkg);
             if (pkg["browser-sync"]) {
                 console.log("> Configuration obtained from package.json");
                 input = _.merge({}, pkg["browser-sync"], flags);
@@ -47,16 +43,17 @@ module.exports = function(opts) {
     return require("../")
         .create("cli")
         .init(input, opts.cb);
-};
+}
 
 /**
  * @param flags
  * @returns {*}
  */
 function preprocessFlags(flags) {
-    return [stripUndefined, legacyFilesArgs].reduce(function(flags, fn) {
-        return fn.call(null, flags);
-    }, flags);
+    return [stripUndefined, legacyFilesArgs].reduce(
+        (flags, fn) => fn.call(null, flags),
+        flags
+    );
 }
 
 /**
@@ -66,8 +63,8 @@ function preprocessFlags(flags) {
  * @returns {*}
  */
 function stripUndefined(subject) {
-    return Object.keys(subject).reduce(function(acc, key) {
-        var value = subject[key];
+    return Object.keys(subject).reduce((acc, key) => {
+        const value = subject[key];
         if (typeof value === "undefined") {
             return acc;
         }
@@ -82,9 +79,10 @@ function stripUndefined(subject) {
  */
 function legacyFilesArgs(flags) {
     if (flags.files && flags.files.length) {
-        flags.files = flags.files.reduce(function(acc, item) {
-            return acc.concat(opts.explodeFilesArg(item));
-        }, []);
+        flags.files = flags.files.reduce(
+            (acc, item) => acc.concat(explodeFilesArg(item)),
+            []
+        );
     }
     return flags;
 }

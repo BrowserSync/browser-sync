@@ -92,7 +92,6 @@ function runFromCli() {
  * @returns {any}
  */
 function handleNoCommand(argv, input, yargs) {
-
     const processed = processStart(yargs);
     const paths = input.map(path => {
         const resolved = resolve(path);
@@ -112,7 +111,7 @@ function handleNoCommand(argv, input, yargs) {
         withErrors.forEach(item => {
             logger.unprefixed("error", printErrors(item.errors));
         });
-        return  process.exit(1);
+        return process.exit(1);
     }
 
     const serveStaticPaths = withoutErrors
@@ -134,7 +133,7 @@ function handleNoCommand(argv, input, yargs) {
             proxy,
             serveStatic: serveStaticPaths
         };
-        return handleIncoming('start', yargs.reset());
+        return handleIncoming("start", yargs.reset());
     }
 
     /**
@@ -155,7 +154,11 @@ function handleNoCommand(argv, input, yargs) {
  */
 function handleCli(opts) {
     opts.cb = opts.cb || utils.defaultCallback;
-    return require(`./cli/command.${opts.cli.input[0]}`)(opts);
+    const m = require(`./cli/command.${opts.cli.input[0]}`);
+    if (m.default) {
+        return m.default(opts);
+    }
+    return m(opts);
 }
 
 export default handleCli;
@@ -164,10 +167,7 @@ function processStart(yargs) {
     return yargs
         .usage("Usage: $0 start [options]")
         .options(startOpts)
-        .example(
-            "$0 start -s app",
-            "- Use the App directory to serve files"
-        )
+        .example("$0 start -s app", "- Use the App directory to serve files")
         .example("$0 start -p www.bbc.co.uk", "- Proxy an existing website")
         .help().argv;
 }
