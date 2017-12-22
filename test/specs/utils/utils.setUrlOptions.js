@@ -1,32 +1,30 @@
-"use strict";
+var utils = require("../../../dist/utils");
+var merge = require("../../../lib/cli/cli-options").merge;
 
-var utils    = require("../../../dist/utils");
-var merge    = require("../../../lib/cli/cli-options").merge;
-
-var assert    = require("chai").assert;
-var sinon     = require("sinon");
+var assert = require("chai").assert;
+var sinon = require("sinon");
 
 var external = "192.168.0.4";
 
-describe("Utils: creating URLs", function () {
+describe("Utils: creating URLs", function() {
     var opts, ipStub;
-    before(function () {
+    before(function() {
         ipStub = sinon.stub(utils, "getHostIp").returns(external);
     });
-    after(function () {
+    after(function() {
         ipStub.restore();
     });
-    afterEach(function () {
+    afterEach(function() {
         ipStub.reset();
     });
-    beforeEach(function () {
+    beforeEach(function() {
         opts = merge({
             port: 3000,
             server: true,
             scheme: "http"
         });
     });
-    it("should return the local when offline", function () {
+    it("should return the local when offline", function() {
         var opts = merge({
             port: 3000,
             server: true,
@@ -37,7 +35,7 @@ describe("Utils: creating URLs", function () {
             local: "http://localhost:3000"
         });
     });
-    it("should return the external", function () {
+    it("should return the external", function() {
         var opts = merge({
             port: 3000,
             server: true,
@@ -49,7 +47,7 @@ describe("Utils: creating URLs", function () {
             external: "http://" + external + ":3000"
         });
     });
-    it("should return the external/local with xip", function () {
+    it("should return the external/local with xip", function() {
         var opts = merge({
             port: 3000,
             server: true,
@@ -59,9 +57,12 @@ describe("Utils: creating URLs", function () {
         });
         var out = utils.getUrlOptions(opts);
         assert.equal(out.get("local"), "https://127.0.0.1.xip.io:3000");
-        assert.equal(out.get("external"), "https://" + external + ".xip.io:3000");
+        assert.equal(
+            out.get("external"),
+            "https://" + external + ".xip.io:3000"
+        );
     });
-    it("should return the URLs when OFFLINE & XIP set", function () {
+    it("should return the URLs when OFFLINE & XIP set", function() {
         var opts = merge({
             port: 3000,
             server: true,

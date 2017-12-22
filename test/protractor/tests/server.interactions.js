@@ -1,4 +1,3 @@
-"use strict";
 
 var init = require("../bs.init");
 var path = require("path");

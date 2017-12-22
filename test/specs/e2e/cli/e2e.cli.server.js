@@ -1,19 +1,15 @@
-"use strict";
-
-var path        = require("path");
-var request     = require("supertest");
-var assert      = require("chai").assert;
+var path = require("path");
+var request = require("supertest");
+var assert = require("chai").assert;
 var browserSync = require(path.resolve("./"));
 
-var pkg     = require(path.resolve("package.json"));
-var cli     = require(path.resolve(pkg.bin)).default;
+var pkg = require(path.resolve("package.json"));
+var cli = require(path.resolve(pkg.bin)).default;
 
-describe("E2E CLI server test", function () {
-
+describe("E2E CLI server test", function() {
     var instance;
 
-    before(function (done) {
-
+    before(function(done) {
         browserSync.reset();
 
         cli({
@@ -26,43 +22,41 @@ describe("E2E CLI server test", function () {
                     logLevel: "silent"
                 }
             },
-            cb: function (err, bs) {
+            cb: function(err, bs) {
                 instance = bs;
                 done();
             }
         });
     });
-    after(function () {
+    after(function() {
         instance.cleanup();
     });
-    it("serves index.html + snippet injected", function (done) {
+    it("serves index.html + snippet injected", function(done) {
         request(instance.server)
             .get("/index.html")
             .set("accept", "text/html")
             .expect(200)
-            .end(function (err, res) {
+            .end(function(err, res) {
                 assert.include(res.text, instance.options.get("snippet"));
                 done();
             });
     });
-    it("serves browser-sync client js", function (done) {
+    it("serves browser-sync client js", function(done) {
         request(instance.server)
             .get(instance.options.getIn(["scriptPaths", "versioned"]))
             .set("accept", "text/html")
             .expect(200)
-            .end(function (err, res) {
+            .end(function(err, res) {
                 assert.include(res.text, "Connected to BrowserSync");
                 done();
             });
     });
 });
 
-describe("E2E CLI server test with directory listing/index ", function () {
-
+describe("E2E CLI server test with directory listing/index ", function() {
     var instance;
 
-    before(function (done) {
-
+    before(function(done) {
         browserSync.reset();
 
         cli({
@@ -77,27 +71,28 @@ describe("E2E CLI server test with directory listing/index ", function () {
                     index: "index.htm"
                 }
             },
-            cb: function (err, bs) {
+            cb: function(err, bs) {
                 instance = bs;
                 done();
             }
         });
     });
-    after(function () {
+    after(function() {
         instance.cleanup();
     });
-    it("Sets the correct server options", function () {
+    it("Sets the correct server options", function() {
         assert.equal(instance.options.getIn(["server", "directory"]), true);
-        assert.equal(instance.options.getIn(["server", "serveStaticOptions", "index"]), "index.htm");
+        assert.equal(
+            instance.options.getIn(["server", "serveStaticOptions", "index"]),
+            "index.htm"
+        );
     });
 });
 
-describe("E2E CLI server test with extensions option - single", function () {
-
+describe("E2E CLI server test with extensions option - single", function() {
     var instance;
 
-    before(function (done) {
-
+    before(function(done) {
         browserSync.reset();
 
         cli({
@@ -111,27 +106,33 @@ describe("E2E CLI server test with extensions option - single", function () {
                     extensions: "html"
                 }
             },
-            cb: function (err, bs) {
+            cb: function(err, bs) {
                 instance = bs;
                 done();
             }
         });
     });
-    after(function () {
+    after(function() {
         instance.cleanup();
     });
-    it("Sets the extensions option (array) for serve static", function () {
-        assert.equal(instance.options.getIn(["server", "serveStaticOptions", "index"]), "index.html");
-        assert.deepEqual(instance.options.getIn(["server", "serveStaticOptions", "extensions"]).toJS(), ["html"]);
+    it("Sets the extensions option (array) for serve static", function() {
+        assert.equal(
+            instance.options.getIn(["server", "serveStaticOptions", "index"]),
+            "index.html"
+        );
+        assert.deepEqual(
+            instance.options
+                .getIn(["server", "serveStaticOptions", "extensions"])
+                .toJS(),
+            ["html"]
+        );
     });
 });
 
-describe("E2E CLI server test with extensions option - multiple", function () {
-
+describe("E2E CLI server test with extensions option - multiple", function() {
     var instance;
 
-    before(function (done) {
-
+    before(function(done) {
         browserSync.reset();
 
         cli({
@@ -145,17 +146,25 @@ describe("E2E CLI server test with extensions option - multiple", function () {
                     extensions: "html,css"
                 }
             },
-            cb: function (err, bs) {
+            cb: function(err, bs) {
                 instance = bs;
                 done();
             }
         });
     });
-    after(function () {
+    after(function() {
         instance.cleanup();
     });
-    it("Sets the extensions option (array) for serve static", function () {
-        assert.equal(instance.options.getIn(["server", "serveStaticOptions", "index"]), "index.html");
-        assert.deepEqual(instance.options.getIn(["server", "serveStaticOptions", "extensions"]).toJS(), ["html", "css"]);
+    it("Sets the extensions option (array) for serve static", function() {
+        assert.equal(
+            instance.options.getIn(["server", "serveStaticOptions", "index"]),
+            "index.html"
+        );
+        assert.deepEqual(
+            instance.options
+                .getIn(["server", "serveStaticOptions", "extensions"])
+                .toJS(),
+            ["html", "css"]
+        );
     });
 });

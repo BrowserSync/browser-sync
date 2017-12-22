@@ -1,21 +1,17 @@
-"use strict";
-
 var browserSync = require("../../../");
-var testUtils   = require("../../protractor/utils");
-var Immutable   = require("immutable");
-var sinon       = require("sinon");
-var request     = require("supertest");
+var testUtils = require("../../protractor/utils");
+var Immutable = require("immutable");
+var sinon = require("sinon");
+var request = require("supertest");
 
-describe("Plugins: Should be able to register middleware when in proxy mode", function () {
-
+describe("Plugins: Should be able to register middleware when in proxy mode", function() {
     var app;
     var spy;
 
-    it("should serve the file", function (done) {
-
+    it("should serve the file", function(done) {
         browserSync.reset();
 
-        app = testUtils.getApp(Immutable.Map({scheme: "http"}));
+        app = testUtils.getApp(Immutable.Map({ scheme: "http" }));
         app.server.listen();
 
         spy = sinon.spy();
@@ -27,12 +23,12 @@ describe("Plugins: Should be able to register middleware when in proxy mode", fu
         };
 
         browserSync.use({
-            "plugin": function () {
+            plugin: function() {
                 /* noop */
             },
-            "hooks": {
-                "server:middleware": function () {
-                    return function (req, res, next) {
+            hooks: {
+                "server:middleware": function() {
+                    return function(req, res, next) {
                         spy();
                         next();
                     };
@@ -45,12 +41,11 @@ describe("Plugins: Should be able to register middleware when in proxy mode", fu
             request(bs.server)
                 .get("/")
                 .set("accept", "text/html")
-                .end(function () {
+                .end(function() {
                     sinon.assert.called(spy);
                     bs.cleanup();
                     done();
                 });
         });
-
     });
 });

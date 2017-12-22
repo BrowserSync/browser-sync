@@ -1,18 +1,14 @@
-"use strict";
-
 var browserSync = require("../../../");
 
 var request = require("supertest");
-var assert  = require("chai").assert;
+var assert = require("chai").assert;
 
-describe("E2E server test", function () {
-
+describe("E2E server test", function() {
     this.timeout(5000);
 
     var bs;
 
-    before(function (done) {
-
+    before(function(done) {
         browserSync.reset();
 
         var config = {
@@ -25,12 +21,11 @@ describe("E2E server test", function () {
         bs = browserSync(config, done).instance;
     });
 
-    after(function () {
+    after(function() {
         bs.cleanup();
     });
 
-    it("serves files with the snippet added", function (done) {
-
+    it("serves files with the snippet added", function(done) {
         var snippet = bs.getOption("snippet");
 
         assert.isString(snippet);
@@ -39,18 +34,17 @@ describe("E2E server test", function () {
             .get("/index.html")
             .set("accept", "text/html")
             .expect(200)
-            .end(function (err, res) {
+            .end(function(err, res) {
                 assert.include(res.text, snippet);
                 done();
             });
     });
 
-    it("serves the client script", function (done) {
-
+    it("serves the client script", function(done) {
         request(bs.server)
             .get(bs.options.getIn(["scriptPaths", "versioned"]))
             .expect(200)
-            .end(function (err, res) {
+            .end(function(err, res) {
                 assert.include(res.text, "Connected to BrowserSync");
                 done();
             });

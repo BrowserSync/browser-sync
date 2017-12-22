@@ -1,4 +1,3 @@
-"use strict";
 
 var eachSeries  = require("async-each-series");
 var path        = require("path");

@@ -1,14 +1,10 @@
-"use strict";
-
 var browserSync = require("../../../../");
 
 var request = require("supertest");
-var assert  = require("chai").assert;
+var assert = require("chai").assert;
 
-describe("E2E server test with rewrite rules", function () {
-
-    it("serves files with HTML rewritten", function (done) {
-
+describe("E2E server test with rewrite rules", function() {
+    it("serves files with HTML rewritten", function(done) {
         browserSync.reset();
 
         var config = {
@@ -18,7 +14,7 @@ describe("E2E server test with rewrite rules", function () {
             rewriteRules: [
                 {
                     match: /Forms/g,
-                    fn: function () {
+                    fn: function() {
                         return "Shane's forms";
                     }
                 }
@@ -27,20 +23,19 @@ describe("E2E server test with rewrite rules", function () {
             open: false
         };
 
-        browserSync.init(config, function (err, bs) {
+        browserSync.init(config, function(err, bs) {
             request(bs.server)
                 .get("/index.html")
                 .set("accept", "text/html")
                 .expect(200)
-                .end(function (err, res) {
+                .end(function(err, res) {
                     if (err) return done(err);
                     assert.include(res.text, "Shane's forms");
                     bs.cleanup(done);
                 });
         });
     });
-    it("supports legacy boolean for rewriteRules", function (done) {
-
+    it("supports legacy boolean for rewriteRules", function(done) {
         browserSync.reset();
 
         var config = {
@@ -52,13 +47,12 @@ describe("E2E server test with rewrite rules", function () {
             open: false
         };
 
-        browserSync.init(config, function (err, bs) {
-
+        browserSync.init(config, function(err, bs) {
             request(bs.server)
                 .get("/index.html")
                 .set("accept", "text/html")
                 .expect(200)
-                .end(function (err) {
+                .end(function(err) {
                     if (err) return done(err);
                     bs.cleanup(done);
                 });

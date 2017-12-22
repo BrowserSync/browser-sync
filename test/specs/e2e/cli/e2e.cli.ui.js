@@ -1,18 +1,14 @@
-"use strict";
-
-var path        = require("path");
-var assert      = require("chai").assert;
+var path = require("path");
+var assert = require("chai").assert;
 var browserSync = require(path.resolve("./"));
 
-var pkg         = require(path.resolve("package.json"));
-var cli         = require(path.resolve(pkg.bin)).default;
+var pkg = require(path.resolve("package.json"));
+var cli = require(path.resolve(pkg.bin)).default;
 
-describe("E2E CLI UI test", function () {
-
+describe("E2E CLI UI test", function() {
     var instance;
 
-    before(function (done) {
-
+    before(function(done) {
         browserSync.reset();
 
         cli({
@@ -25,7 +21,7 @@ describe("E2E CLI UI test", function () {
                     uiPort: 2000
                 }
             },
-            cb: function (err, bs) {
+            cb: function(err, bs) {
                 if (err) {
                     return done(err);
                 }
@@ -34,10 +30,10 @@ describe("E2E CLI UI test", function () {
             }
         });
     });
-    after(function () {
+    after(function() {
         instance.cleanup();
     });
-    it("serves versioned browser-sync client js", function () {
+    it("serves versioned browser-sync client js", function() {
         assert.equal(instance.options.getIn(["ui", "port"]), 2000);
     });
 });

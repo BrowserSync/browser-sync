@@ -1,5 +1,3 @@
-"use strict";
-
 var browserSync = require("../../../../");
 
 var connect = require("connect");
@@ -7,12 +5,10 @@ var serveStatic = require("serve-static");
 var request = require("supertest");
 var assert = require("chai").assert;
 
-describe("E2E proxy test with adding and removing rewrite rules dynamically", function () {
-
+describe("E2E proxy test with adding and removing rewrite rules dynamically", function() {
     var bs, server, options;
 
-    before(function (done) {
-
+    before(function(done) {
         browserSync.reset();
 
         var app = connect();
@@ -21,25 +17,24 @@ describe("E2E proxy test with adding and removing rewrite rules dynamically", fu
         var proxytarget = "http://localhost:" + server.address().port;
 
         var config = {
-            proxy:     proxytarget,
+            proxy: proxytarget,
             logLevel: "silent",
-            open:      false,
+            open: false,
             online: false
         };
 
-        bs = browserSync.init([], config, function (err, bs) {
+        bs = browserSync.init([], config, function(err, bs) {
             options = bs.options;
             done();
         }).instance;
     });
 
-    after(function () {
+    after(function() {
         bs.cleanup();
         server.close();
     });
 
-    it("can add rules on the fly", function (done) {
-
+    it("can add rules on the fly", function(done) {
         bs.addRewriteRule({
             match: "BrowserSync",
             replace: "BROWSERSYNC",
@@ -50,8 +45,7 @@ describe("E2E proxy test with adding and removing rewrite rules dynamically", fu
             .get("/index.html")
             .set("accept", "text/html")
             .expect(200)
-            .end(function (err, res) {
-
+            .end(function(err, res) {
                 assert.include(res.text, "BROWSERSYNC");
 
                 bs.removeRewriteRule("myrule");
@@ -60,7 +54,7 @@ describe("E2E proxy test with adding and removing rewrite rules dynamically", fu
                     .get("/index.html")
                     .set("accept", "text/html")
                     .expect(200)
-                    .end(function (err, res) {
+                    .end(function(err, res) {
                         assert.include(res.text, "BrowserSync");
                         assert.notInclude(res.text, "BROWSERSYNC");
                         done();

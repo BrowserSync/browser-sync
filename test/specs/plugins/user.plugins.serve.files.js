@@ -1,18 +1,15 @@
-"use strict";
-
 var browserSync = require("../../../");
 
-var assert      = require("chai").assert;
-var request     = require("supertest");
-var http        = require("http");
-var path        = require("path");
-var connect     = require("connect");
+var assert = require("chai").assert;
+var request = require("supertest");
+var http = require("http");
+var path = require("path");
+var connect = require("connect");
 var serveStatic = require("serve-static");
 
-describe("Plugins: Should be able to call `serveFile` on the instance when in server mode", function () {
-
+describe("Plugins: Should be able to call `serveFile` on the instance when in server mode", function() {
     var PLUGIN_NAME = "KITTENZ";
-    it("should serve the file", function (done) {
+    it("should serve the file", function(done) {
         browserSync.reset();
 
         var config = {
@@ -22,7 +19,7 @@ describe("Plugins: Should be able to call `serveFile` on the instance when in se
         };
 
         browserSync.use({
-            plugin: function (opts, bs) {
+            plugin: function(opts, bs) {
                 bs.serveFile("/shane", {
                     type: "text/css",
                     content: "Hi there"
@@ -36,7 +33,7 @@ describe("Plugins: Should be able to call `serveFile` on the instance when in se
                 .get("/shane")
                 .set("accept", "text/html")
                 .expect(200)
-                .end(function (err, res) {
+                .end(function(err, res) {
                     assert.include(res.text, "Hi there");
                     assert.equal(res.headers["content-type"], "text/css");
                     bs.cleanup();
@@ -46,10 +43,9 @@ describe("Plugins: Should be able to call `serveFile` on the instance when in se
     });
 });
 
-describe("Plugins: Should be able to call `serveFile` on the instance when in snippet mode", function () {
-
+describe("Plugins: Should be able to call `serveFile` on the instance when in snippet mode", function() {
     var PLUGIN_NAME = "KITTENZ";
-    it("should serve the file", function (done) {
+    it("should serve the file", function(done) {
         browserSync.reset();
 
         var config = {
@@ -58,7 +54,7 @@ describe("Plugins: Should be able to call `serveFile` on the instance when in sn
         };
 
         browserSync.use({
-            plugin: function (opts, bs) {
+            plugin: function(opts, bs) {
                 bs.serveFile("/shane", {
                     type: "text/css",
                     content: "Hi there"
@@ -72,7 +68,7 @@ describe("Plugins: Should be able to call `serveFile` on the instance when in sn
                 .get("/shane")
                 .set("accept", "text/html")
                 .expect(200)
-                .end(function (err, res) {
+                .end(function(err, res) {
                     assert.include(res.text, "Hi there");
                     assert.equal(res.headers["content-type"], "text/css");
                     bs.cleanup();
@@ -82,16 +78,15 @@ describe("Plugins: Should be able to call `serveFile` on the instance when in sn
     });
 });
 
-describe("Plugins: Should be able to call `serveFile` on the instance when in proxy mode", function () {
-
+describe("Plugins: Should be able to call `serveFile` on the instance when in proxy mode", function() {
     var PLUGIN_NAME = "KITTENZ";
 
-    it("should serve the file + browserSync file", function (done) {
-
+    it("should serve the file + browserSync file", function(done) {
         browserSync.reset();
 
-        var testApp = connect()
-            .use(serveStatic(path.join(__dirname, "../../fixtures")));
+        var testApp = connect().use(
+            serveStatic(path.join(__dirname, "../../fixtures"))
+        );
 
         // server to proxy
         var stubServer = http.createServer(testApp).listen();
@@ -104,7 +99,7 @@ describe("Plugins: Should be able to call `serveFile` on the instance when in pr
         };
 
         browserSync.use({
-            plugin: function (opts, bs) {
+            plugin: function(opts, bs) {
                 bs.serveFile("/shane", {
                     type: "text/css",
                     content: "Hi there"
@@ -118,7 +113,7 @@ describe("Plugins: Should be able to call `serveFile` on the instance when in pr
                 .get("/shane")
                 .set("accept", "text/html")
                 .expect(200)
-                .end(function (err, res) {
+                .end(function(err, res) {
                     assert.include(res.text, "Hi there");
                     assert.equal(res.headers["content-type"], "text/css");
                     stubServer.close();
@@ -126,6 +121,5 @@ describe("Plugins: Should be able to call `serveFile` on the instance when in pr
                     done();
                 });
         });
-
     });
 });

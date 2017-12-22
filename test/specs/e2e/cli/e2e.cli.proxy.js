@@ -1,21 +1,17 @@
-"use strict";
-
-var path        = require("path");
-var request     = require("supertest");
-var assert      = require("chai").assert;
-var connect     = require("connect");
+var path = require("path");
+var request = require("supertest");
+var assert = require("chai").assert;
+var connect = require("connect");
 var browserSync = require(path.resolve("./"));
 var serveStatic = require("serve-static");
 
-var pkg     = require(path.resolve("package.json"));
-var cli     = require(path.resolve(pkg.bin)).default;
+var pkg = require(path.resolve("package.json"));
+var cli = require(path.resolve(pkg.bin)).default;
 
-describe("E2E CLI proxy test", function () {
-
+describe("E2E CLI proxy test", function() {
     var instance, server;
 
-    before(function (done) {
-
+    before(function(done) {
         browserSync.reset();
         var app = connect();
         app.use(serveStatic("./test/fixtures"));
@@ -32,43 +28,41 @@ describe("E2E CLI proxy test", function () {
                     logLevel: "silent"
                 }
             },
-            cb: function (err, bs) {
+            cb: function(err, bs) {
                 instance = bs;
                 done();
             }
         });
     });
-    after(function () {
+    after(function() {
         server.close();
         instance.cleanup();
     });
-    it("serves index.html + snippet injected", function (done) {
+    it("serves index.html + snippet injected", function(done) {
         request(instance.server)
             .get("/index.html")
             .set("accept", "text/html")
             .expect(200)
-            .end(function (err, res) {
+            .end(function(err, res) {
                 assert.include(res.text, instance.options.get("snippet"));
                 done();
             });
     });
-    it("serves browser-sync client js", function (done) {
+    it("serves browser-sync client js", function(done) {
         request(instance.server)
             .get(instance.options.getIn(["scriptPaths", "versioned"]))
             .set("accept", "text/html")
             .expect(200)
-            .end(function (err, res) {
+            .end(function(err, res) {
                 assert.include(res.text, "Connected to BrowserSync");
                 done();
             });
     });
 });
-describe("E2E CLI proxy test", function () {
-
+describe("E2E CLI proxy test", function() {
     var instance;
 
-    before(function (done) {
-
+    before(function(done) {
         browserSync.reset();
 
         cli({
@@ -81,26 +75,24 @@ describe("E2E CLI proxy test", function () {
                     logLevel: "silent"
                 }
             },
-            cb: function (err, bs) {
+            cb: function(err, bs) {
                 instance = bs;
                 done();
             }
         });
     });
-    after(function () {
+    after(function() {
         instance.cleanup();
     });
-    it("should fall back to snippet mode if no string given for proxy on cli", function () {
+    it("should fall back to snippet mode if no string given for proxy on cli", function() {
         assert.equal(instance.options.get("mode"), "snippet");
     });
 });
 
-describe("E2E CLI proxy test", function () {
-
+describe("E2E CLI proxy test", function() {
     var instance;
 
-    before(function (done) {
-
+    before(function(done) {
         browserSync.reset();
 
         cli({
@@ -112,17 +104,16 @@ describe("E2E CLI proxy test", function () {
                     open: false
                 }
             },
-            cb: function (err, bs) {
+            cb: function(err, bs) {
                 instance = bs;
                 done();
             }
         });
     });
-    after(function () {
+    after(function() {
         instance.cleanup();
     });
-    it("promote paths in the proxy to startPath option", function () {
-
+    it("promote paths in the proxy to startPath option", function() {
         assert.equal(instance.options.get("startPath"), "/path/is/here");
     });
 });

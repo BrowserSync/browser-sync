@@ -1,18 +1,14 @@
-"use strict";
-
 var browserSync = require("../../../");
 
 var request = require("supertest");
-var assert  = require("chai").assert;
+var assert = require("chai").assert;
 
-describe("E2E server test", function () {
-
+describe("E2E server test", function() {
     this.timeout(5000);
 
     var bs, bs2;
 
-    before(function (done) {
-
+    before(function(done) {
         browserSync.reset();
 
         var config = {
@@ -22,18 +18,17 @@ describe("E2E server test", function () {
             server: "test/fixtures"
         };
 
-        bs = browserSync.create("first").init(config, function () {
+        bs = browserSync.create("first").init(config, function() {
             bs2 = browserSync.create("second").init(config, done);
         });
     });
 
-    after(function () {
+    after(function() {
         bs.cleanup();
         bs2.cleanup();
     });
 
-    it("serves files with the snippet added", function (done) {
-
+    it("serves files with the snippet added", function(done) {
         var snippet = bs.getOption("snippet");
 
         assert.isString(snippet);
@@ -42,7 +37,7 @@ describe("E2E server test", function () {
             .get("/index.html")
             .set("accept", "text/html")
             .expect(200)
-            .end(function (err, res) {
+            .end(function(err, res) {
                 assert.include(res.text, snippet);
             });
 
@@ -54,25 +49,24 @@ describe("E2E server test", function () {
             .get("/index.html")
             .set("accept", "text/html")
             .expect(200)
-            .end(function (err, res) {
+            .end(function(err, res) {
                 assert.isTrue(res.text.indexOf(snippet2) > -1);
                 done();
             });
     });
 
-    it("serves the client script", function (done) {
-
+    it("serves the client script", function(done) {
         request(bs.server)
             .get(bs.options.getIn(["scriptPaths", "versioned"]))
             .expect(200)
-            .end(function (err, res) {
+            .end(function(err, res) {
                 assert.include(res.text, "Connected to BrowserSync");
             });
 
         request(bs2.server)
             .get(bs2.options.getIn(["scriptPaths", "versioned"]))
             .expect(200)
-            .end(function (err, res) {
+            .end(function(err, res) {
                 assert.include(res.text, "Connected to BrowserSync");
                 done();
             });

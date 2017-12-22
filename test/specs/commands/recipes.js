@@ -1,32 +1,32 @@
-require('source-map-support').install();
+require("source-map-support").install();
 
-var path        = require("path");
+var path = require("path");
 var browserSync = require(path.resolve("./"));
 
-var pkg         = require(path.resolve("package.json"));
-var sinon       = require("sinon");
-var logger      = require("../../../dist/logger").logger;
-var assert      = require("chai").assert;
-var cli         = require(path.resolve(pkg.bin)).default;
-var fs          = require("fs");
-var rim         = require("rimraf").sync;
+var pkg = require(path.resolve("package.json"));
+var sinon = require("sinon");
+var logger = require("../../../dist/logger").logger;
+var assert = require("chai").assert;
+var cli = require(path.resolve(pkg.bin)).default;
+var fs = require("fs");
+var rim = require("rimraf").sync;
 
-describe("E2E CLI `recipes` command", function () {
-    it("works with no output flag", function (done) {
+describe("E2E CLI `recipes` command", function() {
+    it("works with no output flag", function(done) {
         rim("./server");
         cli({
             cli: {
                 input: ["recipe", "server"],
                 flags: {}
             },
-            cb: function () {
+            cb: function() {
                 assert.isTrue(fs.existsSync("./server"));
                 rim("./server");
                 done();
             }
         });
     });
-    it("lists all available when no second arg given", function (done) {
+    it("lists all available when no second arg given", function(done) {
         var stub1 = sinon.stub(logger, "info");
         var stub2 = sinon.stub(console, "log");
 
@@ -35,14 +35,17 @@ describe("E2E CLI `recipes` command", function () {
                 input: ["recipe"],
                 flags: {}
             },
-            cb: function () {
+            cb: function() {
                 sinon.assert.calledWith(stub1, "No recipe name provided!");
-                sinon.assert.calledWith(stub1, "Install one of the following with {cyan:browser-sync recipe <name>\n");
+                sinon.assert.calledWith(
+                    stub1,
+                    "Install one of the following with {cyan:browser-sync recipe <name>\n"
+                );
 
                 logger.info.restore();
                 console.log.restore();
 
-                var calls = stub2.getCalls().map(function (call) {
+                var calls = stub2.getCalls().map(function(call) {
                     return call.args[0].trim();
                 });
 
@@ -53,7 +56,7 @@ describe("E2E CLI `recipes` command", function () {
             }
         });
     });
-    it("Does not overwrite existing dir", function (done) {
+    it("Does not overwrite existing dir", function(done) {
         cli({
             cli: {
                 input: ["recipe", "server"],
@@ -61,13 +64,16 @@ describe("E2E CLI `recipes` command", function () {
                     output: "test/fixtures"
                 }
             },
-            cb: function (err) {
-                assert.equal(err.message, "Target folder exists remove it first and then try again");
+            cb: function(err) {
+                assert.equal(
+                    err.message,
+                    "Target folder exists remove it first and then try again"
+                );
                 done();
             }
         });
     });
-    it("accepts --output flag", function (done) {
+    it("accepts --output flag", function(done) {
         var stub1 = sinon.stub(logger, "info");
         cli({
             cli: {
@@ -76,20 +82,23 @@ describe("E2E CLI `recipes` command", function () {
                     output: "test/recipes/server1"
                 }
             },
-            cb: function () {
+            cb: function() {
                 var dir = path.resolve("./test/recipes/server1");
                 assert.isTrue(fs.existsSync("test/recipes/server1"));
                 rim("test/recipes/server1");
                 var call1 = stub1.getCall(0).args;
                 assert.equal(call1[0], "Recipe copied into {cyan:%s}");
                 assert.equal(call1[1], dir);
-                sinon.assert.calledWith(stub1, "Next, inside that folder, run {cyan:npm i && npm start}");
+                sinon.assert.calledWith(
+                    stub1,
+                    "Next, inside that folder, run {cyan:npm i && npm start}"
+                );
                 logger.info.restore();
                 done();
             }
         });
     });
-    it("Loges recipes when not found", function (done) {
+    it("Loges recipes when not found", function(done) {
         var stub1 = sinon.stub(logger, "info");
         var stub2 = sinon.stub(console, "log");
 
@@ -98,11 +107,14 @@ describe("E2E CLI `recipes` command", function () {
                 input: ["recipe", "beepboop"],
                 flags: {}
             },
-            cb: function (err) {
+            cb: function(err) {
                 var call1 = stub1.getCall(0).args;
-                assert.equal(call1[0], "Recipe {cyan:%s} not found. The following are available though");
+                assert.equal(
+                    call1[0],
+                    "Recipe {cyan:%s} not found. The following are available though"
+                );
 
-                var calls = stub2.getCalls().map(function (call) {
+                var calls = stub2.getCalls().map(function(call) {
                     return call.args[0].trim();
                 });
 

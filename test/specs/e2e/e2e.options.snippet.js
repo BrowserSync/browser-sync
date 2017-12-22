@@ -1,15 +1,12 @@
-"use strict";
-
 var browserSync = require("../../../");
 
 var assert = require("chai").assert;
 var request = require("supertest");
 
-describe("E2E snippet ignore paths test (1)", function () {
-
+describe("E2E snippet ignore paths test (1)", function() {
     var instance;
 
-    before(function (done) {
+    before(function(done) {
         browserSync.reset();
         var config = {
             server: {
@@ -24,26 +21,25 @@ describe("E2E snippet ignore paths test (1)", function () {
         instance = browserSync(config, done).instance;
     });
 
-    after(function () {
+    after(function() {
         instance.cleanup();
     });
 
-    it("does not inject the snippet when excluded path hit", function (done) {
+    it("does not inject the snippet when excluded path hit", function(done) {
         request(instance.server)
             .get("/iframe.html")
             .set("accept", "text/html")
             .expect(200)
-            .end(function (err, res) {
+            .end(function(err, res) {
                 assert.notInclude(res.text, instance.options.get("snippet"));
                 done();
             });
     });
 });
-describe("E2E snippet blacklist paths test (1)", function () {
-
+describe("E2E snippet blacklist paths test (1)", function() {
     var instance;
 
-    before(function (done) {
+    before(function(done) {
         browserSync.reset();
         var config = {
             server: {
@@ -58,26 +54,25 @@ describe("E2E snippet blacklist paths test (1)", function () {
         instance = browserSync(config, done).instance;
     });
 
-    after(function () {
+    after(function() {
         instance.cleanup();
     });
 
-    it("does not inject the snippet when excluded path hit", function (done) {
+    it("does not inject the snippet when excluded path hit", function(done) {
         request(instance.server)
             .get("/iframe.html")
             .set("accept", "text/html")
             .expect(200)
-            .end(function (err, res) {
+            .end(function(err, res) {
                 assert.notInclude(res.text, instance.options.get("snippet"));
                 done();
             });
     });
 });
-describe("E2E snippet blacklist paths test (1)", function () {
-
+describe("E2E snippet blacklist paths test (1)", function() {
     var instance;
 
-    before(function (done) {
+    before(function(done) {
         browserSync.reset();
         var config = {
             server: {
@@ -92,35 +87,34 @@ describe("E2E snippet blacklist paths test (1)", function () {
         instance = browserSync(config, done).instance;
     });
 
-    after(function () {
+    after(function() {
         instance.cleanup();
     });
 
-    it("Always injects snippet when path matches in whitelist", function (done) {
+    it("Always injects snippet when path matches in whitelist", function(done) {
         request(instance.server)
             .get("/iframe.html")
             .expect(200)
-            .end(function (err, res) {
+            .end(function(err, res) {
                 assert.include(res.text, instance.options.get("snippet"));
                 done();
             });
     });
 });
-describe("E2E snippet custom regex", function () {
-
+describe("E2E snippet custom regex", function() {
     var instance;
 
-    before(function (done) {
+    before(function(done) {
         browserSync.reset();
         var config = {
-            server:         {
+            server: {
                 baseDir: "test/fixtures"
             },
-            open:           false,
+            open: false,
             snippetOptions: {
                 rule: {
                     match: /<head[^>]*>/i,
-                    fn:    function (snippet, match) {
+                    fn: function(snippet, match) {
                         return match + snippet;
                     }
                 }
@@ -129,17 +123,20 @@ describe("E2E snippet custom regex", function () {
         instance = browserSync(config, done).instance;
     });
 
-    after(function () {
+    after(function() {
         instance.cleanup();
     });
 
-    it("uses a user-provided regex", function (done) {
+    it("uses a user-provided regex", function(done) {
         request(instance.server)
             .get("/iframe.html")
             .set("accept", "text/html")
             .expect(200)
-            .end(function (err, res) {
-                assert.include(res.text, "<head>" + instance.options.get("snippet"));
+            .end(function(err, res) {
+                assert.include(
+                    res.text,
+                    "<head>" + instance.options.get("snippet")
+                );
                 done();
             });
     });

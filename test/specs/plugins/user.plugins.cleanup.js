@@ -1,12 +1,9 @@
-"use strict";
-
 var browserSync = require("../../../");
 
-var sinon   = require("sinon");
+var sinon = require("sinon");
 
-describe("Plugins: Allowing plugins to register cleanup tasks", function () {
-
-    it("Should access to only the user-specified plugins", function (done) {
+describe("Plugins: Allowing plugins to register cleanup tasks", function() {
+    it("Should access to only the user-specified plugins", function(done) {
         var PLUGIN_NAME = "KITTENZ";
         browserSync.reset();
         var config = {
@@ -16,7 +13,7 @@ describe("Plugins: Allowing plugins to register cleanup tasks", function () {
         var spy = sinon.spy();
 
         browserSync.use({
-            plugin: function (opts, bs) {
+            plugin: function(opts, bs) {
                 bs.registerCleanupTask(spy);
             },
             "plugin:name": PLUGIN_NAME

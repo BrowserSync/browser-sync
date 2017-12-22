@@ -1,16 +1,12 @@
-"use strict";
-
 var browserSync = require("../../../");
 
 var request = require("supertest");
-var http    = require("http");
+var http = require("http");
 var connect = require("connect");
-var assert  = require("chai").assert;
+var assert = require("chai").assert;
 
-describe("Plugins: Using the connector middleware:", function () {
-
-    it("returns middleware for the connector script", function (done) {
-
+describe("Plugins: Using the connector middleware:", function() {
+    it("returns middleware for the connector script", function(done) {
         browserSync.reset();
 
         var instance;
@@ -24,10 +20,8 @@ describe("Plugins: Using the connector middleware:", function () {
         };
 
         browserSync.use({
-
-            plugin: function (opts, bs) {
-
-                var connectorMw     = bs.getMiddleware("connector");
+            plugin: function(opts, bs) {
+                var connectorMw = bs.getMiddleware("connector");
 
                 var app = connect();
 
@@ -38,8 +32,11 @@ describe("Plugins: Using the connector middleware:", function () {
                 request(server)
                     .get("/shane")
                     .expect(200)
-                    .end(function (err, res) {
-                        assert.include(res.text, "window.___browserSync___ = {};");
+                    .end(function(err, res) {
+                        assert.include(
+                            res.text,
+                            "window.___browserSync___ = {};"
+                        );
                         instance.cleanup(done);
                     });
             }
@@ -49,10 +46,8 @@ describe("Plugins: Using the connector middleware:", function () {
     });
 });
 
-describe("Plugins: Using the connector middleware:", function () {
-
-    it("returns middleware for the connector script using custom Namespace", function (done) {
-
+describe("Plugins: Using the connector middleware:", function() {
+    it("returns middleware for the connector script using custom Namespace", function(done) {
         browserSync.reset();
 
         var instance;
@@ -66,9 +61,7 @@ describe("Plugins: Using the connector middleware:", function () {
         };
 
         browserSync.use({
-
-            plugin: function (opts, bs) {
-
+            plugin: function(opts, bs) {
                 var connectorMw = bs.getSocketConnector({
                     path: bs.options.getIn(["socket", "path"]),
                     namespace: "/browser-sync-cp"
@@ -83,7 +76,7 @@ describe("Plugins: Using the connector middleware:", function () {
                 request(server)
                     .get("/shane")
                     .expect(200)
-                    .end(function (err, res) {
+                    .end(function(err, res) {
                         assert.include(res.text, "/browser-sync-cp");
                         instance.cleanup(done);
                     });
@@ -94,10 +87,8 @@ describe("Plugins: Using the connector middleware:", function () {
     });
 });
 
-describe("Plugins: Using the connector as a string", function () {
-
-    it("returns middleware for the connector script as a string", function (done) {
-
+describe("Plugins: Using the connector as a string", function() {
+    it("returns middleware for the connector script as a string", function(done) {
         browserSync.reset();
 
         var config = {
@@ -109,9 +100,7 @@ describe("Plugins: Using the connector as a string", function () {
         };
 
         browserSync.use({
-
-            plugin: function (opts, bs) {
-
+            plugin: function(opts, bs) {
                 var connectorString = bs.getExternalSocketConnector({
                     namespace: "/browser-sync-cp"
                 });

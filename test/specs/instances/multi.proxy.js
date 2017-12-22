@@ -1,18 +1,14 @@
-"use strict";
-
 var browserSync = require("../../../");
 
 var request = require("supertest");
-var assert  = require("chai").assert;
+var assert = require("chai").assert;
 
-describe("E2E multi instance with proxy + server", function () {
-
+describe("E2E multi instance with proxy + server", function() {
     this.timeout(5000);
 
     var bs, bs2;
 
-    before(function (done) {
-
+    before(function(done) {
         browserSync.reset();
 
         var config = {
@@ -22,24 +18,26 @@ describe("E2E multi instance with proxy + server", function () {
             server: "test/fixtures"
         };
 
-        bs  = browserSync.create("server");
+        bs = browserSync.create("server");
         bs2 = browserSync.create("proxy");
 
-        bs.init(config, function (err, bs) {
-            bs2.init({
-                proxy: bs.options.getIn(["urls", "local"]),
-                open: false
-            }, done);
+        bs.init(config, function(err, bs) {
+            bs2.init(
+                {
+                    proxy: bs.options.getIn(["urls", "local"]),
+                    open: false
+                },
+                done
+            );
         });
     });
 
-    after(function () {
+    after(function() {
         browserSync.get("server").cleanup();
         browserSync.get("proxy").cleanup();
     });
 
-    it("can serve from built in server & when proxied (inception)", function (done) {
-
+    it("can serve from built in server & when proxied (inception)", function(done) {
         var instance1 = browserSync.get("server");
         var instance2 = browserSync.get("proxy");
 
@@ -47,7 +45,7 @@ describe("E2E multi instance with proxy + server", function () {
             .get("/index.html")
             .set("accept", "text/html")
             .expect(200)
-            .end(function (err, res) {
+            .end(function(err, res) {
                 assert.include(res.text, instance1.getOption("snippet"));
             });
 
@@ -55,7 +53,7 @@ describe("E2E multi instance with proxy + server", function () {
             .get("/index.html")
             .set("accept", "text/html")
             .expect(200)
-            .end(function (err, res) {
+            .end(function(err, res) {
                 assert.include(res.text, instance2.getOption("snippet"));
                 done();
             });

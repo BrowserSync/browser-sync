@@ -1,22 +1,19 @@
-"use strict";
-
 var browserSync = require("../../../");
 
-var assert  = require("chai").assert;
+var assert = require("chai").assert;
 
-describe("Plugins: Setting the default state (false) if given in options", function () {
-
-    it("Should auto disable a plugin when options given (1)", function (done) {
+describe("Plugins: Setting the default state (false) if given in options", function() {
+    it("Should auto disable a plugin when options given (1)", function(done) {
         browserSync.reset();
 
         var config = {
             logLevel: "silent",
             plugins: [
                 {
-                    module:  "bs-snippet-injector",
+                    module: "bs-snippet-injector",
                     options: {
                         enabled: false,
-                        file:    ""
+                        file: ""
                     }
                 }
             ]
@@ -31,9 +28,8 @@ describe("Plugins: Setting the default state (false) if given in options", funct
     });
 });
 
-describe("Plugins: Setting the default state (true) if given in options", function () {
-
-    it("Should auto disable a plugin when options given (2)", function (done) {
+describe("Plugins: Setting the default state (true) if given in options", function() {
+    it("Should auto disable a plugin when options given (2)", function(done) {
         browserSync.reset();
 
         var config = {

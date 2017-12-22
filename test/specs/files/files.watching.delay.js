@@ -1,10 +1,8 @@
-"use strict";
-
 var browserSync = require("../../../");
-var sinon       = require("sinon");
+var sinon = require("sinon");
 
-describe("File Watcher Module - reloadDelay", function () {
-    it("emits reload event with 2000 delay", function (done) {
+describe("File Watcher Module - reloadDelay", function() {
+    it("emits reload event with 2000 delay", function(done) {
         browserSync.reset();
         var scheduler = require("../../utils").getScheduler();
         var config = {
@@ -18,8 +16,7 @@ describe("File Watcher Module - reloadDelay", function () {
                 scheduler: scheduler
             }
         };
-        browserSync(config, function (err, bs) {
-
+        browserSync(config, function(err, bs) {
             var stub = sinon.stub(bs.io.sockets, "emit");
             var fn = bs.watchers.core.watchers[0]._events.all;
 
@@ -36,7 +33,7 @@ describe("File Watcher Module - reloadDelay", function () {
             done();
         });
     });
-    it("calls browser:reload with a delay", function (done) {
+    it("calls browser:reload with a delay", function(done) {
         browserSync.reset();
         var scheduler = require("../../utils").getScheduler();
         var config = {
@@ -50,8 +47,7 @@ describe("File Watcher Module - reloadDelay", function () {
                 scheduler: scheduler
             }
         };
-        browserSync(config, function (err, bs) {
-
+        browserSync(config, function(err, bs) {
             var stub = sinon.stub(bs.io.sockets, "emit");
             var fn = bs.watchers.core.watchers[0]._events.all;
 

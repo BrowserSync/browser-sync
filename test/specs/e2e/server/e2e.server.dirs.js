@@ -1,125 +1,109 @@
-"use strict";
-
 var browserSync = require("../../../../");
 
 var request = require("supertest");
 var assert = require("chai").assert;
 
-describe("E2E server test with directory listings", function () {
-
+describe("E2E server test with directory listings", function() {
     var instance;
 
-    before(function (done) {
-
+    before(function(done) {
         browserSync.reset();
 
         var config = {
-            server:    {
-                baseDir: [
-                    "test/fixtures/alt",
-                    "test/fixtures"
-                ],
-                index:   "index.htm"
+            server: {
+                baseDir: ["test/fixtures/alt", "test/fixtures"],
+                index: "index.htm"
             },
             logLevel: "silent",
-            open:      false
+            open: false
         };
 
         instance = browserSync.init(config, done).instance;
     });
 
-    after(function () {
+    after(function() {
         instance.cleanup();
     });
 
-    it("serves files from index.htm with multiple base dirs", function (done) {
-
+    it("serves files from index.htm with multiple base dirs", function(done) {
         request(instance.server)
             .get("/")
             .set("accept", "text/html")
             .expect(200)
-            .end(function (err, res) {
+            .end(function(err, res) {
                 assert.include(res.text, "Hello from the test");
                 done();
             });
     });
 });
-describe("E2E server test with base dir option", function () {
-
+describe("E2E server test with base dir option", function() {
     var instance;
 
-    before(function (done) {
-
+    before(function(done) {
         browserSync.reset();
 
         var config = {
-            server:    {
+            server: {
                 baseDir: "./test/fixtures"
             },
             logLevel: "silent",
-            open:      false
+            open: false
         };
 
         instance = browserSync.init(config, done).instance;
     });
 
-    after(function () {
+    after(function() {
         instance.cleanup();
     });
 
-    it("Serves files when baseDir given with leading dot.", function (done) {
-
+    it("Serves files when baseDir given with leading dot.", function(done) {
         request(instance.server)
             .get("/")
             .set("accept", "text/html")
             .expect(200)
-            .end(function (err, res) {
+            .end(function(err, res) {
                 assert.include(res.text, "<title>Test HTML Page</title>");
                 done();
             });
     });
 });
 
-describe("E2E server test with base dir array option", function () {
-
+describe("E2E server test with base dir array option", function() {
     var instance;
 
-    before(function (done) {
-
+    before(function(done) {
         browserSync.reset();
 
         var config = {
             server: ["./test/fixtures", "./test/fixtures/alt"],
             logLevel: "silent",
-            open:      false
+            open: false
         };
 
         instance = browserSync.init(config, done).instance;
     });
 
-    after(function () {
+    after(function() {
         instance.cleanup();
     });
 
-    it("Serves files when baseDir given with leading dot.", function (done) {
-
+    it("Serves files when baseDir given with leading dot.", function(done) {
         request(instance.server)
             .get("/")
             .set("accept", "text/html")
             .expect(200)
-            .end(function (err, res) {
+            .end(function(err, res) {
                 assert.include(res.text, "<title>Test HTML Page</title>");
                 done();
             });
     });
 });
 
-describe("E2E server test with base dir array option + directory", function () {
-
+describe("E2E server test with base dir array option + directory", function() {
     var instance;
 
-    before(function (done) {
-
+    before(function(done) {
         browserSync.reset();
 
         var config = {
@@ -128,32 +112,30 @@ describe("E2E server test with base dir array option + directory", function () {
                 directory: true
             },
             logLevel: "silent",
-            open:      false
+            open: false
         };
 
         instance = browserSync.init(config, done).instance;
     });
 
-    after(function () {
+    after(function() {
         instance.cleanup();
     });
 
-    it("Serves files when baseDir given with leading dot.", function (done) {
-
+    it("Serves files when baseDir given with leading dot.", function(done) {
         request(instance.server)
             .get("/")
             .set("accept", "text/html")
             .expect(200)
-            .end(function (err, res) {
+            .end(function(err, res) {
                 assert.include(res.text, "listing directory /");
                 done();
             });
     });
 });
 
-describe("E2E server test with base dir array = false", function () {
-
-    it("should ignore the directory option if a falsey value was given", function (done) {
+describe("E2E server test with base dir array = false", function() {
+    it("should ignore the directory option if a falsey value was given", function(done) {
         browserSync.reset();
 
         var config = {
@@ -162,15 +144,15 @@ describe("E2E server test with base dir array = false", function () {
                 directory: false
             },
             logLevel: "silent",
-            open:      false
+            open: false
         };
 
-        browserSync.init(config, function (err, bs) {
+        browserSync.init(config, function(err, bs) {
             request(bs.server)
                 .get("/")
                 .set("accept", "text/html")
                 .expect(200)
-                .end(function (err, res) {
+                .end(function(err, res) {
                     assert.notInclude(res.text, "listing directory /");
                     done();
                 });

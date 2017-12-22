@@ -1,15 +1,12 @@
-"use strict";
-
 var browserSync = require("../../../");
-var assert      = require("chai").assert;
+var assert = require("chai").assert;
 
-describe("Plugins: User interface with error on init", function () {
-
-    it("Should start even when UI errors", function (done) {
+describe("Plugins: User interface with error on init", function() {
+    it("Should start even when UI errors", function(done) {
         browserSync.reset();
         browserSync.use({
             "plugin:name": "UI",
-            "plugin": function (opts, bs, cb) {
+            plugin: function(opts, bs, cb) {
                 cb(new Error("Could not start"));
             }
         });

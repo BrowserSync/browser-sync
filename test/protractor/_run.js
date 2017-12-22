@@ -1,4 +1,3 @@
-"use strict";
 
 var browserSync = require("../../");
 var exec        = require("child_process").exec;

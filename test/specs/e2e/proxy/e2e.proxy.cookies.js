@@ -1,21 +1,17 @@
-"use strict";
+var browserSync = require("../../../../");
+var testUtils = require("../../../protractor/utils");
+var Immutable = require("immutable");
+var request = require("supertest");
 
-var browserSync     = require("../../../../");
-var testUtils       = require("../../../protractor/utils");
-var Immutable       = require("immutable");
-var request         = require("supertest");
-
-describe.skip("E2E proxy test with custom cookies options passed to foxy", function () {
-
+describe.skip("E2E proxy test with custom cookies options passed to foxy", function() {
     this.timeout(15000);
 
     var bs, app;
 
-    before(function (done) {
-
+    before(function(done) {
         browserSync.reset();
 
-        app = testUtils.getApp(Immutable.Map({scheme: "https"}));
+        app = testUtils.getApp(Immutable.Map({ scheme: "https" }));
 
         app.server.listen();
 
@@ -33,13 +29,12 @@ describe.skip("E2E proxy test with custom cookies options passed to foxy", funct
         bs = browserSync.init(config, done).instance;
     });
 
-    after(function () {
+    after(function() {
         bs.cleanup();
         app.server.close();
     });
 
-    it("sets cookie stripDomain: false", function (done) {
-
+    it("sets cookie stripDomain: false", function(done) {
         var expected = app.html.replace("BS", bs.options.get("snippet") + "BS");
 
         request(bs.options.getIn(["urls", "local"]))

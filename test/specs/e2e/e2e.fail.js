@@ -1,5 +1,4 @@
-//"use strict";
-//
+////
 //var browserSync = require("../../../");
 //var snippetUtils       = require("../../../lib/snippetUtils");
 //

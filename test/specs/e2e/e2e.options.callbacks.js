@@ -1,36 +1,33 @@
-"use strict";
-
 var browserSync = require("../../../");
-var assert      = require("chai").assert;
+var assert = require("chai").assert;
 
-describe("E2E options test - ready callback as option", function () {
-
-    it("Calls the ready callback when read", function (done) {
+describe("E2E options test - ready callback as option", function() {
+    it("Calls the ready callback when read", function(done) {
         browserSync.reset();
         browserSync({
-            server:   {
+            server: {
                 baseDir: "test/fixtures"
             },
-            open:     false,
+            open: false,
             logLevel: "silent",
             callbacks: {
-                ready: function (err, bs) {
+                ready: function(err, bs) {
                     bs.cleanup();
                     done();
                 }
             }
         });
     });
-    it("It has public instance bound to `this`", function (done) {
+    it("It has public instance bound to `this`", function(done) {
         browserSync.reset();
         browserSync({
-            server:   {
+            server: {
                 baseDir: "test/fixtures"
             },
-            open:     false,
+            open: false,
             logLevel: "silent",
             callbacks: {
-                ready: function () {
+                ready: function() {
                     var bs = this;
                     assert.isFunction(bs.reload);
                     assert.isFunction(bs.notify);

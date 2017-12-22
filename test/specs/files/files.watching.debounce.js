@@ -1,11 +1,9 @@
-"use strict";
-
 var browserSync = require("../../../");
-var sinon       = require("sinon");
-var assert      = require("chai").assert;
+var sinon = require("sinon");
+var assert = require("chai").assert;
 
-describe("File Watcher Module - reloadDebounce", function () {
-    it("Fires as fast as possible with no debounce", function (done) {
+describe("File Watcher Module - reloadDebounce", function() {
+    it("Fires as fast as possible with no debounce", function(done) {
         browserSync.reset();
         var scheduler = require("../../utils").getScheduler();
         var config = {
@@ -19,8 +17,7 @@ describe("File Watcher Module - reloadDebounce", function () {
                 scheduler: scheduler
             }
         };
-        browserSync(config, function (err, bs) {
-
+        browserSync(config, function(err, bs) {
             var fn = bs.watchers.core.watchers[0]._events.all;
 
             var stub = sinon.stub(bs.io.sockets, "emit");
@@ -33,13 +30,16 @@ describe("File Watcher Module - reloadDebounce", function () {
             fn("change", "index.html");
             fn("change", "index.html");
 
-            assert.isTrue(stub.withArgs("browser:reload").getCalls().length === 7, "Should emit 7 times");
+            assert.isTrue(
+                stub.withArgs("browser:reload").getCalls().length === 7,
+                "Should emit 7 times"
+            );
 
             bs.cleanup();
             done();
         });
     });
-    it("only calls file:reload once within the time window", function (done) {
+    it("only calls file:reload once within the time window", function(done) {
         browserSync.reset();
         var scheduler = require("../../utils").getScheduler();
         var config = {
@@ -53,8 +53,7 @@ describe("File Watcher Module - reloadDebounce", function () {
                 scheduler: scheduler
             }
         };
-        browserSync(config, function (err, bs) {
-
+        browserSync(config, function(err, bs) {
             var fn = bs.watchers.core.watchers[0]._events.all;
             var stub = sinon.stub(bs.io.sockets, "emit");
 
@@ -73,7 +72,7 @@ describe("File Watcher Module - reloadDebounce", function () {
             done();
         });
     });
-    it("waits for 1000 event silence before reloading", function (done) {
+    it("waits for 1000 event silence before reloading", function(done) {
         browserSync.reset();
         var scheduler = require("../../utils").getScheduler();
         var config = {
@@ -87,7 +86,7 @@ describe("File Watcher Module - reloadDebounce", function () {
                 scheduler: scheduler
             }
         };
-        browserSync(config, function (err, bs) {
+        browserSync(config, function(err, bs) {
             var fn = bs.watchers.core.watchers[0]._events.all;
             var stub = sinon.stub(bs.io.sockets, "emit");
 

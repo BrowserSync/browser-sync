@@ -1,36 +1,31 @@
-"use strict";
+var cli = require("../../../lib/cli/cli-options");
+var merge = cli.merge;
+var assert = require("chai").assert;
 
-var cli             = require("../../../lib/cli/cli-options");
-var merge           = cli.merge;
-var assert          = require("chai").assert;
-
-describe("CLI: Options: Merging Server Options", function () {
-    it("doesn't touch server option if not given in user config", function () {
+describe("CLI: Options: Merging Server Options", function() {
+    it("doesn't touch server option if not given in user config", function() {
         var imm = merge({});
         assert.deepEqual(imm.get("server"), false);
     });
-    it("should merge when only basedir given", function () {
-        var imm = merge({server: "base"});
+    it("should merge when only basedir given", function() {
+        var imm = merge({ server: "base" });
         assert.deepEqual(imm.get("server").toJS(), {
             baseDir: "base"
         });
     });
-    it("should merge when only `true` given`", function () {
-        var imm = merge({server: true});
+    it("should merge when only `true` given`", function() {
+        var imm = merge({ server: true });
         assert.deepEqual(imm.get("server").toJS(), {
             baseDir: "./"
         });
     });
-    it("should merge when only an array` given`", function () {
-        var imm = merge({server: ["./dist", ".tmp"]});
+    it("should merge when only an array` given`", function() {
+        var imm = merge({ server: ["./dist", ".tmp"] });
         assert.deepEqual(imm.get("server").toJS(), {
-            baseDir: [
-                "./dist",
-                ".tmp"
-            ]
+            baseDir: ["./dist", ".tmp"]
         });
     });
-    it("should merge when nested props given", function () {
+    it("should merge when nested props given", function() {
         var imm = merge({
             server: {
                 baseDir: "./app"
@@ -40,12 +35,12 @@ describe("CLI: Options: Merging Server Options", function () {
             baseDir: "./app"
         });
     });
-    it("should merge when multiple nested props given", function () {
+    it("should merge when multiple nested props given", function() {
         var imm = merge({
             server: {
                 index: "index.htm",
                 baseDir: "./app",
-                middleware: function () {
+                middleware: function() {
                     console.log("from fn");
                 }
             }
@@ -54,7 +49,7 @@ describe("CLI: Options: Merging Server Options", function () {
         assert.equal(imm.getIn(["server", "index"]), "index.htm");
         assert.isFunction(imm.getIn(["server", "middleware"]));
     });
-    it("can merge cli flags into object", function () {
+    it("can merge cli flags into object", function() {
         var argv = {
             server: true,
             index: "index.htm"
@@ -65,7 +60,7 @@ describe("CLI: Options: Merging Server Options", function () {
             index: "index.htm"
         });
     });
-    it("can merge cli flags into object", function () {
+    it("can merge cli flags into object", function() {
         var argv = {
             server: true,
             directory: true
@@ -76,7 +71,7 @@ describe("CLI: Options: Merging Server Options", function () {
             directory: true
         });
     });
-    it("can merge cli flags into object", function () {
+    it("can merge cli flags into object", function() {
         var argv = {
             server: true,
             directory: true
@@ -87,13 +82,13 @@ describe("CLI: Options: Merging Server Options", function () {
             directory: true
         });
     });
-    it("can merge cli flags into object", function () {
+    it("can merge cli flags into object", function() {
         var argv = {
             server: "app",
             directory: true,
             index: "file.html"
         };
-        var imm = merge({server: "app"}, argv);
+        var imm = merge({ server: "app" }, argv);
         assert.deepEqual(imm.get("server").toJS(), {
             baseDir: "app",
             directory: true,

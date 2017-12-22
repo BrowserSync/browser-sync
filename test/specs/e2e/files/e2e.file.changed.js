@@ -1,17 +1,13 @@
-"use strict";
+var browserSync = require("../../../../");
 
-var browserSync   = require("../../../../");
-
-var path   = require("path");
-var sinon  = require("sinon");
+var path = require("path");
+var sinon = require("sinon");
 var assert = require("chai").assert;
 
-describe("E2E Responding to events", function () {
-
+describe("E2E Responding to events", function() {
     var instance, socketsStub, clock;
 
-    before(function (done) {
-
+    before(function(done) {
         browserSync.reset();
 
         var config = {
@@ -23,7 +19,7 @@ describe("E2E Responding to events", function () {
             open: false
         };
 
-        instance = browserSync(config, function (err, bs) {
+        instance = browserSync(config, function(err, bs) {
             socketsStub = sinon.stub(bs.io.sockets, "emit");
             done();
         }).instance;
@@ -31,53 +27,66 @@ describe("E2E Responding to events", function () {
         clock = sinon.useFakeTimers();
     });
 
-    afterEach(function () {
+    afterEach(function() {
         socketsStub.reset();
     });
 
-    after(function () {
+    after(function() {
         instance.io.sockets.emit.restore();
         instance.cleanup();
         clock.restore();
     });
 
-    it("fires the file:reload event to the browser", function () {
-
+    it("fires the file:reload event to the browser", function() {
         // Emit the event as it comes from the file-watcher
-        instance.events.emit("file:changed", {path: "styles.css", event: "change", log: true, namespace: "core"});
+        instance.events.emit("file:changed", {
+            path: "styles.css",
+            event: "change",
+            log: true,
+            namespace: "core"
+        });
 
         clock.tick();
 
         var eventName = socketsStub.getCall(0).args[0];
-        var args      = socketsStub.getCall(0).args[1];
+        var args = socketsStub.getCall(0).args[1];
 
-        assert.equal(eventName, "file:reload");         // check correct event sent to client
+        assert.equal(eventName, "file:reload"); // check correct event sent to client
         assert.equal(args.basename, "styles.css"); // Check the asset name is sent
         assert.isFalse(instance.paused);
     });
 
-    it("fires the file:reload event to the browser when wildcard given", function () {
-
+    it("fires the file:reload event to the browser when wildcard given", function() {
         // Emit the event as it comes from the file-watcher
-        instance.events.emit("file:changed", {path: "*.css", event: "change", log: true, namespace: "core"});
+        instance.events.emit("file:changed", {
+            path: "*.css",
+            event: "change",
+            log: true,
+            namespace: "core"
+        });
 
         clock.tick();
 
         var eventName = socketsStub.getCall(0).args[0];
-        var args      = socketsStub.getCall(0).args[1];
+        var args = socketsStub.getCall(0).args[1];
 
-        assert.equal(eventName,     "file:reload");  // check correct event sent to client
-        assert.equal(args.path,     "*.css");   // Check the asset name is sent
-        assert.equal(args.basename, "*.css");   // Check the asset name is sent
+        assert.equal(eventName, "file:reload"); // check correct event sent to client
+        assert.equal(args.path, "*.css"); // Check the asset name is sent
+        assert.equal(args.basename, "*.css"); // Check the asset name is sent
         assert.equal(args.ext, "css"); // Check the asset name is sent
         assert.isFalse(instance.paused);
     });
 
-    it("doesn't fire the file:reload event to the browser when paused", function () {
+    it("doesn't fire the file:reload event to the browser when paused", function() {
         instance.paused = true;
 
         // Emit the event as it comes from the file-watcher
-        instance.events.emit("file:changed", {path: "styles.css", log: true, event: "change", namespace: "core"});
+        instance.events.emit("file:changed", {
+            path: "styles.css",
+            log: true,
+            event: "change",
+            namespace: "core"
+        });
 
         clock.tick();
 
@@ -87,7 +96,12 @@ describe("E2E Responding to events", function () {
         instance.paused = false;
 
         //// Emit the event as it comes from the file-watcher
-        instance.events.emit("file:changed", {path: "styles.css", log: true, event: "change", namespace: "core"});
+        instance.events.emit("file:changed", {
+            path: "styles.css",
+            log: true,
+            event: "change",
+            namespace: "core"
+        });
 
         clock.tick();
 
@@ -95,8 +109,7 @@ describe("E2E Responding to events", function () {
         assert.isFalse(instance.paused);
     });
 
-    it("fires the browser:reload event to the browser", function () {
-
+    it("fires the browser:reload event to the browser", function() {
         // Emit the event as it comes from the file-watcher
         instance.events.emit("browser:reload");
 
@@ -107,8 +120,7 @@ describe("E2E Responding to events", function () {
         assert.equal(eventName, "browser:reload"); // check correct event sent to client
     });
 
-    it("fires the browser:notify event to the browser", function () {
-
+    it("fires the browser:notify event to the browser", function() {
         // Emit the event as it comes from the file-watcher
         instance.events.emit("browser:notify", "DATA");
 

@@ -1,17 +1,14 @@
-"use strict";
-
 var browserSync = require("../../../");
 
-var assert  = require("chai").assert;
+var assert = require("chai").assert;
 
-describe("E2E multi instance has", function () {
-
-    it("returns true if an instance exists", function () {
+describe("E2E multi instance has", function() {
+    it("returns true if an instance exists", function() {
         browserSync.reset();
         browserSync.create("ts");
         assert.isTrue(browserSync.has("ts"));
     });
-    it("returns false if an instance does not exist", function () {
+    it("returns false if an instance does not exist", function() {
         browserSync.reset();
         assert.isFalse(browserSync.has("ts"));
         browserSync.create("ts2");

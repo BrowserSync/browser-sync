@@ -1,13 +1,9 @@
-"use strict";
-
 var browserSync = require("../../../../");
 var request = require("supertest");
-var assert  = require("chai").assert;
+var assert = require("chai").assert;
 
-describe("E2E server test with serve static options", function () {
-
-    it("sets the index of serve-static", function (done) {
-
+describe("E2E server test with serve static options", function() {
+    it("sets the index of serve-static", function(done) {
         browserSync.reset();
 
         var config = {
@@ -21,14 +17,20 @@ describe("E2E server test with serve static options", function () {
             open: false
         };
 
-        browserSync.create().init(config, function (err, bs) {
-            assert.equal(bs.options.getIn(["server", "serveStaticOptions", "index"]), "inputs.html");
+        browserSync.create().init(config, function(err, bs) {
+            assert.equal(
+                bs.options.getIn(["server", "serveStaticOptions", "index"]),
+                "inputs.html"
+            );
             request(bs.server)
                 .get("/")
                 .expect(200)
-                .end(function (err, res) {
+                .end(function(err, res) {
                     assert.deepEqual(
-                        require("fs").readFileSync("test/fixtures/inputs.html", "utf-8"),
+                        require("fs").readFileSync(
+                            "test/fixtures/inputs.html",
+                            "utf-8"
+                        ),
                         res.text
                     );
                     bs.cleanup();
@@ -36,8 +38,7 @@ describe("E2E server test with serve static options", function () {
                 });
         });
     });
-    it("sets uses the default for serve static index", function (done) {
-
+    it("sets uses the default for serve static index", function(done) {
         browserSync.reset();
 
         var config = {
@@ -49,14 +50,20 @@ describe("E2E server test with serve static options", function () {
             open: false
         };
 
-        browserSync.create().init(config, function (err, bs) {
-            assert.equal(bs.options.getIn(["server", "serveStaticOptions", "index"]), "index.html");
+        browserSync.create().init(config, function(err, bs) {
+            assert.equal(
+                bs.options.getIn(["server", "serveStaticOptions", "index"]),
+                "index.html"
+            );
             request(bs.server)
                 .get("/")
                 .expect(200)
-                .end(function (err, res) {
+                .end(function(err, res) {
                     assert.deepEqual(
-                        require("fs").readFileSync("test/fixtures/index.html", "utf-8"),
+                        require("fs").readFileSync(
+                            "test/fixtures/index.html",
+                            "utf-8"
+                        ),
                         res.text
                     );
                     bs.cleanup();

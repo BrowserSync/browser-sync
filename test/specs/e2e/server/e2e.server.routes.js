@@ -1,16 +1,12 @@
-"use strict";
-
 var browserSync = require("../../../../");
 
 var request = require("supertest");
-var assert  = require("chai").assert;
+var assert = require("chai").assert;
 
-describe("E2E server test with routes", function () {
-
+describe("E2E server test with routes", function() {
     var instance;
 
-    before(function (done) {
-
+    before(function(done) {
         browserSync.reset();
 
         var config = {
@@ -29,51 +25,47 @@ describe("E2E server test with routes", function () {
         instance = browserSync.init(config, done).instance;
     });
 
-    after(function () {
+    after(function() {
         instance.cleanup();
     });
 
-    it("serves files from the route with snippet added", function (done) {
-
+    it("serves files from the route with snippet added", function(done) {
         assert.isString(instance.options.get("snippet"));
 
         request(instance.server)
             .get("/shane/index.html")
             .set("accept", "text/html")
             .expect(200)
-            .end(function (err, res) {
+            .end(function(err, res) {
                 assert.include(res.text, instance.options.get("snippet"));
                 done();
             });
     });
 
-    it("serves files from the route with snippet added", function (done) {
-
+    it("serves files from the route with snippet added", function(done) {
         assert.isString(instance.options.get("snippet"));
 
         request(instance.server)
             .get("/kittie/index.html")
             .set("accept", "text/html")
             .expect(200)
-            .end(function (err, res) {
+            .end(function(err, res) {
                 assert.include(res.text, instance.options.get("snippet"));
                 done();
             });
     });
 
-    it("serves the client script", function (done) {
-
+    it("serves the client script", function(done) {
         request(instance.server)
             .get(instance.options.getIn(["scriptPaths", "versioned"]))
             .expect(200)
-            .end(function (err, res) {
+            .end(function(err, res) {
                 assert.include(res.text, "Connected to BrowserSync");
                 done();
             });
     });
 
-    it("serves from the node_modules directory", function (done) {
-
+    it("serves from the node_modules directory", function(done) {
         request(instance.server)
             .get("/node_modules/chai/index.js")
             .expect(200, done);

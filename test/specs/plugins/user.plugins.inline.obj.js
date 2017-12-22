@@ -1,13 +1,10 @@
-"use strict";
-
 var browserSync = require("../../../");
 
-var assert  = require("chai").assert;
+var assert = require("chai").assert;
 
-describe("Plugins: Retrieving user plugins when given inline as object", function () {
-
+describe("Plugins: Retrieving user plugins when given inline as object", function() {
     var instance;
-    var PLUGIN_NAME    = "Test Plugin";
+    var PLUGIN_NAME = "Test Plugin";
 
     it("has access to user options", function(done) {
         browserSync.reset();
@@ -17,7 +14,7 @@ describe("Plugins: Retrieving user plugins when given inline as object", functio
             plugins: [
                 {
                     module: {
-                        plugin: function () {},
+                        plugin: function() {},
                         "plugin:name": PLUGIN_NAME
                     },
                     options: {

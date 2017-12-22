@@ -1,16 +1,12 @@
-"use strict";
-
 var browserSync = require("../../../../");
 
 var request = require("supertest");
-var assert  = require("chai").assert;
+var assert = require("chai").assert;
 
-describe("E2E server test with rewrite rules added on the fly", function () {
-
+describe("E2E server test with rewrite rules added on the fly", function() {
     var bs;
 
-    before(function (done) {
-
+    before(function(done) {
         browserSync.reset();
 
         var config = {
@@ -24,15 +20,14 @@ describe("E2E server test with rewrite rules added on the fly", function () {
         bs = browserSync.init(config, done).instance;
     });
 
-    after(function () {
+    after(function() {
         bs.cleanup();
     });
 
-    it("serves files with HTML rewritten", function (done) {
-
+    it("serves files with HTML rewritten", function(done) {
         bs.addRewriteRule({
             match: /Forms/g,
-            fn: function () {
+            fn: function() {
                 return "Shane's forms";
             }
         });
@@ -41,7 +36,7 @@ describe("E2E server test with rewrite rules added on the fly", function () {
             .get("/index.html")
             .set("accept", "text/html")
             .expect(200)
-            .end(function (err, res) {
+            .end(function(err, res) {
                 assert.include(res.text, "Shane's forms");
                 done();
             });

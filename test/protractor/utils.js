@@ -1,4 +1,3 @@
-"use strict";
 
 var utils = require("../../lib/server/utils");
 var connect = require("connect");

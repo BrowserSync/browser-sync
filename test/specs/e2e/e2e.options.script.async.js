@@ -1,21 +1,18 @@
-"use strict";
-
 var browserSync = require("../../../");
 
 var assert = require("chai").assert;
 
-describe("E2E script with/without async attribute", function () {
-
-    it("serves with async", function (done) {
+describe("E2E script with/without async attribute", function() {
+    it("serves with async", function(done) {
         browserSync.reset();
-        var config = {open: false};
-        browserSync(config, function (err, bs) {
+        var config = { open: false };
+        browserSync(config, function(err, bs) {
             assert.include(bs.options.get("snippet"), "async");
             bs.cleanup();
             done();
         });
     });
-    it("serves without async", function (done) {
+    it("serves without async", function(done) {
         browserSync.reset();
         var config = {
             open: false,
@@ -23,7 +20,7 @@ describe("E2E script with/without async attribute", function () {
                 async: false
             }
         };
-        browserSync(config, function (err, bs) {
+        browserSync(config, function(err, bs) {
             assert.notInclude(bs.options.get("snippet"), "async");
             bs.cleanup();
             done();
