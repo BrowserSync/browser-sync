@@ -1,7 +1,7 @@
 #!/usr/bin/env node
-var startOpts = require("../lib/cli/opts.start.json");
-var reloadOpts = require("../lib/cli/opts.reload.json");
-var recipeOpts = require("../lib/cli/opts.recipe.json");
+var startOpts = require("../cli-options/opts.start.json");
+var reloadOpts = require("../cli-options/opts.reload.json");
+var recipeOpts = require("../cli-options/opts.recipe.json");
 var pkg = require("../package.json");
 var utils = require("../lib/utils");
 var resolve = require("path").resolve;

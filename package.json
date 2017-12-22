@@ -16,7 +16,9 @@
     "lodash.custom.js",
     "client/index",
     "client/dist",
-    "certs"
+    "certs",
+    "templates",
+    "cli-options"
   ],
   "engines": {
     "node": ">= 0.8.0"
