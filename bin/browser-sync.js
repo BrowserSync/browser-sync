@@ -4,6 +4,8 @@ var reloadOpts = require("../lib/cli/opts.reload.json");
 var recipeOpts = require("../lib/cli/opts.recipe.json");
 var pkg        = require("../package.json");
 var utils      = require("../lib/utils");
+var resolve    = require("path").resolve;
+var existsSync = require("fs").existsSync;
 
 /**
  * Handle cli input
@@ -20,13 +22,44 @@ if (!module.parent) {
         .epilogue("For help running a certain command, type <command> --help\neg: $0 start --help");
 
     var argv    = yargs.argv;
-    var command = argv._[0];
+    var input   = argv._;
+    var command = input[0];
     var valid   = ["start", "init", "reload", "recipe"];
 
     if (valid.indexOf(command) > -1) {
         handleIncoming(command, yargs.reset());
     } else {
-        yargs.showHelp();
+        if (input.length) {
+            const paths = input.map(function(path) {
+                var resolved = resolve(path);
+                return {
+                    isUrl: false,
+                    userInput: path,
+                    resolved: resolved,
+                    errors: pathErrors(path, resolved)
+                }
+            });
+            var withErrors = paths.filter(function(item) { return item.errors.length });
+            var withoutErrors = paths.filter(function(item) { return item.errors.length === 0 });
+            if (withErrors.length) {
+                withErrors.forEach(function(item) {
+                    console.log(item);
+                })
+            } else {
+                var ssPaths = withoutErrors
+                    .filter(function(item) { return item.isUrl === false })
+                    .map(function(item) { return item.resolved });
+
+                var config = Object.assign({}, argv, {
+                    server: {
+                        baseDir: ssPaths
+                    }
+                });
+                handleCli({cli: {flags: config, input: ['start']}});
+            }
+        } else {
+            yargs.showHelp();
+        }
     }
 }
 
@@ -88,4 +121,15 @@ function handleIncoming(command, yargs) {
     }
 
     handleCli({cli: {flags: out, input: out._}});
+}
+
+function pathErrors(input, resolved) {
+    if (!existsSync(resolved)) {
+        return [
+            {
+                type: 'PATH_DOES_NOT_EXIST'
+            }
+        ]
+    }
+    return []
 }
