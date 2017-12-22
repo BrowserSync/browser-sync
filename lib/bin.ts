@@ -64,11 +64,11 @@ function runFromCli() {
     }
 
     if (input.length) {
-        return handleNoCommand(argv, input);
+        return handleNoCommand(argv, input, yargs);
     }
 
     if (existsSync("index.html")) {
-        return handleNoCommand(argv, ["."]);
+        return handleNoCommand(argv, ["."], yargs);
     }
 
     yargs.showHelp();
@@ -91,8 +91,9 @@ function runFromCli() {
  * @param input
  * @returns {any}
  */
-function handleNoCommand(argv, input) {
+function handleNoCommand(argv, input, yargs) {
 
+    const processed = processStart(yargs);
     const paths = input.map(path => {
         const resolved = resolve(path);
         const isUrl = /^https?:\/\//.test(path);
@@ -129,11 +130,11 @@ function handleNoCommand(argv, input) {
     if (urls.length) {
         const proxy = urls[0];
         const config = {
-            ...argv,
+            ...processed,
             proxy,
             serveStatic: serveStaticPaths
         };
-        return handleCli({ cli: { flags: config, input: ["start"] } });
+        return handleIncoming('start', yargs.reset());
     }
 
     /**
@@ -141,10 +142,11 @@ function handleNoCommand(argv, input) {
      * @type {{server: {baseDir: any}}}
      */
     const config = {
-        ...argv,
+        ...processed,
         server: { baseDir: serveStaticPaths }
     };
-    handleCli({ cli: { flags: config, input: ["start"] } });
+
+    return handleCli({ cli: { flags: config, input: ["start"] } });
 }
 
 /**
@@ -158,6 +160,17 @@ function handleCli(opts) {
 
 export default handleCli;
 
+function processStart(yargs) {
+    return yargs
+        .usage("Usage: $0 start [options]")
+        .options(startOpts)
+        .example(
+            "$0 start -s app",
+            "- Use the App directory to serve files"
+        )
+        .example("$0 start -p www.bbc.co.uk", "- Proxy an existing website")
+        .help().argv;
+}
 /**
  * @param {string} command
  * @param {object} yargs
@@ -165,15 +178,7 @@ export default handleCli;
 function handleIncoming(command, yargs) {
     let out;
     if (command === "start") {
-        out = yargs
-            .usage("Usage: $0 start [options]")
-            .options(startOpts)
-            .example(
-                "$0 start -s app",
-                "- Use the App directory to serve files"
-            )
-            .example("$0 start -p www.bbc.co.uk", "- Proxy an existing website")
-            .help().argv;
+        out = processStart(yargs);
     }
     if (command === "init") {
         out = yargs
