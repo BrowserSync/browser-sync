@@ -8,17 +8,17 @@
   },
   "repository": "BrowserSync/browser-sync",
   "license": "Apache-2.0",
-  "bin": "bin/browser-sync.js",
+  "main": "dist/lib/index.js",
+  "bin": "dist/bin.js",
   "files": [
     "bin",
     "index.js",
-    "lib",
-    "lodash.custom.js",
-    "client/index",
-    "client/dist",
+    "dist",
     "certs",
     "templates",
-    "cli-options"
+    "cli-options",
+    "client/index",
+    "client/dist"
   ],
   "engines": {
     "node": ">= 0.8.0"
@@ -34,7 +34,8 @@
     "cover-local": "istanbul cover -x lodash.custom.js _mocha -- --timeout 10000 --recursive ./test/specs",
     "coveralls": "istanbul-coveralls",
     "pre-release": "npm test && npm run pro-local && npm run pro",
-    "lodash": "lodash include=isUndefined,isFunction,toArray,includes,union,each,isString,merge,isObject,set exports=node"
+    "lodash": "lodash include=isUndefined,isFunction,toArray,includes,union,each,isString,merge,isObject,set exports=node",
+    "prepublish": "tsc"
   },
   "dependencies": {
     "browser-sync-ui": "v1.0.1",

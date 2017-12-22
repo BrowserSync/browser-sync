@@ -2,5 +2,5 @@ lib/public/socket.io.js
 lib/public/socket.io.min.1.6.0.js
 templates/**/*
 certs/**
-lib/cli/cli-template.js
+templates/cli-template.js
 test/specs/resp-mod/rewrite-links.js
