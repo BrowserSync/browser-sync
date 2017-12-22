@@ -18,15 +18,15 @@ browserSync.init({
     files: ["app/css/*.css"],
     proxy: {
         target: "localhost:8000",
-        reqHeaders: function (config) {
+        reqHeaders: function(config) {
             /**
              * These are the default headers as a guide for you.
              * You can set whatever you want here.
              */
             return {
-                "host":            config.urlObj.host,
+                host: config.urlObj.host,
                 "accept-encoding": "identity",
-                "agent":           false
+                agent: false
             };
         }
     }

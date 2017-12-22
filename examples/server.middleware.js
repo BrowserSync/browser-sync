@@ -20,7 +20,7 @@ browserSync.init({
     files: ["app/css/*.css"],
     server: {
         baseDir: "app",
-        middleware: function (req, res, next) {
+        middleware: function(req, res, next) {
             console.log("hi from the middleware");
             next();
         }

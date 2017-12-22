@@ -35,10 +35,10 @@ browserSync.init({
      * Catch all requests, if any are for .less files, recompile on the fly and
      * send back a CSS response
      */
-    middleware: function (req, res, next) {
+    middleware: function(req, res, next) {
         var parsed = require("url").parse(req.url);
         if (parsed.pathname.match(/\.less$/)) {
-            return less(parsed.pathname).then(function (o) {
+            return less(parsed.pathname).then(function(o) {
                 res.setHeader("Content-Type", "text/css");
                 res.end(o.css);
             });
@@ -48,6 +48,8 @@ browserSync.init({
 });
 
 function less(src) {
-    var f = require("fs").readFileSync("src/" + src).toString();
+    var f = require("fs")
+        .readFileSync("src/" + src)
+        .toString();
     return require("less").render(f);
 }

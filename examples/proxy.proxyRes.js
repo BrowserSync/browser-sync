@@ -19,7 +19,7 @@ browserSync.init({
     proxy: {
         target: "http://www.bbc.co.uk",
         proxyRes: [
-            function (res) {
+            function(res) {
                 res.headers["cache-control"] = "private";
             }
         ]

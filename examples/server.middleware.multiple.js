@@ -21,11 +21,11 @@ browserSync.init({
     server: {
         baseDir: "app",
         middleware: [
-            function (req, res, next) {
+            function(req, res, next) {
                 console.log("hi from the first middleware");
                 next();
             },
-            function (req, res, next) {
+            function(req, res, next) {
                 console.log("hi from the second middleware");
                 next();
             }

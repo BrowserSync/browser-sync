@@ -17,4 +17,3 @@ browserSync.init({
     files: "app/css/*.css",
     proxy: "yourvhost.dev"
 });
-

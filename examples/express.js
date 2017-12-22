@@ -13,20 +13,20 @@
 
 "use strict";
 
-var bs      = require("browser-sync").create();
+var bs = require("browser-sync").create();
 var express = require("express");
-var router  = express.Router();
-var app     = express();
+var router = express.Router();
+var app = express();
 
 /**
  * Catch a route like /user/2324
  * and send a JSON response
  */
-router.get("/user/:id", function (req, res) {
+router.get("/user/:id", function(req, res) {
     res.send({
         name: "shane",
         pets: ["cat", "hippo"],
-        id:   req.params.id
+        id: req.params.id
     });
 });
 
