@@ -1,22 +1,16 @@
 <p align="center">
 <a href="https://ci.appveyor.com/project/shakyShane/browser-sync" title="AppVeyor branch">
  <img src="https://img.shields.io/appveyor/ci/shakyshane/browser-sync/master.svg?style=flat-square&label=windows" />
-</a>
-<a href="https://travis-ci.org/BrowserSync/browser-sync" title="Travis branch">
+</a><a href="https://travis-ci.org/BrowserSync/browser-sync" title="Travis branch">
  <img src="https://img.shields.io/travis/BrowserSync/browser-sync/master.svg?style=flat-square&label=linux" />
-</a>
-<a href="https://coveralls.io/r/BrowserSync/browser-sync?branch=master" title="Coverage Status">
- <img src="https://img.shields.io/coveralls/BrowserSync/browser-sync.svg?style=flat-square" />
-</a>
-<a href="https://www.npmjs.com/package/browser-sync">
+</a><a href="https://www.npmjs.com/package/browser-sync">
  <img src="https://img.shields.io/npm/dm/browser-sync.svg?style=flat-square" />
 </a>
 </p>
 <p align="center">
 <a href="https://www.npmjs.com/package/browser-sync" title="NPM version">
  <img src="https://img.shields.io/npm/v/browser-sync.svg?style=flat-square" />
-</a>
-<a href="https://david-dm.org/Browsersync/browser-sync" title="Dependency Status">
+</a><a href="https://david-dm.org/Browsersync/browser-sync" title="Dependency Status">
  <img src="https://img.shields.io/david/Browsersync/browser-sync.svg?style=flat-square&label=deps" />
 </a>
 <a href="https://david-dm.org/Browsersync/browser-sync#info=devDependencies" title="devDependency Status">
