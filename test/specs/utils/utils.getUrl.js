@@ -1,6 +1,6 @@
 "use strict";
 
-var utils  = require("../../../lib/utils");
+var utils  = require("../../../dist/utils");
 var merge  = require("../../../lib/cli/cli-options").merge;
 var assert = require("chai").assert;
 

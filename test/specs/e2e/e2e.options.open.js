@@ -1,7 +1,7 @@
 "use strict";
 
-var browserSync = require("../../../index");
-var utils = require("../../../lib/utils");
+var browserSync = require("../../../");
+var utils = require("../../../dist/utils");
 
 var assert = require("chai").assert;
 var sinon = require("sinon");

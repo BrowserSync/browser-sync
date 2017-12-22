@@ -1,6 +1,6 @@
 "use strict";
 
-var browserSync = require("../../../index");
+var browserSync = require("../../../");
 var request = require("request");
 var assert = require("chai").assert;
 var sinon = require("sinon");

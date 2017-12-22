@@ -1,8 +1,0 @@
-env:
-  node: true
-rules:
-  "quotes": [2, "double"]
-  "brace-style": [2, "1tbs", { "allowSingleLine": true }]
-  "no-multiple-empty-lines": [2, {"max": 1}]
-  "comma-style": [2]
-  "indent": [2, 4, {"SwitchCase": 1}]

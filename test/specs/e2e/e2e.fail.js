@@ -1,6 +1,6 @@
 //"use strict";
 //
-//var browserSync = require("../../../index");
+//var browserSync = require("../../../");
 //var snippetUtils       = require("../../../lib/snippetUtils");
 //
 //var assert      = require("chai").assert;

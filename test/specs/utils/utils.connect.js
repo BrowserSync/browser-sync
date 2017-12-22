@@ -1,9 +1,9 @@
 "use strict";
 
-var utils  = require("../../../lib/connect-utils");
+var utils  = require("../../../dist/connect-utils");
 var bs     = require("../../../");
 var req    = require("supertest");
-var merge  = require("../../../lib/cli/cli-options").merge;
+var merge  = require("../../../dist/cli/cli-options").merge;
 var assert = require("chai").assert;
 
 describe("Connection snippetUtils", function () {

@@ -96,7 +96,7 @@ describe("isExcluded spec", function () {
 
 describe("Header replacement for IE8", function () {
     it("Rewrites headers for old IE", function (done) {
-        var bs = require("../../../index");
+        var bs = require("../../../");
         var request = require("supertest");
         bs.reset();
         bs.create().init({
@@ -117,7 +117,7 @@ describe("Header replacement for IE8", function () {
         })
     });
     it("Skips headers rewrites for excluded files for old IE", function (done) {
-        var bs = require("../../../index");
+        var bs = require("../../../");
         var request = require("supertest");
         bs.reset();
         bs.create().init({

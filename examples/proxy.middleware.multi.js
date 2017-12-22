@@ -14,12 +14,12 @@
 
 var browserSync = require("browser-sync").create();
 
-var fn1 = function (req, res, next) {
+var fn1 = function(req, res, next) {
     console.log(req.url);
     next();
 };
 
-var fn2 = function (req, res, next) {
+var fn2 = function(req, res, next) {
     console.log(req.headers);
     next();
 };

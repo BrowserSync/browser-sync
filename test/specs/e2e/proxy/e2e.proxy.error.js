@@ -1,6 +1,6 @@
 "use strict";
 
-var browserSync     = require("../../../../index");
+var browserSync     = require("../../../../");
 var testUtils       = require("../../../protractor/utils");
 var Immutable       = require("immutable");
 var assert          = require("chai").assert;

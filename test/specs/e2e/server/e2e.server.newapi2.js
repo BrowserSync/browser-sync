@@ -1,6 +1,6 @@
 "use strict";
 
-var browserSync = require("../../../../index");
+var browserSync = require("../../../../");
 
 var sinon = require("sinon");
 var request = require("supertest");

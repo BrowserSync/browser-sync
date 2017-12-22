@@ -16,7 +16,7 @@
 
 var browserSync = require("browser-sync").create();
 
-function fakeLatency (req, res, next) {
+function fakeLatency(req, res, next) {
     if (req.url.match(/^\/json/)) {
         setTimeout(next, 3000);
     } else {

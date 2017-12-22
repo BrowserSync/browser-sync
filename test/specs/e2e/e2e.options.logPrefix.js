@@ -5,7 +5,7 @@ var browserSync = require("../../../");
 var assert = require("chai").assert;
 var sinon = require("sinon");
 var stripColor = require("chalk").stripColor;
-var logger = require("../../../lib/logger").logger;
+var logger = require("../../../dist/logger").logger;
 
 describe("E2E `logPrefix` option", function () {
     it("Can set the log prefix when given in options", function (done) {
