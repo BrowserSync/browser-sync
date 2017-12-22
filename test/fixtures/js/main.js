@@ -1,3 +1,3 @@
-define("shane", [], function () {
-
+define([], function () {
+    console.log('hey!');
 });
