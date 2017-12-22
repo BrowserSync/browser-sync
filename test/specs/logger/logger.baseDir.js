@@ -1,7 +1,7 @@
 "use strict";
 
 var browserSync = require("../../../");
-var logger      = require("../../../lib/logger").logger;
+var logger      = require("../../../dist/logger").logger;
 var sinon       = require("sinon");
 var assert      = require("chai").assert;
 

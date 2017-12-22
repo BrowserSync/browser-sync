@@ -1,11 +1,11 @@
-"use strict";
+require('source-map-support').install();
 
 var path        = require("path");
 var browserSync = require(path.resolve("./"));
 
 var pkg         = require(path.resolve("package.json"));
 var sinon       = require("sinon");
-var logger      = require("../../../lib/logger").logger;
+var logger      = require("../../../dist/logger").logger;
 var assert      = require("chai").assert;
 var cli         = require(path.resolve(pkg.bin));
 var fs          = require("fs");

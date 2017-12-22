@@ -7,7 +7,7 @@ var assert      = require("chai").assert;
 var sinon       = require("sinon");
 var fs          = require("fs");
 var cli         = require(path.resolve(pkg.bin));
-var utils       = require("../../../../lib/utils");
+var utils       = require("../../../../dist/utils");
 
 describe("CLI: reading config file from disk", function () {
     it("reads a config file", function (done) {

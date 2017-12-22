@@ -1,7 +1,7 @@
 "use strict";
 
 var browserSync = require("../../../");
-var utils       = require("../../../lib/utils");
+var utils       = require("../../../dist/utils");
 var path        = require("path");
 var pkg         = require(path.resolve("package.json"));
 var cli         = require(path.resolve(pkg.bin));

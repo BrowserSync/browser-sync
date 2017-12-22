@@ -1,6 +1,6 @@
 "use strict";
 
-var browserSync = require("../../../index");
+var browserSync = require("../../../");
 
 var request     = require("supertest");
 var page        = require("fs").readFileSync("test/fixtures/index.html", "utf-8");

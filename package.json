@@ -8,16 +8,13 @@
   },
   "repository": "BrowserSync/browser-sync",
   "license": "Apache-2.0",
-  "main": "dist/lib/index.js",
+  "main": "dist/index.js",
   "bin": "dist/bin.js",
   "files": [
-    "bin",
-    "index.js",
     "dist",
     "certs",
     "templates",
     "cli-options",
-    "client/index",
     "client/dist"
   ],
   "engines": {
@@ -25,7 +22,7 @@
   },
   "scripts": {
     "env": "node ./test/env.js",
-    "test": "npm run lint && npm run env && npm run unit",
+    "test": "npm run env && npm run unit",
     "lint": "eslint index.js lib bin examples test/specs gulpfile.js --fix",
     "pro": "protractor test/protractor/config.single.js",
     "pro-local": "node test/protractor/setup.js",
@@ -90,6 +87,7 @@
     "request": "2.79.0",
     "rimraf": "2.5.4",
     "sinon": "1.17.5",
+    "source-map-support": "^0.5.0",
     "supertest": "2.0.0",
     "typescript": "^2.6.2",
     "vinyl": "1.2.0"

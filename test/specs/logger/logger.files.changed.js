@@ -1,8 +1,8 @@
 "use strict";
 
 var browserSync = require("../../../");
-var logger = require("../../../lib/logger").logger;
-var callbacks = require("../../../lib/logger").callbacks;
+var logger = require("../../../dist/logger").logger;
+var callbacks = require("../../../dist/logger").callbacks;
 var sinon = require("sinon");
 
 describe("Logs file change events following stream:changed", function () {

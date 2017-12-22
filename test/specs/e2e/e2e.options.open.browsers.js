@@ -1,6 +1,6 @@
 "use strict";
 
-var utils = require("../../../lib/utils");
+var utils = require("../../../dist/utils");
 
 var assert = require("chai").assert;
 var sinon = require("sinon");
