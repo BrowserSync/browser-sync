@@ -1,4 +1,4 @@
-var socket = require('socket.io-client');
+var socket = require("socket.io-client");
 
 /**
  * @type {{emit: emit, on: on}}
@@ -16,7 +16,7 @@ window.___browserSync___.socket = io;
 /**
  * @returns {string}
  */
-exports.getPath = function () {
+exports.getPath = function() {
     return window.location.pathname;
 };
 /**
@@ -24,7 +24,7 @@ exports.getPath = function () {
  * @param name
  * @param data
  */
-exports.emit = function (name, data) {
+exports.emit = function(name, data) {
     if (io && io.emit) {
         // send relative path of where the event is sent
         data.url = exports.getPath();
@@ -37,6 +37,6 @@ exports.emit = function (name, data) {
  * @param name
  * @param func
  */
-exports.on = function (name, func) {
+exports.on = function(name, func) {
     io.on(name, func);
 };

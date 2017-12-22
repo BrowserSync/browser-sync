@@ -1,10 +1,9 @@
-exports._ElementCache = function () {
-
+exports._ElementCache = function() {
     var cache = {},
         guidCounter = 1,
-        expando = "data" + (new Date).getTime();
+        expando = "data" + new Date().getTime();
 
-    this.getData = function (elem) {
+    this.getData = function(elem) {
         var guid = elem[expando];
         if (!guid) {
             guid = elem[expando] = guidCounter++;
@@ -13,14 +12,13 @@ exports._ElementCache = function () {
         return cache[guid];
     };
 
-    this.removeData = function (elem) {
+    this.removeData = function(elem) {
         var guid = elem[expando];
         if (!guid) return;
         delete cache[guid];
         try {
             delete elem[expando];
-        }
-        catch (e) {
+        } catch (e) {
             if (elem.removeAttribute) {
                 elem.removeAttribute(expando);
             }
@@ -33,8 +31,7 @@ exports._ElementCache = function () {
  * @param event
  * @returns {*}
  */
-exports._fixEvent = function (event) {
-
+exports._fixEvent = function(event) {
     function returnTrue() {
         return true;
     }
@@ -59,12 +56,13 @@ exports._fixEvent = function (event) {
         }
 
         // Handle which other element the event is related to
-        event.relatedTarget = event.fromElement === event.target ?
-            event.toElement :
-            event.fromElement;
+        event.relatedTarget =
+            event.fromElement === event.target
+                ? event.toElement
+                : event.fromElement;
 
         // Stop the default browser action
-        event.preventDefault = function () {
+        event.preventDefault = function() {
             event.returnValue = false;
             event.isDefaultPrevented = returnTrue;
         };
@@ -72,7 +70,7 @@ exports._fixEvent = function (event) {
         event.isDefaultPrevented = returnFalse;
 
         // Stop the event from bubbling
-        event.stopPropagation = function () {
+        event.stopPropagation = function() {
             event.cancelBubble = true;
             event.isPropagationStopped = returnTrue;
         };
@@ -80,7 +78,7 @@ exports._fixEvent = function (event) {
         event.isPropagationStopped = returnFalse;
 
         // Stop the event from bubbling and executing other handlers
-        event.stopImmediatePropagation = function () {
+        event.stopImmediatePropagation = function() {
             this.isImmediatePropagationStopped = returnTrue;
             this.stopPropagation();
         };
@@ -89,14 +87,17 @@ exports._fixEvent = function (event) {
 
         // Handle mouse position
         if (event.clientX != null) {
-            var doc = document.documentElement, body = document.body;
+            var doc = document.documentElement,
+                body = document.body;
 
-            event.pageX = event.clientX +
-            (doc && doc.scrollLeft || body && body.scrollLeft || 0) -
-            (doc && doc.clientLeft || body && body.clientLeft || 0);
-            event.pageY = event.clientY +
-            (doc && doc.scrollTop || body && body.scrollTop || 0) -
-            (doc && doc.clientTop || body && body.clientTop || 0);
+            event.pageX =
+                event.clientX +
+                ((doc && doc.scrollLeft) || (body && body.scrollLeft) || 0) -
+                ((doc && doc.clientLeft) || (body && body.clientLeft) || 0);
+            event.pageY =
+                event.clientY +
+                ((doc && doc.scrollTop) || (body && body.scrollTop) || 0) -
+                ((doc && doc.clientTop) || (body && body.clientTop) || 0);
         }
 
         // Handle key presses
@@ -105,9 +106,10 @@ exports._fixEvent = function (event) {
         // Fix button for mouse clicks:
         // 0 == left; 1 == middle; 2 == right
         if (event.button != null) {
-            event.button = (event.button & 1 ? 0 :
-                (event.button & 4 ? 1 :
-                    (event.button & 2 ? 2 : 0)));
+            event.button =
+                event.button & 1
+                    ? 0
+                    : event.button & 4 ? 1 : event.button & 2 ? 2 : 0;
         }
     }
 
@@ -117,18 +119,15 @@ exports._fixEvent = function (event) {
 /**
  * @constructor
  */
-exports._EventManager = function (cache) {
-
+exports._EventManager = function(cache) {
     var nextGuid = 1;
 
-    this.addEvent = function (elem, type, fn) {
-
+    this.addEvent = function(elem, type, fn) {
         var data = cache.getData(elem);
 
         if (!data.handlers) data.handlers = {};
 
-        if (!data.handlers[type])
-            data.handlers[type] = [];
+        if (!data.handlers[type]) data.handlers[type] = [];
 
         if (!fn.guid) fn.guid = nextGuid++;
 
@@ -136,8 +135,7 @@ exports._EventManager = function (cache) {
 
         if (!data.dispatcher) {
             data.disabled = false;
-            data.dispatcher = function (event) {
-
+            data.dispatcher = function(event) {
                 if (data.disabled) return;
                 event = exports._fixEvent(event);
 
@@ -153,16 +151,13 @@ exports._EventManager = function (cache) {
         if (data.handlers[type].length == 1) {
             if (document.addEventListener) {
                 elem.addEventListener(type, data.dispatcher, false);
-            }
-            else if (document.attachEvent) {
+            } else if (document.attachEvent) {
                 elem.attachEvent("on" + type, data.dispatcher);
             }
         }
-
     };
 
     function tidyUp(elem, type) {
-
         function isEmpty(object) {
             for (var prop in object) {
                 return false;
@@ -173,13 +168,11 @@ exports._EventManager = function (cache) {
         var data = cache.getData(elem);
 
         if (data.handlers[type].length === 0) {
-
             delete data.handlers[type];
 
             if (document.removeEventListener) {
                 elem.removeEventListener(type, data.dispatcher, false);
-            }
-            else if (document.detachEvent) {
+            } else if (document.detachEvent) {
                 elem.detachEvent("on" + type, data.dispatcher);
             }
         }
@@ -194,13 +187,12 @@ exports._EventManager = function (cache) {
         }
     }
 
-    this.removeEvent = function (elem, type, fn) {
-
+    this.removeEvent = function(elem, type, fn) {
         var data = cache.getData(elem);
 
         if (!data.handlers) return;
 
-        var removeType = function (t) {
+        var removeType = function(t) {
             data.handlers[t] = [];
             tidyUp(elem, t);
         };
@@ -226,14 +218,13 @@ exports._EventManager = function (cache) {
             }
         }
         tidyUp(elem, type);
-
     };
 
-    this.proxy = function (context, fn) {
+    this.proxy = function(context, fn) {
         if (!fn.guid) {
             fn.guid = nextGuid++;
         }
-        var ret = function () {
+        var ret = function() {
             return fn.apply(context, arguments);
         };
         ret.guid = fn.guid;
@@ -241,24 +232,21 @@ exports._EventManager = function (cache) {
     };
 };
 
-
-
 /**
  * Trigger a click on an element
  * @param elem
  */
-exports.triggerClick = function (elem) {
-
+exports.triggerClick = function(elem) {
     var evObj;
 
     if (document.createEvent) {
-        window.setTimeout(function () {
+        window.setTimeout(function() {
             evObj = document.createEvent("MouseEvents");
             evObj.initEvent("click", true, true);
             elem.dispatchEvent(evObj);
         }, 0);
     } else {
-        window.setTimeout(function () {
+        window.setTimeout(function() {
             if (document.createEventObject) {
                 evObj = document.createEventObject();
                 evObj.cancelBubble = true;
@@ -274,6 +262,3 @@ var eventManager = new exports._EventManager(cache);
 eventManager.triggerClick = exports.triggerClick;
 
 exports.manager = eventManager;
-
-
-

@@ -4,15 +4,15 @@
  * This is the plugin for syncing clicks between browsers
  * @type {string}
  */
-var EVENT_NAME  = "input:toggles";
-var OPT_PATH    = "ghostMode.forms.toggles";
+var EVENT_NAME = "input:toggles";
+var OPT_PATH = "ghostMode.forms.toggles";
 exports.canEmitEvents = true;
 
 /**
  * @param {BrowserSync} bs
  * @param eventManager
  */
-exports.init = function (bs, eventManager) {
+exports.init = function(bs, eventManager) {
     var browserEvent = exports.browserEvent(bs);
     exports.addEvents(eventManager, browserEvent);
     bs.socket.on(EVENT_NAME, exports.socketEvent(bs, eventManager));
@@ -22,10 +22,9 @@ exports.init = function (bs, eventManager) {
  * @param eventManager
  * @param event
  */
-exports.addEvents = function (eventManager, event) {
-
-    var elems   = document.getElementsByTagName("select");
-    var inputs  = document.getElementsByTagName("input");
+exports.addEvents = function(eventManager, event) {
+    var elems = document.getElementsByTagName("select");
+    var inputs = document.getElementsByTagName("input");
 
     addEvents(elems);
     addEvents(inputs);
@@ -41,24 +40,25 @@ exports.addEvents = function (eventManager, event) {
  * @param {BrowserSync} bs
  * @returns {Function}
  */
-exports.browserEvent = function (bs) {
-
-    return function (event) {
-
+exports.browserEvent = function(bs) {
+    return function(event) {
         if (exports.canEmitEvents) {
             var elem = event.target || event.srcElement;
             var data;
-            if (elem.type === "radio" || elem.type === "checkbox" || elem.tagName === "SELECT") {
+            if (
+                elem.type === "radio" ||
+                elem.type === "checkbox" ||
+                elem.tagName === "SELECT"
+            ) {
                 data = bs.utils.getElementData(elem);
-                data.type    = elem.type;
-                data.value   = elem.value;
+                data.type = elem.type;
+                data.value = elem.value;
                 data.checked = elem.checked;
                 bs.socket.emit(EVENT_NAME, data);
             }
         } else {
             exports.canEmitEvents = true;
         }
-
     };
 };
 
@@ -66,10 +66,8 @@ exports.browserEvent = function (bs) {
  * @param {BrowserSync} bs
  * @returns {Function}
  */
-exports.socketEvent = function (bs) {
-
-    return function (data) {
-
+exports.socketEvent = function(bs) {
+    return function(data) {
         if (!bs.canSync(data, OPT_PATH)) {
             return false;
         }

@@ -1,7 +1,7 @@
 "use strict";
 
 var scroll = require("./ghostmode.scroll");
-var utils  = require("./browser.utils");
+var utils = require("./browser.utils");
 
 var styles = {
     display: "none",
@@ -28,15 +28,16 @@ var timeoutInt;
  * @param {BrowserSync} bs
  * @returns {*}
  */
-exports.init = function (bs) {
-
-    options     = bs.options;
+exports.init = function(bs) {
+    options = bs.options;
 
     var cssStyles = styles;
 
     if (options.notify.styles) {
-
-        if (Object.prototype.toString.call(options.notify.styles) === "[object Array]") {
+        if (
+            Object.prototype.toString.call(options.notify.styles) ===
+            "[object Array]"
+        ) {
             // handle original array behavior, replace all styles with a joined copy
             cssStyles = options.notify.styles.join(";");
         } else {
@@ -52,7 +53,7 @@ exports.init = function (bs) {
     elem.id = "__bs_notify__";
 
     if (typeof cssStyles === "string") {
-       elem.style.cssText = cssStyles;
+        elem.style.cssText = cssStyles;
     } else {
         for (var rule in cssStyles) {
             elem.style[rule] = cssStyles[rule];
@@ -70,8 +71,8 @@ exports.init = function (bs) {
 /**
  * @returns {Function}
  */
-exports.watchEvent = function (bs) {
-    return function (data) {
+exports.watchEvent = function(bs) {
+    return function(data) {
         if (bs.options.notify || data.override) {
             if (typeof data === "string") {
                 return exports.flash(data);
@@ -84,7 +85,7 @@ exports.watchEvent = function (bs) {
 /**
  *
  */
-exports.getElem = function () {
+exports.getElem = function() {
     return elem;
 };
 
@@ -93,9 +94,8 @@ exports.getElem = function () {
  * @param [timeout]
  * @returns {*}
  */
-exports.flash = function (message, timeout) {
-
-    var elem  = exports.getElem();
+exports.flash = function(message, timeout) {
+    var elem = exports.getElem();
     var $body = utils.getBody();
 
     // return if notify was never initialised
@@ -103,7 +103,7 @@ exports.flash = function (message, timeout) {
         return false;
     }
 
-    elem.innerHTML     = message;
+    elem.innerHTML = message;
     elem.style.display = "block";
 
     $body.appendChild(elem);
@@ -113,7 +113,7 @@ exports.flash = function (message, timeout) {
         timeoutInt = undefined;
     }
 
-    timeoutInt = window.setTimeout(function () {
+    timeoutInt = window.setTimeout(function() {
         elem.style.display = "none";
         if (elem.parentNode) {
             $body.removeChild(elem);

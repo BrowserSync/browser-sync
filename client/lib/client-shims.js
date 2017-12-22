@@ -1,6 +1,5 @@
 if (!("indexOf" in Array.prototype)) {
-
-    Array.prototype.indexOf= function(find, i) {
+    Array.prototype.indexOf = function(find, i) {
         if (i === undefined) {
             i = 0;
         }
@@ -8,10 +7,10 @@ if (!("indexOf" in Array.prototype)) {
             i += this.length;
         }
         if (i < 0) {
-            i= 0;
+            i = 0;
         }
         for (var n = this.length; i < n; i += 1) {
-            if (i in this && this[i]===find) {
+            if (i in this && this[i] === find) {
                 return i;
             }
         }
@@ -22,13 +21,11 @@ if (!("indexOf" in Array.prototype)) {
 // Production steps of ECMA-262, Edition 5, 15.4.4.19
 // Reference: http://es5.github.io/#x15.4.4.19
 if (!Array.prototype.map) {
-
     Array.prototype.map = function(callback, thisArg) {
-
         var T, A, k;
 
         if (this == null) {
-            throw new TypeError(' this is null or not defined');
+            throw new TypeError(" this is null or not defined");
         }
 
         // 1. Let O be the result of calling ToObject passing the |this|
@@ -42,8 +39,8 @@ if (!Array.prototype.map) {
 
         // 4. If IsCallable(callback) is false, throw a TypeError exception.
         // See: http://es5.github.com/#x9.11
-        if (typeof callback !== 'function') {
-            throw new TypeError(callback + ' is not a function');
+        if (typeof callback !== "function") {
+            throw new TypeError(callback + " is not a function");
         }
 
         // 5. If thisArg was supplied, let T be thisArg; else let T be undefined.
@@ -61,7 +58,6 @@ if (!Array.prototype.map) {
 
         // 8. Repeat, while k < len
         while (k < len) {
-
             var kValue, mappedValue;
 
             // a. Let Pk be ToString(k).
@@ -71,7 +67,6 @@ if (!Array.prototype.map) {
             //   This step can be combined with c
             // c. If kPresent is true, then
             if (k in O) {
-
                 // i. Let kValue be the result of calling the Get internal
                 //    method of O with argument Pk.
                 kValue = O[k];
@@ -110,8 +105,8 @@ if (!Array.prototype.map) {
 }
 
 if (!Array.prototype.filter) {
-    Array.prototype.filter = function(fun/*, thisArg*/) {
-        'use strict';
+    Array.prototype.filter = function(fun /*, thisArg*/) {
+        "use strict";
 
         if (this === void 0 || this === null) {
             throw new TypeError();
@@ -119,7 +114,7 @@ if (!Array.prototype.filter) {
 
         var t = Object(this);
         var len = t.length >>> 0;
-        if (typeof fun !== 'function') {
+        if (typeof fun !== "function") {
             throw new TypeError();
         }
 

@@ -6,7 +6,7 @@ exports.events = {};
  * @param name
  * @param data
  */
-exports.emit = function (name, data) {
+exports.emit = function(name, data) {
     var event = exports.events[name];
     var listeners;
     if (event && event.listeners) {
@@ -21,7 +21,7 @@ exports.emit = function (name, data) {
  * @param name
  * @param func
  */
-exports.on = function (name, func) {
+exports.on = function(name, func) {
     var events = exports.events;
     if (!events[name]) {
         events[name] = {

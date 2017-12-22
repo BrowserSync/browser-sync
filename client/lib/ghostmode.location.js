@@ -5,23 +5,21 @@
  * @type {string}
  */
 var EVENT_NAME = "browser:location";
-var OPT_PATH   = "ghostMode.location";
+var OPT_PATH = "ghostMode.location";
 exports.canEmitEvents = true;
 
 /**
  * @param {BrowserSync} bs
  */
-exports.init = function (bs) {
+exports.init = function(bs) {
     bs.socket.on(EVENT_NAME, exports.socketEvent(bs));
 };
 
 /**
  * Respond to socket event
  */
-exports.socketEvent = function (bs) {
-
-    return function (data) {
-
+exports.socketEvent = function(bs) {
+    return function(data) {
         if (!bs.canSync(data, OPT_PATH)) {
             return false;
         }
@@ -37,13 +35,14 @@ exports.socketEvent = function (bs) {
 /**
  * @param url
  */
-exports.setUrl = function (url) {
+exports.setUrl = function(url) {
     window.location = url;
 };
 
 /**
  * @param path
  */
-exports.setPath = function (path) {
-    window.location = window.location.protocol + "//" + window.location.host + path;
+exports.setPath = function(path) {
+    window.location =
+        window.location.protocol + "//" + window.location.host + path;
 };

@@ -4,9 +4,9 @@
  * This is the plugin for syncing scroll between devices
  * @type {string}
  */
-var WINDOW_EVENT_NAME  = "scroll";
+var WINDOW_EVENT_NAME = "scroll";
 var ELEMENT_EVENT_NAME = "scroll:element";
-var OPT_PATH           = "ghostMode.scroll";
+var OPT_PATH = "ghostMode.scroll";
 var utils;
 
 exports.canEmitEvents = true;
@@ -15,9 +15,9 @@ exports.canEmitEvents = true;
  * @param {BrowserSync} bs
  * @param eventManager
  */
-exports.init = function (bs, eventManager) {
-    utils     = bs.utils;
-    var opts  = bs.options;
+exports.init = function(bs, eventManager) {
+    utils = bs.utils;
+    var opts = bs.options;
 
     /**
      * Window Scroll events
@@ -33,18 +33,26 @@ exports.init = function (bs, eventManager) {
     addElementScrollEvents("scrollElementMapping", true);
     bs.socket.on(ELEMENT_EVENT_NAME, exports.socketEventForElement(bs, cache));
 
-    function addElementScrollEvents (key, map) {
-        if (!opts[key] || !opts[key].length || !("querySelectorAll" in document)) {
+    function addElementScrollEvents(key, map) {
+        if (
+            !opts[key] ||
+            !opts[key].length ||
+            !("querySelectorAll" in document)
+        ) {
             return;
         }
-        utils.forEach(opts[key], function (selector) {
+        utils.forEach(opts[key], function(selector) {
             var elems = document.querySelectorAll(selector) || [];
-            utils.forEach(elems, function (elem) {
+            utils.forEach(elems, function(elem) {
                 var data = utils.getElementData(elem);
                 data.cacheSelector = data.tagName + ":" + data.index;
                 data.map = map;
                 cache[data.cacheSelector] = elem;
-                eventManager.addEvent(elem, WINDOW_EVENT_NAME, exports.browserEventForElement(bs, elem, data));
+                eventManager.addEvent(
+                    elem,
+                    WINDOW_EVENT_NAME,
+                    exports.browserEventForElement(bs, elem, data)
+                );
             });
         });
     }
@@ -53,10 +61,8 @@ exports.init = function (bs, eventManager) {
 /**
  * @param {BrowserSync} bs
  */
-exports.socketEvent = function (bs) {
-
-    return function (data) {
-
+exports.socketEvent = function(bs) {
+    return function(data) {
         if (!bs.canSync(data, OPT_PATH)) {
             return false;
         }
@@ -66,7 +72,10 @@ exports.socketEvent = function (bs) {
         exports.canEmitEvents = false;
 
         if (bs.options && bs.options.scrollProportionally) {
-            return window.scrollTo(0, scrollSpace.y * data.position.proportional); // % of y axis of scroll to px
+            return window.scrollTo(
+                0,
+                scrollSpace.y * data.position.proportional
+            ); // % of y axis of scroll to px
         } else {
             return window.scrollTo(0, data.position.raw.y);
         }
@@ -76,23 +85,22 @@ exports.socketEvent = function (bs) {
 /**
  * @param bs
  */
-exports.socketEventForElement = function (bs, cache) {
-    return function (data) {
-
+exports.socketEventForElement = function(bs, cache) {
+    return function(data) {
         if (!bs.canSync(data, OPT_PATH)) {
             return false;
         }
 
         exports.canEmitEvents = false;
 
-        function scrollOne (selector, pos) {
+        function scrollOne(selector, pos) {
             if (cache[selector]) {
                 cache[selector].scrollTop = pos;
             }
         }
 
         if (data.map) {
-            return Object.keys(cache).forEach(function (key) {
+            return Object.keys(cache).forEach(function(key) {
                 scrollOne(key, data.position);
             });
         }
@@ -104,8 +112,8 @@ exports.socketEventForElement = function (bs, cache) {
 /**
  * @param bs
  */
-exports.browserEventForElement = function (bs, elem, data) {
-    return function () {
+exports.browserEventForElement = function(bs, elem, data) {
+    return function() {
         var canSync = exports.canEmitEvents;
         if (canSync) {
             bs.socket.emit(ELEMENT_EVENT_NAME, {
@@ -118,10 +126,8 @@ exports.browserEventForElement = function (bs, elem, data) {
     };
 };
 
-exports.browserEvent = function (bs) {
-
-    return function () {
-
+exports.browserEvent = function(bs) {
+    return function() {
         var canSync = exports.canEmitEvents;
 
         if (canSync) {
@@ -134,11 +140,10 @@ exports.browserEvent = function (bs) {
     };
 };
 
-
 /**
  * @returns {{raw: number, proportional: number}}
  */
-exports.getScrollPosition = function () {
+exports.getScrollPosition = function() {
     var pos = utils.getBrowserScrollPosition();
     return {
         raw: pos, // Get px of x and y axis of scroll
@@ -151,8 +156,7 @@ exports.getScrollPosition = function () {
  * @param scrollPosition
  * @returns {{x: number, y: number}}
  */
-exports.getScrollPercentage = function (scrollSpace, scrollPosition) {
-
+exports.getScrollPercentage = function(scrollSpace, scrollPosition) {
     var x = scrollPosition.x / scrollSpace.x;
     var y = scrollPosition.y / scrollSpace.y;
 
@@ -166,8 +170,8 @@ exports.getScrollPercentage = function (scrollSpace, scrollPosition) {
  * Get just the percentage of Y axis of scroll
  * @returns {number}
  */
-exports.getScrollTopPercentage = function (pos) {
+exports.getScrollTopPercentage = function(pos) {
     var scrollSpace = utils.getScrollSpace();
-    var percentage  = exports.getScrollPercentage(scrollSpace, pos);
+    var percentage = exports.getScrollPercentage(scrollSpace, pos);
     return percentage.y;
 };

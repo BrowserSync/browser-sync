@@ -4,15 +4,15 @@
  * This is the plugin for syncing clicks between browsers
  * @type {string}
  */
-var EVENT_NAME  = "click";
-var OPT_PATH    = "ghostMode.clicks";
+var EVENT_NAME = "click";
+var OPT_PATH = "ghostMode.clicks";
 exports.canEmitEvents = true;
 
 /**
  * @param {BrowserSync} bs
  * @param eventManager
  */
-exports.init = function (bs, eventManager) {
+exports.init = function(bs, eventManager) {
     eventManager.addEvent(document.body, EVENT_NAME, exports.browserEvent(bs));
     bs.socket.on(EVENT_NAME, exports.socketEvent(bs, eventManager));
 };
@@ -22,12 +22,9 @@ exports.init = function (bs, eventManager) {
  * @param {BrowserSync} bs
  * @returns {Function}
  */
-exports.browserEvent = function (bs) {
-
-    return function (event) {
-
+exports.browserEvent = function(bs) {
+    return function(event) {
         if (exports.canEmitEvents) {
-
             var elem = event.target || event.srcElement;
 
             if (elem.type === "checkbox" || elem.type === "radio") {
@@ -36,7 +33,6 @@ exports.browserEvent = function (bs) {
             }
 
             bs.socket.emit(EVENT_NAME, bs.utils.getElementData(elem));
-
         } else {
             exports.canEmitEvents = true;
         }
@@ -48,10 +44,8 @@ exports.browserEvent = function (bs) {
  * @param {manager} eventManager
  * @returns {Function}
  */
-exports.socketEvent = function (bs, eventManager) {
-
-    return function (data) {
-
+exports.socketEvent = function(bs, eventManager) {
+    return function(data) {
         if (!bs.canSync(data, OPT_PATH) || bs.tabHidden) {
             return false;
         }

@@ -13,7 +13,7 @@
     "eqnull": true,
     "node": true,
     "globals": {
-        "window" : false,
-        "document" : false
+        "window": false,
+        "document": false
     }
 }

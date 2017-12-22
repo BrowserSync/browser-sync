@@ -1,17 +1,16 @@
 "use strict";
 
 exports.plugins = {
-    "inputs":  require("./ghostmode.forms.input"),
-    "toggles": require("./ghostmode.forms.toggles"),
-    "submit":  require("./ghostmode.forms.submit")
+    inputs: require("./ghostmode.forms.input"),
+    toggles: require("./ghostmode.forms.toggles"),
+    submit: require("./ghostmode.forms.submit")
 };
 
 /**
  * Load plugins for enabled options
  * @param bs
  */
-exports.init = function (bs, eventManager) {
-
+exports.init = function(bs, eventManager) {
     var checkOpt = true;
     var options = bs.options.ghostMode.forms;
 

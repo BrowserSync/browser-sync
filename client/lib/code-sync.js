@@ -1,24 +1,23 @@
 "use strict";
-var events  = require("./events");
-var utils   = require("./browser.utils");
+var events = require("./events");
+var utils = require("./browser.utils");
 var emitter = require("./emitter");
-var sync    = exports;
+var sync = exports;
 
 var options = {
-
     tagNames: {
-        "css":  "link",
-        "jpg":  "img",
-        "jpeg": "img",
-        "png":  "img",
-        "svg":  "img",
-        "gif":  "img",
-        "js":   "script"
+        css: "link",
+        jpg: "img",
+        jpeg: "img",
+        png: "img",
+        svg: "img",
+        gif: "img",
+        js: "script"
     },
     attrs: {
-        "link":   "href",
-        "img":    "src",
-        "script": "src"
+        link: "href",
+        img: "src",
+        script: "src"
     },
     blacklist: [
         // never allow .map files through
@@ -31,15 +30,14 @@ var options = {
 var hiddenElem;
 var OPT_PATH = "codeSync";
 
-var current = function () {
+var current = function() {
     return window.location.pathname;
 };
 
 /**
  * @param {BrowserSync} bs
  */
-sync.init = function (bs) {
-
+sync.init = function(bs) {
     if (bs.options.tagNames) {
         options.tagNames = bs.options.tagNames;
     }
@@ -51,8 +49,8 @@ sync.init = function (bs) {
     }
 
     bs.socket.on("file:reload", sync.reload(bs));
-    bs.socket.on("browser:reload", function () {
-        if (bs.canSync({url: current()}, OPT_PATH)) {
+    bs.socket.on("browser:reload", function() {
+        if (bs.canSync({ url: current() }, OPT_PATH)) {
             sync.reloadBrowser(true, bs);
         }
     });
@@ -61,26 +59,30 @@ sync.init = function (bs) {
 /**
  * Use window.name to store/restore scroll position
  */
-sync.saveScrollInName = function () {
-
-    var PRE     = "<<BS_START>>";
-    var SUF     = "<<BS_END>>";
-    var regex   = new RegExp(PRE + "(.+?)" + SUF);
+sync.saveScrollInName = function() {
+    var PRE = "<<BS_START>>";
+    var SUF = "<<BS_END>>";
+    var regex = new RegExp(PRE + "(.+?)" + SUF);
     var $window = utils.getWindow();
-    var saved   = {};
+    var saved = {};
 
     /**
      * Listen for the browser:hardReload event.
      * When it runs, save the current scroll position
      * in window.name
      */
-    emitter.on("browser:hardReload", function (data) {
-        var newname = [$window.name, PRE, JSON.stringify({
-            bs: {
-                hardReload: true,
-                scroll:     data.scrollPosition
-            }
-        }), SUF].join("");
+    emitter.on("browser:hardReload", function(data) {
+        var newname = [
+            $window.name,
+            PRE,
+            JSON.stringify({
+                bs: {
+                    hardReload: true,
+                    scroll: data.scrollPosition
+                }
+            }),
+            SUF
+        ].join("");
         $window.name = newname;
     });
 
@@ -118,8 +120,7 @@ sync.saveScrollInName = function () {
  * @param $window
  * @param $document
  */
-sync.saveScrollInCookie = function ($window, $document) {
-
+sync.saveScrollInCookie = function($window, $document) {
     if (!utils.isOldIe()) {
         return;
     }
@@ -143,25 +144,27 @@ sync.saveScrollInCookie = function ($window, $document) {
  * @param {string} suffix
  */
 sync.updateSearch = function(search, key, suffix) {
-
     if (search === "") {
         return "?" + suffix;
     }
 
-    return "?" + search
-        .slice(1)
-        .split("&")
-        .map(function (item) {
-            return item.split("=");
-        })
-        .filter(function (tuple) {
-            return tuple[0] !== key;
-        })
-        .map(function (item) {
-            return [item[0], item[1]].join("=");
-        })
-        .concat(suffix)
-        .join("&");
+    return (
+        "?" +
+        search
+            .slice(1)
+            .split("&")
+            .map(function(item) {
+                return item.split("=");
+            })
+            .filter(function(tuple) {
+                return tuple[0] !== key;
+            })
+            .map(function(item) {
+                return [item[0], item[1]].join("=");
+            })
+            .concat(suffix)
+            .join("&")
+    );
 };
 
 /**
@@ -170,14 +173,13 @@ sync.updateSearch = function(search, key, suffix) {
  * @param options
  * @returns {{elem: HTMLElement, timeStamp: number}}
  */
-sync.swapFile = function (elem, attr, options) {
-
+sync.swapFile = function(elem, attr, options) {
     var currentValue = elem[attr];
-    var timeStamp    = new Date().getTime();
-    var key          = "rel";
-    var suffix       = key + "=" + timeStamp;
-    var anchor       = utils.getLocation(currentValue);
-    var search       = sync.updateSearch(anchor.search, key, suffix);
+    var timeStamp = new Date().getTime();
+    var key = "rel";
+    var suffix = key + "=" + timeStamp;
+    var anchor = utils.getLocation(currentValue);
+    var search = sync.updateSearch(anchor.search, key, suffix);
 
     if (options.timestamps === false) {
         elem[attr] = anchor.href;
@@ -187,7 +189,7 @@ sync.swapFile = function (elem, attr, options) {
 
     var body = document.body;
 
-    setTimeout(function () {
+    setTimeout(function() {
         if (!hiddenElem) {
             hiddenElem = document.createElement("DIV");
             body.appendChild(hiddenElem);
@@ -203,7 +205,7 @@ sync.swapFile = function (elem, attr, options) {
     };
 };
 
-sync.getFilenameOnly = function (url) {
+sync.getFilenameOnly = function(url) {
     return /^[^\?]+(?=\?)/.exec(url);
 };
 
@@ -211,14 +213,12 @@ sync.getFilenameOnly = function (url) {
  * @param {BrowserSync} bs
  * @returns {*}
  */
-sync.reload = function (bs) {
-
+sync.reload = function(bs) {
     /**
      * @param data - from socket
      */
-    return function (data) {
-
-        if (!bs.canSync({url: current()}, OPT_PATH)) {
+    return function(data) {
+        if (!bs.canSync({ url: current() }, OPT_PATH)) {
             return;
         }
         var transformedElem;
@@ -230,20 +230,29 @@ sync.reload = function (bs) {
         }
 
         if (data.basename && data.ext) {
-
             if (sync.isBlacklisted(data)) {
                 return;
             }
 
             var domData = sync.getElems(data.ext);
-            var elems   = sync.getMatches(domData.elems, data.basename, domData.attr);
+            var elems = sync.getMatches(
+                domData.elems,
+                data.basename,
+                domData.attr
+            );
 
             if (elems.length && options.notify) {
-                emitter.emit("notify", {message: "Injected: " + data.basename});
+                emitter.emit("notify", {
+                    message: "Injected: " + data.basename
+                });
             }
 
             for (var i = 0, n = elems.length; i < n; i += 1) {
-                transformedElem = sync.swapFile(elems[i], domData.attr, options);
+                transformedElem = sync.swapFile(
+                    elems[i],
+                    domData.attr,
+                    options
+                );
             }
         }
 
@@ -255,7 +264,7 @@ sync.reload = function (bs) {
  * @param fileExtension
  * @returns {*}
  */
-sync.getTagName = function (fileExtension) {
+sync.getTagName = function(fileExtension) {
     return options.tagNames[fileExtension];
 };
 
@@ -263,7 +272,7 @@ sync.getTagName = function (fileExtension) {
  * @param tagName
  * @returns {*}
  */
-sync.getAttr = function (tagName) {
+sync.getAttr = function(tagName) {
     return options.attrs[tagName];
 };
 
@@ -271,7 +280,7 @@ sync.getAttr = function (tagName) {
  * @param incoming
  * @returns {boolean}
  */
-sync.isBlacklisted = function (incoming) {
+sync.isBlacklisted = function(incoming) {
     return options.blacklist.some(function(fn) {
         return fn(incoming);
     });
@@ -283,8 +292,7 @@ sync.isBlacklisted = function (incoming) {
  * @param attr
  * @returns {Array}
  */
-sync.getMatches = function (elems, url, attr) {
-
+sync.getMatches = function(elems, url, attr) {
     if (url[0] === "*") {
         return elems;
     }
@@ -306,9 +314,8 @@ sync.getMatches = function (elems, url, attr) {
  * @returns {{elems: NodeList, attr: *}}
  */
 sync.getElems = function(fileExtension) {
-
     var tagName = sync.getTagName(fileExtension);
-    var attr    = sync.getAttr(tagName);
+    var attr = sync.getAttr(tagName);
 
     return {
         elems: document.getElementsByTagName(tagName),
@@ -319,7 +326,7 @@ sync.getElems = function(fileExtension) {
 /**
  * @param confirm
  */
-sync.reloadBrowser = function (confirm) {
+sync.reloadBrowser = function(confirm) {
     emitter.emit("browser:hardReload", {
         scrollPosition: utils.getBrowserScrollPosition()
     });

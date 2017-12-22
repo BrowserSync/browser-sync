@@ -1,10 +1,11 @@
-var utils        = require("./browser.utils");
-var emitter      = require("./emitter");
-var $document    = utils.getDocument();
+var utils = require("./browser.utils");
+var emitter = require("./emitter");
+var $document = utils.getDocument();
 
 // Set the name of the hidden property and the change event for visibility
 var hidden, visibilityChange;
-if (typeof $document.hidden !== "undefined") { // Opera 12.10 and Firefox 18 and later support
+if (typeof $document.hidden !== "undefined") {
+    // Opera 12.10 and Firefox 18 and later support
     hidden = "hidden";
     visibilityChange = "visibilitychange";
 } else if (typeof $document.mozHidden !== "undefined") {
@@ -28,8 +29,10 @@ function handleVisibilityChange() {
     }
 }
 
-if (typeof $document.addEventListener === "undefined" ||
-    typeof $document[hidden] === "undefined") {
+if (
+    typeof $document.addEventListener === "undefined" ||
+    typeof $document[hidden] === "undefined"
+) {
     //console.log('not supported');
 } else {
     $document.addEventListener(visibilityChange, handleVisibilityChange, false);
