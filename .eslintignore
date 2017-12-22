@@ -1,6 +1,6 @@
 lib/public/socket.io.js
 lib/public/socket.io.min.1.6.0.js
 lib/templates/**/*
-lib/server/certs/**
+certs/**
 lib/cli/cli-template.js
 test/specs/resp-mod/rewrite-links.js

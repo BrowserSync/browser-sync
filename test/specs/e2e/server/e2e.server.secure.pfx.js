@@ -25,7 +25,7 @@ describe("E2E TLS server with PFX certs test", function () {
                 baseDir: "test/fixtures"
             },
             https: {
-                pfx:  path.resolve("./lib/server/certs/browsersync.pfx")
+                pfx:  path.resolve("./certs/browsersync.pfx")
             },
             logLevel: "silent",
             open: false

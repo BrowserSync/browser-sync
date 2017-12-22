@@ -20,7 +20,7 @@ browserSync.init({
         baseDir: "app"
     },
     https: {
-        pfx: "lib/server/certs/browsersync.pfx"
+        pfx: "certs/browsersync.pfx"
     }
 });
 

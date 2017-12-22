@@ -25,8 +25,8 @@ describe("E2E TLS server with custom certs test", function () {
                 baseDir: "test/fixtures"
             },
             https: {
-                key:  path.resolve("./lib/server/certs/server.key"),
-                cert: path.resolve("./lib/server/certs/server.crt")
+                key:  path.resolve("./certs/server.key"),
+                cert: path.resolve("./certs/server.crt")
             },
             logLevel: "silent",
             open: false
