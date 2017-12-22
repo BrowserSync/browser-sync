@@ -6,7 +6,7 @@ var assert      = require("chai").assert;
 var browserSync = require(path.resolve("./"));
 
 var pkg     = require(path.resolve("package.json"));
-var cli     = require(path.resolve(pkg.bin));
+var cli     = require(path.resolve(pkg.bin)).default;
 
 describe("E2E CLI server test", function () {
 

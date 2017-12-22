@@ -1,34 +1,36 @@
 #!/usr/bin/env node
-var startOpts = require("../cli-options/opts.start.json");
-var reloadOpts = require("../cli-options/opts.reload.json");
-var recipeOpts = require("../cli-options/opts.recipe.json");
-var pkg = require("../package.json");
-var utils = require("./utils");
-var resolve = require("path").resolve;
-var existsSync = require("fs").existsSync;
-var logger = require("./logger").logger;
-var compile = require("eazy-logger").compile;
+const startOpts = require("../cli-options/opts.start.json");
+const reloadOpts = require("../cli-options/opts.reload.json");
+const recipeOpts = require("../cli-options/opts.recipe.json");
+const pkg = require("../package.json");
+import * as utils from "./utils";
+import {resolve} from "path";
+import {existsSync} from "fs";
+import {logger} from "./logger";
+import {compile} from "eazy-logger";
 
-var BsErrorLevels = {
-    Fatal: "Fatal"
-};
+export enum BsErrorLevels {
+    Fatal = "Fatal"
+}
 
-var BsErrorTypes = {
-    PathNotFound: "PathNotFound"
-};
+export enum BsErrorTypes {
+    PathNotFound = "PathNotFound"
+}
 
 /**
  * Handle cli input
  */
 if (!module.parent) {
-    var yargs = require("yargs")
+    runFromCli();
+}
+
+function runFromCli() {
+    const yargs = require("yargs")
         .command("start", "Start the server")
         .command("init", "Create a configuration file")
         .command("reload", "Send a reload event over HTTP protocol")
         .command("recipe", "Generate the files for a recipe")
-        .version(function() {
-            return pkg.version;
-        })
+        .version(() => pkg.version)
         .epilogue(
             [
                 "For help running a certain command, type <command> --help",
@@ -48,10 +50,10 @@ if (!module.parent) {
             ].join("\n")
         );
 
-    var argv = yargs.argv;
-    var input = argv._;
-    var command = input[0];
-    var valid = ["start", "init", "reload", "recipe"];
+    const argv = yargs.argv;
+    const input = argv._;
+    const command = input[0];
+    const valid = ["start", "init", "reload", "recipe"];
 
     if (argv.help) {
         return yargs.showHelp();
@@ -73,51 +75,39 @@ if (!module.parent) {
 }
 
 function handleNoCommand(argv, input) {
-    var paths = input.map(function(path) {
-        var resolved = resolve(path);
-        var isUrl = /^https?:\/\//.test(path);
+    const paths = input.map(path => {
+        const resolved = resolve(path);
+        const isUrl = /^https?:\/\//.test(path);
         return {
-            isUrl: isUrl,
+            isUrl,
             userInput: path,
-            resolved: resolved,
+            resolved,
             errors: isUrl ? [] : pathErrors(path, resolved)
         };
     });
 
-    var withErrors = paths.filter(function(item) {
-        return item.errors.length;
-    });
+    const withErrors = paths.filter(item => item.errors.length);
 
-    var withoutErrors = paths.filter(function(item) {
-        return item.errors.length === 0;
-    });
+    const withoutErrors = paths.filter(item => item.errors.length === 0);
 
     if (withErrors.length) {
-        withErrors.forEach(function(item) {
+        withErrors.forEach(item => {
             logger.unprefixed("error", printErrors(item.errors));
         });
         process.exit(1);
     } else {
-        var ssPaths = withoutErrors
-            .filter(function(item) {
-                return item.isUrl === false;
-            })
-            .map(function(item) {
-                return item.resolved;
-            });
+        const ssPaths = withoutErrors
+            .filter(item => item.isUrl === false)
+            .map(item => item.resolved);
 
-        var urls = withoutErrors
-            .filter(function(item) {
-                return item.isUrl === true;
-            })
-            .map(function(item) {
-                return item.userInput;
-            });
+        const urls = withoutErrors
+            .filter(item => item.isUrl === true)
+            .map(item => item.userInput);
 
         if (urls.length) {
-            var proxy = urls[0];
+            const proxy = urls[0];
             var config = Object.assign({}, argv, {
-                proxy: proxy,
+                proxy,
                 serveStatic: ssPaths
             });
             handleCli({ cli: { flags: config, input: ["start"] } });
@@ -136,17 +126,17 @@ function handleNoCommand(argv, input) {
  */
 function handleCli(opts) {
     opts.cb = opts.cb || utils.defaultCallback;
-    return require("./cli/command." + opts.cli.input[0])(opts);
+    return require(`./cli/command.${opts.cli.input[0]}`)(opts);
 }
 
-module.exports = handleCli;
+export default handleCli;
 
 /**
  * @param {string} command
  * @param {object} yargs
  */
 function handleIncoming(command, yargs) {
-    var out;
+    let out;
     if (command === "start") {
         out = yargs
             .usage("Usage: $0 start [options]")
@@ -196,12 +186,12 @@ function pathErrors(input, resolved) {
                 level: BsErrorLevels.Fatal,
                 errors: [
                     {
-                        error: new Error("Path not found: " + input),
-                        meta: function() {
+                        error: new Error(`Path not found: ${input}`),
+                        meta() {
                             return [
-                                "Your Input:    {yellow:" + input + "}",
-                                "CWD:           {yellow:" + process.cwd() + "}",
-                                "Resolved to:   {yellow:" + resolved + "}"
+                                `Your Input:    {yellow:${input}}`,
+                                `CWD:           {yellow:${process.cwd()}}`,
+                                `Resolved to:   {yellow:${resolved}}`
                             ];
                         }
                     }
@@ -214,19 +204,15 @@ function pathErrors(input, resolved) {
 
 function printErrors(errors) {
     return errors
-        .map(function(error) {
-            return [
-                "Error Type:    {bold:" + error.type + "}",
-                "Error Level:   {bold:" + error.level + "}",
-                error.errors.map(function(item) {
-                    return [
-                        "Error Message: " + item.error.message,
-                        item.meta ? item.meta().join("\n") : ""
-                    ]
-                        .filter(Boolean)
-                        .join("\n");
-                })
-            ].join("\n");
-        })
+        .map(error => [
+            `Error Type:    {bold:${error.type}}`,
+            `Error Level:   {bold:${error.level}}`,
+            error.errors.map(item => [
+                `Error Message: ${item.error.message}`,
+                item.meta ? item.meta().join("\n") : ""
+            ]
+                .filter(Boolean)
+                .join("\n"))
+        ].join("\n"))
         .join("\n\n");
 }

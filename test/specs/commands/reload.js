@@ -6,7 +6,7 @@ var browserSync = require(path.resolve("./"));
 var pkg         = require(path.resolve("package.json"));
 var sinon       = require("sinon");
 var assert      = require("chai").assert;
-var cli         = require(path.resolve(pkg.bin));
+var cli         = require(path.resolve(pkg.bin)).default;
 
 describe("E2E CLI `reload` with no files arg", function () {
 

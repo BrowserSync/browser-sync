@@ -4,7 +4,7 @@ var browserSync = require("../../../");
 var utils       = require("../../../dist/utils");
 var path        = require("path");
 var pkg         = require(path.resolve("package.json"));
-var cli         = require(path.resolve(pkg.bin));
+var cli         = require(path.resolve(pkg.bin)).default;
 var assert      = require("chai").assert;
 
 describe("Plugins: Exit when plugin not found", function () {

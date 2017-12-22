@@ -7,7 +7,7 @@ var pkg         = require(path.resolve("package.json"));
 var sinon       = require("sinon");
 var logger      = require("../../../dist/logger").logger;
 var assert      = require("chai").assert;
-var cli         = require(path.resolve(pkg.bin));
+var cli         = require(path.resolve(pkg.bin)).default;
 var fs          = require("fs");
 var rim         = require("rimraf").sync;
 

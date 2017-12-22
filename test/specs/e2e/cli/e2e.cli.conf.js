@@ -6,7 +6,7 @@ var pkg         = require(path.resolve("package.json"));
 var assert      = require("chai").assert;
 var sinon       = require("sinon");
 var fs          = require("fs");
-var cli         = require(path.resolve(pkg.bin));
+var cli         = require(path.resolve(pkg.bin)).default;
 var utils       = require("../../../../dist/utils");
 
 describe("CLI: reading config file from disk", function () {

@@ -5,7 +5,7 @@ var fs      = require("fs");
 var path    = require("path");
 
 var pkg     = require(path.resolve("package.json"));
-var cli     = require(path.resolve(pkg.bin));
+var cli     = require(path.resolve(pkg.bin)).default;
 
 describe("E2E CLI init test", function () {
 

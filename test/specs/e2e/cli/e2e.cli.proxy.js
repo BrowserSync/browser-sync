@@ -8,7 +8,7 @@ var browserSync = require(path.resolve("./"));
 var serveStatic = require("serve-static");
 
 var pkg     = require(path.resolve("package.json"));
-var cli     = require(path.resolve(pkg.bin));
+var cli     = require(path.resolve(pkg.bin)).default;
 
 describe("E2E CLI proxy test", function () {
 
