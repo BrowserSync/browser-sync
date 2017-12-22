@@ -23,7 +23,7 @@
   "scripts": {
     "env": "node ./test/env.js",
     "test": "npm run env && npm run unit",
-    "lint": "prettier 'lib/**/*' 'examples/*' 'test/specs/**/*' 'test/specs/*.js'  --write ",
+    "lint": "prettier 'lib/**/*' 'examples/*' 'test/specs/**/*' 'test/specs/*.js'  --write --tab-width 4",
     "pro": "protractor test/protractor/config.single.js",
     "pro-local": "node test/protractor/setup.js",
     "unit": "mocha --recursive test/specs --timeout 10000 --bail",
