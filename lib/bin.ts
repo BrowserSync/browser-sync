@@ -133,7 +133,7 @@ function handleNoCommand(argv, input, yargs) {
             proxy,
             serveStatic: serveStaticPaths
         };
-        return handleIncoming("start", yargs.reset());
+        return handleCli({ cli: { flags: config, input: ["start"] } });
     }
 
     /**
