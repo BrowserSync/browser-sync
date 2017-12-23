@@ -8285,20 +8285,20 @@ var Reloader = /** @class */ (function () {
                 links.push(style);
             });
         }
-        this.logger.trace("found " + links.length + " LINKed stylesheets, " + imported.length + " @imported stylesheets");
+        this.logger.debug("found " + links.length + " LINKed stylesheets, " + imported.length + " @imported stylesheets");
         var match = utils_1.pickBestMatch(path, links.concat(imported), function (l) { return utils_1.pathFromUrl(_this.linkHref(l)); });
         if (match) {
             if (match.object && match.object.rule) {
-                this.logger.trace("reloading imported stylesheet: " + match.object.href);
+                this.logger.info("reloading imported stylesheet: " + match.object.href);
                 this.reattachImportedRule(match.object);
             }
             else {
-                this.logger.trace("reloading stylesheet: " + this.linkHref(match.object));
+                this.logger.info("reloading stylesheet: " + this.linkHref(match.object));
                 this.reattachStylesheetLink(match.object);
             }
         }
         else {
-            this.logger.trace("reloading all stylesheets because path '" + path + "' did not match any specific one");
+            this.logger.info("reloading all stylesheets because path '" + path + "' did not match any specific one");
             links.forEach(function (link) { return _this.reattachStylesheetLink(link); });
         }
         return true;
@@ -8342,7 +8342,7 @@ var Reloader = /** @class */ (function () {
         // http://www.zachleat.com/web/load-css-dynamically/
         // http://pieisgood.org/test/script-link-events/
         clone.onload = function () {
-            _this.logger.trace("the new stylesheet has finished loading");
+            _this.logger.debug("the new stylesheet has finished loading");
             _this.knownToSupportCssOnLoad = true;
             return executeCallback();
         };
@@ -8351,7 +8351,7 @@ var Reloader = /** @class */ (function () {
             var poll_1;
             (poll_1 = function () {
                 if (clone.sheet) {
-                    _this.logger.trace("polling until the new CSS finishes loading...");
+                    _this.logger.debug("polling until the new CSS finishes loading...");
                     return executeCallback();
                 }
                 else {
@@ -8466,7 +8466,7 @@ var Reloader = /** @class */ (function () {
             if (url.indexOf(this.options.serverURL) < 0) {
                 var originalUrl = url;
                 url = this.options.serverURL + this.options.overrideURL + "?url=" + encodeURIComponent(url);
-                this.logger.trace("overriding source URL " + originalUrl + " with " + url);
+                this.logger.debug("overriding source URL " + originalUrl + " with " + url);
             }
         }
         var params = oldParams.replace(/(\?|&)browsersync=(\d+)/, function (match, sep) { return "" + sep + expando; });
