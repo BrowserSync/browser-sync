@@ -1,6 +1,6 @@
 ////
 //var browserSync = require("../../../");
-//var snippetUtils       = require("../../../lib/snippetUtils");
+//var snippetUtils       = require("../../../dist/snippetUtils");
 //
 //var assert      = require("chai").assert;
 //var sinon       = require("sinon");

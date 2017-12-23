@@ -2,7 +2,7 @@ var browserSync = require("../../../");
 var request = require("request");
 var assert = require("chai").assert;
 var sinon = require("sinon");
-var proto = require("../../../lib/http-protocol");
+var proto = require("../../../dist/http-protocol");
 
 describe("HTTP protocol", function() {
     var bs, spy;

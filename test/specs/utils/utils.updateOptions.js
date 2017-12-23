@@ -1,5 +1,5 @@
-var options = require("../../../lib/options");
-var merge = require("../../../lib/cli/cli-options").merge;
+var options = require("../../../dist/options");
+var merge = require("../../../dist/cli/cli-options").merge;
 var assert = require("chai").assert;
 
 describe("Utils: updating options before saving to instance", function() {

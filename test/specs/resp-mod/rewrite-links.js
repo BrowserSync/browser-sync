@@ -1,4 +1,4 @@
-var utils = require("../../../lib/server/proxy-utils");
+var utils = require("../../../dist/server/proxy-utils");
 var assert = require("chai").assert;
 var fs = require("fs");
 

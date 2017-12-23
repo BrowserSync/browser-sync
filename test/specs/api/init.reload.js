@@ -4,12 +4,18 @@ var sinon = require("sinon");
 var assert = require("chai").assert;
 var File = require("vinyl");
 
-describe("API: .reload()", function() {
-    var emitterStub, clock, bs;
+describe.only("API: .reload()", function() {
+    var emitterStub, clock, bs, scheduler;
 
     before(function(done) {
         browserSync.reset();
-        bs = browserSync({ logLevel: "silent" }, function() {
+        scheduler = require("../../utils").getScheduler();
+        bs = browserSync({
+            logLevel: "silent",
+            debug: {
+                scheduler: scheduler
+            }
+        }, function() {
             emitterStub = sinon.spy(bs.emitter, "emit");
             done();
         });
@@ -33,6 +39,7 @@ describe("API: .reload()", function() {
     });
     it("should accept a file path as a string", function() {
         browserSync.reload("css/core.css");
+        scheduler.advanceTo(501);
         sinon.assert.calledWithExactly(emitterStub, "file:changed", {
             path: "css/core.css",
             basename: "core.css",

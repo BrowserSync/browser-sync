@@ -1,5 +1,5 @@
 var browserSync = require("../../../");
-var hooks = require("../../../lib/hooks");
+var hooks = require("../../../dist/hooks");
 var events = require("events");
 var path = require("path");
 var sinon = require("sinon");

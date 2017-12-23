@@ -1,6 +1,6 @@
 
 var connect = require("connect");
-var utils = require("../../lib/server/utils");
+var utils = require("../../dist/server/utils");
 var Immutable  = require("immutable");
 
 function getApp (bs, options) {

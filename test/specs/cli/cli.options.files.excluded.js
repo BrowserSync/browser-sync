@@ -1,4 +1,4 @@
-var options = require("../../../lib/cli/cli-options");
+var options = require("../../../dist/cli/cli-options");
 var wrap = options.utils.wrapPattern;
 
 var assert = require("chai").assert;

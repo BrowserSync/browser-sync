@@ -1,7 +1,7 @@
 // jscs:disable maximumLineLength
 
-var defaultConfig = require("../../../lib/default-config");
-var snippetUtils = require("../../../lib/snippet").utils;
+var defaultConfig = require("../../../dist/default-config");
+var snippetUtils = require("../../../dist/snippet").utils;
 var isExcluded = snippetUtils.isExcluded;
 var assert = require("chai").assert;
 

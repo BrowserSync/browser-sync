@@ -1,6 +1,6 @@
 var assert = require("chai").assert;
-var hook = require("../../../lib/hooks")["files:watch"];
-var merge = require("../../../lib/cli/cli-options").merge;
+var hook = require("../../../dist/hooks")["files:watch"];
+var merge = require("../../../dist/cli/cli-options").merge;
 var browserSync = require("../../../");
 
 describe("files:watch hook", function() {

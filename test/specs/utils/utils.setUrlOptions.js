@@ -1,5 +1,5 @@
 var utils = require("../../../dist/utils");
-var merge = require("../../../lib/cli/cli-options").merge;
+var merge = require("../../../dist/cli/cli-options").merge;
 
 var assert = require("chai").assert;
 var sinon = require("sinon");

@@ -1,4 +1,4 @@
-var options = require("../../../lib/cli/cli-options");
+var options = require("../../../dist/cli/cli-options");
 var merge = options.merge;
 
 var assert = require("chai").assert;

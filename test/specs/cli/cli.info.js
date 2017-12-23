@@ -1,4 +1,4 @@
-var info = require("../../../lib/cli/cli-info");
+var info = require("../../../dist/cli/cli-info");
 
 var assert = require("chai").assert;
 var sinon = require("sinon");
