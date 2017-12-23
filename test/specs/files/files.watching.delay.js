@@ -25,7 +25,7 @@ describe("File Watcher Module - reloadDelay", function() {
             sinon.assert.notCalled(stub.withArgs("file:reload"));
 
             // Advance virtual time beyond the delay
-            scheduler.advanceTo(1001);
+            scheduler.advanceTo(1501);
 
             sinon.assert.calledOnce(stub.withArgs("file:reload"));
 
@@ -54,12 +54,12 @@ describe("File Watcher Module - reloadDelay", function() {
             fn("change", "index.html");
 
             // before delay
-            scheduler.advanceTo(499);
+            scheduler.advanceTo(999);
 
             sinon.assert.notCalled(stub.withArgs("browser:reload"));
 
             // Advance virtual time beyond the delay
-            scheduler.advanceTo(501);
+            scheduler.advanceTo(1000);
 
             sinon.assert.calledOnce(stub.withArgs("browser:reload"));
 

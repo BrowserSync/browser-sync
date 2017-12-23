@@ -17,13 +17,19 @@ describe("API: .stream() noop", function() {
     });
     it("should can handle a reload + stream call after there IS an instance", function(done) {
         var emitterStub;
-        var bs = browserSync(function() {
+        var scheduler = require("../../utils").getScheduler();
+        var bs = browserSync({ debug: { scheduler: scheduler } }, function(
+            err,
+            _bs
+        ) {
             var stream = bs.stream();
 
-            emitterStub = sinon.spy(bs.emitter, "emit");
+            emitterStub = sinon.spy(_bs.emitter, "emit");
 
             stream.write(new File({ path: "styles.css" }));
             stream.end();
+
+            scheduler.advanceTo(600);
 
             sinon.assert.calledWithExactly(emitterStub, "file:changed", {
                 path: "styles.css",
@@ -33,7 +39,7 @@ describe("API: .stream() noop", function() {
                 event: "change",
                 ext: "css"
             });
-            done();
+            _bs.cleanup(done);
         });
     });
 });

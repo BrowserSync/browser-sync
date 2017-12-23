@@ -5,16 +5,19 @@ var sinon = require("sinon");
 var proto = require("../../../dist/http-protocol");
 
 describe("HTTP protocol", function() {
-    var bs, spy;
+    var bs, spy, scheduler;
 
     before(function(done) {
         browserSync.reset();
+
+        scheduler = require("../../utils").getScheduler();
 
         var config = {
             server: "test/fixtures",
             logLevel: "info",
             open: false,
-            online: false
+            online: false,
+            debug: { scheduler: scheduler }
         };
 
         bs = browserSync.init(config, done).instance;
@@ -24,6 +27,7 @@ describe("HTTP protocol", function() {
 
     afterEach(function() {
         spy.reset();
+        scheduler.clock = 0;
     });
 
     after(function() {
@@ -37,6 +41,7 @@ describe("HTTP protocol", function() {
         );
 
         request(url, function(e, r, body) {
+            scheduler.advanceTo(500);
             sinon.assert.calledWith(spy, "browser:reload");
             assert.include(body, "Called public API method `.reload()`");
             assert.include(body, "With args: undefined");
@@ -50,6 +55,7 @@ describe("HTTP protocol", function() {
         );
 
         request(url, function(e, r, body) {
+            scheduler.advanceTo(500);
             sinon.assert.calledWith(spy, "file:changed");
             sinon.assert.calledWithExactly(spy, "file:changed", {
                 path: "a.css",
@@ -71,13 +77,14 @@ describe("HTTP protocol", function() {
         );
 
         request(url, function(e, r, body) {
+            scheduler.advanceTo(500);
             sinon.assert.calledWith(spy, "file:changed", {
                 path: "somefile.php",
                 log: true,
                 namespace: "core",
                 event: "change"
             });
-            sinon.assert.calledWithExactly(spy, "browser:reload");
+            sinon.assert.calledWith(spy, "browser:reload");
             assert.include(body, "Called public API method `.reload()`");
             assert.include(body, 'With args: "somefile.php"');
             done();

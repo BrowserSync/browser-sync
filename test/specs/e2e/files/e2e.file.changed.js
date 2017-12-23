@@ -5,10 +5,11 @@ var sinon = require("sinon");
 var assert = require("chai").assert;
 
 describe("E2E Responding to events", function() {
-    var instance, socketsStub, clock;
+    var instance, socketsStub, scheduler;
 
     before(function(done) {
         browserSync.reset();
+        scheduler = require("../../../utils").getScheduler();
 
         var config = {
             server: {
@@ -16,25 +17,24 @@ describe("E2E Responding to events", function() {
             },
             files: ["test/fixtures/assets/*.css"],
             logLevel: "silent",
-            open: false
+            open: false,
+            debug: {scheduler: scheduler}
         };
 
         instance = browserSync(config, function(err, bs) {
             socketsStub = sinon.stub(bs.io.sockets, "emit");
             done();
         }).instance;
-
-        clock = sinon.useFakeTimers();
     });
 
     afterEach(function() {
         socketsStub.reset();
+        scheduler.clock = 0;
     });
 
     after(function() {
         instance.io.sockets.emit.restore();
         instance.cleanup();
-        clock.restore();
     });
 
     it("fires the file:reload event to the browser", function() {
@@ -46,7 +46,7 @@ describe("E2E Responding to events", function() {
             namespace: "core"
         });
 
-        clock.tick();
+        scheduler.advanceTo(1000);
 
         var eventName = socketsStub.getCall(0).args[0];
         var args = socketsStub.getCall(0).args[1];
@@ -65,7 +65,7 @@ describe("E2E Responding to events", function() {
             namespace: "core"
         });
 
-        clock.tick();
+        scheduler.advanceTo(1000);
 
         var eventName = socketsStub.getCall(0).args[0];
         var args = socketsStub.getCall(0).args[1];
@@ -88,7 +88,7 @@ describe("E2E Responding to events", function() {
             namespace: "core"
         });
 
-        clock.tick();
+        scheduler.advanceTo(500);
 
         assert.isTrue(socketsStub.withArgs("file:reload").notCalled); // should not be called
         assert.isTrue(instance.paused);
@@ -103,7 +103,7 @@ describe("E2E Responding to events", function() {
             namespace: "core"
         });
 
-        clock.tick();
+        scheduler.advanceTo(1000);
 
         assert.isTrue(socketsStub.withArgs("file:reload").called);
         assert.isFalse(instance.paused);
@@ -113,7 +113,7 @@ describe("E2E Responding to events", function() {
         // Emit the event as it comes from the file-watcher
         instance.events.emit("browser:reload");
 
-        clock.tick();
+        scheduler.advanceTo(1000);
 
         var eventName = socketsStub.getCall(0).args[0];
 

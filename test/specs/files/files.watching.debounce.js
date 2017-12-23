@@ -3,42 +3,6 @@ var sinon = require("sinon");
 var assert = require("chai").assert;
 
 describe("File Watcher Module - reloadDebounce", function() {
-    it("Fires as fast as possible with no debounce", function(done) {
-        browserSync.reset();
-        var scheduler = require("../../utils").getScheduler();
-        var config = {
-            server: "test/fixtures",
-            open: false,
-            logLevel: "silent",
-            reloadDebounce: 0,
-            online: false,
-            files: "test/fixtures/*.html",
-            debug: {
-                scheduler: scheduler
-            }
-        };
-        browserSync(config, function(err, bs) {
-            var fn = bs.watchers.core.watchers[0]._events.all;
-
-            var stub = sinon.stub(bs.io.sockets, "emit");
-
-            fn("change", "index.html");
-            fn("change", "index.html");
-            fn("change", "index.html");
-            fn("change", "index.html");
-            fn("change", "index.html");
-            fn("change", "index.html");
-            fn("change", "index.html");
-
-            assert.isTrue(
-                stub.withArgs("browser:reload").getCalls().length === 7,
-                "Should emit 7 times"
-            );
-
-            bs.cleanup();
-            done();
-        });
-    });
     it("only calls file:reload once within the time window", function(done) {
         browserSync.reset();
         var scheduler = require("../../utils").getScheduler();
