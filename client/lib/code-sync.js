@@ -147,7 +147,7 @@ sync.reload = function(bs) {
                 return;
             }
 
-            reloader.reload(data.path, { liveCSS: true });
+            reloader.reload(data.path, { liveCSS: true, liveImg: true });
         }
     };
 };
