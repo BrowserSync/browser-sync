@@ -5,25 +5,27 @@ var assert = require("chai").assert;
 var File = require("vinyl");
 
 describe("API: .stream()", function() {
-    var emitterStub, clock, bs;
+    var emitterStub, bs, scheduler;
 
     before(function(done) {
         browserSync.reset();
-        bs = browserSync({ logLevel: "silent" }, function() {
-            emitterStub = sinon.spy(bs.emitter, "emit");
-            done();
-        });
-        clock = sinon.useFakeTimers();
+        scheduler = require("../../utils").getScheduler();
+        bs = browserSync(
+            { logLevel: "silent", debug: { scheduler: scheduler } },
+            function() {
+                emitterStub = sinon.spy(bs.emitter, "emit");
+                done();
+            }
+        );
     });
 
     afterEach(function() {
         emitterStub.reset();
-        clock.now = 0;
+        scheduler.clock = 0;
     });
 
     after(function() {
         bs.cleanup();
-        clock.restore();
         emitterStub.restore();
     });
 
@@ -31,6 +33,7 @@ describe("API: .stream()", function() {
         var stream = browserSync.stream();
         stream.write(new File({ path: "styles.css" }));
         stream.end();
+        scheduler.advanceTo(600);
         sinon.assert.calledWithExactly(emitterStub, "file:changed", {
             path: "styles.css",
             basename: "styles.css",
@@ -45,6 +48,7 @@ describe("API: .stream()", function() {
         stream.write(new File({ path: "styles.css" }));
         stream.write(new File({ path: "styles2.css" }));
         stream.end();
+        scheduler.advanceTo(600);
         sinon.assert.calledWithExactly(emitterStub, "file:changed", {
             path: "styles.css",
             basename: "styles.css",
@@ -70,6 +74,7 @@ describe("API: .stream()", function() {
         stream.write(new File({ path: "styles.css" }));
         stream.write(new File({ path: "styles2.css" }));
         stream.write(new File({ path: "styles3.css" }));
+        scheduler.advanceTo(600);
         stream.end();
         sinon.assert.calledWithExactly(emitterStub, "_browser:reload");
         sinon.assert.calledWithExactly(emitterStub, "browser:reload");
@@ -80,6 +85,7 @@ describe("API: .stream()", function() {
         stream.write(new File({ path: "styles2.js" }));
         stream.write(new File({ path: "styles3.js" }));
         stream.end();
+        scheduler.advanceTo(600);
         sinon.assert.calledWithExactly(emitterStub, "_browser:reload");
         sinon.assert.calledWithExactly(emitterStub, "browser:reload");
     });
@@ -88,6 +94,7 @@ describe("API: .stream()", function() {
         stream.write(new File({ path: "/users/shane/styles.js" }));
         stream.write(new File({ path: "core.css" }));
         stream.end();
+        scheduler.advanceTo(8000);
         sinon.assert.calledThrice(emitterStub);
         sinon.assert.calledWithExactly(emitterStub, "file:changed", {
             event: "change",
@@ -95,7 +102,7 @@ describe("API: .stream()", function() {
             namespace: "core",
             path: "/users/shane/styles.js"
         });
-        sinon.assert.calledWithExactly(emitterStub, "browser:reload");
+        sinon.assert.calledWith(emitterStub, "browser:reload");
         sinon.assert.calledWithExactly(emitterStub, "stream:changed", {
             changed: ["styles.js"]
         });
@@ -106,7 +113,7 @@ describe("API: .stream()", function() {
         stream.write(new File({ path: "core.css" }));
         stream.write(new File({ path: "index.html" }));
         stream.end();
-        clock.tick();
+        scheduler.advanceTo(600);
         sinon.assert.notCalled(emitterStub);
     });
     it("accepts file paths beginning with dots", function() {
@@ -116,7 +123,7 @@ describe("API: .stream()", function() {
             new File({ path: "/users/shakyshane/.tmp/css/core.css.map" })
         );
         stream.end();
-        clock.tick();
+        scheduler.advanceTo(600);
         sinon.assert.calledWithExactly(emitterStub, "file:changed", {
             path: "/users/shakyshane/.tmp/css/core.css",
             basename: "core.css",
@@ -145,18 +152,17 @@ describe("API: .stream()", function() {
         stream.write(new File({ path: "index.html" }));
 
         stream.end();
-        clock.tick();
+        scheduler.advanceTo(1000);
 
-        assert.isFalse(emitterStub.getCall(0).args[1].log);
-
-        assert.equal(emitterStub.getCall(1).args[0], "browser:reload");
-
-        assert.isFalse(emitterStub.getCall(2).args[1].log);
+        assert.equal(emitterStub.getCall(0).args[0], "file:changed");
+        assert.equal(emitterStub.getCall(1).args[0], "file:changed");
         assert.equal(emitterStub.getCall(2).args[0], "file:changed");
-        assert.equal(emitterStub.getCall(3).args[0], "file:reload");
-        assert.equal(emitterStub.getCall(3).args[1].path, "core.css");
 
-        assert.equal(emitterStub.getCall(4).args[0], "file:changed");
-        assert.equal(emitterStub.getCall(5).args, "browser:reload");
+        assert.deepEqual(emitterStub.getCall(3).args, [
+            "stream:changed",
+            { changed: ["styles.js", "core.css", "index.html"] }
+        ]);
+
+        assert.equal(emitterStub.getCall(4).args[0], "browser:reload");
     });
 });
