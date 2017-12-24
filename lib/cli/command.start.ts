@@ -15,11 +15,12 @@ const _ = require("../lodash.custom");
  */
 export default function(opts) {
     const flags = preprocessFlags(opts.cli.flags);
-    const maybepkg = path.resolve(process.cwd(), "package.json");
+    const cwd = flags.cwd || process.cwd();
+    const maybepkg = path.resolve(cwd, "package.json");
     let input = flags;
 
     if (flags.config) {
-        const maybeconf = path.resolve(process.cwd(), flags.config);
+        const maybeconf = path.resolve(cwd, flags.config);
         if (existsSync(maybeconf)) {
             const conf = require(maybeconf);
             input = _.merge({}, conf, flags);

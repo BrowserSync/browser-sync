@@ -55,10 +55,6 @@ function runFromCli() {
     const command = input[0];
     const valid = ["start", "init", "reload", "recipe"];
 
-    if (argv.help) {
-        return yargs.showHelp();
-    }
-
     if (valid.indexOf(command) > -1) {
         return handleIncoming(command, yargs.reset());
     }
@@ -169,11 +165,14 @@ function processStart(yargs) {
         .options(startOpts)
         .example("$0 start -s app", "- Use the App directory to serve files")
         .example("$0 start -p www.bbc.co.uk", "- Proxy an existing website")
+        .default('cwd', () => process.cwd())
         .help().argv;
 }
+
 /**
  * @param {string} command
  * @param {object} yargs
+ * @param cwd
  */
 function handleIncoming(command, yargs) {
     let out;
@@ -184,6 +183,7 @@ function handleIncoming(command, yargs) {
         out = yargs
             .usage("Usage: $0 init")
             .example("$0 init")
+            .default('cwd', () => process.cwd())
             .help().argv;
     }
     if (command === "reload") {
@@ -192,6 +192,7 @@ function handleIncoming(command, yargs) {
             .options(reloadOpts)
             .example("$0 reload")
             .example("$0 reload --port 4000")
+            .default('cwd', () => process.cwd())
             .help().argv;
     }
     if (command === "recipe") {
@@ -200,6 +201,7 @@ function handleIncoming(command, yargs) {
             .option(recipeOpts)
             .example("$0 recipe ls", "list the recipes")
             .example("$0 recipe gulp.sass", "use the gulp.sass recipe")
+            .default('cwd', () => process.cwd())
             .help().argv;
     }
 

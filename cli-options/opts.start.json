@@ -3,6 +3,10 @@
     "alias": "s",
     "desc": "Run a Local server (uses your cwd as the web root)"
   },
+  "cwd": {
+    "type": "string",
+    "desc": "Working directory"
+  },
   "serveStatic": {
     "type": "array",
     "alias": "ss",
@@ -25,6 +29,15 @@
     "type": "array",
     "alias": "b",
     "desc": "Choose which browser should be auto-opened"
+  },
+  "watch": {
+    "type": "boolean",
+    "alias": "w",
+    "desc": "Watch files"
+  },
+  "ignore": {
+    "type": "array",
+    "desc": "Ignore patterns for file watchers"
   },
   "files": {
     "type": "array",
