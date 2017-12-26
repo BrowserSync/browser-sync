@@ -2,7 +2,7 @@ var cli = require("../../../dist/cli/cli-options");
 var merge = cli.merge;
 var assert = require("chai").assert;
 
-describe.only("CLI: Options: Merging Watch Option", function() {
+describe("CLI: Options: Merging Watch Option", function() {
     it("watches in server mode (no files given)", function() {
         var input = {server: true, watch: true};
         var config = merge(input).toJS();
