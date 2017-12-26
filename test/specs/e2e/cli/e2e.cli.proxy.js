@@ -59,37 +59,8 @@ describe("E2E CLI proxy test", function() {
             });
     });
 });
-describe("E2E CLI proxy test", function() {
-    var instance;
 
-    before(function(done) {
-        browserSync.reset();
-
-        cli({
-            cli: {
-                input: ["start"],
-                flags: {
-                    proxy: true, // this is: `browser-sync start --proxy`
-                    open: false,
-                    online: false,
-                    logLevel: "silent"
-                }
-            },
-            cb: function(err, bs) {
-                instance = bs;
-                done();
-            }
-        });
-    });
-    after(function() {
-        instance.cleanup();
-    });
-    it("should fall back to snippet mode if no string given for proxy on cli", function() {
-        assert.equal(instance.options.get("mode"), "snippet");
-    });
-});
-
-describe("E2E CLI proxy test", function() {
+describe("E2E CLI proxy test (2)", function() {
     var instance;
 
     before(function(done) {
@@ -110,8 +81,8 @@ describe("E2E CLI proxy test", function() {
             }
         });
     });
-    after(function() {
-        instance.cleanup();
+    after(function(done) {
+        instance.cleanup(done);
     });
     it("promote paths in the proxy to startPath option", function() {
         assert.equal(instance.options.get("startPath"), "/path/is/here");

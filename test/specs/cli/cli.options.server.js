@@ -10,13 +10,13 @@ describe("CLI: Options: Merging Server Options", function() {
     it("should merge when only basedir given", function() {
         var imm = merge({ server: "base" });
         assert.deepEqual(imm.get("server").toJS(), {
-            baseDir: "base"
+            baseDir: ["base"]
         });
     });
     it("should merge when only `true` given`", function() {
         var imm = merge({ server: true });
         assert.deepEqual(imm.get("server").toJS(), {
-            baseDir: "./"
+            baseDir: ["./"]
         });
     });
     it("should merge when only an array` given`", function() {
@@ -32,7 +32,7 @@ describe("CLI: Options: Merging Server Options", function() {
             }
         });
         assert.deepEqual(imm.get("server").toJS(), {
-            baseDir: "./app"
+            baseDir: ["./app"]
         });
     });
     it("should merge when multiple nested props given", function() {
@@ -45,52 +45,52 @@ describe("CLI: Options: Merging Server Options", function() {
                 }
             }
         });
-        assert.equal(imm.getIn(["server", "baseDir"]), "./app");
+        assert.equal(imm.getIn(["server", "baseDir", 0]), "./app");
         assert.equal(imm.getIn(["server", "index"]), "index.htm");
         assert.isFunction(imm.getIn(["server", "middleware"]));
     });
-    it("can merge cli flags into object", function() {
+    it("can merge cli flags into object (1)", function() {
         var argv = {
             server: true,
             index: "index.htm"
         };
-        var imm = merge({}, argv);
+        var imm = merge(argv);
+        console.log(imm.get("server").toJS());
         assert.deepEqual(imm.get("server").toJS(), {
-            baseDir: "./",
+            baseDir: ["./"],
             index: "index.htm"
         });
     });
-    it("can merge cli flags into object", function() {
+    it("can merge cli flags into object (2)", function() {
         var argv = {
             server: true,
             directory: true
         };
-        var imm = merge({}, argv);
+        var imm = merge(argv);
         assert.deepEqual(imm.get("server").toJS(), {
-            baseDir: "./",
+            baseDir: ["./"],
             directory: true
         });
     });
-    it("can merge cli flags into object", function() {
+    it("can merge cli flags into object (3)", function() {
         var argv = {
             server: true,
             directory: true
         };
-        var imm = merge({}, argv);
+        var imm = merge(argv);
         assert.deepEqual(imm.get("server").toJS(), {
-            baseDir: "./",
+            baseDir: ["./"],
             directory: true
         });
     });
-    it("can merge cli flags into object", function() {
-        var argv = {
+    it("can merge cli flags into object (4)", function() {
+        var imm = merge({
             server: "app",
             directory: true,
             index: "file.html"
-        };
-        var imm = merge({ server: "app" }, argv);
+        });
         assert.deepEqual(imm.get("server").toJS(), {
-            baseDir: "app",
+            baseDir: ["app"],
             directory: true,
             index: "file.html"
         });
