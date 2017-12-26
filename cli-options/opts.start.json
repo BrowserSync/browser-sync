@@ -60,6 +60,10 @@
     "type": "string",
     "desc": "Specify the start path for the opened browser"
   },
+  "single": {
+    "type": "boolean",
+    "desc": "If true, the connect-history-api-fallback middleware will be added"
+  },
   "https": {
     "desc": "Enable SSL for local development"
   },
