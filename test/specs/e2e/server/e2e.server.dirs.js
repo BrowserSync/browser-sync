@@ -133,29 +133,3 @@ describe("E2E server test with base dir array option + directory", function() {
             });
     });
 });
-
-describe("E2E server test with base dir array = false", function() {
-    it("should ignore the directory option if a falsey value was given", function(done) {
-        browserSync.reset();
-
-        var config = {
-            server: {
-                baseDir: ["test", "app"],
-                directory: false
-            },
-            logLevel: "silent",
-            open: false
-        };
-
-        browserSync.init(config, function(err, bs) {
-            request(bs.server)
-                .get("/")
-                .set("accept", "text/html")
-                .expect(200)
-                .end(function(err, res) {
-                    assert.notInclude(res.text, "listing directory /");
-                    done();
-                });
-        });
-    });
-});
