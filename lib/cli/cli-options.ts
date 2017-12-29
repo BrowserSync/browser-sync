@@ -10,6 +10,7 @@ import { handleProxyOption } from "./transforms/handleProxyOption";
 import { handleServerOption } from "./transforms/handleServerOption";
 import { appendServerIndexOption } from "./transforms/appendServerIndexOption";
 import { appendServerDirectoryOption } from "./transforms/appendServerDirectoryOption";
+import {addCwdToWatchOptions} from "./transforms/addCwdToWatchOptions";
 
 const _ = require("../lodash.custom");
 const defaultConfig = require("../default-config");
@@ -23,6 +24,7 @@ export function merge(input) {
     const merged = immDefs.mergeDeep(input);
     const transforms = [
         addToFilesOption,
+        addCwdToWatchOptions,
         addDefaultIgnorePatterns,
         copyCLIIgnoreToWatchOptions,
         handleServerOption,

@@ -1,6 +1,6 @@
 import {List} from "immutable";
 
-const defaultIgorePatterns = [
+const defaultIgnorePatterns = [
     /node_modules/,
     /bower_components/,
     /\.sass-cache/,
@@ -10,21 +10,16 @@ const defaultIgorePatterns = [
 ];
 
 export function addDefaultIgnorePatterns(incoming) {
-    if (!incoming.get("watch")) {
-        return incoming;
-    }
-
     return incoming.update("watchOptions", watchOptions => {
         const userIgnored = List([])
             .concat(watchOptions.get("ignored"))
             .filter(Boolean)
             .toSet();
 
-        const merged = userIgnored.merge(defaultIgorePatterns);
+        const merged = userIgnored.merge(defaultIgnorePatterns);
 
         return watchOptions.merge({
             ignored: merged.toList(),
-            cwd: incoming.get("cwd")
         });
     });
 }
