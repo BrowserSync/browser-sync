@@ -51,7 +51,7 @@ describe("Utils: creating URLs", function() {
         var opts = merge({
             port: 3000,
             server: true,
-            scheme: "https",
+            https: true,
             online: true,
             xip: true
         });

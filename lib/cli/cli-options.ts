@@ -10,7 +10,22 @@ import { handleProxyOption } from "./transforms/handleProxyOption";
 import { handleServerOption } from "./transforms/handleServerOption";
 import { appendServerIndexOption } from "./transforms/appendServerIndexOption";
 import { appendServerDirectoryOption } from "./transforms/appendServerDirectoryOption";
-import {addCwdToWatchOptions} from "./transforms/addCwdToWatchOptions";
+import { addCwdToWatchOptions } from "./transforms/addCwdToWatchOptions";
+import {
+    setMode,
+    setScheme,
+    setStartPath,
+    setProxyWs,
+    setServerOpts,
+    liftExtensionsOptionFromCli,
+    setNamespace,
+    fixSnippetIgnorePaths,
+    fixSnippetIncludePaths,
+    fixRewriteRules,
+    setMiddleware,
+    setOpen,
+    setUiPort
+} from "../options";
 
 const _ = require("../lodash.custom");
 const defaultConfig = require("../default-config");
@@ -34,7 +49,20 @@ export function merge(input) {
         handlePortsOption,
         handleGhostModeOption,
         handleFilesOption,
-        handleExtensionsOption
+        handleExtensionsOption,
+        setMode,
+        setScheme,
+        setStartPath,
+        setProxyWs,
+        setServerOpts,
+        liftExtensionsOptionFromCli,
+        setNamespace,
+        fixSnippetIgnorePaths,
+        fixSnippetIncludePaths,
+        fixRewriteRules,
+        setMiddleware,
+        setOpen,
+        setUiPort
     ];
 
     const output = transforms.reduce((acc, item) => {

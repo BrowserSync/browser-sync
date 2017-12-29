@@ -9,8 +9,7 @@ describe("Connection snippetUtils", function() {
     beforeEach(function() {
         options = merge({
             port: 3002,
-            scheme: "http",
-            mode: "server"
+            server: true
         });
     });
     it("should return a connection url with http", function() {
@@ -50,8 +49,7 @@ describe("Connection snippetUtils", function() {
     it("should return a connection url for server mode", function() {
         var options = merge({
             port: 3002,
-            scheme: "http",
-            mode: "server"
+            server: true
         });
         var actual = utils.socketConnector(options);
         assert.include(actual, "'' + location.host + '/browser-sync'");
@@ -60,7 +58,7 @@ describe("Connection snippetUtils", function() {
         var options = merge({
             port: 3002,
             scheme: "https",
-            mode: "server"
+            server: true
         });
         var actual = utils.socketConnector(options);
         assert.include(actual, "'' + location.host + '/browser-sync'");
@@ -80,8 +78,7 @@ describe("Connection snippetUtils", function() {
     it("should return a connection url for secure snippet mode", function() {
         var options = merge({
             port: 4002,
-            scheme: "https",
-            mode: "snippet"
+            https: true
         });
         var actual = utils.socketConnector(options);
         assert.include(
