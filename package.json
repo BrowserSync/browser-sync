@@ -74,6 +74,7 @@
     "chalk": "1.1.3",
     "compression": "1.6.2",
     "crossbow": "latest",
+    "generate-changelog": "^1.7.0",
     "graceful-fs": "4.1.9",
     "gulp": "3.9.1",
     "gulp-contribs": "0.0.3",
