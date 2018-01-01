@@ -15,10 +15,14 @@ const output = sep
         const bodyJoined = body.join('\n');
         return [hash, bodyJoined];
     })
-    .filter(([, body]) => /^[\w]+: [^ ]/.test(body))
+    // .filter(([, body]) => )
     .map(([hash, bodyJoined]) => {
-        const [section, body] = bodyJoined.split(/: /);
-        return [hash, section, body];
+        const hasSection = /^[\w]+: [^ ]/.test(bodyJoined);
+        if (hasSection) {
+            const [section, body] = bodyJoined.split(/: /);
+            return [hash, section, body];
+        }
+        return [hash, 'misc', bodyJoined];
     })
     .reduce((acc, item) => {
         const [, section] = item;
