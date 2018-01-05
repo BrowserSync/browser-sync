@@ -189,3 +189,40 @@ describe("Accepting multiple server middlewares as top-level option", function()
             });
     });
 });
+
+describe("Allow middlewares to call next() after res.end if no server provided", function() {
+    var bs;
+
+    before(function(done) {
+        browserSync.reset();
+
+        var fn = function(req, res, next) {
+            res.write('bs');
+            res.end();
+            next();
+        };
+
+        var config = {
+            logLevel: "silent",
+            open: false,
+            middleware: fn
+        };
+
+        bs = browserSync.init(config, done).instance;
+    });
+
+    after(function() {
+        bs.cleanup();
+    });
+
+    it("should call the middlewares", function(done) {
+        request(bs.server)
+            .get("/")
+            .set("accept", "text/html")
+            .expect(200)
+            .end(function(err, res) {
+                assert.include(res.text, 'bs');
+                done();
+            });
+    });
+});
