@@ -1,6 +1,5 @@
 {
   "server": {
-    "type": "array",
     "alias": "s",
     "desc": "Run a Local server (uses your cwd as the web root)"
   },
