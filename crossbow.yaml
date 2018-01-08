@@ -4,9 +4,12 @@ tasks:
     - build-client
 #    - build-bs
 
+  build-server:
+    - '@npm tsc'
+
   build-client:
-    - '@sh cd client && webpack'
-    - '@sh cd client && webpack -p --output-filename index.min.js'
+    - '@npm cd client && ./node_modules/.bin/webpack'
+    - '@npm cd client && ./node_modules/.bin/webpack -p --output-filename index.min.js'
 
   lint: >
     @npm prettier

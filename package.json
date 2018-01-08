@@ -32,7 +32,7 @@
     "coveralls": "istanbul-coveralls",
     "pre-release": "npm test && npm run pro-local && npm run pro",
     "lodash": "lodash include=isUndefined,isFunction,toArray,includes,union,each,isString,merge,isObject,set exports=node",
-    "prepublish": "tsc"
+    "prepublish": "cb build-server build-client"
   },
   "dependencies": {
     "browser-sync-ui": "v1.0.1",
