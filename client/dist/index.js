@@ -7959,6 +7959,14 @@ if (!Array.prototype.filter) {
 
 "use strict";
 
+var __assign = (this && this.__assign) || Object.assign || function(t) {
+    for (var s, i = 1, n = arguments.length; i < n; i++) {
+        s = arguments[i];
+        for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+            t[p] = s[p];
+    }
+    return t;
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 var Reloader_1 = __webpack_require__(60);
 var Timer_1 = __webpack_require__(62);
@@ -7970,6 +7978,20 @@ var nanlogger = __webpack_require__(63);
 var log = nanlogger("Browsersync", { colors: { magenta: "#0F2634" } });
 var reloader = new Reloader_1.Reloader(window, log, Timer_1.Timer);
 var options = {
+    tagNames: {
+        "css": "link",
+        "jpg": "img",
+        "jpeg": "img",
+        "png": "img",
+        "svg": "img",
+        "gif": "img",
+        "js": "script"
+    },
+    attrs: {
+        "link": "href",
+        "img": "src",
+        "script": "src"
+    },
     blacklist: [
         // never allow .map files through
         function (incoming) {
@@ -7985,6 +8007,9 @@ var current = function () {
  * @param {BrowserSync} bs
  */
 sync.init = function (bs) {
+    if (bs.options.tagNames) {
+        options.tagNames = bs.options.tagNames;
+    }
     if (bs.options.scrollRestoreTechnique === "window.name") {
         sync.saveScrollInName(emitter);
     }
@@ -8086,15 +8111,14 @@ sync.reload = function (bs) {
         if (!bs.canSync({ url: current() }, OPT_PATH)) {
             return;
         }
-        var options = bs.options;
-        if (data.url || !options.injectChanges) {
+        if (data.url || !bs.options.injectChanges) {
             sync.reloadBrowser(true);
         }
         if (data.basename && data.ext) {
             if (sync.isBlacklisted(data)) {
                 return;
             }
-            reloader.reload(data.path, { liveCSS: true, liveImg: true });
+            reloader.reload(data, __assign({}, options, { liveCSS: true, liveImg: true }));
         }
     };
 };
@@ -8134,6 +8158,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
  *
  */
 var utils_1 = __webpack_require__(61);
+var hiddenElem;
 var IMAGE_STYLES = [
     { selector: 'background', styleNames: ['backgroundImage'] },
     { selector: 'border', styleNames: ['borderImage', 'webkitBorderImage', 'MozBorderImage'] }
@@ -8156,8 +8181,9 @@ var Reloader = /** @class */ (function () {
         return null;
         // return results;
     };
-    Reloader.prototype.reload = function (path, options) {
+    Reloader.prototype.reload = function (data, options, cb) {
         this.options = options; // avoid passing it through all the funcs
+        var path = data.path;
         if (this.options.stylesheetReloadTimeout == null) {
             this.options.stylesheetReloadTimeout = 15000;
         }
@@ -8179,8 +8205,67 @@ var Reloader = /** @class */ (function () {
                 return;
             }
         }
-        return this.reloadPage();
+        var domData = Reloader.getElems(data.ext, options);
+        var elems = Reloader.getMatches(domData.elems, data.basename, domData.attr);
+        // if (elems.length && options.notify) {
+        //     emitter.emit("notify", {message: "Injected: " + data.basename});
+        // }
+        // for (var i = 0, n = elems.length; i < n; i += 1) {
+        //     transformedElem = sync.swapFile(elems[i], domData.attr, options);
+        // }
     };
+    Reloader.getElems = function (fileExtension, options) {
+        var tagName = options.tagNames[fileExtension];
+        var attr = options.attrs[tagName];
+        return {
+            elems: document.getElementsByTagName(tagName),
+            attr: attr
+        };
+    };
+    Reloader.getMatches = function (elems, url, attr) {
+        if (url[0] === "*") {
+            return elems;
+        }
+        var matches = [];
+        var urlMatcher = new RegExp("(^|/)" + url);
+        for (var i = 0, len = elems.length; i < len; i += 1) {
+            if (urlMatcher.test(elems[i][attr])) {
+                matches.push(elems[i]);
+            }
+        }
+        return matches;
+    };
+    ;
+    Reloader.swapFile = function (elem, attr, options) {
+        var currentValue = elem[attr];
+        var timeStamp = new Date().getTime();
+        var key = "rel";
+        var suffix = key + "=" + timeStamp;
+        var anchor = utils_1.getLocation(currentValue);
+        var search = utils_1.updateSearch(anchor.search, key, suffix);
+        if (options.timestamps === false) {
+            elem[attr] = anchor.href;
+        }
+        else {
+            elem[attr] = anchor.href.split("?")[0] + search;
+        }
+        var body = document.body;
+        setTimeout(function () {
+            if (!hiddenElem) {
+                hiddenElem = document.createElement("DIV");
+                body.appendChild(hiddenElem);
+            }
+            else {
+                hiddenElem.style.display = "none";
+                hiddenElem.style.display = "block";
+            }
+        }, 200);
+        return {
+            elem: elem,
+            timeStamp: timeStamp
+        };
+    };
+    ;
     Reloader.prototype.reloadPage = function () {
         return this.window.document.location.reload();
     };
@@ -8563,6 +8648,41 @@ exports.numberOfMatchingSegments = function (path1, path2) {
 exports.pathsMatch = function (path1, path2) {
     return exports.numberOfMatchingSegments(path1, path2) > 0;
 };
+function getLocation(url) {
+    var location = document.createElement("a");
+    location.href = url;
+    if (location.host === "") {
+        location.href = location.href;
+    }
+    return location;
+}
+exports.getLocation = getLocation;
+/**
+ * @param {string} search
+ * @param {string} key
+ * @param {string} suffix
+ */
+function updateSearch(search, key, suffix) {
+    if (search === "") {
+        return "?" + suffix;
+    }
+    return "?" + search
+        .slice(1)
+        .split("&")
+        .map(function (item) {
+        return item.split("=");
+    })
+        .filter(function (tuple) {
+        return tuple[0] !== key;
+    })
+        .map(function (item) {
+        return [item[0], item[1]].join("=");
+    })
+        .concat(suffix)
+        .join("&");
+}
+exports.updateSearch = updateSearch;
+;
 
 
 /***/ }),

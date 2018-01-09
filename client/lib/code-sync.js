@@ -10,6 +10,20 @@ const log = nanlogger("Browsersync", { colors: { magenta: "#0F2634" } });
 const reloader = new Reloader(window, log, Timer);
 
 const options = {
+    tagNames: {
+        "css":  "link",
+        "jpg":  "img",
+        "jpeg": "img",
+        "png":  "img",
+        "svg":  "img",
+        "gif":  "img",
+        "js":   "script"
+    },
+    attrs: {
+        "link":   "href",
+        "img":    "src",
+        "script": "src"
+    },
     blacklist: [
         // never allow .map files through
         function(incoming) {
@@ -27,6 +41,11 @@ const current = function() {
  * @param {BrowserSync} bs
  */
 sync.init = function(bs) {
+
+    if (bs.options.tagNames) {
+        options.tagNames = bs.options.tagNames;
+    }
+
     if (bs.options.scrollRestoreTechnique === "window.name") {
         sync.saveScrollInName(emitter);
     } else {
@@ -136,18 +155,21 @@ sync.reload = function(bs) {
             return;
         }
 
-        var options = bs.options;
-
-        if (data.url || !options.injectChanges) {
+        if (data.url || !bs.options.injectChanges) {
             sync.reloadBrowser(true);
         }
 
         if (data.basename && data.ext) {
+
             if (sync.isBlacklisted(data)) {
                 return;
             }
 
-            reloader.reload(data.path, { liveCSS: true, liveImg: true });
+            reloader.reload(data, {
+                ...options,
+                liveCSS: true,
+                liveImg: true
+            });
         }
     };
 };

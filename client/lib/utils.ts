@@ -76,3 +76,41 @@ export const numberOfMatchingSegments = function(path1, path2) {
 
 export const pathsMatch = (path1, path2) =>
     numberOfMatchingSegments(path1, path2) > 0;
+
+export function getLocation(url: string) {
+    var location = document.createElement("a");
+    location.href = url;
+
+    if (location.host === "") {
+        location.href = location.href;
+    }
+
+    return location;
+}
+
+/**
+ * @param {string} search
+ * @param {string} key
+ * @param {string} suffix
+ */
+export function updateSearch(search, key, suffix) {
+
+    if (search === "") {
+        return "?" + suffix;
+    }
+
+    return "?" + search
+        .slice(1)
+        .split("&")
+        .map(function (item) {
+            return item.split("=");
+        })
+        .filter(function (tuple) {
+            return tuple[0] !== key;
+        })
+        .map(function (item) {
+            return [item[0], item[1]].join("=");
+        })
+        .concat(suffix)
+        .join("&");
+};

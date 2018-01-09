@@ -4,7 +4,9 @@
  * :) :) :)
  *
  */
-import {pathFromUrl, pathsMatch, pickBestMatch, splitUrl} from "../lib/utils";
+import {getLocation, pathFromUrl, pathsMatch, pickBestMatch, splitUrl, updateSearch} from "../lib/utils";
+
+var hiddenElem;
 
 declare global {
     interface HTMLLinkElement {
@@ -23,6 +25,8 @@ export interface ReloadOptions {
     overrideURL?: string;
     liveCSS?: boolean;
     liveImg?: boolean;
+    tagNames: {[index: string]: string}
+    attrs: {[index: string]: string}
 }
 
 export class Reloader {
@@ -53,27 +57,106 @@ export class Reloader {
     }
 
 
-    reload(path: string, options: ReloadOptions) {
+    reload(data, options: ReloadOptions, cb) {
         this.options = options;  // avoid passing it through all the funcs
+        const {path} = data;
         if (this.options.stylesheetReloadTimeout == null) { this.options.stylesheetReloadTimeout = 15000; }
+
         this.plugins.forEach(plugin => {
             if (plugin.reload && plugin.reload(path, options)) {
                 return;
             }
         })
+
         if (options.liveCSS) {
             if (path.match(/\.css$/i)) {
-                if (this.reloadStylesheet(path)) { return; }
+                this.logger.trace(`path.match(/\\.css$/i)`, true);
+                if (this.reloadStylesheet(path)) {
+                    return;
+                }
             }
         }
         if (options.liveImg) {
             if (path.match(/\.(jpe?g|png|gif)$/i)) {
+                this.logger.trace(`/\\.(jpe?g|png|gif)$/i`, true);
                 this.reloadImages(path);
                 return;
             }
         }
-        return this.reloadPage();
+
+        this.logger.trace('Falling back to legacy method of replacing assets');
+
+        /**
+         * LEGACY
+         */
+        const domData = Reloader.getElems(data.ext, options);
+        const elems   = Reloader.getMatches(domData.elems, data.basename, domData.attr);
+
+        for (var i = 0, n = elems.length; i < n; i += 1) {
+            this.swapFile(elems[i], domData.attr, options);
+        }
+
+        (cb || function() {})(elems, domData);
     }
+    public static getElems(fileExtension, options: ReloadOptions) {
+        const tagName = options.tagNames[fileExtension];
+        const attr    = options.attrs[tagName];
+        return {
+            elems: document.getElementsByTagName(tagName),
+            attr: attr
+        };
+    }
+
+    public static getMatches(elems, url, attr) {
+
+        if (url[0] === "*") {
+            return elems;
+        }
+
+        var matches = [];
+        var urlMatcher = new RegExp("(^|/)" + url);
+
+        for (var i = 0, len = elems.length; i < len; i += 1) {
+            if (urlMatcher.test(elems[i][attr])) {
+                matches.push(elems[i]);
+            }
+        }
+
+        return matches;
+    };
+
+    public swapFile(elem, attr, options) {
+
+        const currentValue = elem[attr];
+        const timeStamp    = new Date().getTime();
+        const key          = "browsersync-legacy";
+        const suffix       = key + "=" + timeStamp;
+        const anchor       = getLocation(currentValue);
+        const search       = updateSearch(anchor.search, key, suffix);
+
+        if (options.timestamps === false) {
+            elem[attr] = anchor.href;
+        } else {
+            elem[attr] = anchor.href.split("?")[0] + search;
+        }
+
+        this.logger.info(`reloading ${elem[attr]}`);
+
+        setTimeout(function () {
+            if (!hiddenElem) {
+                hiddenElem = document.createElement("DIV");
+                document.body.appendChild(hiddenElem);
+            } else {
+                hiddenElem.style.display = "none";
+                hiddenElem.style.display = "block";
+            }
+        }, 200);
+
+        return {
+            elem: elem,
+            timeStamp: timeStamp
+        };
+    };
 
 
     reloadPage() {
