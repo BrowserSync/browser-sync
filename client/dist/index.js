@@ -8189,11 +8189,7 @@ var Reloader = /** @class */ (function () {
         var expando = this.generateUniqueString();
         [].slice.call(this.document.images).forEach(function (img) {
             if (utils_1.pathsMatch(path, utils_1.pathFromUrl(img.src))) {
-                _this.logger.trace('pathsMatch(path, pathFromUrl(img.src))', path, img.src);
                 img.src = _this.generateCacheBustUrl(img.src, expando);
-            }
-            else {
-                _this.logger.trace('no match for image', path, img.src);
             }
         });
         if (this.document.querySelectorAll) {
