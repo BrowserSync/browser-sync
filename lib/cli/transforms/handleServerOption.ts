@@ -31,8 +31,12 @@ export function handleServerOption(incoming) {
     }
 
     if (Map.isMap(value)) {
-        const dirs = List([]).concat(value.get("baseDir")).filter(Boolean);
+        const dirs = List([])
+            .concat(value.get("baseDir", "./"))
+            .filter(Boolean);
+
         const merged = value.merge({baseDir: dirs});
+
         return incoming.set('server', merged);
     }
 

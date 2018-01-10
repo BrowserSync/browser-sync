@@ -118,4 +118,18 @@ describe("CLI: Options: Merging Server Options", function() {
             }
         });
     });
+    it("can set baseDir when only routes are provided", function() {
+        var imm = merge({
+            server: {
+                routes: {
+                    "/node_modules": "node_modules"
+                }
+            }
+        });
+        assert.deepEqual(imm.get("server").toJS(), {
+            routes: { "/node_modules": "node_modules" },
+            baseDir: ["./"],
+            serveStaticOptions: { index: "index.html" }
+        });
+    });
 });
