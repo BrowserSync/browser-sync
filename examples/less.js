@@ -16,14 +16,14 @@
 var browserSync = require("browser-sync").create();
 
 browserSync.init({
-    server: ['test/fixtures'],
+    server: ["test/fixtures"],
     open: false,
     watch: true,
-    injectFileTypes: ['css', 'less'],
+    injectFileTypes: ["css", "less"],
     middleware: [
         (req, res, next) => {
-            if (req.url.indexOf('bootstrap.less') > -1) {
-                res.setHeader('content-type', 'text/css');
+            if (req.url.indexOf("bootstrap.less") > -1) {
+                res.setHeader("content-type", "text/css");
             }
             next();
         }

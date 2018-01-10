@@ -7979,18 +7979,18 @@ var log = nanlogger("Browsersync", { colors: { magenta: "#0F2634" } });
 var reloader = new Reloader_1.Reloader(window, log, Timer_1.Timer);
 var options = {
     tagNames: {
-        "css": "link",
-        "jpg": "img",
-        "jpeg": "img",
-        "png": "img",
-        "svg": "img",
-        "gif": "img",
-        "js": "script"
+        css: "link",
+        jpg: "img",
+        jpeg: "img",
+        png: "img",
+        svg: "img",
+        gif: "img",
+        js: "script"
     },
     attrs: {
-        "link": "href",
-        "img": "src",
-        "script": "src"
+        link: "href",
+        img: "src",
+        script: "src"
     },
     blacklist: [
         // never allow .map files through
@@ -8670,23 +8670,23 @@ function updateSearch(search, key, suffix) {
     if (search === "") {
         return "?" + suffix;
     }
-    return "?" + search
-        .slice(1)
-        .split("&")
-        .map(function (item) {
-        return item.split("=");
-    })
-        .filter(function (tuple) {
-        return tuple[0] !== key;
-    })
-        .map(function (item) {
-        return [item[0], item[1]].join("=");
-    })
-        .concat(suffix)
-        .join("&");
+    return ("?" +
+        search
+            .slice(1)
+            .split("&")
+            .map(function (item) {
+            return item.split("=");
+        })
+            .filter(function (tuple) {
+            return tuple[0] !== key;
+        })
+            .map(function (item) {
+            return [item[0], item[1]].join("=");
+        })
+            .concat(suffix)
+            .join("&"));
 }
 exports.updateSearch = updateSearch;
-;
 
 
 /***/ }),

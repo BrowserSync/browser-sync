@@ -1,8 +1,8 @@
 tasks:
   build-all:
     - lint
+    - build-server
     - build-client
-#    - build-bs
 
   build-server:
     - '@npm tsc'

@@ -11,18 +11,18 @@ const reloader = new Reloader(window, log, Timer);
 
 const options = {
     tagNames: {
-        "css":  "link",
-        "jpg":  "img",
-        "jpeg": "img",
-        "png":  "img",
-        "svg":  "img",
-        "gif":  "img",
-        "js":   "script"
+        css: "link",
+        jpg: "img",
+        jpeg: "img",
+        png: "img",
+        svg: "img",
+        gif: "img",
+        js: "script"
     },
     attrs: {
-        "link":   "href",
-        "img":    "src",
-        "script": "src"
+        link: "href",
+        img: "src",
+        script: "src"
     },
     blacklist: [
         // never allow .map files through
@@ -41,7 +41,6 @@ const current = function() {
  * @param {BrowserSync} bs
  */
 sync.init = function(bs) {
-
     if (bs.options.tagNames) {
         options.tagNames = bs.options.tagNames;
     }
@@ -160,7 +159,6 @@ sync.reload = function(bs) {
         }
 
         if (data.basename && data.ext) {
-
             if (sync.isBlacklisted(data)) {
                 return;
             }
