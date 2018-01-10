@@ -8194,6 +8194,7 @@ var Reloader = /** @class */ (function () {
         });
         if (options.liveCSS) {
             if (path.match(/\.css$/i)) {
+                this.logger.trace("path.match(/\\.css$/i)", true);
                 if (this.reloadStylesheet(path)) {
                     return;
                 }
@@ -8201,18 +8202,21 @@ var Reloader = /** @class */ (function () {
         }
         if (options.liveImg) {
             if (path.match(/\.(jpe?g|png|gif)$/i)) {
+                this.logger.trace("/\\.(jpe?g|png|gif)$/i", true);
                 this.reloadImages(path);
                 return;
             }
         }
+        this.logger.trace('Falling back to legacy method of replacing assets');
+        /**
+         * LEGACY
+         */
         var domData = Reloader.getElems(data.ext, options);
         var elems = Reloader.getMatches(domData.elems, data.basename, domData.attr);
-        // if (elems.length && options.notify) {
-        //     emitter.emit("notify", {message: "Injected: " + data.basename});
-        // }
-        // for (var i = 0, n = elems.length; i < n; i += 1) {
-        //     transformedElem = sync.swapFile(elems[i], domData.attr, options);
-        // }
+        for (var i = 0, n = elems.length; i < n; i += 1) {
+            this.swapFile(elems[i], domData.attr, options);
+        }
+        (cb || function () { })(elems, domData);
     };
     Reloader.getElems = function (fileExtension, options) {
         var tagName = options.tagNames[fileExtension];
@@ -8236,10 +8240,10 @@ var Reloader = /** @class */ (function () {
         return matches;
     };
     ;
-    Reloader.swapFile = function (elem, attr, options) {
+    Reloader.prototype.swapFile = function (elem, attr, options) {
         var currentValue = elem[attr];
         var timeStamp = new Date().getTime();
-        var key = "rel";
+        var key = "browsersync-legacy";
         var suffix = key + "=" + timeStamp;
         var anchor = utils_1.getLocation(currentValue);
         var search = utils_1.updateSearch(anchor.search, key, suffix);
@@ -8249,11 +8253,11 @@ var Reloader = /** @class */ (function () {
         else {
             elem[attr] = anchor.href.split("?")[0] + search;
         }
-        var body = document.body;
+        this.logger.info("reloading " + elem[attr]);
         setTimeout(function () {
             if (!hiddenElem) {
                 hiddenElem = document.createElement("DIV");
-                body.appendChild(hiddenElem);
+                document.body.appendChild(hiddenElem);
             }
             else {
                 hiddenElem.style.display = "none";
