@@ -93,7 +93,7 @@ export class Reloader {
         const elems   = Reloader.getMatches(domData.elems, data.basename, domData.attr);
 
         for (var i = 0, n = elems.length; i < n; i += 1) {
-            this.swapFile(elems[i], domData.attr, options);
+            this.swapFile(elems[i], domData, options);
         }
 
         (cb || function() {})(elems, domData);
@@ -102,8 +102,9 @@ export class Reloader {
         const tagName = options.tagNames[fileExtension];
         const attr    = options.attrs[tagName];
         return {
-            elems: document.getElementsByTagName(tagName),
-            attr: attr
+            attr,
+            tagName,
+            elems: document.getElementsByTagName(tagName)
         };
     }
 
@@ -125,8 +126,9 @@ export class Reloader {
         return matches;
     };
 
-    public swapFile(elem, attr, options) {
+    public swapFile(elem, domData, options) {
 
+        const attr = domData.attr;
         const currentValue = elem[attr];
         const timeStamp    = new Date().getTime();
         const key          = "browsersync-legacy";
@@ -134,23 +136,36 @@ export class Reloader {
         const anchor       = getLocation(currentValue);
         const search       = updateSearch(anchor.search, key, suffix);
 
-        if (options.timestamps === false) {
-            elem[attr] = anchor.href;
-        } else {
-            elem[attr] = anchor.href.split("?")[0] + search;
-        }
-
-        this.logger.info(`reloading ${elem[attr]}`);
-
-        setTimeout(function () {
-            if (!hiddenElem) {
-                hiddenElem = document.createElement("DIV");
-                document.body.appendChild(hiddenElem);
-            } else {
-                hiddenElem.style.display = "none";
-                hiddenElem.style.display = "block";
+        switch (domData.tagName) {
+            case 'link': {
+                this.logger.trace(`replacing LINK ${attr}`);
+                this.reloadStylesheet(currentValue);
+                break;
             }
-        }, 200);
+            case 'img': {
+                this.reloadImages(currentValue);
+                break;
+            }
+            default: {
+                if (options.timestamps === false) {
+                    elem[attr] = anchor.href;
+                } else {
+                    elem[attr] = anchor.href.split("?")[0] + search;
+                }
+
+                this.logger.info(`reloading ${elem[attr]}`);
+
+                setTimeout(function () {
+                    if (!hiddenElem) {
+                        hiddenElem = document.createElement("DIV");
+                        document.body.appendChild(hiddenElem);
+                    } else {
+                        hiddenElem.style.display = "none";
+                        hiddenElem.style.display = "block";
+                    }
+                }, 200);
+            }
+        }
 
         return {
             elem: elem,
