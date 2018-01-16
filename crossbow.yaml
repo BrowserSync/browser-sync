@@ -1,4 +1,8 @@
 tasks:
+
+  (example):
+    bootstrap: '@sh node dist/bin test/fixtures/bootstrap -w --no-open'
+
   build-all:
     - lint
     - build-server
