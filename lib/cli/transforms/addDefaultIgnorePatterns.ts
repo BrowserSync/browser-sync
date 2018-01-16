@@ -3,10 +3,10 @@ import {List} from "immutable";
 const defaultIgnorePatterns = [
     /node_modules/,
     /bower_components/,
-    /\.sass-cache/,
-    /\.vscode/,
-    /\.git/,
-    /\.idea/
+    '.sass-cache',
+    '.vscode',
+    '.git',
+    '.idea',
 ];
 
 export function addDefaultIgnorePatterns(incoming) {
