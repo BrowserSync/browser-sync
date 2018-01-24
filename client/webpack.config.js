@@ -5,7 +5,6 @@ const path = require('path');
 const context = [__dirname];
 
 module.exports = {
-    devtool: 'source-map',
     context: path.join.apply(null, context),
     entry: [
         './lib/index'
