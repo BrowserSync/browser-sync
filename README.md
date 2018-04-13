@@ -17,7 +17,7 @@
  <img src="https://img.shields.io/david/dev/Browsersync/browser-sync.svg?style=flat-square&label=devDeps" />
 </a>
 </p>
-<p align="center"><a href="http://www.browsersync.io"><img src="https://raw.githubusercontent.com/BrowserSync/browsersync.github.io/master/public/img/logo-gh.png" /></a></p>
+<p align="center"><a href="https://www.browsersync.io"><img src="https://raw.githubusercontent.com/BrowserSync/browsersync.github.io/master/public/img/logo-gh.png" /></a></p>
 <p align="center">Keep multiple browsers & devices in sync when building websites.</p>
 
 <p align="center">Browsersync is developed and maintained internally at <a href="http://www.wearejh.com">JH</a></p>
@@ -26,13 +26,13 @@
 
 ## Features
 
-Please visit [browsersync.io](http://browsersync.io) for a full run-down of features
+Please visit [browsersync.io](https://browsersync.io) for a full run-down of features
 
 ## Requirements
 
 Browsersync works by injecting an asynchronous script tag (`<script async>...</script>`) right after the `<body>` tag
 during initial request. In order for this to work properly the `<body>` tag must be present. Alternatively you
-can provide a custom rule for the snippet using [snippetOptions](http://www.browsersync.io/docs/options/#option-snippetOptions)
+can provide a custom rule for the snippet using [snippetOptions](https://www.browsersync.io/docs/options/#option-snippetOptions)
 
 ## Upgrading from 1.x to 2.x ?
 Providing you haven't accessed any internal properties, everything will just work as
@@ -55,7 +55,7 @@ browserSync({server: true}, function(err, bs) {
 
 ## Install and trouble shooting
 
-[browsersync.io docs](http://browsersync.io)
+[browsersync.io docs](https://browsersync.io)
 
 ## Integrations / recipes
 
