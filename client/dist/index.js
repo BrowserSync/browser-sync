@@ -8193,7 +8193,7 @@ var Reloader = /** @class */ (function () {
             }
         });
         if (options.liveCSS) {
-            if (path.match(/\.css$/i)) {
+            if (path.match(/\.css$/i) && document.querySelector('link[href="'+path+'"]')) {
                 this.logger.trace("path.match(/\\.css$/i)", true);
                 if (this.reloadStylesheet(path)) {
                     return;
@@ -8365,7 +8365,7 @@ var Reloader = /** @class */ (function () {
         var links = ((function () {
             var result = [];
             [].slice.call(_this.document.getElementsByTagName('link')).forEach(function (link) {
-                if (link.rel.match(/^stylesheet$/i) && !link.__LiveReload_pendingRemoval) {
+                if (link.href !== '' && link.rel.match(/^stylesheet$/i) && !link.__LiveReload_pendingRemoval) {
                     result.push(link);
                 }
             });
@@ -8402,8 +8402,8 @@ var Reloader = /** @class */ (function () {
             }
         }
         else {
-            this.logger.info("reloading all stylesheets because path '" + path + "' did not match any specific one");
-            links.forEach(function (link) { return _this.reattachStylesheetLink(link); });
+            // this.logger.info("reloading all stylesheets because path '" + path + "' did not match any specific one");
+            // links.forEach(function (link) { return _this.reattachStylesheetLink(link); });
         }
         return true;
     };
