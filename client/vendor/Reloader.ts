@@ -265,14 +265,16 @@ export class Reloader {
 
         // find all imported stylesheets
         const imported = [];
-        for (var style of Array.from(this.document.getElementsByTagName('style'))) {
+
+        [].slice.call(this.document.getElementsByTagName('style')).forEach((style) => {
             if (style.sheet) {
                 this.collectImportedStylesheets(style, style.sheet, imported);
             }
-        }
-        for (link of Array.from(links)) {
+        });
+
+        links.forEach(link => {
             this.collectImportedStylesheets(link, link.sheet, imported);
-        }
+        });
 
         // handle prefixfree
         if (this.window.StyleFix && this.document.querySelectorAll) {

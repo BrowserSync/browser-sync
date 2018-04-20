@@ -8373,16 +8373,14 @@ var Reloader = /** @class */ (function () {
         })());
         // find all imported stylesheets
         var imported = [];
-        for (var _i = 0, _a = Array.from(this.document.getElementsByTagName('style')); _i < _a.length; _i++) {
-            var style = _a[_i];
+        [].slice.call(this.document.getElementsByTagName('style')).forEach(function (style) {
             if (style.sheet) {
-                this.collectImportedStylesheets(style, style.sheet, imported);
+                _this.collectImportedStylesheets(style, style.sheet, imported);
             }
-        }
-        for (var _b = 0, _c = Array.from(links); _b < _c.length; _b++) {
-            link = _c[_b];
-            this.collectImportedStylesheets(link, link.sheet, imported);
-        }
+        });
+        links.forEach(function (link) {
+            _this.collectImportedStylesheets(link, link.sheet, imported);
+        });
         // handle prefixfree
         if (this.window.StyleFix && this.document.querySelectorAll) {
             [].slice.call(this.document.querySelectorAll('style[data-href]')).forEach(function (style) {

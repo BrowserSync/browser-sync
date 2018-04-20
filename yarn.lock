@@ -1926,7 +1926,11 @@ immutable@3.8.0:
   version "3.8.0"
   resolved "https://registry.yarnpkg.com/immutable/-/immutable-3.8.0.tgz#5175514f70cb2a8218b58183d33747134a81c697"
 
-immutable@3.8.1, immutable@^3.7.4, immutable@^3.7.6:
+immutable@3.8.2:
+  version "3.8.2"
+  resolved "https://registry.yarnpkg.com/immutable/-/immutable-3.8.2.tgz#c2439951455bb39913daf281376f1530e104adf3"
+
+immutable@^3.7.4, immutable@^3.7.6:
   version "3.8.1"
   resolved "https://registry.yarnpkg.com/immutable/-/immutable-3.8.1.tgz#200807f11ab0f72710ea485542de088075f68cd2"
 
