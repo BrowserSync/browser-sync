@@ -57,7 +57,7 @@
     "resp-modifier": "6.0.2",
     "rx": "4.1.0",
     "serve-index": "1.8.0",
-    "serve-static": "1.12.2",
+    "serve-static": "1.13.2",
     "server-destroy": "1.0.1",
     "socket.io": "2.0.4",
     "ua-parser-js": "0.7.12",
