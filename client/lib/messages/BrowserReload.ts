@@ -1,6 +1,6 @@
 import { Inputs } from "../index";
 import { filter } from "rxjs/operators/filter";
-import { Observable } from "rxjs/Rx";
+import { Observable } from "rxjs/Observable";
 import { withLatestFrom } from "rxjs/operators/withLatestFrom";
 import { mergeMap } from "rxjs/operators/mergeMap";
 import { concat } from "rxjs/observable/concat";

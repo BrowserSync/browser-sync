@@ -2,7 +2,7 @@ import { map } from "rxjs/operators/map";
 import { Inputs } from "../index";
 import { filter } from "rxjs/operators/filter";
 import { withLatestFrom } from "rxjs/operators/withLatestFrom";
-import { Observable } from "rxjs/Rx";
+import { Observable } from "rxjs/Observable";
 import * as Log from "../log";
 import { pluck } from "rxjs/operators/pluck";
 import { Events } from "../dom-effects";

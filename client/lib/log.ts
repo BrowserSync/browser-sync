@@ -97,12 +97,14 @@ export const logHandler$ = new BehaviorSubject({
              * Now remove the element after the given timeout
              */
             switchMap(([event, options, element, document]) => {
-                return timer(event[1] || 2000).do(() => {
-                    element.style.display = "none";
-                    if (element.parentNode) {
-                        document.body.removeChild(element);
-                    }
-                });
+                return timer(event[1] || 2000).pipe(
+                    tap(() => {
+                        element.style.display = "none";
+                        if (element.parentNode) {
+                            document.body.removeChild(element);
+                        }
+                    })
+                );
             })
         );
     }

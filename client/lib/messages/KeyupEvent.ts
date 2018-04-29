@@ -4,7 +4,7 @@ import { Inputs } from "../index";
 import { pluck } from "rxjs/operators/pluck";
 import { filter } from "rxjs/operators/filter";
 import { map } from "rxjs/operators/map";
-import { Observable } from "rxjs/Rx";
+import { Observable } from "rxjs/Observable";
 import { withLatestFrom } from "rxjs/operators/withLatestFrom";
 import { setElementValue } from "../effects/set-element-value.effect";
 

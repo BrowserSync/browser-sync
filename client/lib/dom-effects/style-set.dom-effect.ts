@@ -1,7 +1,7 @@
 import { map } from "rxjs/operators/map";
 import { Events } from "../dom-effects";
 import { tap } from "rxjs/operators/tap";
-import { Observable } from "rxjs/Rx";
+import { Observable } from "rxjs/Observable";
 import * as Log from "../log";
 
 export interface StyleSetPayload {

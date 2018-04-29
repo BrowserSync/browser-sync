@@ -1,7 +1,7 @@
 import { Inputs } from "../index";
 import { pluck } from "rxjs/operators/pluck";
 import { of } from "rxjs/observable/of";
-import { Observable } from "rxjs/Rx";
+import { Observable } from "rxjs/Observable";
 import * as Log from "../log";
 import { withLatestFrom } from "rxjs/operators/withLatestFrom";
 import { mergeMap } from "rxjs/operators/mergeMap";

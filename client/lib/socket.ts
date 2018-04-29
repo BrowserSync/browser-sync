@@ -1,5 +1,5 @@
 import socket = require("socket.io-client");
-import { Observable } from "rxjs";
+import { Observable } from "rxjs/Observable";
 import { BehaviorSubject } from "rxjs/BehaviorSubject";
 import { of } from "rxjs/observable/of";
 import { share } from "rxjs/operators/share";

@@ -1,6 +1,6 @@
 import { OutgoingSocketEvents } from "../socket-messages";
 import { Inputs } from "../index";
-import { Observable } from "rxjs/Rx";
+import { Observable } from "rxjs/Observable";
 import { pluck } from "rxjs/operators/pluck";
 import { filter } from "rxjs/operators/filter";
 import { map } from "rxjs/operators/map";

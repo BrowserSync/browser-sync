@@ -8,6 +8,7 @@ import {getLocation, pathFromUrl, pathsMatch, pickBestMatch, splitUrl, updateSea
 import {empty} from "rxjs/observable/empty";
 import {Observable} from "rxjs/Observable";
 import {merge} from "rxjs/observable/merge";
+import {timer} from "rxjs/observable/timer";
 import {from} from "rxjs/observable/from";
 import {filter} from "rxjs/operators/filter";
 import {map} from "rxjs/operators/map";
@@ -126,10 +127,12 @@ export function reload(document: Document, navigator: Navigator) {
             from(IMAGE_STYLES)
                 .pipe(
                     mergeMap(({ selector, styleNames }) => {
-                        return from(document.querySelectorAll(`[style*=${selector}]`))
-                            .flatMap((img: HTMLImageElement) => {
+                        return from(document.querySelectorAll(`[style*=${selector}]`)).pipe(
+                            mergeMap((img: HTMLImageElement) => {
                                 return reloadStyleImages(img.style, styleNames, path, expando);
                             })
+                        )
+
                     })
                 )
         );
@@ -292,8 +295,7 @@ export function reload(document: Document, navigator: Navigator) {
             .pipe(
                 take(1)
                 , mergeMap(() => {
-                    return Observable
-                        .timer(additionalWaitingTime)
+                    return timer(additionalWaitingTime)
                         .pipe(
                             tap(() => {
                                 if (link && !link.parentNode) {
@@ -329,7 +331,7 @@ export function reload(document: Document, navigator: Navigator) {
             link.parentNode.insertBefore(tempLink, link);
         }
 
-        return Observable.timer(200)
+        return timer(200)
             .pipe(
                 tap(() => {
                     if (tempLink.parentNode) { tempLink.parentNode.removeChild(tempLink); }
@@ -345,13 +347,14 @@ export function reload(document: Document, navigator: Navigator) {
                     rule.__LiveReload_newHref = href;
                 })
                 , mergeMap(() => {
-                    return Observable.timer(200)
-                        .do(() => {
+                    return timer(200).pipe(
+                        tap(() => {
                             // if another reattachImportedRule call is in progress, abandon this one
                             if (rule.__LiveReload_newHref !== href) { return; }
                             parent.insertRule(newRule, index);
                             return parent.deleteRule(index+1);
-                        });
+                        })
+                    )
                 })
             );
     }

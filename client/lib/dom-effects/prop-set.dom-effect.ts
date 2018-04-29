@@ -1,6 +1,6 @@
 import { map } from "rxjs/operators/map";
 import { tap } from "rxjs/operators/tap";
-import { Observable } from "rxjs/Rx";
+import { Observable } from "rxjs/Observable";
 import { Events } from "../dom-effects";
 import * as Log from "../log";
 
