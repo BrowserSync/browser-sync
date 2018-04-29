@@ -53,7 +53,7 @@
     "micromatch": "2.3.11",
     "opn": "4.0.2",
     "portscanner": "2.1.1",
-    "qs": "6.2.1",
+    "qs": "6.5.1",
     "resp-modifier": "6.0.2",
     "rx": "4.1.0",
     "serve-index": "1.8.0",
