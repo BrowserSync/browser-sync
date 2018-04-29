@@ -54,7 +54,8 @@ describe("E2E CLI proxy test", function() {
             .set("accept", "text/html")
             .expect(200)
             .end(function(err, res) {
-                assert.include(res.text, "Connected to BrowserSync");
+                // console.log(res.text.indexOf("1"));
+                assert.include(res.text, "window.___browserSync___ = {}");
                 done();
             });
     });

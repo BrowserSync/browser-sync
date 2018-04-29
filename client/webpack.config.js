@@ -13,8 +13,9 @@ module.exports = {
         path: path.join.apply(null, context.concat("dist")),
         filename: 'index.js',
     },
+    devtool: "source-map",
     plugins: [
-        new webpack.NoEmitOnErrorsPlugin(),
+        // new webpack.NoEmitOnErrorsPlugin(),
     ],
     resolve: {
         extensions: ['.ts', '.tsx', '.js', '.jsx', '.json'],

@@ -34,7 +34,7 @@ describe("E2E CLI Snippet test", function() {
             .set("accept", "text/html")
             .expect(200)
             .end(function(err, res) {
-                assert.include(res.text, "Connected to BrowserSync");
+                assert.include(res.text, "window.___browserSync___ = {}");
                 done();
             });
     });
@@ -44,7 +44,7 @@ describe("E2E CLI Snippet test", function() {
             .set("accept", "text/html")
             .expect(200)
             .end(function(err, res) {
-                assert.include(res.text, "Connected to BrowserSync");
+                assert.include(res.text, "window.___browserSync___ = {}");
                 done();
             });
     });

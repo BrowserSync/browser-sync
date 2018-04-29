@@ -5,8 +5,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width">
     <title>Test HTML Page</title>
-    <link rel="stylesheet" href="assets/style.css"/>
-    <link rel="stylesheet" href="fonts/roboto/stylesheet.css"/>
+    <link rel="stylesheet" id="css-style" href="assets/style.css"/>
+    <link rel="stylesheet" id="css-roboto" href="fonts/roboto/stylesheet.css"/>
 </head>
 <body ng-app="BrowserSync">
 
@@ -15,24 +15,5 @@
 
     <a href="scrolling.html">Scrolling Window</a>
 
-    <div ng-controller="MainCtrl as app">
-
-        <a href="#" ng-click="app.click()" id="clickme">Click me</a>
-
-    </div>
-    <!-- BrowserSync -->
-
-    <script src="js/jquery.js"></script>
-    <script src="js/angular.js"></script>
-
-    <script type="text/javascript">
-
-        var app = angular.module("BrowserSync", []);
-        app.controller("MainCtrl", function () {
-            this.click = function () {
-                console.log("oh yeah");
-            };
-        });
-    </script>
 </body>
 </html>

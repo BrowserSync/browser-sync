@@ -1,5 +1,8 @@
 tasks:
 
+  dev:
+    - '@npm cd client && ./node_modules/.bin/webpack --watch'
+
   (example):
     bootstrap: '@sh node dist/bin test/fixtures/bootstrap -w --no-open'
 
@@ -8,10 +11,41 @@ tasks:
     - build-server
     - build-client
 
+  test:
+    - build-all
+    - cypress:*
+
+  (cypress):
+    file-reloading: >
+      @npm node cypress/setup/run.js
+      '../configs/file-reloading.js'
+      cypress/integration/file-reloading.js
+    no-notify: >
+      @npm node cypress/setup/run.js
+      '../configs/no-notify.js'
+      cypress/integration/no-notify.js
+    css-overlay: >
+      @npm node cypress/setup/run.js
+      '../configs/css-overlay-notify.js'
+      cypress/integration/css-overlay-notify.js
+    css-console-notify: >
+      @npm node cypress/setup/run.js
+      '../configs/css-console-notify.js'
+      cypress/integration/css-console-notify.js
+    connection-notify: >
+      @npm node cypress/setup/run.js
+      '../configs/file-reloading.js'
+      cypress/integration/connection-notify.js
+    log-prefix: >
+      @npm node cypress/setup/run.js
+      '../configs/logPrefix.js'
+      cypress/integration/logPrefix.js
+
   build-server:
     - '@npm tsc'
 
   build-client:
+    - '@npm cd client && yarn'
     - '@npm cd client && ./node_modules/.bin/webpack'
     - '@npm cd client && ./node_modules/.bin/webpack -p --output-filename index.min.js'
 
@@ -21,5 +55,9 @@ tasks:
     examples/*
     test/specs/**/*
     test/specs/*.js
-    client/lib/**/*
+    client/lib/*
+    client/lib/messages/*
+    client/lib/dom-effects/*
+    client/lib/effects/*
+    client/lib/listeners/*
     --write --tab-width 4

@@ -24,7 +24,7 @@ describe("E2E server test with only a callback", function() {
             .get(instance.options.getIn(["scriptPaths", "versioned"]))
             .expect(200)
             .end(function(err, res) {
-                assert.include(res.text, "Connected to BrowserSync");
+                assert.include(res.text, "window.___browserSync___ = {}");
                 done();
             });
     });
@@ -55,7 +55,7 @@ describe("E2E server test with config & callback", function() {
             .get(instance.options.getIn(["scriptPaths", "versioned"]))
             .expect(200)
             .end(function(err, res) {
-                assert.include(res.text, "Connected to BrowserSync");
+                assert.include(res.text, "window.___browserSync___ = {}");
                 done();
             });
     });
