@@ -46,3 +46,23 @@ module.exports.getRequests = function (reqs, server) {
         });
     });
 };
+
+module.exports.cy = function(setup, specs) {
+
+    const cypress = require('cypress');
+    const bs      = require('../').create();
+
+    bs.init(setup, function(err, bs) {
+        return cypress.run({
+            spec: specs,
+        })
+            .then((results) => {
+                // stop your server when it's complete
+                bs.cleanup();
+                if (results.failures > 0) {
+                    return process.exit(1);
+                }
+                process.exit(0);
+            })
+    });
+}

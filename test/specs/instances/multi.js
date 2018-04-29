@@ -60,14 +60,14 @@ describe("E2E server test", function() {
             .get(bs.options.getIn(["scriptPaths", "versioned"]))
             .expect(200)
             .end(function(err, res) {
-                assert.include(res.text, "Connected to BrowserSync");
+                assert.include(res.text, "window.___browserSync___ = {}");
             });
 
         request(bs2.server)
             .get(bs2.options.getIn(["scriptPaths", "versioned"]))
             .expect(200)
             .end(function(err, res) {
-                assert.include(res.text, "Connected to BrowserSync");
+                assert.include(res.text, "window.___browserSync___ = {}");
                 done();
             });
     });

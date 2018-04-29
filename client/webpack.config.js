@@ -14,7 +14,7 @@ module.exports = {
         filename: 'index.js',
     },
     plugins: [
-        new webpack.NoEmitOnErrorsPlugin(),
+        // new webpack.NoEmitOnErrorsPlugin(),
     ],
     resolve: {
         extensions: ['.ts', '.tsx', '.js', '.jsx', '.json'],

@@ -60,7 +60,7 @@ describe("E2E server test with routes", function() {
             .get(instance.options.getIn(["scriptPaths", "versioned"]))
             .expect(200)
             .end(function(err, res) {
-                assert.include(res.text, "Connected to BrowserSync");
+                assert.include(res.text, "window.___browserSync___ = {}");
                 done();
             });
     });

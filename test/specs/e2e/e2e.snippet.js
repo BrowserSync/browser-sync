@@ -25,7 +25,7 @@ describe("E2E snippet tests", function() {
             .get(instance.options.getIn(["scriptPaths", "versioned"]))
             .expect(200)
             .end(function(err, res) {
-                assert.include(res.text, "Connected to BrowserSync");
+                assert.include(res.text, "window.___browserSync___ = {}");
                 done();
             });
     });
@@ -59,7 +59,7 @@ describe("E2E TLS snippet tests", function() {
                 if (err) {
                     return done(err);
                 }
-                assert.include(res.text, "Connected to BrowserSync");
+                assert.include(res.text, "window.___browserSync___ = {}");
                 done();
             });
     });
