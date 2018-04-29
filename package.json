@@ -22,7 +22,7 @@
   },
   "scripts": {
     "env": "node ./test/env.js",
-    "test": "npm run env && npm run unit",
+    "test": "cb build-all && npm run env && npm run unit",
     "lint": "prettier 'lib/**/*' 'examples/*' 'test/specs/**/*' 'test/specs/*.js'  --write --tab-width 4",
     "pro": "protractor test/protractor/config.single.js",
     "pro-local": "node test/protractor/setup.js",
@@ -32,7 +32,7 @@
     "coveralls": "istanbul-coveralls",
     "pre-release": "npm test && npm run pro-local && npm run pro",
     "lodash": "lodash include=isUndefined,isFunction,toArray,includes,union,each,isString,merge,isObject,set exports=node",
-    "prepublish": "cb build-all"
+    "publishOnly": "cb build-all"
   },
   "dependencies": {
     "browser-sync-ui": "v1.0.1",
@@ -43,7 +43,6 @@
     "dev-ip": "^1.0.1",
     "easy-extender": "2.3.2",
     "eazy-logger": "3.0.2",
-    "emitter-steward": "^1.0.0",
     "etag": "^1.8.1",
     "fresh": "^0.5.2",
     "fs-extra": "3.0.1",
@@ -74,6 +73,7 @@
     "chalk": "1.1.3",
     "compression": "1.6.2",
     "crossbow": "latest",
+    "cypress": "2.1.0",
     "generate-changelog": "^1.7.0",
     "graceful-fs": "4.1.9",
     "gulp": "3.9.1",
