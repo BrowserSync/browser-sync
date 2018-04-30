@@ -1,7 +1,7 @@
 {
   "name": "browser-sync",
   "description": "Live CSS Reload & Browser Syncing",
-  "version": "2.24.0",
+  "version": "2.24.1",
   "homepage": "https://browsersync.io/",
   "author": {
     "name": "Shane Osbourne"
@@ -32,7 +32,7 @@
     "coveralls": "istanbul-coveralls",
     "pre-release": "npm test && npm run pro-local && npm run pro",
     "lodash": "lodash include=isUndefined,isFunction,toArray,includes,union,each,isString,merge,isObject,set exports=node",
-    "publishOnly": "cb build-all"
+    "prepublishOnly": "cb build-all"
   },
   "dependencies": {
     "browser-sync-ui": "v1.0.1",
