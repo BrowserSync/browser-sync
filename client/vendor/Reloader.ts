@@ -13,12 +13,12 @@ import {from} from "rxjs/observable/from";
 import {filter} from "rxjs/operators/filter";
 import {map} from "rxjs/operators/map";
 import {mergeMap} from "rxjs/operators/mergeMap";
-import {take} from "rxjs/operators/take";
 import {tap} from "rxjs/operators/tap";
 import {mapTo} from "rxjs/operators/mapTo";
 import {propSet} from "../lib/dom-effects/prop-set.dom-effect";
 import {styleSet} from "../lib/dom-effects/style-set.dom-effect";
 import {linkReplace} from "../lib/dom-effects/link-replace.dom-effect";
+import {mergeAll} from "rxjs/operators/mergeAll";
 
 var hiddenElem;
 
@@ -250,7 +250,7 @@ export function reload(document: Document, navigator: Navigator) {
         };
     }
 
-    function reattachStylesheetLink(link, document: Document, navigator: Navigator): Observable<any> {
+    function reattachStylesheetLink(link: HTMLLinkElement, document: Document, navigator: Navigator): Observable<any> {
         // ignore LINKs that will be removed by LR soon
         let clone;
 
@@ -291,10 +291,14 @@ export function reload(document: Document, navigator: Navigator) {
             additionalWaitingTime = 200;
         }
 
-        return Observable.create(obs => clone.onload = () => obs.next(true))
+        return Observable.create(obs => {
+            clone.onload = () => {
+                obs.next(true);
+                obs.complete()
+            };
+        })
             .pipe(
-                take(1)
-                , mergeMap(() => {
+                mergeMap(() => {
                     return timer(additionalWaitingTime)
                         .pipe(
                             tap(() => {
@@ -387,7 +391,7 @@ export function reload(document: Document, navigator: Navigator) {
 
     function reloadStylesheet(path: string, document: Document, navigator): Observable<any> {
         // has to be a real array, because DOMNodeList will be modified
-        const links = array(document.getElementsByTagName('link'))
+        const links: HTMLLinkElement[] = array(document.getElementsByTagName('link'))
             .filter(link => {
                 return link.rel.match(/^stylesheet$/i)
                     && !link.__LiveReload_pendingRemoval;
@@ -427,6 +431,15 @@ export function reload(document: Document, navigator: Navigator) {
                 return reattachImportedRule(match.object, document);
             }
             return reattachStylesheetLink(match.object, document, navigator);
+        } else {
+            if (links.length) {
+                // no <link> elements matched, so was the path including '*'?
+                const [first, ...rest] = path.split('.');
+                if (first === '*') {
+                    return from(links.map(link => reattachStylesheetLink(link, document, navigator)))
+                        .pipe(mergeAll())
+                }
+            }
         }
 
         return empty();
