@@ -7,6 +7,10 @@
     "type": "string",
     "desc": "Working directory"
   },
+  "json": {
+    "type": "boolean",
+    "desc": "If true, certain logs will output as json only"
+  },
   "serveStatic": {
     "type": "array",
     "alias": "ss",
