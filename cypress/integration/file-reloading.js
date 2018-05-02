@@ -19,6 +19,21 @@ describe('Reloading files', function() {
                 });
             });
         });
+        it('should reload with *.css', function() {
+            cy.get('#__bs_notify__').should('have.length', 1);
+            cy.request('POST', 'http://localhost:3000/__browser_sync__',
+                JSON.stringify([
+                    "file:reload",
+                    {"ext":"css","path":"*.css","basename":"*/*.css","event":"change","type":"inject","log":true}
+                ])
+            );
+            cy.get('link').should($links => {
+                $links.each((i, elem) => {
+                    const url = new URL(elem.href);
+                    return expect(url.search).to.contain('?browsersync=');
+                });
+            });
+        });
     });
     context('CSS IMPORTS', function() {
         it('can import 1 stylesheet from <style>@import</style>', () => {
