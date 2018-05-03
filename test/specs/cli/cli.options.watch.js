@@ -16,6 +16,20 @@ describe("CLI: Options: Merging Watch Option", function() {
             core: { globs: ["/shane", "."], objs: [] }
         });
     });
+    it("does not add default ignore paths if watch option is absent", function() {
+        var input = { server: true, files: ["/shane"] };
+        var config = merge(input).toJS();
+        assert.isUndefined(config.watchOptions.ignored);
+    });
+    it("does not add 'default' ignore options if 'ignore' provided in config", function() {
+        var input = {
+            server: true,
+            files: ["/shane"],
+            ignore: ["/shane/*.css"]
+        };
+        var config = merge(input).toJS();
+        assert.deepEqual(config.watchOptions.ignored, ["/shane/*.css"]);
+    });
     it("watches from serveStatic option (no files given also)", function() {
         var input = { serveStatic: ["./test"], watch: true };
         var config = merge(input).toJS();

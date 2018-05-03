@@ -14,8 +14,13 @@ tasks:
   test:
     - build-all
     - cypress:*
+    - cli:*
 
   (cypress):
+    file-watching-ignore: >
+      @npm node cypress/setup/run.js
+      '../configs/file-watching-ignore.js'
+      cypress/integration/file-watching-ignore.js
     file-reloading: >
       @npm node cypress/setup/run.js
       '../configs/file-reloading.js'
@@ -61,3 +66,12 @@ tasks:
     client/lib/effects/*
     client/lib/listeners/*
     --write --tab-width 4
+
+  cli: cypress/setup/bs-cli.js
+
+options:
+  cli:
+    file-watching-ignore:
+      method: 'run'
+      args: ['test/fixtures', '--files', 'test/fixtures', '--no-open', '--json']
+      spec: 'cypress/integration/file-watching-ignore.js'

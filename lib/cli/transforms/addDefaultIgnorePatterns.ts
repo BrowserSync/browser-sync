@@ -10,6 +10,10 @@ const defaultIgnorePatterns = [
 ];
 
 export function addDefaultIgnorePatterns(incoming) {
+    if (!incoming.get("watch")) {
+        return incoming;
+    }
+
     return incoming.update("watchOptions", watchOptions => {
         const userIgnored = List([])
             .concat(watchOptions.get("ignored"))
