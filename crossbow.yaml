@@ -13,38 +13,12 @@ tasks:
 
   test:
     - build-all
-    - cypress:*
+    - bs:*
     - cli:*
+    - unit
 
-  (cypress):
-    file-watching-ignore: >
-      @npm node cypress/setup/run.js
-      '../configs/file-watching-ignore.js'
-      cypress/integration/file-watching-ignore.js
-    file-reloading: >
-      @npm node cypress/setup/run.js
-      '../configs/file-reloading.js'
-      cypress/integration/file-reloading.js
-    no-notify: >
-      @npm node cypress/setup/run.js
-      '../configs/no-notify.js'
-      cypress/integration/no-notify.js
-    css-overlay: >
-      @npm node cypress/setup/run.js
-      '../configs/css-overlay-notify.js'
-      cypress/integration/css-overlay-notify.js
-    css-console-notify: >
-      @npm node cypress/setup/run.js
-      '../configs/css-console-notify.js'
-      cypress/integration/css-console-notify.js
-    connection-notify: >
-      @npm node cypress/setup/run.js
-      '../configs/file-reloading.js'
-      cypress/integration/connection-notify.js
-    log-prefix: >
-      @npm node cypress/setup/run.js
-      '../configs/logPrefix.js'
-      cypress/integration/logPrefix.js
+  unit: >
+    @npm mocha --recursive test/specs --timeout 10000 --bail
 
   build-server:
     - '@npm tsc'
@@ -68,8 +42,37 @@ tasks:
     --write --tab-width 4
 
   cli: cypress/setup/bs-cli.js
+  bs: cypress/setup/bs.js
 
 options:
+  bs:
+    _default:
+      action: run
+    file-watching-ignore:
+      config: cypress/configs/file-watching-ignore.js
+      spec: cypress/integration/file-watching-ignore.js
+    file-reloading:
+      config: cypress/configs/file-reloading.js
+      spec: cypress/integration/file-reloading.js
+    no-notify:
+      config: cypress/configs/no-notify.js
+      spec: cypress/integration/no-notify.js
+    css-overlay:
+      config: cypress/configs/css-overlay-notify.js
+      spec: cypress/integration/css-overlay-notify.js
+    css-console-notify:
+      config: cypress/configs/css-console-notify.js
+      spec: cypress/integration/css-console-notify.js
+    connection-notify:
+      config: cypress/configs/file-reloading.js
+      spec: cypress/integration/connection-notify.js
+    log-prefix:
+      config: cypress/configs/logPrefix.js
+      spec: cypress/integration/logPrefix.js
+    ui-remote-debug:
+      config: cypress/configs/file-reloading.js
+      spec: cypress/integration/ui-remote-debug.js
+
   cli:
     file-watching-ignore:
       method: 'run'
