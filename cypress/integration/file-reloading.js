@@ -34,6 +34,20 @@ describe('Reloading files', function() {
                 });
             });
         });
+        it('should reload with windows style paths', function() {
+            cy.get('#__bs_notify__').should('have.length', 1);
+            cy.request('POST', 'http://localhost:3000/__browser_sync__',
+                JSON.stringify([
+                    "file:reload",
+                    {"ext":"css","path":"C:\\#server\\test\\gulp-test\\assets\\style.css","basename":"style.css","event":"change","type":"inject","log":false}
+                ])
+            );
+            cy.get('[id="css-style"]').should('have.length', 1);
+            cy.get('[id="css-style"]').eq(0).should((link) => {
+                const url = new URL(link[0].href);
+                return expect(url.search).to.contain('?browsersync=');
+            })
+        });
     });
     context('CSS IMPORTS', function() {
         it('can import 1 stylesheet from <style>@import</style>', () => {

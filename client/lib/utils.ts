@@ -61,9 +61,8 @@ export const pickBestMatch = function(path, objects, pathFunc): any {
 };
 
 export const numberOfMatchingSegments = function(path1, path2) {
-    // get rid of leading slashes and normalize to lower case
-    path1 = path1.replace(/^\/+/, "").toLowerCase();
-    path2 = path2.replace(/^\/+/, "").toLowerCase();
+    path1 = normalisePath(path1);
+    path2 = normalisePath(path2);
 
     if (path1 === path2) {
         return 10000;
@@ -152,4 +151,11 @@ export function createTimedBooleanSwitch(source$, timeout = 1000) {
 
 export function array(incoming) {
     return [].slice.call(incoming);
+}
+
+export function normalisePath(path: string): string {
+    return path
+        .replace(/^\/+/, "")
+        .replace(/\\/g, "/")
+        .toLowerCase();
 }

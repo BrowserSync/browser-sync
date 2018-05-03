@@ -21,6 +21,7 @@ bs-config.js
 /lodash.custom.min.js
 /dist
 /cypress/videos
+/cypress/screenshots/*
 client/dist/index.js
 client/dist/index.js.map
 client/dist/index.min.js
