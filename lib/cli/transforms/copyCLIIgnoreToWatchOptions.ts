@@ -5,7 +5,6 @@ export function copyCLIIgnoreToWatchOptions(incoming) {
         return incoming;
     }
     return incoming.updateIn(["watchOptions", "ignored"], List([]), ignored => {
-        const userIgnore = List([]).concat(incoming.get("ignore"));
-        return ignored.concat(userIgnore);
+        return List([]).concat(ignored, incoming.get("ignore"));
     });
 }
