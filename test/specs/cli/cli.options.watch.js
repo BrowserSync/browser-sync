@@ -122,4 +122,19 @@ describe("CLI: Options: Merging Watch Option", function() {
             config.getIn(["watchOptions", "ignored"]).contains("*.json2")
         );
     });
+    it("merges from server, serveStatic + ignore path + watchOptions.ignore (string)", function() {
+        var input = {
+            server: ["."],
+            watch: true,
+            ignore: ["*.json", "*.json2"],
+            watchOptions: { ignored: "*.txt" }
+        };
+        var config = merge(input);
+
+        assert.ok(config.getIn(["watchOptions", "ignored"]).contains("*.json"));
+        assert.ok(
+            config.getIn(["watchOptions", "ignored"]).contains("*.json2")
+        );
+        assert.ok(config.getIn(["watchOptions", "ignored"]).contains("*.txt"));
+    });
 });
