@@ -132,7 +132,9 @@ describe("CLI: Options: Merging Watch Option", function() {
         var config = merge(input);
 
         assert.ok(config.getIn(["watchOptions", "ignored"]).contains("*.json"));
-        assert.ok(config.getIn(["watchOptions", "ignored"]).contains("*.json2"));
+        assert.ok(
+            config.getIn(["watchOptions", "ignored"]).contains("*.json2")
+        );
         assert.ok(config.getIn(["watchOptions", "ignored"]).contains("*.txt"));
     });
 });

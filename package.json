@@ -26,7 +26,7 @@
     "lint": "prettier 'lib/**/*' 'examples/*' 'test/specs/**/*' 'test/specs/*.js'  --write --tab-width 4",
     "pro": "protractor test/protractor/config.single.js",
     "pro-local": "node test/protractor/setup.js",
-    "unit": "mocha --recursive test/specs --timeout 10000 --bail",
+    "unit": "mocha --recursive test/specs --timeout 10000 --bail --exit",
     "pre-release": "npm test && npm run pro-local && npm run pro",
     "lodash": "lodash include=isUndefined,isFunction,toArray,includes,union,each,isString,merge,isObject,set exports=node",
     "prepublishOnly": "cb build-all"
@@ -76,7 +76,7 @@
     "graceful-fs": "4.1.9",
     "http2": "^3.3.6",
     "lodash-cli": "4.17.5",
-    "mocha": "4.1.0",
+    "mocha": "5.2.0",
     "prettier": "^1.9.2",
     "q": "1.4.1",
     "request": "2.87.0",
