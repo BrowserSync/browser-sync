@@ -10,7 +10,7 @@ import { merge } from "rxjs/observable/merge";
 import { initLogger, logHandler$ } from "./log";
 import { effectOutputHandlers$ } from "./effects";
 import { Nanologger } from "../vendor/logger";
-import { scrollRestoreHandlers$ } from "./scroll-restore";
+import { scrollRestoreHandlers$, initWindowName } from "./scroll-restore";
 import { initListeners } from "./listeners";
 import { groupBy } from "rxjs/operators/groupBy";
 import { withLatestFrom } from "rxjs/operators/withLatestFrom";
@@ -18,7 +18,6 @@ import { mergeMap } from "rxjs/operators/mergeMap";
 import { share } from "rxjs/operators/share";
 import { filter } from "rxjs/operators/filter";
 import { pluck } from "rxjs/operators/pluck";
-import { tap } from "rxjs/operators/tap";
 import { of } from "rxjs/observable/of";
 
 export interface Inputs {
@@ -35,6 +34,7 @@ export interface Inputs {
 
 const window$ = initWindow();
 const document$ = initDocument();
+const names$ = initWindowName(window);
 const { socket$, io$ } = initSocket();
 const option$ = initOptions();
 const navigator$ = of(navigator);
@@ -86,7 +86,10 @@ const output$ = getStream("[socket]", inputs)(
 );
 
 const effect$ = getStream("[effect]", inputs)(combinedEffectHandler$, output$);
-const dom$ = getStream("[dom-effect]", inputs)(domHandlers$, effect$);
+const dom$ = getStream("[dom-effect]", inputs)(
+    domHandlers$,
+    merge(effect$, names$)
+);
 
 const merged$ = merge(output$, effect$, dom$);
 

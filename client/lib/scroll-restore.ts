@@ -7,15 +7,24 @@ import { empty } from "rxjs/observable/empty";
 import { of } from "rxjs/observable/of";
 import * as Log from "./log";
 import { withLatestFrom } from "rxjs/operators/withLatestFrom";
-import { take } from "rxjs/operators/take";
-import { mergeMap } from "rxjs/operators/mergeMap";
 import { map } from "rxjs/operators/map";
 import { setWindowName } from "./dom-effects/set-window-name.dom-effect";
 import { setScroll } from "./dom-effects/set-scroll.dom-effect";
 
 export const PREFIX = "<<BS_START>>";
 export const SUFFIX = "<<BS_START>>";
-export const regex = new RegExp(PREFIX + "(.+?)" + SUFFIX);
+export const regex = new RegExp(PREFIX + "(.+?)" + SUFFIX, "g");
+
+function parseFromString(input: string): any {
+    var match;
+    var last;
+    while ((match = regex.exec(input))) {
+        last = match[1];
+    }
+    if (last) {
+        return JSON.parse(last);
+    }
+}
 
 export function initWindowName(window: Window) {
     const saved = (() => {
@@ -24,10 +33,7 @@ export function initWindowName(window: Window) {
          * BS json blob & parse it.
          */
         try {
-            const json = window.name.match(regex);
-            if (json) {
-                return JSON.parse(json[1]);
-            }
+            return parseFromString(window.name);
         } catch (e) {
             return {};
         }

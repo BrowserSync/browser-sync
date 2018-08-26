@@ -135,7 +135,7 @@ export function setScrollEffect(
 }
 
 function scrollElement(element, scrollProportionally, event: IncomingPayload) {
-    if (scrollProportionally) {
+    if (scrollProportionally && element.scrollTo) {
         return element.scrollTo(
             0,
             element.scrollHeight * event.position.proportional
