@@ -47,7 +47,7 @@
     "immutable": "3.8.2",
     "localtunnel": "1.9.0",
     "micromatch": "2.3.11",
-    "opn": "4.0.2",
+    "opn": "5.3.0",
     "portscanner": "2.1.1",
     "qs": "6.2.3",
     "raw-body": "^2.3.2",
