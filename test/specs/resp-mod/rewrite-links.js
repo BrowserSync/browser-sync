@@ -330,5 +330,51 @@ describe("Rewriting Domains", function() {
             var actual = input.replace(rewrite.match, bound);
             assert.equal(actual, expected);
         });
+        it("should support proxy: localhost", function() {
+            var input = `
+                <a href="http://localhost:6426">should skip</a>
+                <a href="http://localhost">should hit</a>
+                <a href="http://localhost/base.html">should hit (2)</a>
+            `;
+            var expected = `
+                <a href="http://localhost:6426">should skip</a>
+                <a href="//${proxyUrl}">should hit</a>
+                <a href="//${proxyUrl}/base.html">should hit (2)</a>
+            `;
+            var rewrite = utils.rewriteLinks(
+                { hostname: "localhost" },
+                proxyUrl
+            );
+            var bound = rewrite.fn.bind(
+                null,
+                { headers: { host: proxyUrl } },
+                {}
+            );
+            var actual = input.replace(rewrite.match, bound);
+            assert.equal(actual, expected);
+        });
+        it("should support localhost + port", function() {
+            var input = `
+                <a href="http://localhost:6426">should skip</a>
+                <a href="http://localhost:8080">should hit</a>
+                <a href="http://localhost:8080/base.html">should hit (2)</a>
+            `;
+            var expected = `
+                <a href="http://localhost:6426">should skip</a>
+                <a href="//${proxyUrl}">should hit</a>
+                <a href="//${proxyUrl}/base.html">should hit (2)</a>
+            `;
+            var rewrite = utils.rewriteLinks(
+                { hostname: "localhost", port: "8080" },
+                proxyUrl
+            );
+            var bound = rewrite.fn.bind(
+                null,
+                { headers: { host: proxyUrl } },
+                {}
+            );
+            var actual = input.replace(rewrite.match, bound);
+            assert.equal(actual, expected);
+        });
     });
 });

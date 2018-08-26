@@ -112,7 +112,7 @@ describe("E2E CLI `reload` with no files arg", function() {
             }
         );
     });
-    it("should handle ECONNREFUSED errors nicely", function(done) {
+    it.skip("should handle ECONNREFUSED errors nicely", function(done) {
         cli({
             cli: {
                 input: ["reload"],
@@ -128,7 +128,7 @@ describe("E2E CLI `reload` with no files arg", function() {
             }
         });
     });
-    it("should handle non 200 code results", function(done) {
+    it.skip("should handle non 200 code results", function(done) {
         cli({
             cli: {
                 input: ["reload"],
