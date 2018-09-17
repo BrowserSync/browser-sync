@@ -49,9 +49,9 @@ Head over to the [Browsersync Website Repo](https://github.com/BrowserSync/brows
 Pull requests should always be branched off the main **Master** branch. (There's no guarantee that what lives on the develop
 branch will ever make it back to master, I do a **lot** of experimentation).
 
-Never commit directly to the master branch, instead create a new branch and submit a PR. This applies to users who have write access also.
+**Never** commit directly to the master branch, instead create a new branch and submit a PR. This applies to users who have write access also.
 
-Note: If your first PR is merged, you'll get write access to all Browsersync repos.
+**Note:** If your first PR is merged, you'll get write access to all Browsersync repos.
 
 ## <a name="rules"></a> Coding Advice
 To ensure consistency throughout the source code, keep these rules in mind as you are working. 
