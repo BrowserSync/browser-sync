@@ -750,7 +750,7 @@ describe('Kitchen Sink', function () {
 
       // we can use Cypress.platform string to
       // select appropriate command
-      // https://on.cypress/io/platform
+      // https://on.cypress.io/platform
       cy.log(`Platform ${Cypress.platform} architecture ${Cypress.arch}`)
 
       if (Cypress.platform === 'win32') {
