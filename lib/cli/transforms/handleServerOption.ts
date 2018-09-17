@@ -1,10 +1,11 @@
 import {IServerOption} from "../../types";
 import {fromJS, List, Map} from "immutable";
+import {BsTempOptions, TransformResult} from "../cli-options";
 
-export function handleServerOption(incoming) {
+export function handleServerOption(incoming: BsTempOptions): TransformResult {
     const value = incoming.get('server');
     if (value === false) {
-        return incoming;
+        return [incoming, []];
     }
 
     // server: true
@@ -12,7 +13,7 @@ export function handleServerOption(incoming) {
         const obj: IServerOption = {
             baseDir: ["./"]
         };
-        return incoming.set('server', fromJS(obj));
+        return [incoming.set('server', fromJS(obj)), []];
     }
 
     // server: "./app"
@@ -20,14 +21,14 @@ export function handleServerOption(incoming) {
         const obj: IServerOption = {
             baseDir: [value]
         };
-        return incoming.set('server', fromJS(obj));
+        return [incoming.set('server', fromJS(obj)), []];
     }
 
     if (List.isList(value)) {
         const obj: IServerOption = {
             baseDir: value
         };
-        return incoming.set('server', fromJS(obj));
+        return [incoming.set('server', fromJS(obj)), []];
     }
 
     if (Map.isMap(value)) {
@@ -37,8 +38,8 @@ export function handleServerOption(incoming) {
 
         const merged = value.merge({baseDir: dirs});
 
-        return incoming.set('server', merged);
+        return [incoming.set('server', merged), []];
     }
 
-    return incoming;
+    return [incoming, []];
 }

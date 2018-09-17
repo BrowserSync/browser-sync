@@ -1,7 +1,5 @@
-"use strict";
-
 var _ = require("../lodash.custom");
-var merge = require("../cli/cli-options").merge;
+import {merge, printErrors} from "../cli/cli-options";
 
 /**
  * @param {BrowserSync} browserSync
@@ -27,6 +25,12 @@ module.exports = function(browserSync, name, pjson) {
         args.config.version = pjson.version;
         args.config.cwd = args.config.cwd || process.cwd();
 
-        return browserSync.init(merge(args.config), args.cb);
+        const [opts, errors] = merge(args.config);
+
+        if (errors.length) {
+            return args.cb(new Error(printErrors(errors)));
+        }
+
+        return browserSync.init(opts, args.cb);
     };
 };

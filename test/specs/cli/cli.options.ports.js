@@ -5,7 +5,7 @@ var assert = require("chai").assert;
 
 describe("CLI: Options: Merging Ports option", function() {
     it("should return the ports object with given ports", function() {
-        var imm = merge({
+        var [imm] = merge({
             ports: "3001,3005"
         });
         assert.deepEqual(imm.get("ports").toJS(), {
@@ -14,7 +14,7 @@ describe("CLI: Options: Merging Ports option", function() {
         });
     });
     it("should return the ports object with single port given", function() {
-        var imm = merge({
+        var [imm] = merge({
             ports: "3001"
         });
         assert.deepEqual(imm.get("ports").toJS(), {
@@ -23,7 +23,7 @@ describe("CLI: Options: Merging Ports option", function() {
         });
     });
     it("should return the ports object with given object", function() {
-        var imm = merge({
+        var [imm] = merge({
             ports: {
                 min: 4000
             }
@@ -34,7 +34,7 @@ describe("CLI: Options: Merging Ports option", function() {
         });
     });
     it("should return the ports object with given object", function() {
-        var imm = merge({
+        var [imm] = merge({
             ports: {
                 min: 4000,
                 max: 5000

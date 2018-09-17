@@ -1,14 +1,15 @@
 import * as url from 'url';
 import {Map} from 'immutable';
 import {BrowsersyncProxy} from "../../types";
+import {BsTempOptions, TransformResult} from "../cli-options";
 
-export function handleProxyOption(incoming) {
+export function handleProxyOption(incoming: BsTempOptions): TransformResult {
     let value = incoming.get('proxy');
     let mw;
     let target;
 
     if (!value || value === true) {
-        return incoming;
+        return [incoming, []];
     }
 
     if (typeof value !== "string") {
@@ -40,5 +41,5 @@ export function handleProxyOption(incoming) {
 
     const proxyOutput = value.mergeDeep(out);
 
-    return incoming.set('proxy', proxyOutput);
+    return [incoming.set('proxy', proxyOutput), []];
 }

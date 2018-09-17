@@ -5,7 +5,7 @@ var browserSync = require("../../../");
 
 describe("files:watch hook", function() {
     it("should accept initial as List", function() {
-        var imm = merge({
+        var [imm] = merge({
             files: "*.html"
         });
         assert.deepEqual(hook([], imm.get("files")).toJS(), {
@@ -16,7 +16,7 @@ describe("files:watch hook", function() {
         });
     });
     it("should accept initial as List", function() {
-        var imm = merge({
+        var [imm] = merge({
             files: ["*.html"]
         });
 
@@ -28,7 +28,7 @@ describe("files:watch hook", function() {
         });
     });
     it("should accept & merge initial as List + Plugin options", function() {
-        var imm = merge({
+        var [imm] = merge({
             files: "*.html"
         });
 
@@ -56,7 +56,7 @@ describe("files:watch hook", function() {
             console.log(file);
         };
 
-        var imm = merge({
+        var [imm] = merge({
             files: [
                 "*.html",
                 {
@@ -74,7 +74,7 @@ describe("files:watch hook", function() {
             console.log(file);
         };
 
-        var imm = merge({
+        var [imm] = merge({
             files: [
                 "*.html",
                 {
@@ -107,7 +107,7 @@ describe("files:watch hook", function() {
             console.log(file);
         };
 
-        var imm = merge({
+        var [imm] = merge({
             files: [
                 "*.html",
                 {

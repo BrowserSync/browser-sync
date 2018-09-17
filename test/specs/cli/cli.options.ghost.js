@@ -5,7 +5,7 @@ var assert = require("chai").assert;
 
 describe("CLI: Options: Merging Ghostmode options", function() {
     it("should merge ghost mode set to false from cli", function() {
-        var imm = merge({
+        var [imm] = merge({
             ghostMode: {
                 clicks: false
             }
@@ -18,7 +18,7 @@ describe("CLI: Options: Merging Ghostmode options", function() {
         assert.isTrue(imm.getIn(["ghostMode", "forms", "toggles"]));
     });
     it("should merge nested ghost mode prop", function() {
-        var imm = merge({
+        var [imm] = merge({
             ghostMode: {
                 forms: {
                     submit: false
@@ -32,7 +32,7 @@ describe("CLI: Options: Merging Ghostmode options", function() {
         assert.isTrue(imm.getIn(["ghostMode", "forms", "toggles"]));
     });
     it("should merge ghost mode set to false", function() {
-        var imm = merge({
+        var [imm] = merge({
             ghostMode: false
         });
         assert.isFalse(imm.getIn(["ghostMode", "clicks"]));
@@ -42,7 +42,7 @@ describe("CLI: Options: Merging Ghostmode options", function() {
         assert.isFalse(imm.getIn(["ghostMode", "forms", "toggles"]));
     });
     it("should merge ghost mode set to true", function() {
-        var imm = merge({
+        var [imm] = merge({
             ghostMode: true
         });
         assert.isTrue(imm.getIn(["ghostMode", "clicks"]));
@@ -52,7 +52,7 @@ describe("CLI: Options: Merging Ghostmode options", function() {
         assert.isTrue(imm.getIn(["ghostMode", "forms", "toggles"]));
     });
     it("should merge ghost mode forms set to false", function() {
-        var imm = merge({
+        var [imm] = merge({
             ghostMode: {
                 forms: false
             }
@@ -64,7 +64,7 @@ describe("CLI: Options: Merging Ghostmode options", function() {
         assert.isFalse(imm.getIn(["ghostMode", "forms", "toggles"]));
     });
     it("should merge ghost mode forms set to true", function() {
-        var imm = merge({
+        var [imm] = merge({
             ghostMode: {
                 forms: true
             }

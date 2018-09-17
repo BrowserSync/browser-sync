@@ -11,7 +11,7 @@ describe("CLI: Options: dealing with 'ignore' option", function() {
             ignore: ["**/*.php"],
             cwd: cwd
         };
-        var config = merge(input).toJS();
+        var config = merge(input)[0].toJS();
         assert.deepEqual(config.files, { core: { globs: ["**/*"], objs: [] } });
         assert.ok(config.watchOptions.ignored.indexOf("**/*.php") > -1);
     });

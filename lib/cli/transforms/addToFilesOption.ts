@@ -1,8 +1,9 @@
 import {List, Map} from "immutable";
+import {BsTempOptions, TransformResult} from "../cli-options";
 
-export function addToFilesOption(incoming) {
+export function addToFilesOption(incoming: BsTempOptions): TransformResult {
     if (!incoming.get("watch")) {
-        return incoming;
+        return [incoming, []];
     }
 
     let serverPaths = [];
@@ -49,5 +50,5 @@ export function addToFilesOption(incoming) {
             .concat(files, serverPaths)
             .filter(Boolean);
     });
-    return output;
+    return [output, []];
 }

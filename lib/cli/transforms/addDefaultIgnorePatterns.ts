@@ -1,4 +1,5 @@
 import {List} from "immutable";
+import {BsTempOptions, TransformResult} from "../cli-options";
 
 const defaultIgnorePatterns = [
     /node_modules/,
@@ -9,12 +10,12 @@ const defaultIgnorePatterns = [
     '.idea',
 ];
 
-export function addDefaultIgnorePatterns(incoming) {
+export function addDefaultIgnorePatterns(incoming: BsTempOptions): TransformResult {
     if (!incoming.get("watch")) {
-        return incoming;
+        return [incoming, []];
     }
 
-    return incoming.update("watchOptions", watchOptions => {
+    const output = incoming.update("watchOptions", watchOptions => {
         const userIgnored = List([])
             .concat(watchOptions.get("ignored"))
             .filter(Boolean)
@@ -26,4 +27,6 @@ export function addDefaultIgnorePatterns(incoming) {
             ignored: merged.toList(),
         });
     });
+
+    return [output, []];
 }

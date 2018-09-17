@@ -1,8 +1,8 @@
 import {fromJS} from "immutable";
-import {makeFilesArg} from "../cli-options";
+import {BsTempOptions, makeFilesArg, TransformResult} from "../cli-options";
 import {FilesNamespaces} from "../../types";
 
-export function handleFilesOption(incoming) {
+export function handleFilesOption(incoming: BsTempOptions): TransformResult {
     const value = incoming.get('files');
     const namespaces: FilesNamespaces = {
         core: {
@@ -21,5 +21,5 @@ export function handleFilesOption(incoming) {
         namespaces.core.objs = processed.objs;
     }
 
-    return incoming.set('files', fromJS(namespaces));
+    return [incoming.set('files', fromJS(namespaces)), []];
 }

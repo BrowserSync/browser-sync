@@ -1,6 +1,7 @@
 import {fromJS} from "immutable";
+import {BsTempOptions, TransformResult} from "../cli-options";
 
-export function handleGhostModeOption(incoming) {
+export function handleGhostModeOption(incoming: BsTempOptions): TransformResult {
     const value = incoming.get('ghostMode');
     var trueAll = {
         clicks: true,
@@ -26,18 +27,18 @@ export function handleGhostModeOption(incoming) {
         value === false ||
         value === "false"
     ) {
-        return incoming.set('ghostMode', fromJS(falseAll));
+        return [incoming.set('ghostMode', fromJS(falseAll)), []];
     }
 
     if (
         value === true ||
         value === "true"
     ) {
-        return incoming.set('ghostMode', fromJS(trueAll));
+        return [incoming.set('ghostMode', fromJS(trueAll)), []];
     }
 
     if (value.get("forms") === false) {
-        return incoming.set('ghostMode', value.withMutations(function (map) {
+        return [incoming.set('ghostMode', value.withMutations(function (map) {
             map.set(
                 "forms",
                 fromJS({
@@ -46,11 +47,11 @@ export function handleGhostModeOption(incoming) {
                     toggles: false
                 })
             );
-        }));
+        })), []];
     }
 
     if (value.get("forms") === true) {
-        return incoming.set('ghostMode', value.withMutations(function (map) {
+        return [incoming.set('ghostMode', value.withMutations(function (map) {
             map.set(
                 "forms",
                 fromJS({
@@ -59,8 +60,8 @@ export function handleGhostModeOption(incoming) {
                     toggles: true
                 })
             );
-        }));
+        })), []];
     }
 
-    return incoming;
+    return [incoming, []];
 }

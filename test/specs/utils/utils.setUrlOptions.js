@@ -1,3 +1,5 @@
+
+require("source-map-support").install();
 var utils = require("../../../dist/utils");
 var merge = require("../../../dist/cli/cli-options").merge;
 
@@ -18,14 +20,14 @@ describe("Utils: creating URLs", function() {
         ipStub.reset();
     });
     beforeEach(function() {
-        opts = merge({
+        [opts, errors] = merge({
             port: 3000,
             server: true,
             scheme: "http"
         });
     });
     it("should return the local when offline", function() {
-        var opts = merge({
+        var [opts, errors] = merge({
             port: 3000,
             server: true,
             scheme: "http",
@@ -36,7 +38,7 @@ describe("Utils: creating URLs", function() {
         });
     });
     it("should return the external", function() {
-        var opts = merge({
+        var [opts, errors] = merge({
             port: 3000,
             server: true,
             scheme: "http",
@@ -48,7 +50,7 @@ describe("Utils: creating URLs", function() {
         });
     });
     it("should return the external/local with xip", function() {
-        var opts = merge({
+        var [opts, errors] = merge({
             port: 3000,
             server: true,
             https: true,
@@ -63,7 +65,7 @@ describe("Utils: creating URLs", function() {
         );
     });
     it("should return the URLs when OFFLINE & XIP set", function() {
-        var opts = merge({
+        var [opts, errors] = merge({
             port: 3000,
             server: true,
             scheme: "http",
@@ -73,5 +75,26 @@ describe("Utils: creating URLs", function() {
         assert.deepEqual(utils.getUrlOptions(opts).toJS(), {
             local: "http://localhost:3000"
         });
+    });
+    it("should NOT ALLOW 'listen' and 'host' options if they differ", function() {
+        var [opts, errors] = merge({
+            port: 3000,
+            host: "mysite.test",
+            listen: "localhost"
+        });
+
+        assert.equal(errors.length, 1);
+        assert.equal(errors[0].type, 'HostAndListenIncompatible');
+        assert.equal(errors[0].level, 'Fatal');
+    });
+    it("should ALLOW 'listen' and 'host' option if they are the same", function() {
+        var [opts, errors] = merge({
+            port: 3000,
+            host: "localhost",
+            listen: "localhost"
+        });
+
+        assert.deepEqual(opts.get('listen'), "localhost");
+        assert.isUndefined(opts.get('host'));
     });
 });

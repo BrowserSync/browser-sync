@@ -4,11 +4,11 @@ var assert = require("chai").assert;
 
 describe("CLI: Options: Merging Server Options", function() {
     it("doesn't touch server option if not given in user config", function() {
-        var imm = merge({});
+        var [imm] = merge({});
         assert.deepEqual(imm.get("server"), false);
     });
     it("should merge when only basedir given", function() {
-        var imm = merge({ server: "base" });
+        var [imm] = merge({ server: "base" });
         assert.deepEqual(imm.get("server").toJS(), {
             baseDir: ["base"],
             serveStaticOptions: {
@@ -17,7 +17,7 @@ describe("CLI: Options: Merging Server Options", function() {
         });
     });
     it("should merge when only `true` given`", function() {
-        var imm = merge({ server: true });
+        var [imm] = merge({ server: true });
         assert.deepEqual(imm.get("server").toJS(), {
             baseDir: ["./"],
             serveStaticOptions: {
@@ -26,7 +26,7 @@ describe("CLI: Options: Merging Server Options", function() {
         });
     });
     it("should merge when only an array` given`", function() {
-        var imm = merge({ server: ["./dist", ".tmp"] });
+        var [imm] = merge({ server: ["./dist", ".tmp"] });
         assert.deepEqual(imm.get("server").toJS(), {
             baseDir: ["./dist", ".tmp"],
             serveStaticOptions: {
@@ -35,7 +35,7 @@ describe("CLI: Options: Merging Server Options", function() {
         });
     });
     it("should merge when nested props given", function() {
-        var imm = merge({
+        var [imm] = merge({
             server: {
                 baseDir: "./app"
             }
@@ -48,7 +48,7 @@ describe("CLI: Options: Merging Server Options", function() {
         });
     });
     it("should merge when multiple nested props given", function() {
-        var imm = merge({
+        var [imm] = merge({
             server: {
                 index: "index.htm",
                 baseDir: "./app",
@@ -66,7 +66,7 @@ describe("CLI: Options: Merging Server Options", function() {
             server: true,
             index: "index.htm"
         };
-        var imm = merge(argv);
+        var [imm] = merge(argv);
         assert.deepEqual(imm.get("server").toJS(), {
             baseDir: ["./"],
             index: "index.htm",
@@ -80,7 +80,7 @@ describe("CLI: Options: Merging Server Options", function() {
             server: true,
             directory: true
         };
-        var imm = merge(argv);
+        var [imm] = merge(argv);
         assert.deepEqual(imm.get("server").toJS(), {
             baseDir: ["./"],
             directory: true,
@@ -94,7 +94,7 @@ describe("CLI: Options: Merging Server Options", function() {
             server: true,
             directory: true
         };
-        var imm = merge(argv);
+        var [imm] = merge(argv);
         assert.deepEqual(imm.get("server").toJS(), {
             baseDir: ["./"],
             directory: true,
@@ -104,7 +104,7 @@ describe("CLI: Options: Merging Server Options", function() {
         });
     });
     it("can merge cli flags into object (4)", function() {
-        var imm = merge({
+        var [imm] = merge({
             server: "app",
             directory: true,
             index: "file.html"
@@ -119,7 +119,7 @@ describe("CLI: Options: Merging Server Options", function() {
         });
     });
     it("can set baseDir when only routes are provided", function() {
-        var imm = merge({
+        var [imm] = merge({
             server: {
                 routes: {
                     "/node_modules": "node_modules"

@@ -1,41 +1,41 @@
-"use strict";
+import {BsTempOptions, TransformResult} from "./cli/cli-options";
 
-var _ = require("./lodash.custom");
-var Immutable = require("immutable");
-var defaultConfig = require("./default-config");
+const _ = require("./lodash.custom");
+import * as Immutable from "immutable";
+import * as defaultConfig from "./default-config";
 
 /**
  * Move top-level ws options to proxy.ws
  * This is to allow it to be set from the CLI
  * @param incoming
  */
-export function setProxyWs(incoming) {
+export function setProxyWs(incoming: BsTempOptions): TransformResult {
     if (incoming.get("ws") && incoming.get("mode") === "proxy") {
-        return incoming.setIn(["proxy", "ws"], true);
+        return [incoming.setIn(["proxy", "ws"], true), []];
     }
-    return incoming;
+    return [incoming, []];
 }
 
 /**
- * @param item
+ * @param incoming
  */
-export function setOpen(item) {
-    return item.update('open', function(open) {
-        if (item.get("mode") === "snippet") {
+export function setOpen(incoming: BsTempOptions): TransformResult {
+    return [incoming.update('open', function(open) {
+        if (incoming.get("mode") === "snippet") {
             if (open !== "ui" && open !== "ui-external") {
                 return false;
             }
         }
         return open;
-    });
+    }), []];
 }
 
 /**
  * Set the running mode
  * @param incoming
  */
-export function setMode(incoming) {
-    return incoming.set(
+export function setMode(incoming: BsTempOptions): TransformResult {
+    const output = incoming.set(
         "mode",
         (function() {
             if (incoming.get("server")) {
@@ -47,12 +47,13 @@ export function setMode(incoming) {
             return "snippet";
         })()
     );
+    return [output, []];
 }
 
 /**
  * @param incoming
  */
-export function setScheme(incoming) {
+export function setScheme(incoming: BsTempOptions): TransformResult {
     var scheme = "http";
 
     if (incoming.getIn(["server", "https"])) {
@@ -69,110 +70,110 @@ export function setScheme(incoming) {
         }
     }
 
-    return incoming.set("scheme", scheme);
+    return [incoming.set("scheme", scheme), []];
 }
 
 /**
  * @param incoming
  */
-export function setStartPath(incoming) {
+export function setStartPath(incoming: BsTempOptions): TransformResult {
     if (incoming.get("proxy")) {
         var path = incoming.getIn(["proxy", "url", "path"]);
         if (path !== "/") {
-            return incoming.set("startPath", path);
+            return [incoming.set("startPath", path), []];
         }
     }
-    return incoming;
+    return [incoming, []];
 }
 
 /**
- * @param item
+ * @param incoming
  */
-export function setNamespace(item) {
-    var namespace = item.getIn(["socket", "namespace"]);
+export function setNamespace(incoming: BsTempOptions): TransformResult {
+    var namespace = incoming.getIn(["socket", "namespace"]);
 
     if (_.isFunction(namespace)) {
-        return item.setIn(
+        return [incoming.setIn(
             ["socket", "namespace"],
-            namespace(defaultConfig.socket.namespace)
-        );
+            namespace((defaultConfig.socket as any).namespace)
+        ), []];
     }
-    return item;
+    return [incoming, []];
 }
 
 /**
- * @param item
+ * @param incoming
  */
-export function setServerOpts(item) {
-    if (!item.get("server")) {
-        return item;
+export function setServerOpts(incoming: BsTempOptions): TransformResult {
+    if (!incoming.get("server")) {
+        return [incoming, []];
     }
     var indexarg =
-        item.getIn(["server", "index"]) ||
+        incoming.getIn(["server", "index"]) ||
         "index.html";
     var optPath = ["server", "serveStaticOptions"];
 
-    if (!item.getIn(optPath)) {
-        return item.setIn(
+    if (!incoming.getIn(optPath)) {
+        return [incoming.setIn(
             optPath,
             Immutable.Map({
                 index: indexarg
             })
-        );
+        ), []];
     }
-    if (!item.hasIn(optPath.concat(["index"]))) {
-        return item.setIn(optPath.concat(["index"]), indexarg);
+    if (!incoming.hasIn(optPath.concat(["index"]))) {
+        return [incoming.setIn(optPath.concat(["index"]), indexarg), []];
     }
 
-    return item;
+    return [incoming, []];
 }
 
-export function liftExtensionsOptionFromCli(item) {
+export function liftExtensionsOptionFromCli(incoming: BsTempOptions): TransformResult {
     // cli extensions
     var optPath = ["server", "serveStaticOptions"];
-    if (item.get("extensions")) {
-        return item.setIn(optPath.concat(["extensions"]), item.get("extensions"));
+    if (incoming.get("extensions")) {
+        return [incoming.setIn(optPath.concat(["extensions"]), incoming.get("extensions")), []];
     }
-    return item;
+    return [incoming, []];
 }
 
 /**
  * Back-compat fixes for rewriteRules being set to a boolean
  */
-export function fixRewriteRules(item) {
-    return item.update("rewriteRules", function(rr) {
+export function fixRewriteRules(incoming: BsTempOptions): TransformResult {
+    return [incoming.update("rewriteRules", function(rr) {
         return Immutable.List([])
             .concat(rr)
             .filter(Boolean);
-    });
+    }), []];
 }
 
-export function fixSnippetIgnorePaths(item) {
-    var ignorePaths = item.getIn(["snippetOptions", "ignorePaths"]);
+export function fixSnippetIgnorePaths(incoming: BsTempOptions): TransformResult {
+    var ignorePaths = incoming.getIn(["snippetOptions", "ignorePaths"]);
 
     if (ignorePaths) {
         if (_.isString(ignorePaths)) {
             ignorePaths = [ignorePaths];
         }
         ignorePaths = ignorePaths.map(ensureSlash);
-        return item.setIn(
+        return [incoming.setIn(
             ["snippetOptions", "blacklist"],
             Immutable.List(ignorePaths)
-        );
+        ), []];
     }
-    return item;
+    return [incoming,[]];
 }
 
-export function fixSnippetIncludePaths(item) {
-    var includePaths = item.getIn(["snippetOptions", "whitelist"]);
+export function fixSnippetIncludePaths(incoming: BsTempOptions): TransformResult {
+    var includePaths = incoming.getIn(["snippetOptions", "whitelist"]);
     if (includePaths) {
         includePaths = includePaths.map(ensureSlash);
-        return item.setIn(
+        return [incoming.setIn(
             ["snippetOptions", "whitelist"],
             Immutable.List(includePaths)
-        );
+        ), []];
     }
-    return item;
+    return [incoming, []];
 }
 
 
@@ -189,9 +190,9 @@ function ensureSlash(item) {
 /**
  *
  */
-export function setMiddleware(item) {
-    var mw = getMiddlwares(item);
-    return item.set("middleware", mw);
+export function setMiddleware(incoming: BsTempOptions): TransformResult {
+    var mw = getMiddlwares(incoming);
+    return [incoming.set("middleware", mw), []];
 }
 
 /**
@@ -247,12 +248,12 @@ function listMerge(list, item) {
 }
 
 /**
- * @param item
+ * @param incoming
  * @returns {*}
  */
-export function setUiPort(item) {
-    if (item.get("uiPort")) {
-        return item.setIn(["ui", "port"], item.get("uiPort"));
+export function setUiPort(incoming: BsTempOptions): TransformResult {
+    if (incoming.get("uiPort")) {
+        return [incoming.setIn(["ui", "port"], incoming.get("uiPort")), []];
     }
-    return item;
+    return [incoming, []];
 }

@@ -1,9 +1,10 @@
 import {Map} from 'immutable';
 import {PortsOption} from "../../types";
+import {BsTempOptions, TransformResult} from "../cli-options";
 
-export function handlePortsOption(incoming) {
+export function handlePortsOption(incoming: BsTempOptions): TransformResult {
     const value = incoming.get('ports');
-    if (!value) return incoming;
+    if (!value) return [incoming, []];
 
     const obj: PortsOption = {min: null, max: null};
 
@@ -21,5 +22,5 @@ export function handlePortsOption(incoming) {
         obj.max = value.get("max") || null;
     }
 
-    return incoming.set('ports', Map(obj));
+    return [incoming.set('ports', Map(obj)), []];
 }

@@ -6,18 +6,18 @@ describe("Utils: creating URL from options", function() {
     var url = "http://0.0.0.0:3002";
 
     it("should return the url if no start path given", function() {
-        var options = merge({ startPath: false });
+        var [options] = merge({ startPath: false });
         var actual = utils.getUrl(url, options);
         assert.equal(actual, url);
     });
     it("should return the url with a path appended", function() {
-        var options = merge({ startPath: "app/mysite" });
+        var [options] = merge({ startPath: "app/mysite" });
         var actual = utils.getUrl(url, options);
         var expected = "http://0.0.0.0:3002/app/mysite";
         assert.equal(actual, expected);
     });
     it("should return the url with a path appended with leading slash", function() {
-        var options = merge({ startPath: "/app/mysite" });
+        var [options] = merge({ startPath: "/app/mysite" });
         var actual = utils.getUrl(url, options);
         var expected = "http://0.0.0.0:3002/app/mysite";
         assert.equal(actual, expected);
@@ -25,7 +25,7 @@ describe("Utils: creating URL from options", function() {
 
     describe("When the start path is set in the proxy", function() {
         it("should return the url with a path appended from proxy", function() {
-            var options = merge({
+            var [options] = merge({
                 proxy: url,
                 startPath: "subdir/another/path"
             });
@@ -34,7 +34,7 @@ describe("Utils: creating URL from options", function() {
             assert.equal(actual, expected);
         });
         it("should return the url with a path appended from proxy", function() {
-            var options = merge({
+            var [options] = merge({
                 proxy: url,
                 startPath: "subdir"
             });
@@ -43,7 +43,7 @@ describe("Utils: creating URL from options", function() {
             assert.equal(actual, expected);
         });
         it("should return the url with a path appended from proxy with query", function() {
-            var options = merge({
+            var [options] = merge({
                 proxy: url,
                 startPath: "subdir?rel=1234"
             });

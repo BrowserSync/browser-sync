@@ -8,13 +8,26 @@ import { resolve } from "path";
 import { existsSync } from "fs";
 import { logger } from "./logger";
 import { compile } from "eazy-logger";
+import {printErrors} from "./cli/cli-options";
 
 export enum BsErrorLevels {
     Fatal = "Fatal"
 }
 
 export enum BsErrorTypes {
-    PathNotFound = "PathNotFound"
+    PathNotFound = "PathNotFound",
+    HostAndListenIncompatible = "HostAndListenIncompatible",
+}
+
+export type BsErrors = BsError[];
+export interface BsError {
+    type: BsErrorTypes,
+    level: BsErrorLevels,
+    errors: BsErrorItem[]
+}
+export interface BsErrorItem {
+    error: Error,
+    meta?(...args): string[]
 }
 
 /**
@@ -212,7 +225,7 @@ function handleIncoming(command, yargs) {
     handleCli({ cli: { flags: out, input: out._ } });
 }
 
-function pathErrors(input, resolved) {
+function pathErrors(input, resolved): BsErrors {
     if (!existsSync(resolved)) {
         return [
             {
@@ -234,23 +247,4 @@ function pathErrors(input, resolved) {
         ];
     }
     return [];
-}
-
-function printErrors(errors) {
-    return errors
-        .map(error =>
-            [
-                `Error Type:    {bold:${error.type}}`,
-                `Error Level:   {bold:${error.level}}`,
-                error.errors.map(item =>
-                    [
-                        `Error Message: ${item.error.message}`,
-                        item.meta ? item.meta().join("\n") : ""
-                    ]
-                        .filter(Boolean)
-                        .join("\n")
-                )
-            ].join("\n")
-        )
-        .join("\n\n");
 }

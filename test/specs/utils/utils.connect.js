@@ -7,7 +7,7 @@ var assert = require("chai").assert;
 describe("Connection snippetUtils", function() {
     var options;
     beforeEach(function() {
-        options = merge({
+        [options] = merge({
             port: 3002,
             server: true
         });
@@ -18,7 +18,7 @@ describe("Connection snippetUtils", function() {
         assert.equal(actual, expected);
     });
     it("should return a connection url for snippet mode", function() {
-        var options = merge({
+        var [options] = merge({
             port: 3002,
             scheme: "http",
             mode: "snippet"
@@ -28,7 +28,7 @@ describe("Connection snippetUtils", function() {
         assert.equal(actual, expected);
     });
     it("should return a connection url for proxy mode", function() {
-        var options = merge({
+        var [options] = merge({
             port: 3002,
             scheme: "http",
             mode: "proxy",
@@ -47,7 +47,7 @@ describe("Connection snippetUtils", function() {
         );
     });
     it("should return a connection url for server mode", function() {
-        var options = merge({
+        var [options] = merge({
             port: 3002,
             server: true
         });
@@ -55,7 +55,7 @@ describe("Connection snippetUtils", function() {
         assert.include(actual, "'' + location.host + '/browser-sync'");
     });
     it("should return a connection url for server mode, https", function() {
-        var options = merge({
+        var [options] = merge({
             port: 3002,
             scheme: "https",
             server: true
@@ -64,7 +64,7 @@ describe("Connection snippetUtils", function() {
         assert.include(actual, "'' + location.host + '/browser-sync'");
     });
     it("should return a connection url for snippet mode", function() {
-        var options = merge({
+        var [options] = merge({
             port: 4002,
             scheme: "http",
             mode: "snippet"
@@ -76,7 +76,7 @@ describe("Connection snippetUtils", function() {
         );
     });
     it("should return a connection url for secure snippet mode", function() {
-        var options = merge({
+        var [options] = merge({
             port: 4002,
             https: true
         });
@@ -87,7 +87,7 @@ describe("Connection snippetUtils", function() {
         );
     });
     it("should allow setting of the socket domain", function() {
-        var options = merge({
+        var [options] = merge({
             port: 3000,
             server: "test/fixtures",
             mode: "server",
@@ -102,7 +102,7 @@ describe("Connection snippetUtils", function() {
         );
     });
     it("should allow setting of the socket domain + namespace", function() {
-        var options = merge({
+        var [options] = merge({
             port: 3000,
             server: "test/fixtures",
             mode: "server",
@@ -118,7 +118,7 @@ describe("Connection snippetUtils", function() {
         );
     });
     it("should allow setting of the socket domain (fn)+ namespace", function() {
-        var options = merge({
+        var [options] = merge({
             port: 3000,
             server: "test/fixtures",
             mode: "server",
@@ -139,7 +139,7 @@ describe("Connection snippetUtils", function() {
         );
     });
     it("should allow setting of the socket namespace with fn (back compat)", function() {
-        var options = merge({
+        var [options] = merge({
             port: 3000,
             server: "test/fixtures",
             mode: "server",

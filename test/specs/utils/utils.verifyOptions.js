@@ -6,12 +6,12 @@ var assert = require("chai").assert;
 describe("Utils: getting config errors", function() {
     it("return a message if both server + proxy given", function() {
         var actual = utils.getConfigErrors(
-            merge({ server: true, proxy: "http://bbc.co.uk" })
+            merge({ server: true, proxy: "http://bbc.co.uk" })[0]
         );
         assert.equal(actual.length, 1);
     });
     it("returns empty array if no errors", function() {
-        var actual = utils.getConfigErrors(merge({ server: true }));
+        var actual = utils.getConfigErrors(merge({ server: true })[0]);
         assert.equal(actual.length, 0);
     });
 });
@@ -30,7 +30,7 @@ describe("Utils: verifying user-provided config", function() {
     it("ends process if config incorrect", function() {
         var fn = function() {};
         utils.verifyConfig(
-            merge({ server: true, proxy: "http://bbc.co.uk" }),
+            merge({ server: true, proxy: "http://bbc.co.uk" })[0],
             fn
         );
         sinon.assert.calledWithExactly(
@@ -42,7 +42,7 @@ describe("Utils: verifying user-provided config", function() {
     });
     it("does not end process if no errors found with config", function() {
         var fn = function() {};
-        utils.verifyConfig(merge({ server: true }), fn);
+        utils.verifyConfig(merge({ server: true })[0], fn);
         sinon.assert.notCalled(stub);
     });
 });

@@ -26,6 +26,8 @@ import {
     setOpen,
     setUiPort
 } from "../options";
+import { BsErrors } from "../bin";
+import {handleHostOption} from "./transforms/handleHostOption";
 
 const _ = require("../lodash.custom");
 const defaultConfig = require("../default-config");
@@ -35,9 +37,13 @@ const immDefs = fromJS(defaultConfig);
  * @param {Object} input
  * @returns {Map}
  */
+export type BsTempOptions = Map<string, any>;
+export type TransformResult = [BsTempOptions, BsErrors];
+export type TransformFn = (subject: BsTempOptions) => TransformResult;
+
 export function merge(input) {
     const merged = immDefs.mergeDeep(input);
-    const transforms = [
+    const transforms: TransformFn[] = [
         addToFilesOption,
         addCwdToWatchOptions,
         addDefaultIgnorePatterns,
@@ -62,14 +68,17 @@ export function merge(input) {
         fixRewriteRules,
         setMiddleware,
         setOpen,
-        setUiPort
+        setUiPort,
     ];
 
-    const output = transforms.reduce((acc, item) => {
-        return item.call(null, acc);
-    }, merged);
-
-    // console.log(output.toJSON());
+    const output = transforms.reduce(
+        (acc: TransformResult, item: TransformFn) => {
+            const [current, currentErrors] = acc;
+            const [result, errors] = item.call(null, current);
+            return [result, [...currentErrors, ...errors]];
+        },
+        [merged, []] as TransformResult
+    );
 
     return output;
 }
@@ -109,4 +118,23 @@ export function makeFilesArg(value) {
         globs: globs,
         objs: objs
     };
+}
+
+export function printErrors(errors: BsErrors) {
+    return errors
+        .map(error =>
+            [
+                `Error Type:    ${error.type}`,
+                `Error Level:   ${error.level}`,
+                error.errors.map(item =>
+                    [
+                        `Error Message: ${item.error.message}`,
+                        item.meta ? item.meta().join("\n") : ""
+                    ]
+                        .filter(Boolean)
+                        .join("\n")
+                )
+            ].join("\n")
+        )
+        .join("\n\n");
 }
