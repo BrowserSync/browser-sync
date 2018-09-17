@@ -16,7 +16,7 @@ describe("E2E `startPath` option", function() {
             startPath: "forms.html",
             online: true
         };
-        stub = sinon.stub(utils, "open");
+        stub = sinon.stub(utils, "opnWrapper");
         instance = browserSync(config, done).instance;
     });
 
@@ -43,7 +43,7 @@ describe("E2E `startPath` option", function() {
             startPath: "forms.html",
             online: false
         };
-        stub = sinon.stub(utils, "open");
+        stub = sinon.stub(utils, "opnWrapper");
         instance = browserSync(config, done).instance;
     });
 

@@ -14,7 +14,7 @@ describe("E2E OPEN options", function() {
             logLevel: "silent",
             server: "test/fixtures"
         };
-        stub = sinon.stub(utils, "open");
+        stub = sinon.stub(utils, "opnWrapper");
         instance = browserSync(config, done).instance;
     });
 
@@ -43,7 +43,7 @@ describe("E2E OPEN options with external", function() {
             server: "test/fixtures",
             open: "local"
         };
-        stub = sinon.spy(utils, "open");
+        stub = sinon.spy(utils, "opnWrapper");
         opnPath = require.resolve("opn");
         require(opnPath);
         opnStub = require("sinon")
@@ -75,7 +75,7 @@ describe("E2E OPEN options with UI + snippet", function() {
             logLevel: "silent",
             open: "ui"
         };
-        stub = sinon.spy(utils, "open");
+        stub = sinon.spy(utils, "opnWrapper");
         opnPath = require.resolve("opn");
         require(opnPath);
         opnStub = require("sinon")

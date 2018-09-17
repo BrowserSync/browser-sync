@@ -26,6 +26,50 @@ describe("E2E `port` option", function() {
             done();
         });
     });
+    it("gets a port with host:localhost (legacy support)", function(done) {
+        browserSync.reset();
+        var config = {
+            logLevel: "silent",
+            server: "test/fixtures",
+            online: false,
+            open: false
+        };
+        var stub = sinon.stub(utils, "getPort");
+        stub.onCall(0).yields(null, 3000);
+
+        browserSync(config, function(err, bs) {
+            utils.getPort.restore();
+            bs.cleanup();
+            assert.equal(stub.getCall(0).args[0], 'localhost');
+            done();
+        });
+    });
+    it.only("gets a port with host: localhost when set via 'listen'", function(done) {
+        browserSync.reset();
+        var config = {
+            logLevel: "silent",
+            server: "test/fixtures",
+            online: false,
+            open: false,
+            listen: '127.0.0.1',
+            ui: {
+                port: 4000
+            }
+        };
+        var stub = sinon.stub(utils, "getPort");
+        stub.onCall(0).yields(null, 3000);
+
+        browserSync(config, function(err, bs) {
+            const urls = bs.options.get('urls').toJS();
+            console.log(urls);
+            utils.getPort.restore();
+            bs.cleanup();
+            // assert.equal(urls.local, 'http://127.0.0.1:3000');
+            // assert.equal(urls.ui, 'http://127.0.0.1:4000');
+            // assert.equal(stub.getCall(0).args[0], '127.0.0.1');
+            done();
+        });
+    });
     it("sets extra port option for socket in proxy mode (handle error)", function(done) {
         browserSync.reset();
 

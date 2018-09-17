@@ -98,6 +98,9 @@
   "host": {
     "desc": "Specify a hostname to use"
   },
+  "listen": {
+    "desc": "Specify a hostname bind to (this will prevent binding to all interfaces)"
+  },
   "logLevel": {
     "desc": "Set the logger output level (silent, info or debug)"
   },

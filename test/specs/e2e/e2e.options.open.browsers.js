@@ -1,5 +1,4 @@
 var utils = require("../../../dist/utils");
-
 var assert = require("chai").assert;
 var sinon = require("sinon");
 var browserSync = require("../../../");
@@ -15,7 +14,7 @@ describe("E2E OPEN Browsers options (1)", function() {
             server: "test/fixtures",
             browser: "google chrome"
         };
-        stub = sinon.stub(utils, "open");
+        stub = sinon.stub(utils, "opnWrapper");
         instance = browserSync(config, done).instance;
     });
 
@@ -44,7 +43,7 @@ describe("E2E OPEN Browsers options (multiple)", function() {
             server: "test/fixtures",
             browser: ["google chrome", "safari"]
         };
-        stub = sinon.stub(utils, "open");
+        stub = sinon.stub(utils, "opnWrapper");
         instance = browserSync(config, done).instance;
     });
 
@@ -85,7 +84,7 @@ describe("E2E browser option with app args", function() {
             browser: appArg
         };
 
-        var stub = sinon.spy(utils, "open");
+        var stub = sinon.spy(utils, "opnWrapper");
         var opnPath = require.resolve("opn");
         require(opnPath);
         var opnStub = require("sinon")
@@ -119,7 +118,7 @@ describe("E2E browser option with app args", function() {
             browser: [appArg, "safari", "firefox"]
         };
 
-        var stub = sinon.spy(utils, "open");
+        var stub = sinon.spy(utils, "opnWrapper");
         var opnPath = require.resolve("opn");
         require(opnPath);
         var opnStub = require("sinon")
