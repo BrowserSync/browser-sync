@@ -1,7 +1,8 @@
 {
   "private": true,
   "scripts": {
-    "bootstrap": "lerna bootstrap --hoist"
+    "bootstrap": "lerna bootstrap --hoist",
+    "build-all": "lerna run build-all"
   },
   "name": "browser-sync",
   "devDependencies": {

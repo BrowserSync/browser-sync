@@ -29,7 +29,8 @@
     "unit": "mocha --recursive test/specs --timeout 10000 --bail --exit",
     "pre-release": "npm test && npm run pro-local && npm run pro",
     "lodash": "lodash include=isUndefined,isFunction,toArray,includes,union,each,isString,merge,isObject,set exports=node",
-    "prepublishOnly": "cb build-all"
+    "prepublishOnly": "cb build-all",
+    "build-all": "cb build-all"
   },
   "dependencies": {
     "browser-sync-ui": "v1.0.1",
