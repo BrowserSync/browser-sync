@@ -53,6 +53,7 @@ export function merge(input) {
         appendServerDirectoryOption,
         handleProxyOption,
         handlePortsOption,
+        handleHostOption,
         handleGhostModeOption,
         handleFilesOption,
         handleExtensionsOption,
