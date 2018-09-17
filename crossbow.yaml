@@ -1,0 +1,31 @@
+tasks:
+  cy: cypress/setup/bs.js
+
+options:
+  cy:
+    _default:
+      action: run
+    file-watching-ignore:
+      config: cypress/configs/file-watching-ignore.js
+      spec: cypress/integration/file-watching-ignore.js
+    file-reloading:
+      config: cypress/configs/file-reloading.js
+      spec: cypress/integration/file-reloading.js
+    no-notify:
+      config: cypress/configs/no-notify.js
+      spec: cypress/integration/no-notify.js
+    css-overlay:
+      config: cypress/configs/css-overlay-notify.js
+      spec: cypress/integration/css-overlay-notify.js
+    css-console-notify:
+      config: cypress/configs/css-console-notify.js
+      spec: cypress/integration/css-console-notify.js
+    connection-notify:
+      config: cypress/configs/file-reloading.js
+      spec: cypress/integration/connection-notify.js
+    log-prefix:
+      config: cypress/configs/logPrefix.js
+      spec: cypress/integration/logPrefix.js
+    ui-remote-debug:
+      config: cypress/configs/file-reloading.js
+      spec: cypress/integration/ui-remote-debug.js

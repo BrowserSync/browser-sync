@@ -7,7 +7,7 @@ describe('disabled notification', function() {
         cy.get('#__bs_notify__').should('have.length', 0);
     });
     it('should not flash messages when css injected', function() {
-        cy.exec('touch test/fixtures/**/style.css');
+        cy.exec('touch packages/browser-sync/test/fixtures/**/style.css');
         cy.wait(500);
         cy.get('#__bs_notify__').should('have.length', 0);
     });
