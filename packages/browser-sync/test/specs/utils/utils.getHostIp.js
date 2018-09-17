@@ -15,7 +15,10 @@ describe("Utils: getting the Host IP", function() {
         assert.equal(hostIp, "192.0.0.1");
     });
     it("should return false detect:false", function() {
-        var hostIp = utils.getHostIp(merge({ detect: false })[0], "192.168.0.4");
+        var hostIp = utils.getHostIp(
+            merge({ detect: false })[0],
+            "192.168.0.4"
+        );
         assert.equal(hostIp, false);
     });
     it("should return false when no network available", function() {

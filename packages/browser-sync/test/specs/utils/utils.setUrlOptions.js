@@ -1,4 +1,3 @@
-
 require("source-map-support").install();
 var utils = require("../../../dist/utils");
 var merge = require("../../../dist/cli/cli-options").merge;
@@ -84,8 +83,8 @@ describe("Utils: creating URLs", function() {
         });
 
         assert.equal(errors.length, 1);
-        assert.equal(errors[0].type, 'HostAndListenIncompatible');
-        assert.equal(errors[0].level, 'Fatal');
+        assert.equal(errors[0].type, "HostAndListenIncompatible");
+        assert.equal(errors[0].level, "Fatal");
     });
     it("should ALLOW 'listen' and 'host' option if they are the same", function() {
         var [opts, errors] = merge({
@@ -94,7 +93,7 @@ describe("Utils: creating URLs", function() {
             listen: "localhost"
         });
 
-        assert.deepEqual(opts.get('listen'), "localhost");
-        assert.isUndefined(opts.get('host'));
+        assert.deepEqual(opts.get("listen"), "localhost");
+        assert.isUndefined(opts.get("host"));
     });
 });

@@ -23,7 +23,7 @@ tasks:
     runMode: 'parallel'
     tasks:
       - build-js
-      - build-css
+#      - build-css
 
   build-js:
     description: Create the Client-side Javascript bundle

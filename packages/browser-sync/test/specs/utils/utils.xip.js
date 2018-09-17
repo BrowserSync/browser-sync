@@ -19,7 +19,10 @@ describe("Utils: Adding xip", function() {
     it("can add random.io using hostnameSuffix", function() {
         var host = "192.15.122.9";
         var expected = "192.15.122.9.random.io";
-        var actual = utils.xip(host, merge({ hostnameSuffix: ".random.io" })[0]);
+        var actual = utils.xip(
+            host,
+            merge({ hostnameSuffix: ".random.io" })[0]
+        );
         assert.equal(actual, expected);
     });
     it("does not add xip.io when using default option", function() {

@@ -34,7 +34,10 @@ module.exports.plugin = function(bs) {
         /**
          * Listen on the available port
          */
-        bsServer.server.listen(bs.options.get("port"), bs.options.get("listen"));
+        bsServer.server.listen(
+            bs.options.get("port"),
+            bs.options.get("listen")
+        );
 
         /**
          * Hack to deal with https://github.com/socketio/socket.io/issues/1602#issuecomment-224270022

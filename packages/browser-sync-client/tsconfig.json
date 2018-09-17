@@ -11,9 +11,11 @@
       "es2015",
       "dom",
       "dom.iterable"
-    ]
+    ],
+    "types": []
   },
   "include": [
     "types/types.d.ts"
-  ]
+  ],
+  "exclude": []
 }

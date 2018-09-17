@@ -40,7 +40,7 @@ describe("E2E `port` option", function() {
         browserSync(config, function(err, bs) {
             utils.getPort.restore();
             bs.cleanup();
-            assert.equal(stub.getCall(0).args[0], 'localhost');
+            assert.equal(stub.getCall(0).args[0], "localhost");
             done();
         });
     });
@@ -51,7 +51,7 @@ describe("E2E `port` option", function() {
             server: "test/fixtures",
             online: false,
             open: false,
-            listen: '127.0.0.1',
+            listen: "127.0.0.1",
             ui: {
                 port: 4000
             }
@@ -60,7 +60,7 @@ describe("E2E `port` option", function() {
         stub.onCall(0).yields(null, 3000);
 
         browserSync(config, function(err, bs) {
-            const urls = bs.options.get('urls').toJS();
+            const urls = bs.options.get("urls").toJS();
             console.log(urls);
             utils.getPort.restore();
             bs.cleanup();

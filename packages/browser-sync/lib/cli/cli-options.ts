@@ -27,7 +27,7 @@ import {
     setUiPort
 } from "../options";
 import { BsErrors } from "../bin";
-import {handleHostOption} from "./transforms/handleHostOption";
+import { handleHostOption } from "./transforms/handleHostOption";
 
 const _ = require("../lodash.custom");
 const defaultConfig = require("../default-config");
@@ -69,7 +69,7 @@ export function merge(input) {
         fixRewriteRules,
         setMiddleware,
         setOpen,
-        setUiPort,
+        setUiPort
     ];
 
     const output = transforms.reduce(

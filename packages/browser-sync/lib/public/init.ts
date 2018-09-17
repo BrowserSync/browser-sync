@@ -1,5 +1,5 @@
 var _ = require("../lodash.custom");
-import {merge, printErrors} from "../cli/cli-options";
+import { merge, printErrors } from "../cli/cli-options";
 
 /**
  * @param {BrowserSync} browserSync

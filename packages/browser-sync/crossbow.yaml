@@ -9,7 +9,6 @@ tasks:
   build-all:
     - lint
     - build-server
-    - build-client
 
   test:
     - build-all
@@ -22,11 +21,6 @@ tasks:
 
   build-server:
     - '@npm tsc'
-
-  build-client:
-    - '@npm cd client && yarn'
-    - '@npm cd client && ./node_modules/.bin/webpack'
-    - '@npm cd client && ./node_modules/.bin/webpack -p --output-filename index.min.js'
 
   lint: >
     @npm prettier

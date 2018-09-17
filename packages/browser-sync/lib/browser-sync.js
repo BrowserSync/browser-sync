@@ -22,7 +22,7 @@ var defaultPlugins = {
     "file:watcher": require("./file-watcher"),
     server: require("./server"),
     tunnel: require("./tunnel"),
-    "client:script": require("./client"),
+    "client:script": require("browser-sync-client"),
     UI: require("browser-sync-ui")
 };
 
