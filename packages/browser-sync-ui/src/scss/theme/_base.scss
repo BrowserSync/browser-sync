@@ -1,0 +1,151 @@
+html {
+    overflow-x: hidden;
+    overflow-y: auto;
+    height: 100%;
+    font: #{($base-font-size/16px)*100%}/#{$base-line-height} $base-font-family;
+    -webkit-text-size-adjust: 100%;
+    -ms-text-size-adjust: 100%;
+    -webkit-font-smoothing: antialiased;
+
+    @include media-query(min, $lap-start) {
+        height: 100vh;
+    }
+
+}
+
+body {
+    min-height: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
+    overflow-y: auto;
+    background: $white;
+    color: $body-text;
+    text-rendering: optimizeLegibility;
+
+    @include media-query(min, $lap-start) {
+        height: 100vh;
+        overflow-y: hidden;
+    }
+}
+
+main {
+    position: relative;
+    @include media-query(min, $lap-start) {
+        overflow: hidden;
+    }
+}
+
+
+// Lists
+
+ul,
+ol,
+dl {
+    ul,
+    ol {
+        margin-bottom: 0;
+    }
+}
+
+ul,
+ol {
+    margin-left: $base-spacing;
+}
+
+ul {
+    list-style: disc;
+
+    ul {
+        list-style: circle;
+    }
+}
+
+ol {
+    list-style: decimal;
+
+    ol {
+        list-style: lower-alpha;
+    }
+}
+
+dt {
+    font-weight: bold;
+}
+
+dd + dt {
+    padding-top: $half-spacing;
+}
+
+
+// Tables
+
+table {
+    margin-top: $half-spacing;
+    width: 100%;
+}
+
+th,
+td {
+    padding: $half-spacing/2 $half-spacing;
+    border-bottom: 1px solid $grey-border;
+    text-align: left;
+    vertical-align: top;
+}
+
+th {
+    font-weight: bold;
+}
+
+thead {
+    tr:last-child {
+        th {
+            border-bottom: 2px solid $grey-border;
+        }
+    }
+}
+
+[colspan] {
+    text-align: center;
+}
+
+[colspan="1"] {
+    text-align: left;
+}
+
+[rowspan] {
+    vertical-align: middle;
+}
+
+[rowspan="1"] {
+    vertical-align: top;
+}
+
+
+// table {
+//     tr {
+//         td:first-child {
+//             white-space: nowrap;
+//             font-weight: bold;
+//         }
+//     }
+//     td {
+//         padding: $half-spacing $half-spacing/2 ;
+//     }
+//     tbody {
+//         tr:nth-child(odd) {
+//             background: #fafafa;
+//         }
+//     }
+// }
+
+
+// Sectioning
+
+hr {
+    clear: both;
+    margin-bottom: $base-spacing;
+    border: none;
+    border-bottom: 1px solid $grey-border;
+    padding-bottom: $half-spacing;
+    height: 1px;
+}

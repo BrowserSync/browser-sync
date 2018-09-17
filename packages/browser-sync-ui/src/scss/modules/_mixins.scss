@@ -1,0 +1,92 @@
+@import "../vars";
+
+//
+// `@include media-query(min, 640px);`
+//
+@mixin media-query($type, $breakpoint: $lap-start) {
+    @if $type == "min" {
+        @media only screen and (min-width: $breakpoint) { @content }
+    }
+    @else if $type == "max" {
+        @media only screen and (max-width: $breakpoint - 1px) { @content }
+    }
+    @else if $type == "palm" {
+        @media only screen and (max-width: $lap-start - 1px) { @content }
+    }
+    @else if $type == "lap" {
+        @media only screen and (min-width: $lap-start) and (max-width: $desk-start - 1px) { @content }
+    }
+    @else if $type == "desk" {
+        @media only screen and (min-width: $desk-start) { @content }
+    }
+    @else if $type == "wide" {
+        @media only screen and (min-width: $wide-start) { @content }
+    }
+    @else if $type == "retina" {
+        @media
+        only screen and (-webkit-min-device-pixel-ratio: 2),
+        only screen and (   min--moz-device-pixel-ratio: 2),
+        only screen and (     -o-min-device-pixel-ratio: 2/1),
+        only screen and (        min-device-pixel-ratio: 2),
+        only screen and (                min-resolution: 192dpi),
+        only screen and (                min-resolution: 2dppx) { @content }
+    }
+}
+
+//
+// `@include font-size(10px);`
+//
+@mixin font-size($font-size){
+    font-size: $font-size;
+    font-size: ($font-size / $base-font-size)*1rem;
+}
+
+@mixin only-palm {
+    @include media-query(min, $lap-start) {
+        display: none;
+    }
+}
+
+@mixin not-palm {
+
+    display: none;
+    @include media-query(min, $lap-start) {
+        display: block;
+    }
+}
+
+@mixin sidebar-style {
+    background: $sidebar;
+}
+
+@mixin svg-shadow ($blur: 2px) {
+    //-webkit-filter: drop-shadow( 1px 1px $blur $green-dk );
+    //filter:         drop-shadow( 1px 1px $blur $green-dk );
+}
+
+@mixin subtle-button ($_color, $disabled) {
+    background: $white;
+    color: $_color;
+    border-color: darken($grey-border, 5%);
+
+    &:hover, &:focus {
+        color: $_color;
+        background: $grey-border;
+    }
+
+    &:focus {
+        background: $white;
+    }
+
+    &:active {
+        color: $_color;
+        text-shadow: 1px 1px 1px rgba(black, .2);
+        background: darken($white, 3%);
+    }
+
+    &[disabled] {
+        border-color: darken($grey-border, 5%);
+        background: $grey-border;
+        color: $disabled;
+    }
+}

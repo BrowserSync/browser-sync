@@ -1,0 +1,113 @@
+@import "../vars";
+@import "../modules/mixins";
+
+$header-height: 60px;
+$border-height: 4px;
+$inner-height: $header-height - $border-height;
+
+[bs-header] {
+
+    position: relative;
+    background: $header;
+
+    @include media-query(min, $lap-start) {
+        display: flex;
+    }
+
+    [bs-header-row~="brand"] {
+
+        height: $header-height;
+    }
+
+    [bs-header-row] {
+
+        position: relative;
+        width: 100%;
+        display: flex;
+
+        * {
+            margin-top: auto;
+            margin-bottom: auto;
+        }
+    }
+
+    [bs-list~="header"] {
+
+        width: 100%;
+        padding-left: $icon-gutter + $gutter;
+        @include font-size(14px);
+
+        &, a {
+            color: $white;
+            &:hover {
+                text-decoration: none;
+            }
+        }
+
+        a {
+            display: block;
+            position: relative;
+            &:hover {
+                color: $lime;
+                text-shadow: 1px 1px 3px black;
+            }
+        }
+    }
+}
+
+[bs-toggle] {
+
+    @include font-size(24px);
+    @include only-palm;
+
+    position: absolute;
+    right: 0;
+    cursor: pointer;
+    width: 55px;
+    text-align: center;
+    height: $header-height;
+    line-height: $header-height;
+    color: $white;
+    transition: background .2s;
+    text-shadow: 1px 1px 2px $green-dk;
+    border-left: 1px solid $header;
+    border-bottom: 1px solid $header;
+
+    svg {
+        position: absolute;
+        top: $half-spacing;
+        left: $half-spacing - 2px;
+        height: 30px;
+        width: 30px;
+        pointer-events: none;
+
+        &[bs-state=alt] {
+            opacity: 0;
+        }
+    }
+
+    &:hover {
+        background: $sidebar;
+    }
+
+    &.active {
+        svg {
+            opacity: 0;
+            &[bs-state=alt] {
+                opacity: 1!important;
+            }
+        }
+    }
+}
+
+[bs-link~="version"] {
+    color: $body-text;
+    margin-left: $half-spacing/2;
+    @include font-size(20px);
+    position: relative;
+    top: 4px;
+
+    &:hover, &:focus {
+        color: $red;
+    }
+}

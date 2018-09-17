@@ -1,0 +1,30 @@
+[bs-notify] {
+
+    position: absolute;
+    left: 0;
+    width: 100%;
+    background: $sidebar;
+    color: $white;
+    text-align: center;
+    padding: $base-spacing $half-spacing;
+    box-shadow: 0 5px 5px 0px rgba(0, 0, 0, .2);
+    transform: translateY(-200%);
+    transition: all .3s;
+    z-index: 100;
+
+    &.active {
+        transform: translateY(0);
+    }
+
+    p {
+        margin-bottom: 0;
+    }
+
+    &.success {
+
+    }
+
+    &.error {
+        background: #ED6A13;
+    }
+}

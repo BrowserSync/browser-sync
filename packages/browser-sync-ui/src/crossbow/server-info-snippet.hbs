@@ -1,0 +1,39 @@
+---
+layout: main.hbs
+title: "Snippet Info"
+icon: "cog"
+panels:
+    - title: "Local"
+      icon: "imac"
+      url: "http://localhost:3000"
+    - title: "External"
+      icon: "wifi_3"
+      url: "http://192.168.0.1:3000"
+    - title: "Tunnel"
+      icon: "globe"
+      url: "http://14frwed.localtunnel.me"
+---
+<div bs-panel="controls outline">
+    <h1 bs-heading><i bs-icon="{{page.icon}}"></i> {{page.title}}</h1>
+</div>
+<section>
+    <div bs-panel="full">
+        <div bs-panel-content="">
+            <div bs-panel-icon="">
+                <i bs-icon="code"></i>
+            </div>
+            <p bs-text="lede">Place this snippet somewhere before the closing <code>&lt;/body&gt;</code> tag in your website</p>
+{{#hl}}
+<script type='text/javascript' id="__bs_script__">//<![CDATA[
+document.write("<script async src='//HOST:3000/browser-sync/browser-sync-client.1.8.2.js'><\/script>".replace(/HOST/g, location.hostname).replace(/PORT/g, location.port));
+//]]></script>
+{{/hl}}
+            <!--<p bs-text="lede">Serving files from</p>-->
+            <!--<ul bs-list="">-->
+                <!--<li>/Users/shakyshane/Sites/browser-sync-modules/browser-sync-cp/test/fixtures</li>-->
+                <!--<li>/Users/shakyshane/Sites/browser-sync-modules/browser-sync-cp/test/fixtures</li>-->
+                <!--<li>/Users/shakyshane/Sites/browser-sync-modules/browser-sync-cp/test/fixtures</li>-->
+            <!--</ul>-->
+        </div>
+    </div>
+</section>

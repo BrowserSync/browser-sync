@@ -1,0 +1,59 @@
+$switch-size: 22px;
+
+.cmn-toggle {
+    position: absolute;
+    margin-left: -9999px;
+    visibility: hidden;
+}
+.cmn-toggle + label {
+    display: block;
+    position: relative;
+    cursor: pointer;
+    outline: none;
+    user-select: none;
+    background: #AAAAAA;
+}
+input.cmn-toggle-round + label {
+    padding: 4px;
+    width: $switch-size*2;
+    height: $switch-size;
+    border-radius: $base-radius;
+}
+input.cmn-toggle-round + label:before, input.cmn-toggle-round + label:after {
+    display: block;
+    position: absolute;
+    top: 1px;
+    left: 2px;
+    bottom: 1px;
+    content: "";
+}
+input.cmn-toggle-round + label:before {
+    right: 2px;
+    background-color: #AAAAAA;
+    border-radius: $base-radius;
+    transition: background 0.2s;
+}
+input.cmn-toggle-round + label:after {
+    top: 3px;
+    width: $switch-size - 6px;
+    height: $switch-size - 6px;
+    background-color: $white;
+    border-radius: $base-radius;
+    transition: margin 0.2s;
+}
+input.cmn-toggle-round:checked + label:before {
+    background-color: $lime;
+}
+
+input.cmn-toggle-round + label:after {
+    margin-left: 1px;
+}
+
+input.cmn-toggle-round:checked + label:after {
+    margin-left: $switch-size + 1px;
+}
+
+input.cmn-toggle-round:checked + label {
+    background-color: $lime;
+
+}

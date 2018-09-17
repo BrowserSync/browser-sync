@@ -1,0 +1,51 @@
+---
+layout: main.hbs
+title: "History"
+icon: "book_2"
+urls:
+    - /
+    - /store-home.php
+    - /store-product.php
+    - /store-product.php?element=thisisit.php&color=we23
+    - /store-home.php
+    - /store-home.php
+    - /store-home.php
+    - /store-home.php
+    - /store-home.php
+    - /store-home.php
+    - /store-home.php
+    - /store-home.php
+    - /store-home.php
+    - /store-home.php
+    - /store-home.php
+    - /store-home.php
+    - /store-home.php
+    - /store-home.php
+    - /store-home.php
+---
+<div bs-panel="controls outline">
+    <h1 bs-heading>{{ inc src="icon.hbs" icon="list2" }} {{page.title}}</h1>
+</div>
+<div bs-button-row>
+    <button bs-button="inline icon-left">
+        {{ inc src="icon.hbs" icon="bin" }}
+        Clear all
+    </button>
+</div>
+<div>
+    <ul bs-list="bordered inline-controls">
+        {{#each page.urls}}
+        <li>
+            <p>{{this}}</p>
+            <div bs-button-group>
+                <a href="#" ng-click="sendAllTo(url.path)" bs-button="subtle-alt icon-left" title="Sync all devices to this address.">
+                    {{ inc src="icon.hbs" icon="syncall" }} Sync all
+                </a>
+                <a href="#" bs-button="subtle-alt icon" ng-click="removeVisited(url)" bs-remove>
+                    {{ inc src="icon.hbs" icon="bin" }}
+                </a>
+            </div>
+        </li>
+        {{/each}}
+    </ul>
+</div>

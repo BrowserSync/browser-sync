@@ -1,0 +1,56 @@
+---
+layout: main.hbs
+title: "Server Info"
+icon: "cog"
+panels:
+    - title: "Local"
+      icon: "imac"
+      url: "http://localhost:3000"
+    - title: "External"
+      icon: "wifi"
+      url: "http://192.168.0.1:3000"
+    - title: "Tunnel"
+      icon: "globe"
+      url: "http://14frwed.localtunnel.me"
+---
+<div bs-panel="controls outline">
+    <h1 bs-heading>{{ inc src="icon.hbs" icon="cog" }} {{page.title}}</h1>
+</div>
+<div>
+    {{#each page.panels}}
+    <section bs-panel>
+        <div bs-panel-content>
+            <div bs-panel-icon>
+                {{ inc src="icon.hbs" icon=this.icon }}
+            </div>
+            <p bs-text="lede">{{this.title}}</p>
+            <p><a href="#">{{this.url}}</a></p>
+            <div bs-button-group>
+                <a href="{{this.url}}" target="_blank" bs-button="size-small subtle-alt icon-left">
+                    {{ inc src="icon.hbs" icon="newtab" }}
+                    new tab
+                </a>
+                <a href="#" ng-click="sendAllTo(url.url)" bs-button="size-small subtle-alt icon-left">
+                    {{ inc src="icon.hbs" icon="syncall" }}
+                    sync all
+                </a>
+            </div>
+        </div>
+    </section>
+    {{/each}}
+</div>
+<section>
+    <div bs-panel="full">
+        <div bs-panel-content>
+            <div bs-panel-icon>
+                {{ inc src="icon.hbs" icon="terminal" }}
+            </div>
+            <p bs-text="lede">Serving files from</p>
+            <ul bs-list="basic">
+                <li>/Users/shakyshane/Sites/browser-sync-modules/browser-sync-cp/test/fixtures</li>
+                <li>/Users/shakyshane/Sites/browser-sync-modules/browser-sync-cp/test/fixtures</li>
+                <li>/Users/shakyshane/Sites/browser-sync-modules/browser-sync-cp/test/fixtures</li>
+            </ul>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,169 @@
+$input-height: 40px;
+
+@mixin base-input {
+
+    outline: none;
+    vertical-align: middle;
+    border-radius: $base-radius;
+    outline: 0;
+    height: $input-height;
+    padding-left: $half-spacing/2;
+    padding-right: $half-spacing;
+    max-width: 100%;
+    font-family: $sans;
+    color: $black;
+}
+
+/*
+ * Basic Inputs
+ */
+button,
+input,
+select {
+    @include base-input;
+}
+
+[bs-code-input] {
+    width: 100%;
+    border: 0;
+    border: 1px dashed $grey-border;
+    font-family: monospace;
+    padding: $half-spacing;
+
+    &:focus {
+        color: $blue;
+    }
+}
+
+[bs-heading-bar] {
+    display: flex;
+    margin-bottom: $half-spacing/2;
+    [bs-input-label] {
+        line-height: 36px;
+    }
+    [bs-button-group] {
+        flex: 1;
+        justify-content: flex-end;
+        margin-bottom: auto;
+        margin-top: auto;
+
+        [bs-button] {
+            padding: 3px 5px;
+            height: 24px;
+            font-size: 10px;
+
+            @include media-query(min, $lap-start) {
+                padding: 7px $half-spacing;
+                height: 34px;
+                font-size: 14px;
+            }
+        }
+    }
+}
+
+[bs-textarea-input] {
+    position: relative;
+    margin-bottom: $half-spacing;
+    [bs-tag] {
+        left: -64px;
+        color: #D08989;
+    }
+}
+[bs-error~="offset"] {
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+[bs-input-label] {
+
+    @include font-size(14px);
+
+    position: relative;
+    display: block;
+    text-transform: uppercase;
+    font-weight: bold;
+    color: $grey-text;
+    letter-spacing: .5px;
+
+    @include media-query(min, $lap-start) {
+        @include font-size(14px);
+    }
+}
+
+[bs-label-heading] {
+    color: $black;
+    font-weight: bold;
+}
+
+[bs-input] {
+
+    padding: 0;
+    border-radius: $base-radius;
+    height: 100%;
+
+    > * {
+        margin-top: auto;
+        margin-bottom: auto;
+    }
+
+    input {
+
+        border: 0;
+        border-radius: 0;
+        padding: 0;
+        outline: 0;
+        @include font-size(16px);
+        border-bottom: 1px dashed $grey-border;
+
+        &:focus {
+            color: $blue;
+        }
+    }
+
+    input[type=text] {
+        width: 100%;
+    }
+    input[type=radio] {
+        &:checked {
+            + label {
+                color: $blue!important;
+            }
+        }
+    }
+}
+
+[bs-input~="text"] {
+    height: auto;
+    input {
+        font-family: monospace;
+    }
+}
+
+[bs-input~="checkbox"] {
+
+}
+
+[bs-input~="inline"] {
+
+    display: flex;
+    height: auto;
+
+    input {
+        &:focus {
+            + label {
+                text-decoration: underline;
+            }
+        }
+    }
+
+    > * {
+
+        margin-top: auto;
+        margin-bottom: auto;
+
+        &:first-child {
+            margin-right: $half-spacing;
+        }
+    }
+}

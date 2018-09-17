@@ -1,0 +1,113 @@
+$red:           #F54747;
+$red-alt:       #F2AAAA;
+$sidebar:       #444444;
+$sidebar-hover: #363636;
+$header:        #222222;
+$green:         #033339;
+$green-dk:      #00262C;
+$body-text:    lighten($sidebar, 20%);
+
+$blue:          #4A90E2;
+
+$lime:          #81be00;
+$grey-text:     #ababab;
+$grey-bg:       #FBFBFB;
+$grey-bg-dk:    #F0F0F0;
+$grey-border:   $grey-bg-dk;
+
+$yellow: #e9ac00;
+
+$white: #fff;
+$black: #000;
+$grey: lighten($black, 20%); // 333333
+
+//
+// Special
+//
+$link: $red;
+$link-hover: $black;
+$alert: #cccc00;
+$success: #00cc66;
+$failure: #cc0000;
+$facebook: #3B5999;
+$twitter: #00ACEE;
+
+//
+// Type
+//
+$sans: "source_sans", "Lucida Grande", "Lucida Sans", sans-serif;
+// $sans-light: "source_sans_proextralight", "Lucida Grande", "Lucida Sans",sans-serif;
+$sans-heavy: "source_sans", "Lucida Grande", "Lucida Sans", sans-serif;
+$serif: Georgia, serif;
+$mono: Consolas, Monaco, monospace;
+
+//
+// Base
+//
+$base-font-size: 18px;
+$base-line-height: 1.5;
+$base-font-family: $sans;
+$base-color: $sidebar;
+
+//
+// Headings
+//
+$hn-font-weight: 400;
+$hn-line-height: 1;
+$hn-font-family: $sans;
+
+$hn-color: $base-color;
+$h1-size: 36px;
+$h2-size: 30px;
+$h3-size: 18px;
+$h4-size: 16px;
+$h5-size: 16px;
+$h6-size: 16px;
+
+
+//
+// Fixed width
+//
+$mono-size: 14px;
+$mono-line-height: $base-line-height;
+$mono-font-family: $mono;
+
+
+//
+// Special
+//
+$lede-size: 24px;
+$small-size: 14px;
+
+
+//
+// Spacing
+//
+$base-spacing: $base-font-size * $base-line-height;
+$half-spacing: ceil($base-spacing / 2);
+$gutter: 20px;
+$icon-gutter: 55px;
+
+//
+// Radii
+//
+$base-radius: 3px;
+$half-radius: ceil($base-radius / 2);
+
+//
+// Grids
+//
+$page-width: 740px;
+
+$lap-start: 600px;
+$desk-start: 750px;
+$wide-start: 1000px;
+
+$ns: "bs";
+
+//
+// Sidebar widths
+//
+$sidebar-width: 240px;
+$nav-button-height: 52px;
+

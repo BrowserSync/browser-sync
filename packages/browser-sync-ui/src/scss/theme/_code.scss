@@ -1,0 +1,28 @@
+@import "../vars";
+@import "../modules/mixins";
+
+pre {
+    margin-top: $half-spacing;
+    padding: $half-spacing;
+    border-radius: $base-radius;
+    box-shadow: -10px 0px 10px $grey-border inset;
+    border: 1px solid darken($grey-border, 2%);
+
+    code {
+        @include font-size(12px);
+        @include font-size(16px);
+        color: currentColor;
+        line-height: 1;
+        background: transparent;
+        border: 0;
+    }
+}
+
+code {
+    background: $grey-bg;
+    display: inline-block;
+    padding: 0 5px;
+    border: 1px solid $grey-border;
+    color: darken($blue, 10%);
+    @include font-size(14px);
+}

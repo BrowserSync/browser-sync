@@ -1,0 +1,49 @@
+$footer-text: $black;
+
+[bs-footer] {
+
+    color: $footer-text;
+    text-align: center;
+    margin-bottom: $base-spacing;
+    padding-top: $base-spacing;
+
+    @include font-size(14px);
+
+    @include media-query(min, $lap-start) {
+//        text-shadow: 1px 1px 1px rgba(black, .4);
+        padding-top: $base-spacing;
+        position: fixed;
+        bottom: 0;
+        width: $sidebar-width;
+        color: $grey-text;
+    }
+
+    p {
+        margin-bottom: 0;
+    }
+
+    a {
+        color: $footer-text;
+        @include media-query(min, $lap-start) {
+            color: $grey-text;
+        }
+
+        &:hover, &:focus {
+            text-decoration: none;
+            color: lighten($grey-text, 10%);
+        }
+    }
+
+    [bs-icon] {
+        padding: 0 10px;
+    }
+
+    [bs-svg-icon] {
+        @include media-query(min, $lap-start) {
+            @include svg-shadow;
+        }
+        width: 20px;
+        height: 20px;
+    }
+}
+
