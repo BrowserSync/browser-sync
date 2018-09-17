@@ -44,7 +44,7 @@ describe("E2E `port` option", function() {
             done();
         });
     });
-    it.only("gets a port with host: localhost when set via 'listen'", function(done) {
+    it("gets a port with host: localhost when set via 'listen'", function(done) {
         browserSync.reset();
         var config = {
             logLevel: "silent",
@@ -61,12 +61,11 @@ describe("E2E `port` option", function() {
 
         browserSync(config, function(err, bs) {
             const urls = bs.options.get("urls").toJS();
-            console.log(urls);
             utils.getPort.restore();
             bs.cleanup();
-            // assert.equal(urls.local, 'http://127.0.0.1:3000');
-            // assert.equal(urls.ui, 'http://127.0.0.1:4000');
-            // assert.equal(stub.getCall(0).args[0], '127.0.0.1');
+            assert.equal(urls.local, "http://127.0.0.1:3000");
+            assert.equal(urls.ui, "http://127.0.0.1:4000");
+            assert.equal(stub.getCall(0).args[0], "127.0.0.1");
             done();
         });
     });
@@ -120,7 +119,8 @@ describe("E2E `port` option", function() {
         browserSync(config, function(err, bs) {
             bs.cleanup();
             assert.equal(bs.options.get("port"), 3000);
-            assert.equal(stub.getCall(1).args[0], 3001);
+            assert.equal(stub.getCall(1).args[0], "localhost");
+            assert.equal(stub.getCall(1).args[1], 3001);
             assert.equal(bs.options.getIn(["socket", "port"]), 3001);
             utils.getPort.restore();
             done();
@@ -150,7 +150,7 @@ describe("E2E `port` option", function() {
         browserSync(config, function(err, bs) {
             bs.cleanup();
             assert.equal(bs.options.get("port"), 3000);
-            assert.equal(stub.getCall(1).args[0], 8001);
+            assert.equal(stub.getCall(1).args[1], 8001);
             assert.equal(bs.options.getIn(["socket", "port"]), 8001);
             utils.getPort.restore();
             done();

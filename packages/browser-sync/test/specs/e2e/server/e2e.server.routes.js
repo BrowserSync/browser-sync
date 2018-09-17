@@ -64,10 +64,4 @@ describe("E2E server test with routes", function() {
                 done();
             });
     });
-
-    it("serves from the node_modules directory", function(done) {
-        request(instance.server)
-            .get("/node_modules/chai/index.js")
-            .expect(200, done);
-    });
 });

@@ -1,7 +1,6 @@
 require("source-map-support").install();
 
 var path = require("path");
-var browserSync = require(path.resolve("./"));
 
 var pkg = require(path.resolve("package.json"));
 var sinon = require("sinon");

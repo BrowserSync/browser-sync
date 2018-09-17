@@ -18,6 +18,7 @@ describe("E2E CLI `plugins` arg", function() {
                 }
             },
             cb: function(err, bs) {
+                if (err) return done(err);
                 var plugin = bs.getUserPlugin("Snippet Injector");
                 assert.equal(plugin.name, "Snippet Injector");
                 assert.equal(plugin.active, true);

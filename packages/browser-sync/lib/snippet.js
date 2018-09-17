@@ -94,7 +94,7 @@ var snippetUtils = {
         return () => {
             const script = options.get("minify") ? "index.min.js" : "index.js";
             const client = fs.readFileSync(
-                path.join(__dirname, "..", "client", "dist", script),
+                require.resolve("browser-sync-client/dist/" + script),
                 "utf8"
             );
             return [connectUtils.socketConnector(options), client].join(";\n");

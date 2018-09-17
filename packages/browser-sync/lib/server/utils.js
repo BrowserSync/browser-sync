@@ -113,11 +113,7 @@ var serverUtils = {
              * Note, this could throw, but let that happen as
              * the error message good enough.
              */
-            var maybe = path.resolve(
-                options.get("cwd"),
-                "node_modules",
-                httpModule
-            );
+            var maybe = require.resolve(httpModule);
             return require(maybe);
         }
 

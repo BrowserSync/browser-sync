@@ -134,11 +134,7 @@ function requirePlugin(item) {
          * Try a raw node require() call - this will be how
          * regular "npm installed" plugins wil work
          */
-        var maybe = path.resolve(
-            process.cwd(),
-            "node_modules",
-            item.get("name")
-        );
+        var maybe = require.resolve(item.get("name"));
         return item.set("module", require(maybe));
     } catch (e) {
         /**

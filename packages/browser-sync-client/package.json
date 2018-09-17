@@ -1,7 +1,7 @@
 {
   "name": "browser-sync-client",
   "description": "Client-side scripts for BrowserSync",
-  "version": "3.0.0",
+  "version": "2.24.7",
   "homepage": "https://github.com/shakyshane/browser-sync-client",
   "author": "Shane Osbourne <shane.osbourne8@gmail.com>",
   "repository": {
@@ -27,7 +27,8 @@
   "scripts": {
     "start": "cb dev",
     "test": "cb test",
-    "build-all": "cb build-all"
+    "build-all": "cb build-all",
+    "prepublishOnly": "cb build-all"
   },
   "devDependencies": {
     "@types/node": "^8",
