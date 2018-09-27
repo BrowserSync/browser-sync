@@ -21,7 +21,6 @@ export function incomingConnection(
                     Log.overlayInfo(`${logPrefix}: connected`)
                 );
             }
-            return reloadBrowserSafe();
         })
     );
 }
