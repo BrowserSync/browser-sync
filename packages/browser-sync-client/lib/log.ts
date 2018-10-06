@@ -11,7 +11,7 @@ import { Inputs } from "./index";
 import { pluck } from "rxjs/operators/pluck";
 
 export function initLogger(options: IBrowserSyncOptions) {
-    const log = new Nanologger(options.logPrefix, {
+    const log = new Nanologger(options.logPrefix || "", {
         colors: { magenta: "#0F2634" }
     });
     return of(log);

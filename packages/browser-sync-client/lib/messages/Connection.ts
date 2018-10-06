@@ -14,9 +14,14 @@ export function incomingConnection(
     return xs.pipe(
         withLatestFrom(inputs.option$.pipe(pluck("logPrefix"))),
         mergeMap(([x, logPrefix]) => {
+
+            const prefix = logPrefix
+                ? `${logPrefix}: `
+                : '';
+
             return of<any>(
                 setOptions(x),
-                Log.overlayInfo(`${logPrefix}: connected`)
+                Log.overlayInfo(`${prefix}connected`)
             );
         })
     );
