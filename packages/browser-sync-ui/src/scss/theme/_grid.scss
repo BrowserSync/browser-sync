@@ -1,0 +1,34 @@
+[bs-grid] {
+
+    display: flex;
+    width: 100%;
+    flex-flow: wrap;
+
+    > * {
+        width: 100%;
+        padding-top: $half-spacing;
+        padding-bottom: $half-spacing/2;
+    }
+}
+
+@include media-query(min, $desk-start) {
+    [bs-grid~="desk-2"] {
+        [bs-grid-item] {
+            flex: 0 0 50%;
+        }
+    }
+}
+
+[bs-grid~="wide-4"] {
+    [bs-grid-item] {
+        @include media-query(min, $wide-start) {
+            flex: 0 0 25%;
+        }
+    }
+}
+
+[bs-grid-item~="padded-right"] {
+    @include media-query(min, $lap-start) {
+        padding-right: $base-spacing*2;
+    }
+}

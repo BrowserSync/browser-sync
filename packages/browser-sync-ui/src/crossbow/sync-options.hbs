@@ -1,0 +1,34 @@
+---
+layout: main.hbs
+title: "Sync Options"
+icon: "repeat_2"
+options: ['Clicks', 'Scroll', 'Forms: Submit', 'Forms: Toggles', 'Forms: Inputs', 'Clicks', 'Scroll', 'Forms: Submit', 'Forms: Toggles', 'Forms: Inputs']
+---
+<div bs-panel="controls">
+    <h1 bs-heading>{{inc src="icon.hbs" icon="sync" }} {{page.title}}</h1>
+</div>
+{{ inc src="enable.disable.hbs" }}
+<div>
+    {{#each page.options}}
+    <section bs-panel="switch{{#if @last}} last{{/if}}"{{#if @first}} class="disabled"{{/if}}>
+        <div bs-panel-content="">
+            <div bs-panel-icon>
+                <div class="switch">
+                    <input id="cmn-form-{{@index}}"
+                           ng-model="plugin.active"
+                           ng-change="togglePlugin(plugin)"
+                           class="cmn-toggle cmn-toggle-round"
+                           type="checkbox"
+                        {{#if @first}}{{else}}checked{{/if}}>
+                    <label for="cmn-form-{{@index}}"></label>
+                </div>
+            </div>
+            <div>
+                <p bs-text="lede">{{this}}</p>
+                <p>Mirrors click events across devices</p>
+            </div>
+        </div>
+    </section>
+    {{/each}}
+    <br/>
+</div>

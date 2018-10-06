@@ -1,0 +1,4 @@
+tasks:
+  build-all:
+    - '@npm ./node_modules/.bin/webpack'
+    - '@npm ./node_modules/.bin/webpack -p --output-filename index.min.js'

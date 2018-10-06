@@ -1,0 +1,45 @@
+[bs-state~="success"] {
+    opacity: 0;
+    color: $lime;
+}
+
+[bs-state~="waiting"] {
+    opacity: 0;
+    color: $blue;
+}
+
+[bs-state-icons] {
+
+    position: relative;
+
+    [bs-svg-icon] {
+        position: absolute;
+    }
+}
+
+[bs-anim~="spin"] {
+    animation: spin 1s infinite linear;
+}
+
+[bs-state-wrapper] {
+
+    display: flex;
+
+    [bs-state~="inline"] {
+        top: 3px;
+        left: $half-spacing;
+        width: 17px;
+        height: 27px;
+    }
+
+    &.waiting {
+        [bs-state~="waiting"] {
+            opacity: 1;
+        }
+    }
+    &.success {
+        [bs-state~="success"] {
+            opacity: 1;
+        }
+    }
+}

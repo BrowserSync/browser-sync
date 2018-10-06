@@ -12,7 +12,7 @@ describe('Connection notification (with logPrefix)', function() {
     it('should log prefixed message when css is injected', function() {
         cy.window().then((win) => {
             const spy = cy.spy(win.console, "log");
-            cy.exec('touch test/fixtures/**/style.css');
+            cy.exec('touch packages/browser-sync/test/fixtures/**/style.css');
             cy.wait(1000).then(() => {
                 expect(spy.getCall(0).args.slice(-1)[0]).to.equal('[LinkReplace] style.css');
                 expect(spy.getCall(0).args.indexOf('WSK') > -1).to.be.true;

@@ -3,7 +3,7 @@ describe('CSS overlay notification', function() {
         cy.visit(Cypress.env('BS_URL'));
     });
     it('should flash messages when css injected', function() {
-        cy.exec('touch test/fixtures/**/style.css');
+        cy.exec('touch packages/browser-sync/test/fixtures/**/style.css');
         cy.wait(500);
         cy.get('#__bs_notify__').should(function($elems) {
             expect($elems.length).to.equal(1);

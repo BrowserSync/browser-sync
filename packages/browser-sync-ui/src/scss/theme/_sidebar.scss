@@ -1,0 +1,22 @@
+@import "../vars";
+@import "../modules/mixins";
+
+[bs-sidebar] {
+    position: relative;
+
+    @include sidebar-style;
+    @include media-query(min, $lap-start) {
+        width: $sidebar-width;
+
+        &:after {
+            content: " ";
+            width: 10px;
+            height: 100%;
+            position: absolute;
+            right: 0;
+            top: 0;
+            z-index: 10;
+            background: linear-gradient(to right, rgba(0, 0, 0, 0) 0%,rgba(black, .20) 100%);
+        }
+    }
+}

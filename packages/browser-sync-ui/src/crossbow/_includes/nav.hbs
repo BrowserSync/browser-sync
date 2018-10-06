@@ -1,0 +1,19 @@
+<section bs-sidebar>
+    <nav bs-section-nav class="ready">
+        <ul bs-list>
+            {{#each site.sections}}
+            <li>
+                <a href="{{this.href}}" bs-button="nav" {{#current this.href}} class="active"{{/current}}>
+                    {{ inc src="icon.hbs" icon=this.icon }} {{this.title}}
+                </a>
+            </li>
+            {{/each}}
+            <li bs-action="menu-close">
+                <button bs-button="nav" ng-click="toggleMenu()">{{ inc src="icon.hbs" icon="circle-delete" }} CLOSE</button>
+            </li>
+        </ul>
+    </nav>
+    <div bs-visible="not-palm">
+        {{ inc src="components/footer.hbs" }}
+    </div>
+</section>

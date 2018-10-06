@@ -1,0 +1,268 @@
+@import "../vars";
+@import "../modules/mixins";
+
+//
+// Default button styles
+// <button bs-button>Click me!</button>
+//
+[bs-button] {
+
+    @include font-size(16px);
+
+    display: inline-block;
+    border: 1px solid darken($red, 15%);
+    padding: 7px $half-spacing*1.5;
+    width: auto;
+    vertical-align: middle;
+    background: $red;
+    color: $white;
+    border-radius: $base-radius;
+    text-align: center;
+    cursor: pointer;
+    outline: none;
+    transition: color .2s, background .2s;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    //box-shadow: 0 1px 1px 0 rgba(black, .2);
+    margin-bottom: $half-spacing;
+    height: 40px;
+    -webkit-tap-highlight-color: rgba(0,0,0,0);
+
+    &:hover {
+        text-decoration: none;
+        color: $white;
+        background: darken($red, 10%);
+    }
+
+    &:focus {
+        text-decoration: none;
+        color: $white;
+    }
+
+    &:active {
+        color: $white;
+        box-shadow: 0px 1px 0px 0 rgba(black, .1) inset;
+        text-shadow: 1px 1px 0px rgba(black, .4);
+    }
+
+    &.success {
+
+        [bs-state~="success"] {
+            opacity: 1;
+        }
+
+        [bs-state~="default"] {
+            opacity: 0;
+        }
+
+        color: $lime!important;
+    }
+
+    &[disabled] {
+        border-color: desaturate($red, 30%);
+        background: desaturate($red, 30%);
+        color: #F2AAAA;
+    }
+
+    + .button,
+    + a {
+    }
+
+    [bs-svg-icon] {
+        position: absolute;
+        top: 11px;
+        left: $half-spacing;
+        width: 16px;
+        height: 16px;
+    }
+}
+
+//
+//
+//
+[bs-button~="subtle"] {
+    @include subtle-button($red, $red-alt);
+}
+
+//
+//
+//
+[bs-button~="subtle-alt"] {
+    @include subtle-button(darken($grey-border, 40%), darken($grey-border, 20%));
+}
+
+//
+//
+//
+[bs-button~="size-small"] {
+
+    @include font-size(14px);
+    padding: 5px $half-spacing;
+    padding-top: 7px;
+    height: 34px;
+
+    [bs-svg-icon] {
+        top: 9px;
+        width: 14px;
+        height: 14px;
+    }
+}
+
+
+//
+// Icon
+//
+[bs-button~="icon"] {
+
+    padding-left: $half-spacing;
+    padding-right: $half-spacing;
+
+    [bs-svg-icon] {
+        position: relative;
+        top: 2px;
+        left: auto;
+    }
+}
+
+//
+// Buttons with icons on left
+//
+[bs-button~="icon-left"] {
+
+    position: relative;
+    padding-left: $base-spacing + $half-spacing;
+
+    [bs-svg-icon] {
+        left: $half-spacing;
+    }
+}
+
+//
+// Buttons with icons on left
+//
+[bs-button~="icon-right"] {
+
+    position: relative;
+    padding-right: $base-spacing + $half-spacing;
+
+    [bs-svg-icon] {
+        left: auto;
+        right: $half-spacing;
+    }
+}
+
+//
+//
+//
+[bs-button-group] {
+
+    display: flex;
+    align-items: stretch;
+    margin-bottom: $half-spacing;
+
+    [bs-button] {
+        border-radius: 0;
+        margin-bottom: 0;
+        &:first-child {
+            border-top-left-radius: 3px;
+            border-bottom-left-radius: 3px;
+        }
+        &:last-child {
+            border-top-right-radius: 3px;
+            border-bottom-right-radius: 3px;
+        }
+    }
+}
+
+[bs-button~="inline"] {
+
+    position: relative;
+    background: transparent;
+    color: $black;
+    border-radius: 0;
+    border: 0;
+    text-transform: uppercase;
+    box-shadow: 0 0 0 0;
+    @include font-size(14px);
+    margin-bottom: 0;
+    padding-top: 10px;
+
+    [bs-checkbox] {
+        margin-right: 8px;
+    }
+
+    &:focus {
+        background: transparent;
+        color: $black;
+    }
+
+    &:hover {
+        background: $grey-border;
+        color: $black;
+    }
+
+    &:active {
+        background: darken($grey-border, 10%);
+        box-shadow: 0 0 0 0;
+    }
+}
+
+[bs-button~="success"] {
+    [bs-svg-icon] {
+        color: $lime;
+    }
+}
+
+[bs-button-row] {
+
+    background: $grey-bg;
+    border-bottom: 1px solid darken($grey-border, 10%);;
+
+    @include media-query(min, $lap-start) {
+        padding-left: $base-spacing;
+    }
+}
+
+//
+// Menu toggle
+//
+[bs-action~="menu-toggle"] {
+    @include only-palm;
+}
+
+//
+// Menu Close
+//
+[bs-action~="menu-close"] {
+    @include only-palm;
+}
+
+@mixin inline-button {
+    background: $grey-bg;
+    color: $grey-text;
+    text-shadow: 1px 1px 0 $white;
+    height: 100%;
+    padding: 0;
+    padding-left: $half-spacing;
+    padding-right: $half-spacing;
+    border-radius: 0;
+    line-height: $controls-height;
+    text-transform: uppercase;
+    @include font-size(14px);
+
+    border-left: 1px solid $grey-border;
+    border-top: 1px solid $grey-border;
+    border-bottom: 0;
+
+    @include media-query(min, $lap-start) {
+    }
+
+    &:hover {
+        background: lighten($grey-bg, 2%);
+        box-shadow: 0 0 1px rgba(black, .1) inset;
+    }
+
+    &:active {
+        box-shadow: 0 0 3px rgba(black, .2) inset;
+    }
+}

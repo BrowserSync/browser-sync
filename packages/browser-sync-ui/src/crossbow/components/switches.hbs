@@ -1,0 +1,48 @@
+<section bs-panel="switch" ng-class="{'disabled': !active}">
+    <div bs-panel-content>
+        <div bs-panel-icon>
+            <div class="switch">
+                <input id="switch-1"
+                       ng-model="item[prop]"
+                       ng-change="toggle(item)"
+                       class="cmn-toggle cmn-toggle-round"
+                       type="checkbox"
+                       checked="">
+                <label for="switch-1"></label>
+            </div>
+        </div>
+        <div>
+            <p bs-text="lede">Css Grid Overlay</p>
+            <p>Some other content</p>
+        </div>
+    </div>
+    <div bs-panel-content>
+        <div bs-inputs bs-grid="wide-4 desk-2">
+            <div bs-grid-item>
+                {{inc src="form.input.text.hbs" title="Grid Size" value="16px"}}
+            </div>
+            <div bs-grid-item>
+                {{inc src="form.input.text.hbs" title="Grid Colour" value="rgba(0, 0, 0, 0.2)"}}
+            </div>
+            <div bs-grid-item>
+                {{inc src="form.input.text.hbs" title="Grid Selector" value="body"}}
+            </div>
+        </div>
+        <div bs-inputs bs-grid="wide-4 desk-2">
+            <div bs-grid-item>
+                {{inc src="form.input.text.hbs" title="Offset Top" value="0"}}
+            </div>
+            <div bs-grid-item>
+                {{inc src="form.input.text.hbs" title="Offset Bottom" value="0"}}
+            </div>
+        </div>
+        <div bs-inputs bs-grid="wide-4 desk-2">
+            <div bs-grid-item>
+                {{inc src="form.input.checkbox.hbs" title="Vertical Axis" value="0"}}
+            </div>
+            <div bs-grid-item>
+                {{inc src="form.input.checkbox.hbs" title="Horizontal Axis" value="0"}}
+            </div>
+        </div>
+    </div>
+</section>

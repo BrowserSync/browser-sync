@@ -1,0 +1,45 @@
+tasks:
+
+  dev:
+    - '@npm cd client && ./node_modules/.bin/webpack --watch'
+
+  (example):
+    bootstrap: '@sh node dist/bin test/fixtures/bootstrap -w --no-open'
+
+  build-all:
+    - lint
+    - build-server
+
+  test:
+    - build-all
+    - bs:*
+    - cli:*
+    - unit
+
+  unit: >
+    @npm mocha --recursive test/specs --timeout 10000 --bail
+
+  build-server:
+    - '@npm tsc'
+
+  lint: >
+    @npm prettier
+    lib/**/*
+    examples/*
+    test/specs/**/*
+    test/specs/*.js
+    client/lib/*
+    client/lib/messages/*
+    client/lib/dom-effects/*
+    client/lib/effects/*
+    client/lib/listeners/*
+    --write --tab-width 4
+
+  cli: cypress/setup/bs-cli.js
+
+options:
+  cli:
+    file-watching-ignore:
+      method: 'run'
+      args: ['test/fixtures', '--files', 'test/fixtures', '--no-open', '--json']
+      spec: 'cypress/integration/file-watching-ignore.js'

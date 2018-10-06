@@ -1,0 +1,33 @@
+{
+  "curly": true,
+  "eqeqeq": true,
+  "immed": true,
+  "laxbreak": true,
+  "latedef": "nofunc",
+  "newcap": true,
+  "noarg": true,
+  "plusplus": true,
+  "sub": true,
+  "undef": true,
+  "quotmark": "double",
+  "unused": true,
+  "indent": 4,
+  "eqnull": true,
+  "strict": false,
+  "node": true,
+  "browser": true,
+  "mocha": true,
+  "jasmine": true,
+  "esnext": true,
+  "globals": {
+    "browser": false,
+    "sinon": false,
+    "___browserSync___": false,
+    "assert": false,
+    "by": false,
+    "element": false,
+    "protractor": false,
+    "inject": false,
+    "angular": false
+  }
+}

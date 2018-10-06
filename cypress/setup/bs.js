@@ -13,7 +13,7 @@ module.exports = function(opts, ctx) {
     const json = require(join(ctx.config.cwd, opts.config));
 
     return Observable.create(obs => {
-        const bs = require('../../').create();
+        const bs = require('../../packages/browser-sync').create();
         const instance = bs.init(json, function(err, bs) {
             if (err) {
                 return obs.error(err);

@@ -1,0 +1,25 @@
+%msg-line {
+    padding-left: $base-spacing + $half-spacing;
+    padding-top: 4px;
+    padding-bottom: 4px;
+    position: relative;
+}
+
+[bs-msg] {
+    @extend %msg-line;
+}
+[bs-msg~="success"] {
+    &:before {
+        color: $lime;
+    }
+}
+[bs-msg~="info"] {
+    &:before {
+        color: $yellow;
+    }
+}
+[bs-msg~="error"] {
+    &:before {
+        color: $red;
+    }
+}

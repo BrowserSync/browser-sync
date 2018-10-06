@@ -1,0 +1,50 @@
+.icon {
+    display: inline-block;
+}
+
+.icon-trash {
+    width: 100%;
+    max-width: 26px;
+    height: 26px;
+}
+
+.icon-word {
+
+    width: 100%;
+    max-width: 150px;
+    height: 100%;
+    margin-left: $gutter - 5px;
+    color: $white;
+
+    svg {
+        position: relative;
+        top: -1px;
+    }
+}
+
+.icon-logo {
+
+    color: $white;
+    transition: all .1s;
+    width: $icon-gutter;
+    height: 37px;
+    text-align: center;
+
+    &:hover {
+        color: $white;
+        transform: scale(1.1);
+    }
+}
+
+[bs-svg-icon] {
+    display: inline-block;
+    width:  $base-spacing;
+    height: $base-spacing;
+    line-height: inherit;
+    position: relative;
+    top: $half-spacing/2;
+    use {
+        width:  $base-spacing;
+        height: $base-spacing;
+    }
+}

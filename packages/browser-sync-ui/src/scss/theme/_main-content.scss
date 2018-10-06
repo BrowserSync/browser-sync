@@ -1,0 +1,28 @@
+@import "../vars";
+@import "../modules/mixins";
+
+[bs-container] {
+    @include media-query(min, $lap-start) {
+        display: flex;
+    }
+}
+
+[bs-content] {
+
+    overflow-x: hidden;
+    height: auto;
+    position: relative;
+    background: $white;
+    width:      100%;
+
+    @include media-query(min, $lap-start) {
+        height: 100vh;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+        padding-bottom: 59px; // offset header from scroll
+        margin-top: 1px;
+        width: auto;
+        flex: 1;
+    }
+}
+

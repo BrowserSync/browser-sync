@@ -1,0 +1,38 @@
+<header bs-header role="banner">
+    <div bs-header-row="brand">
+        <span class="icon icon-word">
+            <svg>
+                <use xlink:href="#svg-logo-word"></use>
+            </svg>
+        </span>
+        <a href="https://www.npmjs.com/package/browser-sync" bs-link="version" target="_blank">v\{{app.options.version}}</a>
+        <span bs-toggle="nav" ng-click="app.toggleMenu('shane')" ng-class="{'active': app.ui.sectionMenu}">
+            <svg>
+                <use xlink:href="#svg-list"></use>
+            </svg>
+            <svg bs-state="alt">
+                <use xlink:href="#svg-circle-delete"></use>
+            </svg>
+        </span>
+    </div>
+    <aside bs-controls="top">
+        <div bs-flex="top">
+            <a href="#" bs-control title="Reload all Browsers" ng-click="app.reloadAll()">
+                {{ inc src="icon.hbs" icon="repeat" }}
+                Reload all
+            </a>
+            <a href="\{{app.options.port | localRootUrl:app.options.scheme}}" target="_blank" bs-control title="Open a new tab" ng-if="app.options" ng-show="app.options.mode !== 'snippet'" class="ng-scope">
+                {{ inc src="icon.hbs" icon="newtab" }}
+                New Tab
+            </a>
+            <a href="#" bs-control title="Reset the scroll position of all browsers to 0" ng-click="app.scrollAllTo(0)">
+                {{ inc src="icon.hbs" icon="square-up" }}
+                Scroll Top
+            </a>
+            <a href="#" bs-control title="Reset all Browsers to Homepage" ng-click="app.sendAllTo('/')" ng-show="app.options.mode !== 'snippet'">
+                {{ inc src="icon.hbs" icon="home" }}
+                Reset All
+            </a>
+        </div>
+    </aside>
+</header>

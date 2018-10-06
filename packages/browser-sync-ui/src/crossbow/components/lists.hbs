@@ -1,0 +1,37 @@
+<div class="tube">
+<h2>Simple list</h2>
+<ul bs-list>
+    <li>Item 1</li>
+    <li>Item 2</li>
+    <li>Item 3</li>
+    <li>Item 4</li>
+    <li>Item 5</li>
+</ul>
+<br/>
+<h2>Bordered list</h2>
+<ul bs-list="bordered">
+    <li>/gallery/new-item</li>
+    <li><a href="#">https://github.com/shakyShane/browser-sync/pull/400</a></li>
+    <li>Item 3</li>
+    <li>Item 4</li>
+    <li>Item 5</li>
+</ul>
+<br/>
+<h2>Bordered list with controls</h2>
+</div>
+
+<ul bs-list="bordered inline-controls">
+{{#each site.links}}
+    <li>
+        <p>{{this}}</p>
+        <div bs-button-group>
+            <button href="#" bs-button="subtle-alt icon">
+              {{inc src="icon.hbs" icon="syncall"}}
+            </button>
+            <button href="#" bs-button="subtle-alt icon">
+                {{inc src="icon.hbs" icon="bin"}}
+            </button>
+        </div>
+    </li>
+{{/each}}
+</ul>

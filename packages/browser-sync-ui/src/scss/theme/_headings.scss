@@ -1,0 +1,98 @@
+@import "../vars";
+@import "../modules/mixins";
+
+//
+// Site Theme
+//
+h1, h2, h3, h4, h5, h6, hgroup,
+p, blockquote, address,
+ul, ol, dl,
+table,
+fieldset, figure, figcaption, details,
+pre {
+    margin-bottom: $half-spacing;
+}
+
+h1, .h1,
+h2, .h2,
+h3, .h3,
+h4, .h4,
+h5, .h5,
+h6, .h6 {
+    color: $hn-color;
+    font-weight: $hn-font-weight;
+    line-height: $hn-line-height;
+    font-family: $hn-font-family;
+    margin-bottom: $base-spacing;
+    -webkit-font-smoothing: antialiased;
+
+    small {
+        font-size: inherit;
+        font-weight: normal;
+    }
+}
+
+h1, .h1 {
+    @include font-size($h1-size);
+}
+h2, .h2 {
+    padding-top: $half-spacing;
+    @include font-size($h2-size);
+}
+h3, .h3 {
+    @include font-size($h3-size);
+    //margin-bottom: $half-spacing;
+    font-weight: bold;
+}
+h4, .h4 {
+    @include font-size($h4-size);
+}
+h5, .h5 {
+    @include font-size($h5-size);
+}
+h6, .h6 {
+    @include font-size($h6-size);
+}
+
+//
+// Custom Heading styles
+//
+[bs-heading] {
+
+    @include sidebar-style;
+    @include font-size(24px);
+
+    padding-left: $icon-gutter;
+    position: relative;
+    line-height: $nav-button-height;
+    margin-top: 0;
+    margin-bottom: 0;
+    color: $grey-bg;
+    background: darken($sidebar, 2%);
+    border-top: 1px solid darken($sidebar, 2%);
+
+    @include media-query(min, $lap-start) {
+
+        @include font-size(38px);
+        color: $sidebar;
+        background: $grey-bg;
+        padding-left: $icon-gutter + $gutter + 5px;
+        border-top: 0;
+        &:before {
+            display: none;
+        }
+    }
+
+    [bs-svg-icon] {
+
+        position: absolute;
+        left: 14px;
+        top: $half-spacing - 3px;
+
+        @include media-query(min, $lap-start) {
+            height: 38px;
+            width: 38px;
+            top: $half-spacing/2 - 1px;
+        }
+    }
+}

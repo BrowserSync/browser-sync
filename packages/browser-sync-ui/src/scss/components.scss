@@ -1,0 +1,13 @@
+@charset "UTF-8";
+
+@import "vars";
+@import "modules/mixins";
+@import "theme/svg";
+
+body, html {
+    height: auto;
+}
+
+.tube {
+    padding: 0 $half-spacing;
+}

@@ -1,7 +1,7 @@
 module.exports = {
-    server: 'test/fixtures',
+    server: 'packages/browser-sync/test/fixtures',
     open: false,
     online: false,
     minify: false,
-    files: 'test/fixtures',
+    files: 'packages/browser-sync/test/fixtures',
 };

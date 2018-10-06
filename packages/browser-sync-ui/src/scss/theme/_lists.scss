@@ -1,0 +1,190 @@
+$controls-height: 41px;
+
+[bs-flush] {
+    margin-bottom: 0;
+    border-bottom: 0;
+
+}
+
+//
+// Generic lists
+//
+[bs-list] {
+
+    margin-left: 0;
+    list-style: none;
+    word-wrap: break-word;
+
+    p {
+        margin-bottom: 0;
+    }
+
+    [bs-button-group] {
+
+        justify-content: flex-end;
+        margin-bottom: 0;
+
+        [bs-button] {
+            height: auto;
+            border: 0;
+            box-shadow: 0 0 0 0;
+            border-radius: 0;
+            &:active {
+                box-shadow: 0px 0px 1px rgba(black, .3) inset;
+            }
+            &:last-child {
+            }
+        }
+    }
+}
+
+[bs-list~="inline"] {
+    li {
+        display: inline-block;
+    }
+}
+
+//
+// Bordered lists
+//
+[bs-list~="bordered"] {
+
+    > li {
+
+        padding: ($half-spacing - 3px) $half-spacing;
+        border-bottom: 1px solid $grey-border;
+
+        &:first-child {
+            border-top: 1px solid $grey-border;
+        }
+    }
+}
+
+//
+// In-list controls
+//
+[bs-list~="inline-controls"] {
+
+    word-wrap: break-word;
+
+    p {
+        margin-bottom: $half-spacing/2;
+    }
+
+    li {
+
+        background: $white;
+        position: relative;
+        padding-left: $half-spacing;
+        transition: background .5s;
+
+        &:hover {
+
+            background: $grey-bg;
+
+            [bs-button~="subtle-alt"] {
+                color: $black;
+            }
+
+            [bs-button] {
+                background: transparent;
+                &:hover {
+                    color: $red;
+                }
+            }
+        }
+
+        // On wide screens, allow inline-buttons to sit on same line.
+        @include media-query(min, $desk-start) {
+
+            padding: 0;
+            padding-left: $half-spacing;
+            display: flex;
+
+            p {
+                margin-bottom: 0;
+                flex: 1;
+                padding-top: 11px;
+                padding-bottom: 11px;
+            }
+        }
+    }
+
+    [bs-button-group] {
+
+        margin-bottom: 0;
+
+        [bs-button~="icon-left"] {
+
+            line-height: 35px;
+
+            [bs-svg-icon] {
+                top: 12px;
+            }
+        }
+
+        [bs-svg-icon] {
+            top: 4px;
+            width:  22px;
+            height: 22px;
+        }
+    }
+}
+
+[bs-tag] {
+    position: absolute;
+    right: calc(100% + 10px);
+    text-transform: uppercase;
+    font-size: 10px;
+    background: #f1f1f1;
+    border-radius: 3px;
+    padding: 1px 3px;
+    top: 6px;
+    text-align: center;
+
+    span {
+        color: darken(#f1f1f1, 20%);
+        display: block;
+    }
+}
+
+[bs-tag~="offset"] {
+    top: 44px;
+    @include media-query(min, $lap-start) {
+        top: 6px;
+        right: auto;
+        left: -86px;
+    }
+}
+
+//
+// Padded-left variant of the bs-list
+//
+[bs-list~="padded-left"] {
+    li {
+        padding-left: $half-spacing;
+    }
+}
+
+//
+// Basic version of a list
+//
+[bs-list~="basic"] {
+    list-style: circle;
+    margin-left: $base-spacing;
+}
+
+//
+// Offset thing
+//
+[bs-offset~="basic"] {
+
+    > li {
+
+        padding-left: $base-spacing;
+
+        @include media-query(min, $lap-start) {
+            padding-left: $base-spacing*1.5;
+        }
+    }
+}

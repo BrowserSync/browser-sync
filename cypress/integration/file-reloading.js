@@ -4,14 +4,14 @@ describe('Reloading files', function() {
             cy.visit(Cypress.env('BS_URL'));
         });
         it('should reload single <link>', function() {
-            cy.exec('touch test/fixtures/**/style.css');
+            cy.exec('touch packages/browser-sync/test/fixtures/**/style.css');
             cy.get('[id="css-style"]').should($link => {
                 const url = new URL($link.attr('href'));
                 expect(url.search).to.contain('?browsersync=');
             });
         });
         it('should reload 2 css files', function() {
-            cy.exec('touch test/fixtures/**/*.css');
+            cy.exec('touch packages/browser-sync/test/fixtures/**/*.css');
             cy.get('link').should($links => {
                 $links.each((i, elem) => {
                     const url = new URL(elem.href);
@@ -57,7 +57,7 @@ describe('Reloading files', function() {
                 const href = firstStyle.sheet.cssRules[0].href;
                 expect(href).to.not.contain('?browsersync=');
             });
-            cy.exec('touch test/fixtures/assets/import.css');
+            cy.exec('touch packages/browser-sync/test/fixtures/assets/import.css');
             cy.get('style').eq(0).should((style) => {
                 const href = style[0].sheet.cssRules[0].href;
                 expect(href).to.contain('?browsersync=');
@@ -69,7 +69,7 @@ describe('Reloading files', function() {
                 const href = doc.styleSheets[0].cssRules[0].href;
                 expect(href).to.not.contain('?browsersync=');
             });
-            cy.exec('touch test/fixtures/assets/import2.css');
+            cy.exec('touch packages/browser-sync/test/fixtures/assets/import2.css');
             cy.get('link').eq(0).should((link) => {
                 const href = link[0].sheet.cssRules[0].href;
                 expect(href).to.contain('?browsersync=');
@@ -81,7 +81,7 @@ describe('Reloading files', function() {
             cy.visit(Cypress.env('BS_URL') + '/images.html');
         });
         it('should reload single <img src>', function() {
-            cy.exec('touch test/fixtures/**/cam-secure.png');
+            cy.exec('touch packages/browser-sync/test/fixtures/**/cam-secure.png');
             cy.get('[id="img-src-attr"]').should($link => {
                 const url = new URL($link.attr('src'));
                 expect(url.search).to.contain('?browsersync=');
@@ -93,7 +93,7 @@ describe('Reloading files', function() {
             });
         });
         it('should reload single style backgroundImage style property', function() {
-            cy.exec('touch test/fixtures/**/cam-secure-02.png');
+            cy.exec('touch packages/browser-sync/test/fixtures/**/cam-secure-02.png');
             cy.get('[id="img-src-attr"]').should($link => {
                 expect($link.attr('src')).not.to.contain('?browsersync=');
             });
@@ -104,7 +104,7 @@ describe('Reloading files', function() {
             });
         });
         it('should reload both images', function() {
-            cy.exec('touch test/fixtures/**/*.png');
+            cy.exec('touch packages/browser-sync/test/fixtures/**/*.png');
             cy.get('[id="img-src-attr"]').should($link => {
                 const url = new URL($link.attr('src'));
                 expect(url.search).to.contain('?browsersync=');

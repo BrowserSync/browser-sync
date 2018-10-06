@@ -1,0 +1,34 @@
+hr {
+    border-color: $grey-border;
+}
+
+code {
+
+    color: $teal;
+}
+
+pre {
+
+    overflow: auto;
+    white-space: pre;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    padding: $half-spacing/2 $half-spacing;
+    color: $white;
+    background: $navy;
+    border-radius: $half-radius;
+
+    code {
+        color: $white;
+        line-height: 1.25;
+    }
+}
+
+[bs-stack] {
+    margin-bottom: $half-spacing;
+}
+
+[bs-pointer~="default"] {
+    cursor: pointer;
+}
+

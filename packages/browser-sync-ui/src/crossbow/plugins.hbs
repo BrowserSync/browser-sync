@@ -1,0 +1,132 @@
+---
+layout: main.hbs
+title: "Plugins"
+icon: "plug"
+plugins: ['HTML Injector']
+---
+<div bs-panel="controls outline">
+    <h1 bs-heading>{{ inc src="icon.hbs" icon=page.icon }} {{page.title}}</h1>
+</div>
+<div>
+    <section bs-panel="switch">
+        <div bs-panel-content="">
+            <div bs-panel-icon="switch">
+                <div class="switch">
+                    <input id="cmn-form-{{@index}}"
+                           ng-model="plugin.active"
+                           ng-change="togglePlugin(plugin)"
+                           class="cmn-toggle cmn-toggle-round"
+                           type="checkbox"
+                           checked="">
+                    <label for="cmn-form-{{@index}}"></label>
+                </div>
+            </div>
+            <div>
+                <p bs-text="lede">Rewrite Rules</p>
+            </div>
+        </div>
+        <div bs-panel-content>
+            <p>
+                <button id="create-rewrite-rule" bs-button="size-small subtle-alt icon-left" ng-click="ctrl.showInputs();">
+                    <svg bs-svg-icon=""><use xlink:href="#svg-circle-plus"></use></svg>
+                    Add Rewrite Rule
+                </button>
+            </p>
+        </div>
+        <div bs-panel-content>
+            <div bs-inputs bs-grid="desk-2">
+                <div>
+                    <p bs-label-heading=""><b>Current Replacements</b></p>
+                    <ul bs-list="bordered inline-controls leading-controls" bs-flush="bottom">
+                        <p>Rule <b>1 <span style="color: #e1e1e1; margin-left: 10px">id: rewrite-1</span></b></p>
+                        <li bs-input="text">
+                            <span bs-tag>Match <span>string</span></span>
+                            <p bs-text="mono">&lt;script async="" src="/browser-sync/browser-sync-client.2.7.12.js"&gt;&lt;/script&gt;&lt;script async=""</p>
+                            <div bs-button-group="">
+                                <button href="#" bs-button="subtle-alt icon">
+                                    <svg bs-svg-icon=""><use xlink:href="#svg-pencil"></use></svg>
+                                </button>
+                                <button href="#" bs-button="subtle-alt icon" ng-click="ctrl.destroyServer(item, key)" class="ng-click-active">
+                                    <svg bs-svg-icon=""><use xlink:href="#svg-circle-play"></use></svg>
+                                </button>
+                                <button href="#" bs-button="subtle-alt icon" ng-click="ctrl.destroyServer(item, key)" class="ng-click-active">
+                                    <svg bs-svg-icon=""><use xlink:href="#svg-bin"></use></svg>
+                                </button>
+                            </div>
+                        </li>
+                        <li>
+                            <span bs-tag>Replace<span>function</span></span>
+                            <p bs-text="mono">function (match) { return &quot;localhost:3003&quot; + namespace; }</p>
+                        </li>
+                    </ul>
+                    <ul bs-list="bordered inline-controls leading-controls">
+
+                        <li>
+                            <span bs-tag>Match <span>regex</span></span>
+                            <p bs-text="mono">/skin/default/assets/(.+?)</p>
+                            <div bs-button-group="">
+                                <button href="#" bs-button="subtle-alt icon">
+                                    <svg bs-svg-icon=""><use xlink:href="#svg-pencil"></use></svg>
+                                </button>
+                                <button href="#" bs-button="subtle-alt icon" ng-click="ctrl.destroyServer(item, key)" class="ng-click-active">
+                                    <svg bs-svg-icon=""><use xmlns:xlink="http://www.w3.org/1999/xlink"
+                                                             xlink:href="#svg-circle-pause"></use></svg>
+                                </button>
+                                <button href="#" bs-button="subtle-alt icon" ng-click="ctrl.destroyServer(item, key)" class="ng-click-active">
+                                    <svg bs-svg-icon=""><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svg-bin"></use></svg>
+                                </button>
+                            </div>
+                        </li>
+                        <li>
+                            <span bs-tag>Replace<span>string</span></span>
+                            <p bs-text="mono">&lt;link rel=&quot;apple-touch-icon&quot; sizes=&quot;114x114&quot; href=&quot;http://www.sunspel.com/skin/frontend/sunspel/default/assets/img/114x114.png&quot;&gt;
+                                &lt;link rel=&quot;apple-touch-icon&quot; sizes=&quot;144x144&quot; href=&quot;http://www.sunspel.com/skin/frontend/sunspel/default/assets/img/144x144.png&quot;&gt;</p>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section bs-panel="switch">
+        <div bs-panel-content="">
+            <div bs-panel-icon="switch">
+                <div class="switch">
+                    <input id="cmn-form-{{@index}}"
+                           ng-model="plugin.active"
+                           ng-change="togglePlugin(plugin)"
+                           class="cmn-toggle cmn-toggle-round"
+                           type="checkbox"
+                           checked="">
+                    <label for="cmn-form-{{@index}}"></label>
+                </div>
+            </div>
+            <div>
+                <p bs-text="lede">HTML Injector</p>
+            </div>
+        </div>
+        <div bs-panel-content>
+            <p>Default behaviour is to compare the entire page. You can also restrict the comparisons
+                for localized edits.</p>
+        </div>
+        <div bs-panel-content>
+            <div bs-inputs bs-grid="desk-2">
+                <div bs-grid-item="padded-right">
+                    {{inc src="form.input.text.hbs" title="New Restriction" value="" placeholder="eg: #main"}}
+                </div>
+                <div bs-grid-item>
+                    <p bs-label-heading=""><b>Current Restrictions:</b></p>
+                    <ul bs-list="bordered inline-controls">
+                        <li><p bs-text="mono">#main</p><div bs-button-group="">
+                            <button href="#" bs-button="subtle-alt icon" ng-click="ctrl.destroyServer(item, key)" class="ng-click-active">
+                                <svg bs-svg-icon=""><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svg-bin"></use></svg>
+                            </button>
+                        </div></li>
+                        <li><p bs-text="mono">#header</p></li>
+                        <li><p bs-text="mono">#footer</p></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+    <br/>
+</div>

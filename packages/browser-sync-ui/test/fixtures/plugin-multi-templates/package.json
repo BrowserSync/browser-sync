@@ -1,0 +1,50 @@
+{
+  "name": "bs-test-plugin",
+  "version": "1.5.2",
+  "description": "Fixture plugin",
+  "main": "index.plugin.js",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/shakyshane/test-plugin.git"
+  },
+  "bugs": {
+    "url": "https://github.com/shakyshane/test-plugin/issues"
+  },
+  "scripts": {
+    "test": "mocha --reporter spec"
+  },
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "browser-sync": "^2.3.1",
+    "chai": "^1.9.1",
+    "mocha": "^1.21.4",
+    "multiline": "^0.3.4",
+    "socket.io-client": "^1.1.0"
+  },
+  "dependencies": {
+    "dom-compare-temp": "^0.1.0",
+    "jsdom": "^3.1.2",
+    "lodash": "^2.4.1",
+    "opt-merger": "^0.2.1",
+    "debug": "^2.1.3",
+    "request": "^2.40.0"
+  },
+  "keywords": [
+    "browser sync plugin",
+    "html injection"
+  ],
+  "browser-sync:ui": {
+    "hooks": {
+      "markup": "ui/test.html",
+      "templates": [
+        "ui/test.directive.html",
+        "ui/test.list.html"
+      ],
+      "client:js": [
+        "ui/client.js",
+        "ui/client2.js"
+      ]
+    }
+  }
+}

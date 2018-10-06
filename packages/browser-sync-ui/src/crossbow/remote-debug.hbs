@@ -1,0 +1,36 @@
+---
+layout: main.hbs
+title: "Remote Debug"
+icon: "bug"
+plugins:
+    - name: "CSS Outlining"
+      info: "Add simple CSS outlines to all elements. (powered by pesitice"
+---
+<div bs-panel="controls outline">
+    <h1 bs-heading>{{ inc src="icon.hbs" icon=page.icon }} {{page.title}}</h1>
+</div>
+{{ inc src="enable.disable.hbs" }}
+<div>
+    {{#each page.plugins}}
+    <section bs-panel="switch" class="disabled">
+        <div bs-panel-content="">
+            <div bs-panel-icon="switch">
+                <div class="switch">
+                    <input id="cmn-form-{{@index}}"
+                           ng-model="plugin.active"
+                           ng-change="togglePlugin(plugin)"
+                           class="cmn-toggle cmn-toggle-round"
+                           type="checkbox">
+                    <label for="cmn-form-{{@index}}"></label>
+                </div>
+            </div>
+            <div>
+                <p bs-text="lede">{{this.name}}</p>
+                <p>Some Awesome tagline here</p>
+            </div>
+        </div>
+    </section>
+    {{/each}}
+    {{inc src="components/switches.hbs" }}
+    <br/>
+</div>

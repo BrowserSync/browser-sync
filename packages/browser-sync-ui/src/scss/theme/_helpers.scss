@@ -1,0 +1,122 @@
+.flush--bottom {
+    margin-bottom: 0!important;
+}
+
+.text--cap {
+    text-transform: capitalize;
+}
+
+.color--lime {
+    color: $lime;
+}
+
+.hidden {
+    display: none;
+    &.active {
+        display: block;
+    }
+}
+
+%item-stack {
+    margin-bottom: $half-spacing;
+}
+
+[bs-stack] {
+    margin-bottom: $half-spacing;
+}
+
+
+span.sep {
+    margin-left:  5px;
+    margin-right: 5px;
+}
+
+@include media-query(min, $lap-start) {
+    .width-100 { width: 100%!important; }
+    .width-90  { width: 90%!important; }
+    .width-80  { width: 80%!important; }
+    .width-70  { width: 70%!important; }
+    .width-60  { width: 60%!important; }
+    .width-50  { width: 50%!important; }
+    .width-40  { width: 40%!important; }
+    .width-30  { width: 30%!important; }
+    .width-20  { width: 20%!important; }
+}
+
+@include media-query(min, $lap-start) {
+    [bs-width~="100"] { width: 100%!important; }
+    [bs-width~="90"]  { width: 90%!important; }
+    [bs-width~="80"]  { width: 80%!important; }
+    [bs-width~="70"]  { width: 70%!important; }
+    [bs-width~="60"]  { width: 60%!important; }
+    [bs-width~="50"]  { width: 50%!important; }
+    [bs-width~="40"]  { width: 40%!important; }
+    [bs-width~="30"]  { width: 30%!important; }
+    [bs-width~="25"]  { width: 25%!important; }
+    [bs-width~="20"]  { width: 20%!important; }
+
+    [bs-width~="10"]  {
+        flex: 0 0 10%!important;
+    }
+    [bs-width~="5"]  {
+        flex: 0 0 5%!important;
+    }
+}
+
+[bs-text~="lede"] {
+    @include font-size(18px);
+}
+
+[bs-text~="mono"] {
+    font-weight: normal;
+    @include font-size(16px);
+    font-family: monospace;
+    color: $black;
+}
+
+[bs-text~="micro"] {
+    @include font-size(12px);
+    text-transform: uppercase;
+    color: darken($grey-border, 10%);
+    width: 60px;
+    display: inline-block;
+    text-align: right;
+    margin-right: 5px;
+}
+
+[bs-color~="white"] {
+    color: $white;
+}
+
+[bs-color~="success"] {
+    color: $lime;
+}
+
+[bs-visible] {
+
+}
+
+[bs-visible~="not-desk"] {
+    @include media-query(min, $desk-start) {
+        display: none;
+    }
+}
+
+[bs-visible~="not-palm"] {
+    display: none!important;
+    @include media-query(min, $lap-start) {
+        display: inherit!important;
+    }
+}
+
+[bs-visible~="palm"] {
+    @include media-query(min, $lap-start) {
+        display: none;
+    }
+}
+
+[bs-sep] {
+    color: darken($grey-border, 10%);
+    margin-left: 3px;
+    margin-right: 3px;
+}

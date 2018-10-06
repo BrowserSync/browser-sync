@@ -1,0 +1,62 @@
+---
+layout: components.hbs
+title: "Components"
+sections:
+    - name: "Typography"
+      file: "components/type.hbs"
+      tube: true
+    - name: "Buttons"
+      file: "components/buttons.hbs"
+      tube: true
+    - name: "Button bars"
+      file: "components/button-bars.hbs"
+      tube: true
+    - name: "Form inputs"
+      file: "components/forms.hbs"
+      tube: true
+    - name: "Lists"
+      file: "components/lists.hbs"
+      tube: false
+    - name: "Headings"
+      file: "components/heading.hbs"
+      tube: true
+    - name: "Panels"
+      file: "components/panels.hbs"
+      tube: false
+    - name: "Header"
+      file: "components/header.hbs"
+      tube: false
+    - name: "Switches"
+      file: "components/switches.hbs"
+      tube: false
+---
+<link rel="stylesheet" href="css/components.css" />
+{{ inc src="../../public/img/icons/svg/symbols.svg" }}
+
+<div class="tube">
+    <h1>Browsersync UI Components</h1>
+    <p>Also, you can view static representations of each section:</p>
+    <ul bs-list="inline" class="">
+    {{#each site.sections}}
+        <li>
+            <a href="{{this.href}}" {{#current this.href}} class="active"{{/current}}>{{this.title}}</a> {{#if @last}}{{else}}<span bs-sep>|</span>{{/if}}
+        </li>
+    {{/each}}
+    </ul>
+    <hr/>
+</div>
+
+{{#each page.sections}}
+{{#if this.tube}}
+<div class="tube">
+    <h1>{{this.name}}</h1>
+    {{inc src=this.file title=this.name }}
+    </div>
+<hr/>
+{{else}}
+    <div class="tube">
+        <h1>{{this.name}}</h1>
+    </div>
+    {{inc src=this.file title=this.name }}
+{{/if}}
+{{/each}}

@@ -1,0 +1,98 @@
+{
+    "files": [],
+    "server": {
+        "baseDir": "./test/fixtures",
+        "middleware": []
+    },
+    "proxy": false,
+    "port": 3000,
+    "ghostMode": {
+        "clicks": true,
+        "scroll": true,
+        "forms": {
+            "submit": true,
+            "inputs": true,
+            "toggles": true
+        }
+    },
+    "logLevel": "info",
+    "logPrefix": "BS",
+    "logConnections": false,
+    "logFileChanges": true,
+    "logSnippet": true,
+    "snippetOptions": {
+        "rule": {
+            "match": {}
+        }
+    },
+    "open": false,
+    "browser": "default",
+    "xip": false,
+    "hostnameSuffix": false,
+    "notify": true,
+    "scrollProportionally": true,
+    "scrollThrottle": 0,
+    "reloadDelay": 0,
+    "injectChanges": true,
+    "startPath": null,
+    "minify": true,
+    "host": "192.168.0.2",
+    "codeSync": true,
+    "timestamps": true,
+    "socket": {
+        "path": "/browser-sync/socket.io",
+        "clientPath": "/browser-sync",
+        "namespace": "/browser-sync"
+    },
+    "injectFileTypes": [
+        "css",
+        "png",
+        "jpg",
+        "jpeg",
+        "svg",
+        "gif",
+        "webp"
+    ],
+    "excludedFileTypes": [
+        "js",
+        "css",
+        "pdf",
+        "map",
+        "svg",
+        "ico",
+        "woff",
+        "json",
+        "eot",
+        "ttf",
+        "png",
+        "jpg",
+        "jpeg",
+        "webp",
+        "gif",
+        "mp4",
+        "mp3",
+        "3gp",
+        "ogg",
+        "ogv",
+        "webm",
+        "m4a",
+        "flv",
+        "wmv",
+        "avi",
+        "swf",
+        "scss"
+    ],
+    "debugInfo": true,
+    "version": "1.8.1",
+    "online": true,
+    "external": "192.168.0.2",
+    "urls": {
+        "local": "http://localhost:3000",
+        "external": "http://192.168.0.2:3000"
+    },
+    "snippet": "<script type='text/javascript' id=\"__bs_script__\">//<![CDATA[\n    document.write(\"<script async src='/browser-sync/browser-sync-client.1.8.1.js'><\\/script>\".replace(/HOST/g, location.hostname).replace(/PORT/g, location.port));\n//]]></script>",
+    "scriptPaths": {
+        "path": "/browser-sync/browser-sync-client.js",
+        "versioned": "/browser-sync/browser-sync-client.1.8.1.js"
+    }
+}
