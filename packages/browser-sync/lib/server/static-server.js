@@ -1,10 +1,7 @@
-"use strict";
-
-var connect = require("connect");
 var serverUtils = require("./utils.js");
 var resolve = require("path").resolve;
 var utils = require("../utils.js");
-var serveStatic = require("serve-static");
+var serveStatic = require("./serve-static-wrapper").default();
 var serveIndex = require("serve-index");
 
 /**

@@ -333,6 +333,6 @@ export function defaultCallback(err?: Error) {
 
 export const portscanner = portScanner;
 export const connect = require("connect");
-export const serveStatic = require("serve-static");
+export const serveStatic = require("./server/serve-static-wrapper").default();
 export const easyExtender = require("easy-extender");
 export {UAParser, devIp};

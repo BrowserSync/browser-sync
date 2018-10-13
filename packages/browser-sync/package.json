@@ -56,6 +56,7 @@
     "raw-body": "^2.3.2",
     "resp-modifier": "6.0.2",
     "rx": "4.1.0",
+    "send": "0.16.2",
     "serve-index": "1.9.1",
     "serve-static": "1.13.2",
     "server-destroy": "1.0.1",
