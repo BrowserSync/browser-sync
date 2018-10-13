@@ -11,10 +11,10 @@
   "dependencies": {
     "@types/node": "^8",
     "chai": "^3",
-    "cypress": "^3.1.0",
     "compression": "^1",
     "connect-history-api-fallback": "^1",
     "crossbow": "^4",
+    "cypress": "^3.1.0",
     "eazy-logger": "^3",
     "immutable": "^3",
     "mocha": "^5",
