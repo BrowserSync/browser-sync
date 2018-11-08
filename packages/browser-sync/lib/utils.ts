@@ -141,10 +141,7 @@ export function getPort(host: string, port: number|string, max: number|string|nu
     portScanner.findAPortNotInUse(
         port,
         max,
-        {
-            host: host,
-            timeout: 1000
-        },
+        host,
         cb
     );
 }
