@@ -22,15 +22,15 @@ sections:
     href:  "/help.html"
 
 links:
-  github:  "https://github.com/Browsersync/UI/"
-  issues:  "https://github.com/Browsersync/UI/issues"
+  github:  "https://github.com/BrowserSync/browser-sync/"
+  issues:  "https://github.com/BrowserSync/browser-sync/issues"
   twitter: "https://twitter.com/browsersync"
-  home:    "http://browsersync.io"
-  stackoverflow:  "http://stackoverflow.com/questions/tagged/browser-sync"
-  snippetOptions: "http://www.browsersync.io/docs/options/#option-snippetOptions"
+  home:    "https://browsersync.io"
+  stackoverflow:  "https://stackoverflow.com/questions/tagged/browser-sync"
+  snippetOptions: "https://www.browsersync.io/docs/options/#option-snippetOptions
   contributing: "https://github.com/shakyShane/browser-sync/blob/master/CONTRIBUTING.md"
-  options: "http://www.browsersync.io/docs/options/#option"
-  jh: "http://www.wearejh.com"
+  options: "https://www.browsersync.io/docs/options"
+  jh: "https://wearejh.com"
 
 project:
   name: "Browsersync.io"
