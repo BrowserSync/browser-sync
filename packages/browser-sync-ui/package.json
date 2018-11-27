@@ -42,7 +42,6 @@
     "jshint": "^2.8.0",
     "mocha": "^5",
     "no-abs": "0.0.0",
-    "nodemon": "^1.8.1",
     "object-path": "^0.9.2",
     "parallelshell": "^2.0.0",
     "pretty-js": "^0.1.8",
