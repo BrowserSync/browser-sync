@@ -181,10 +181,14 @@ var serverUtils = {
          * Add connect-history-api-fallback if 'single' argument given
          */
         if (bs.options.get("single")) {
+            var historyConfig = {};
+            if (bs.options.get("index")) {
+                historyConfig.index = join('/', bs.options.get("index"))
+            }
             defaultMiddlewares.unshift({
                 id: "Browsersync SPA support",
                 route: "",
-                handle: require("connect-history-api-fallback")()
+                handle: require("connect-history-api-fallback")(historyConfig)
             });
         }
 
