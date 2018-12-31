@@ -13,15 +13,15 @@
     "chai": "^3",
     "compression": "^1",
     "connect-history-api-fallback": "^1",
-    "crossbow": "^4",
+    "crossbow": "^4.3.1",
     "cypress": "^3.1.0",
     "eazy-logger": "^3",
     "immutable": "^3",
     "mocha": "^5",
-    "request": "^2",
+    "request": "^2.87.0",
     "sinon": "^1",
-    "supertest": "^3",
+    "supertest": "^3.1.0",
     "typescript": "3.0.3",
-    "webpack": "^3"
+    "webpack": "^4.0.0"
   }
 }
