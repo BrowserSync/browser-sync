@@ -60,7 +60,15 @@ module.exports.init = function(server, clientEvents, bs) {
         client.emit("connection", bs.options.toJS()); //todo - trim the amount of options sent to clients
 
         emitter.emit("client:connected", {
-            ua: client.handshake.headers["user-agent"]
+            ua: client.handshake.headers["user-agent"],
+            ip: client.handshake.address
+        });
+        
+        client.on("disconnect", function() {
+            emitter.emit("client:disconnected", {
+                ua: client.handshake.headers["user-agent"],
+                ip: client.handshake.address
+            });
         });
     }
 
