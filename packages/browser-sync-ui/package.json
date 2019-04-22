@@ -36,7 +36,7 @@
     "angular-touch": "~1.4.8",
     "chai": "^3",
     "compression": "^1",
-    "crossbow": "^4",
+    "crossbow": "^4.3.3",
     "easy-svg": "2.0.0",
     "eazy-logger": "^3",
     "jshint": "^2.8.0",
