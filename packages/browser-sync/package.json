@@ -18,7 +18,7 @@
     "client/dist"
   ],
   "engines": {
-    "node": ">= 0.8.0"
+    "node": ">= 6.0.0"
   },
   "scripts": {
     "env": "node ./test/env.js",
@@ -49,7 +49,7 @@
     "http-proxy": "1.15.2",
     "immutable": "^3",
     "localtunnel": "1.9.1",
-    "micromatch": "^4.0.2",
+    "micromatch": "^3.1.10",
     "opn": "5.3.0",
     "portscanner": "2.1.1",
     "qs": "6.2.3",
