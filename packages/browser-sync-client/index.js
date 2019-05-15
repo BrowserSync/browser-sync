@@ -92,7 +92,7 @@ function init(options, requestBody, type) {
          * Set the appropriate headers for caching
          */
         setHeaders(res, output);
-        if (isConditionalGet(req) && fresh(req.headers, res._headers)) {
+        if (isConditionalGet(req) && fresh(req.headers, res.getHeaders())) {
             return notModified(res);
         }
 
