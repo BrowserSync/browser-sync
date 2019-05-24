@@ -5,8 +5,6 @@ import { tap } from "rxjs/operators/tap";
 import { withLatestFrom } from "rxjs/operators/withLatestFrom";
 import { EffectNames } from "../effects";
 
-const nativeInputValueSetter = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value').set;
-
 export function setElementValueEffect(
     xs: Observable<KeyupEvent.IncomingPayload>,
     inputs: Inputs
@@ -17,10 +15,9 @@ export function setElementValueEffect(
             const elems = document.getElementsByTagName(event.tagName);
             const match = elems[event.index];
             if (match) {
-                const input = match as HTMLInputElement;
-                // Call native value setter and fire a change event
-                nativeInputValueSetter.call(input, event.value);
-                input.dispatchEvent(new Event('change', { bubbles: true}));
+              const nativeInputValueSetter = Object.getOwnPropertyDescriptor(Object.getPrototypeOf(match), 'value').set;
+              nativeInputValueSetter.call(match, event.value);
+              match.dispatchEvent(new Event('change', { bubbles: true }));
             }
         })
     );
