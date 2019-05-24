@@ -15,9 +15,9 @@ export function setElementValueEffect(
             const elems = document.getElementsByTagName(event.tagName);
             const match = elems[event.index];
             if (match) {
-              const nativeInputValueSetter = Object.getOwnPropertyDescriptor(Object.getPrototypeOf(match), 'value').set;
-              nativeInputValueSetter.call(match, event.value);
-              match.dispatchEvent(new Event('change', { bubbles: true }));
+                const nativeInputValueSetter = Object.getOwnPropertyDescriptor(Object.getPrototypeOf(match), 'value').set;
+                nativeInputValueSetter.call(match, event.value);
+                match.dispatchEvent(new Event('change', { bubbles: true }));
             }
         })
     );
