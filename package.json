@@ -6,14 +6,14 @@
   },
   "name": "browser-sync",
   "devDependencies": {
-    "lerna": "^3.13.3"
+    "lerna": "^3.14.1"
   },
   "dependencies": {
     "@types/node": "^8",
     "chai": "^3",
     "compression": "^1",
     "connect-history-api-fallback": "^1",
-    "crossbow": "^4.3.2",
+    "crossbow": "^4.3.3",
     "cypress": "^3.2.0",
     "eazy-logger": "^3",
     "immutable": "^3",
