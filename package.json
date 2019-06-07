@@ -2,7 +2,8 @@
   "private": true,
   "scripts": {
     "bootstrap": "lerna bootstrap --hoist",
-    "build-all": "lerna run build-all"
+    "build-all": "lerna run build-all",
+    "test:e2e": "cb cy:*"
   },
   "name": "browser-sync",
   "devDependencies": {
