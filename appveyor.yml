@@ -2,15 +2,17 @@ init: git config --global core.autocrlf input
 
 shallow_clone: true
 
-version: '1.0.{build}'
+version: "1.0.{build}"
 
 skip_tags: true
 
 environment:
   matrix:
-    - nodejs_version: '8'
-    - nodejs_version: '6'
-    - nodejs_version: '4'
+    - nodejs_version: "12"
+    - nodejs_version: "10"
+    - nodejs_version: "8"
+    - nodejs_version: "6"
+    - nodejs_version: "4"
 
 install:
   - ps: Install-Product node $env:nodejs_version
@@ -20,4 +22,4 @@ test_script: npm test
 
 build: off
 
-cache: node_modules -> package.json
+cache: 'node_modules -> appveyor.yml,package.json,package-lock.json'

@@ -1,8 +1,8 @@
-sudo: false
 git:
   depth: 2
 language: node_js
 node_js:
+  - "12"
   - "10"
   - "8"
   - "6"
