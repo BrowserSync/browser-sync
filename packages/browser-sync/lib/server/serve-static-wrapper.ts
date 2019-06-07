@@ -8,6 +8,5 @@ export default function() {
     const send = require("send");
     send.mime.define({ "application/wasm": ["wasm"] });
 
-
     return serveStatic;
 }
