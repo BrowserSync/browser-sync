@@ -7,22 +7,22 @@
   },
   "name": "browser-sync",
   "devDependencies": {
-    "lerna": "^3.13.3"
+    "lerna": "^3.16.4"
   },
   "dependencies": {
-    "@types/node": "^8",
-    "chai": "^3",
+    "@types/node": "^12",
+    "chai": "^4",
     "compression": "^1",
     "connect-history-api-fallback": "^1",
-    "crossbow": "^4.3.2",
-    "cypress": "^3.2.0",
+    "crossbow": "^4.3.3",
+    "cypress": "^3.4.1",
     "eazy-logger": "^3",
     "immutable": "^3",
-    "mocha": "^5",
+    "mocha": "^6",
     "request": "^2",
-    "sinon": "^1",
-    "supertest": "^3",
-    "typescript": "3.0.3",
-    "webpack": "^3"
+    "sinon": "^7",
+    "supertest": "^4",
+    "typescript": "3.5.3",
+    "webpack": "^4"
   }
 }
