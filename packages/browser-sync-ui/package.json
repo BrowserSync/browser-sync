@@ -30,7 +30,7 @@
     "stream-throttle": "^0.1.3"
   },
   "devDependencies": {
-    "angular": "~1.4.8",
+    "angular": "~1.7.9",
     "angular-route": "~1.4.8",
     "angular-sanitize": "~1.4.8",
     "angular-touch": "~1.4.8",
