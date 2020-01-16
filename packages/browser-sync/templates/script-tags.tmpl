@@ -1,3 +1,6 @@
 <script id="__bs_script__">//<![CDATA[
-    document.write("<script %async% src='%script%'><\/script>".replace("HOST", location.hostname));
+    let script = document.createElement('script');
+    script.setAttribute('async', '');
+    script.setAttribute('src', '%script%'.replace("HOST", location.hostname));
+    document.body.appendChild(script);
 //]]></script>
