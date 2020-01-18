@@ -54,7 +54,7 @@ function getHttpsServerDefaults(options) {
         key: getKey(options),
         cert: getCert(options),
         ca: getCa(options),
-        passphrase: ""
+        passphrase: options.getIn(["https", "passphrase"], "")
     });
 }
 
