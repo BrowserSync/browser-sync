@@ -60,7 +60,7 @@
             "ghostMode.submit":  "Form Submissions will be synced",
             "ghostMode.inputs":  "Text inputs (including text-areas) will be synced",
             "ghostMode.toggles": "Radio + Checkboxes changes will be synced",
-            codeSync:            "Reload or Inject files they change"
+            codeSync:            "Reload or Inject files when they change"
         };
 
         // If watching files, add the code-sync toggle
