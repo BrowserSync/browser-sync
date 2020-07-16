@@ -7,15 +7,15 @@
   },
   "name": "browser-sync",
   "devDependencies": {
-    "lerna": "^3.13.3"
+    "lerna": "3.22.1"
   },
   "dependencies": {
     "@types/node": "^8",
     "chai": "^3",
     "compression": "^1",
     "connect-history-api-fallback": "^1",
-    "crossbow": "^4.3.2",
-    "cypress": "^3.2.0",
+    "crossbow": "^4.6.0",
+    "cypress": "^4.10.0",
     "eazy-logger": "^3",
     "immutable": "^3",
     "mocha": "^5",
@@ -23,6 +23,6 @@
     "sinon": "^1",
     "supertest": "^3",
     "typescript": "3.0.3",
-    "webpack": "^3"
+    "webpack": "^4"
   }
 }
