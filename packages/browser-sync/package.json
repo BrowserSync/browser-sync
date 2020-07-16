@@ -61,7 +61,7 @@
     "serve-static": "1.13.2",
     "server-destroy": "1.0.1",
     "socket.io": "2.1.1",
-    "ua-parser-js": "0.7.17",
+    "ua-parser-js": "^0.7.18",
     "yargs": "6.4.0"
   },
   "devDependencies": {
