@@ -37,7 +37,7 @@
     "browser-sync-ui": "^2.26.4",
     "bs-recipes": "1.3.4",
     "bs-snippet-injector": "^2.0.1",
-    "chokidar": "^2.0.4",
+    "chokidar": "^3.3.0",
     "connect": "3.6.6",
     "connect-history-api-fallback": "^1",
     "dev-ip": "^1.0.1",
