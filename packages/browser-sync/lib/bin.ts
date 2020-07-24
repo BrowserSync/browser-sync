@@ -43,7 +43,7 @@ function runFromCli() {
         .command("init", "Create a configuration file")
         .command("reload", "Send a reload event over HTTP protocol")
         .command("recipe", "Generate the files for a recipe")
-        .version(() => pkg.version)
+        .version(pkg.version)
         .epilogue(
             [
                 "For help running a certain command, type <command> --help",
