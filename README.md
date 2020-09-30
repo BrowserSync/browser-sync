@@ -53,11 +53,11 @@ browserSync({server: true}, function(err, bs) {
 });
 ```
 
-## Install and trouble shooting
+## Installation and trouble shooting
 
 [browsersync.io docs](https://browsersync.io)
 
-## Integrations / recipes
+## Integrations / Recipes
 
 [Browsersync recipes](https://github.com/Browsersync/recipes)
 
