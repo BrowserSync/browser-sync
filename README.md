@@ -27,6 +27,7 @@
 ## Features
 
 Please visit [browsersync.io](https://browsersync.io) for a full run-down of features
+A great app to work on!
 
 ## Requirements
 
