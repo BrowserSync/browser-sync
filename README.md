@@ -24,11 +24,11 @@
 <p align="center">Follow <a href="https://twitter.com/browsersync">@Browsersync</a> on twitter for news & updates.</p>
 <p align="center">Community <a href="https://browsersync.herokuapp.com"><img src="https://browsersync.herokuapp.com/badge.svg" /></a></p>
 
-## Features
+## Feat wex
 
 Please visit [browsersync.io](https://browsersync.io) for a full run-down of features
 
-## Requirements
+## Requirements of right
 
 Browsersync works by injecting an asynchronous script tag (`<script async>...</script>`) right after the `<body>` tag
 during initial request. In order for this to work properly the `<body>` tag must be present. Alternatively you
