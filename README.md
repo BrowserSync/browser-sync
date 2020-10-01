@@ -24,7 +24,7 @@
 <p align="center">Follow <a href="https://twitter.com/browsersync">@Browsersync</a> on twitter for news & updates.</p>
 <p align="center">Community <a href="https://browsersync.herokuapp.com"><img src="https://browsersync.herokuapp.com/badge.svg" /></a></p>
 
-## Features
+## Amazing Features
 
 Please visit [browsersync.io](https://browsersync.io) for a full run-down of features
 
