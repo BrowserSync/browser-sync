@@ -26,13 +26,13 @@
 
 ## Features
 
-Please visit [browsersync.io](https://browsersync.io) for a full run-down of features
+Please visit [browsersync.io](https://browsersync.io) for a full run-down of features.
 
 ## Requirements
 
 Browsersync works by injecting an asynchronous script tag (`<script async>...</script>`) right after the `<body>` tag
 during initial request. In order for this to work properly the `<body>` tag must be present. Alternatively you
-can provide a custom rule for the snippet using [snippetOptions](https://www.browsersync.io/docs/options/#option-snippetOptions)
+can provide a custom rule for the snippet using [snippetOptions](https://www.browsersync.io/docs/options/#option-snippetOptions).
 
 ## Upgrading from 1.x to 2.x ?
 Providing you haven't accessed any internal properties, everything will just work as
