@@ -29,6 +29,7 @@
 Please visit [browsersync.io](https://browsersync.io) for a full run-down of features
 
 ## Requirements
+## Note
 
 Browsersync works by injecting an asynchronous script tag (`<script async>...</script>`) right after the `<body>` tag
 during initial request. In order for this to work properly the `<body>` tag must be present. Alternatively you
