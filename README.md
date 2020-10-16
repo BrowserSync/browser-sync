@@ -1,4 +1,5 @@
 <p align="center">
+Please Install
 <a href="https://ci.appveyor.com/project/shakyShane/browser-sync" title="AppVeyor branch">
  <img src="https://img.shields.io/appveyor/ci/shakyshane/browser-sync/master.svg?style=flat-square&label=windows" />
 </a><a href="https://travis-ci.org/BrowserSync/browser-sync" title="Travis branch">
