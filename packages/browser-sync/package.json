@@ -51,7 +51,7 @@
     "localtunnel": "^2.0.0",
     "micromatch": "^4.0.2",
     "opn": "5.3.0",
-    "portscanner": "2.1.1",
+    "portscanner": "2.2.0",
     "qs": "6.2.3",
     "raw-body": "^2.3.2",
     "resp-modifier": "6.0.2",
