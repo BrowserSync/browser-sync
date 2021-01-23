@@ -42,6 +42,11 @@ module.exports.init = function(server, clientEvents, bs) {
 
     io.set("heartbeat interval", socketConfig.clients.heartbeatTimeout);
 
+    // Breaking change was introduced https://socket.io/blog/socket-io-2-4-0/
+    io.origins((_, callback) => {
+        callback(null, true);
+    });
+
     /**
      * Listen for new connections
      */

@@ -97,7 +97,7 @@ function insertPageMarkupFromHooks(app, pages, markup) {
         if (req.url === "/" || pages[req.url.slice(1)]) {
             res.writeHead(200, {"Content-Type": "text/html", "Content-Encoding": "gzip"});
             if (!cached) {
-                var buf = new Buffer(markup, "utf-8");
+                var buf = Buffer.from(markup, "utf-8");
                 zlib.gzip(buf, function (_, result) {
                     cached = result;
                     res.end(result);
@@ -138,7 +138,7 @@ function serveFile(path, type, string) {
         if (gzipCache[path]) {
             return res.end(gzipCache[path]);
         }
-        var buf = new Buffer(string, "utf-8");
+        var buf = Buffer.from(string, "utf-8");
         zlib.gzip(buf, function (_, result) {
             gzipCache[path] = result;
             res.end(result);
