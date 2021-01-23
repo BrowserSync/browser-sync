@@ -18,6 +18,7 @@
   "scripts": {
     "e2e": "./test/pro.sh",
     "selenium": "webdriver-manager start",
+    "test": "cb test",
     "build-all": "cb build-all"
   },
   "dependencies": {
