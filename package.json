@@ -1,8 +1,10 @@
 {
   "private": true,
   "scripts": {
-    "bootstrap": "lerna bootstrap --hoist",
+    "bootstrap": "lerna bootstrap",
+    "postinstall": "npm run bootstrap",
     "build-all": "lerna run build-all",
+    "test": "lerna run test",
     "test:e2e": "cb cy:*"
   },
   "name": "browser-sync",

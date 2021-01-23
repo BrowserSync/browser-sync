@@ -25,8 +25,6 @@
     "node": ">=8.0.0"
   },
   "scripts": {
-    "start": "cb dev",
-    "test": "cb test",
     "build-all": "cb build-all",
     "prepublishOnly": "cb build-all"
   },

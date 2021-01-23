@@ -2,6 +2,6 @@ git:
   depth: 2
 language: node_js
 node_js:
+  - "14"
   - "12"
   - "10"
-  - "8"

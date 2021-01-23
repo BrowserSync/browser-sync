@@ -103,7 +103,7 @@ function init(options, requestBody, type) {
          */
         if (supportsGzip(req)) {
             res.setHeader("Content-Encoding", "gzip");
-            var buf = new Buffer(output, "utf-8");
+            var buf = Buffer.from(output, "utf-8");
             zlib.gzip(buf, function(_, result) {
                 res.end(result);
             });
