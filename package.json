@@ -3,7 +3,6 @@
   "scripts": {
     "bootstrap": "lerna bootstrap",
     "build-all": "lerna run build-all",
-    "test": "lerna run test",
     "test:e2e": "cb cy:*"
   },
   "name": "browser-sync",
