@@ -1,7 +1,7 @@
 {
 	"name": "browser-sync-ui",
 	"description": "User Interface for BrowserSync",
-	"version": "2.26.14-alpha.0",
+	"version": "2.26.14-alpha.1",
 	"homepage": "http://www.browsersync.io/",
 	"author": {
 		"name": "Shane Osbourne"
