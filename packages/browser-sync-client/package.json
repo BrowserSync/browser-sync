@@ -1,7 +1,7 @@
 {
 	"name": "browser-sync-client",
 	"description": "Client-side scripts for BrowserSync",
-	"version": "2.26.13",
+	"version": "2.26.14-alpha.0",
 	"homepage": "https://github.com/shakyshane/browser-sync-client",
 	"author": "Shane Osbourne <shane.osbourne8@gmail.com>",
 	"repository": {
@@ -24,10 +24,10 @@
 	"engines": {
 		"node": ">=8.0.0"
 	},
-  "scripts": {
-    "build": "webpack --mode=development && webpack --output-filename index.min.js",
-    "prepublishOnly": "npm run build-all"
-  },
+	"scripts": {
+		"build": "webpack --mode=development && webpack --output-filename index.min.js",
+		"prepublishOnly": "npm run build-all"
+	},
 	"devDependencies": {
 		"@types/node": "^8",
 		"awesome-typescript-loader": "^5.2.1",
