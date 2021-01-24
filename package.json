@@ -1,30 +1,15 @@
 {
-  "private": true,
-  "scripts": {
-    "bootstrap": "lerna bootstrap",
-    "postinstall": "npm run bootstrap",
-    "build": "lerna run build",
-    "test": "npm run build && lerna run test --scope browser-sync",
-    "test:e2e": "cb cy:*"
-  },
-  "name": "browser-sync",
-  "devDependencies": {
-    "lerna": "3.22.1"
-  },
-  "dependencies": {
-    "@types/node": "^8",
-    "chai": "^3",
-    "compression": "^1",
-    "connect-history-api-fallback": "^1",
-    "crossbow": "^4.6.0",
-    "cypress": "^4.10.0",
-    "eazy-logger": "^3",
-    "immutable": "^3",
-    "mocha": "^5",
-    "request": "^2",
-    "sinon": "^1",
-    "supertest": "^3",
-    "typescript": "3.0.3",
-    "webpack": "^4"
-  }
+	"private": true,
+	"name": "browser-sync-mono",
+	"scripts": {
+		"bootstrap": "lerna bootstrap",
+		"postinstall": "npm run bootstrap",
+		"build": "lerna run build",
+		"test": "npm run build && lerna run test --scope browser-sync",
+		"test:e2e": "cb cy:*"
+	},
+	"devDependencies": {
+		"lerna": "^3.22.1"
+	},
+	"dependencies": {}
 }

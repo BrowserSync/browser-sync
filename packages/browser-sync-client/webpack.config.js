@@ -23,15 +23,11 @@ module.exports = {
         // }
     },
     module: {
-        loaders: [
+        rules: [
             {
                 test: /\.[tj]sx?$/,
                 exclude: /node_modules/,
-                loaders: ['awesome-typescript-loader']
-            },
-            {
-                test: /\.json$/,
-                loader: 'json'
+                use: ['awesome-typescript-loader']
             }
         ]
     }

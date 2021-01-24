@@ -20,7 +20,6 @@
 <p align="center"><a href="https://www.browsersync.io"><img src="https://raw.githubusercontent.com/BrowserSync/browsersync.github.io/master/public/img/logo-gh.png" /></a></p>
 <p align="center">Keep multiple browsers & devices in sync when building websites.</p>
 
-<p align="center">Browsersync is developed and maintained internally at <a href="http://www.wearejh.com">JH</a></p>
 <p align="center">Follow <a href="https://twitter.com/browsersync">@Browsersync</a> on twitter for news & updates.</p>
 <p align="center">Community <a href="https://browsersync.herokuapp.com"><img src="https://browsersync.herokuapp.com/badge.svg" /></a></p>
 
@@ -61,12 +60,16 @@ browserSync({server: true}, function(err, bs) {
 
 [Browsersync recipes](https://github.com/Browsersync/recipes)
 
+
 ## Support
 
 If you've found Browser-sync useful and would like to contribute to its continued development & support, please feel free to send a donation of any size - it would be greatly appreciated!
 
-[![Support via PayPal](https://rawgithub.com/chris---/Donation-Badges/master/paypal.jpeg)](https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=shakyshane%40gmail%2ecom&lc=US&item_name=browser%2dsync)
+[Support via PayPal](https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=shakyshane%40gmail%2ecom&lc=US&item_name=browser%2dsync)
 
+## Supported by
+
+Originally supported by [JH](https://www.wearejh.com) - they provided financial support as well as access to a professional designer to help with Branding.
 
 Apache 2
-Copyright (c) 2019 Shane Osbourne
+Copyright (c) 2021 Shane Osbourne

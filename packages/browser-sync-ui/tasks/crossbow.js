@@ -1,11 +1,16 @@
-var crossbow = require('crossbow');
+var crossbow = require('crossbow-sites');
 var vfs = require('vinyl-fs');
 var resolve = require('path').resolve;
 
-function crossbowBuild (opts) {
-    return vfs.src(opts.input.map(x => resolve(x)))
-        .pipe(crossbow.stream(opts.config))
-        .pipe(vfs.dest(opts.output));
-}
+const input = [
+    "src/crossbow/*.hbs",
+    "src/crossbow/components/*.hbs",
+    "src/crossbow/content/*.hbs",
+];
 
-module.exports.tasks = [crossbowBuild];
+vfs.src(input.map(x => resolve(x)))
+    .pipe(crossbow.stream({
+        config: {base: "src/crossbow"},
+        data: {site: "file:_config.yml"},
+    }))
+    .pipe(vfs.dest("./static"));

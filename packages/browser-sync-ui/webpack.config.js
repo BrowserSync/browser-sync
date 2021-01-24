@@ -1,6 +1,6 @@
 var webpack = require('webpack');
 var config = {
-    devtool: 'sourcemaps',
+    devtool: 'source-map',
     context: __dirname + '/src/scripts',
     entry: [
         "./app.js"
@@ -9,14 +9,6 @@ var config = {
         path: __dirname + "/public",
         filename: "js/app.js"
     },
-    plugins: [
-        new webpack.optimize.UglifyJsPlugin({
-            compress: {
-                warnings: false
-            },
-            mangle: true
-        })
-    ],
     watchOptions: {
         poll: true
     }
