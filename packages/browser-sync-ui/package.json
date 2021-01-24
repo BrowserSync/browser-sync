@@ -16,10 +16,7 @@
   ],
   "license": "Apache-2.0",
   "scripts": {
-    "e2e": "./test/pro.sh",
-    "selenium": "webdriver-manager start",
-    "test": "cb test",
-    "build-all": "cb build-all"
+    "build": "webpack"
   },
   "dependencies": {
     "async-each-series": "0.1.1",

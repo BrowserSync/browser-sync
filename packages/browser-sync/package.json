@@ -21,16 +21,15 @@
     "node": ">= 8.0.0"
   },
   "scripts": {
+    "build": "npm run build:server",
+    "build:server": "tsc",
     "env": "node ./test/env.js",
-    "test": "cb build-all && npm run env && npm run unit",
-    "lint": "prettier 'lib/**/*' 'examples/*' 'test/specs/**/*' 'test/specs/*.js'  --write --tab-width 4",
-    "pro": "protractor test/protractor/config.single.js",
-    "pro-local": "node test/protractor/setup.js",
-    "unit": "mocha --recursive test/specs --timeout 10000 --bail --exit",
-    "pre-release": "npm test && npm run pro-local && npm run pro",
     "lodash": "lodash include=isUndefined,isFunction,toArray,includes,union,each,isString,merge,isObject,set exports=node",
-    "prepublishOnly": "cb build-all",
-    "build-all": "cb build-all"
+    "prepublishOnly": "npm run build",
+    "prettier": "prettier 'lib/**/*' 'examples/*' 'test/specs/**/*.js' --tab-width 4",
+    "prettier:fix": "npm run prettier -- --write",
+    "test": "npm run build && npm run env && npm run unit",
+    "unit": "mocha --recursive test/specs --timeout 10000 --bail --exit"
   },
   "dependencies": {
     "browser-sync-client": "^2.26.13",
@@ -68,7 +67,6 @@
     "@types/node": "^8",
     "chai": "^3",
     "chalk": "1.1.3",
-    "crossbow": "^4.6.0",
     "generate-changelog": "^1.7.0",
     "graceful-fs": "4.1.9",
     "http2": "^3.3.6",
