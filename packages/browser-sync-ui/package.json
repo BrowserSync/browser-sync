@@ -1,7 +1,7 @@
 {
 	"name": "browser-sync-ui",
 	"description": "User Interface for BrowserSync",
-	"version": "2.26.14-alpha.1",
+	"version": "2.26.14-y.0",
 	"homepage": "http://www.browsersync.io/",
 	"author": {
 		"name": "Shane Osbourne"
@@ -18,7 +18,7 @@
 		"build": "npm run build:static && npm run build:webpack",
 		"build:static": "node tasks/crossbow.js",
 		"build:webpack": "webpack",
-    "prepublishOnly": "npm run build"
+		"prepublishOnly": "npm run build"
 	},
 	"license": "Apache-2.0",
 	"dependencies": {
