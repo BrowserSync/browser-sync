@@ -47,7 +47,7 @@
 		"fs-extra": "3.0.1",
 		"http-proxy": "^1.18.1",
 		"immutable": "^3",
-		"localtunnel": "^2.0.0",
+		"localtunnel": "^2.0.1",
 		"micromatch": "^4.0.2",
 		"opn": "5.3.0",
 		"portscanner": "2.1.1",
