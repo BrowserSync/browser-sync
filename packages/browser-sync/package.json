@@ -78,7 +78,7 @@
 		"requirejs": "^2.3.5",
 		"rimraf": "2.5.4",
 		"sinon": "^1",
-		"socket.io-client": "^2.0.4",
+		"socket.io-client": "^2.4.0",
 		"source-map-support": "^0.5.0",
 		"supertest": "^3",
 		"typescript": "3.0.3",
