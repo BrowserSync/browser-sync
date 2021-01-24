@@ -17,7 +17,8 @@
 	"scripts": {
 		"build": "npm run build:static && npm run build:webpack",
 		"build:static": "node tasks/crossbow.js",
-		"build:webpack": "webpack"
+		"build:webpack": "webpack",
+    "prepublishOnly": "npm run build"
 	},
 	"license": "Apache-2.0",
 	"dependencies": {

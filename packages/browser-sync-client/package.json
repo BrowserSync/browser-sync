@@ -26,7 +26,7 @@
 	},
 	"scripts": {
 		"build": "webpack --mode=development && webpack --output-filename index.min.js",
-		"prepublishOnly": "npm run build-all"
+		"prepublishOnly": "npm run build"
 	},
 	"devDependencies": {
 		"@types/node": "^8",
