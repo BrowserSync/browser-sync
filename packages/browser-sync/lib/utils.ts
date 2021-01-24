@@ -1,11 +1,11 @@
-import {BsTempOptions} from "./cli/cli-options";
+import { BsTempOptions } from "./cli/cli-options";
 
 import * as devIp from "dev-ip";
 import * as portScanner from "portscanner";
 import * as path from "path";
 import * as UAParser from "ua-parser-js";
 import * as Immutable from "immutable";
-import {List} from "immutable";
+import { List } from "immutable";
 
 const _ = require("./lodash.custom");
 const parser = new UAParser();
@@ -55,9 +55,7 @@ export function getUrlOptions(options: BsTempOptions): Map<string, string> {
 
     localhost = xip(localhost, options);
 
-    return Immutable.fromJS(
-        getUrls(external, localhost, scheme, options)
-    );
+    return Immutable.fromJS(getUrls(external, localhost, scheme, options));
 }
 
 /**
@@ -88,11 +86,8 @@ export function getUrl(url: string, options: BsTempOptions) {
  * @returns {{local: string, external: string}}
  */
 export function getUrls(external, local, scheme, options) {
-    var urls: {[index: string]: string} = {
-        local: getUrl(
-            _makeUrl(scheme, local, options.get("port")),
-            options
-        )
+    var urls: { [index: string]: string } = {
+        local: getUrl(_makeUrl(scheme, local, options.get("port")), options)
     };
 
     if (external !== local) {
@@ -116,7 +111,7 @@ export function _makeUrl(scheme, host, port) {
     return scheme + "://" + host + ":" + port;
 }
 
-export type PortLookupCb = (error: null|Error, port: number) => void;
+export type PortLookupCb = (error: null | Error, port: number) => void;
 /**
  * Get ports
  * @param {Object} options
@@ -137,7 +132,12 @@ export function getPorts(options: BsTempOptions, cb: PortLookupCb) {
     fn(host, port, max, cb);
 }
 
-export function getPort(host: string, port: number|string, max: number|string|null, cb: PortLookupCb) {
+export function getPort(
+    host: string,
+    port: number | string,
+    max: number | string | null,
+    cb: PortLookupCb
+) {
     portScanner.findAPortNotInUse(
         port,
         max,
@@ -177,7 +177,7 @@ export function openBrowser(url, options, bs) {
     if (open) {
         if (browser !== "default") {
             if (isList(browser)) {
-                browser.forEach(function (browser) {
+                browser.forEach(function(browser) {
                     fn(url, browser, bs);
                 });
             } else {
@@ -196,9 +196,9 @@ export function openBrowser(url, options, bs) {
  * @param bs
  */
 export function opnWrapper(url, name, bs) {
-    var options = (function () {
+    var options = (function() {
         if (_.isString(name)) {
-            return {app: name};
+            return { app: name };
         }
         if (Immutable.Map.isMap(name)) {
             return name.toJS();
@@ -206,7 +206,7 @@ export function opnWrapper(url, name, bs) {
         return {};
     })();
     var opn = require("opn");
-    opn(url, options).catch(function () {
+    opn(url, options).catch(function() {
         bs.events.emit("browser:error");
     });
 }
@@ -254,7 +254,7 @@ export function xip(host, options) {
  * @returns {Boolean}
  */
 export function willCauseReload(needles, haystack) {
-    return needles.some(function (needle) {
+    return needles.some(function(needle) {
         return !_.includes(haystack, path.extname(needle).replace(".", ""));
     });
 }
@@ -292,15 +292,13 @@ export function verifyConfig(options, cb) {
 }
 
 export function eachSeries(arr, iterator, callback) {
-    callback = callback || function () {
-    };
+    callback = callback || function() {};
     var completed = 0;
-    var iterate = function () {
-        iterator(arr[completed], function (err) {
+    var iterate = function() {
+        iterator(arr[completed], function(err) {
             if (err) {
                 callback(err);
-                callback = function () {
-                };
+                callback = function() {};
             } else {
                 ++completed;
                 if (completed >= arr.length) {
@@ -335,4 +333,4 @@ export const portscanner = portScanner;
 export const connect = require("connect");
 export const serveStatic = require("./server/serve-static-wrapper").default();
 export const easyExtender = require("easy-extender");
-export {UAParser, devIp};
+export { UAParser, devIp };

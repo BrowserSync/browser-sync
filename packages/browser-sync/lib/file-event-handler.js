@@ -25,23 +25,24 @@ function fileChanges(subject, options) {
      */
     const initial = getAggregatedDebouncedStream(subject, options, scheduler);
 
-    return applyOperators(operators, initial, options, scheduler)
-        .map(function(items) {
-            const paths = items.map(x => x.path);
+    return applyOperators(operators, initial, options, scheduler).map(function(
+        items
+    ) {
+        const paths = items.map(x => x.path);
 
-            if (
-                utils.willCauseReload(paths, options.get("injectFileTypes").toJS())
-            ) {
-                return {
-                    type: "reload",
-                    files: items
-                };
-            }
+        if (
+            utils.willCauseReload(paths, options.get("injectFileTypes").toJS())
+        ) {
             return {
-                type: "inject",
+                type: "reload",
                 files: items
             };
-        })
+        }
+        return {
+            type: "inject",
+            files: items
+        };
+    });
 }
 module.exports.fileChanges = fileChanges;
 
@@ -102,5 +103,5 @@ function getAggregatedDebouncedStream(subject, options, scheduler) {
         .filter(function(x) {
             return options.get("watchEvents").indexOf(x.event) > -1;
         })
-        .buffer(subject.debounce(options.get("reloadDebounce"), scheduler))
+        .buffer(subject.debounce(options.get("reloadDebounce"), scheduler));
 }

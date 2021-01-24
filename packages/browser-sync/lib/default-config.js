@@ -2,7 +2,6 @@
  * @module BrowserSync.options
  */
 module.exports = {
-
     /**
      * Browsersync includes a user-interface that is accessed via a separate port.
      * The UI allows to controls all devices, push sync updates and much more.

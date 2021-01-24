@@ -18,7 +18,7 @@ describe("E2E Responding to events", function() {
             files: ["test/fixtures/assets/*.css"],
             logLevel: "silent",
             open: false,
-            debug: {scheduler: scheduler}
+            debug: { scheduler: scheduler }
         };
 
         instance = browserSync(config, function(err, bs) {

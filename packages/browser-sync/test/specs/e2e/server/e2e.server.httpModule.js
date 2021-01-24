@@ -23,7 +23,7 @@ describe("E2E httpModule options test", function() {
                 .set("accept", "text/html")
                 .expect(200)
                 .end(function(err, res) {
-                    if(err) {
+                    if (err) {
                         console.log(err);
                         return done(err);
                     }

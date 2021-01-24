@@ -76,7 +76,7 @@ module.exports.init = function(server, clientEvents, bs) {
         clientEvents.forEach(addEvent);
 
         function addEvent(event) {
-            client.on(event, (data) => {
+            client.on(event, data => {
                 client.broadcast.emit(event, data);
             });
         }

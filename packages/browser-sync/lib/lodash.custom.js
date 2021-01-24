@@ -1689,8 +1689,12 @@
         stack.set(value, result);
 
         var keysFunc = isFull
-            ? isFlat ? getAllKeysIn : getAllKeys
-            : isFlat ? keysIn : keys;
+            ? isFlat
+                ? getAllKeysIn
+                : getAllKeys
+            : isFlat
+            ? keysIn
+            : keys;
 
         var props = isArr ? undefined : keysFunc(value);
         arrayEach(props || value, function(subValue, key) {
@@ -2387,7 +2391,9 @@
                 if (newValue === undefined) {
                     newValue = isObject(objValue)
                         ? objValue
-                        : isIndex(path[index + 1]) ? [] : {};
+                        : isIndex(path[index + 1])
+                        ? []
+                        : {};
                 }
             }
             assignValue(nested, key, newValue);
@@ -4411,7 +4417,9 @@
             func =
                 tag == mapTag
                     ? mapToArray
-                    : tag == setTag ? setToArray : values;
+                    : tag == setTag
+                    ? setToArray
+                    : values;
 
         return func(value);
     }
@@ -4482,7 +4490,9 @@
             remainder = result % 1;
 
         return result === result
-            ? remainder ? result - remainder : result
+            ? remainder
+                ? result - remainder
+                : result
             : 0;
     }
 
@@ -4528,7 +4538,9 @@
         var isBinary = reIsBinary.test(value);
         return isBinary || reIsOctal.test(value)
             ? freeParseInt(value.slice(2), isBinary ? 2 : 8)
-            : reIsBadHex.test(value) ? NAN : +value;
+            : reIsBadHex.test(value)
+            ? NAN
+            : +value;
     }
 
     /**

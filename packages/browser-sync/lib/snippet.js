@@ -98,7 +98,7 @@ var snippetUtils = {
                 "utf8"
             );
             return [connectUtils.socketConnector(options), client].join(";\n");
-        }
+        };
     }
 };
 

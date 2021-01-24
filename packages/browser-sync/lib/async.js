@@ -62,19 +62,24 @@ module.exports = {
             socketPort = bs.options.getIn(["socket", "port"]);
         }
 
-        utils.getPort(bs.options.get("listen", "localhost"), socketPort, null, function(err, port) {
-            if (err) {
-                return utils.fail(true, err, bs.cb);
+        utils.getPort(
+            bs.options.get("listen", "localhost"),
+            socketPort,
+            null,
+            function(err, port) {
+                if (err) {
+                    return utils.fail(true, err, bs.cb);
+                }
+                done(null, {
+                    optionsIn: [
+                        {
+                            path: ["socket", "port"],
+                            value: port
+                        }
+                    ]
+                });
             }
-            done(null, {
-                optionsIn: [
-                    {
-                        path: ["socket", "port"],
-                        value: port
-                    }
-                ]
-            });
-        });
+        );
     },
     /**
      * Some features require an internet connection.
@@ -290,7 +295,7 @@ module.exports = {
          * Append the 'listen' option
          */
         const opts = uiOpts.update(uiOpts => {
-            const listen = bs.options.get('listen');
+            const listen = bs.options.get("listen");
             if (listen) {
                 return uiOpts.set("listen", listen);
             }

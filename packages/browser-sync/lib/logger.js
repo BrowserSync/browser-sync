@@ -69,7 +69,11 @@ module.exports.callbacks = {
     "browser:reload": function(bs, data = {}) {
         if (canLogFileChange(bs)) {
             if (data.files && data.files.length > 1) {
-                return logger.info(`{cyan:Reloading Browsers... (buffered ${data.files.length} events)`);
+                return logger.info(
+                    `{cyan:Reloading Browsers... (buffered ${
+                        data.files.length
+                    } events)`
+                );
             }
             logger.info("{cyan:Reloading Browsers...");
         }
@@ -121,12 +125,14 @@ module.exports.callbacks = {
      */
     "service:running": function(bs, data) {
         const type = data.type;
-        if (bs.options.get('json')) {
-            return console.log(JSON.stringify({
-                "service:running": {
-                    "options": bs.options.toJS()
-                }
-            }));
+        if (bs.options.get("json")) {
+            return console.log(
+                JSON.stringify({
+                    "service:running": {
+                        options: bs.options.toJS()
+                    }
+                })
+            );
         }
         if (type === "server") {
             var baseDir = bs.options.getIn(["server", "baseDir"]);

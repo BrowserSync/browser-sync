@@ -197,7 +197,7 @@ describe("Allow middlewares to call next() after res.end if no server provided",
         browserSync.reset();
 
         var fn = function(req, res, next) {
-            res.write('bs');
+            res.write("bs");
             res.end();
             next();
         };
@@ -221,7 +221,7 @@ describe("Allow middlewares to call next() after res.end if no server provided",
             .set("accept", "text/html")
             .expect(200)
             .end(function(err, res) {
-                assert.include(res.text, 'bs');
+                assert.include(res.text, "bs");
                 done();
             });
     });

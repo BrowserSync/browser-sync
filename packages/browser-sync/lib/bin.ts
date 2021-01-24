@@ -8,7 +8,7 @@ import { resolve } from "path";
 import { existsSync } from "fs";
 import { logger } from "./logger";
 import { compile } from "eazy-logger";
-import {printErrors} from "./cli/cli-options";
+import { printErrors } from "./cli/cli-options";
 
 export enum BsErrorLevels {
     Fatal = "Fatal"
@@ -16,18 +16,18 @@ export enum BsErrorLevels {
 
 export enum BsErrorTypes {
     PathNotFound = "PathNotFound",
-    HostAndListenIncompatible = "HostAndListenIncompatible",
+    HostAndListenIncompatible = "HostAndListenIncompatible"
 }
 
 export type BsErrors = BsError[];
 export interface BsError {
-    type: BsErrorTypes,
-    level: BsErrorLevels,
-    errors: BsErrorItem[]
+    type: BsErrorTypes;
+    level: BsErrorLevels;
+    errors: BsErrorItem[];
 }
 export interface BsErrorItem {
-    error: Error,
-    meta?(...args): string[]
+    error: Error;
+    meta?(...args): string[];
 }
 
 /**
@@ -178,7 +178,7 @@ function processStart(yargs) {
         .options(startOpts)
         .example("$0 start -s app", "- Use the App directory to serve files")
         .example("$0 start -p www.bbc.co.uk", "- Proxy an existing website")
-        .default('cwd', () => process.cwd())
+        .default("cwd", () => process.cwd())
         .help().argv;
 }
 
@@ -196,7 +196,7 @@ function handleIncoming(command, yargs) {
         out = yargs
             .usage("Usage: $0 init")
             .example("$0 init")
-            .default('cwd', () => process.cwd())
+            .default("cwd", () => process.cwd())
             .help().argv;
     }
     if (command === "reload") {
@@ -205,7 +205,7 @@ function handleIncoming(command, yargs) {
             .options(reloadOpts)
             .example("$0 reload")
             .example("$0 reload --port 4000")
-            .default('cwd', () => process.cwd())
+            .default("cwd", () => process.cwd())
             .help().argv;
     }
     if (command === "recipe") {
@@ -214,7 +214,7 @@ function handleIncoming(command, yargs) {
             .option(recipeOpts)
             .example("$0 recipe ls", "list the recipes")
             .example("$0 recipe gulp.sass", "use the gulp.sass recipe")
-            .default('cwd', () => process.cwd())
+            .default("cwd", () => process.cwd())
             .help().argv;
     }
 

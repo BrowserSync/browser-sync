@@ -13,12 +13,15 @@ module.exports = {
     "client:js": function(hooks, data) {
         var js = snippetUtils.getClientJs(data.port, data.options);
 
-        return hooks.reduce(function(acc, hook) {
-            if (typeof hook === "function") {
-                return acc.concat(hook);
-            }
-            return acc.concat(String(hook));
-        }, [js]);
+        return hooks.reduce(
+            function(acc, hook) {
+                if (typeof hook === "function") {
+                    return acc.concat(hook);
+                }
+                return acc.concat(String(hook));
+            },
+            [js]
+        );
     },
     /**
      * @this {BrowserSync}

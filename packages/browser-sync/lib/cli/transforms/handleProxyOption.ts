@@ -1,10 +1,10 @@
-import * as url from 'url';
-import {Map} from 'immutable';
-import {BrowsersyncProxy} from "../../types";
-import {BsTempOptions, TransformResult} from "../cli-options";
+import * as url from "url";
+import { Map } from "immutable";
+import { BrowsersyncProxy } from "../../types";
+import { BsTempOptions, TransformResult } from "../cli-options";
 
 export function handleProxyOption(incoming: BsTempOptions): TransformResult {
-    let value = incoming.get('proxy');
+    let value = incoming.get("proxy");
     let mw;
     let target;
 
@@ -41,5 +41,5 @@ export function handleProxyOption(incoming: BsTempOptions): TransformResult {
 
     const proxyOutput = value.mergeDeep(out);
 
-    return [incoming.set('proxy', proxyOutput), []];
+    return [incoming.set("proxy", proxyOutput), []];
 }

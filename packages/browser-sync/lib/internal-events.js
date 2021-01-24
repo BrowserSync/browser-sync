@@ -98,7 +98,7 @@ module.exports = function(bs) {
         })
         .filter(function(x) {
             return x.namespace === "core";
-        })
+        });
 
     var handler = fileHandler
         .fileChanges(coreNamespacedWatchers, bs.options)

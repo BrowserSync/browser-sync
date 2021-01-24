@@ -1,16 +1,18 @@
-import {List} from "immutable";
-import {BsTempOptions, TransformResult} from "../cli-options";
+import { List } from "immutable";
+import { BsTempOptions, TransformResult } from "../cli-options";
 
 const defaultIgnorePatterns = [
     /node_modules/,
     /bower_components/,
-    '.sass-cache',
-    '.vscode',
-    '.git',
-    '.idea',
+    ".sass-cache",
+    ".vscode",
+    ".git",
+    ".idea"
 ];
 
-export function addDefaultIgnorePatterns(incoming: BsTempOptions): TransformResult {
+export function addDefaultIgnorePatterns(
+    incoming: BsTempOptions
+): TransformResult {
     if (!incoming.get("watch")) {
         return [incoming, []];
     }
@@ -24,7 +26,7 @@ export function addDefaultIgnorePatterns(incoming: BsTempOptions): TransformResu
         const merged = userIgnored.merge(defaultIgnorePatterns);
 
         return watchOptions.merge({
-            ignored: merged.toList(),
+            ignored: merged.toList()
         });
     });
 

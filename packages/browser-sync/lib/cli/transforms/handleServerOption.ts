@@ -1,9 +1,9 @@
-import {IServerOption} from "../../types";
-import {fromJS, List, Map} from "immutable";
-import {BsTempOptions, TransformResult} from "../cli-options";
+import { IServerOption } from "../../types";
+import { fromJS, List, Map } from "immutable";
+import { BsTempOptions, TransformResult } from "../cli-options";
 
 export function handleServerOption(incoming: BsTempOptions): TransformResult {
-    const value = incoming.get('server');
+    const value = incoming.get("server");
     if (value === false) {
         return [incoming, []];
     }
@@ -13,7 +13,7 @@ export function handleServerOption(incoming: BsTempOptions): TransformResult {
         const obj: IServerOption = {
             baseDir: ["./"]
         };
-        return [incoming.set('server', fromJS(obj)), []];
+        return [incoming.set("server", fromJS(obj)), []];
     }
 
     // server: "./app"
@@ -21,14 +21,14 @@ export function handleServerOption(incoming: BsTempOptions): TransformResult {
         const obj: IServerOption = {
             baseDir: [value]
         };
-        return [incoming.set('server', fromJS(obj)), []];
+        return [incoming.set("server", fromJS(obj)), []];
     }
 
     if (List.isList(value)) {
         const obj: IServerOption = {
             baseDir: value
         };
-        return [incoming.set('server', fromJS(obj)), []];
+        return [incoming.set("server", fromJS(obj)), []];
     }
 
     if (Map.isMap(value)) {
@@ -36,9 +36,9 @@ export function handleServerOption(incoming: BsTempOptions): TransformResult {
             .concat(value.get("baseDir", "./"))
             .filter(Boolean);
 
-        const merged = value.merge({baseDir: dirs});
+        const merged = value.merge({ baseDir: dirs });
 
-        return [incoming.set('server', merged), []];
+        return [incoming.set("server", merged), []];
     }
 
     return [incoming, []];
