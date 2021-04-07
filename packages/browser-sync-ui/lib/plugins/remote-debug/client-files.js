@@ -9,7 +9,7 @@ var files = [
         served: false,
         name: "pesticide",
         src: "/browser-sync/pesticide.css",
-        tagline: "Add simple CSS outlines to all elements. (powered by <a href=\"http://pesticide.io\" target=\"_blank\">Pesticide.io</a>)",
+        tagline: "Add simple CSS outlines to all elements. (powered by <span style='text-decoration: line-through'>Pesticide.io</span>)",
         hidden: ""
     },
     {
@@ -22,7 +22,7 @@ var files = [
         served: false,
         name: "pesticide-depth",
         src: "/browser-sync/pesticide-depth.css",
-        tagline: "Add CSS box-shadows to all elements. (powered by <a href=\"http://pesticide.io\" target=\"_blank\">Pesticide.io</a>)",
+        tagline: "Add CSS box-shadows to all elements. (powered by <span style='text-decoration: line-through'>Pesticide.io</span>)",
         hidden: ""
     },
     {
