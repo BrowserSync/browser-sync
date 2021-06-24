@@ -14,6 +14,18 @@ function getPath(options, relative, port) {
 
 var connectUtils = {
     /**
+     * Allow users to disable the Browsersync snippet
+     * @param {Immutable.Map} options
+     * @returns {Boolean}
+     */
+    enabled: function(options) {
+        const userValue = options.get("snippet");
+        if (typeof userValue === "boolean") {
+            return userValue
+        }
+        return true
+    },
+    /**
      * @param {Immutable.Map} options
      * @returns {String}
      */

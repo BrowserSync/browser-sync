@@ -166,8 +166,41 @@ describe("E2E snippet: false", function() {
             .set("accept", "text/html")
             .expect(200)
             .end(function(err, res) {
-                if (res.text.indexOf(instance.options.get("snippet")) > -1) {
-                    return done(new Error("snippet present"));
+                if (res.text.indexOf("__bs_script__") > -1) {
+                    return done(new Error("snippet present when it shouldn't be"));
+                }
+                done();
+            });
+    });
+});
+
+describe("E2E snippet: true", function() {
+    var instance;
+
+    before(function(done) {
+        browserSync.reset();
+        var config = {
+            server: {
+                baseDir: "test/fixtures"
+            },
+            open: false,
+            snippet: true,
+        };
+        instance = browserSync(config, done).instance;
+    });
+
+    after(function() {
+        instance.cleanup();
+    });
+
+    it("does not add the snippet when snippet: false", function(done) {
+        request(instance.server)
+            .get("/iframe.html")
+            .set("accept", "text/html")
+            .expect(200)
+            .end(function(err, res) {
+                if (res.text.indexOf("__bs_script__") === -1) {
+                    return done(new Error("snippet absent when it shouldn't be"));
                 }
                 done();
             });

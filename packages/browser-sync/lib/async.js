@@ -152,7 +152,9 @@ module.exports = {
         done(null, {
             options: {
                 urls: utils.getUrlOptions(bs.options),
-                snippet: connectUtils.scriptTags(bs.options),
+                snippet: connectUtils.enabled(bs.options)
+                    ? connectUtils.scriptTags(bs.options)
+                    : false,
                 scriptPaths: Immutable.fromJS(
                     connectUtils.clientScript(bs.options, true)
                 ),

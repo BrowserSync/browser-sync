@@ -304,12 +304,14 @@ var serverUtils = {
         );
 
         // Snippet
-        rules.push(
-            snippetUtils.getRegex(
-                bs.options.get("snippet"),
-                bs.options.get("snippetOptions")
-            )
-        );
+        if (bs.options.get("snippet")) {
+            rules.push(
+                snippetUtils.getRegex(
+                    bs.options.get("snippet"),
+                    bs.options.get("snippetOptions")
+                )
+            );
+        }
 
         // User
         bs.options.get("rewriteRules").forEach(function(rule) {

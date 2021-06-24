@@ -23,6 +23,7 @@
 	"scripts": {
 		"build": "npm run build:server",
 		"build:server": "tsc",
+		"build:watch": "tsc --watch",
 		"env": "node ./test/env.js",
 		"lodash": "lodash include=isUndefined,isFunction,toArray,includes,union,each,isString,merge,isObject,set exports=node",
 		"prepublishOnly": "npm run build",
