@@ -141,3 +141,35 @@ describe("E2E snippet custom regex", function() {
             });
     });
 });
+describe("E2E snippet: false", function() {
+    var instance;
+
+    before(function(done) {
+        browserSync.reset();
+        var config = {
+            server: {
+                baseDir: "test/fixtures"
+            },
+            open: false,
+            snippet: false,
+        };
+        instance = browserSync(config, done).instance;
+    });
+
+    after(function() {
+        instance.cleanup();
+    });
+
+    it("does not add the snippet when snippet: false", function(done) {
+        request(instance.server)
+            .get("/iframe.html")
+            .set("accept", "text/html")
+            .expect(200)
+            .end(function(err, res) {
+                if (res.text.indexOf(instance.options.get("snippet")) > -1) {
+                    return done(new Error("snippet present"));
+                }
+                done();
+            });
+    });
+});
