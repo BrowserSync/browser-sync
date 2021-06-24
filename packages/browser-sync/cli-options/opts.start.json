@@ -126,6 +126,9 @@
   "no-open": {
     "desc": "Don't open a new browser window"
   },
+  "no-snippet": {
+    "desc": "Disable the snippet injection"
+  },
   "no-online": {
     "desc": "Force offline usage"
   },
