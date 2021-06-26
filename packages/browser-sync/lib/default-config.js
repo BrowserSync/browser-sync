@@ -255,6 +255,14 @@ module.exports = {
     logSnippet: true,
 
     /**
+     * You can prevent Browsersync from injecting the connection snippet
+     * by passing `snippet: false`.
+     * @property snippet
+     * @type Boolean
+     * @default undefined
+     */
+
+    /**
      * You can control how the snippet is injected
      * onto each page via a custom regex + function.
      * You can also provide patterns for certain urls
