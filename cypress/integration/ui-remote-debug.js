@@ -10,7 +10,7 @@ describe('UI', function () {
                         "active": true,
                         "hidden": "",
                         "name": "pesticide",
-                        "tagline": "Add simple CSS outlines to all elements. (powered by <a href=\"http://pesticide.io\" target=\"_blank\">Pesticide.io</a>)",
+                        "tagline": "Add simple CSS outlines to all elements. (powered by <span style='text-decoration: line-through'>Pesticide.io</span>)",
                         "context": "remote-debug",
                         "served": true,
                         "title": "CSS Outlining",
