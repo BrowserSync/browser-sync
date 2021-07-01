@@ -9,7 +9,7 @@
 		"test:e2e": "cb cy:*"
 	},
 	"devDependencies": {
-		"lerna": "^3.22.1"
+		"lerna": "^4.0.0"
 	},
 	"dependencies": {}
 }
