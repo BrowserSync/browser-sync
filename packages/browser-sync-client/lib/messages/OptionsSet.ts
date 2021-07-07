@@ -1,7 +1,5 @@
-import { map } from "rxjs/operators/map";
-import { Observable } from "rxjs/Observable";
+import { map, Observable } from "rxjs";
 import { setOptions } from "../effects/set-options.effect";
-import { tap } from "rxjs/operators/tap";
 
 export interface Payload {
     options: IBrowserSyncOptions;

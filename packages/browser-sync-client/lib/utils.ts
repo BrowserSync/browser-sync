@@ -1,9 +1,4 @@
-import { concat } from "rxjs/observable/concat";
-import { timer } from "rxjs/observable/timer";
-import { of } from "rxjs/observable/of";
-import { switchMap } from "rxjs/operators/switchMap";
-import { startWith } from "rxjs/operators/startWith";
-import { mapTo } from "rxjs/operators/mapTo";
+import { concat, mapTo, Observable, of, startWith, switchMap, timer } from "rxjs";
 
 export function each(incoming) {
     return [].slice.call(incoming || []);
@@ -140,7 +135,7 @@ export function isBlacklisted(incoming) {
     });
 }
 
-export function createTimedBooleanSwitch(source$, timeout = 1000) {
+export function createTimedBooleanSwitch(source$: Observable<any>, timeout = 1000) {
     return source$.pipe(
         switchMap(() => {
             return concat(of(false), timer(timeout).pipe(mapTo(true)));

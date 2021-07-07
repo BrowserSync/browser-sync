@@ -1,9 +1,6 @@
 import { Inputs } from "../index";
-import { Observable } from "rxjs/Observable";
-import { ignoreElements } from "rxjs/operators/ignoreElements";
+import { ignoreElements, Observable, tap, withLatestFrom } from "rxjs";
 import * as ClickEvent from "../messages/ClickEvent";
-import { tap } from "rxjs/operators/tap";
-import { withLatestFrom } from "rxjs/operators/withLatestFrom";
 import { EffectNames } from "../effects";
 import { IncomingPayload } from "../messages/ClickEvent";
 

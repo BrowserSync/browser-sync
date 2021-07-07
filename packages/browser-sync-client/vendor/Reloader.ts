@@ -5,20 +5,10 @@
  *
  */
 import {getLocation, pathFromUrl, pathsMatch, pickBestMatch, splitUrl, updateSearch, array} from "../lib/utils";
-import {empty} from "rxjs/observable/empty";
-import {Observable} from "rxjs/Observable";
-import {merge} from "rxjs/observable/merge";
-import {timer} from "rxjs/observable/timer";
-import {from} from "rxjs/observable/from";
-import {filter} from "rxjs/operators/filter";
-import {map} from "rxjs/operators/map";
-import {mergeMap} from "rxjs/operators/mergeMap";
-import {tap} from "rxjs/operators/tap";
-import {mapTo} from "rxjs/operators/mapTo";
+import {EMPTY, filter, from, map, mapTo, merge, mergeAll, mergeMap, Observable, tap, timer} from "rxjs";
 import {propSet} from "../lib/dom-effects/prop-set.dom-effect";
 import {styleSet} from "../lib/dom-effects/style-set.dom-effect";
 import {linkReplace} from "../lib/dom-effects/link-replace.dom-effect";
-import {mergeAll} from "rxjs/operators/mergeAll";
 
 var hiddenElem;
 
@@ -74,7 +64,7 @@ export function reload(document: Document, navigator: Navigator) {
             swapFile(elems[i], domData, options, document, navigator);
         }
 
-        return empty();
+        return EMPTY;
     }
 
     function getMatches(elems, url, attr) {
@@ -106,15 +96,15 @@ export function reload(document: Document, navigator: Navigator) {
     }
 
 
-    function reloadImages(path, document): Observable<any> {
+    function reloadImages(path, document: Document): Observable<any> {
 
         const expando = generateUniqueString(Date.now());
 
         return merge(
-            from([].slice.call(document.images))
+            from([].slice.call(document.images) as HTMLImageElement[])
                 .pipe(
-                    filter((img: HTMLImageElement) => pathsMatch(path, pathFromUrl(img.src)))
-                    , map((img: HTMLImageElement) => {
+                    filter((img) => pathsMatch(path, pathFromUrl(img.src)))
+                    , map((img) => {
                         const payload = {
                             target: img,
                             prop: 'src',
@@ -127,8 +117,8 @@ export function reload(document: Document, navigator: Navigator) {
             from(IMAGE_STYLES)
                 .pipe(
                     mergeMap(({ selector, styleNames }) => {
-                        return from(document.querySelectorAll(`[style*=${selector}]`)).pipe(
-                            mergeMap((img: HTMLImageElement) => {
+                        return from(document.querySelectorAll(`[style*=${selector}]`) as ArrayLike<HTMLImageElement>).pipe(
+                            mergeMap((img) => {
                                 return reloadStyleImages(img.style, styleNames, path, expando);
                             })
                         )
@@ -255,7 +245,7 @@ export function reload(document: Document, navigator: Navigator) {
         let clone;
 
         if (link.__LiveReload_pendingRemoval) {
-            return empty();
+            return EMPTY;
         }
         link.__LiveReload_pendingRemoval = true;
 
@@ -442,7 +432,7 @@ export function reload(document: Document, navigator: Navigator) {
             }
         }
 
-        return empty();
+        return EMPTY;
     }
 
 

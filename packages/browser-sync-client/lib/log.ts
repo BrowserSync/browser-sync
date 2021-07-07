@@ -1,14 +1,6 @@
-import { BehaviorSubject } from "rxjs/BehaviorSubject";
-import { timer } from "rxjs/observable/timer";
-import { Observable } from "rxjs/Observable";
-import { of } from "rxjs/observable/of";
+import { BehaviorSubject, filter, Observable, of, pluck, switchMap, tap, timer, withLatestFrom } from "rxjs";
 import { Nanologger } from "../vendor/logger";
-import { filter } from "rxjs/operators/filter";
-import { tap } from "rxjs/operators/tap";
-import { withLatestFrom } from "rxjs/operators/withLatestFrom";
-import { switchMap } from "rxjs/operators/switchMap";
 import { Inputs } from "./index";
-import { pluck } from "rxjs/operators/pluck";
 
 export function initLogger(options: IBrowserSyncOptions) {
     const log = new Nanologger(options.logPrefix || "", {

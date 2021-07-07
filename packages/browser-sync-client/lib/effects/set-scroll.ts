@@ -1,16 +1,8 @@
 import { IncomingPayload } from "../messages/ScrollEvent";
 import { Inputs } from "../index";
-import { pluck } from "rxjs/operators/pluck";
-import { Observable } from "rxjs/Observable";
-import { ignoreElements } from "rxjs/operators/ignoreElements";
-import { partition } from "rxjs/operators/partition";
-import { merge } from "rxjs/observable/merge";
+import { ignoreElements, map, merge, Observable, partition, pluck, tap, withLatestFrom } from "rxjs";
 import { getDocumentScrollSpace } from "../browser.utils";
-import { tap } from "rxjs/operators/tap";
-import { withLatestFrom } from "rxjs/operators/withLatestFrom";
-import { map } from "rxjs/operators/map";
 
-type Tuple = [IncomingPayload, Window, Document, boolean];
 
 export function setScrollEffect(
     xs: Observable<IncomingPayload>,
@@ -20,8 +12,8 @@ export function setScrollEffect(
         /**
          * Group the incoming event with window, document & scrollProportionally argument
          */
-        const tupleStream$: Observable<Tuple> = xs.pipe(
-            withLatestFrom<IncomingPayload, Window, Document, boolean>(
+        const tupleStream$ = xs.pipe(
+            withLatestFrom(
                 inputs.window$,
                 inputs.document$,
                 inputs.option$.pipe(pluck("scrollProportionally"))
@@ -31,24 +23,24 @@ export function setScrollEffect(
         /**
          * Split the stream between document scrolls and element scrolls
          */
-        const [document$, element$] = partition(([event]: Tuple) => {
+        const [document$, element$] = partition(tupleStream$, ([event]) => {
             return event.tagName === "document";
-        })(tupleStream$);
+        });
 
         /**
          * Further split the element scroll between those matching in `scrollElementMapping`
          * and regular element scrolls
          */
-        const [mapped$, nonMapped$] = partition(([event]: Tuple) => {
+        const [mapped$, nonMapped$] = partition(element$, ([event]) => {
             return event.mappingIndex > -1;
-        })(element$);
+        });
 
         return merge(
             /**
              * Main window scroll
              */
             document$.pipe(
-                tap((incoming: Tuple) => {
+                tap((incoming) => {
                     const [
                         event,
                         window,
@@ -70,7 +62,7 @@ export function setScrollEffect(
              * Regular, non-mapped Element scrolls
              */
             nonMapped$.pipe(
-                tap((incoming: Tuple) => {
+                tap((incoming) => {
                     const [
                         event,
                         window,
@@ -98,25 +90,25 @@ export function setScrollEffect(
              */
             mapped$.pipe(
                 withLatestFrom(
-                    inputs.option$.pipe(pluck("scrollElementMapping"))
+                    inputs.option$.pipe(pluck("scrollElementMapping")) as Observable<string[]>
                 ),
                 /**
                  * Filter the elements in the option `scrollElementMapping` so
                  * that it does not contain the element that triggered the event
                  */
-                map(([incoming, scrollElementMapping]: [Tuple, string[]]) => {
+                map(([incoming, scrollElementMapping]) => {
                     const [event] = incoming;
                     return [
                         incoming,
                         scrollElementMapping.filter(
                             (item, index) => index !== event.mappingIndex
                         )
-                    ];
+                    ] as const;
                 }),
                 /**
                  * Now perform the scroll on all other matching elements
                  */
-                tap(([incoming, scrollElementMapping]: [Tuple, string[]]) => {
+                tap(([incoming, scrollElementMapping]) => {
                     const [
                         event,
                         window,

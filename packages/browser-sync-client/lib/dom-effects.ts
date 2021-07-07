@@ -1,4 +1,4 @@
-import { BehaviorSubject } from "rxjs/BehaviorSubject";
+import { BehaviorSubject } from "rxjs";
 import { propSetDomEffect } from "./dom-effects/prop-set.dom-effect";
 import { styleSetDomEffect } from "./dom-effects/style-set.dom-effect";
 import { linkReplaceDomEffect } from "./dom-effects/link-replace.dom-effect";
