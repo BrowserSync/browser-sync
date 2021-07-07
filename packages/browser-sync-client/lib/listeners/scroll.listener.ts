@@ -4,18 +4,9 @@ import {
     getScrollPosition,
     getScrollPositionForElement
 } from "../browser.utils";
-import { Observable } from "rxjs/Observable";
+import { distinctUntilChanged, empty, filter, fromEvent, map, Observable, pluck, skip, switchMap, withLatestFrom } from "rxjs";
 import * as ScrollEvent from "../messages/ScrollEvent";
-import { filter } from "rxjs/operators/filter";
-import { map } from "rxjs/operators/map";
-import { withLatestFrom } from "rxjs/operators/withLatestFrom";
 import { Inputs } from "../index";
-import { pluck } from "rxjs/operators/pluck";
-import { distinctUntilChanged } from "rxjs/operators/distinctUntilChanged";
-import { switchMap } from "rxjs/operators/switchMap";
-import { empty } from "rxjs/observable/empty";
-import { skip } from "rxjs/operators/skip";
-import { fromEvent } from "rxjs/observable/fromEvent";
 
 export function getScrollStream(
     window: Window,
@@ -45,7 +36,10 @@ export function getScrollStream(
         distinctUntilChanged(),
         switchMap(scroll => {
             if (!scroll) return empty();
-            return fromEvent(document, "scroll", true).pipe(
+            return (
+                // NOTE: RxJS types are off here. (see issue: https://github.com/ReactiveX/rxjs/issues/6512).
+                fromEvent(document as any, "scroll", true as any) as Observable<Event>
+            ).pipe(
                 map((e: Event) => e.target),
                 withLatestFrom(canSync$, elemMap$),
                 filter(([, canSync]) => Boolean(canSync)),

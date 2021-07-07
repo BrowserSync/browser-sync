@@ -1,18 +1,9 @@
 import { createTimedBooleanSwitch } from "../utils";
 import { IncomingSocketNames, OutgoingSocketEvent } from "../socket-messages";
 import { getElementData } from "../browser.utils";
-import { Observable } from "rxjs/Observable";
+import { distinctUntilChanged, EMPTY, filter, fromEvent, map, Observable, pluck, skip, switchMap, withLatestFrom } from "rxjs";
 import * as ClickEvent from "../messages/ClickEvent";
-import { withLatestFrom } from "rxjs/operators/withLatestFrom";
-import { filter } from "rxjs/operators/filter";
-import { map } from "rxjs/operators/map";
 import { Inputs } from "../index";
-import { pluck } from "rxjs/operators/pluck";
-import { skip } from "rxjs/operators/skip";
-import { distinctUntilChanged } from "rxjs/operators/distinctUntilChanged";
-import { switchMap } from "rxjs/operators/switchMap";
-import { fromEvent } from "rxjs/observable/fromEvent";
-import { empty } from "rxjs/observable/empty";
 
 export function getClickStream(
     document: Document,
@@ -29,10 +20,17 @@ export function getClickStream(
         distinctUntilChanged(),
         switchMap(canClick => {
             if (!canClick) {
-                return empty();
+                return EMPTY;
             }
-            return fromEvent(document, "click", true).pipe(
-                map((e: Event) => e.target),
+            return (
+                // NOTE: RxJS types are off here. (see issue: https://github.com/ReactiveX/rxjs/issues/6512).
+                fromEvent(
+                    document as any, 
+                    "click", 
+                    { useCapture: true } as any
+                ) as Observable<MouseEvent>
+            ).pipe(
+                map((e) => e.target),
                 filter((target: any) => {
                     if (target.tagName === "LABEL") {
                         const id = target.getAttribute("for");

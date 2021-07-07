@@ -1,8 +1,6 @@
 import { EffectNames } from "../effects";
 import { Inputs } from "../index";
-import { Observable } from "rxjs/Observable";
-import { tap } from "rxjs/operators/tap";
-import { withLatestFrom } from "rxjs/operators/withLatestFrom";
+import { Observable, tap, withLatestFrom } from "rxjs";
 
 export function browserReload() {
     return [EffectNames.BrowserReload];

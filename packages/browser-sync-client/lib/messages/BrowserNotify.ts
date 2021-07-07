@@ -1,5 +1,4 @@
-import { map } from "rxjs/operators/map";
-import { Observable } from "rxjs/Observable";
+import { map, Observable } from "rxjs";
 import * as Log from "../log";
 
 export interface IncomingPayload {

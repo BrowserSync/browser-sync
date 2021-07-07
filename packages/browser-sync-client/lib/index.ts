@@ -1,24 +1,15 @@
 ///<reference path="types.ts"/>
-import { Observable } from "rxjs/Observable";
-import { BehaviorSubject } from "rxjs/BehaviorSubject";
-import { zip } from "rxjs/observable/zip";
 import { initDocument, initOptions, initSocket, initWindow } from "./socket";
 import { initNotify } from "./notify";
 import { domHandlers$ } from "./dom-effects";
 import { SocketEvent, socketHandlers$ } from "./socket-messages";
-import { merge } from "rxjs/observable/merge";
 import { initLogger, logHandler$ } from "./log";
 import { effectOutputHandlers$ } from "./effects";
 import { Nanologger } from "../vendor/logger";
 import { scrollRestoreHandlers$, initWindowName } from "./scroll-restore";
 import { initListeners } from "./listeners";
-import { groupBy } from "rxjs/operators/groupBy";
-import { withLatestFrom } from "rxjs/operators/withLatestFrom";
-import { mergeMap } from "rxjs/operators/mergeMap";
-import { share } from "rxjs/operators/share";
-import { filter } from "rxjs/operators/filter";
-import { pluck } from "rxjs/operators/pluck";
-import { of } from "rxjs/observable/of";
+
+import { Observable, BehaviorSubject, of, merge, zip, groupBy, withLatestFrom, filter, mergeMap, pluck, share } from "rxjs";
 
 export interface Inputs {
     window$: Observable<Window>;

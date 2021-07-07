@@ -1,17 +1,8 @@
 import { IncomingSocketNames, OutgoingSocketEvent } from "../socket-messages";
 import { getElementData } from "../browser.utils";
-import { Observable } from "rxjs/Observable";
+import { distinctUntilChanged, EMPTY, filter, fromEvent, map, Observable, pluck, skip, switchMap, withLatestFrom } from "rxjs";
 import { createTimedBooleanSwitch } from "../utils";
 import * as KeyupEvent from "../messages/KeyupEvent";
-import { filter } from "rxjs/operators/filter";
-import { withLatestFrom } from "rxjs/operators/withLatestFrom";
-import { map } from "rxjs/operators/map";
-import { pluck } from "rxjs/operators/pluck";
-import { skip } from "rxjs/operators/skip";
-import { distinctUntilChanged } from "rxjs/operators/distinctUntilChanged";
-import { switchMap } from "rxjs/operators/switchMap";
-import { empty } from "rxjs/observable/empty";
-import { fromEvent } from "rxjs/observable/fromEvent";
 import { Inputs } from "../index";
 
 export function getFormInputStream(
@@ -28,12 +19,15 @@ export function getFormInputStream(
         distinctUntilChanged(),
         switchMap(formInputs => {
             if (!formInputs) {
-                return empty();
+                return EMPTY;
             }
-            return fromEvent(document.body, "keyup", true).pipe(
-                map((e: Event) => e.target || e.srcElement),
+            return (
+                // NOTE: RxJS types are off here. (see issue: https://github.com/ReactiveX/rxjs/issues/6512).
+                fromEvent(document.body as any, "keyup", true as any) as Observable<KeyboardEvent>
+            ).pipe(
+                map((e) => (e.target || e.srcElement) as HTMLInputElement),
                 filter(
-                    (target: Element) =>
+                    (target) =>
                         target.tagName === "INPUT" ||
                         target.tagName === "TEXTAREA"
                 ),

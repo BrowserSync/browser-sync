@@ -1,8 +1,6 @@
 import { Inputs } from "../index";
-import { Observable } from "rxjs/Observable";
+import { Observable, tap, withLatestFrom } from "rxjs";
 import * as FormToggleEvent from "../messages/FormToggleEvent";
-import { tap } from "rxjs/operators/tap";
-import { withLatestFrom } from "rxjs/operators/withLatestFrom";
 import { EffectNames } from "../effects";
 
 export function setElementToggleValueEffect(

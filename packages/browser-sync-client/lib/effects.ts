@@ -1,4 +1,4 @@
-import { BehaviorSubject } from "rxjs/BehaviorSubject";
+import { BehaviorSubject } from "rxjs";
 import { setOptionsEffect } from "./effects/set-options.effect";
 import { fileReloadEffect } from "./effects/file-reload.effect";
 import { browserSetLocationEffect } from "./effects/browser-set-location.effect";

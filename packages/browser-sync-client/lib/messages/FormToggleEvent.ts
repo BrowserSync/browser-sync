@@ -1,11 +1,7 @@
 import { OutgoingSocketEvents } from "../socket-messages";
 import * as ClickEvent from "./ClickEvent";
 import { Inputs } from "../index";
-import { pluck } from "rxjs/operators/pluck";
-import { filter } from "rxjs/operators/filter";
-import { map } from "rxjs/operators/map";
-import { Observable } from "rxjs/Observable";
-import { withLatestFrom } from "rxjs/operators/withLatestFrom";
+import { filter, map, Observable, pluck, withLatestFrom } from "rxjs";
 import { setElementToggleValue } from "../effects/set-element-toggle-value.effect";
 
 export interface Payload {
