@@ -31,9 +31,9 @@
 	},
 	"devDependencies": {
 		"angular": "^1.8.2",
-		"angular-route": "~1.4.8",
-		"angular-sanitize": "~1.4.8",
-		"angular-touch": "~1.4.8",
+		"angular-route": "^1.8.2",
+		"angular-sanitize": "^1.8.2",
+		"angular-touch": "^1.8.2",
 		"bs-snippet-injector": "^2.0.1",
 		"chai": "^3",
 		"compression": "^1",
