@@ -430,7 +430,7 @@ module.exports = {
      * reloads triggered.
      * @property reloadDebounce
      * @type Number
-     * @default 0
+     * @default 500
      * @since 2.6.0
      */
     reloadDebounce: 500,
