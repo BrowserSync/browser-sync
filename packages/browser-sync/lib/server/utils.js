@@ -86,42 +86,54 @@ var serverUtils = {
     getServer: function(app, options) {
         return {
             server: (function() {
-                var httpModule = serverUtils.getHttpModule(options);
+                const serverFactory = serverUtils.getServerFactory(options);
 
                 if (
-                    options.get("scheme") === "https" ||
-                    options.get("httpModule") === "http2"
+                    options.get("scheme") === "https"
                 ) {
                     var opts = serverUtils.getHttpsOptions(options);
-                    return httpModule.createServer(opts.toJS(), app);
+                    return serverFactory(opts.toJS(), app);
                 }
 
-                return httpModule.createServer(app);
+                return serverFactory(app);
             })(),
             app: app
         };
     },
-    getHttpModule: function(options) {
+    getServerFactory: function(options) {
         /**
-         * Users may provide a string to be used by nodes
+         * Users may provide a string to be used by node's
          * require lookup.
          */
-        var httpModule = options.get("httpModule");
-
-        if (typeof httpModule === "string") {
+        const httpModuleOption = options.get("httpModule");
+        let httpModule;
+        if (typeof httpModuleOption === "string") {
             /**
              * Note, this could throw, but let that happen as
              * the error message good enough.
              */
-            var maybe = require.resolve(httpModule);
-            return require(maybe);
+            var maybe = require.resolve(httpModuleOption);
+            httpModule = require(maybe);
+        }
+        else if (options.get("scheme") === "https") {
+            httpModule = https;
+        }
+        else {
+            httpModule = http;
         }
 
-        if (options.get("scheme") === "https") {
-            return https;
+        const secure =
+            options.get("scheme") === "https" ||
+            // for backwards-compatibility, we assume that if http2 then
+            // also using TLS (most browsers don't support non-secure http2)
+            httpModuleOption === "http2";
+        if (secure && typeof httpModule.createSecureServer === 'function') {
+            // e.g. node's native http2 module has a separate createSecureServer method:
+            return httpModule.createSecureServer.bind(httpModule);
         }
-
-        return http;
+        else {
+            return httpModule.createServer.bind(httpModule);
+        }
     },
     getMiddlewares: function(bs) {
         var clientJs = bs.pluginManager.hook("client:js", {
