@@ -1,10 +1,13 @@
-var browserSync = require("../../../../");
+const browserSync = require("../../../../");
 
-var assert = require("chai").assert;
-var request = require("supertest");
+const assert = require("chai").assert;
+const request = require('superagent');
+// N.B. use superagent directly (rather than supertest) in these tests
+// because supertest doesn't support http2 - see: https://github.com/visionmedia/supertest/pull/691
 
 describe("E2E httpModule options test", function() {
-    it.skip("creates server using provided httpModule", function(done) {
+
+    function doHttpModuleTest(httpModule, done) {
         browserSync.reset();
 
         var config = {
@@ -12,25 +15,40 @@ describe("E2E httpModule options test", function() {
                 baseDir: "test/fixtures"
             },
             https: true,
-            httpModule: "http2",
+            httpModule,
             open: false,
             logLevel: "silent"
         };
 
         browserSync.init(config, function(err, bs) {
-            request(bs.options.getIn(["urls", "local"]))
-                .get("/index.html")
+            const host = bs.options.getIn(["urls", "local"]);
+            request
+                .get(`${host}/index.html`)
+                .trustLocalhost()
+                .http2()
                 .set("accept", "text/html")
-                .expect(200)
-                .end(function(err, res) {
-                    if (err) {
-                        console.log(err);
-                        return done(err);
-                    }
+                .then(res => {
+                    assert.strictEqual(res.status, 200);
                     assert.include(res.text, bs.options.get("snippet"));
-                    bs.cleanup();
                     done();
+                })
+                .catch(err => {
+                    console.log(err);
+                    return done(err);
+                })
+                .finally(() => {
+                    bs.cleanup();
                 });
         });
+    }
+
+    // older versions of node didn't include a native http2 module, so test
+    // the molnarg/http2 module is still supported:
+    it("creates server using non-native http2 module", function(done) {
+        doHttpModuleTest('../../node_modules/http2', done);
+    });
+
+    it("creates server using native http2 module", function(done) {
+        doHttpModuleTest('http2', done);
     });
 });

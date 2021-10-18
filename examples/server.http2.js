@@ -1,7 +1,7 @@
 /**
  *
  * Install:
- *      npm install browser-sync http2
+ *      npm install browser-sync
  *
  * Run:
  *      node <yourfile.js>
