@@ -216,29 +216,24 @@ module.exports.plugin = function(emitter, bs) {
  */
 function logUrls(urls) {
     var locationNames = Object.keys(urls);
-    var nameW = 0;
-    var urlW = 0;
+    var maxName = 0;
+    var maxUrl = 0;
 
-    // determine the maximum width of the output
+    // determine the max width of the output
     locationNames.forEach(function (name) {
-        if (urls[name].length > urlW) urlW = urls[name].length;
+        if (urls[name].length > maxUrl) maxUrl = urls[name].length;
         name = transform(name);
-        if (name.length > nameW) nameW = name.length;
+        if (name.length > maxName) maxName = name.length;
     });
-    var wx = nameW + urlW + 2;
-
-    // create an underline string
-    var underline = "".padEnd(wx, '-');
+    var maxWidth = maxName + maxUrl + 2;
 
     // log the access urls
+    var underline = "".padEnd(maxWidth, '-');
     logger.info("{bold:Access URLs:");
     logger.unprefixed("info", "{grey: %s}", underline);
     locationNames.forEach(function (name, ix) {
-        logger.unprefixed(
-            "info", " %s: {magenta:%s}",
-            transform(name).padStart(nameW),
-            urls[name]
-        );
+        var tName = transform(name).padStart(maxName);
+        logger.unprefixed("info", " %s: {magenta:%s}", tName, urls[name]);
         if (ix % 2) logger.unprefixed("info", "{grey: %s}", underline);
     });
 }
