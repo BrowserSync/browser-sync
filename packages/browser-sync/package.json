@@ -30,7 +30,7 @@
     "prettier": "prettier 'lib/**/*' 'examples/*' 'test/specs/**/*.js' --tab-width 4",
     "prettier:fix": "npm run prettier -- --write",
     "test": "npm run build && npm run env && npm run unit",
-    "unit": "mocha --recursive test/specs --timeout 1000 --exit"
+    "unit": "mocha --recursive test/specs --timeout 10000 --bail --exit"
   },
   "dependencies": {
     "browser-sync-client": "^2.27.7",
