@@ -2,7 +2,7 @@ const cypress = require('cypress');
 const exec = require('child_process');
 const assert = require('assert');
 const {join} = require('path');
-const {Observable} = require('rxjs/Observable');
+const {Observable} = require('rxjs');
 
 module.exports = function(opts, ctx) {
 

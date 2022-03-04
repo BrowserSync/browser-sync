@@ -34,22 +34,18 @@ module.exports.init = function(server, clientEvents, bs) {
 
     var socketIoConfig = socketConfig.socketIoOptions;
     socketIoConfig.path = socketConfig.path;
-    // set pingTimeout from clients.heartbeatTimeout after heartbeat reversal in engine.io@4
-    // https://socket.io/blog/engine-io-4-release/#Heartbeat-mechanism-reversal
-    socketIoConfig.pingTimeout = socketConfig.clients.heartbeatTimeout;
-    // enable cors for any domain after socket.io@3
-    // https://socket.io/docs/v3/migrating-from-2-x-to-3-0/#cors-handling
-    socketIoConfig.cors = {
-        origins: (origin, callback) => callback(null, origin)
-    }
 
-    // create instance of socket.io Server
     var io = socket(server, socketIoConfig);
-    // move internal sockets property back to connected to maintain backwards compatibility after socket.io@3
-    // https://socket.io/docs/v3/migrating-from-2-x-to-3-0/#namespaceconnected-is-renamed-to-namespacesockets-and-is-now-a-map
 
-    io.connected = io.sockets
-    io.sockets = io.of(socketConfig.namespace)
+    // Override default namespace.
+    io.sockets = io.of(socketConfig.namespace);
+
+    io.set("heartbeat interval", socketConfig.clients.heartbeatTimeout);
+
+    // Breaking change was introduced https://socket.io/blog/socket-io-2-4-0/
+    io.origins((_, callback) => {
+        callback(null, true);
+    });
 
     /**
      * Listen for new connections

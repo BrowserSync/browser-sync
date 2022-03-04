@@ -11,5 +11,9 @@
 	"devDependencies": {
 		"lerna": "^4.0.0"
 	},
-	"dependencies": {}
+	"dependencies": {
+		"crossbow": "^4.6.0",
+		"cypress": "^9.5.1",
+		"rxjs": "^7.5.4"
+	}
 }
