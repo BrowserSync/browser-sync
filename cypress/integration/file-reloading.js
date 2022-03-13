@@ -10,7 +10,7 @@ describe('Reloading files', function() {
                 expect(url.search).to.contain('?browsersync=');
             });
         });
-        it('should reload 2 css files', function() {
+        it.skip('should reload 2 css files', function() {
             cy.exec('touch packages/browser-sync/test/fixtures/**/*.css');
             cy.get('link').should($links => {
                 $links.each((i, elem) => {
