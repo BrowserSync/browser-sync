@@ -6,7 +6,7 @@
 		"postinstall": "npm run bootstrap",
 		"build": "lerna run build",
 		"test": "npm run build && lerna run test --scope browser-sync",
-		"test:e2e": "cb cy:*"
+		"test:e2e": "cb cy:file-reloading"
 	},
 	"devDependencies": {
 		"lerna": "^4.0.0"

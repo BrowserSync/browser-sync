@@ -1,22 +1,20 @@
-"use strict";
-
-var socket = require("socket.io");
-var utils = require("./server/utils");
+import {Server} from "socket.io";
+import * as utils from "./server/utils";
 
 /**
  * Plugin interface
  * @returns {*|function(this:exports)}
  */
-module.exports.plugin = function(server, clientEvents, bs) {
+export function plugin(server, clientEvents, bs) {
     return exports.init(server, clientEvents, bs);
-};
+}
 
 /**
  * @param {http.Server} server
  * @param clientEvents
  * @param {BrowserSync} bs
  */
-module.exports.init = function(server, clientEvents, bs) {
+export function init(server, clientEvents, bs) {
     var emitter = bs.events;
 
     var socketConfig = bs.options.get("socket").toJS();
@@ -35,22 +33,15 @@ module.exports.init = function(server, clientEvents, bs) {
     var socketIoConfig = socketConfig.socketIoOptions;
     socketIoConfig.path = socketConfig.path;
 
-    var io = socket(server, socketIoConfig);
-
-    // Override default namespace.
-    io.sockets = io.of(socketConfig.namespace);
-
-    io.set("heartbeat interval", socketConfig.clients.heartbeatTimeout);
-
-    // Breaking change was introduced https://socket.io/blog/socket-io-2-4-0/
-    io.origins((_, callback) => {
-        callback(null, true);
+    const io = new Server();
+    io.attach(server, {
+      ...socketIoConfig,
+      pingTimeout: socketConfig.clients.heartbeatTimeout
     });
 
-    /**
-     * Listen for new connections
-     */
-    io.sockets.on("connection", handleConnection);
+    io.of(socketConfig.namespace).on('connection', (socket) => {
+        handleConnection(socket);
+    });
 
     /**
      * Handle each new connection
@@ -82,5 +73,8 @@ module.exports.init = function(server, clientEvents, bs) {
         }
     }
 
+    // @ts-ignore
+    io.sockets = io.of(socketConfig.namespace)
+
     return io;
-};
+}
