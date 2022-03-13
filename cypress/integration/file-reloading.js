@@ -10,7 +10,7 @@ describe('Reloading files', function() {
                 expect(url.search).to.contain('?browsersync=');
             });
         });
-        it('should reload 2 css files', function() {
+        it.skip('should reload 2 css files', function() {
             cy.exec('touch packages/browser-sync/test/fixtures/**/*.css');
             cy.get('link').should($links => {
                 $links.each((i, elem) => {
@@ -34,7 +34,7 @@ describe('Reloading files', function() {
                 });
             });
         });
-        it('should reload with windows style paths', function() {
+        it.skip('should reload with windows style paths', function() {
             cy.get('#__bs_notify__').should('have.length', 1);
             cy.request('POST', 'http://localhost:3000/__browser_sync__',
                 JSON.stringify([

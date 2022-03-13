@@ -8,7 +8,7 @@ var client = require("socket.io-client");
 var pkg = require(path.resolve("package.json"));
 var cli = require(path.resolve(pkg.bin)).default;
 
-describe("E2E CLI proxy + websockets test", function() {
+describe.skip("E2E CLI proxy + websockets test", function() {
     var instance, server;
 
     before(function(done) {

@@ -7,6 +7,7 @@
     "sourceMap": true,
     "outDir": "dist",
     "allowJs": true,
+    "esModuleInterop": true,
     "lib": [
       "es2015",
       "dom",
@@ -15,7 +16,8 @@
     "types": []
   },
   "include": [
-    "types/types.d.ts"
+    "./types",
+    "./lib"
   ],
   "exclude": []
 }

@@ -1,22 +1,20 @@
-"use strict";
-
-var socket = require("socket.io");
-var utils = require("./server/utils");
+import {Server} from "socket.io";
+import * as utils from "./server/utils";
 
 /**
  * Plugin interface
  * @returns {*|function(this:exports)}
  */
-module.exports.plugin = function(server, clientEvents, bs) {
+export function plugin(server, clientEvents, bs) {
     return exports.init(server, clientEvents, bs);
-};
+}
 
 /**
  * @param {http.Server} server
  * @param clientEvents
  * @param {BrowserSync} bs
  */
-module.exports.init = function(server, clientEvents, bs) {
+export function init(server, clientEvents, bs) {
     var emitter = bs.events;
 
     var socketConfig = bs.options.get("socket").toJS();
@@ -34,27 +32,22 @@ module.exports.init = function(server, clientEvents, bs) {
 
     var socketIoConfig = socketConfig.socketIoOptions;
     socketIoConfig.path = socketConfig.path;
-    // set pingTimeout from clients.heartbeatTimeout after heartbeat reversal in engine.io@4
-    // https://socket.io/blog/engine-io-4-release/#Heartbeat-mechanism-reversal
-    socketIoConfig.pingTimeout = socketConfig.clients.heartbeatTimeout;
-    // enable cors for any domain after socket.io@3
-    // https://socket.io/docs/v3/migrating-from-2-x-to-3-0/#cors-handling
-    socketIoConfig.cors = {
-        origins: (origin, callback) => callback(null, origin)
-    }
 
-    // create instance of socket.io Server
-    var io = socket(server, socketIoConfig);
-    // move internal sockets property back to connected to maintain backwards compatibility after socket.io@3
-    // https://socket.io/docs/v3/migrating-from-2-x-to-3-0/#namespaceconnected-is-renamed-to-namespacesockets-and-is-now-a-map
+    const io = new Server();
+    io.attach(server, {
+      ...socketIoConfig,
+      pingTimeout: socketConfig.clients.heartbeatTimeout,
+      cors: {
+          credentials: true,
+          "origin": (origin, cb) => {
+            return cb(null, origin)
+          },
+      }
+    });
 
-    io.connected = io.sockets
-    io.sockets = io.of(socketConfig.namespace)
-
-    /**
-     * Listen for new connections
-     */
-    io.sockets.on("connection", handleConnection);
+    io.of(socketConfig.namespace).on('connection', (socket) => {
+        handleConnection(socket);
+    });
 
     /**
      * Handle each new connection
@@ -86,5 +79,8 @@ module.exports.init = function(server, clientEvents, bs) {
         }
     }
 
+    // @ts-ignore
+    io.sockets = io.of(socketConfig.namespace)
+
     return io;
-};
+}

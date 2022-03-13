@@ -18,7 +18,8 @@
 		"build": "npm run build:static && npm run build:webpack",
 		"build:static": "node tasks/crossbow.js",
 		"build:webpack": "webpack",
-		"prepublishOnly": "npm run build"
+		"prepublishOnly": "npm run build",
+		"watch": "npm run build:webpack -- --watch"
 	},
 	"license": "Apache-2.0",
 	"dependencies": {
@@ -26,14 +27,14 @@
 		"connect-history-api-fallback": "^1",
 		"immutable": "^3",
 		"server-destroy": "1.0.1",
-		"socket.io-client": "^2.4.0",
+		"socket.io-client": "^4.4.1",
 		"stream-throttle": "^0.1.3"
 	},
 	"devDependencies": {
 		"angular": "^1.8.2",
-		"angular-route": "~1.4.8",
-		"angular-sanitize": "~1.4.8",
-		"angular-touch": "~1.4.8",
+		"angular-route": "~1.8.2",
+		"angular-sanitize": "^1.8.2",
+		"angular-touch": "^1.8.2",
 		"bs-snippet-injector": "^2.0.1",
 		"chai": "^3",
 		"compression": "^1",

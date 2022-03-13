@@ -8,8 +8,8 @@ skip_tags: true
 
 environment:
   matrix:
+    - nodejs_version: "16"
     - nodejs_version: "14"
-    - nodejs_version: "12"
 
 install:
   - ps: Install-Product node $env:nodejs_version
