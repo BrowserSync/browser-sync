@@ -34,7 +34,7 @@ jobs:
       # Runs a single command using the runners shell
       - name: Install
         run: npm ci
-      - name: Test
-        run: npm test
       - name: Test E2E
         run: npm run test:e2e
+      - name: Test
+        run: npm test
