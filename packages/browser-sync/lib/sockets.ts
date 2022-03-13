@@ -36,7 +36,13 @@ export function init(server, clientEvents, bs) {
     const io = new Server();
     io.attach(server, {
       ...socketIoConfig,
-      pingTimeout: socketConfig.clients.heartbeatTimeout
+      pingTimeout: socketConfig.clients.heartbeatTimeout,
+      cors: {
+          credentials: true,
+          "origin": (origin, cb) => {
+            return cb(null, origin)
+          },
+      }
     });
 
     io.of(socketConfig.namespace).on('connection', (socket) => {
