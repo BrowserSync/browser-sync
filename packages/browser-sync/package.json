@@ -32,7 +32,7 @@
 		"test": "npm run build && npm run env && npm run unit",
 		"unit": "mocha --recursive test/specs --timeout 10000 --bail --exit",
 		"watch": "npm run build && npm run serve:fixtures",
-		"serve:fixtures": "node dist/bin init --help"
+		"serve:fixtures": "node dist/bin test/fixtures -w --no-open"
 	},
 	"dependencies": {
 		"browser-sync-client": "^2.27.9",

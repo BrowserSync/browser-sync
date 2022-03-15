@@ -1,7 +1,7 @@
-import { FileReloadEventPayload } from "../../types/socket";
+import { FileReloadEventPayload } from "../types/socket";
 import { EffectNames } from "../effects";
 import { Inputs } from "../index";
-import { reload } from "../../vendor/Reloader";
+import { reload } from "../vendor/Reloader";
 import { withLatestFrom } from "rxjs/operators/withLatestFrom";
 import { mergeMap } from "rxjs/operators/mergeMap";
 import { Observable } from "rxjs/Observable";

@@ -4,7 +4,7 @@
  * :) :) :)
  *
  */
-import {getLocation, pathFromUrl, pathsMatch, pickBestMatch, splitUrl, updateSearch, array} from "../lib/utils";
+import {getLocation, pathFromUrl, pathsMatch, pickBestMatch, splitUrl, updateSearch, array} from "../utils";
 import {empty} from "rxjs/observable/empty";
 import {Observable} from "rxjs/Observable";
 import {merge} from "rxjs/observable/merge";
@@ -15,9 +15,9 @@ import {map} from "rxjs/operators/map";
 import {mergeMap} from "rxjs/operators/mergeMap";
 import {tap} from "rxjs/operators/tap";
 import {mapTo} from "rxjs/operators/mapTo";
-import {propSet} from "../lib/dom-effects/prop-set.dom-effect";
-import {styleSet} from "../lib/dom-effects/style-set.dom-effect";
-import {linkReplace} from "../lib/dom-effects/link-replace.dom-effect";
+import {propSet} from "../dom-effects/prop-set.dom-effect";
+import {styleSet} from "../dom-effects/style-set.dom-effect";
+import {linkReplace} from "../dom-effects/link-replace.dom-effect";
 import {mergeAll} from "rxjs/operators/mergeAll";
 
 var hiddenElem;

@@ -1,4 +1,4 @@
-import {IncomingSocketNames} from "../lib/socket-messages";
+import {IncomingSocketNames} from "../socket-messages";
 
 export type FileReloadEventPayload = {
     url?: string;

@@ -6,7 +6,7 @@ var fs = require("fs");
 var path = require("path");
 var zlib = require("zlib");
 
-var minifiedScript = path.join(__dirname, "dist", "index.min.js");
+var minifiedScript = path.join(__dirname, "dist", "index.js");
 var unminifiedScript = path.join(__dirname, "dist", "index.js");
 
 /**
