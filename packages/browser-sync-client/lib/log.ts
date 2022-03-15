@@ -2,7 +2,7 @@ import { BehaviorSubject } from "rxjs/BehaviorSubject";
 import { timer } from "rxjs/observable/timer";
 import { Observable } from "rxjs/Observable";
 import { of } from "rxjs/observable/of";
-import { Nanologger } from "../vendor/logger";
+import { Nanologger } from "./vendor/logger";
 import { filter } from "rxjs/operators/filter";
 import { tap } from "rxjs/operators/tap";
 import { withLatestFrom } from "rxjs/operators/withLatestFrom";

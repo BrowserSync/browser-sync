@@ -9,7 +9,7 @@ import { SocketEvent, socketHandlers$ } from "./socket-messages";
 import { merge } from "rxjs/observable/merge";
 import { initLogger, logHandler$ } from "./log";
 import { effectOutputHandlers$ } from "./effects";
-import { Nanologger } from "../vendor/logger";
+import { Nanologger } from "./vendor/logger";
 import { scrollRestoreHandlers$, initWindowName } from "./scroll-restore";
 import { initListeners } from "./listeners";
 import { groupBy } from "rxjs/operators/groupBy";
