@@ -37,13 +37,18 @@ if (!module.parent) {
     runFromCli();
 }
 
+function freshYargs() {
+  return require("yargs")(process.argv.slice(2));
+}
+
 function runFromCli() {
-    const yargs = require("yargs")
+    const yargs = freshYargs()
         .command("start", "Start the server")
         .command("init", "Create a configuration file")
         .command("reload", "Send a reload event over HTTP protocol")
         .command("recipe", "Generate the files for a recipe")
         .version(pkg.version)
+        .help(false)
         .epilogue(
             [
                 "For help running a certain command, type <command> --help",
@@ -69,15 +74,15 @@ function runFromCli() {
     const valid = ["start", "init", "reload", "recipe"];
 
     if (valid.indexOf(command) > -1) {
-        return handleIncoming(command, yargs.reset());
+        return handleIncoming(command, freshYargs());
     }
 
     if (input.length) {
-        return handleNoCommand(argv, input, yargs);
+        return handleNoCommand(argv, input, freshYargs());
     }
 
     if (existsSync("index.html")) {
-        return handleNoCommand(argv, ["."], yargs);
+        return handleNoCommand(argv, ["."], freshYargs());
     }
 
     yargs.showHelp();
@@ -179,7 +184,7 @@ function processStart(yargs) {
         .example("$0 start -s app", "- Use the App directory to serve files")
         .example("$0 start -p www.bbc.co.uk", "- Proxy an existing website")
         .default("cwd", () => process.cwd())
-        .help().argv;
+        .argv;
 }
 
 /**
@@ -206,7 +211,7 @@ function handleIncoming(command, yargs) {
             .example("$0 reload")
             .example("$0 reload --port 4000")
             .default("cwd", () => process.cwd())
-            .help().argv;
+            .argv;
     }
     if (command === "recipe") {
         out = yargs
@@ -215,7 +220,7 @@ function handleIncoming(command, yargs) {
             .example("$0 recipe ls", "list the recipes")
             .example("$0 recipe gulp.sass", "use the gulp.sass recipe")
             .default("cwd", () => process.cwd())
-            .help().argv;
+            .argv;
     }
 
     if (out.help) {
