@@ -31,7 +31,8 @@
 		"prettier:fix": "npm run prettier -- --write",
 		"test": "npm run build && npm run env && npm run unit",
 		"unit": "mocha --recursive test/specs --timeout 10000 --bail --exit",
-		"watch": "npm run build && node dist/bin test/fixtures -w --no-open"
+		"watch": "npm run build && npm run serve:fixtures",
+		"serve:fixtures": "node dist/bin init --help"
 	},
 	"dependencies": {
 		"browser-sync-client": "^2.27.8",
@@ -63,7 +64,7 @@
 		"server-destroy": "1.0.1",
 		"socket.io": "^4.4.1",
 		"ua-parser-js": "1.0.2",
-		"yargs": "^15.4.1"
+		"yargs": "^17.3.1"
 	},
 	"devDependencies": {
 		"@types/node": "^8",
