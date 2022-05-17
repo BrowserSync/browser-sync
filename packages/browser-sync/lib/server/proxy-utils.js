@@ -151,6 +151,9 @@ function rewriteCookies(rawCookie) {
     if (rawCookie.match(/httponly/i)) {
         pairs.push("HttpOnly");
     }
+    if (rawCookie.match(/secure/i)) {
+      pairs.push('secure');
+    }
 
     return pairs.join("; ");
 }
