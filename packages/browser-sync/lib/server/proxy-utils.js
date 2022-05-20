@@ -156,8 +156,8 @@ function rewriteCookies(rawCookie) {
     // @see https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Set-Cookie/SameSite#samesitenone_requires_secure
     // @see https://chromestatus.com/feature/5633521622188032
     if (
-        rawCookie.match(/[ ]secure\;/i) &&
-        rawCookie.match(/[ ]SameSite=None/i)
+        rawCookie.match(/[ ]secure(?:\;|$)/i) &&
+        rawCookie.match(/[ ]SameSite=None(?:\;|$)/i)
     ) {
         pairs.push("secure");
     }
