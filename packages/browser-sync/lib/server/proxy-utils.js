@@ -151,8 +151,15 @@ function rewriteCookies(rawCookie) {
     if (rawCookie.match(/httponly/i)) {
         pairs.push("HttpOnly");
     }
-    if (rawCookie.match(/secure/i)) {
-      pairs.push('secure');
+
+    // SameSite=None must be declared as secure;
+    // @see https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Set-Cookie/SameSite#samesitenone_requires_secure.
+    // @see https://chromestatus.com/feature/5633521622188032
+    if (
+        rawCookie.match(/[ ]secure\;/i) &&
+        rawCookie.match(/[ ]SameSite=None/i)
+    ) {
+        pairs.push("secure");
     }
 
     return pairs.join("; ");
