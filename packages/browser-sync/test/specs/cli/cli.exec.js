@@ -8,8 +8,10 @@ describe("CLI: exec", function() {
         var chunks = [];
         strem.stdout.on("data", function(data) {
             chunks.push(data.toString());
-            if (chunks.join("").indexOf("Copy the following snippet")) {
+            if (chunks.join("").indexOf("Copy the following snippet") > -1) {
                 strem.kill("SIGINT");
+            } else {
+                done(new Error("missing output"))
             }
         });
         strem.on("close", function() {

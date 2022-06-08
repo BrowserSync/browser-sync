@@ -3,3 +3,4 @@ npm-debug.log
 test/coverage
 example.proxy.js
 /dist/*
+/_dist/*

@@ -15,6 +15,6 @@ export function preBrowserReload() {
 export function browserReloadEffect(xs: Observable<any>, inputs: Inputs) {
     return xs.pipe(
         withLatestFrom(inputs.window$),
-        tap(([, window]) => window.location.reload(true))
+        tap(([, window]) => window.location.reload())
     );
 }

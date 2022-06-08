@@ -1,7 +1,7 @@
 {
 	"name": "browser-sync-client",
 	"description": "Client-side scripts for BrowserSync",
-	"version": "2.27.7",
+	"version": "2.27.10",
 	"homepage": "https://github.com/shakyshane/browser-sync-client",
 	"author": "Shane Osbourne <shane.osbourne8@gmail.com>",
 	"repository": {
@@ -25,25 +25,26 @@
 		"node": ">=8.0.0"
 	},
 	"scripts": {
-		"build": "webpack --mode=development && webpack --output-filename index.min.js",
-		"prepublishOnly": "npm run build"
+		"build": "npm run clean && npm run tsc && npm run bundle",
+		"clean": "rm -rf dist/* _dist/*",
+		"watch": "npm run build:prod -- --watch",
+		"prepublishOnly": "npm run build",
+		"bundle": "esbuild _dist/index.js --bundle --outdir=dist --minify",
+		"tsc": "rm -rf dist/* dist2/* && tsc"
 	},
 	"devDependencies": {
 		"@types/node": "^8",
-		"awesome-typescript-loader": "^5.2.1",
+		"esbuild": "^0.14.27",
 		"nanologger": "^1.3.1",
-		"socket.io-client": "^2.4.0",
-		"typescript": "3.0.3",
-		"webpack": "^5.17.0",
-		"webpack-cli": "^4.4.0",
-		"webpack-dev-server": "^3.11.2"
+		"socket.io-client": "^4.4.1"
 	},
 	"keywords": [],
 	"dependencies": {
 		"etag": "1.8.1",
 		"fresh": "0.5.2",
 		"mitt": "^1.1.3",
-		"rxjs": "^5.5.6"
+		"rxjs": "^5.5.6",
+		"typescript": "^4.6.2"
 	},
 	"directories": {
 		"lib": "lib",

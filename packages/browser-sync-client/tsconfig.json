@@ -1,12 +1,15 @@
 {
   "compilerOptions": {
-    "module": "commonjs",
+    "module": "es2022",
     "target": "es5",
     "noImplicitAny": false,
     "preserveConstEnums": true,
+    "moduleResolution": "node",
     "sourceMap": true,
-    "outDir": "dist",
+    "outDir": "_dist",
     "allowJs": true,
+    "esModuleInterop": true,
+    "importHelpers": true,
     "lib": [
       "es2015",
       "dom",
@@ -15,7 +18,7 @@
     "types": []
   },
   "include": [
-    "types/types.d.ts"
+    "./lib"
   ],
   "exclude": []
 }

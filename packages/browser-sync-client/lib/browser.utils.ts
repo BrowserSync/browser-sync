@@ -132,7 +132,7 @@ export function setScroll(pos) {
  * Hard reload
  */
 export function reloadBrowser() {
-    getWindow().location.reload(true);
+    getWindow().location.reload();
 }
 
 /**
@@ -151,6 +151,8 @@ export function forEach(coll, fn) {
  * @returns {boolean}
  */
 export function isOldIe() {
+  // @ts-ignore - Only IE < 11 has .attachEvent property
+  // https://docs.microsoft.com/en-us/previous-versions/windows/internet-explorer/ie-developer/platform-apis/aa703974(v=vs.85)
     return typeof getWindow().attachEvent !== "undefined";
 }
 

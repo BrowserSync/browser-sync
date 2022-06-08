@@ -4,7 +4,8 @@ var assert = require("chai").assert;
 var socket = require("socket.io");
 var client = require("socket.io-client");
 
-describe("E2E proxy + Web sockets test", function() {
+// this is going to be replaced with a full e2e test in the browser
+describe.skip("E2E proxy + Web sockets test", function() {
     var instance, server, options;
 
     before(function(done) {
