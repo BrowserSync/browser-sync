@@ -9,7 +9,7 @@
 		"test:e2e": "cb cy:file-reloading cy:ui-remote-debug cy:connection-notify"
 	},
 	"devDependencies": {
-		"lerna": "^4.0.0"
+		"lerna": "^6.1.0"
 	},
 	"dependencies": {
 		"crossbow": "^4.6.0",
