@@ -9,6 +9,7 @@ var assert = require("chai").assert;
 var cli = require(path.resolve(pkg.bin)).default;
 var fs = require("fs");
 var rim = require("rimraf").sync;
+var chalk       = require("chalk");
 
 describe("E2E CLI `recipes` command", function() {
     it("works with no output flag", function(done) {
@@ -38,7 +39,8 @@ describe("E2E CLI `recipes` command", function() {
                 sinon.assert.calledWith(stub1, "No recipe name provided!");
                 sinon.assert.calledWith(
                     stub1,
-                    "Install one of the following with {cyan:browser-sync recipe <name>\n"
+                    "Install one of the following with %s\n",
+                    chalk.cyan('browser-sync recipe <name>')
                 );
 
                 logger.info.restore();
@@ -86,11 +88,12 @@ describe("E2E CLI `recipes` command", function() {
                 assert.isTrue(fs.existsSync("test/recipes/server1"));
                 rim("test/recipes/server1");
                 var call1 = stub1.getCall(0).args;
-                assert.equal(call1[0], "Recipe copied into {cyan:%s}");
-                assert.equal(call1[1], dir);
+                assert.equal(call1[0], "Recipe copied into %s");
+                assert.equal(call1[1], chalk.cyan(dir));
                 sinon.assert.calledWith(
                     stub1,
-                    "Next, inside that folder, run {cyan:npm i && npm start}"
+                    "Next, inside that folder, run %s",
+                    chalk.cyan("npm i && npm start")
                 );
                 logger.info.restore();
                 done();
@@ -108,10 +111,10 @@ describe("E2E CLI `recipes` command", function() {
             },
             cb: function(err) {
                 var call1 = stub1.getCall(0).args;
-                assert.equal(
-                    call1[0],
-                    "Recipe {cyan:%s} not found. The following are available though"
-                );
+                sinon.assert.calledWith(stub1,
+                    "Recipe %s not found. The following are available though",
+                    chalk.cyan("beepboop")
+                )
 
                 var calls = stub2.getCalls().map(function(call) {
                     return call.args[0].trim();

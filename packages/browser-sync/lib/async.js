@@ -6,6 +6,7 @@ var Immutable = require("immutable");
 var utils = require("./utils");
 var pluginUtils = require("./plugins");
 var connectUtils = require("./connect-utils");
+var chalk       = require("chalk");
 
 module.exports = {
     /**
@@ -20,7 +21,7 @@ module.exports = {
             if (err) {
                 return utils.fail(true, err, bs.cb);
             }
-            bs.debug("Found a free port: {magenta:%s", port);
+            bs.debug("Found a free port: %s", chalk.magenta(port));
             done(null, {
                 options: {
                     port: port
@@ -98,11 +99,13 @@ module.exports = {
                 var online = false;
                 if (err) {
                     bs.debug(
-                        "Could not resolve www.google.com, setting {magenta:online: false}"
+                        "Could not resolve www.google.com, setting %s",
+                        chalk.magenta("online: false")
                     );
                 } else {
                     bs.debug(
-                        "Resolved www.google.com, setting {magenta:online: true}"
+                        "Resolved www.google.com, setting %s",
+                        chalk.magenta("online: true")
                     );
                     online = true;
                 }

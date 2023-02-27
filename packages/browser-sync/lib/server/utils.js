@@ -206,7 +206,8 @@ var serverUtils = {
             if (withErrors.size) {
                 withErrors.forEach(function(item) {
                     logger.logger.error(
-                        "{red:Warning!} %s",
+                        "%s %s",
+                        chalk.red("Warning!"),
                         item.getIn(["errors", 0, "data", "message"])
                     );
                 });

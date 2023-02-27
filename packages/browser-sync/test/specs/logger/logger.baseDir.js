@@ -1,30 +1,7 @@
 var browserSync = require("../../../");
 var logger = require("../../../dist/logger").logger;
 var sinon = require("sinon");
-var assert = require("chai").assert;
-
-function hasCleanArgs(stub, args) {
-    return hasArgs(cleanArgs(stub.getCalls()), args);
-}
-
-function cleanArgs(calls) {
-    return calls.map(function(call) {
-        call.args = call.args.map(require("chalk").stripColor);
-        return call;
-    });
-}
-
-function hasArgs(calls, args) {
-    return calls.some(function(clean) {
-        var successes = 0;
-        args.forEach(function(arg, i) {
-            if (clean.args[i] === arg) {
-                successes += 1;
-            }
-        });
-        return successes === args.length;
-    });
-}
+var chalk       = require("chalk");
 
 describe("Logging", function() {
     var spy;
@@ -45,18 +22,16 @@ describe("Logging", function() {
                 open: false
             },
             function(err, bs) {
-                assert.isTrue(
-                    hasCleanArgs(spy, [
-                        "Serving files from: {magenta:%s}",
-                        "./test"
-                    ])
-                );
-                assert.isTrue(
-                    hasCleanArgs(spy, [
-                        "Serving files from: {magenta:%s}",
-                        "./app"
-                    ])
-                );
+                sinon.assert.calledWith(
+                    spy,
+                    "Serving files from: %s",
+                    chalk.magenta("./test")
+                )
+                sinon.assert.calledWith(
+                    spy,
+                    "Serving files from: %s",
+                    chalk.magenta("./app")
+                )
                 bs.cleanup(done);
             }
         );
@@ -83,13 +58,15 @@ describe("Logging", function() {
                 open: false
             },
             function(err, bs) {
-                assert.isTrue(
-                    hasCleanArgs(spy, [
-                        "Serving files from: {magenta:%s}",
-                        "./app"
-                    ])
-                );
-                assert.isTrue(hasCleanArgs(spy, ["Watching files..."]));
+                sinon.assert.calledWith(
+                    spy,
+                    "Serving files from: %s",
+                    chalk.magenta("./app")
+                )
+                sinon.assert.calledWith(
+                    spy,
+                    "Watching files..."
+                )
                 bs.cleanup(done);
             }
         );

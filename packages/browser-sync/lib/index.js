@@ -8,6 +8,7 @@ var pjson = require("../package.json");
 var BrowserSync = require("./browser-sync");
 var publicUtils = require("./public/public-utils");
 var events = require("events");
+var chalk  = require("chalk");
 var PassThrough = require("stream").PassThrough;
 var logger = require("eazy-logger").Logger({
     useLevelPrefixes: true
@@ -245,7 +246,9 @@ function initSingleton() {
         });
         if (instance.length) {
             logger.error(
-                "{yellow:You tried to start Browsersync twice!} To create multiple instances, use {cyan:browserSync.create().init()"
+                chalk.yellow("You tried to start Browsersync twice!"),
+                "To create multiple instances, use",
+                chalk.cyan("browserSync.create().init()")
             );
             return instance;
         }

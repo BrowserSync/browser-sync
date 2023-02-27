@@ -4,6 +4,7 @@ var assert = require("chai").assert;
 var sinon = require("sinon");
 var stripColor = require("chalk").stripColor;
 var logger = require("../../../dist/logger").logger;
+var chalk  = require("chalk");
 
 describe("E2E `logPrefix` option", function() {
     it("Can set the log prefix when given in options", function(done) {
@@ -17,10 +18,8 @@ describe("E2E `logPrefix` option", function() {
         logger.mute(false);
         var spy = sinon.spy(console, "log");
         browserSync(config, function(err, bs) {
-            console.log(err);
             var arg = spy.getCall(0).args[0];
-            assert.include(stripColor(arg), "[BS2]");
-            assert.notInclude(stripColor(arg), "[BS]");
+            assert.include(arg, "[" + chalk.blue(config.logPrefix) + "]");
             console.log.restore();
             bs.cleanup();
             done();
@@ -32,7 +31,7 @@ describe("E2E `logPrefix` option", function() {
         var config = {
             open: false,
             logPrefix: function() {
-                return this.compile("AWESOME");
+                return "AWESOME"
             },
             logLevel: "info",
             online: false,
@@ -42,8 +41,7 @@ describe("E2E `logPrefix` option", function() {
         var spy = sinon.spy(console, "log");
         browserSync(config, function(err, bs) {
             var arg = spy.getCall(0).args[0];
-            assert.include(stripColor(arg), "AWESOME");
-            assert.notInclude(stripColor(arg), "[BS]");
+            assert.include(arg, "AWESOME");
             console.log.restore();
             bs.cleanup();
             done();

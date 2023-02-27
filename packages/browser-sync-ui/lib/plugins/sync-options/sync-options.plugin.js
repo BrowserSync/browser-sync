@@ -1,4 +1,5 @@
 const PLUGIN_NAME = "Sync Options";
+var chalk         = require("chalk");
 
 /**
  * @type {{plugin: Function, plugin:name: string, hooks: object}}
@@ -11,9 +12,8 @@ module.exports = {
 
             "set": function (data) {
 
-                ui.logger.debug("Setting option: {magenta:%s}:{cyan:%s}", data.path.join("."), data.value);
+                ui.logger.debug("Setting option: %s:%s", chalk.magenta(data.path.join(".")), chalk.cyan(data.value));
                 bs.setOptionIn(data.path, data.value);
-
             },
 
             "setMany": function (data) {
