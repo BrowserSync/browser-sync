@@ -10,11 +10,11 @@ module.exports = {
         baseDir: path.join(__dirname, "control-panel")
     },
     templates: {
-        scriptTag: path.join(__dirname, "..", "templates/script-tags.tmpl"),
+        scriptTag: path.join(__dirname, "..", "templates/script-tags.html"),
         scriptTagSimple: path.join(
             __dirname,
             "..",
-            "templates/script-tags-simple.tmpl"
+            "templates/script-tags-simple.html"
         ),
         connector: path.join(__dirname, "..", "templates/connector.tmpl")
     },

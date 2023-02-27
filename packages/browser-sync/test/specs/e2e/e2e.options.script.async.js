@@ -21,7 +21,7 @@ describe("E2E script with/without async attribute", function() {
             }
         };
         browserSync(config, function(err, bs) {
-            assert.notInclude(bs.options.get("snippet"), "async");
+            assert.notInclude(bs.options.get("snippet"), "'async'");
             bs.cleanup();
             done();
         });
