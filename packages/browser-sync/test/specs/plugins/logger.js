@@ -33,7 +33,7 @@ describe("Plugins: Getting a logger", function() {
                         .setLevelPrefixes(false)
                         .info("Connected!");
                         var msg = stripAnsi(stub.getCall(0).args[0]);
-                    assert.equal(msg, "[HTML] Connected!");
+                    assert.equal(msg, "[Browsersync] [HTML] Connected!");
                     instance.cleanup();
                     done();
                 }
