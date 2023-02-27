@@ -246,8 +246,8 @@ function initSingleton() {
         });
         if (instance.length) {
             logger.error(
-                chalk.yellow("You tried to start Browsersync twice! "),
-                "To create multiple instances, use ",
+                chalk.yellow("You tried to start Browsersync twice!"),
+                "To create multiple instances, use",
                 chalk.cyan("browserSync.create().init()")
             );
             return instance;
