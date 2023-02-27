@@ -6,6 +6,7 @@ var logger = require("../logger").logger;
 var fs = require("fs");
 var _ = require("../lodash.custom");
 var path = require("path");
+var chalk = require("chalk");
 
 var info = {
     /**
@@ -45,10 +46,10 @@ var info = {
         file = file.replace("//OPTS", JSON.stringify(userOpts, null, 4));
 
         fs.writeFile(path.resolve(cwd, config.userFile), file, function() {
-            logger.info("Config file created {magenta:%s}", config.userFile);
+            logger.info("Config file created %s", chalk.magenta(config.userFile));
             logger.info(
                 "To use it, in the same directory run: " +
-                    "{cyan:browser-sync start --config bs-config.js}"
+                    chalk.cyan("browser-sync start --config bs-config.js")
             );
             cb();
         });

@@ -1,5 +1,6 @@
 "use strict";
 var logger = require("../logger").logger;
+var chalk  = require("chalk");
 
 /**
  * $ browser-sync recipe <name> <options>
@@ -20,7 +21,8 @@ module.exports = function(opts) {
     var logRecipes = function() {
         var dirs = fs.readdirSync(path.join(dir, "recipes"));
         logger.info(
-            "Install one of the following with {cyan:browser-sync recipe <name>\n"
+            "Install one of the following with %s\n",
+            chalk.cyan('browser-sync recipe <name>')
         );
         dirs.forEach(function(name) {
             console.log("    " + name);
@@ -56,17 +58,18 @@ module.exports = function(opts) {
             if (err) {
                 opts.cb(err);
             } else {
-                logger.info("Recipe copied into {cyan:%s}", output);
+                logger.info("Recipe copied into %s", chalk.cyan(output));
                 logger.info(
-                    "Next, inside that folder, run {cyan:npm i && npm start}"
+                    "Next, inside that folder, run %s",
+                    chalk.cyan("npm i && npm start")
                 );
                 opts.cb(null);
             }
         });
     } else {
         logger.info(
-            "Recipe {cyan:%s} not found. The following are available though",
-            input
+            "Recipe %s not found. The following are available though",
+            chalk.cyan(input)
         );
         logRecipes();
         opts.cb();

@@ -3,8 +3,9 @@
 var messages = require("./connect-utils");
 var utils = require("./utils");
 var _ = require("./lodash.custom");
+var chalk = require("chalk");
 
-var template = "[{blue:%s}] ";
+var template = (prefix) => "[" + chalk.blue(prefix) + "] "
 
 var logger = require("eazy-logger").Logger({
     useLevelPrefixes: false
@@ -18,7 +19,7 @@ module.exports.logger = logger;
  */
 module.exports.getLogger = function(name) {
     return logger.clone(function(config) {
-        config.prefix = config.prefix + template.replace("%s", name);
+        config.prefix = config.prefix + template(name)
         return config;
     });
 };
@@ -46,14 +47,15 @@ module.exports.callbacks = {
         if (canLogFileChange(bs, data)) {
             if (data.path[0] === "*") {
                 return logger.info(
-                    "{cyan:Reloading files that match: {magenta:%s",
-                    data.path
+                    chalk.cyan("Reloading files that match: %s"),
+                    chalk.magenta(data.path)
                 );
             }
 
             logger.info(
-                "{cyan:File event [" + data.event + "] : {magenta:%s",
-                data.path
+                chalk.cyan("File event [%s] : %s"),
+                data.event,
+                chalk.magenta(data.path),
             );
         }
     },
@@ -70,12 +72,11 @@ module.exports.callbacks = {
         if (canLogFileChange(bs)) {
             if (data.files && data.files.length > 1) {
                 return logger.info(
-                    `{cyan:Reloading Browsers... (buffered ${
-                        data.files.length
-                    } events)`
+                    chalk.cyan(`Reloading Browsers... (buffered %s events)`),
+                    data.files.length
                 );
             }
-            logger.info("{cyan:Reloading Browsers...");
+            logger.info(chalk.cyan("Reloading Browsers..."));
         }
     },
     /**
@@ -83,7 +84,10 @@ module.exports.callbacks = {
      */
     "browser:error": function() {
         logger.error(
-            "Couldn't open browser (if you are using BrowserSync in a headless environment, you might want to set the {cyan:open} option to {cyan:false})"
+            "Couldn't open browser (if you are using BrowserSync in a " +
+            "headless environment, you might want to set the %s option to %s)",
+            chalk.cyan("open"),
+            chalk.cyan("false"),
         );
     },
     /**
@@ -95,10 +99,10 @@ module.exports.callbacks = {
             var changed = data.changed;
 
             logger.info(
-                "{cyan:%s %s changed} ({magenta:%s})",
+                chalk.cyan("%s %s changed (%s)"),
                 changed.length,
                 changed.length > 1 ? "files" : "file",
-                changed.join(", ")
+                chalk.magenta(changed.join(", "))
             );
         }
     },
@@ -109,14 +113,14 @@ module.exports.callbacks = {
      */
     "client:connected": function(bs, data) {
         var uaString = utils.getUaString(data.ua);
-        var msg = "{cyan:Browser Connected: {magenta:%s, version: %s}";
+        var msg = chalk.cyan("Browser Connected: %s, version: %s");
         var method = "info";
 
         if (!bs.options.get("logConnections")) {
             method = "debug";
         }
 
-        logger.log(method, msg, uaString.name, uaString.version);
+        logger.log(method, msg, chalk.magenta(uaString.name), chalk.magenta(uaString.version));
     },
     /**
      * Main logging when the service is running
@@ -150,8 +154,8 @@ module.exports.callbacks = {
 
         if (type === "proxy") {
             logger.info(
-                "Proxying: {cyan:%s}",
-                bs.options.getIn(["proxy", "target"])
+                "Proxying: %s",
+                chalk.cyan(bs.options.getIn(["proxy", "target"]))
             );
             logUrls(bs.options.get("urls").toJS());
         }
@@ -159,8 +163,7 @@ module.exports.callbacks = {
         if (type === "snippet") {
             if (bs.options.get("logSnippet")) {
                 logger.info(
-                    "{bold:Copy the following snippet into your website, " +
-                        "just before the closing {cyan:</body>} tag"
+                    chalk.bold(`Copy the following snippet into your website, just before the closing ${chalk.cyan('</body>')} tag`)
                 );
 
                 logger.unprefixed("info", messages.scriptTags(bs.options));
@@ -177,7 +180,7 @@ module.exports.callbacks = {
         }
 
         function serveFiles(base) {
-            logger.info("Serving files from: {magenta:%s}", base);
+            logger.info("Serving files from: %s", chalk.magenta(base));
         }
     }
 };
@@ -199,7 +202,7 @@ module.exports.plugin = function(emitter, bs) {
         if (_.isFunction(logPrefix)) {
             logger.setPrefix(logPrefix);
         } else {
-            logger.setPrefix(template.replace("%s", logPrefix));
+            logger.setPrefix(template(logPrefix));
         }
     }
 
@@ -237,24 +240,24 @@ function logUrls(urls) {
     var underline = getChars(longestName + offset + longesturl + 1, "-");
     var underlined = false;
 
-    logger.info("{bold:Access URLs:");
-    logger.unprefixed("info", "{grey: %s", underline);
+    logger.info(chalk.bold("Access URLs:"));
+    logger.unprefixed("info", " %s", chalk.grey(underline));
 
     keys.forEach(function(key, i) {
         var keyname = getKeyName(key);
         logger.unprefixed(
             "info",
-            " %s: {magenta:%s}",
+            " %s: %s",
             getPadding(key.length, longestName + offset) + keyname,
-            urls[key]
+            chalk.magenta(urls[key])
         );
         if (!underlined && names[i + 1] && names[i + 1].indexOf("ui") > -1) {
             underlined = true;
-            logger.unprefixed("info", "{grey: %s}", underline);
+            logger.unprefixed("info", " %s", chalk.grey(underline));
         }
     });
 
-    logger.unprefixed("info", "{grey: %s}", underline);
+    logger.unprefixed("info", " %s", chalk.grey(underline));
 }
 
 /**

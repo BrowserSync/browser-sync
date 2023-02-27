@@ -6,6 +6,7 @@ var config = require("./config");
 var connectUtils = require("./connect-utils");
 var utils = require("./utils");
 var logger = require("./logger");
+var chalk  = require("chalk");
 
 var eachSeries = utils.eachSeries;
 var _ = require("./lodash.custom");
@@ -132,7 +133,7 @@ BrowserSync.prototype.init = function(options, cb) {
  */
 function taskRunner(bs) {
     return function(item, cb) {
-        bs.debug("-> {yellow:Starting Step: " + item.step);
+        bs.debug("-> %s", chalk.yellow("Starting Step: " + item.step));
 
         /**
          * Execute the current task.
@@ -155,7 +156,7 @@ function taskRunner(bs) {
                 handleOut(bs, out);
             }
 
-            bs.debug("+  {green:Step Complete: " + item.step);
+            bs.debug("+  %s", chalk.green("Step Complete: " + item.step));
 
             cb();
         }
