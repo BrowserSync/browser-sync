@@ -1,7 +1,7 @@
 {
 	"name": "browser-sync-ui",
 	"description": "User Interface for BrowserSync",
-	"version": "2.27.11",
+	"version": "2.28.1",
 	"homepage": "http://www.browsersync.io/",
 	"author": {
 		"name": "Shane Osbourne"
@@ -24,6 +24,7 @@
 	"license": "Apache-2.0",
 	"dependencies": {
 		"async-each-series": "0.1.1",
+		"chalk": "4.1.2",
 		"connect-history-api-fallback": "^1",
 		"immutable": "^3",
 		"server-destroy": "1.0.1",
@@ -40,7 +41,6 @@
 		"compression": "^1",
 		"crossbow-sites": "^1.0.1",
 		"easy-svg": "^3.0.0",
-		"eazy-logger": "^3.1.0",
 		"esbuild": "^0.14.27",
 		"jshint": "^2.8.0",
 		"mocha": "^8.2.0",

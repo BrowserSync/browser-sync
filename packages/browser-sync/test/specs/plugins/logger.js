@@ -2,7 +2,7 @@ var browserSync = require("../../../");
 
 var assert = require("chai").assert;
 var sinon = require("sinon");
-var chalk = require("chalk");
+var stripAnsi = require("strip-ansi");
 
 describe("Plugins: Getting a logger", function() {
     var stub;
@@ -32,8 +32,8 @@ describe("Plugins: Getting a logger", function() {
                         .setLevel("info")
                         .setLevelPrefixes(false)
                         .info("Connected!");
-                    var msg = chalk.stripColor(stub.getCall(0).args[0]);
-                    assert.equal(msg, "[HTML] Connected!");
+                        var msg = stripAnsi(stub.getCall(0).args[0]);
+                    assert.equal(msg, "[Browsersync] [HTML] Connected!");
                     instance.cleanup();
                     done();
                 }

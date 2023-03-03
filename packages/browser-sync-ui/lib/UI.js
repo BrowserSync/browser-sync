@@ -1,5 +1,6 @@
 var fs          = require("fs");
 var path        = require("path");
+var chalk       = require("chalk");
 
 var config      = require("./config");
 var eachSeries  = require("async-each-series");
@@ -188,7 +189,7 @@ function taskRunner (ui) {
             if (out) {
                 handleOut(ui, out);
             }
-            ui.logger.debug("{green:Step Complete: " + item.step);
+            ui.logger.debug(chalk.green("Step Complete: %s", item.step));
             cb();
         });
     };

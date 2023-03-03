@@ -3,6 +3,7 @@ var eachSeries  = require("async-each-series");
 var path        = require("path");
 var logger      = require("./logger");
 var ptor        = require("./runProtractor");
+var chalk       = require("chalk");
 
 var tests       = require("./tests.single");
 var configFile  = path.resolve(__dirname + "/config.single");
@@ -15,7 +16,11 @@ eachSeries(tests, function (testFile, asyncCallback) {
             // console.log(out) //debugging
         }
         if (!err) {
-            logger.info("{green:Tests Passed:} {yellow:%s", testFile);
+            logger.info(
+                "%s %s",
+                chalk.green("Tests Passed:"),
+                chalk.yellow(testFile)
+            )
         }
         if (err) {
             return asyncCallback(err);

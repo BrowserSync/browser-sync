@@ -2,12 +2,12 @@
 const startOpts = require("../cli-options/opts.start.json");
 const reloadOpts = require("../cli-options/opts.reload.json");
 const recipeOpts = require("../cli-options/opts.recipe.json");
+const chalk      = require("chalk");
 const pkg = require("../package.json");
 import * as utils from "./utils";
 import { resolve } from "path";
 import { existsSync } from "fs";
 import { logger } from "./logger";
-import { compile } from "eazy-logger";
 import { printErrors } from "./cli/cli-options";
 
 export enum BsErrorLevels {
@@ -64,7 +64,7 @@ function runFromCli() {
                 "  $0 https://example.com",
                 "",
                 "To run a proxy, whilst also serving static files",
-                compile("  $0 https://example.com htdocs/themes/example")
+                "  $0 https://example.com htdocs/themes/example"
             ].join("\n")
         );
 
@@ -241,9 +241,9 @@ function pathErrors(input, resolved): BsErrors {
                         error: new Error(`Path not found: ${input}`),
                         meta() {
                             return [
-                                `Your Input:    {yellow:${input}}`,
-                                `CWD:           {yellow:${process.cwd()}}`,
-                                `Resolved to:   {yellow:${resolved}}`
+                                `Your Input:    ${chalk.yellow(input)}`,
+                                `CWD:           ${chalk.yellow(process.cwd())}`,
+                                `Resolved to:   ${chalk.yellow(resolved)}`
                             ];
                         }
                     }
