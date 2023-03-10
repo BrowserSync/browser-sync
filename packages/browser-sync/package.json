@@ -1,7 +1,7 @@
 {
 	"name": "browser-sync",
 	"description": "Live CSS Reload & Browser Syncing",
-	"version": "2.28.1",
+	"version": "2.28.3",
 	"homepage": "https://browsersync.io/",
 	"author": {
 		"name": "Shane Osbourne"
@@ -35,16 +35,17 @@
 		"serve:fixtures": "node dist/bin test/fixtures -w --no-open"
 	},
 	"dependencies": {
-		"browser-sync-client": "^2.28.1",
-		"browser-sync-ui": "^2.28.1",
+		"browser-sync-client": "^2.28.3",
+		"browser-sync-ui": "^2.28.3",
 		"bs-recipes": "1.3.4",
 		"bs-snippet-injector": "^2.0.1",
+		"chalk": "4.1.2",
 		"chokidar": "^3.5.1",
 		"connect": "3.6.6",
 		"connect-history-api-fallback": "^1",
 		"dev-ip": "^1.0.1",
 		"easy-extender": "^2.3.4",
-		"eazy-logger": "4.0.0",
+		"eazy-logger": "^4.0.1",
 		"etag": "^1.8.1",
 		"fresh": "^0.5.2",
 		"fs-extra": "3.0.1",
@@ -70,7 +71,6 @@
 		"@types/node": "^8",
 		"bs-snippet-injector": "^2.0.1",
 		"chai": "^3",
-		"chalk": "4.1.2",
 		"generate-changelog": "^1.7.0",
 		"graceful-fs": "4.1.9",
 		"http2": "^3.3.6",
