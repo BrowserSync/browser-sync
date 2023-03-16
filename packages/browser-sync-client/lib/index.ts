@@ -1,4 +1,6 @@
 ///<reference path="types.ts"/>
+import "core-js/es/object/assign"
+import 'element-scroll-polyfill';
 import { Observable } from "rxjs/Observable";
 import { BehaviorSubject } from "rxjs/BehaviorSubject";
 import { zip } from "rxjs/observable/zip";

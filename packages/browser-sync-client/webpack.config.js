@@ -12,7 +12,11 @@ module.exports = {
     output: {
         path: path.join.apply(null, context.concat("dist")),
         filename: 'index.js',
+        environment: {
+            arrowFunction: false
+        }
     },
+    devtool: false,
     plugins: [
         // new webpack.NoEmitOnErrorsPlugin(),
     ],
@@ -25,8 +29,21 @@ module.exports = {
     module: {
         rules: [
             {
+                test: /\.m?[jt]s$/,
+                exclude: [/node_modules/],
+                use: {
+                    loader: 'babel-loader',
+                    options: {
+                        presets: [
+                            [
+                                '@babel/preset-env', { targets: "ie 11" }
+                            ]
+                        ]
+                    }
+                }
+            },
+            {
                 test: /\.[tj]sx?$/,
-                exclude: /node_modules/,
                 use: ['ts-loader']
             }
         ]
