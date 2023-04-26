@@ -1,7 +1,7 @@
 {
 	"name": "browser-sync-client",
 	"description": "Client-side scripts for BrowserSync",
-	"version": "2.28.3",
+	"version": "2.29.1",
 	"homepage": "https://github.com/shakyshane/browser-sync-client",
 	"author": "Shane Osbourne <shane.osbourne8@gmail.com>",
 	"repository": {
@@ -25,26 +25,34 @@
 		"node": ">=8.0.0"
 	},
 	"scripts": {
-		"build": "npm run clean && npm run tsc && npm run bundle",
-		"clean": "rm -rf dist/* _dist/*",
-		"watch": "npm run build:prod -- --watch",
+		"build": "npm run clean && webpack",
+		"clean": "rm -rf dist/*",
+		"watch": "npm run build -- --watch",
 		"prepublishOnly": "npm run build",
-		"bundle": "esbuild _dist/index.js --bundle --outdir=dist --minify",
 		"tsc": "rm -rf dist/* dist2/* && tsc"
 	},
 	"devDependencies": {
+		"@babel/core": "^7.21.3",
+		"@babel/preset-env": "^7.20.2",
+		"@babel/preset-typescript": "^7.21.0",
 		"@types/node": "^8",
+		"babel-loader": "^9.1.2",
+		"core-js": "^3.29.1",
+		"element-scroll-polyfill": "^1.0.1",
 		"esbuild": "^0.14.27",
 		"nanologger": "^1.3.1",
-		"socket.io-client": "^4.4.1"
+		"rxjs": "^5.5.6",
+		"socket.io-client": "^4.4.1",
+		"ts-loader": "^9.2.7",
+		"typescript": "^4.6.2",
+		"webpack": "^5.17.0",
+		"webpack-cli": "^4.4.0"
 	},
 	"keywords": [],
 	"dependencies": {
 		"etag": "1.8.1",
 		"fresh": "0.5.2",
-		"mitt": "^1.1.3",
-		"rxjs": "^5.5.6",
-		"typescript": "^4.6.2"
+		"mitt": "^1.1.3"
 	},
 	"directories": {
 		"lib": "lib",

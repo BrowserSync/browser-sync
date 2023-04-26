@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
-    "module": "es2022",
-    "target": "es5",
+    "module": "commonjs",
+    "target": "ES5",
     "noImplicitAny": false,
     "preserveConstEnums": true,
     "moduleResolution": "node",
