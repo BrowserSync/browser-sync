@@ -51,7 +51,9 @@ proto.middleware = function(bs) {
                 try {
                     const [name, payload] = JSON.parse(body.toString());
                     bs.io.sockets.emit(name, payload);
-                    return res.end(`Browsersync HTTP Protocol received: ${name} ${JSON.stringify(payload)}`);
+                    return res.end(
+                        `Browsersync HTTP Protocol received: ${name} ${JSON.stringify(payload)}`
+                    );
                 } catch (e) {
                     const output = [`Error: ${e.message}`];
                     res.writeHead(500, { "Content-Type": "text/plain" });

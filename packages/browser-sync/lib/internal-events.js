@@ -92,18 +92,20 @@ module.exports = function(bs) {
             return x.namespace === "core";
         });
 
-    var handler = fileHandler.fileChanges(coreNamespacedWatchers, bs.options).subscribe(function(x) {
-        if (x.type === "reload") {
-            bs.events.emit("browser:reload", x);
-        }
-        if (x.type === "inject") {
-            x.files.forEach(function(data) {
-                if (!bs.paused && data.namespace === "core") {
-                    bs.events.emit("file:reload", fileUtils.getFileInfo(data, bs.options));
-                }
-            });
-        }
-    });
+    var handler = fileHandler
+        .fileChanges(coreNamespacedWatchers, bs.options)
+        .subscribe(function(x) {
+            if (x.type === "reload") {
+                bs.events.emit("browser:reload", x);
+            }
+            if (x.type === "inject") {
+                x.files.forEach(function(data) {
+                    if (!bs.paused && data.namespace === "core") {
+                        bs.events.emit("file:reload", fileUtils.getFileInfo(data, bs.options));
+                    }
+                });
+            }
+        });
 
     bs.registerCleanupTask(function() {
         handler.dispose();

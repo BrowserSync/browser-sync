@@ -4,7 +4,10 @@ const recipeOpts = require("../../../cli-options/opts.recipe.json");
 const reloadOpts = require("../../../cli-options/opts.reload.json");
 
 function assertHelpOutput(args, cond, done) {
-    const stream = require("child_process").spawn("node", [require.resolve("../../../dist/bin")].concat(args));
+    const stream = require("child_process").spawn(
+        "node",
+        [require.resolve("../../../dist/bin")].concat(args)
+    );
     const chunks = [];
     stream.stdout.on("data", function(data) {
         chunks.push(data.toString());
@@ -25,7 +28,11 @@ describe("CLI: showing help", function() {
         assertHelpOutput(["--help"], text => text.includes(startOpts.serveStatic.desc), done);
     });
     it("start --help", function(done) {
-        assertHelpOutput(["start", "--help"], text => text.includes(startOpts.serveStatic.desc), done);
+        assertHelpOutput(
+            ["start", "--help"],
+            text => text.includes(startOpts.serveStatic.desc),
+            done
+        );
     });
     it("init --help", function(done) {
         assertHelpOutput(["init", "--help"], text => text.includes("Usage: "), done);

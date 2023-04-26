@@ -20,7 +20,10 @@ describe("E2E server test with extension option", function() {
         };
 
         browserSync.create().init(config, function(err, bs) {
-            assert.equal(bs.options.getIn(["server", "serveStaticOptions", "extensions", 0]), "html");
+            assert.equal(
+                bs.options.getIn(["server", "serveStaticOptions", "extensions", 0]),
+                "html"
+            );
             var reqs = utils.getRequests(
                 [["/forms", require("fs").readFileSync("test/fixtures/forms.html", "utf-8")]],
                 bs.server

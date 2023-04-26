@@ -122,7 +122,11 @@ var serverUtils = {
             options: bs.options
         });
 
-        var scripts = bs.pluginManager.get("client:script")(bs.options.toJS(), clientJs, "middleware");
+        var scripts = bs.pluginManager.get("client:script")(
+            bs.options.toJS(),
+            clientJs,
+            "middleware"
+        );
 
         var defaultMiddlewares = [
             {
@@ -192,7 +196,11 @@ var serverUtils = {
 
             if (withErrors.size) {
                 withErrors.forEach(function(item) {
-                    logger.logger.error("%s %s", chalk.red("Warning!"), item.getIn(["errors", 0, "data", "message"]));
+                    logger.logger.error(
+                        "%s %s",
+                        chalk.red("Warning!"),
+                        item.getIn(["errors", 0, "data", "message"])
+                    );
                 });
             }
 
@@ -229,7 +237,9 @@ var serverUtils = {
                     }
             );
 
-        const mwStack = [].concat(beforeMiddlewares, defaultMiddlewares, afterMiddlewares).filter(Boolean);
+        const mwStack = []
+            .concat(beforeMiddlewares, defaultMiddlewares, afterMiddlewares)
+            .filter(Boolean);
 
         return mwStack;
 
@@ -282,7 +292,9 @@ var serverUtils = {
 
         // Snippet
         if (bs.options.get("snippet")) {
-            rules.push(snippetUtils.getRegex(bs.options.get("snippet"), bs.options.get("snippetOptions")));
+            rules.push(
+                snippetUtils.getRegex(bs.options.get("snippet"), bs.options.get("snippetOptions"))
+            );
         }
 
         // User
@@ -297,7 +309,9 @@ var serverUtils = {
 
         // Proxy
         if (bs.options.get("proxy")) {
-            var proxyRule = require("./proxy-utils").rewriteLinks(bs.options.getIn(["proxy", "url"]).toJS());
+            var proxyRule = require("./proxy-utils").rewriteLinks(
+                bs.options.getIn(["proxy", "url"]).toJS()
+            );
             rules.push(proxyRule);
         }
 
@@ -424,7 +438,8 @@ var serverUtils = {
                         {
                             type: "Invalid Object",
                             data: {
-                                message: "Serve Static requires a 'dir' property when using an Object"
+                                message:
+                                    "Serve Static requires a 'dir' property when using an Object"
                             }
                         }
                     ]

@@ -26,6 +26,7 @@ module.exports = {
     },
     errors: {
         "server+proxy": "Invalid config. You cannot specify both server & proxy options.",
-        "proxy+https": "Invalid config. You set https: true, but your proxy target doesn't reflect this."
+        "proxy+https":
+            "Invalid config. You set https: true, but your proxy target doesn't reflect this."
     }
 };
