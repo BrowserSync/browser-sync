@@ -36,12 +36,7 @@ module.exports = function(bs) {
             var mode = bs.options.get("mode");
             var open = bs.options.get("open");
 
-            if (
-                mode === "proxy" ||
-                mode === "server" ||
-                open === "ui" ||
-                open === "ui-external"
-            ) {
+            if (mode === "proxy" || mode === "server" || open === "ui" || open === "ui-external") {
                 utils.openBrowser(data.url, bs.options, bs);
             }
 
@@ -84,10 +79,7 @@ module.exports = function(bs) {
     });
 
     var reloader = fileHandler
-        .applyReloadOperators(
-            fromEvent(bs.events, "_browser:reload"),
-            bs.options
-        )
+        .applyReloadOperators(fromEvent(bs.events, "_browser:reload"), bs.options)
         .subscribe(function() {
             bs.events.emit("browser:reload");
         });
@@ -100,23 +92,18 @@ module.exports = function(bs) {
             return x.namespace === "core";
         });
 
-    var handler = fileHandler
-        .fileChanges(coreNamespacedWatchers, bs.options)
-        .subscribe(function(x) {
-            if (x.type === "reload") {
-                bs.events.emit("browser:reload", x);
-            }
-            if (x.type === "inject") {
-                x.files.forEach(function(data) {
-                    if (!bs.paused && data.namespace === "core") {
-                        bs.events.emit(
-                            "file:reload",
-                            fileUtils.getFileInfo(data, bs.options)
-                        );
-                    }
-                });
-            }
-        });
+    var handler = fileHandler.fileChanges(coreNamespacedWatchers, bs.options).subscribe(function(x) {
+        if (x.type === "reload") {
+            bs.events.emit("browser:reload", x);
+        }
+        if (x.type === "inject") {
+            x.files.forEach(function(data) {
+                if (!bs.paused && data.namespace === "core") {
+                    bs.events.emit("file:reload", fileUtils.getFileInfo(data, bs.options));
+                }
+            });
+        }
+    });
 
     bs.registerCleanupTask(function() {
         handler.dispose();

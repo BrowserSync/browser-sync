@@ -26,9 +26,7 @@ describe("E2E `logSnippet` option", function() {
 
     it("Can set the log snippet when given in options", function() {
         var calls = spy.getCalls();
-        var snippet = testString(
-            "Copy the following snippet into your website"
-        );
+        var snippet = testString("Copy the following snippet into your website");
         var urls = testString("Access URLs");
 
         function testString(match) {

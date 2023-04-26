@@ -5,7 +5,7 @@ var utils = require("./utils");
 var _ = require("./lodash.custom");
 var chalk = require("chalk");
 
-var template = (prefix) => "[" + chalk.blue(prefix) + "] "
+var template = prefix => "[" + chalk.blue(prefix) + "] ";
 
 var logger = require("eazy-logger").Logger({
     useLevelPrefixes: false
@@ -19,7 +19,7 @@ module.exports.logger = logger;
  */
 module.exports.getLogger = function(name) {
     return logger.clone(function(config) {
-        config.prefix = config.prefix + template(name)
+        config.prefix = config.prefix + template(name);
         return config;
     });
 };
@@ -46,17 +46,10 @@ module.exports.callbacks = {
     "file:reload": function(bs, data) {
         if (canLogFileChange(bs, data)) {
             if (data.path[0] === "*") {
-                return logger.info(
-                    chalk.cyan("Reloading files that match: %s"),
-                    chalk.magenta(data.path)
-                );
+                return logger.info(chalk.cyan("Reloading files that match: %s"), chalk.magenta(data.path));
             }
 
-            logger.info(
-                chalk.cyan("File event [%s] : %s"),
-                data.event,
-                chalk.magenta(data.path),
-            );
+            logger.info(chalk.cyan("File event [%s] : %s"), data.event, chalk.magenta(data.path));
         }
     },
     /**
@@ -71,10 +64,7 @@ module.exports.callbacks = {
     "browser:reload": function(bs, data = {}) {
         if (canLogFileChange(bs)) {
             if (data.files && data.files.length > 1) {
-                return logger.info(
-                    chalk.cyan(`Reloading Browsers... (buffered %s events)`),
-                    data.files.length
-                );
+                return logger.info(chalk.cyan(`Reloading Browsers... (buffered %s events)`), data.files.length);
             }
             logger.info(chalk.cyan("Reloading Browsers..."));
         }
@@ -85,9 +75,9 @@ module.exports.callbacks = {
     "browser:error": function() {
         logger.error(
             "Couldn't open browser (if you are using BrowserSync in a " +
-            "headless environment, you might want to set the %s option to %s)",
+                "headless environment, you might want to set the %s option to %s)",
             chalk.cyan("open"),
-            chalk.cyan("false"),
+            chalk.cyan("false")
         );
     },
     /**
@@ -153,17 +143,18 @@ module.exports.callbacks = {
         }
 
         if (type === "proxy") {
-            logger.info(
-                "Proxying: %s",
-                chalk.cyan(bs.options.getIn(["proxy", "target"]))
-            );
+            logger.info("Proxying: %s", chalk.cyan(bs.options.getIn(["proxy", "target"])));
             logUrls(bs.options.get("urls").toJS());
         }
 
         if (type === "snippet") {
             if (bs.options.get("logSnippet")) {
                 logger.info(
-                    chalk.bold(`Copy the following snippet into your website, just before the closing ${chalk.cyan('</body>')} tag`)
+                    chalk.bold(
+                        `Copy the following snippet into your website, just before the closing ${chalk.cyan(
+                            "</body>"
+                        )} tag`
+                    )
                 );
 
                 logger.unprefixed("info", messages.scriptTags(bs.options));

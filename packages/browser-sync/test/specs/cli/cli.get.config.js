@@ -10,9 +10,7 @@ describe("When reading a config file from the file system", function() {
     });
 
     it("should not throw if the file is found", function() {
-        assert.isDefined(
-            info.getConfigFile("test/fixtures/config/si-config.js")
-        );
+        assert.isDefined(info.getConfigFile("test/fixtures/config/si-config.js"));
     });
 
     it("should not throw if absolute path given", function() {

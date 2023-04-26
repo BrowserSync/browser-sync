@@ -4,7 +4,7 @@ var assert = require("chai").assert;
 var sinon = require("sinon");
 var stripColor = require("chalk").stripColor;
 var logger = require("../../../dist/logger").logger;
-var chalk  = require("chalk");
+var chalk = require("chalk");
 
 describe("E2E `logPrefix` option", function() {
     it("Can set the log prefix when given in options", function(done) {
@@ -31,7 +31,7 @@ describe("E2E `logPrefix` option", function() {
         var config = {
             open: false,
             logPrefix: function() {
-                return "AWESOME"
+                return "AWESOME";
             },
             logLevel: "info",
             online: false,

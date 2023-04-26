@@ -11,11 +11,7 @@ module.exports = {
     },
     templates: {
         scriptTag: path.join(__dirname, "..", "templates/script-tags.html"),
-        scriptTagSimple: path.join(
-            __dirname,
-            "..",
-            "templates/script-tags-simple.html"
-        ),
+        scriptTagSimple: path.join(__dirname, "..", "templates/script-tags-simple.html"),
         connector: path.join(__dirname, "..", "templates/connector.tmpl")
     },
     socketIoScript: "/public/socket.io.min.1.6.0.js",
@@ -29,9 +25,7 @@ module.exports = {
         shims: "/client/client-shims.js"
     },
     errors: {
-        "server+proxy":
-            "Invalid config. You cannot specify both server & proxy options.",
-        "proxy+https":
-            "Invalid config. You set https: true, but your proxy target doesn't reflect this."
+        "server+proxy": "Invalid config. You cannot specify both server & proxy options.",
+        "proxy+https": "Invalid config. You set https: true, but your proxy target doesn't reflect this."
     }
 };

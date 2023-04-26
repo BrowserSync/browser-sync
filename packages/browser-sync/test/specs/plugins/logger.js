@@ -32,7 +32,7 @@ describe("Plugins: Getting a logger", function() {
                         .setLevel("info")
                         .setLevelPrefixes(false)
                         .info("Connected!");
-                        var msg = stripAnsi(stub.getCall(0).args[0]);
+                    var msg = stripAnsi(stub.getCall(0).args[0]);
                     assert.equal(msg, "[Browsersync] [HTML] Connected!");
                     instance.cleanup();
                     done();

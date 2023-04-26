@@ -5,9 +5,7 @@ var assert = require("chai").assert;
 
 describe("Utils: getting config errors", function() {
     it("return a message if both server + proxy given", function() {
-        var actual = utils.getConfigErrors(
-            merge({ server: true, proxy: "http://bbc.co.uk" })[0]
-        );
+        var actual = utils.getConfigErrors(merge({ server: true, proxy: "http://bbc.co.uk" })[0]);
         assert.equal(actual.length, 1);
     });
     it("returns empty array if no errors", function() {
@@ -29,10 +27,7 @@ describe.skip("Utils: verifying user-provided config", function() {
     });
     it("ends process if config incorrect", function() {
         var fn = function() {};
-        utils.verifyConfig(
-            merge({ server: true, proxy: "http://bbc.co.uk" })[0],
-            fn
-        );
+        utils.verifyConfig(merge({ server: true, proxy: "http://bbc.co.uk" })[0], fn);
         sinon.assert.calledWithExactly(
             stub,
             true,

@@ -17,10 +17,7 @@ describe("E2E script path test - given a callback", function() {
             }
         };
         browserSync(config, function(err, bs) {
-            assert.include(
-                bs.options.get("snippet"),
-                "localhost:PORT/browser-sync/browser-sync-client."
-            );
+            assert.include(bs.options.get("snippet"), "localhost:PORT/browser-sync/browser-sync-client.");
             bs.cleanup();
             done();
         });
@@ -53,10 +50,7 @@ describe("E2E Socket namespace test - given a string", function() {
             .get(instance.options.getIn(["scriptPaths", "path"]))
             .expect(200)
             .end(function(err, res) {
-                assert.include(
-                    res.text,
-                    "___browserSync___.socketUrl = '' + location.host + '/TEST';"
-                );
+                assert.include(res.text, "___browserSync___.socketUrl = '' + location.host + '/TEST';");
                 done();
             });
     });
@@ -85,10 +79,7 @@ describe("E2E script path test - Using absolute path", function() {
     });
 
     it("Sets the script path", function() {
-        assert.include(
-            instance.options.get("snippet"),
-            "http://HOST:3000/browser-sync/browser-sync-client."
-        );
+        assert.include(instance.options.get("snippet"), "http://HOST:3000/browser-sync/browser-sync-client.");
     });
 });
 
@@ -116,9 +107,6 @@ describe("E2E script path test - Using absolute path + secure server", function(
     });
 
     it("Sets the script path", function() {
-        assert.include(
-            instance.options.get("snippet"),
-            "https://HOST:3000/browser-sync/browser-sync-client."
-        );
+        assert.include(instance.options.get("snippet"), "https://HOST:3000/browser-sync/browser-sync-client.");
     });
 });

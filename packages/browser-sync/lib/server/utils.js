@@ -38,15 +38,11 @@ function getCa(options) {
 }
 
 function getKey(options) {
-    return fs.readFileSync(
-        options.getIn(["https", "key"]) || join(certPath, "server.key")
-    );
+    return fs.readFileSync(options.getIn(["https", "key"]) || join(certPath, "server.key"));
 }
 
 function getCert(options) {
-    return fs.readFileSync(
-        options.getIn(["https", "cert"]) || join(certPath, "server.crt")
-    );
+    return fs.readFileSync(options.getIn(["https", "cert"]) || join(certPath, "server.crt"));
 }
 
 function getHttpsServerDefaults(options) {
@@ -88,10 +84,7 @@ var serverUtils = {
             server: (function() {
                 var httpModule = serverUtils.getHttpModule(options);
 
-                if (
-                    options.get("scheme") === "https" ||
-                    options.get("httpModule") === "http2"
-                ) {
+                if (options.get("scheme") === "https" || options.get("httpModule") === "http2") {
                     var opts = serverUtils.getHttpsOptions(options);
                     return httpModule.createServer(opts.toJS(), app);
                 }
@@ -129,11 +122,7 @@ var serverUtils = {
             options: bs.options
         });
 
-        var scripts = bs.pluginManager.get("client:script")(
-            bs.options.toJS(),
-            clientJs,
-            "middleware"
-        );
+        var scripts = bs.pluginManager.get("client:script")(bs.options.toJS(), clientJs, "middleware");
 
         var defaultMiddlewares = [
             {
@@ -144,9 +133,7 @@ var serverUtils = {
             {
                 id: "Browsersync IE8 Support",
                 route: "",
-                handle: snippet.isOldIe(
-                    bs.options.get("excludedFileTypes").toJS()
-                )
+                handle: snippet.isOldIe(bs.options.get("excludedFileTypes").toJS())
             },
             {
                 id: "Browsersync Response Modifier",
@@ -205,20 +192,13 @@ var serverUtils = {
 
             if (withErrors.size) {
                 withErrors.forEach(function(item) {
-                    logger.logger.error(
-                        "%s %s",
-                        chalk.red("Warning!"),
-                        item.getIn(["errors", 0, "data", "message"])
-                    );
+                    logger.logger.error("%s %s", chalk.red("Warning!"), item.getIn(["errors", 0, "data", "message"]));
                 });
             }
 
             if (withoutErrors.size) {
                 withoutErrors.forEach(function(item) {
-                    defaultMiddlewares.push.apply(
-                        defaultMiddlewares,
-                        item.get("items").toJS()
-                    );
+                    defaultMiddlewares.push.apply(defaultMiddlewares, item.get("items").toJS());
                 });
             }
         }
@@ -249,9 +229,7 @@ var serverUtils = {
                     }
             );
 
-        const mwStack = []
-            .concat(beforeMiddlewares, defaultMiddlewares, afterMiddlewares)
-            .filter(Boolean);
+        const mwStack = [].concat(beforeMiddlewares, defaultMiddlewares, afterMiddlewares).filter(Boolean);
 
         return mwStack;
 
@@ -300,18 +278,11 @@ var serverUtils = {
             .concat(bs.options.getIn(["snippetOptions", "blacklist"]))
             .filter(Boolean);
 
-        var whitelist = List([]).concat(
-            bs.options.getIn(["snippetOptions", "whitelist"])
-        );
+        var whitelist = List([]).concat(bs.options.getIn(["snippetOptions", "whitelist"]));
 
         // Snippet
         if (bs.options.get("snippet")) {
-            rules.push(
-                snippetUtils.getRegex(
-                    bs.options.get("snippet"),
-                    bs.options.get("snippetOptions")
-                )
-            );
+            rules.push(snippetUtils.getRegex(bs.options.get("snippet"), bs.options.get("snippetOptions")));
         }
 
         // User
@@ -326,9 +297,7 @@ var serverUtils = {
 
         // Proxy
         if (bs.options.get("proxy")) {
-            var proxyRule = require("./proxy-utils").rewriteLinks(
-                bs.options.getIn(["proxy", "url"]).toJS()
-            );
+            var proxyRule = require("./proxy-utils").rewriteLinks(bs.options.getIn(["proxy", "url"]).toJS());
             rules.push(proxyRule);
         }
 
@@ -346,16 +315,10 @@ var serverUtils = {
             res.setHeader("Access-Control-Allow-Origin", "*");
 
             // Request methods you wish to allow
-            res.setHeader(
-                "Access-Control-Allow-Methods",
-                "GET, POST, OPTIONS, PUT, PATCH, DELETE"
-            );
+            res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, PATCH, DELETE");
 
             // Request headers you wish to allow
-            res.setHeader(
-                "Access-Control-Allow-Headers",
-                "X-Requested-With,content-type"
-            );
+            res.setHeader("Access-Control-Allow-Headers", "X-Requested-With,content-type");
 
             // Set to true if you need the website to include cookies in the requests sent
             // to the API (e.g. in case you use sessions)
@@ -461,8 +424,7 @@ var serverUtils = {
                         {
                             type: "Invalid Object",
                             data: {
-                                message:
-                                    "Serve Static requires a 'dir' property when using an Object"
+                                message: "Serve Static requires a 'dir' property when using an Object"
                             }
                         }
                     ]

@@ -8,10 +8,7 @@ describe("Plugins: Retrieving user plugins when given inline, but with error", f
         browserSync.reset();
         sinon.stub(utils, "fail", function(kill, errMessage) {
             assert.instanceOf(errMessage, Error);
-            assert.equal(
-                errMessage.message,
-                "Plugin not supported in this format"
-            );
+            assert.equal(errMessage.message, "Plugin not supported in this format");
             utils.fail.restore();
         });
 
@@ -35,10 +32,7 @@ describe("Plugins: Retrieving user plugins when given inline, but with error", f
         browserSync.reset();
         sinon.stub(utils, "fail", function(kill, errMessage) {
             assert.instanceOf(errMessage, Error);
-            assert.equal(
-                errMessage.message,
-                "Plugin was not configured correctly"
-            );
+            assert.equal(errMessage.message, "Plugin was not configured correctly");
             utils.fail.restore();
         });
 

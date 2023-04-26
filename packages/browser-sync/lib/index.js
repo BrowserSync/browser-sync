@@ -8,7 +8,7 @@ var pjson = require("../package.json");
 var BrowserSync = require("./browser-sync");
 var publicUtils = require("./public/public-utils");
 var events = require("events");
-var chalk  = require("chalk");
+var chalk = require("chalk");
 var PassThrough = require("stream").PassThrough;
 var logger = require("eazy-logger").Logger({
     useLevelPrefixes: true
@@ -43,9 +43,7 @@ module.exports.get = function(name) {
     if (instance) {
         return instance;
     }
-    throw new Error(
-        "An instance with the name `%s` was not found.".replace("%s", name)
-    );
+    throw new Error("An instance with the name `%s` was not found.".replace("%s", name));
 };
 
 /**
@@ -258,10 +256,7 @@ function initSingleton() {
 
     if (singletonPlugins.length) {
         singletonPlugins.forEach(function(obj) {
-            singleton.instance.registerPlugin.apply(
-                singleton.instance,
-                obj.args
-            );
+            singleton.instance.registerPlugin.apply(singleton.instance, obj.args);
         });
     }
 

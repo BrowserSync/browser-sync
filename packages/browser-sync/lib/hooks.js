@@ -85,9 +85,7 @@ module.exports = {
                 }
                 var files = value.get("files");
                 if (files) {
-                    var fileArg = require("./cli/cli-options").makeFilesArg(
-                        files
-                    );
+                    var fileArg = require("./cli/cli-options").makeFilesArg(files);
                     if (fileArg) {
                         initial = initial.set(key, Immutable.fromJS(fileArg));
                     }

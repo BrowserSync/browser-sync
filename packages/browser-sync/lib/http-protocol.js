@@ -4,13 +4,7 @@ var proto = exports;
 var instanceMethods = ["exit", "notify", "pause", "resume"];
 var getBody = require("raw-body");
 const { parseParams, serializeParams } = require("./utils");
-const permittedSocketEvents = [
-    "file:reload",
-    "browser:reload",
-    "browser:notify",
-    "browser:location",
-    "options:set"
-];
+const permittedSocketEvents = ["file:reload", "browser:reload", "browser:notify", "browser:location", "options:set"];
 
 /**
  * Does the requested method expect an instance of BrowserSync
@@ -35,10 +29,7 @@ function methodRequiresInstance(method) {
  * @returns {string}
  */
 proto.getUrl = function(args, url) {
-    return [
-        url,
-        require("./config").httpProtocol.path,
-        "?",
+    return [url, require("./config").httpProtocol.path, "?",
         serializeParams(args).toString()
     ].join("");
 };
@@ -60,11 +51,7 @@ proto.middleware = function(bs) {
                 try {
                     const [name, payload] = JSON.parse(body.toString());
                     bs.io.sockets.emit(name, payload);
-                    return res.end(
-                        `Browsersync HTTP Protocol received: ${name} ${JSON.stringify(
-                            payload
-                        )}`
-                    );
+                    return res.end(`Browsersync HTTP Protocol received: ${name} ${JSON.stringify(payload)}`);
                 } catch (e) {
                     const output = [`Error: ${e.message}`];
                     res.writeHead(500, { "Content-Type": "text/plain" });
@@ -87,13 +74,9 @@ proto.middleware = function(bs) {
         }
 
         try {
-            var bsOrEmitter = methodRequiresInstance(params.method)
-                ? bs
-                : bs.events;
+            var bsOrEmitter = methodRequiresInstance(params.method) ? bs : bs.events;
 
-            require("./public/" + params.method)(bsOrEmitter).apply(null, [
-                params.args
-            ]);
+            require("./public/" + params.method)(bsOrEmitter).apply(null, [params.args]);
 
             output = [
                 "Called public API method `.%s()`".replace("%s", params.method),
