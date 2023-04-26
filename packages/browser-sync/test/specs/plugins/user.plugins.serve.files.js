@@ -84,9 +84,7 @@ describe("Plugins: Should be able to call `serveFile` on the instance when in pr
     it("should serve the file + browserSync file", function(done) {
         browserSync.reset();
 
-        var testApp = connect().use(
-            serveStatic(path.join(__dirname, "../../fixtures"))
-        );
+        var testApp = connect().use(serveStatic(path.join(__dirname, "../../fixtures")));
 
         // server to proxy
         var stubServer = http.createServer(testApp).listen();

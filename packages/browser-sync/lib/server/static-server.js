@@ -42,9 +42,7 @@ module.exports = function createServer(bs) {
                 basedirs.map(function(root) {
                     return {
                         route: "",
-                        id:
-                            "Browsersync Server ServeStatic Middleware - " +
-                            _serveStatic++,
+                        id: "Browsersync Server ServeStatic Middleware - " + _serveStatic++,
                         handle: serveStatic(resolve(root), serveStaticOptions)
                     };
                 })
@@ -66,9 +64,7 @@ module.exports = function createServer(bs) {
                     }
                     return {
                         route: urlPath,
-                        id:
-                            "Browsersync Server Routes Middleware - " +
-                            _routes++,
+                        id: "Browsersync Server Routes Middleware - " + _routes++,
                         handle: serveStatic(resolve(root))
                     };
                 })

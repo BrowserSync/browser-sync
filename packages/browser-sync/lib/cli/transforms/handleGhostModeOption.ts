@@ -1,9 +1,7 @@
 import { fromJS } from "immutable";
 import { BsTempOptions, TransformResult } from "../cli-options";
 
-export function handleGhostModeOption(
-    incoming: BsTempOptions
-): TransformResult {
+export function handleGhostModeOption(incoming: BsTempOptions): TransformResult {
     const value = incoming.get("ghostMode");
     var trueAll = {
         clicks: true,

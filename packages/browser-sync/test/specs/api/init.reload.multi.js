@@ -9,19 +9,15 @@ describe("API: .reload() with multi instances", function() {
     before(function(done) {
         browserSync.reset();
 
-        browserSync
-            .create("Server 1")
-            .init({ logLevel: "silent" }, function(err, bs) {
-                bs1 = bs;
-                emitter1 = sinon.spy(bs.events, "emit");
-                browserSync
-                    .create("Server 2")
-                    .init({ logLevel: "silent" }, function(err, bs) {
-                        bs2 = bs;
-                        emitter2 = sinon.spy(bs.events, "emit");
-                        done();
-                    });
+        browserSync.create("Server 1").init({ logLevel: "silent" }, function(err, bs) {
+            bs1 = bs;
+            emitter1 = sinon.spy(bs.events, "emit");
+            browserSync.create("Server 2").init({ logLevel: "silent" }, function(err, bs) {
+                bs2 = bs;
+                emitter2 = sinon.spy(bs.events, "emit");
+                done();
             });
+        });
 
         clock = sinon.useFakeTimers();
     });

@@ -36,12 +36,7 @@ describe("E2E proxy test with adding rewrite rules dynamically", function() {
 
         browserSync.init([], config, function(err, bs) {
             var reqs = utils.getRequests(
-                [
-                    [
-                        "/index.html",
-                        '<a href="//127.0.0.1:3000/my-link">BROWSERSYNC</a>'
-                    ]
-                ],
+                [["/index.html", '<a href="//127.0.0.1:3000/my-link">BROWSERSYNC</a>']],
                 bs.server
             );
 
@@ -84,10 +79,7 @@ describe("E2E proxy test with adding rewrite rules dynamically", function() {
         browserSync.init([], config, function(err, bs) {
             var reqs = utils.getRequests(
                 [
-                    [
-                        "/index.html",
-                        '<a href="//127.0.0.1:3000/my-link">BROWSERSYNC</a>'
-                    ],
+                    ["/index.html", '<a href="//127.0.0.1:3000/my-link">BROWSERSYNC</a>'],
                     function() {
                         bs.addRewriteRule({
                             match: /BROWSERSYNC/,
@@ -95,17 +87,11 @@ describe("E2E proxy test with adding rewrite rules dynamically", function() {
                             id: "my-rewrite-rule"
                         });
                     },
-                    [
-                        "/index.html",
-                        '<a href="//127.0.0.1:3000/my-link">shane</a>'
-                    ],
+                    ["/index.html", '<a href="//127.0.0.1:3000/my-link">shane</a>'],
                     function() {
                         bs.removeRewriteRule("my-rewrite-rule");
                     },
-                    [
-                        "/index.html",
-                        '<a href="//127.0.0.1:3000/my-link">BROWSERSYNC</a>'
-                    ]
+                    ["/index.html", '<a href="//127.0.0.1:3000/my-link">BROWSERSYNC</a>']
                 ],
                 bs.server
             );

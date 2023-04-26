@@ -20,10 +20,7 @@ describe("CLI: reading config file from disk", function() {
                 }
             },
             cb: function(err, bs) {
-                assert.equal(
-                    bs.options.getIn(["server", "baseDir", 0]),
-                    "test/fixtures"
-                );
+                assert.equal(bs.options.getIn(["server", "baseDir", 0]), "test/fixtures");
                 bs.cleanup();
                 done();
             }
@@ -43,10 +40,7 @@ describe("CLI: reading config file from disk", function() {
             },
             cb: function(err, bs) {
                 var err = stub.getCall(0).args[1];
-                assert.equal(
-                    err.message,
-                    "Configuration file 'test/fixtures/config/sioops.js' not found"
-                );
+                assert.equal(err.message, "Configuration file 'test/fixtures/config/sioops.js' not found");
                 utils.fail.restore();
                 bs.cleanup();
                 done();

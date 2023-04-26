@@ -13,9 +13,7 @@ describe("E2E `port` option", function() {
             online: false,
             open: false
         };
-        sinon
-            .stub(utils, "getPorts")
-            .yields(new Error("Some error about a port"));
+        sinon.stub(utils, "getPorts").yields(new Error("Some error about a port"));
         sinon.stub(utils, "fail", function(override, errMessage, cb) {
             assert.instanceOf(errMessage, Error);
             utils.getPorts.restore();

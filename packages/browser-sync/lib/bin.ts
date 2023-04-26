@@ -2,7 +2,7 @@
 const startOpts = require("../cli-options/opts.start.json");
 const reloadOpts = require("../cli-options/opts.reload.json");
 const recipeOpts = require("../cli-options/opts.recipe.json");
-const chalk      = require("chalk");
+const chalk = require("chalk");
 const pkg = require("../package.json");
 import * as utils from "./utils";
 import { resolve } from "path";
@@ -38,7 +38,7 @@ if (!module.parent) {
 }
 
 function freshYargs() {
-  return require("yargs")(process.argv.slice(2));
+    return require("yargs")(process.argv.slice(2));
 }
 
 function runFromCli() {
@@ -128,13 +128,9 @@ function handleNoCommand(argv, input, yargs) {
         return process.exit(1);
     }
 
-    const serveStaticPaths = withoutErrors
-        .filter(item => item.isUrl === false)
-        .map(item => item.resolved);
+    const serveStaticPaths = withoutErrors.filter(item => item.isUrl === false).map(item => item.resolved);
 
-    const urls = withoutErrors
-        .filter(item => item.isUrl === true)
-        .map(item => item.userInput);
+    const urls = withoutErrors.filter(item => item.isUrl === true).map(item => item.userInput);
 
     /**
      * If a URL was given, switch to proxy mode and use
@@ -183,8 +179,7 @@ function processStart(yargs) {
         .options(startOpts)
         .example("$0 start -s app", "- Use the App directory to serve files")
         .example("$0 start -p www.bbc.co.uk", "- Proxy an existing website")
-        .default("cwd", () => process.cwd())
-        .argv;
+        .default("cwd", () => process.cwd()).argv;
 }
 
 /**
@@ -210,8 +205,7 @@ function handleIncoming(command, yargs) {
             .options(reloadOpts)
             .example("$0 reload")
             .example("$0 reload --port 4000")
-            .default("cwd", () => process.cwd())
-            .argv;
+            .default("cwd", () => process.cwd()).argv;
     }
     if (command === "recipe") {
         out = yargs
@@ -219,8 +213,7 @@ function handleIncoming(command, yargs) {
             .option(recipeOpts)
             .example("$0 recipe ls", "list the recipes")
             .example("$0 recipe gulp.sass", "use the gulp.sass recipe")
-            .default("cwd", () => process.cwd())
-            .argv;
+            .default("cwd", () => process.cwd()).argv;
     }
 
     if (out.help) {

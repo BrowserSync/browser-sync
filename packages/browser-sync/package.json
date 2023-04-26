@@ -20,6 +20,11 @@
 	"engines": {
 		"node": ">= 8.0.0"
 	},
+  "prettier": {
+    "tabWidth": 4,
+    "singleQuote": false,
+    "printWidth": 120
+  },
 	"scripts": {
 		"build": "npm run build:server",
 		"build:server": "tsc",
@@ -27,7 +32,7 @@
 		"env": "node ./test/env.js",
 		"lodash": "lodash include=isUndefined,isFunction,toArray,includes,union,each,isString,merge,isObject,set exports=node",
 		"prepublishOnly": "npm run build",
-		"prettier": "prettier 'lib/**/*' 'examples/*' 'test/specs/**/*.js' --tab-width 4",
+		"prettier": "prettier 'lib/**/*' 'examples/*' 'test/specs/**/*.js'",
 		"prettier:fix": "npm run prettier -- --write",
 		"test": "npm run build && npm run env && npm run unit",
 		"unit": "mocha --recursive test/specs --timeout 10000 --bail --exit",

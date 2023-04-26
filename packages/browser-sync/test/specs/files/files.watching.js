@@ -21,10 +21,7 @@ describe("File Watcher Module", function() {
             },
             function(err, bs) {
                 assert.equal(bs.watchers.core.watchers.length, 1);
-                assert.equal(
-                    bs.watchers.core.watchers[0].options.debounceDelay,
-                    4000
-                );
+                assert.equal(bs.watchers.core.watchers[0].options.debounceDelay, 4000);
                 bs.cleanup();
                 done();
             }
@@ -54,14 +51,8 @@ describe("File Watcher Module", function() {
             },
             function(err, bs) {
                 assert.equal(bs.watchers.core.watchers.length, 2);
-                assert.equal(
-                    bs.watchers.core.watchers[0].options.interval,
-                    200
-                );
-                assert.equal(
-                    bs.watchers.core.watchers[1].options.interval,
-                    100
-                );
+                assert.equal(bs.watchers.core.watchers[0].options.interval, 200);
+                assert.equal(bs.watchers.core.watchers[1].options.interval, 100);
                 bs.cleanup();
                 done();
             }
@@ -201,10 +192,7 @@ describe("File Watcher Module", function() {
                 logLevel: "silent"
             },
             function(err, bs) {
-                assert.equal(
-                    bs.options.getIn(["files", "core", "globs"]).size,
-                    1
-                );
+                assert.equal(bs.options.getIn(["files", "core", "globs"]).size, 1);
                 bs.cleanup();
                 done();
             }

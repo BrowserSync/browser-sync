@@ -103,9 +103,7 @@ describe("CLI: Options: Merging Watch Option", function() {
         assert.ok(config.getIn(["watchOptions", "ignored"]).contains("*.txt"));
         assert.ok(config.getIn(["watchOptions", "ignored"]).contains("*.txt2"));
         assert.ok(config.getIn(["watchOptions", "ignored"]).contains("*.json"));
-        assert.ok(
-            config.getIn(["watchOptions", "ignored"]).contains("*.json2")
-        );
+        assert.ok(config.getIn(["watchOptions", "ignored"]).contains("*.json2"));
     });
     it("merges from server, serveStatic + ignore path + watchOptions (Array<string>)", function() {
         var input = {
@@ -118,9 +116,7 @@ describe("CLI: Options: Merging Watch Option", function() {
         assert.ok(config.getIn(["watchOptions", "ignored"]).contains("*.txt"));
         assert.ok(config.getIn(["watchOptions", "ignored"]).contains("*.txt2"));
         assert.ok(config.getIn(["watchOptions", "ignored"]).contains("*.json"));
-        assert.ok(
-            config.getIn(["watchOptions", "ignored"]).contains("*.json2")
-        );
+        assert.ok(config.getIn(["watchOptions", "ignored"]).contains("*.json2"));
     });
     it("merges from server, serveStatic + ignore path + watchOptions.ignore (string)", function() {
         var input = {
@@ -132,9 +128,7 @@ describe("CLI: Options: Merging Watch Option", function() {
         var [config] = merge(input);
 
         assert.ok(config.getIn(["watchOptions", "ignored"]).contains("*.json"));
-        assert.ok(
-            config.getIn(["watchOptions", "ignored"]).contains("*.json2")
-        );
+        assert.ok(config.getIn(["watchOptions", "ignored"]).contains("*.json2"));
         assert.ok(config.getIn(["watchOptions", "ignored"]).contains("*.txt"));
     });
 });

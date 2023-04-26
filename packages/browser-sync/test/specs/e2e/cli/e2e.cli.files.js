@@ -18,10 +18,7 @@ describe("E2E CLI `files` arg - multi globs", function() {
                 }
             },
             cb: function(err, bs) {
-                assert.equal(
-                    bs.options.getIn(["files", "core", "globs"]).size,
-                    2
-                );
+                assert.equal(bs.options.getIn(["files", "core", "globs"]).size, 2);
                 assert.isTrue(Array.isArray(bs.watchers.core.watchers));
                 bs.cleanup();
                 done();
@@ -43,10 +40,7 @@ describe("E2E CLI `files` arg, single glob", function() {
                 }
             },
             cb: function(err, bs) {
-                assert.equal(
-                    bs.options.getIn(["files", "core", "globs"]).size,
-                    1
-                );
+                assert.equal(bs.options.getIn(["files", "core", "globs"]).size, 1);
                 assert.isTrue(Array.isArray(bs.watchers.core.watchers));
                 bs.cleanup();
                 done();
@@ -68,10 +62,7 @@ describe("E2E CLI `files` arg, with commas", function() {
                 }
             },
             cb: function(err, bs) {
-                assert.equal(
-                    bs.options.getIn(["files", "core", "globs"]).size,
-                    2
-                );
+                assert.equal(bs.options.getIn(["files", "core", "globs"]).size, 2);
                 assert.isTrue(Array.isArray(bs.watchers.core.watchers));
                 bs.cleanup();
                 done();

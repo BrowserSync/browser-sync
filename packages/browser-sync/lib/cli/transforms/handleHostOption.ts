@@ -13,9 +13,7 @@ export function handleHostOption(incoming: BsTempOptions): TransformResult {
                     {
                         errors: [
                             {
-                                error: new Error(
-                                    "Cannot specify both `host` and `listen` options"
-                                ),
+                                error: new Error("Cannot specify both `host` and `listen` options"),
                                 meta() {
                                     return [
                                         "",

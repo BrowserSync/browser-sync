@@ -6,7 +6,7 @@ var config = require("./config");
 var connectUtils = require("./connect-utils");
 var utils = require("./utils");
 var logger = require("./logger");
-var chalk  = require("chalk");
+var chalk = require("chalk");
 
 var eachSeries = utils.eachSeries;
 var _ = require("./lodash.custom");
@@ -535,11 +535,7 @@ BrowserSync.prototype.setOptionIn = function(path, value, opts) {
 
     opts = opts || {};
 
-    bs.debug(
-        "Setting Option: {cyan:%s} - {magenta:%s",
-        path.join("."),
-        value.toString()
-    );
+    bs.debug("Setting Option: {cyan:%s} - {magenta:%s", path.join("."), value.toString());
     bs.options = bs.options.setIn(path, value);
     if (!opts.silent) {
         bs.events.emit("options:set", {

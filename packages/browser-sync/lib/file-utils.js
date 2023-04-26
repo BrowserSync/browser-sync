@@ -23,10 +23,7 @@ var fileUtils = {
          */
         if (bs.options.get("watchEvents").indexOf(data.event) > -1) {
             if (!bs.paused && data.namespace === "core") {
-                bs.events.emit(
-                    "file:reload",
-                    fileUtils.getFileInfo(data, bs.options)
-                );
+                bs.events.emit("file:reload", fileUtils.getFileInfo(data, bs.options));
             }
         }
     },

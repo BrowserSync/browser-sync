@@ -15,10 +15,7 @@ module.exports.plugin = function(bs) {
     var bsServer = createServer(bs);
 
     if (type === "server" || type === "snippet") {
-        debug(
-            "Static Server running ({magenta:%s}) ...",
-            bs.options.get("scheme")
-        );
+        debug("Static Server running ({magenta:%s}) ...", bs.options.get("scheme"));
     }
 
     if (proxy) {
@@ -34,10 +31,7 @@ module.exports.plugin = function(bs) {
         /**
          * Listen on the available port
          */
-        bsServer.server.listen(
-            bs.options.get("port"),
-            bs.options.get("listen")
-        );
+        bsServer.server.listen(bs.options.get("port"), bs.options.get("listen"));
 
         /**
          * Hack to deal with https://github.com/socketio/socket.io/issues/1602#issuecomment-224270022
@@ -61,11 +55,7 @@ module.exports.plugin = function(bs) {
 
     function setCloseReceived(io) {
         Object.keys(io.sockets).forEach(function(key) {
-            _.set(
-                io.sockets[key],
-                "conn.transport.socket._closeReceived",
-                true
-            );
+            _.set(io.sockets[key], "conn.transport.socket._closeReceived", true);
         });
     }
 

@@ -91,10 +91,7 @@ export function getUrls(external, local, scheme, options) {
     };
 
     if (external !== local) {
-        urls.external = getUrl(
-            _makeUrl(scheme, external, options.get("port")),
-            options
-        );
+        urls.external = getUrl(_makeUrl(scheme, external, options.get("port")), options);
     }
 
     return urls;
@@ -132,12 +129,7 @@ export function getPorts(options: BsTempOptions, cb: PortLookupCb) {
     fn(host, port, max, cb);
 }
 
-export function getPort(
-    host: string,
-    port: number | string,
-    max: number | string | null,
-    cb: PortLookupCb
-) {
+export function getPort(host: string, port: number | string, max: number | string | null, cb: PortLookupCb) {
     portScanner.findAPortNotInUse(
         port,
         max,

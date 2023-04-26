@@ -10,13 +10,10 @@ describe("API: .stream()", function() {
     before(function(done) {
         browserSync.reset();
         scheduler = require("../../utils").getScheduler();
-        bs = browserSync(
-            { logLevel: "silent", debug: { scheduler: scheduler } },
-            function() {
-                emitterStub = sinon.spy(bs.emitter, "emit");
-                done();
-            }
-        );
+        bs = browserSync({ logLevel: "silent", debug: { scheduler: scheduler } }, function() {
+            emitterStub = sinon.spy(bs.emitter, "emit");
+            done();
+        });
     });
 
     afterEach(function() {
@@ -119,9 +116,7 @@ describe("API: .stream()", function() {
     it("accepts file paths beginning with dots", function() {
         var stream = browserSync.stream({ match: "**/*.css" });
         stream.write(new File({ path: "/users/shakyshane/.tmp/css/core.css" }));
-        stream.write(
-            new File({ path: "/users/shakyshane/.tmp/css/core.css.map" })
-        );
+        stream.write(new File({ path: "/users/shakyshane/.tmp/css/core.css.map" }));
         stream.end();
         scheduler.advanceTo(600);
         sinon.assert.calledWithExactly(emitterStub, "file:changed", {

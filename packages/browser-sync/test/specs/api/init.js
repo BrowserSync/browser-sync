@@ -17,7 +17,7 @@ describe("API: .init - don't not call init when already running.", function() {
                 var arg = spy.getCall(0).args;
                 assert.include(arg[0], chalk.yellow("You tried to start Browsersync twice!"));
                 assert.include(arg[1], "To create multiple instances, use");
-                assert.include(arg[2], chalk.cyan('browserSync.create().init()'));
+                assert.include(arg[2], chalk.cyan("browserSync.create().init()"));
                 console.log.restore();
                 bs.cleanup();
                 done();

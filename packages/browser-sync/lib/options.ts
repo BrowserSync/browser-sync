@@ -96,13 +96,7 @@ export function setNamespace(incoming: BsTempOptions): TransformResult {
     var namespace = incoming.getIn(["socket", "namespace"]);
 
     if (_.isFunction(namespace)) {
-        return [
-            incoming.setIn(
-                ["socket", "namespace"],
-                namespace((defaultConfig.socket as any).namespace)
-            ),
-            []
-        ];
+        return [incoming.setIn(["socket", "namespace"], namespace((defaultConfig.socket as any).namespace)), []];
     }
     return [incoming, []];
 }
@@ -135,19 +129,11 @@ export function setServerOpts(incoming: BsTempOptions): TransformResult {
     return [incoming, []];
 }
 
-export function liftExtensionsOptionFromCli(
-    incoming: BsTempOptions
-): TransformResult {
+export function liftExtensionsOptionFromCli(incoming: BsTempOptions): TransformResult {
     // cli extensions
     var optPath = ["server", "serveStaticOptions"];
     if (incoming.get("extensions")) {
-        return [
-            incoming.setIn(
-                optPath.concat(["extensions"]),
-                incoming.get("extensions")
-            ),
-            []
-        ];
+        return [incoming.setIn(optPath.concat(["extensions"]), incoming.get("extensions")), []];
     }
     return [incoming, []];
 }
@@ -166,9 +152,7 @@ export function fixRewriteRules(incoming: BsTempOptions): TransformResult {
     ];
 }
 
-export function fixSnippetIgnorePaths(
-    incoming: BsTempOptions
-): TransformResult {
+export function fixSnippetIgnorePaths(incoming: BsTempOptions): TransformResult {
     var ignorePaths = incoming.getIn(["snippetOptions", "ignorePaths"]);
 
     if (ignorePaths) {
@@ -176,30 +160,16 @@ export function fixSnippetIgnorePaths(
             ignorePaths = [ignorePaths];
         }
         ignorePaths = ignorePaths.map(ensureSlash);
-        return [
-            incoming.setIn(
-                ["snippetOptions", "blacklist"],
-                Immutable.List(ignorePaths)
-            ),
-            []
-        ];
+        return [incoming.setIn(["snippetOptions", "blacklist"], Immutable.List(ignorePaths)), []];
     }
     return [incoming, []];
 }
 
-export function fixSnippetIncludePaths(
-    incoming: BsTempOptions
-): TransformResult {
+export function fixSnippetIncludePaths(incoming: BsTempOptions): TransformResult {
     var includePaths = incoming.getIn(["snippetOptions", "whitelist"]);
     if (includePaths) {
         includePaths = includePaths.map(ensureSlash);
-        return [
-            incoming.setIn(
-                ["snippetOptions", "whitelist"],
-                Immutable.List(includePaths)
-            ),
-            []
-        ];
+        return [incoming.setIn(["snippetOptions", "whitelist"], Immutable.List(includePaths)), []];
     }
     return [incoming, []];
 }
