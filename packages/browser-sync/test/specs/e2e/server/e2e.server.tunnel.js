@@ -95,7 +95,10 @@ describe("Tunnel e2e tests with Error", function() {
         };
 
         browserSync(config, function(err, bs) {
-            bs.tunnel.emit("error", new Error("connection refused: (check your firewall settings)"));
+            bs.tunnel.emit(
+                "error",
+                new Error("connection refused: (check your firewall settings)")
+            );
             bs.cleanup();
             done();
         });

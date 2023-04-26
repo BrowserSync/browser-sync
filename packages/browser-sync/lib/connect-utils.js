@@ -39,7 +39,12 @@ var connectUtils = {
          */
         var scriptSrc = (function() {
             if (options.get("localOnly")) {
-                return [options.get("scheme"), "://localhost:", options.get("port"), scriptPath].join("");
+                return [
+                    options.get("scheme"),
+                    "://localhost:",
+                    options.get("port"),
+                    scriptPath
+                ].join("");
             }
 
             /**

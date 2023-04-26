@@ -20,7 +20,10 @@ module.exports = function(opts) {
 
     var logRecipes = function() {
         var dirs = fs.readdirSync(path.join(dir, "recipes"));
-        logger.info("Install one of the following with %s\n", chalk.cyan("browser-sync recipe <name>"));
+        logger.info(
+            "Install one of the following with %s\n",
+            chalk.cyan("browser-sync recipe <name>")
+        );
         dirs.forEach(function(name) {
             console.log("    " + name);
         });

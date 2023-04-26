@@ -46,7 +46,10 @@ module.exports.callbacks = {
     "file:reload": function(bs, data) {
         if (canLogFileChange(bs, data)) {
             if (data.path[0] === "*") {
-                return logger.info(chalk.cyan("Reloading files that match: %s"), chalk.magenta(data.path));
+                return logger.info(
+                    chalk.cyan("Reloading files that match: %s"),
+                    chalk.magenta(data.path)
+                );
             }
 
             logger.info(chalk.cyan("File event [%s] : %s"), data.event, chalk.magenta(data.path));
@@ -64,7 +67,10 @@ module.exports.callbacks = {
     "browser:reload": function(bs, data = {}) {
         if (canLogFileChange(bs)) {
             if (data.files && data.files.length > 1) {
-                return logger.info(chalk.cyan(`Reloading Browsers... (buffered %s events)`), data.files.length);
+                return logger.info(
+                    chalk.cyan(`Reloading Browsers... (buffered %s events)`),
+                    data.files.length
+                );
             }
             logger.info(chalk.cyan("Reloading Browsers..."));
         }

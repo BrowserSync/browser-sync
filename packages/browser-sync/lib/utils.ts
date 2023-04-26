@@ -129,7 +129,12 @@ export function getPorts(options: BsTempOptions, cb: PortLookupCb) {
     fn(host, port, max, cb);
 }
 
-export function getPort(host: string, port: number | string, max: number | string | null, cb: PortLookupCb) {
+export function getPort(
+    host: string,
+    port: number | string,
+    max: number | string | null,
+    cb: PortLookupCb
+) {
     portScanner.findAPortNotInUse(
         port,
         max,

@@ -135,7 +135,10 @@ describe("Connection snippetUtils", function() {
             }
         });
         var actual = utils.socketConnector(options);
-        assert.include(actual, "___browserSync___.socketUrl = '' + location.host + '/browser-sync';");
+        assert.include(
+            actual,
+            "___browserSync___.socketUrl = '' + location.host + '/browser-sync';"
+        );
     });
     it("E2E Should allow setting of socket.domain + script.domain as strings", function(done) {
         bs.reset();
@@ -182,10 +185,13 @@ describe("Connection snippetUtils", function() {
                 var port = bs.options.get("port");
                 assert.include(
                     bs.options.get("snippet"),
-                    '<script async id="__bs_script__" src="http://localhost:' + port + "/browser-sync"
+                    '<script async id="__bs_script__" src="http://localhost:' +
+                        port +
+                        "/browser-sync"
                 );
 
-                var expected = "___browserSync___.socketUrl = 'http://localhost:" + port + "/browser-sync'";
+                var expected =
+                    "___browserSync___.socketUrl = 'http://localhost:" + port + "/browser-sync'";
 
                 req(bs.server)
                     .get(bs.options.getIn(["scriptPaths", "path"]))
@@ -231,7 +237,9 @@ describe("Connection snippetUtils", function() {
                 }
             },
             function(err, bs) {
-                assert.ok(bs.options.get("snippet").match(/http:\/\/localhost:\d{4,5}\/browser-sync/));
+                assert.ok(
+                    bs.options.get("snippet").match(/http:\/\/localhost:\d{4,5}\/browser-sync/)
+                );
                 bs.cleanup();
                 done();
             }
@@ -253,7 +261,10 @@ describe("Connection snippetUtils", function() {
                     .get(bs.options.getIn(["scriptPaths", "path"]))
                     .expect(200)
                     .end(function(err, res) {
-                        var expected = "___browserSync___.socketUrl = 'http://localhost:" + port + "/browser-sync'";
+                        var expected =
+                            "___browserSync___.socketUrl = 'http://localhost:" +
+                            port +
+                            "/browser-sync'";
                         assert.include(res.text, expected);
                         bs.cleanup();
                         done();

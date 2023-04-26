@@ -64,7 +64,10 @@ describe("E2E `serveStatic` option", function() {
         var config = {
             logLevel: "silent",
             online: false,
-            serveStatic: [{ route: "", dir: "test/fixtures" }, { route: [""], dir: "test/fixtures/assets" }]
+            serveStatic: [
+                { route: "", dir: "test/fixtures" },
+                { route: [""], dir: "test/fixtures/assets" }
+            ]
         };
         browserSync(config, function(err, bs) {
             var reqs = getRequests([["/index.html", page], ["/style.css", css]], bs.server);

@@ -128,7 +128,9 @@ function handleNoCommand(argv, input, yargs) {
         return process.exit(1);
     }
 
-    const serveStaticPaths = withoutErrors.filter(item => item.isUrl === false).map(item => item.resolved);
+    const serveStaticPaths = withoutErrors
+        .filter(item => item.isUrl === false)
+        .map(item => item.resolved);
 
     const urls = withoutErrors.filter(item => item.isUrl === true).map(item => item.userInput);
 

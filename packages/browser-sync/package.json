@@ -23,7 +23,7 @@
   "prettier": {
     "tabWidth": 4,
     "singleQuote": false,
-    "printWidth": 120
+    "printWidth": 100
   },
 	"scripts": {
 		"build": "npm run build:server",
