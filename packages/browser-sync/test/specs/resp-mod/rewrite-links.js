@@ -127,7 +127,9 @@ describe("Rewriting Domains", function() {
             assert.equal(actual, expected);
         });
         it("should use the regex to replace links that contain hashes (1)", function() {
-            var actual = testRegex("<a href='http://localhost:8000/sub/dir/?search=some#shane'></a>");
+            var actual = testRegex(
+                "<a href='http://localhost:8000/sub/dir/?search=some#shane'></a>"
+            );
             var expected = "<a href='//192.168.0.4:3002/sub/dir/?search=some#shane'></a>";
             assert.equal(actual, expected);
         });
@@ -139,7 +141,10 @@ describe("Rewriting Domains", function() {
         it("should use the regex to replace links that contain hashes (2)", function() {
             var input = fs.readFileSync("test/fixtures/rewrites/hashes.input.html", "utf8");
             var expected = fs.readFileSync("test/fixtures/rewrites/hashes.expected.html", "utf8");
-            var rewrite = utils.rewriteLinks({ hostname: "www.example.local.colinr.com", port: 80 }, proxyUrl);
+            var rewrite = utils.rewriteLinks(
+                { hostname: "www.example.local.colinr.com", port: 80 },
+                proxyUrl
+            );
             var bound = rewrite.fn.bind(null, { headers: { host: proxyUrl } }, {});
             var actual = input.replace(rewrite.match, bound);
             assert.equal(actual, expected);
@@ -164,7 +169,8 @@ describe("Rewriting Domains", function() {
             assert.equal(actual, expected);
         });
         it("should use the regex to replace links that contain port + ", function() {
-            var input = '<link href="/sites/default/themes/mclinic/css/styles.css" media="screen" rel="stylesheet">';
+            var input =
+                '<link href="/sites/default/themes/mclinic/css/styles.css" media="screen" rel="stylesheet">';
             var rewrite = utils.rewriteLinks({ hostname: "mclinic" }, proxyUrl);
             var bound = rewrite.fn.bind(null, { headers: { host: proxyUrl } }, {});
             var actual = input.replace(rewrite.match, bound);
@@ -218,7 +224,10 @@ describe("Rewriting Domains", function() {
         });
         it("handles escaped urls correctly", function() {
             var input = fs.readFileSync("test/fixtures/rewrites/escaped.1.html", "utf8");
-            var expected = fs.readFileSync("test/fixtures/rewrites/escaped.1.expected.html", "utf8");
+            var expected = fs.readFileSync(
+                "test/fixtures/rewrites/escaped.1.expected.html",
+                "utf8"
+            );
             var rewrite = utils.rewriteLinks({ hostname: "demo.l5" }, proxyUrl);
             var bound = rewrite.fn.bind(null, { headers: { host: proxyUrl } }, {});
             var actual = input.replace(rewrite.match, bound);

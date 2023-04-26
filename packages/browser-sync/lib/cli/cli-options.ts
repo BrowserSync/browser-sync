@@ -128,7 +128,10 @@ export function printErrors(errors: BsErrors) {
                 `Error Type:    ${error.type}`,
                 `Error Level:   ${error.level}`,
                 error.errors.map(item =>
-                    [`Error Message: ${item.error.message}`, item.meta ? item.meta().join("\n") : ""]
+                    [
+                        `Error Message: ${item.error.message}`,
+                        item.meta ? item.meta().join("\n") : ""
+                    ]
                         .filter(Boolean)
                         .join("\n")
                 )

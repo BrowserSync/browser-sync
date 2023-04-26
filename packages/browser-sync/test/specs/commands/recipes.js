@@ -66,7 +66,10 @@ describe("E2E CLI `recipes` command", function() {
                 }
             },
             cb: function(err) {
-                assert.equal(err.message, "Target folder exists remove it first and then try again");
+                assert.equal(
+                    err.message,
+                    "Target folder exists remove it first and then try again"
+                );
                 done();
             }
         });
@@ -87,7 +90,11 @@ describe("E2E CLI `recipes` command", function() {
                 var call1 = stub1.getCall(0).args;
                 assert.equal(call1[0], "Recipe copied into %s");
                 assert.equal(call1[1], chalk.cyan(dir));
-                sinon.assert.calledWith(stub1, "Next, inside that folder, run %s", chalk.cyan("npm i && npm start"));
+                sinon.assert.calledWith(
+                    stub1,
+                    "Next, inside that folder, run %s",
+                    chalk.cyan("npm i && npm start")
+                );
                 logger.info.restore();
                 done();
             }

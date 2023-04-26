@@ -90,7 +90,10 @@ module.exports = {
             require("dns").resolve("www.google.com", function(err) {
                 var online = false;
                 if (err) {
-                    bs.debug("Could not resolve www.google.com, setting %s", chalk.magenta("online: false"));
+                    bs.debug(
+                        "Could not resolve www.google.com, setting %s",
+                        chalk.magenta("online: false")
+                    );
                 } else {
                     bs.debug("Resolved www.google.com, setting %s", chalk.magenta("online: true"));
                     online = true;
@@ -141,9 +144,15 @@ module.exports = {
         done(null, {
             options: {
                 urls: utils.getUrlOptions(bs.options),
-                snippet: connectUtils.enabled(bs.options) ? connectUtils.scriptTags(bs.options) : false,
+                snippet: connectUtils.enabled(bs.options)
+                    ? connectUtils.scriptTags(bs.options)
+                    : false,
                 scriptPaths: Immutable.fromJS(connectUtils.clientScript(bs.options, true)),
-                files: bs.pluginManager.hook("files:watch", bs.options.get("files"), bs.pluginManager.pluginOptions)
+                files: bs.pluginManager.hook(
+                    "files:watch",
+                    bs.options.get("files"),
+                    bs.pluginManager.pluginOptions
+                )
             }
         });
     },
@@ -224,7 +233,10 @@ module.exports = {
      * @param {Function} done
      */
     startSockets: function(bs, done) {
-        var clientEvents = bs.pluginManager.hook("client:events", bs.options.get("clientEvents").toJS());
+        var clientEvents = bs.pluginManager.hook(
+            "client:events",
+            bs.options.get("clientEvents").toJS()
+        );
 
         // Start the socket, needs an existing server.
         var io = bs.pluginManager.get("socket")(bs.server, clientEvents, bs);
@@ -259,7 +271,9 @@ module.exports = {
                 return item.name === PLUGIN_NAME;
             })
         ) {
-            uiOpts = bs.options.get("ui").mergeDeep(Immutable.fromJS(bs.pluginManager.pluginOptions[PLUGIN_NAME]));
+            uiOpts = bs.options
+                .get("ui")
+                .mergeDeep(Immutable.fromJS(bs.pluginManager.pluginOptions[PLUGIN_NAME]));
         }
 
         /**

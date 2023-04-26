@@ -1,7 +1,14 @@
 import { List } from "immutable";
 import { BsTempOptions, TransformResult } from "../cli-options";
 
-const defaultIgnorePatterns = [/node_modules/, /bower_components/, ".sass-cache", ".vscode", ".git", ".idea"];
+const defaultIgnorePatterns = [
+    /node_modules/,
+    /bower_components/,
+    ".sass-cache",
+    ".vscode",
+    ".git",
+    ".idea"
+];
 
 export function addDefaultIgnorePatterns(incoming: BsTempOptions): TransformResult {
     if (!incoming.get("watch")) {

@@ -91,7 +91,10 @@ var snippetUtils = {
     getClientJs: function(port, options) {
         return () => {
             const script = options.get("minify") ? "index.js" : "index.js";
-            const client = fs.readFileSync(require.resolve("browser-sync-client/dist/" + script), "utf8");
+            const client = fs.readFileSync(
+                require.resolve("browser-sync-client/dist/" + script),
+                "utf8"
+            );
             return [connectUtils.socketConnector(options), client].join(";\n");
         };
     }

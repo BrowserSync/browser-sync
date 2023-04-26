@@ -96,7 +96,13 @@ export function setNamespace(incoming: BsTempOptions): TransformResult {
     var namespace = incoming.getIn(["socket", "namespace"]);
 
     if (_.isFunction(namespace)) {
-        return [incoming.setIn(["socket", "namespace"], namespace((defaultConfig.socket as any).namespace)), []];
+        return [
+            incoming.setIn(
+                ["socket", "namespace"],
+                namespace((defaultConfig.socket as any).namespace)
+            ),
+            []
+        ];
     }
     return [incoming, []];
 }

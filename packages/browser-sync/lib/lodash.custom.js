@@ -137,9 +137,19 @@
     var reOptMod = rsModifier + "?",
         rsOptVar = "[" + rsVarRange + "]?",
         rsOptJoin =
-            "(?:" + rsZWJ + "(?:" + [rsNonAstral, rsRegional, rsSurrPair].join("|") + ")" + rsOptVar + reOptMod + ")*",
+            "(?:" +
+            rsZWJ +
+            "(?:" +
+            [rsNonAstral, rsRegional, rsSurrPair].join("|") +
+            ")" +
+            rsOptVar +
+            reOptMod +
+            ")*",
         rsSeq = rsOptVar + reOptMod + rsOptJoin,
-        rsSymbol = "(?:" + [rsNonAstral + rsCombo + "?", rsCombo, rsRegional, rsSurrPair, rsAstral].join("|") + ")";
+        rsSymbol =
+            "(?:" +
+            [rsNonAstral + rsCombo + "?", rsCombo, rsRegional, rsSurrPair, rsAstral].join("|") +
+            ")";
 
     /** Used to match [string symbols](https://mathiasbynens.be/notes/javascript-unicode). */
     var reUnicode = RegExp(rsFitz + "(?=" + rsFitz + ")|" + rsSymbol + rsSeq, "g");
@@ -149,30 +159,36 @@
 
     /** Used to identify `toStringTag` values of typed arrays. */
     var typedArrayTags = {};
-    typedArrayTags[float32Tag] = typedArrayTags[float64Tag] = typedArrayTags[int8Tag] = typedArrayTags[
-        int16Tag
-    ] = typedArrayTags[int32Tag] = typedArrayTags[uint8Tag] = typedArrayTags[uint8ClampedTag] = typedArrayTags[
-        uint16Tag
-    ] = typedArrayTags[uint32Tag] = true;
-    typedArrayTags[argsTag] = typedArrayTags[arrayTag] = typedArrayTags[arrayBufferTag] = typedArrayTags[
-        boolTag
-    ] = typedArrayTags[dataViewTag] = typedArrayTags[dateTag] = typedArrayTags[errorTag] = typedArrayTags[
-        funcTag
-    ] = typedArrayTags[mapTag] = typedArrayTags[numberTag] = typedArrayTags[objectTag] = typedArrayTags[
+    typedArrayTags[float32Tag] = typedArrayTags[float64Tag] = typedArrayTags[
+        int8Tag
+    ] = typedArrayTags[int16Tag] = typedArrayTags[int32Tag] = typedArrayTags[
+        uint8Tag
+    ] = typedArrayTags[uint8ClampedTag] = typedArrayTags[uint16Tag] = typedArrayTags[
+        uint32Tag
+    ] = true;
+    typedArrayTags[argsTag] = typedArrayTags[arrayTag] = typedArrayTags[
+        arrayBufferTag
+    ] = typedArrayTags[boolTag] = typedArrayTags[dataViewTag] = typedArrayTags[
+        dateTag
+    ] = typedArrayTags[errorTag] = typedArrayTags[funcTag] = typedArrayTags[
+        mapTag
+    ] = typedArrayTags[numberTag] = typedArrayTags[objectTag] = typedArrayTags[
         regexpTag
     ] = typedArrayTags[setTag] = typedArrayTags[stringTag] = typedArrayTags[weakMapTag] = false;
 
     /** Used to identify `toStringTag` values supported by `_.clone`. */
     var cloneableTags = {};
-    cloneableTags[argsTag] = cloneableTags[arrayTag] = cloneableTags[arrayBufferTag] = cloneableTags[
-        dataViewTag
-    ] = cloneableTags[boolTag] = cloneableTags[dateTag] = cloneableTags[float32Tag] = cloneableTags[
-        float64Tag
-    ] = cloneableTags[int8Tag] = cloneableTags[int16Tag] = cloneableTags[int32Tag] = cloneableTags[
-        mapTag
-    ] = cloneableTags[numberTag] = cloneableTags[objectTag] = cloneableTags[regexpTag] = cloneableTags[
-        setTag
-    ] = cloneableTags[stringTag] = cloneableTags[symbolTag] = cloneableTags[uint8Tag] = cloneableTags[
+    cloneableTags[argsTag] = cloneableTags[arrayTag] = cloneableTags[
+        arrayBufferTag
+    ] = cloneableTags[dataViewTag] = cloneableTags[boolTag] = cloneableTags[
+        dateTag
+    ] = cloneableTags[float32Tag] = cloneableTags[float64Tag] = cloneableTags[
+        int8Tag
+    ] = cloneableTags[int16Tag] = cloneableTags[int32Tag] = cloneableTags[mapTag] = cloneableTags[
+        numberTag
+    ] = cloneableTags[objectTag] = cloneableTags[regexpTag] = cloneableTags[setTag] = cloneableTags[
+        stringTag
+    ] = cloneableTags[symbolTag] = cloneableTags[uint8Tag] = cloneableTags[
         uint8ClampedTag
     ] = cloneableTags[uint16Tag] = cloneableTags[uint32Tag] = true;
     cloneableTags[errorTag] = cloneableTags[funcTag] = cloneableTags[weakMapTag] = false;
@@ -193,7 +209,8 @@
     var freeExports = typeof exports == "object" && exports && !exports.nodeType && exports;
 
     /** Detect free variable `module`. */
-    var freeModule = freeExports && typeof module == "object" && module && !module.nodeType && module;
+    var freeModule =
+        freeExports && typeof module == "object" && module && !module.nodeType && module;
 
     /** Detect the popular CommonJS extension `module.exports`. */
     var moduleExports = freeModule && freeModule.exports === freeExports;
@@ -475,7 +492,9 @@
      * @returns {number} Returns the index of the matched value, else `-1`.
      */
     function baseIndexOf(array, value, fromIndex) {
-        return value === value ? strictIndexOf(array, value, fromIndex) : baseFindIndex(array, baseIsNaN, fromIndex);
+        return value === value
+            ? strictIndexOf(array, value, fromIndex)
+            : baseFindIndex(array, baseIsNaN, fromIndex);
     }
 
     /**
@@ -1441,7 +1460,8 @@
                         // Node.js 0.10 has enumerable non-index properties on buffers.
                         (isBuff && (key == "offset" || key == "parent")) ||
                         // PhantomJS 2 has enumerable non-index properties on typed arrays.
-                        (isType && (key == "buffer" || key == "byteLength" || key == "byteOffset")) ||
+                        (isType &&
+                            (key == "buffer" || key == "byteLength" || key == "byteOffset")) ||
                         // Skip index properties.
                         isIndex(key, length))
                 )
@@ -1462,7 +1482,10 @@
      * @param {*} value The value to assign.
      */
     function assignMergeValue(object, key, value) {
-        if ((value !== undefined && !eq(object[key], value)) || (value === undefined && !(key in object))) {
+        if (
+            (value !== undefined && !eq(object[key], value)) ||
+            (value === undefined && !(key in object))
+        ) {
             baseAssignValue(object, key, value);
         }
     }
@@ -1479,7 +1502,10 @@
      */
     function assignValue(object, key, value) {
         var objValue = object[key];
-        if (!(hasOwnProperty.call(object, key) && eq(objValue, value)) || (value === undefined && !(key in object))) {
+        if (
+            !(hasOwnProperty.call(object, key) && eq(objValue, value)) ||
+            (value === undefined && !(key in object))
+        ) {
             baseAssignValue(object, key, value);
         }
     }
@@ -1746,7 +1772,9 @@
         if (value == null) {
             return value === undefined ? undefinedTag : nullTag;
         }
-        return symToStringTag && symToStringTag in Object(value) ? getRawTag(value) : objectToString(value);
+        return symToStringTag && symToStringTag in Object(value)
+            ? getRawTag(value)
+            : objectToString(value);
     }
 
     /**
@@ -2101,7 +2129,9 @@
             assignMergeValue(object, key, stacked);
             return;
         }
-        var newValue = customizer ? customizer(objValue, srcValue, key + "", object, source, stack) : undefined;
+        var newValue = customizer
+            ? customizer(objValue, srcValue, key + "", object, source, stack)
+            : undefined;
 
         var isCommon = newValue === undefined;
 
@@ -2472,7 +2502,9 @@
         while (++index < length) {
             var key = props[index];
 
-            var newValue = customizer ? customizer(object[key], source[key], key, object, source) : undefined;
+            var newValue = customizer
+                ? customizer(object[key], source[key], key, object, source)
+                : undefined;
 
             if (newValue === undefined) {
                 newValue = source[key];
@@ -2524,7 +2556,10 @@
                 customizer = length > 1 ? sources[length - 1] : undefined,
                 guard = length > 2 ? sources[2] : undefined;
 
-            customizer = assigner.length > 3 && typeof customizer == "function" ? (length--, customizer) : undefined;
+            customizer =
+                assigner.length > 3 && typeof customizer == "function"
+                    ? (length--, customizer)
+                    : undefined;
 
             if (guard && isIterateeCall(sources[0], sources[1], guard)) {
                 customizer = length < 3 ? undefined : customizer;
@@ -2663,7 +2698,8 @@
                     !arraySome(other, function(othValue, othIndex) {
                         if (
                             !cacheHas(seen, othIndex) &&
-                            (arrValue === othValue || equalFunc(arrValue, othValue, bitmask, customizer, stack))
+                            (arrValue === othValue ||
+                                equalFunc(arrValue, othValue, bitmask, customizer, stack))
                         ) {
                             return seen.push(othIndex);
                         }
@@ -2672,7 +2708,12 @@
                     result = false;
                     break;
                 }
-            } else if (!(arrValue === othValue || equalFunc(arrValue, othValue, bitmask, customizer, stack))) {
+            } else if (
+                !(
+                    arrValue === othValue ||
+                    equalFunc(arrValue, othValue, bitmask, customizer, stack)
+                )
+            ) {
                 result = false;
                 break;
             }
@@ -2702,7 +2743,10 @@
     function equalByTag(object, other, tag, bitmask, customizer, equalFunc, stack) {
         switch (tag) {
             case dataViewTag:
-                if (object.byteLength != other.byteLength || object.byteOffset != other.byteOffset) {
+                if (
+                    object.byteLength != other.byteLength ||
+                    object.byteOffset != other.byteOffset
+                ) {
                     return false;
                 }
                 object = object.buffer;
@@ -2753,7 +2797,14 @@
 
                 // Recursively compare objects (susceptible to call stack limits).
                 stack.set(object, other);
-                var result = equalArrays(convert(object), convert(other), bitmask, customizer, equalFunc, stack);
+                var result = equalArrays(
+                    convert(object),
+                    convert(other),
+                    bitmask,
+                    customizer,
+                    equalFunc,
+                    stack
+                );
                 stack["delete"](object);
                 return result;
 
@@ -2818,7 +2869,8 @@
             // Recursively compare objects (susceptible to call stack limits).
             if (
                 !(compared === undefined
-                    ? objValue === othValue || equalFunc(objValue, othValue, bitmask, customizer, stack)
+                    ? objValue === othValue ||
+                      equalFunc(objValue, othValue, bitmask, customizer, stack)
                     : compared)
             ) {
                 result = false;
@@ -3066,7 +3118,12 @@
             return result;
         }
         length = object == null ? 0 : object.length;
-        return !!length && isLength(length) && isIndex(key, length) && (isArray(object) || isArguments(object));
+        return (
+            !!length &&
+            isLength(length) &&
+            isIndex(key, length) &&
+            (isArray(object) || isArguments(object))
+        );
     }
 
     /**
@@ -3096,7 +3153,9 @@
      * @returns {Object} Returns the initialized clone.
      */
     function initCloneObject(object) {
-        return typeof object.constructor == "function" && !isPrototype(object) ? baseCreate(getPrototype(object)) : {};
+        return typeof object.constructor == "function" && !isPrototype(object)
+            ? baseCreate(getPrototype(object))
+            : {};
     }
 
     /**
@@ -3162,7 +3221,11 @@
      * @returns {boolean} Returns `true` if `value` is flattenable, else `false`.
      */
     function isFlattenable(value) {
-        return isArray(value) || isArguments(value) || !!(spreadableSymbol && value && value[spreadableSymbol]);
+        return (
+            isArray(value) ||
+            isArguments(value) ||
+            !!(spreadableSymbol && value && value[spreadableSymbol])
+        );
     }
 
     /**
@@ -3220,10 +3283,20 @@
             return false;
         }
         var type = typeof value;
-        if (type == "number" || type == "symbol" || type == "boolean" || value == null || isSymbol(value)) {
+        if (
+            type == "number" ||
+            type == "symbol" ||
+            type == "boolean" ||
+            value == null ||
+            isSymbol(value)
+        ) {
             return true;
         }
-        return reIsPlainProp.test(value) || !reIsDeepProp.test(value) || (object != null && value in Object(object));
+        return (
+            reIsPlainProp.test(value) ||
+            !reIsDeepProp.test(value) ||
+            (object != null && value in Object(object))
+        );
     }
 
     /**
@@ -3863,7 +3936,9 @@
      * // => false
      */
     function isLength(value) {
-        return typeof value == "number" && value > -1 && value % 1 == 0 && value <= MAX_SAFE_INTEGER;
+        return (
+            typeof value == "number" && value > -1 && value % 1 == 0 && value <= MAX_SAFE_INTEGER
+        );
     }
 
     /**
@@ -3961,7 +4036,11 @@
             return true;
         }
         var Ctor = hasOwnProperty.call(proto, "constructor") && proto.constructor;
-        return typeof Ctor == "function" && Ctor instanceof Ctor && funcToString.call(Ctor) == objectCtorString;
+        return (
+            typeof Ctor == "function" &&
+            Ctor instanceof Ctor &&
+            funcToString.call(Ctor) == objectCtorString
+        );
     }
 
     /**
@@ -3982,7 +4061,10 @@
      * // => false
      */
     function isString(value) {
-        return typeof value == "string" || (!isArray(value) && isObjectLike(value) && baseGetTag(value) == stringTag);
+        return (
+            typeof value == "string" ||
+            (!isArray(value) && isObjectLike(value) && baseGetTag(value) == stringTag)
+        );
     }
 
     /**
