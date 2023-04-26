@@ -35,10 +35,7 @@ describe("HTTP protocol", function() {
     });
 
     it("responds to reload event with no args", function(done) {
-        var url = proto.getUrl(
-            { method: "reload" },
-            bs.options.getIn(["urls", "local"])
-        );
+        var url = proto.getUrl({ method: "reload" }, bs.options.getIn(["urls", "local"]));
 
         request(url, function(e, r, body) {
             scheduler.advanceTo(500);
@@ -49,10 +46,7 @@ describe("HTTP protocol", function() {
         });
     });
     it("responds to reload event with multi file paths", function(done) {
-        var url = proto.getUrl(
-            { method: "reload", args: ["a.css", "b.css"] },
-            bs.options.getIn(["urls", "local"])
-        );
+        var url = proto.getUrl({ method: "reload", args: ["a.css", "b.css"] }, bs.options.getIn(["urls", "local"]));
 
         request(url, function(e, r, body) {
             scheduler.advanceTo(500);
@@ -71,10 +65,7 @@ describe("HTTP protocol", function() {
         });
     });
     it("responds to reload event with single file path", function(done) {
-        var url = proto.getUrl(
-            { method: "reload", args: "somefile.php" },
-            bs.options.getIn(["urls", "local"])
-        );
+        var url = proto.getUrl({ method: "reload", args: "somefile.php" }, bs.options.getIn(["urls", "local"]));
 
         request(url, function(e, r, body) {
             scheduler.advanceTo(500);
@@ -91,10 +82,7 @@ describe("HTTP protocol", function() {
         });
     });
     it("Gives a nice error when method not found", function(done) {
-        var url = proto.getUrl(
-            { method: "relzoad", args: "somefile.php" },
-            bs.options.getIn(["urls", "local"])
-        );
+        var url = proto.getUrl({ method: "relzoad", args: "somefile.php" }, bs.options.getIn(["urls", "local"]));
 
         request(url, function(e, r, body) {
             assert.equal(r.statusCode, 404);

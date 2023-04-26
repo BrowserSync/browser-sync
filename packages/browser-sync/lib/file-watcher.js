@@ -42,11 +42,7 @@ module.exports.plugin = function(bs) {
                 if (!_.isFunction(item.fn)) {
                     item.fn = fn;
                 }
-                var watcher = watch(
-                    item.match,
-                    item.options || defaultWatchOptions,
-                    item.fn.bind(bs.publicInstance)
-                );
+                var watcher = watch(item.match, item.options || defaultWatchOptions, item.fn.bind(bs.publicInstance));
                 if (!map[namespace]) {
                     map[namespace] = {
                         watchers: [watcher]

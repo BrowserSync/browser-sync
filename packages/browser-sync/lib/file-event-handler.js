@@ -25,14 +25,10 @@ function fileChanges(subject, options) {
      */
     const initial = getAggregatedDebouncedStream(subject, options, scheduler);
 
-    return applyOperators(operators, initial, options, scheduler).map(function(
-        items
-    ) {
+    return applyOperators(operators, initial, options, scheduler).map(function(items) {
         const paths = items.map(x => x.path);
 
-        if (
-            utils.willCauseReload(paths, options.get("injectFileTypes").toJS())
-        ) {
+        if (utils.willCauseReload(paths, options.get("injectFileTypes").toJS())) {
             return {
                 type: "reload",
                 files: items
@@ -68,12 +64,7 @@ function applyReloadOperators(subject, options) {
         }
     ];
 
-    return applyOperators(
-        operators,
-        subject,
-        options,
-        options.getIn(["debug", "scheduler"])
-    );
+    return applyOperators(operators, subject, options, options.getIn(["debug", "scheduler"]));
 }
 module.exports.applyReloadOperators = applyReloadOperators;
 

@@ -94,10 +94,7 @@ describe("Plugins: Registering hooks - client events:", function() {
     });
     it("adds multiple items to the clientEvents array", function() {
         assert.include(instance.options.get("clientEvents").toJS(), "cp:goto");
-        assert.include(
-            instance.options.get("clientEvents").toJS(),
-            "custom:event"
-        );
+        assert.include(instance.options.get("clientEvents").toJS(), "custom:event");
     });
 });
 

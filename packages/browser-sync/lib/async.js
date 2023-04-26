@@ -6,7 +6,7 @@ var Immutable = require("immutable");
 var utils = require("./utils");
 var pluginUtils = require("./plugins");
 var connectUtils = require("./connect-utils");
-var chalk       = require("chalk");
+var chalk = require("chalk");
 
 module.exports = {
     /**
@@ -63,24 +63,19 @@ module.exports = {
             socketPort = bs.options.getIn(["socket", "port"]);
         }
 
-        utils.getPort(
-            bs.options.get("listen", "localhost"),
-            socketPort,
-            null,
-            function(err, port) {
-                if (err) {
-                    return utils.fail(true, err, bs.cb);
-                }
-                done(null, {
-                    optionsIn: [
-                        {
-                            path: ["socket", "port"],
-                            value: port
-                        }
-                    ]
-                });
+        utils.getPort(bs.options.get("listen", "localhost"), socketPort, null, function(err, port) {
+            if (err) {
+                return utils.fail(true, err, bs.cb);
             }
-        );
+            done(null, {
+                optionsIn: [
+                    {
+                        path: ["socket", "port"],
+                        value: port
+                    }
+                ]
+            });
+        });
     },
     /**
      * Some features require an internet connection.
@@ -91,22 +86,13 @@ module.exports = {
      * @param {Function} done
      */
     getOnlineStatus: function(bs, done) {
-        if (
-            _.isUndefined(bs.options.get("online")) &&
-            _.isUndefined(process.env.TESTING)
-        ) {
+        if (_.isUndefined(bs.options.get("online")) && _.isUndefined(process.env.TESTING)) {
             require("dns").resolve("www.google.com", function(err) {
                 var online = false;
                 if (err) {
-                    bs.debug(
-                        "Could not resolve www.google.com, setting %s",
-                        chalk.magenta("online: false")
-                    );
+                    bs.debug("Could not resolve www.google.com, setting %s", chalk.magenta("online: false"));
                 } else {
-                    bs.debug(
-                        "Resolved www.google.com, setting %s",
-                        chalk.magenta("online: true")
-                    );
+                    bs.debug("Resolved www.google.com, setting %s", chalk.magenta("online: true"));
                     online = true;
                 }
                 done(null, {
@@ -155,17 +141,9 @@ module.exports = {
         done(null, {
             options: {
                 urls: utils.getUrlOptions(bs.options),
-                snippet: connectUtils.enabled(bs.options)
-                    ? connectUtils.scriptTags(bs.options)
-                    : false,
-                scriptPaths: Immutable.fromJS(
-                    connectUtils.clientScript(bs.options, true)
-                ),
-                files: bs.pluginManager.hook(
-                    "files:watch",
-                    bs.options.get("files"),
-                    bs.pluginManager.pluginOptions
-                )
+                snippet: connectUtils.enabled(bs.options) ? connectUtils.scriptTags(bs.options) : false,
+                scriptPaths: Immutable.fromJS(connectUtils.clientScript(bs.options, true)),
+                files: bs.pluginManager.hook("files:watch", bs.options.get("files"), bs.pluginManager.pluginOptions)
             }
         });
     },
@@ -195,10 +173,7 @@ module.exports = {
     mergeMiddlewares: function(bs, done) {
         done(null, {
             options: {
-                middleware: bs.pluginManager.hook(
-                    "server:middleware",
-                    bs.options.get("middleware")
-                )
+                middleware: bs.pluginManager.hook("server:middleware", bs.options.get("middleware"))
             }
         });
     },
@@ -249,10 +224,7 @@ module.exports = {
      * @param {Function} done
      */
     startSockets: function(bs, done) {
-        var clientEvents = bs.pluginManager.hook(
-            "client:events",
-            bs.options.get("clientEvents").toJS()
-        );
+        var clientEvents = bs.pluginManager.hook("client:events", bs.options.get("clientEvents").toJS());
 
         // Start the socket, needs an existing server.
         var io = bs.pluginManager.get("socket")(bs.server, clientEvents, bs);
@@ -287,13 +259,7 @@ module.exports = {
                 return item.name === PLUGIN_NAME;
             })
         ) {
-            uiOpts = bs.options
-                .get("ui")
-                .mergeDeep(
-                    Immutable.fromJS(
-                        bs.pluginManager.pluginOptions[PLUGIN_NAME]
-                    )
-                );
+            uiOpts = bs.options.get("ui").mergeDeep(Immutable.fromJS(bs.pluginManager.pluginOptions[PLUGIN_NAME]));
         }
 
         /**

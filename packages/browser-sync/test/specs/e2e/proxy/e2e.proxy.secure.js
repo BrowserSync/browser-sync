@@ -53,10 +53,7 @@ describe("E2E TLS proxy test", function() {
             }
 
             var local = bs.options.getIn(["urls", "local"]);
-            var expected = app.html.replace(
-                "BS",
-                bs.options.get("snippet") + "BS"
-            );
+            var expected = app.html.replace("BS", bs.options.get("snippet") + "BS");
 
             assert.equal("https://localhost:" + bs.options.get("port"), local);
 
@@ -88,10 +85,7 @@ describe("E2E TLS proxy test", function() {
         browserSync.init(config, function(err, bs) {
             assert.isString(bs.options.get("snippet"));
 
-            var expected = app.html.replace(
-                "BS",
-                bs.options.get("snippet") + "BS"
-            );
+            var expected = app.html.replace("BS", bs.options.get("snippet") + "BS");
 
             request(bs.options.getIn(["urls", "local"]))
                 .get("/index.html")

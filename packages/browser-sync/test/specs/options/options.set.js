@@ -16,16 +16,10 @@ describe("Setting options during runtime", function() {
 
     it("should update options with event", function(done) {
         instance.events.on("options:set", function(data) {
-            assert.deepEqual(
-                instance.options.getIn(["ghostMode", "clicks"]),
-                false
-            );
+            assert.deepEqual(instance.options.getIn(["ghostMode", "clicks"]), false);
             assert.deepEqual(data.path, ["ghostMode", "clicks"]);
             assert.deepEqual(data.value, false);
-            assert.deepEqual(
-                data.options.getIn(["ghostMode", "clicks"]),
-                false
-            );
+            assert.deepEqual(data.options.getIn(["ghostMode", "clicks"]), false);
             done();
         });
 
@@ -47,10 +41,7 @@ describe("Setting Multi options during runtime", function() {
 
     it("should update options with event", function(done) {
         instance.events.on("options:set", function() {
-            assert.deepEqual(
-                instance.options.getIn(["ghostMode", "clicks"]),
-                false
-            );
+            assert.deepEqual(instance.options.getIn(["ghostMode", "clicks"]), false);
             assert.deepEqual(instance.options.getIn(["shane"]), "awesome");
             done();
         });

@@ -209,9 +209,7 @@ describe("Plugins: Should be able to add middleware with paths on the fly in pro
     it("should serve the file + browserSync file", function(done) {
         browserSync.reset();
 
-        var testApp = connect().use(
-            serveStatic(path.join(__dirname, "../../fixtures"))
-        );
+        var testApp = connect().use(serveStatic(path.join(__dirname, "../../fixtures")));
 
         // server to proxy
         var stubServer = http.createServer(testApp).listen();
@@ -255,9 +253,7 @@ describe("Plugins: Should be able to add middleware with no paths on the fly in 
     before(function(done) {
         browserSync.reset();
 
-        var testApp = connect().use(
-            serveStatic(path.join(__dirname, "/../../fixtures"))
-        );
+        var testApp = connect().use(serveStatic(path.join(__dirname, "/../../fixtures")));
 
         // server to proxy
         stubServer = http.createServer(testApp).listen();

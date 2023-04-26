@@ -512,15 +512,7 @@ module.exports = {
      */
     timestamps: true,
 
-    clientEvents: [
-        "scroll",
-        "scroll:element",
-        "input:text",
-        "input:toggles",
-        "form:submit",
-        "form:reset",
-        "click"
-    ],
+    clientEvents: ["scroll", "scroll:element", "input:text", "input:toggles", "form:submit", "form:reset", "click"],
 
     /**
      * Alter the script path for complete control over where the Browsersync

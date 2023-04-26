@@ -24,10 +24,7 @@ describe.skip("Tunnel e2e tests", function() {
     });
 
     it("should call init on the tunnel", function() {
-        assert.include(
-            instance.options.getIn(["urls", "tunnel"]),
-            "localtunnel.me"
-        );
+        assert.include(instance.options.getIn(["urls", "tunnel"]), "localtunnel.me");
     });
 });
 
@@ -53,10 +50,7 @@ describe.skip("Tunnel e2e tests with subdomain", function() {
     });
 
     it("should call init on the tunnel", function() {
-        assert.include(
-            instance.options.getIn(["urls", "tunnel"]),
-            "localtunnel.me"
-        );
+        assert.include(instance.options.getIn(["urls", "tunnel"]), "localtunnel.me");
     });
 });
 
@@ -101,10 +95,7 @@ describe("Tunnel e2e tests with Error", function() {
         };
 
         browserSync(config, function(err, bs) {
-            bs.tunnel.emit(
-                "error",
-                new Error("connection refused: (check your firewall settings)")
-            );
+            bs.tunnel.emit("error", new Error("connection refused: (check your firewall settings)"));
             bs.cleanup();
             done();
         });

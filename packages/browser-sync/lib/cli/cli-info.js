@@ -48,8 +48,7 @@ var info = {
         fs.writeFile(path.resolve(cwd, config.userFile), file, function() {
             logger.info("Config file created %s", chalk.magenta(config.userFile));
             logger.info(
-                "To use it, in the same directory run: " +
-                    chalk.cyan("browser-sync start --config bs-config.js")
+                "To use it, in the same directory run: " + chalk.cyan("browser-sync start --config bs-config.js")
             );
             cb();
         });

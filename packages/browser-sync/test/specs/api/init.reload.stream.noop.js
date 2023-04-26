@@ -18,10 +18,7 @@ describe("API: .stream() noop", function() {
     it("should can handle a reload + stream call after there IS an instance", function(done) {
         var emitterStub;
         var scheduler = require("../../utils").getScheduler();
-        var bs = browserSync({ debug: { scheduler: scheduler } }, function(
-            err,
-            _bs
-        ) {
+        var bs = browserSync({ debug: { scheduler: scheduler } }, function(err, _bs) {
             var stream = bs.stream();
 
             emitterStub = sinon.spy(_bs.emitter, "emit");

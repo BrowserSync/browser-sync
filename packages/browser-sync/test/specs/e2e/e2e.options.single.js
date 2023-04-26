@@ -23,10 +23,7 @@ describe("e2e options test (single)", function() {
                 .set("accept", "*/*")
                 .expect(200)
                 .end(function(err, res) {
-                    const expected = fs.readFileSync(
-                        "test/fixtures/index.html",
-                        "utf8"
-                    );
+                    const expected = fs.readFileSync("test/fixtures/index.html", "utf8");
                     assert.equal(res.text, expected);
                     bs.cleanup(done);
                 });
@@ -48,10 +45,7 @@ describe("e2e options test (single)", function() {
                 .get("/assets/style.css")
                 .expect(200)
                 .end(function(err, res) {
-                    const expected = fs.readFileSync(
-                        "test/fixtures/assets/style.css",
-                        "utf8"
-                    );
+                    const expected = fs.readFileSync("test/fixtures/assets/style.css", "utf8");
                     assert.equal(res.text, expected);
                     bs.cleanup(done);
                 });

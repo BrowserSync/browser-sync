@@ -18,21 +18,12 @@ describe("E2E server test with serve static options", function() {
         };
 
         browserSync.create().init(config, function(err, bs) {
-            assert.equal(
-                bs.options.getIn(["server", "serveStaticOptions", "index"]),
-                "inputs.html"
-            );
+            assert.equal(bs.options.getIn(["server", "serveStaticOptions", "index"]), "inputs.html");
             request(bs.server)
                 .get("/")
                 .expect(200)
                 .end(function(err, res) {
-                    assert.deepEqual(
-                        require("fs").readFileSync(
-                            "test/fixtures/inputs.html",
-                            "utf-8"
-                        ),
-                        res.text
-                    );
+                    assert.deepEqual(require("fs").readFileSync("test/fixtures/inputs.html", "utf-8"), res.text);
                     bs.cleanup();
                     done();
                 });
@@ -51,21 +42,12 @@ describe("E2E server test with serve static options", function() {
         };
 
         browserSync.create().init(config, function(err, bs) {
-            assert.equal(
-                bs.options.getIn(["server", "serveStaticOptions", "index"]),
-                "index.html"
-            );
+            assert.equal(bs.options.getIn(["server", "serveStaticOptions", "index"]), "index.html");
             request(bs.server)
                 .get("/")
                 .expect(200)
                 .end(function(err, res) {
-                    assert.deepEqual(
-                        require("fs").readFileSync(
-                            "test/fixtures/index.html",
-                            "utf-8"
-                        ),
-                        res.text
-                    );
+                    assert.deepEqual(require("fs").readFileSync("test/fixtures/index.html", "utf-8"), res.text);
                     bs.cleanup();
                     done();
                 });
