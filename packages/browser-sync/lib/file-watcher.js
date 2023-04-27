@@ -1,14 +1,11 @@
-"use strict";
-
-var _ = require("./lodash.custom");
-var utils = require("./utils");
-var Rx = require("rx");
+// @ts-check
+import { isFunction } from "./underbar";
 
 /**
  * Plugin interface
  * @returns {*|function(this:exports)}
  */
-module.exports.plugin = function(bs) {
+export function plugin(bs) {
     var options = bs.options;
     var emitter = bs.emitter;
 
@@ -39,7 +36,7 @@ module.exports.plugin = function(bs) {
 
         if (jsItem.objs.length) {
             jsItem.objs.forEach(function(item) {
-                if (!_.isFunction(item.fn)) {
+                if (!isFunction(item.fn)) {
                     item.fn = fn;
                 }
                 var watcher = watch(
@@ -59,7 +56,7 @@ module.exports.plugin = function(bs) {
 
         return map;
     }, {});
-};
+}
 
 /**
  * @param patterns
@@ -75,7 +72,7 @@ function watch(patterns, opts, cb) {
 
     var watcher = require("chokidar").watch(patterns, opts);
 
-    if (_.isFunction(cb)) {
+    if (isFunction(cb)) {
         watcher.on("all", cb);
     }
 
@@ -86,4 +83,4 @@ function watch(patterns, opts, cb) {
     return watcher;
 }
 
-module.exports.watch = watch;
+export { watch };

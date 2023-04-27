@@ -1,10 +1,10 @@
-"use strict";
+// @ts-check
 
-var _ = require("./lodash.custom");
-var utils = require("util");
+import { isString } from "./underbar";
+import utils from "util";
 
 /**
- * @param {BrowserSync} bs
+ * @param {import("./browser-sync").default} bs
  * @param {Function} cb
  */
 module.exports = function(bs, cb) {
@@ -12,7 +12,7 @@ module.exports = function(bs, cb) {
     var options = bs.options;
     var port = options.get("port");
 
-    if (_.isString(options.get("tunnel"))) {
+    if (isString(options.get("tunnel"))) {
         opts.subdomain = options.get("tunnel");
     }
 

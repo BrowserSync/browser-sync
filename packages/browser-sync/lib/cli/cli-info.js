@@ -1,14 +1,12 @@
-"use strict";
+// @ts-check
+import config from "../config";
+import { logger } from "../logger";
+import fs from "fs";
+import path from "path";
+import chalk from "chalk";
+import { includes } from "../underbar";
 
-var config = require("../config");
-var logger = require("../logger").logger;
-
-var fs = require("fs");
-var _ = require("../lodash.custom");
-var path = require("path");
-var chalk = require("chalk");
-
-var info = {
+const info = {
     /**
      * Version info
      * @param {Object} pjson
@@ -37,7 +35,7 @@ var info = {
         var ignore = ["excludedFileTypes", "injectFileTypes", "snippetOptions"];
 
         Object.keys(opts).forEach(function(key) {
-            if (!_.includes(ignore, key)) {
+            if (!includes(ignore, key)) {
                 userOpts[key] = opts[key];
             }
         });
@@ -56,4 +54,4 @@ var info = {
     }
 };
 
-module.exports = info;
+export default info;

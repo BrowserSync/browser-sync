@@ -1,17 +1,18 @@
+// @ts-check
 "use strict";
 
-var _ = require("./lodash.custom");
-var Immutable = require("immutable");
-var snippetUtils = require("./snippet").utils;
+import Immutable from "immutable";
+import { utils } from "./snippet";
+import { each, isFunction, union } from "./underbar";
 
-module.exports = {
+export default {
     /**
      *
-     * @this {BrowserSync}
+     * @this {import("./browser-sync").default}
      * @returns {String}
      */
     "client:js": function(hooks, data) {
-        var js = snippetUtils.getClientJs(data.port, data.options);
+        var js = utils.getClientJs(data.port, data.options);
 
         return hooks.reduce(
             function(acc, hook) {
@@ -24,7 +25,7 @@ module.exports = {
         );
     },
     /**
-     * @this {BrowserSync}
+     * @this {import("./browser-sync").default}
      * @returns {Array}
      */
     "client:events": function(hooks, clientEvents) {
@@ -32,7 +33,7 @@ module.exports = {
             var result = hook(this);
 
             if (Array.isArray(result)) {
-                clientEvents = _.union(clientEvents, result);
+                clientEvents = union(clientEvents, result);
             } else {
                 clientEvents.push(result);
             }
@@ -46,23 +47,24 @@ module.exports = {
     "server:middleware": function(hooks, initial) {
         initial = initial || [];
 
-        _.each(
+        each(
             hooks,
             function(hook) {
                 var result = hook(this);
 
                 if (Array.isArray(result)) {
                     result.forEach(function(res) {
-                        if (_.isFunction(res)) {
+                        if (isFunction(res)) {
                             initial = initial.push(res);
                         }
                     });
                 } else {
-                    if (_.isFunction(result)) {
+                    if (isFunction(result)) {
                         initial = initial.push(result);
                     }
                 }
             },
+            // @ts-expect-error
             this
         );
 
@@ -70,7 +72,7 @@ module.exports = {
     },
     /**
      * @param {Array} hooks
-     * @param {Map|List} initial
+     * @param {import("immutable").Map|import("immutable").List} initial
      * @param pluginOptions
      * @returns {any}
      */

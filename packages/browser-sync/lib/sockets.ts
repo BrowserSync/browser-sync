@@ -1,18 +1,18 @@
 import { Server } from "socket.io";
-import * as utils from "./server/utils";
+import utils from "./server/utils";
 
 /**
  * Plugin interface
  * @returns {*|function(this:exports)}
  */
 export function plugin(server, clientEvents, bs) {
-    return exports.init(server, clientEvents, bs);
+    return init(server, clientEvents, bs);
 }
 
 /**
  * @param {http.Server} server
  * @param clientEvents
- * @param {BrowserSync} bs
+ * @param {import("./browser-sync)} bs
  */
 export function init(server, clientEvents, bs) {
     var emitter = bs.events;

@@ -1,16 +1,13 @@
-"use strict";
-
-var utils = require("../utils");
-var publicUtils = require("./public-utils");
-var _ = require("../lodash.custom");
-var defaultConfig = require("../default-config");
-var stream = require("./stream");
+// @ts-check
+import { isObject } from "../underbar";
+import publicUtils from "./public-utils";
+import stream from "./stream";
 
 /**
  * @param emitter
  * @returns {Function}
  */
-module.exports = function(emitter) {
+export default function reload(emitter) {
     /**
      * Inform browsers about file changes.
      *
@@ -25,7 +22,7 @@ module.exports = function(emitter) {
          * for that signature here and defer to the
          * dedicated `.stream()` method instead.
          */
-        if (_.isObject(opts)) {
+        if (isObject(opts)) {
             if (!Array.isArray(opts) && Object.keys(opts).length) {
                 if (opts.stream === true) {
                     return stream(emitter)(opts);
@@ -62,4 +59,4 @@ module.exports = function(emitter) {
     }
 
     return browserSyncReload;
-};
+}

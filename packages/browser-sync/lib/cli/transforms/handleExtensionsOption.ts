@@ -1,11 +1,10 @@
 import { List } from "immutable";
 import { BsTempOptions, explodeFilesArg, TransformResult } from "../cli-options";
-
-const _ = require("../../lodash.custom");
+import { isString } from "../../underbar";
 
 export function handleExtensionsOption(incoming: BsTempOptions): TransformResult {
     const value = incoming.get("extensions");
-    if (_.isString(value)) {
+    if (isString(value)) {
         const split = explodeFilesArg(value);
         if (split.length) {
             return [incoming.set("extensions", List(split)), []];

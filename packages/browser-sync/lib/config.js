@@ -1,10 +1,8 @@
 "use strict";
 
 var path = require("path");
-/**
- * @type {{controlPanel: {jsFile: string, baseDir: *}, socketIoScript: string, configFile: string, client: {shims: string}}}
- */
-module.exports = {
+
+const config = {
     controlPanel: {
         jsFile: "/js/app.js",
         baseDir: path.join(__dirname, "control-panel")
@@ -30,3 +28,5 @@ module.exports = {
             "Invalid config. You set https: true, but your proxy target doesn't reflect this."
     }
 };
+
+export default config;

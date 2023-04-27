@@ -1,21 +1,20 @@
-"use strict";
-
-var path = require("path");
-var micromatch = require("micromatch");
-var utils = require("./public-utils");
+// @ts-check
+import path from "path";
+import micromatch from "micromatch";
+import utils from "./public-utils";
 
 /**
  * @param emitter
  * @returns {Function}
  */
-module.exports = function(emitter) {
+export default function(emitter) {
     /**
      * Return a transform/through stream that listens to file
      * paths and fires internal Browsersync events.
      * @param {{once: boolean, match: string|array}} [opts]
-     * @returns {Stream.Transform}
      */
     function browserSyncThroughStream(opts) {
+        // @ts-expect-error
         opts = opts || {};
         var emitted = false;
         var Transform = require("stream").Transform;
@@ -75,6 +74,7 @@ module.exports = function(emitter) {
          * @param next
          * @private
          */
+        // @ts-expect-error
         reload._flush = function(next) {
             if (changed.length) {
                 utils.emitStreamChangedEvent(emitter, changed);
@@ -87,4 +87,4 @@ module.exports = function(emitter) {
     }
 
     return browserSyncThroughStream;
-};
+}

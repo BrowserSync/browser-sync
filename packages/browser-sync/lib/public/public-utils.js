@@ -1,11 +1,10 @@
-"use strict";
+// @ts-check
+import { isObject } from "../underbar";
 
-var _ = require("../lodash.custom");
-
-module.exports = {
+const publicUtils = {
     /**
      * Emit the internal `file:change` event
-     * @param {EventEmitter} emitter
+     * @param {import("events").EventEmitter} emitter
      * @param {string} path
      * @param {boolean} [log]
      */
@@ -19,14 +18,14 @@ module.exports = {
     },
     /**
      * Emit the internal `browser:reload` event
-     * @param {EventEmitter} emitter
+     * @param {import("events").EventEmitter} emitter
      */
     emitBrowserReload: function emitChangeEvent(emitter) {
         emitter.emit("_browser:reload");
     },
     /**
      * Emit the internal `stream:changed` event
-     * @param {EventEmitter} emitter
+     * @param {import("events").EventEmitter} emitter
      * @param {Array} changed
      */
     emitStreamChangedEvent: function(emitter, changed) {
@@ -53,7 +52,7 @@ module.exports = {
         /**
          * If here, it's reload with args
          */
-        if (_.isObject(firstArg)) {
+        if (isObject(firstArg)) {
             if (!Array.isArray(firstArg) && Object.keys(firstArg).length) {
                 return firstArg.stream === true;
             }
@@ -62,3 +61,5 @@ module.exports = {
         return false;
     }
 };
+
+export default publicUtils;

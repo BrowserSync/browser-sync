@@ -3,7 +3,7 @@ import { existsSync } from "fs";
 import { fromJS } from "immutable";
 import * as utils from "../utils";
 import { explodeFilesArg } from "./cli-options";
-const _ = require("../lodash.custom");
+import { merge } from "../underbar";
 
 /**
  * $ browser-sync start <options>
@@ -24,7 +24,7 @@ export default function(opts) {
         const maybeconf = path.resolve(cwd, flags.config);
         if (existsSync(maybeconf)) {
             const conf = require(maybeconf);
-            input = _.merge({}, conf, flags);
+            input = merge({}, conf, flags);
         } else {
             utils.fail(true, new Error(`Configuration file '${flags.config}' not found`), opts.cb);
         }
@@ -33,7 +33,7 @@ export default function(opts) {
             const pkg = require(maybepkg);
             if (pkg["browser-sync"]) {
                 console.log("> Configuration obtained from package.json");
-                input = _.merge({}, pkg["browser-sync"], flags);
+                input = merge({}, pkg["browser-sync"], flags);
             }
         }
     }

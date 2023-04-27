@@ -1,14 +1,11 @@
-"use strict";
+// @ts-check
+import connectUtils from "./connect-utils";
+import lrSnippet from "resp-modifier";
+import fs from "fs";
+import path from "path";
+import { includes } from "./underbar";
 
-var connectUtils = require("./connect-utils");
-var config = require("./config");
-
-var lrSnippet = require("resp-modifier");
-var path = require("path");
-var _ = require("./lodash.custom");
-var utils = require("./utils");
-var fs = require("fs");
-var path = require("path");
+import * as utils from "./utils";
 
 /**
  * Utils for snippet injection
@@ -27,14 +24,14 @@ var snippetUtils = {
                 return true;
             }
             extension = extension.slice(1);
-            return _.includes(excludeList, extension);
+            return includes(excludeList, extension);
         }
         return false;
     },
     /**
      * @param {String} snippet
      * @param {Object} options
-     * @returns {{match: RegExp, fn: Function}}
+     * @returns {{match: RegExp, fn: Function, once: boolean, id: string}}
      */
     getRegex: function(snippet, options) {
         var fn = options.getIn(["rule", "fn"]);
@@ -65,7 +62,6 @@ var snippetUtils = {
         };
     },
     /**
-     * @param {Object} req
      * @param {Array} [excludeList]
      * @returns {Object}
      */
@@ -85,8 +81,8 @@ var snippetUtils = {
     },
     /**
      * @param {Number} port
-     * @param {BrowserSync.options} options
-     * @returns {String}
+     * @param {any} options
+     * @returns {() => string}
      */
     getClientJs: function(port, options) {
         return () => {
@@ -100,4 +96,4 @@ var snippetUtils = {
     }
 };
 
-module.exports.utils = snippetUtils;
+export { snippetUtils as utils };

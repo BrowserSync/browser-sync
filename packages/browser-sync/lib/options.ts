@@ -1,8 +1,9 @@
+// @ts-check
 import { BsTempOptions, TransformResult } from "./cli/cli-options";
 
-const _ = require("./lodash.custom");
 import * as Immutable from "immutable";
 import * as defaultConfig from "./default-config";
+import { isFunction, isString } from "./underbar";
 
 /**
  * Move top-level ws options to proxy.ws
@@ -95,7 +96,7 @@ export function setStartPath(incoming: BsTempOptions): TransformResult {
 export function setNamespace(incoming: BsTempOptions): TransformResult {
     var namespace = incoming.getIn(["socket", "namespace"]);
 
-    if (_.isFunction(namespace)) {
+    if (isFunction(namespace)) {
         return [
             incoming.setIn(
                 ["socket", "namespace"],
@@ -162,7 +163,7 @@ export function fixSnippetIgnorePaths(incoming: BsTempOptions): TransformResult 
     var ignorePaths = incoming.getIn(["snippetOptions", "ignorePaths"]);
 
     if (ignorePaths) {
-        if (_.isString(ignorePaths)) {
+        if (isString(ignorePaths)) {
             ignorePaths = [ignorePaths];
         }
         ignorePaths = ignorePaths.map(ensureSlash);
@@ -239,7 +240,7 @@ function isList(item) {
  * @returns {*}
  */
 function listMerge(list, item) {
-    if (_.isFunction(item)) {
+    if (isFunction(item)) {
         list = list.push(item);
     }
 

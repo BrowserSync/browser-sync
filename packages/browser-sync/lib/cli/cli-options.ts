@@ -29,8 +29,8 @@ import {
 import { BsErrors } from "../bin";
 import { handleHostOption } from "./transforms/handleHostOption";
 
-const _ = require("../lodash.custom");
-const defaultConfig = require("../default-config");
+import defaultConfig from "../default-config";
+import { isString } from "../underbar";
 const immDefs = fromJS(defaultConfig);
 
 /**
@@ -99,13 +99,13 @@ export function makeFilesArg(value) {
     let globs = [];
     let objs = [];
 
-    if (_.isString(value)) {
+    if (isString(value)) {
         globs = globs.concat(explodeFilesArg(value));
     }
 
     if (List.isList(value) && value.size) {
         value.forEach(function(value) {
-            if (_.isString(value)) {
+            if (isString(value)) {
                 globs.push(value);
             } else {
                 if (Map.isMap(value)) {

@@ -1,13 +1,12 @@
-"use strict";
-
-var enableDestroy = require("server-destroy");
-var _ = require("../lodash.custom");
+// @ts-check
+import enableDestroy from "server-destroy";
+import { deepSet } from "../underbar";
 
 /**
  * Browsersync server
  * Three available modes: Snippet, Server or Proxy
  */
-module.exports.plugin = function(bs) {
+export function plugin(bs) {
     var debug = bs.debug;
     var proxy = bs.options.get("proxy");
     var type = bs.options.get("mode");
@@ -55,7 +54,7 @@ module.exports.plugin = function(bs) {
 
     function setCloseReceived(io) {
         Object.keys(io.sockets).forEach(function(key) {
-            _.set(io.sockets[key], "conn.transport.socket._closeReceived", true);
+            deepSet(io.sockets[key], "conn.transport.socket._closeReceived", true);
         });
     }
 
@@ -65,19 +64,18 @@ module.exports.plugin = function(bs) {
         server: bsServer.server,
         app: bsServer.app
     };
-};
+}
 
 /**
  * Launch the server for serving the client JS plus static files
- * @param {BrowserSync} bs
- * @returns {{staticServer: (http.Server), proxyServer: (http.Server)}}
+ * @param {import("../browser-sync").default} bs
  */
-function createServer(bs) {
+export function createServer(bs) {
     var proxy = bs.options.get("proxy");
     var server = bs.options.get("server");
 
     if (!proxy && !server) {
-        return require("./snippet-server")(bs);
+        return require("./snippet-server").default(bs);
     }
 
     if (proxy) {
@@ -85,8 +83,6 @@ function createServer(bs) {
     }
 
     if (server) {
-        return require("./static-server")(bs);
+        return require("./static-server").default(bs);
     }
 }
-
-module.exports.createServer = createServer;

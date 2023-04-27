@@ -1,14 +1,14 @@
-var serverUtils = require("./utils.js");
-var resolve = require("path").resolve;
-var utils = require("../utils.js");
-var serveStatic = require("./serve-static-wrapper").default();
-var serveIndex = require("serve-index");
+// @ts-check
+import { resolve } from "path";
+import serveIndex from "serve-index";
+import serverUtils from "./utils.js";
+import * as utils from "../utils.js";
 
+var serveStatic = require("./serve-static-wrapper").default();
 /**
- * @param {BrowserSync} bs
- * @returns {*}
+ * @param {import("../browser-sync").default} bs
  */
-module.exports = function createServer(bs) {
+export default function createServer(bs) {
     var options = bs.options;
     var server = options.get("server");
     var basedirs = utils.arrayify(server.get("baseDir"));
@@ -77,4 +77,4 @@ module.exports = function createServer(bs) {
      * Finally, return the server + App
      */
     return serverUtils.getServer(app, bs.options);
-};
+}
