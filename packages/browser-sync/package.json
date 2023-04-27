@@ -8,10 +8,10 @@
 	},
 	"repository": "BrowserSync/browser-sync",
 	"license": "Apache-2.0",
-	"main": "dist/index.js",
-	"bin": "dist/bin.js",
+	"main": "dist2/index.js",
+	"bin": "dist2/bin.js",
 	"files": [
-		"dist",
+		"dist2",
 		"certs",
 		"templates",
 		"cli-options",
@@ -26,8 +26,9 @@
     "printWidth": 100
   },
 	"scripts": {
-		"build": "npm run build:server",
-		"build:server": "tsc",
+		"build": "npm run build.tsc && npm run build.esbuild",
+		"build.tsc": "tsc",
+		"build.esbuild": "node build.js",
 		"build:watch": "tsc --watch",
 		"env": "node ./test/env.js",
 		"lodash": "lodash include=isUndefined,isFunction,toArray,includes,union,each,isString,merge,isObject,set exports=node",
