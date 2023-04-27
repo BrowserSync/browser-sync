@@ -1,12 +1,13 @@
 #! /usr/bin/env node
+// @ts-check
 "use strict";
 
 /**
  * @module BrowserSync
  */
 var pjson = require("../package.json");
-var BrowserSync = require("./browser-sync");
-var publicUtils = require("./public/public-utils");
+var BrowserSync = require("./browser-sync").default;
+var publicUtils = require("./public/public-utils").default;
 var events = require("events");
 var chalk = require("chalk");
 var PassThrough = require("stream").PassThrough;
@@ -19,7 +20,7 @@ var singletonPlugins = [];
 var instances = [];
 
 /**
- * @type {boolean|EventEmitter}
+ * @type {boolean|import("events").EventEmitter}
  */
 var singletonEmitter = false;
 
@@ -81,7 +82,7 @@ module.exports.init = initSingleton;
  * @param {Object} module The object to be `required`.
  * @param {Function} [cb] A callback function that will return any errors.
  */
-module.exports.use = function() {
+module.exports.use = function(name, module, cb) {
     var args = Array.prototype.slice.call(arguments);
     singletonPlugins.push({
         args: args
@@ -115,7 +116,7 @@ module.exports.stream = noop("stream");
  * Helper method for browser notifications
  *
  * @method notify
- * @param {String|HTML} msg Can be a simple message such as 'Connected' or HTML
+ * @param {String} msg Can be a simple message such as 'Connected' or HTML
  * @param {Number} [timeout] How long the message will remain in the browser. @since 1.3.0
  */
 module.exports.notify = noop("notify");
@@ -190,7 +191,7 @@ Object.defineProperties(module.exports, {
 
 /**
  * Event emitter factory
- * @returns {EventEmitter}
+ * @returns {import("events").EventEmitter}
  */
 function newEmitter() {
     var emitter = new events.EventEmitter();
@@ -200,10 +201,11 @@ function newEmitter() {
 
 /**
  * Get the singleton's emitter, or a new one.
- * @returns {EventEmitter}
+ * @returns {import("events").EventEmitter}
  */
 function getSingletonEmitter() {
     if (singletonEmitter) {
+        // @ts-expect-error
         return singletonEmitter;
     }
     singletonEmitter = newEmitter();
@@ -252,14 +254,17 @@ function initSingleton() {
         }
     }
     var args = Array.prototype.slice.call(arguments);
+    // @ts-expect-error
     singleton = create("singleton", getSingletonEmitter());
 
     if (singletonPlugins.length) {
         singletonPlugins.forEach(function(obj) {
+            // @ts-expect-error
             singleton.instance.registerPlugin.apply(singleton.instance, obj.args);
         });
     }
 
+    // @ts-expect-error
     singleton.init.apply(null, args);
     return singleton;
 }
@@ -296,7 +301,7 @@ function getSingle(name) {
 /**
  * Create an instance of Browsersync
  * @param {String} [name]
- * @param {EventEmitter} [emitter]
+ * @param {import("events").EventEmitter} [emitter]
  * @returns {{init: *, exit: (exit|exports), notify: *, reload: *, cleanup: *, emitter: (Browsersync.events|*), use: *}}
  */
 
@@ -322,7 +327,7 @@ module.exports.instances = instances;
 /**
  * Create an instance of Browsersync
  * @param {String} [name]
- * @param {EventEmitter} [emitter]
+ * @param {import("events").EventEmitter} [emitter]
  * @returns {{init: *, exit: (exit|exports), notify: *, reload: *, cleanup: *, emitter: (Browsersync.events|*), use: *}}
  */
 module.exports.create = create;
@@ -339,8 +344,8 @@ function create(name, emitter) {
         notify: require("./public/notify")(browserSync),
         pause: require("./public/pause")(browserSync),
         resume: require("./public/resume")(browserSync),
-        reload: require("./public/reload")(emitter),
-        stream: require("./public/stream")(emitter),
+        reload: require("./public/reload").default(emitter),
+        stream: require("./public/stream").default(emitter),
         cleanup: browserSync.cleanup.bind(browserSync),
         use: browserSync.registerPlugin.bind(browserSync),
         getOption: browserSync.getOption.bind(browserSync),
@@ -348,8 +353,9 @@ function create(name, emitter) {
         watch: require("./file-watcher").watch
     };
 
+    // @ts-expect-error
     browserSync.publicInstance = instance;
-    instance.init = require("./public/init")(browserSync, name, pjson);
+    instance.init = require("./public/init").default(browserSync, name, pjson);
 
     Object.defineProperty(instance, "active", {
         get: function() {
@@ -376,6 +382,7 @@ function create(name, emitter) {
                     on: function() {}
                 };
             } else {
+                // @ts-expect-error
                 return browserSync.io.sockets;
             }
         }

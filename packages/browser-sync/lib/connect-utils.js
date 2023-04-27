@@ -1,8 +1,9 @@
-"use strict";
+// @ts-check
+import { isFunction, isString } from "./underbar";
+import config from "./config";
 
-var _ = require("./lodash.custom");
-var fs = require("fs");
-var config = require("./config");
+// @ts-expect-error
+import fs from "node:fs";
 
 function getPath(options, relative, port) {
     if (options.get("mode") === "snippet") {
@@ -15,7 +16,7 @@ function getPath(options, relative, port) {
 var connectUtils = {
     /**
      * Allow users to disable the Browsersync snippet
-     * @param {Immutable.Map} options
+     * @param {import("./browser-sync").default['options']} options
      * @returns {Boolean}
      */
     enabled: function(options) {
@@ -26,7 +27,7 @@ var connectUtils = {
         return true;
     },
     /**
-     * @param {Immutable.Map} options
+     * @param {import("./browser-sync").default['options']} options
      * @returns {String}
      */
     scriptTags: function(options) {
@@ -52,7 +53,7 @@ var connectUtils = {
              * script tag output
              *
              */
-            if (_.isFunction(options.get("scriptPath"))) {
+            if (isFunction(options.get("scriptPath"))) {
                 return options.get("scriptPath").apply(null, getScriptArgs(options, scriptPath));
             }
 
@@ -63,7 +64,7 @@ var connectUtils = {
              * -> localhost:3000/browser-sync/browser-sync-client.js
              */
             if (scriptDomain) {
-                if (_.isFunction(scriptDomain)) {
+                if (isFunction(scriptDomain)) {
                     return scriptDomain.call(null, options) + scriptPath;
                 }
                 if (scriptDomain.match(/\{port\}/)) {
@@ -111,7 +112,7 @@ var connectUtils = {
             .replace("%async%", async ? "async" : "");
     },
     /**
-     * @param {Map} options
+     * @param {import("./browser-sync").default['options']} options
      * @returns {String}
      */
     socketConnector: function(options) {
@@ -137,7 +138,7 @@ var connectUtils = {
     },
     /**
      * @param {Object} socketOpts
-     * @param {Map} options
+     * @param {import("./browser-sync").default['options']} options
      * @returns {String|Function}
      */
     getNamespace: function(socketOpts, options) {
@@ -154,7 +155,7 @@ var connectUtils = {
         return namespace;
     },
     /**
-     * @param {Map} options
+     * @param {import("./browser-sync").default['options']} options
      * @returns {string}
      */
     getConnectionUrl: function(options) {
@@ -192,24 +193,27 @@ var connectUtils = {
                 /**
                  * User provided a function
                  */
-                if (_.isFunction(socketOpts.domain)) {
+                if (isFunction(socketOpts.domain)) {
                     return socketOpts.domain.call(null, options);
                 }
                 /**
                  * User provided a string
                  */
-                if (_.isString(socketOpts.domain)) {
+                if (isString(socketOpts.domain)) {
                     return socketOpts.domain;
                 }
             }
             return "";
         })();
 
-        return string
-            .replace("{protocol}", protocol)
-            .replace("{port}", port)
-            .replace("{domain}", socketOpts.domain.replace("{port}", port))
-            .replace("{ns}", namespace);
+        return (
+            string
+                .replace("{protocol}", protocol)
+                .replace("{port}", port)
+                .replace("{domain}", socketOpts.domain.replace("{port}", port))
+                // @ts-expect-error
+                .replace("{ns}", namespace)
+        );
     },
     /**
      * @param {Object} [options]
@@ -240,4 +244,4 @@ function getScriptArgs(options, scriptPath) {
     return [scriptPath, options.get("port"), options.set("absolute", abspath)];
 }
 
-module.exports = connectUtils;
+export default connectUtils;

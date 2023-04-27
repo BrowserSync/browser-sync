@@ -1,19 +1,21 @@
+// @ts-check
+
 "use strict";
 
-var _ = require("./lodash.custom");
-var Immutable = require("immutable");
+import pluginUtils from "./plugins";
+import isUndefined from "../modularize/isUndefined.js";
+import connectUtils from "./connect-utils";
+import chalk from "chalk";
+import * as utils from "./utils";
 
-var utils = require("./utils");
-var pluginUtils = require("./plugins");
-var connectUtils = require("./connect-utils");
-var chalk = require("chalk");
+import Immutable from "immutable";
 
 module.exports = {
     /**
      * BrowserSync needs at least 1 free port.
      * It will check the one provided in config
      * and keep incrementing until an available one is found.
-     * @param {BrowserSync} bs
+     * @param {import("./browser-sync").default} bs
      * @param {Function} done
      */
     getEmptyPort: function(bs, done) {
@@ -82,11 +84,11 @@ module.exports = {
      * If the user did not provide either `true` or `false`
      * for the online option, we will attempt to resolve www.google.com
      * as a way of determining network connectivity
-     * @param {BrowserSync} bs
+     * @param {import("./browser-sync").default} bs
      * @param {Function} done
      */
     getOnlineStatus: function(bs, done) {
-        if (_.isUndefined(bs.options.get("online")) && _.isUndefined(process.env.TESTING)) {
+        if (isUndefined(bs.options.get("online")) && isUndefined(process.env.TESTING)) {
             require("dns").resolve("www.google.com", function(err) {
                 var online = false;
                 if (err) {
@@ -110,7 +112,7 @@ module.exports = {
     },
     /**
      * Try to load plugins that were given in options
-     * @param {BrowserSync} bs
+     * @param {import("./browser-sync").default} bs
      * @param {Function} done
      */
     resolveInlineUserPlugins: function(bs, done) {
@@ -137,7 +139,7 @@ module.exports = {
     },
     /**
      *
-     * @param {BrowserSync} bs
+     * @param {import("./browser-sync").default} bs
      * @param {Function} done
      */
     setOptions: function(bs, done) {
@@ -157,7 +159,7 @@ module.exports = {
         });
     },
     /**
-     * @param {BrowserSync} bs
+     * @param {import("./browser-sync").default} bs
      * @param {Function} done
      */
     setInternalEvents: function(bs, done) {
@@ -165,7 +167,7 @@ module.exports = {
         done();
     },
     /**
-     * @param {BrowserSync} bs
+     * @param {import("./browser-sync").default} bs
      * @param {Function} done
      */
     setFileWatchers: function(bs, done) {
@@ -176,7 +178,7 @@ module.exports = {
         });
     },
     /**
-     * @param {BrowserSync} bs
+     * @param {import("./browser-sync").default} bs
      * @param {Function} done
      */
     mergeMiddlewares: function(bs, done) {
@@ -187,7 +189,7 @@ module.exports = {
         });
     },
     /**
-     * @param {BrowserSync} bs
+     * @param {import("./browser-sync").default} bs
      * @param {Function} done
      */
     startServer: function(bs, done) {
@@ -201,12 +203,13 @@ module.exports = {
         });
     },
     /**
-     * @param {BrowserSync} bs
+     * @param {import("./browser-sync").default} bs
      * @param {Function} done
      */
     startTunnel: function(bs, done) {
         if (bs.options.get("tunnel") && bs.options.get("online")) {
             var localTunnel = require("./tunnel");
+            // @ts-expect-error
             localTunnel(bs, function(err, tunnel) {
                 if (err) {
                     return done(err);
@@ -229,7 +232,7 @@ module.exports = {
         }
     },
     /**
-     * @param {BrowserSync} bs
+     * @param {import("./browser-sync").default} bs
      * @param {Function} done
      */
     startSockets: function(bs, done) {
@@ -252,7 +255,7 @@ module.exports = {
     },
     /**
      *
-     * @param {BrowserSync} bs
+     * @param {import("./browser-sync").default} bs
      * @param {Function} done
      */
     startUi: function(bs, done) {
@@ -299,7 +302,7 @@ module.exports = {
         });
     },
     /**
-     * @param {BrowserSync} bs
+     * @param {import("./browser-sync").default} bs
      * @param {Function} done
      */
     mergeUiSettings: function(bs, done) {
@@ -314,7 +317,7 @@ module.exports = {
         });
     },
     /**
-     * @param {BrowserSync} bs
+     * @param {import("./browser-sync").default} bs
      * @param {Function} done
      */
     initUserPlugins: function(bs, done) {

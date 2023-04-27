@@ -20,17 +20,18 @@
 	"engines": {
 		"node": ">= 8.0.0"
 	},
-  "prettier": {
-    "tabWidth": 4,
-    "singleQuote": false,
-    "printWidth": 100
-  },
+	"prettier": {
+		"tabWidth": 4,
+		"singleQuote": false,
+		"printWidth": 100
+	},
 	"scripts": {
-		"build": "npm run build:server",
-		"build:server": "tsc",
-		"build:watch": "tsc --watch",
+		"_build": "npm run build:server",
+		"build": "node build.js",
 		"env": "node ./test/env.js",
-		"lodash": "lodash include=isUndefined,isFunction,toArray,includes,union,each,isString,merge,isObject,set exports=node",
+		"tsc": "tsc",
+		"tsc.watch": "tsc --watch",
+		"lodash": "lodash modularize exports=es",
 		"prepublishOnly": "npm run build",
 		"prettier": "prettier 'lib/**/*' 'examples/*' 'test/specs/**/*.js'",
 		"prettier:fix": "npm run prettier -- --write",
@@ -73,12 +74,14 @@
 		"yargs": "^17.3.1"
 	},
 	"devDependencies": {
-		"@types/node": "^8",
+		"@types/node": "^8.10.66",
 		"bs-snippet-injector": "^2.0.1",
 		"chai": "^3",
+		"esbuild": "^0.17.18",
 		"generate-changelog": "^1.7.0",
 		"graceful-fs": "4.1.9",
 		"http2": "^3.3.6",
+		"lodash-cli": "^4.17.5",
 		"mocha": "^10.2.0",
 		"prettier": "^1.9.2",
 		"q": "1.4.1",

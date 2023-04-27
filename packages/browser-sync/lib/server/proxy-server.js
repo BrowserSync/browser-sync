@@ -60,7 +60,7 @@ var ProxyOption = Immutable.Record({
 });
 
 /**
- * @param {BrowserSync} bs
+ * @param {import("./browser-sync").default} bs
  * @param {String} scripts
  * @returns {*}
  */

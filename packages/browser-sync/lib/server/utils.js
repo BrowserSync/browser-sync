@@ -1,7 +1,8 @@
-"use strict";
+// @ts-check
+import config from "../config";
+import { middleware } from "../http-protocol";
 
 var fs = require("fs");
-var path = require("path");
 var join = require("path").join;
 var connect = require("connect");
 var Immutable = require("immutable");
@@ -11,12 +12,13 @@ var Map = require("immutable").Map;
 var fromJS = require("immutable").fromJS;
 var List = require("immutable").List;
 var snippet = require("./../snippet").utils;
-var _ = require("../lodash.custom");
 var serveStatic = require("./serve-static-wrapper").default();
 var serveIndex = require("serve-index");
 var logger = require("../logger");
 var snippetUtils = require("../snippet").utils;
 var lrSnippet = require("resp-modifier");
+const { isString, isPlainObject } = require("../underbar");
+const chalk = require("chalk");
 var certPath = join(__dirname, "..", "..", "certs");
 
 function getCa(options) {
@@ -86,6 +88,7 @@ var serverUtils = {
 
                 if (options.get("scheme") === "https" || options.get("httpModule") === "http2") {
                     var opts = serverUtils.getHttpsOptions(options);
+                    // @ts-expect-error
                     return httpModule.createServer(opts.toJS(), app);
                 }
 
@@ -131,8 +134,8 @@ var serverUtils = {
         var defaultMiddlewares = [
             {
                 id: "Browsersync HTTP Protocol",
-                route: require("../config").httpProtocol.path,
-                handle: require("../http-protocol").middleware(bs)
+                route: config.httpProtocol.path,
+                handle: middleware(bs)
             },
             {
                 id: "Browsersync IE8 Support",
@@ -302,7 +305,7 @@ var serverUtils = {
             if (Map.isMap(rule)) {
                 rules.push(rule.toJS());
             }
-            if (_.isPlainObject(rule)) {
+            if (isPlainObject(rule)) {
                 rules.push(rule);
             }
         });
@@ -355,7 +358,7 @@ var serverUtils = {
              *         route: ''
              *         handle: serveStatic('./temp', options)
              */
-            if (_.isString(dir)) {
+            if (isString(dir)) {
                 return getFromString(dir);
             }
 
@@ -366,7 +369,7 @@ var serverUtils = {
              *       This means we need to create a middle for each route + dir combo
              */
             if (Immutable.Map.isMap(dir)) {
-                return getFromMap(dir, i);
+                return getFromMap(dir);
             }
 
             /**
@@ -426,10 +429,10 @@ var serverUtils = {
 
             var route = Immutable.List([])
                 .concat(dir.get("route"))
-                .filter(_.isString);
+                .filter(isString);
             var _dir = Immutable.List([])
                 .concat(dir.get("dir"))
-                .filter(_.isString);
+                .filter(isString);
 
             if (_dir.size === 0) {
                 return fromJS({
@@ -465,10 +468,11 @@ var serverUtils = {
                         });
                     }
 
+                    // @ts-expect-error
                     return route.reduce(function(acc, routeString) {
                         /**
                          * For each 'route' item, also iterate through 'dirs'
-                         * @type {Immutable.Iterable<K, M>}
+                         * @type {Immutable.Iterable<any, any>}
                          */
                         var perDir = _dir.map(function(dirString) {
                             return Map({
@@ -498,4 +502,4 @@ var serverUtils = {
     }
 };
 
-module.exports = serverUtils;
+export default serverUtils;

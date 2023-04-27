@@ -40,7 +40,7 @@ proto.getUrl = function(args, url) {
 
 /**
  * Return a middleware for handling the requests
- * @param {BrowserSync} bs
+ * @param {import("./browser-sync)} bs
  * @returns {Function}
  */
 proto.middleware = function(bs) {

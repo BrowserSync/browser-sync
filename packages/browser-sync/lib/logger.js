@@ -1,36 +1,37 @@
-"use strict";
+// @ts-check
+import messages from "./connect-utils";
+import * as utils from "./utils";
+import { getUaString } from "./utils";
+import chalk from "chalk";
+import ez from "eazy-logger";
+import { each, isFunction } from "./underbar";
 
-var messages = require("./connect-utils");
-var utils = require("./utils");
-var _ = require("./lodash.custom");
-var chalk = require("chalk");
+const template = prefix => "[" + chalk.blue(prefix) + "] ";
 
-var template = prefix => "[" + chalk.blue(prefix) + "] ";
-
-var logger = require("eazy-logger").Logger({
+const logger = ez.Logger({
     useLevelPrefixes: false
 });
 
-module.exports.logger = logger;
+export { logger };
 
 /**
  * @param name
  * @returns {*}
  */
-module.exports.getLogger = function(name) {
+export function getLogger(name) {
     return logger.clone(function(config) {
         config.prefix = config.prefix + template(name);
         return config;
     });
-};
+}
 
 /**
  * Logging Callbacks
  */
-module.exports.callbacks = {
+export const callbacks = {
     /**
      * Log when file-watching has started
-     * @param {BrowserSync} bs
+     * @param {import("./browser-sync").default} bs
      * @param data
      */
     "file:watching": function(bs, data) {
@@ -40,7 +41,7 @@ module.exports.callbacks = {
     },
     /**
      * Log when a file changes
-     * @param {BrowserSync} bs
+     * @param {import("./browser-sync").default} bs
      * @param data
      */
     "file:reload": function(bs, data) {
@@ -87,7 +88,7 @@ module.exports.callbacks = {
         );
     },
     /**
-     * @param {BrowserSync} bs
+     * @param {import("./browser-sync").default} bs
      * @param data
      */
     "stream:changed": function(bs, data) {
@@ -104,11 +105,11 @@ module.exports.callbacks = {
     },
     /**
      * Client connected logging
-     * @param {BrowserSync} bs
+     * @param {import("./browser-sync").default} bs
      * @param data
      */
     "client:connected": function(bs, data) {
-        var uaString = utils.getUaString(data.ua);
+        var uaString = getUaString(data.ua);
         var msg = chalk.cyan("Browser Connected: %s, version: %s");
         var method = "info";
 
@@ -120,7 +121,7 @@ module.exports.callbacks = {
     },
     /**
      * Main logging when the service is running
-     * @param {BrowserSync} bs
+     * @param {import("./browser-sync").default} bs
      * @param data
      */
     "service:running": function(bs, data) {
@@ -184,11 +185,11 @@ module.exports.callbacks = {
 
 /**
  * Plugin interface for BrowserSync
- * @param {EventEmitter} emitter
- * @param {BrowserSync} bs
+ * @param {import("events").EventEmitter} emitter
+ * @param {import("./browser-sync").default} bs
  * @returns {Object}
  */
-module.exports.plugin = function(emitter, bs) {
+export function plugin(emitter, bs) {
     var logPrefix = bs.options.get("logPrefix");
     var logLevel = bs.options.get("logLevel");
 
@@ -196,19 +197,19 @@ module.exports.plugin = function(emitter, bs) {
     logger.setLevel(logLevel);
 
     if (logPrefix) {
-        if (_.isFunction(logPrefix)) {
+        if (isFunction(logPrefix)) {
             logger.setPrefix(logPrefix);
         } else {
             logger.setPrefix(template(logPrefix));
         }
     }
 
-    _.each(exports.callbacks, function(func, event) {
+    each(callbacks, function(func, event) {
         emitter.on(event, func.bind(this, bs));
     });
 
     return logger;
-};
+}
 
 /**
  *

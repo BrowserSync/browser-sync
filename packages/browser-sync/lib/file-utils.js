@@ -1,6 +1,6 @@
-"use strict";
+// @ts-check
 
-var _ = require("./lodash.custom");
+import { includes, isUndefined } from "./underbar";
 
 var fileUtils = {
     /**
@@ -13,7 +13,7 @@ var fileUtils = {
          * If the event property is undefined, infer that it's a 'change'
          * event due the fact this handler is for emitter.emit("file:changed")
          */
-        if (_.isUndefined(data.event)) {
+        if (isUndefined(data.event)) {
             data.event = "change";
         }
         /**
@@ -47,7 +47,7 @@ var fileUtils = {
         };
 
         // RELOAD page
-        if (!_.includes(options.get("injectFileTypes").toJS(), obj.ext)) {
+        if (!includes(options.get("injectFileTypes").toJS(), obj.ext)) {
             obj.url = obj.path;
             obj.type = "reload";
         }
@@ -55,6 +55,7 @@ var fileUtils = {
         obj.path = data.path;
         obj.log = data.log;
 
+        // @ts-expect-error
         return obj;
     }
 };

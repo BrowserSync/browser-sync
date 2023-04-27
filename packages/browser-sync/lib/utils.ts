@@ -1,13 +1,12 @@
 import { BsTempOptions } from "./cli/cli-options";
-
-import * as devIp from "dev-ip";
+import devIp from "dev-ip";
 import * as portScanner from "portscanner";
 import * as path from "path";
-import * as UAParser from "ua-parser-js";
+import UAParser from "ua-parser-js";
 import * as Immutable from "immutable";
 import { List } from "immutable";
+import { includes, isFunction, isString } from "./underbar";
 
-const _ = require("./lodash.custom");
 const parser = new UAParser();
 
 /**
@@ -45,8 +44,7 @@ export function getUrlOptions(options: BsTempOptions): Map<string, string> {
         return Immutable.fromJS(urls);
     }
 
-    const fn: typeof getHostIp = exports.getHostIp;
-    const external = xip(fn(options, devIp()), options);
+    const external = xip(getHostIp(options, devIp()), options);
     let localhost = "localhost";
 
     if (options.get("xip")) {
@@ -125,8 +123,7 @@ export function getPorts(options: BsTempOptions, cb: PortLookupCb) {
         max = ports.get("max") || null;
     }
 
-    var fn: typeof getPort = exports.getPort;
-    fn(host, port, max, cb);
+    getPort(host, port, max, cb);
 }
 
 export function getPort(
@@ -158,30 +155,29 @@ export function getUaString(ua) {
  * Open the page in browser
  * @param {String} url
  * @param {Object} options
- * @param {BrowserSync} bs
+ * @param {import("./browser-sync)} bs
  */
 export function openBrowser(url, options, bs) {
     const open = options.get("open");
     const browser = options.get("browser");
 
-    if (_.isString(open)) {
+    if (isString(open)) {
         if (options.getIn(["urls", open])) {
             url = options.getIn(["urls", open]);
         }
     }
 
-    const fn: typeof opnWrapper = exports.opnWrapper;
     if (open) {
         if (browser !== "default") {
             if (isList(browser)) {
                 browser.forEach(function(browser) {
-                    fn(url, browser, bs);
+                    opnWrapper(url, browser, bs);
                 });
             } else {
-                fn(url, browser, bs); // single
+                opnWrapper(url, browser, bs); // single
             }
         } else {
-            fn(url, null, bs);
+            opnWrapper(url, null, bs);
         }
     }
 }
@@ -194,7 +190,7 @@ export function openBrowser(url, options, bs) {
  */
 export function opnWrapper(url, name, bs) {
     var options = (function() {
-        if (_.isString(name)) {
+        if (isString(name)) {
             return { app: name };
         }
         if (Immutable.Map.isMap(name)) {
@@ -215,7 +211,7 @@ export function opnWrapper(url, name, bs) {
  */
 export function fail(kill, errMessage, cb) {
     if (kill) {
-        if (_.isFunction(cb)) {
+        if (isFunction(cb)) {
             if (errMessage.message) {
                 // Is this an error object?
                 cb(errMessage);
@@ -252,7 +248,7 @@ export function xip(host, options) {
  */
 export function willCauseReload(needles, haystack) {
     return needles.some(function(needle) {
-        return !_.includes(haystack, path.extname(needle).replace(".", ""));
+        return !includes(haystack, path.extname(needle).replace(".", ""));
     });
 }
 

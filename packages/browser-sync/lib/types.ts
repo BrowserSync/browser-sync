@@ -1,4 +1,3 @@
-import * as url from "url";
 import { Map } from "immutable";
 
 export type ServerIncoming = string | string[] | IServerOption;
