@@ -8,8 +8,8 @@
 	},
 	"repository": "BrowserSync/browser-sync",
 	"license": "Apache-2.0",
-	"main": "dist2/index.js",
-	"bin": "dist2/bin.js",
+	"main": "dist/index.js",
+	"bin": "dist/bin.js",
 	"files": [
 		"dist2",
 		"certs",
