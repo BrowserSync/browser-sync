@@ -1,3 +1,4 @@
+// @ts-check
 "use strict";
 
 var info = require("./cli-info");

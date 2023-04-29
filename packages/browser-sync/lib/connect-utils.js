@@ -1,5 +1,7 @@
+// @ts-check
 "use strict";
 
+// @ts-expect-error
 var _ = require("./lodash.custom");
 var fs = require("fs");
 var config = require("./config");
@@ -15,7 +17,7 @@ function getPath(options, relative, port) {
 var connectUtils = {
     /**
      * Allow users to disable the Browsersync snippet
-     * @param {Immutable.Map} options
+     * @param {import("immutable").Map} options
      * @returns {Boolean}
      */
     enabled: function(options) {
@@ -26,7 +28,7 @@ var connectUtils = {
         return true;
     },
     /**
-     * @param {Immutable.Map} options
+     * @param {import("immutable").Map} options
      * @returns {String}
      */
     scriptTags: function(options) {
@@ -111,7 +113,7 @@ var connectUtils = {
             .replace("%async%", async ? "async" : "");
     },
     /**
-     * @param {Map} options
+     * @param {import("./browser-sync")['options']} options
      * @returns {String}
      */
     socketConnector: function(options) {
@@ -137,7 +139,7 @@ var connectUtils = {
     },
     /**
      * @param {Object} socketOpts
-     * @param {Map} options
+     * @param {import("./browser-sync")['options']} options
      * @returns {String|Function}
      */
     getNamespace: function(socketOpts, options) {
@@ -154,7 +156,7 @@ var connectUtils = {
         return namespace;
     },
     /**
-     * @param {Map} options
+     * @param {import("./browser-sync")['options']} options
      * @returns {string}
      */
     getConnectionUrl: function(options) {
@@ -205,11 +207,14 @@ var connectUtils = {
             return "";
         })();
 
-        return string
-            .replace("{protocol}", protocol)
-            .replace("{port}", port)
-            .replace("{domain}", socketOpts.domain.replace("{port}", port))
-            .replace("{ns}", namespace);
+        return (
+            string
+                .replace("{protocol}", protocol)
+                .replace("{port}", port)
+                .replace("{domain}", socketOpts.domain.replace("{port}", port))
+                // @ts-expect-error
+                .replace("{ns}", namespace)
+        );
     },
     /**
      * @param {Object} [options]

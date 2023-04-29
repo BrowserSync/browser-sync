@@ -1,3 +1,4 @@
+// @ts-check
 var Immutable = require("immutable");
 var Map = Immutable.Map;
 var isMap = Immutable.Map.isMap;

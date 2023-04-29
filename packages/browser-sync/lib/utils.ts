@@ -158,7 +158,7 @@ export function getUaString(ua) {
  * Open the page in browser
  * @param {String} url
  * @param {Object} options
- * @param {BrowserSync} bs
+ * @param {import("./browser-sync")} bs
  */
 export function openBrowser(url, options, bs) {
     const open = options.get("open");

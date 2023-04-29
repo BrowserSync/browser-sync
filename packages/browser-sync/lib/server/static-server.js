@@ -1,3 +1,4 @@
+// @ts-check
 var serverUtils = require("./utils.js");
 var resolve = require("path").resolve;
 var utils = require("../utils.js");
@@ -5,7 +6,7 @@ var serveStatic = require("./serve-static-wrapper").default();
 var serveIndex = require("serve-index");
 
 /**
- * @param {BrowserSync} bs
+ * @param {import("../browser-sync")} bs
  * @returns {*}
  */
 module.exports = function createServer(bs) {

@@ -1,7 +1,9 @@
+// @ts-check
 "use strict";
 
 var messages = require("./connect-utils");
 var utils = require("./utils");
+// @ts-expect-error
 var _ = require("./lodash.custom");
 var chalk = require("chalk");
 
@@ -30,7 +32,7 @@ module.exports.getLogger = function(name) {
 module.exports.callbacks = {
     /**
      * Log when file-watching has started
-     * @param {BrowserSync} bs
+     * @param {import("./browser-sync")} bs
      * @param data
      */
     "file:watching": function(bs, data) {
@@ -40,7 +42,7 @@ module.exports.callbacks = {
     },
     /**
      * Log when a file changes
-     * @param {BrowserSync} bs
+     * @param {import("./browser-sync")} bs
      * @param data
      */
     "file:reload": function(bs, data) {
@@ -87,7 +89,7 @@ module.exports.callbacks = {
         );
     },
     /**
-     * @param {BrowserSync} bs
+     * @param {import("./browser-sync")} bs
      * @param data
      */
     "stream:changed": function(bs, data) {
@@ -104,7 +106,7 @@ module.exports.callbacks = {
     },
     /**
      * Client connected logging
-     * @param {BrowserSync} bs
+     * @param {import("./browser-sync")} bs
      * @param data
      */
     "client:connected": function(bs, data) {
@@ -120,7 +122,7 @@ module.exports.callbacks = {
     },
     /**
      * Main logging when the service is running
-     * @param {BrowserSync} bs
+     * @param {import("./browser-sync")} bs
      * @param data
      */
     "service:running": function(bs, data) {
@@ -184,8 +186,8 @@ module.exports.callbacks = {
 
 /**
  * Plugin interface for BrowserSync
- * @param {EventEmitter} emitter
- * @param {BrowserSync} bs
+ * @param {import("events").EventEmitter} emitter
+ * @param {import("./browser-sync")} bs
  * @returns {Object}
  */
 module.exports.plugin = function(emitter, bs) {

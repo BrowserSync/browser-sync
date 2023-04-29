@@ -1,11 +1,13 @@
+// @ts-check
 "use strict";
 
+// @ts-expect-error
 var _ = require("../lodash.custom");
 
 module.exports = {
     /**
      * Emit the internal `file:change` event
-     * @param {EventEmitter} emitter
+     * @param {import("events").EventEmitter} emitter
      * @param {string} path
      * @param {boolean} [log]
      */
@@ -19,14 +21,14 @@ module.exports = {
     },
     /**
      * Emit the internal `browser:reload` event
-     * @param {EventEmitter} emitter
+     * @param {import("events").EventEmitter} emitter
      */
     emitBrowserReload: function emitChangeEvent(emitter) {
         emitter.emit("_browser:reload");
     },
     /**
      * Emit the internal `stream:changed` event
-     * @param {EventEmitter} emitter
+     * @param {import("events").EventEmitter} emitter
      * @param {Array} changed
      */
     emitStreamChangedEvent: function(emitter, changed) {

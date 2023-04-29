@@ -1,3 +1,4 @@
+// @ts-check
 "use strict";
 
 var proto = exports;
@@ -36,7 +37,7 @@ proto.getUrl = function(args, url) {
 
 /**
  * Return a middleware for handling the requests
- * @param {BrowserSync} bs
+ * @param {import("./browser-sync")} bs
  * @returns {Function}
  */
 proto.middleware = function(bs) {
@@ -50,6 +51,7 @@ proto.middleware = function(bs) {
                 }
                 try {
                     const [name, payload] = JSON.parse(body.toString());
+                    // @ts-expect-error
                     bs.io.sockets.emit(name, payload);
                     return res.end(
                         `Browsersync HTTP Protocol received: ${name} ${JSON.stringify(payload)}`

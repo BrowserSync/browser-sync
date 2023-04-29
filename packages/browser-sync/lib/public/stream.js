@@ -1,3 +1,4 @@
+// @ts-check
 "use strict";
 
 var path = require("path");
@@ -13,9 +14,10 @@ module.exports = function(emitter) {
      * Return a transform/through stream that listens to file
      * paths and fires internal Browsersync events.
      * @param {{once: boolean, match: string|array}} [opts]
-     * @returns {Stream.Transform}
+     * @returns {import("stream").Transform}
      */
     function browserSyncThroughStream(opts) {
+        // @ts-expect-error
         opts = opts || {};
         var emitted = false;
         var Transform = require("stream").Transform;
@@ -75,6 +77,7 @@ module.exports = function(emitter) {
          * @param next
          * @private
          */
+        // @ts-expect-error
         reload._flush = function(next) {
             if (changed.length) {
                 utils.emitStreamChangedEvent(emitter, changed);

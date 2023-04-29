@@ -1,3 +1,4 @@
+// @ts-check
 var async = require("./async");
 
 module.exports = [

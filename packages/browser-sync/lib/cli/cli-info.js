@@ -1,9 +1,11 @@
+// @ts-check
 "use strict";
 
 var config = require("../config");
 var logger = require("../logger").logger;
 
 var fs = require("fs");
+// @ts-expect-error
 var _ = require("../lodash.custom");
 var path = require("path");
 var chalk = require("chalk");

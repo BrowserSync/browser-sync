@@ -1,5 +1,7 @@
+// @ts-check
 "use strict";
 
+// @ts-expect-error
 var _ = require("./lodash.custom");
 var Immutable = require("immutable");
 var snippetUtils = require("./snippet").utils;
@@ -7,7 +9,7 @@ var snippetUtils = require("./snippet").utils;
 module.exports = {
     /**
      *
-     * @this {BrowserSync}
+     * @this {import("./browser-sync")}
      * @returns {String}
      */
     "client:js": function(hooks, data) {
@@ -24,7 +26,7 @@ module.exports = {
         );
     },
     /**
-     * @this {BrowserSync}
+     * @this {import("./browser-sync")}
      * @returns {Array}
      */
     "client:events": function(hooks, clientEvents) {
@@ -70,7 +72,7 @@ module.exports = {
     },
     /**
      * @param {Array} hooks
-     * @param {Map|List} initial
+     * @param {import("immutable").Map | import("immutable").List} initial
      * @param pluginOptions
      * @returns {any}
      */

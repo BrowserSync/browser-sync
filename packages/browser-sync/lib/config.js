@@ -1,9 +1,8 @@
+// @ts-check
 "use strict";
 
 var path = require("path");
-/**
- * @type {{controlPanel: {jsFile: string, baseDir: *}, socketIoScript: string, configFile: string, client: {shims: string}}}
- */
+
 module.exports = {
     controlPanel: {
         jsFile: "/js/app.js",
