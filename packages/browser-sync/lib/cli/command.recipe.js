@@ -1,3 +1,4 @@
+// @ts-check
 "use strict";
 var logger = require("../logger").logger;
 var chalk = require("chalk");

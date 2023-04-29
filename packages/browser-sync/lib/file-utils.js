@@ -1,5 +1,6 @@
+// @ts-check
 "use strict";
-
+// @ts-expect-error
 var _ = require("./lodash.custom");
 
 var fileUtils = {
@@ -30,7 +31,6 @@ var fileUtils = {
     /**
      * @param data
      * @param options
-     * @returns {{assetFileName: *, fileExtension: String}}
      */
     getFileInfo: function(data, options) {
         data.ext = require("path")

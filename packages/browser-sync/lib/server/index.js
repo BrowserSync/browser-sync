@@ -1,6 +1,8 @@
+// @ts-check
 "use strict";
 
 var enableDestroy = require("server-destroy");
+// @ts-expect-error
 var _ = require("../lodash.custom");
 
 /**
@@ -69,8 +71,7 @@ module.exports.plugin = function(bs) {
 
 /**
  * Launch the server for serving the client JS plus static files
- * @param {BrowserSync} bs
- * @returns {{staticServer: (http.Server), proxyServer: (http.Server)}}
+ * @param {import("../browser-sync")} bs
  */
 function createServer(bs) {
     var proxy = bs.options.get("proxy");

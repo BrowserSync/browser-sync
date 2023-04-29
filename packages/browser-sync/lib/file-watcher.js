@@ -1,8 +1,7 @@
+// @ts-check
 "use strict";
-
+// @ts-expect-error
 var _ = require("./lodash.custom");
-var utils = require("./utils");
-var Rx = require("rx");
 
 /**
  * Plugin interface

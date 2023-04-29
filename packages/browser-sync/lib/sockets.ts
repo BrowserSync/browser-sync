@@ -12,7 +12,7 @@ export function plugin(server, clientEvents, bs) {
 /**
  * @param {http.Server} server
  * @param clientEvents
- * @param {BrowserSync} bs
+ * @param {import("./browser-sync")} bs
  */
 export function init(server, clientEvents, bs) {
     var emitter = bs.events;

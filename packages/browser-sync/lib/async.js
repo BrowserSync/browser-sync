@@ -1,5 +1,7 @@
+// @ts-check
 "use strict";
 
+// @ts-expect-error
 var _ = require("./lodash.custom");
 var Immutable = require("immutable");
 
@@ -13,7 +15,7 @@ module.exports = {
      * BrowserSync needs at least 1 free port.
      * It will check the one provided in config
      * and keep incrementing until an available one is found.
-     * @param {BrowserSync} bs
+     * @param {import("./browser-sync")} bs
      * @param {Function} done
      */
     getEmptyPort: function(bs, done) {
@@ -82,7 +84,7 @@ module.exports = {
      * If the user did not provide either `true` or `false`
      * for the online option, we will attempt to resolve www.google.com
      * as a way of determining network connectivity
-     * @param {BrowserSync} bs
+     * @param {import("./browser-sync")} bs
      * @param {Function} done
      */
     getOnlineStatus: function(bs, done) {
@@ -110,7 +112,7 @@ module.exports = {
     },
     /**
      * Try to load plugins that were given in options
-     * @param {BrowserSync} bs
+     * @param {import("./browser-sync")} bs
      * @param {Function} done
      */
     resolveInlineUserPlugins: function(bs, done) {
@@ -137,7 +139,7 @@ module.exports = {
     },
     /**
      *
-     * @param {BrowserSync} bs
+     * @param {import("./browser-sync")} bs
      * @param {Function} done
      */
     setOptions: function(bs, done) {
@@ -157,7 +159,7 @@ module.exports = {
         });
     },
     /**
-     * @param {BrowserSync} bs
+     * @param {import("./browser-sync")} bs
      * @param {Function} done
      */
     setInternalEvents: function(bs, done) {
@@ -165,7 +167,7 @@ module.exports = {
         done();
     },
     /**
-     * @param {BrowserSync} bs
+     * @param {import("./browser-sync")} bs
      * @param {Function} done
      */
     setFileWatchers: function(bs, done) {
@@ -176,7 +178,7 @@ module.exports = {
         });
     },
     /**
-     * @param {BrowserSync} bs
+     * @param {import("./browser-sync")} bs
      * @param {Function} done
      */
     mergeMiddlewares: function(bs, done) {
@@ -187,7 +189,7 @@ module.exports = {
         });
     },
     /**
-     * @param {BrowserSync} bs
+     * @param {import("./browser-sync")} bs
      * @param {Function} done
      */
     startServer: function(bs, done) {
@@ -201,7 +203,7 @@ module.exports = {
         });
     },
     /**
-     * @param {BrowserSync} bs
+     * @param {import("./browser-sync")} bs
      * @param {Function} done
      */
     startTunnel: function(bs, done) {
@@ -229,7 +231,7 @@ module.exports = {
         }
     },
     /**
-     * @param {BrowserSync} bs
+     * @param {import("./browser-sync")} bs
      * @param {Function} done
      */
     startSockets: function(bs, done) {
@@ -239,6 +241,7 @@ module.exports = {
         );
 
         // Start the socket, needs an existing server.
+        // @ts-expect-error
         var io = bs.pluginManager.get("socket")(bs.server, clientEvents, bs);
 
         done(null, {
@@ -252,7 +255,7 @@ module.exports = {
     },
     /**
      *
-     * @param {BrowserSync} bs
+     * @param {import("./browser-sync")} bs
      * @param {Function} done
      */
     startUi: function(bs, done) {
@@ -299,22 +302,24 @@ module.exports = {
         });
     },
     /**
-     * @param {BrowserSync} bs
+     * @param {import("./browser-sync")} bs
      * @param {Function} done
      */
     mergeUiSettings: function(bs, done) {
+        // @ts-expect-error
         if (!bs.ui) {
             return done();
         }
 
         done(null, {
             options: {
+                // @ts-expect-error
                 urls: bs.options.get("urls").merge(bs.ui.options.get("urls"))
             }
         });
     },
     /**
-     * @param {BrowserSync} bs
+     * @param {import("./browser-sync")} bs
      * @param {Function} done
      */
     initUserPlugins: function(bs, done) {

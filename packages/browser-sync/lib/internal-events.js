@@ -1,3 +1,4 @@
+// @ts-check
 "use strict";
 
 var utils = require("./utils");
@@ -108,7 +109,9 @@ module.exports = function(bs) {
         });
 
     bs.registerCleanupTask(function() {
+        // @ts-expect-error
         handler.dispose();
+        // @ts-expect-error
         reloader.dispose();
     });
 };

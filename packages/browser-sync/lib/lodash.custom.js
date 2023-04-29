@@ -1,3 +1,4 @@
+// @ts-nocheck
 /**
  * @license
  * Lodash (Custom Build) <https://lodash.com/>

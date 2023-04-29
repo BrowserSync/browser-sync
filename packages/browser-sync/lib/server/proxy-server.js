@@ -1,3 +1,4 @@
+// @ts-check
 "use strict";
 
 var httpProxy = require("http-proxy");
@@ -60,8 +61,7 @@ var ProxyOption = Immutable.Record({
 });
 
 /**
- * @param {BrowserSync} bs
- * @param {String} scripts
+ * @param {import("../browser-sync")} bs
  * @returns {*}
  */
 module.exports = function createProxyServer(bs) {

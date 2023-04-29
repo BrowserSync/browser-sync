@@ -1,7 +1,9 @@
+// @ts-check
 "use strict";
 
 var utils = require("../utils");
 var publicUtils = require("./public-utils");
+// @ts-expect-error
 var _ = require("../lodash.custom");
 var defaultConfig = require("../default-config");
 var stream = require("./stream");

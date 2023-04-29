@@ -1,10 +1,12 @@
+// @ts-check
 "use strict";
 
+// @ts-expect-error
 var _ = require("./lodash.custom");
 var utils = require("util");
 
 /**
- * @param {BrowserSync} bs
+ * @param {import("./browser-sync")} bs
  * @param {Function} cb
  */
 module.exports = function(bs, cb) {

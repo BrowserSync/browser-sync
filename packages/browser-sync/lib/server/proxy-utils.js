@@ -1,3 +1,4 @@
+// @ts-check
 var url = require("url");
 
 module.exports.rewriteLinks = function(userServer) {

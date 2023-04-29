@@ -1,10 +1,11 @@
+// @ts-check
 var utils = require("./utils");
 
 /**
  * Apply the operators that apply to the 'file:changed' event
- * @param {Rx.Observable} subject
+ * @param {import("rxjs").Observable} subject
  * @param options
- * @return {Rx.Observable<{type: string, files: Array<any>}>}
+ * @return {import("rxjs").Observable<{type: string, files: Array<any>}>}
  */
 function fileChanges(subject, options) {
     const operators = [
@@ -44,9 +45,9 @@ module.exports.fileChanges = fileChanges;
 
 /**
  * Apply the operators that apply to the 'browser:reload' event
- * @param {Rx.Observable} subject
+ * @param {import("rxjs").Observable} subject
  * @param options
- * @returns {Rx.Observable}
+ * @returns {import("rxjs").Observable}
  */
 function applyReloadOperators(subject, options) {
     var operators = [

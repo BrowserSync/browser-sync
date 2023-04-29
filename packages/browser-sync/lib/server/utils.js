@@ -1,3 +1,4 @@
+// @ts-check
 "use strict";
 
 var fs = require("fs");
@@ -11,6 +12,7 @@ var Map = require("immutable").Map;
 var fromJS = require("immutable").fromJS;
 var List = require("immutable").List;
 var snippet = require("./../snippet").utils;
+// @ts-expect-error
 var _ = require("../lodash.custom");
 var serveStatic = require("./serve-static-wrapper").default();
 var serveIndex = require("serve-index");
@@ -63,7 +65,6 @@ function getPFXDefaults(options) {
 var serverUtils = {
     /**
      * @param options
-     * @returns {{key, cert}}
      */
     getHttpsOptions: function(options) {
         var userOption = options.get("https");
@@ -198,7 +199,7 @@ var serverUtils = {
                 withErrors.forEach(function(item) {
                     logger.logger.error(
                         "%s %s",
-                        chalk.red("Warning!"),
+                        require("chalk").red("Warning!"),
                         item.getIn(["errors", 0, "data", "message"])
                     );
                 });
@@ -366,7 +367,7 @@ var serverUtils = {
              *       This means we need to create a middle for each route + dir combo
              */
             if (Immutable.Map.isMap(dir)) {
-                return getFromMap(dir, i);
+                return getFromMap(dir);
             }
 
             /**
@@ -465,10 +466,10 @@ var serverUtils = {
                         });
                     }
 
+                    // @ts-expect-error
                     return route.reduce(function(acc, routeString) {
                         /**
                          * For each 'route' item, also iterate through 'dirs'
-                         * @type {Immutable.Iterable<K, M>}
                          */
                         var perDir = _dir.map(function(dirString) {
                             return Map({
