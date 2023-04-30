@@ -10,7 +10,6 @@ var chalk = require("chalk");
  * or one given with the --output flag
  *
  * @param opts
- * @returns {Function}
  */
 module.exports = function(opts) {
     var path = require("path");

@@ -166,8 +166,14 @@ function handleNoCommand(argv, input, yargs) {
  */
 function handleCli(opts) {
     opts.cb = opts.cb || utils.defaultCallback;
-    const m = require(`./cli/command.${opts.cli.input[0]}`);
-    if (m.default) {
+    const mapping = {
+        init: () => require("./cli/command.init.js"),
+        recipe: () => require("./cli/command.recipe.js"),
+        reload: () => require("./cli/command.reload.js"),
+        start: () => require("./cli/command.start.js")
+    };
+    const m = mapping[opts.cli.input[0]]?.();
+    if (m?.default) {
         return m.default(opts);
     }
     return m(opts);

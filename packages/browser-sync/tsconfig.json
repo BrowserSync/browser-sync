@@ -6,6 +6,7 @@
     "skipLibCheck": true,
     "esModuleInterop": false,
     "moduleResolution": "node",
+    "strictNullChecks": true,
     "lib": ["dom", "dom.iterable", "es2019"],
      "allowJs": true,                       /* Allow javascript files to be compiled. */
      "checkJs": true,                       /* Report errors in .js files. */
@@ -14,7 +15,8 @@
     "sourceMap": true,                     /* Generates corresponding '.map' file. */
     // "outFile": "./",                       /* Concatenate and emit output to single file. */
     "outDir": "./dist"                        /* Redirect output structure to the directory. */
-    // "rootDir": "./",                       /* Specify the root directory of input files. Use to control the output directory structure with --outDir. */
+    // "rootDir": "./",sdw                       /* Specify the root directory of input files. Use to control the output directory structure with --outDir. */
+
     // "removeComments": true,                /* Do not emit comments to output. */
     // "noEmit": true,                        /* Do not emit outputs. */
     // "importHelpers": true,                 /* Import emit helpers from 'tslib'. */

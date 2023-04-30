@@ -269,6 +269,7 @@ export function getConfigErrors(options) {
     var errors = [];
 
     if (options.get("server") && options.get("proxy")) {
+        // @ts-expect-error
         errors.push(messages["server+proxy"]);
     }
 

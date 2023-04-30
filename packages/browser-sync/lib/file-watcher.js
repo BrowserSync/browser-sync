@@ -2,6 +2,7 @@
 "use strict";
 // @ts-expect-error
 var _ = require("./lodash.custom");
+const { toChangeEvent } = require("./types");
 
 /**
  * Plugin interface
@@ -14,20 +15,24 @@ module.exports.plugin = function(bs) {
     var defaultWatchOptions = options.get("watchOptions").toJS();
 
     return options.get("files").reduce(function(map, glob, namespace) {
+        var jsItem = glob.toJS();
+
         /**
          * Default CB when not given
          * @param event
          * @param path
          */
         var fn = function(event, path) {
-            emitter.emit("file:changed", {
-                event: event,
-                path: path,
-                namespace: namespace
-            });
+            emitter.emit(
+                "file:changed",
+                toChangeEvent({
+                    event: event,
+                    path: path,
+                    namespace: namespace,
+                    index: jsItem.index ?? 0
+                })
+            );
         };
-
-        var jsItem = glob.toJS();
 
         if (jsItem.globs.length) {
             var watcher = watch(jsItem.globs, defaultWatchOptions, fn);

@@ -6,6 +6,7 @@ var utils = require("./utils");
 // @ts-expect-error
 var _ = require("./lodash.custom");
 var chalk = require("chalk");
+const { toReloadEvent } = require("./types");
 
 var template = prefix => "[" + chalk.blue(prefix) + "] ";
 
@@ -66,16 +67,19 @@ module.exports.callbacks = {
     /**
      *
      */
-    "browser:reload": function(bs, data = {}) {
-        if (canLogFileChange(bs)) {
-            if (data.files && data.files.length > 1) {
-                return logger.info(
-                    chalk.cyan(`Reloading Browsers... (buffered %s events)`),
-                    data.files.length
-                );
+    "browser:reload": function(bs, data = { files: [] }) {
+        try {
+            if (canLogFileChange(bs)) {
+                const evt = toReloadEvent(data);
+                if (evt.files && evt.files.length > 1) {
+                    return logger.info(
+                        chalk.cyan(`Reloading Browsers... (buffered %s events)`),
+                        evt.files.length
+                    );
+                }
+                logger.info(chalk.cyan("Reloading Browsers..."));
             }
-            logger.info(chalk.cyan("Reloading Browsers..."));
-        }
+        } catch (e) {}
     },
     /**
      *
@@ -297,7 +301,7 @@ function getKeyName(key) {
 /**
  * Determine if file changes should be logged
  * @param bs
- * @param data
+ * @param [data]
  * @returns {boolean}
  */
 function canLogFileChange(bs, data) {

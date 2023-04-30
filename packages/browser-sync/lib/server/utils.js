@@ -239,6 +239,7 @@ var serverUtils = {
             );
 
         const mwStack = []
+            // @ts-expect-error
             .concat(beforeMiddlewares, defaultMiddlewares, afterMiddlewares)
             .filter(Boolean);
 
@@ -473,10 +474,12 @@ var serverUtils = {
                          */
                         var perDir = _dir.map(function(dirString) {
                             return Map({
+                                // @ts-expect-error
                                 route: getRoute(routeString),
                                 dir: dirString
                             });
                         });
+                        // @ts-expect-error
                         return acc.concat(perDir);
                     }, List([]));
                 })();
