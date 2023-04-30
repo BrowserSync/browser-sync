@@ -136,13 +136,14 @@ export function toChangeEvent(evt: FileChangedEvent): FileChangedEvent {
 /// Browser Reload Event
 
 const browserReloadEvent = z.object({
-    files: z.array(z.string())
+    files: z.array(z.union([z.string(), fileChangedEventParser]))
 });
 
 export type ReloadEvent = z.infer<typeof browserReloadEvent>;
 
 export function toReloadEvent(reload: ReloadEvent): ReloadEvent {
-    return browserReloadEvent.parse(reload);
+    browserReloadEvent.parse(reload);
+    return reload;
 }
 
 /// Inject File info
