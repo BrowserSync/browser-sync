@@ -4,8 +4,17 @@
 var utils = require("./utils");
 var fileUtils = require("./file-utils");
 var Rx = require("rx");
+var z = require("zod");
 var fromEvent = Rx.Observable.fromEvent;
 var fileHandler = require("./file-event-handler");
+const {
+    runnerOption,
+    toRunnerOption,
+    toRunnerNotification,
+    toSideEffect,
+    FileChangedEvent,
+    toReloadEvent
+} = require("./types");
 
 module.exports = function(bs) {
     var events = {
@@ -95,23 +104,176 @@ module.exports = function(bs) {
 
     var handler = fileHandler
         .fileChanges(coreNamespacedWatchers, bs.options)
-        .subscribe(function(x) {
-            if (x.type === "reload") {
-                bs.events.emit("browser:reload", x);
-            }
-            if (x.type === "inject") {
-                x.files.forEach(function(data) {
-                    if (!bs.paused && data.namespace === "core") {
-                        bs.events.emit("file:reload", fileUtils.getFileInfo(data, bs.options));
-                    }
+        .map(function(/** @type {FileChangedEvent[]} */ items) {
+            const paths = items.map(x => x.path);
+            console.log(JSON.stringify(items, null, 2));
+
+            if (utils.willCauseReload(paths, bs.options.get("injectFileTypes").toJS())) {
+                return toSideEffect({
+                    type: "reload",
+                    files: items
                 });
             }
+            return toSideEffect({
+                type: "inject",
+                files: items
+            });
+        })
+        .subscribe(function(/** @type {import("./types").BsSideEffect} */ effect) {
+            bsSideEffect(effect);
         });
 
+    const runnerWatchers = fromEvent(bs.events, "file:changed").filter(function(x) {
+        return x.namespace?.startsWith("__unstable_runner");
+    });
+
+    var runnerHandler = fileHandler
+        .fileChanges(runnerWatchers, bs.options)
+        .flatMapFirst(
+            /** @type {FileChangedEvent[]} */ events => {
+                const uniqueCount = new Set(events.map(e => e.index)).size;
+
+                if (uniqueCount > 1) {
+                    console.warn("overlapping watchers not supported yet");
+                    return Rx.Observable.empty();
+                }
+
+                const matchingRunner = bs.options
+                    .get("runners")
+                    .get(events[0].index)
+                    .toJS();
+
+                const parsed = toRunnerOption(matchingRunner);
+                if (!parsed) return Rx.Observable.empty();
+
+                /** @type {import("rxjs").Observable<import("./types").RunnerNotification>} */
+                const runner = execRunner(parsed);
+                return runner;
+            }
+        )
+        .subscribe(sideEffects);
+
+    function sideEffects(/** @type {import("./types").RunnerNotification} */ statusNotification) {
+        switch (statusNotification.status) {
+            case "start": {
+                console.log(statusNotification);
+                break;
+            }
+            case "end": {
+                statusNotification.effects.forEach(effect => {
+                    bsSideEffect(effect);
+                });
+                break;
+            }
+        }
+    }
+
+    /**
+     * @param {import("./types").BsSideEffect} effect
+     */
+    function bsSideEffect(effect) {
+        switch (effect.type) {
+            case "reload": {
+                bs.events.emit(
+                    "browser:reload",
+                    toReloadEvent({
+                        files: effect.files
+                    })
+                );
+                break;
+            }
+            case "inject": {
+                effect.files.forEach(function(data) {
+                    if (!bs.paused) {
+                        const injectInfo = fileUtils.getInjectFileInfo(data, bs.options);
+                        bs.events.emit("file:reload", injectInfo);
+                    }
+                });
+                break;
+            }
+        }
+    }
+
     bs.registerCleanupTask(function() {
-        // @ts-expect-error
         handler.dispose();
-        // @ts-expect-error
         reloader.dispose();
+        runnerHandler.dispose();
     });
 };
+
+/**
+ * @param {import("./types").RunnerOption} runner
+ */
+function execRunner(runner) {
+    return Rx.Observable.concat(
+        runner.run.map(r => {
+            if ("bs" in r) {
+                return bsRunner(r);
+            }
+            if ("sh" in r) {
+                let cmd;
+                if (typeof r.sh === "string") {
+                    cmd = r.sh;
+                } else if ("cmd" in r.sh) {
+                    cmd = r.sh.cmd;
+                } else {
+                    return Rx.Observable.throw(new Error("invalid `sh` config"));
+                }
+                return shRunner(r, {
+                    cmd: cmd
+                });
+            }
+            throw new Error("unreachable");
+        })
+    );
+}
+
+/**
+ * @param {import("./types").Runner} runner
+ */
+function bsRunner(runner) {
+    if (!("bs" in runner)) throw new Error("unreachable");
+    /** @type {import("./types").BsSideEffect[]} */
+    const effects = [];
+    if (runner.bs === "inject") {
+        effects.push({
+            type: "inject",
+            files: runner.files.map(f => {
+                return {
+                    path: f,
+                    event: "bs-runner"
+                };
+            })
+        });
+    }
+    return Rx.Observable.concat(
+        Rx.Observable.just(
+            toRunnerNotification({
+                status: "start",
+                effects: [],
+                runner
+            })
+        ),
+        Rx.Observable.timer(2000),
+        Rx.Observable.just(
+            toRunnerNotification({
+                status: "end",
+                effects: effects,
+                runner
+            })
+        )
+    );
+}
+
+/**
+ * @param {import("./types").Runner} runner
+ * @param {object} params
+ * @param {string} params.cmd
+ */
+function shRunner(runner, params) {
+    return Rx.Observable.concat(
+        Rx.Observable.just(toRunnerNotification({ status: "start", effects: [], runner })),
+        Rx.Observable.timer(1000).ignoreElements(),
+        Rx.Observable.just(toRunnerNotification({ status: "end", effects: [], runner }))
+    );
+}

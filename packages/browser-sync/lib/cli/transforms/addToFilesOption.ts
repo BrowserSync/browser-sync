@@ -6,7 +6,7 @@ export function addToFilesOption(incoming: BsTempOptions): TransformResult {
         return [incoming, []];
     }
 
-    let serverPaths = [];
+    let serverPaths: string[] = [];
 
     const fromServeStatic = incoming.get("serveStatic", List([])).toArray();
     const ssPaths = fromServeStatic.reduce((acc, ss) => {
@@ -22,6 +22,7 @@ export function addToFilesOption(incoming: BsTempOptions): TransformResult {
     ssPaths.forEach(p => serverPaths.push(p));
 
     const server = incoming.get("server");
+
     if (server) {
         if (server === true) {
             serverPaths.push(".");
@@ -37,6 +38,8 @@ export function addToFilesOption(incoming: BsTempOptions): TransformResult {
             const baseDirs = List([])
                 .concat(baseDirProp)
                 .filter(Boolean);
+
+            // @ts-expect-error
             baseDirs.forEach(s => serverPaths.push(s));
         }
     }

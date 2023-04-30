@@ -3,6 +3,7 @@
 
 // @ts-expect-error
 var _ = require("../lodash.custom");
+const { toChangeEvent } = require("../types");
 
 module.exports = {
     /**
@@ -12,12 +13,15 @@ module.exports = {
      * @param {boolean} [log]
      */
     emitChangeEvent: function emitChangeEvent(emitter, path, log) {
-        emitter.emit("file:changed", {
-            path: path,
-            log: log,
-            namespace: "core",
-            event: "change"
-        });
+        emitter.emit(
+            "file:changed",
+            toChangeEvent({
+                path: path,
+                log: log,
+                namespace: "core",
+                event: "change"
+            })
+        );
     },
     /**
      * Emit the internal `browser:reload` event

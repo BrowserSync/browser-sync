@@ -72,7 +72,7 @@ BrowserSync.prototype.callback = function(name) {
 /**
  * @param {import("immutable").Map<string, any>} options
  * @param {Function} cb
- * @returns {BrowserSync}
+ * @returns {BrowserSync|undefined}
  */
 BrowserSync.prototype.init = function(options, cb) {
     /**
@@ -268,14 +268,14 @@ function tasksComplete(bs) {
         /**
          * Finally, call the user-provided callback given as last arg
          */
-        bs.cb(null, bs);
+        bs.cb?.(null, bs);
     };
 }
 
 /**
  * @param module
  * @param opts
- * @param cb
+ * @param [cb]
  */
 BrowserSync.prototype.registerPlugin = function(module, opts, cb) {
     var bs = this;

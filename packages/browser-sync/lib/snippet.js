@@ -75,6 +75,7 @@ var snippetUtils = {
             var match = /MSIE (\d)\.\d/.exec(ua);
             if (match) {
                 if (parseInt(match[1], 10) < 9) {
+                    // @ts-expect-error
                     if (!snippetUtils.isExcluded(req.url, excludeList)) {
                         req.headers["accept"] = "text/html";
                     }

@@ -8,6 +8,7 @@ describe("CLI: Options: dealing with 'ignore' option", function() {
         var input = {
             server: true,
             files: ["**/*"],
+            runners: [{}],
             ignore: ["**/*.php"],
             cwd: cwd
         };

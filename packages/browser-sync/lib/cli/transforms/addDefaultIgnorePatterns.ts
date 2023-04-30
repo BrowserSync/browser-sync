@@ -21,6 +21,7 @@ export function addDefaultIgnorePatterns(incoming: BsTempOptions): TransformResu
             .filter(Boolean)
             .toSet();
 
+        // @ts-expect-error
         const merged = userIgnored.merge(defaultIgnorePatterns);
 
         return watchOptions.merge({

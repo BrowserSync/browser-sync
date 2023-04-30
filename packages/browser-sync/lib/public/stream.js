@@ -41,7 +41,9 @@ module.exports = function(emitter) {
              * If {match: <pattern>} was provided, test the
              * current filepath against it
              */
+            // @ts-expect-error
             if (opts.match) {
+                // @ts-expect-error
                 if (!micromatch(file.path, opts.match, { dot: true }).length) {
                     return end();
                 }
@@ -51,6 +53,7 @@ module.exports = function(emitter) {
              * if {once: true} provided, emit the reload event for the
              * first file only
              */
+            // @ts-expect-error
             if (opts.once === true && !emitted) {
                 utils.emitBrowserReload(emitter);
 
@@ -58,6 +61,7 @@ module.exports = function(emitter) {
             } else {
                 // handle multiple
 
+                // @ts-expect-error
                 if (opts.once === true && emitted) {
                 } else {
                     if (file.path) {

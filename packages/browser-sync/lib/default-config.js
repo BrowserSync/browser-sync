@@ -4,6 +4,9 @@
  */
 module.exports = {
     /**
+     */
+    runners: [],
+    /**
      * Browsersync includes a user-interface that is accessed via a separate port.
      * The UI allows to controls all devices, push sync updates and much more.
      * @property ui
@@ -474,7 +477,7 @@ module.exports = {
 
     /**
      * @property host
-     * @type String
+     * @type String|null
      * @default null
      */
     host: null,

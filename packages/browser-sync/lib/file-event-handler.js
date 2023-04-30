@@ -5,7 +5,6 @@ var utils = require("./utils");
  * Apply the operators that apply to the 'file:changed' event
  * @param {import("rxjs").Observable} subject
  * @param options
- * @return {import("rxjs").Observable<{type: string, files: Array<any>}>}
  */
 function fileChanges(subject, options) {
     const operators = [
@@ -26,20 +25,7 @@ function fileChanges(subject, options) {
      */
     const initial = getAggregatedDebouncedStream(subject, options, scheduler);
 
-    return applyOperators(operators, initial, options, scheduler).map(function(items) {
-        const paths = items.map(x => x.path);
-
-        if (utils.willCauseReload(paths, options.get("injectFileTypes").toJS())) {
-            return {
-                type: "reload",
-                files: items
-            };
-        }
-        return {
-            type: "inject",
-            files: items
-        };
-    });
+    return applyOperators(operators, initial, options, scheduler);
 }
 module.exports.fileChanges = fileChanges;
 
@@ -47,7 +33,6 @@ module.exports.fileChanges = fileChanges;
  * Apply the operators that apply to the 'browser:reload' event
  * @param {import("rxjs").Observable} subject
  * @param options
- * @returns {import("rxjs").Observable}
  */
 function applyReloadOperators(subject, options) {
     var operators = [
