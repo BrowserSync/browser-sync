@@ -131,6 +131,10 @@ module.exports = function(bs) {
         .fileChanges(runnerWatchers, bs.options)
         .flatMapFirst(
             /** @type {FileChangedEvent[]} */ events => {
+                if (!events || events.length === 0) {
+                    console.log("missing events..");
+                    return Rx.Observable.empty();
+                }
                 const uniqueCount = new Set(events.map(e => e.index)).size;
 
                 if (uniqueCount > 1) {
@@ -146,9 +150,12 @@ module.exports = function(bs) {
                 const parsed = toRunnerOption(matchingRunner);
                 if (!parsed) return Rx.Observable.empty();
 
-                /** @type {import("rxjs").Observable<import("./types").RunnerNotification>} */
                 const runner = execRunner(parsed);
-                return runner;
+                return runner.catch(e => {
+                    // todo: handle/print errors nicely
+                    bs.events.emit("runners:runtime-error", { runner, error: e });
+                    return Rx.Observable.empty();
+                });
             }
         )
         .subscribe(sideEffects);
@@ -223,6 +230,9 @@ function execRunner(runner) {
                     cmd: cmd
                 });
             }
+            if ("npm" in r) {
+                return npmRunner(r);
+            }
             throw new Error("unreachable");
         })
     );
@@ -245,6 +255,11 @@ function bsRunner(runner) {
                 };
             })
         });
+    } else if (runner.bs === "reload") {
+        effects.push({
+            type: "reload",
+            files: []
+        });
     }
     return Rx.Observable.concat(
         Rx.Observable.just(
@@ -254,7 +269,6 @@ function bsRunner(runner) {
                 runner
             })
         ),
-        Rx.Observable.timer(2000),
         Rx.Observable.just(
             toRunnerNotification({
                 status: "end",
@@ -273,7 +287,34 @@ function bsRunner(runner) {
 function shRunner(runner, params) {
     return Rx.Observable.concat(
         Rx.Observable.just(toRunnerNotification({ status: "start", effects: [], runner })),
-        Rx.Observable.timer(1000).ignoreElements(),
         Rx.Observable.just(toRunnerNotification({ status: "end", effects: [], runner }))
     );
+}
+
+/**
+ * @param {import("./types").Runner} runner
+ */
+function npmRunner(runner) {
+    if (!("npm" in runner)) throw new Error("unreachble");
+    return Rx.Observable.just(runner).flatMap(runner => {
+        try {
+            const runAll = require("npm-run-all");
+            const runAllRunner = runAll(runner.npm, {
+                parallel: false,
+                stdout: process.stdout,
+                stdin: process.stdin,
+                stderr: process.stderr
+            });
+            const p = runAllRunner.then(results => {
+                if (results.some(r => r.code !== 0)) throw new Error("failed");
+                return results;
+            });
+            return Rx.Observable.fromPromise(p).map(results => {
+                return toRunnerNotification({ status: "end", effects: [], runner });
+            });
+        } catch (e) {
+            console.log("e", e);
+            return Rx.Observable.throw(e);
+        }
+    });
 }

@@ -47,6 +47,7 @@ export type Runner =
   | { sh: string }
   | { bs: "reload" }
   | { bs: "inject"; files: string[] }
+  | { npm: string[], parallel?: boolean }
 
 const runnerParser = z.union([
     z.object({
@@ -58,6 +59,10 @@ const runnerParser = z.union([
     z.object({
         bs: z.literal("inject"),
         files: z.array(z.string())
+    }),
+    z.object({
+        npm: z.array(z.string()),
+        parallel: z.boolean().optional()
     })
 ]);
 
