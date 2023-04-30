@@ -34,6 +34,7 @@ export function convertRunnerOption(incoming: BsTempOptions): FilesNamespaces | 
     const parsed = parser.safeParse(incoming.get("runners").toJS());
     if (!parsed.success) {
         // todo: what to do in this case?
+        console.log("failed to parse input", parsed.error);
         return null;
     }
     const runnerData = parsed.data;
