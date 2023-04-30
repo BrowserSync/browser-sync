@@ -9,8 +9,31 @@ var utils = require("./utils");
 var pluginUtils = require("./plugins");
 var connectUtils = require("./connect-utils");
 var chalk = require("chalk");
+const { toRunnerOption } = require("./types");
+const { List } = require("immutable");
+const { execRunner } = require("./runner");
+const Rx = require("rx");
 
 module.exports = {
+    execStartupRunners: function(bs, done) {
+        const runners = bs.options.get("runners", List([])).toJS();
+
+        /** @type {import("./types").RunnerOption[]} */
+        const startupOnlyRunners = runners.filter(r => {
+            const opt = toRunnerOption(r);
+            return opt?.at === "startup";
+        });
+
+        if (startupOnlyRunners.length === 0) return done();
+
+        Rx.Observable.concat(startupOnlyRunners.map(runner => execRunner(runner)))
+            .catch(e => {
+                done(e);
+            })
+            .subscribe(() => {
+                done(null);
+            });
+    },
     /**
      * BrowserSync needs at least 1 free port.
      * It will check the one provided in config
@@ -163,7 +186,7 @@ module.exports = {
      * @param {Function} done
      */
     setInternalEvents: function(bs, done) {
-        require("./internal-events")(bs);
+        require("./internal-events").default(bs);
         done();
     },
     /**

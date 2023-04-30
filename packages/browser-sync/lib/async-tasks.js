@@ -3,6 +3,10 @@ var async = require("./async");
 
 module.exports = [
     {
+        step: "Execute any startup runners",
+        fn: async.execStartupRunners
+    },
+    {
         step: "Finding an empty port",
         fn: async.getEmptyPort
     },
