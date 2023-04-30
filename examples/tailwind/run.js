@@ -4,9 +4,15 @@ bs.init(
     {
         server: ".",
         open: false,
+        notify: false,
         runners: [
             {
-                files: ["index.html", "base.css"],
+                at: "startup",
+                run: [{ npm: ["clean", "build"] }]
+            },
+            {
+                at: "runtime",
+                files: ["index.html"],
                 run: [{ npm: ["build"] }, { bs: "reload" }]
             }
         ]

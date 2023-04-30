@@ -6,6 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "tailwindcss -i base.css -o ./dist/output.css",
+    "clean": "rm -rf dist/**",
     "bs": "node run.js"
   },
   "keywords": [],

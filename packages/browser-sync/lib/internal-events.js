@@ -8,7 +8,6 @@ var z = require("zod");
 var fromEvent = Rx.Observable.fromEvent;
 var fileHandler = require("./file-event-handler");
 const {
-    runnerOption,
     toRunnerOption,
     toRunnerNotification,
     toSideEffect,
