@@ -1,6 +1,6 @@
 import { fromJS, List } from "immutable";
 import { BsTempOptions, makeFilesArg, TransformResult } from "../cli-options";
-import { FilesNamespace, FilesNamespaces, runnerOption } from "../../types";
+import { FilesNamespace, FilesNamespaces, runnerOption, runtimeRunnerOption } from "../../types";
 import { z } from "zod";
 
 export function handleFilesOption(incoming: BsTempOptions): TransformResult {
@@ -31,16 +31,20 @@ export function convertRunnerOption(incoming: BsTempOptions): FilesNamespaces | 
     if (!runners) return null;
 
     const parser = z.array(runnerOption);
-    const parsed = parser.safeParse(incoming.get("runners").toJS());
+    const incomingOpt = incoming.get("runners").toJS();
+    const parsed = parser.safeParse(incomingOpt);
+
     if (!parsed.success) {
         // todo: what to do in this case?
         console.log("failed to parse input", parsed.error);
         return null;
     }
+
     const runnerData = parsed.data;
     const output: FilesNamespaces = {};
 
     runnerData.forEach((runner, index) => {
+        if (runner.at !== "runtime") return;
         const next: FilesNamespace = {
             index,
             globs: [],

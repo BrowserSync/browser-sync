@@ -36,10 +36,10 @@ export type FilesObject = { match: string[]; fn?: Function; options?: any };
 export type FilesNamespace = { globs: string[]; objs: FilesObject[]; index?: number };
 export type FilesNamespaces = { [name: string]: FilesNamespace };
 
-export type RunnerOption = {
-    files: string[];
-    run: Runner[];
-};
+// prettier-ignore
+export type RunnerOption =
+  | { at: "startup";  run: Runner[]; }
+  | { at: "runtime"; files: string[]; run: Runner[]; }
 
 // prettier-ignore
 export type Runner =
@@ -66,13 +66,22 @@ const runnerParser = z.union([
     })
 ]);
 
-export const runnerOption = z.object({
+export const startupRunnerOption = z.object({
+    at: z.literal("startup"),
+    run: z.array(runnerParser)
+});
+
+export const runtimeRunnerOption = z.object({
+    at: z.literal("runtime"),
     files: z.array(z.string()),
     run: z.array(runnerParser)
 });
 
+export const runnerOption = z.discriminatedUnion("at", [startupRunnerOption, runtimeRunnerOption]);
+
 export function toRunnerOption(input: unknown): RunnerOption | null {
     const parsed = runnerOption.safeParse(input);
+    // todo: give good errors on format mistakes here
     return parsed.success ? parsed.data : null;
 }
 
