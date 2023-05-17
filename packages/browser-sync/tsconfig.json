@@ -6,7 +6,7 @@
     "skipLibCheck": true,
     "esModuleInterop": false,
     "moduleResolution": "node",
-    "lib": ["es2015"],                             /* Specify library files to be included in the compilation:  */
+    "lib": ["dom", "dom.iterable", "es2019"],
      "allowJs": true,                       /* Allow javascript files to be compiled. */
     // "checkJs": true,                       /* Report errors in .js files. */
     // "jsx": "preserve",                     /* Specify JSX code generation: 'preserve', 'react-native', or 'react'. */

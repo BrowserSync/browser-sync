@@ -334,3 +334,54 @@ export const connect = require("connect");
 export const serveStatic = require("./server/serve-static-wrapper").default();
 export const easyExtender = require("easy-extender");
 export { UAParser, devIp };
+
+/**
+ * Just for backwards compat around old argument styles
+ */
+export function parseParams(search: string): Record<string, any> {
+    const params = new URLSearchParams(search);
+    const parsed = Object.create(null);
+    for (let [key, value] of params) {
+        let nextKey = key;
+        let arrayType = false;
+
+        if (nextKey.slice(-2) === "[]") {
+            nextKey = key.slice(0, -2);
+            arrayType = true;
+        }
+
+        const curr = parsed[nextKey];
+
+        if (curr && Array.isArray(curr)) {
+            curr.push(value);
+        } else if (curr) {
+            // if it already exists, but is not already an array, upgrade to array
+            parsed[nextKey] = [curr, value];
+        } else {
+            // otherwise create the original value
+            if (arrayType) {
+                parsed[nextKey] = [value];
+            } else {
+                parsed[nextKey] = value;
+            }
+        }
+    }
+    return parsed;
+}
+
+/**
+ * Also for backwards compat around old argument styles
+ */
+export function serializeParams(args: Record<string, any> = {}): URLSearchParams {
+    const output = new URLSearchParams();
+    for (let [key, value] of Object.entries(args)) {
+        if (Array.isArray(value)) {
+            for (let valueElement of value) {
+                output.append(key, valueElement);
+            }
+        } else {
+            output.append(key, String(value));
+        }
+    }
+    return output;
+}
