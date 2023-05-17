@@ -43,7 +43,7 @@
 		"easy-svg": "^3.0.0",
 		"esbuild": "^0.14.27",
 		"jshint": "^2.8.0",
-		"mocha": "^8.2.0",
+		"mocha": "^10.2.0",
 		"no-abs": "0.0.0",
 		"object-path": "^0.11.5",
 		"parallelshell": "^2.0.0",
