@@ -5,15 +5,20 @@
 		"bootstrap": "lerna bootstrap",
 		"postinstall": "npm run bootstrap",
 		"build": "lerna run build",
-		"test": "npm run build && lerna run test --scope browser-sync",
-		"test:e2e": "cb cy:file-reloading cy:ui-remote-debug cy:connection-notify"
+		"test.unit": "npm run build && lerna run test --scope browser-sync",
+		"test.e2e": "playwright test",
+		"test.e2e.headed": "playwright test --headed",
+		"pretest:e2e": "if [ \\\"$CI\\\" == \\\"true\\\" ]; then lerna run build; else lerna run build --since HEAD; fi"
 	},
 	"devDependencies": {
 		"lerna": "^6.1.0"
 	},
 	"dependencies": {
-		"crossbow": "^4.6.0",
-		"cypress": "^9.5.1",
-		"rxjs": "^7.5.4"
-	}
+    "@playwright/test": "^1.33.0",
+    "prettier": "^1.9.2",
+    "zod": "^3.21.4"
+  },
+  "workspaces": {
+    "packages": ["examples/tailwind"]
+  }
 }
