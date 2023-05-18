@@ -1,21 +1,21 @@
 {
-	"private": true,
-	"name": "browser-sync-mono",
-	"scripts": {
-		"bootstrap": "lerna bootstrap",
-		"postinstall": "npm run bootstrap",
-		"build": "lerna run build",
-		"test.unit": "npm run build && lerna run test --scope browser-sync",
-		"test.e2e": "playwright test",
-		"test.e2e.headed": "playwright test --headed",
-		"pretest.e2e": "if [ \\\"$CI\\\" == \\\"true\\\" ]; then lerna run build; else lerna run build --since HEAD; fi",
-		"prettier": "prettier '{packages,tests,examples}/**/*.{js,ts,html,yml,css}'",
-		"prettier.write": "npm run prettier -- --write"
-	},
-	"devDependencies": {
-		"lerna": "^6.1.0"
-	},
-	"dependencies": {
+  "private": true,
+  "name": "browser-sync-mono",
+  "scripts": {
+    "bootstrap": "lerna bootstrap",
+    "postinstall": "npm run bootstrap",
+    "build": "lerna run build",
+    "test.unit": "npm run build && lerna run test --scope browser-sync",
+    "test.e2e": "playwright test",
+    "test.e2e.headed": "playwright test --headed",
+    "pretest.e2e": "if [ \\\"$CI\\\" == \\\"true\\\" ]; then lerna run build; else lerna run build --since HEAD; fi",
+    "prettier": "prettier '{packages,tests,examples}/**/*.{js,ts,html,yml,css}'",
+    "prettier.write": "npm run prettier -- --write"
+  },
+  "devDependencies": {
+    "lerna": "^6.1.0"
+  },
+  "dependencies": {
     "@playwright/test": "^1.33.0",
     "prettier": "^1.9.2",
     "zod": "^3.21.4",
