@@ -18,11 +18,11 @@ bs.init(
         ]
     },
     (err, bs) => {
-        const message = { kind: 'ready', urls: bs.options.get("urls").toJS() };
-        if (process.send) {
-            process.send(message)
-        } else {
-            console.log(message);
-        }
+        const message = {
+            kind: "ready",
+            urls: bs.options.get("urls").toJS(),
+            cwd: __dirname
+        };
+        process.send?.(message);
     }
 );

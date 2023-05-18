@@ -1,24 +1,20 @@
 const bs = require("../../packages/browser-sync/dist/index").create();
+const path = require("path");
+const serverDir = path.join(__dirname, "..", "..", "packages/browser-sync/test/fixtures");
+
 bs.init(
     {
-        server: ".",
+        server: serverDir,
         open: false,
         notify: false,
         watch: true,
-        snippetOptions: {
-            rule: {
-                match: /<\/head>/i,
-                fn: function(snippet, match) {
-                    return snippet + match;
-                }
-            }
-        }
+        online: false
     },
     (err, bs) => {
         const message = {
             kind: "ready",
             urls: bs.options.get("urls").toJS(),
-            cwd: __dirname
+            cwd: serverDir
         };
         if (process.send) {
             process.send(message);

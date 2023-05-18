@@ -9,7 +9,7 @@
 		"test.e2e": "playwright test",
 		"test.e2e.headed": "playwright test --headed",
 		"pretest.e2e": "if [ \\\"$CI\\\" == \\\"true\\\" ]; then lerna run build; else lerna run build --since HEAD; fi",
-		"prettier": "prettier 'packages/**/*.{js,ts,html,yml,css}'",
+		"prettier": "prettier '{packages,tests,examples}/**/*.{js,ts,html,yml,css}'",
 		"prettier.write": "npm run prettier -- --write"
 	},
 	"devDependencies": {

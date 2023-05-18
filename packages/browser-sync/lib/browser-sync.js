@@ -1,6 +1,6 @@
 // @ts-check
-"use strict";
 
+// @ts-ignore
 var hooks = require("./hooks");
 var asyncTasks = require("./async-tasks");
 var config = require("./config");
