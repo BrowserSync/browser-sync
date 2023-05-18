@@ -18,19 +18,22 @@ export class Timer {
     }
 
     public start(timeout) {
-        if (this.running) { clearTimeout(this.id); }
+        if (this.running) {
+            clearTimeout(this.id);
+        }
         this.id = setTimeout(this._handler, timeout);
-        return this.running = true;
+        return (this.running = true);
     }
 
     public stop() {
         if (this.running) {
             clearTimeout(this.id);
-            this.running = false; return this.id = null;
+            this.running = false;
+            return (this.id = null);
         }
     }
 
-    public static start (timeout, func) {
+    public static start(timeout, func) {
         setTimeout(func, timeout);
     }
 }

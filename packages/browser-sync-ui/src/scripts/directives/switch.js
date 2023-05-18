@@ -1,4 +1,4 @@
-module.exports = function () {
+module.exports = function() {
     return {
         scope: {
             toggle: "&",
@@ -14,9 +14,12 @@ module.exports = function () {
         transclude: true,
         templateUrl: "bs-switch.html",
         controllerAs: "ctrl",
-        controller: ["$scope", function ($scope) {
-            var ctrl = this;
-            ctrl.item = $scope.item;
-        }]
+        controller: [
+            "$scope",
+            function($scope) {
+                var ctrl = this;
+                ctrl.item = $scope.item;
+            }
+        ]
     };
 };

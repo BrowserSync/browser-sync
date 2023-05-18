@@ -2,43 +2,42 @@
  * Remote debug page
  */
 var assert = require("chai").assert;
-var init  = require("./../bs-init");
-var utils  = require("./../test-utils");
+var init = require("./../bs-init");
+var utils = require("./../test-utils");
 
 describe("Network throttle page", function() {
-
     var bs;
     var ui;
     var bsUrl;
     var cpUrl;
 
-    beforeEach(function () {
-
+    beforeEach(function() {
         browser.ignoreSynchronization = true;
 
         init(protractor, {
             server: "./test/fixtures",
             logLevel: "silent",
-            open:   false,
+            open: false,
             online: false
-        }).then(function (out) {
-            bs    = out.bs;
-            ui    = out.ui;
+        }).then(function(out) {
+            bs = out.bs;
+            ui = out.ui;
             bsUrl = bs.options.getIn(["urls", "local"]);
             cpUrl = bs.options.getIn(["urls", "ui"]);
         });
     });
 
-    afterEach(function () {
+    afterEach(function() {
         bs.cleanup();
     });
 
     it("Should allow servers to be created with auto port", function() {
-
         browser.get(cpUrl + "/network-throttle");
         browser.sleep(1000);
 
-        var items = element.all(by.repeater("(key, item) in ctrl.throttle.targets | orderObjectBy:'order'"));
+        var items = element.all(
+            by.repeater("(key, item) in ctrl.throttle.targets | orderObjectBy:'order'")
+        );
 
         expect(items.count()).toBe(6);
 
@@ -50,12 +49,11 @@ describe("Network throttle page", function() {
 
         browser.sleep(1000);
 
-        var flow     = protractor.promise.controlFlow();
+        var flow = protractor.promise.controlFlow();
 
-        flow.execute(function () {
-
+        flow.execute(function() {
             var serverList = element(by.id("throttle-server-list"));
-            var listItem   = serverList.all(by.tagName("li"));
+            var listItem = serverList.all(by.tagName("li"));
 
             expect(listItem.count()).toBe(1);
 
@@ -68,8 +66,8 @@ describe("Network throttle page", function() {
 
             browser.sleep(1000);
 
-            browser.getAllWindowHandles().then(function (handles) {
-                var ui     = handles[0];
+            browser.getAllWindowHandles().then(function(handles) {
+                var ui = handles[0];
                 var client = handles[1];
                 browser.switchTo().window(client);
                 expect(element(by.id("__bs_script__")).isPresent()).toBeTruthy();

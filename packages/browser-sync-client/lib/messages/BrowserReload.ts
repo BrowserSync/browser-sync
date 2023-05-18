@@ -5,10 +5,7 @@ import { withLatestFrom } from "rxjs/operators/withLatestFrom";
 import { mergeMap } from "rxjs/operators/mergeMap";
 import { concat } from "rxjs/observable/concat";
 import { of } from "rxjs/observable/of";
-import {
-    browserReload,
-    preBrowserReload
-} from "../effects/browser-reload.effect";
+import { browserReload, preBrowserReload } from "../effects/browser-reload.effect";
 import { subscribeOn } from "rxjs/operators/subscribeOn";
 import { async } from "rxjs/scheduler/async";
 

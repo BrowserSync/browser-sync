@@ -1,5 +1,4 @@
 module.exports = {
-
     // base path, that will be used to resolve files and exclude
     basePath: "",
 
@@ -14,25 +13,18 @@ module.exports = {
         "client-new/*.js"
     ],
 
-
     // list of files to exclude
-    exclude: [
-
-    ],
-
+    exclude: [],
 
     // test results reporter to use
     // possible values: 'dots', 'progress', 'junit', 'growl', 'coverage'
     reporters: ["dots", "coverage"],
 
-
     // web server port
     port: 9876,
 
-
     // enable / disable colors in the output (reporters and logs)
     colors: true,
-
 
     // level of logging
     // possible values: config.LOG_DISABLE || config.LOG_ERROR || config.LOG_WARN || config.LOG_INFO || config.LOG_DEBUG
@@ -50,7 +42,6 @@ module.exports = {
     // - IE (only Windows)
     browsers: ["Chrome"],
 
-
     // If browser does not capture in given timeout [ms], kill it
     captureTimeout: 60000,
 
@@ -62,5 +53,4 @@ module.exports = {
     // Continuous Integration mode
     // if true, it capture browsers, run tests and exit
     singleRun: false
-
 };

@@ -20,9 +20,7 @@ export function getFormTogglesStream(
     option$: Inputs["option$"]
 ): Observable<OutgoingSocketEvent> {
     const canSync$ = createTimedBooleanSwitch(
-        socket$.pipe(
-            filter(([name]) => name === IncomingSocketNames.InputToggle)
-        )
+        socket$.pipe(filter(([name]) => name === IncomingSocketNames.InputToggle))
     );
 
     return option$.pipe(

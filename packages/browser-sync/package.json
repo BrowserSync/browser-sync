@@ -20,11 +20,6 @@
 	"engines": {
 		"node": ">= 8.0.0"
 	},
-	"prettier": {
-		"tabWidth": 4,
-		"singleQuote": false,
-		"printWidth": 100
-	},
 	"scripts": {
 		"build": "npm run build.tsc",
 		"build.tsc": "tsc",

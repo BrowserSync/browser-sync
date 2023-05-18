@@ -1,22 +1,22 @@
 var through2 = require("through2");
-var vinyl    = require("vinyl");
-var combiner = require('stream-combiner2');
-var es       = require('event-stream');
-var inspect  = require('util').inspect;
+var vinyl = require("vinyl");
+var combiner = require("stream-combiner2");
+var es = require("event-stream");
+var inspect = require("util").inspect;
 var Duplex = require("stream").Duplex;
 var stream = new Duplex();
 
-stream._read = function (out) {};
+stream._read = function(out) {};
 
-stream._write = function (out) {
+stream._write = function(out) {
     this.push(out);
 };
 
-var fn1 = function (data, cb) {
+var fn1 = function(data, cb) {
     cb(null, data + "shane");
 };
 
-var fn2 = function (data, cb) {
+var fn2 = function(data, cb) {
     cb(null, data + " Osbourne");
 };
 
@@ -30,12 +30,13 @@ var fn2 = function (data, cb) {
 stream
     .pipe(es.map(fn1))
     .pipe(es.map(fn2))
-    .pipe(through2.obj(function (out, enc, next) {
-        console.log(out);
-    }));
+    .pipe(
+        through2.obj(function(out, enc, next) {
+            console.log(out);
+        })
+    );
 
 stream.write("Hi there: ");
-
 
 //var fn = through2.obj(function (file, type, next) {
 //    console.log("Stream 1");

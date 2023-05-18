@@ -39,10 +39,7 @@ export function consoleDebug(...args): [LogNames.Log, ConsolePayload] {
 
 export type OverlayInfoPayload = [string, number];
 
-export function overlayInfo(
-    message: string,
-    timeout = 2000
-): [Overlay.Info, OverlayInfoPayload] {
+export function overlayInfo(message: string, timeout = 2000): [Overlay.Info, OverlayInfoPayload] {
     return [Overlay.Info, [message, timeout]];
 }
 
@@ -52,16 +49,11 @@ export const logHandler$ = new BehaviorSubject({
             /**
              * access injectNotification from the options stream
              */
-            withLatestFrom(
-                inputs.logInstance$,
-                inputs.option$.pipe(pluck("injectNotification"))
-            ),
+            withLatestFrom(inputs.logInstance$, inputs.option$.pipe(pluck("injectNotification"))),
             /**
              * only accept messages if injectNotification !== console
              */
-            filter(
-                ([, , injectNotification]) => injectNotification === "console"
-            ),
+            filter(([, , injectNotification]) => injectNotification === "console"),
             tap(([event, log]) => {
                 switch (event[0]) {
                     case LogNames.Info: {
@@ -76,11 +68,7 @@ export const logHandler$ = new BehaviorSubject({
     },
     [Overlay.Info]: (xs: Observable<[LogNames, any]>, inputs: Inputs) => {
         return xs.pipe(
-            withLatestFrom(
-                inputs.option$,
-                inputs.notifyElement$,
-                inputs.document$
-            ),
+            withLatestFrom(inputs.option$, inputs.notifyElement$, inputs.document$),
             /**
              * Reject all notifications if notify: false
              */

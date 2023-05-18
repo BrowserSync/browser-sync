@@ -1,7 +1,7 @@
-require('angular');
-require('angular-route');
-require('angular-sanitize');
-require('angular-touch');
+require("angular");
+require("angular-route");
+require("angular-sanitize");
+require("angular-touch");
 
 var angular = window.angular;
 
@@ -29,7 +29,6 @@ function Config($locationProvider) {
         requireBase: false
     });
 }
-
 
 /**
  * Modules

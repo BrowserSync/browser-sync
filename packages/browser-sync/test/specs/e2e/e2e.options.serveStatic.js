@@ -51,7 +51,13 @@ describe("E2E `serveStatic` option", function() {
             serveStatic: ["test/fixtures", "test/fixtures/assets"]
         };
         browserSync(config, function(err, bs) {
-            var reqs = getRequests([["/index.html", page], ["/style.css", css]], bs.server);
+            var reqs = getRequests(
+                [
+                    ["/index.html", page],
+                    ["/style.css", css]
+                ],
+                bs.server
+            );
             var obs = Rx.Observable.merge(reqs);
             obs.subscribeOnCompleted(function() {
                 bs.cleanup();
@@ -70,7 +76,13 @@ describe("E2E `serveStatic` option", function() {
             ]
         };
         browserSync(config, function(err, bs) {
-            var reqs = getRequests([["/index.html", page], ["/style.css", css]], bs.server);
+            var reqs = getRequests(
+                [
+                    ["/index.html", page],
+                    ["/style.css", css]
+                ],
+                bs.server
+            );
             var obs = Rx.Observable.merge(reqs);
             obs.subscribeOnCompleted(function() {
                 bs.cleanup();
@@ -91,7 +103,11 @@ describe("E2E `serveStatic` option", function() {
         };
         browserSync(config, function(err, bs) {
             var reqs = getRequests(
-                [["/index.html", page], ["/shane/style.css", css], ["/kittie/style.css", css]],
+                [
+                    ["/index.html", page],
+                    ["/shane/style.css", css],
+                    ["/kittie/style.css", css]
+                ],
                 bs.server
             );
             var obs = Rx.Observable.merge(reqs);
@@ -109,7 +125,13 @@ describe("E2E `serveStatic` option", function() {
             serveStatic: [{ route: "", dir: ["test/fixtures", "test/fixtures/assets"] }]
         };
         browserSync(config, function(err, bs) {
-            var reqs = getRequests([["/index.html", page], ["/style.css", css]], bs.server);
+            var reqs = getRequests(
+                [
+                    ["/index.html", page],
+                    ["/style.css", css]
+                ],
+                bs.server
+            );
             var obs = Rx.Observable.merge(reqs);
             obs.subscribeOnCompleted(function() {
                 bs.cleanup();
@@ -125,7 +147,13 @@ describe("E2E `serveStatic` option", function() {
             serveStatic: [{ dir: ["test/fixtures", "test/fixtures/assets"] }]
         };
         browserSync(config, function(err, bs) {
-            var reqs = getRequests([["/index.html", page], ["/style.css", css]], bs.server);
+            var reqs = getRequests(
+                [
+                    ["/index.html", page],
+                    ["/style.css", css]
+                ],
+                bs.server
+            );
             var obs = Rx.Observable.merge(reqs);
             obs.subscribeOnCompleted(function() {
                 bs.cleanup();

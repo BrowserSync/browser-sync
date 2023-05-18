@@ -7,19 +7,18 @@ module.exports = {
     /**
      * Plugin init
      */
-    "plugin": function () { /* noop */ },
+    plugin: function() {
+        /* noop */
+    },
 
     /**
      * Hooks
      */
-    "hooks": {
-        "markup": fileContent("/overview.html"),
+    hooks: {
+        markup: fileContent("/overview.html"),
         "client:js": fileContent("/overview.client.js"),
-        "templates": [
-            getPath("/snippet-info.html"),
-            getPath("/url-info.html")
-        ],
-        "page": {
+        templates: [getPath("/snippet-info.html"), getPath("/url-info.html")],
+        page: {
             path: "/",
             title: PLUGIN_NAME,
             template: "overview.html",
@@ -38,7 +37,7 @@ module.exports = {
  * @param filepath
  * @returns {*}
  */
-function getPath (filepath) {
+function getPath(filepath) {
     return require("path").join(__dirname, filepath);
 }
 
@@ -46,6 +45,6 @@ function getPath (filepath) {
  * @param filepath
  * @returns {*}
  */
-function fileContent (filepath) {
+function fileContent(filepath) {
     return require("fs").readFileSync(getPath(filepath), "utf-8");
 }

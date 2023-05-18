@@ -1,4 +1,4 @@
-var app    = require("../module");
+var app = require("../module");
 
 app.controller("MainController", [
     "$scope",
@@ -8,7 +8,6 @@ app.controller("MainController", [
     MainController
 ]);
 
-
 /**
  * @param $scope
  * @param $rootScope
@@ -16,28 +15,27 @@ app.controller("MainController", [
  * @param $injector
  * @constructor
  */
-function MainController ($scope, $rootScope, $location, $injector) {
-
-    var ctrl      = this;
-    ctrl.options  = false;
+function MainController($scope, $rootScope, $location, $injector) {
+    var ctrl = this;
+    ctrl.options = false;
     ctrl.browsers = [];
     ctrl.socketId = "";
 
     var pagesConfig = $injector.get("pagesConfig");
-    var Pages       = $injector.get("Pages");
-    var Socket      = $injector.get("Socket");
-    var Clients     = $injector.get("Clients");
+    var Pages = $injector.get("Pages");
+    var Socket = $injector.get("Socket");
+    var Clients = $injector.get("Clients");
 
     ctrl.ui = {
-        menu:         pagesConfig,
-        sectionMenu:  false,
+        menu: pagesConfig,
+        sectionMenu: false,
         disconnected: false
     };
 
     /**
      * @param $section
      */
-    ctrl.setActiveSection = function ($section) {
+    ctrl.setActiveSection = function($section) {
         Pages.enable($section);
         $location.path($section.path);
         ctrl.ui.sectionMenu = false;
@@ -46,7 +44,7 @@ function MainController ($scope, $rootScope, $location, $injector) {
     /**
      * Refresh all event
      */
-    ctrl.reloadAll = function () {
+    ctrl.reloadAll = function() {
         Clients.reloadAll();
         $rootScope.$emit("notify:flash", {
             heading: "Instruction sent:",
@@ -57,7 +55,7 @@ function MainController ($scope, $rootScope, $location, $injector) {
     /**
      * @param value
      */
-    ctrl.scrollAllTo = function () {
+    ctrl.scrollAllTo = function() {
         Clients.scrollAllTo(0);
         $rootScope.$emit("notify:flash", {
             heading: "Instruction sent:",
@@ -68,7 +66,7 @@ function MainController ($scope, $rootScope, $location, $injector) {
     /**
      * Emit the socket event
      */
-    ctrl.sendAllTo = function (path) {
+    ctrl.sendAllTo = function(path) {
         Clients.sendAllTo(path);
         $rootScope.$emit("notify:flash", {
             heading: "Instruction sent:",
@@ -79,7 +77,7 @@ function MainController ($scope, $rootScope, $location, $injector) {
     /**
      *
      */
-    ctrl.toggleMenu = function () {
+    ctrl.toggleMenu = function() {
         ctrl.ui.sectionMenu = !ctrl.ui.sectionMenu;
     };
 
@@ -87,17 +85,16 @@ function MainController ($scope, $rootScope, $location, $injector) {
      * @type {{connection: connection, addBrowsers: addBrowsers}}
      */
     ctrl.socketEvents = {
-
         /**
          * @param options
          */
-        connection: function (options) {
+        connection: function(options) {
             ctrl.update(options);
         },
         /**
          *
          */
-        disconnect: function () {
+        disconnect: function() {
             ctrl.ui.disconnected = true;
         }
     };
@@ -105,12 +102,11 @@ function MainController ($scope, $rootScope, $location, $injector) {
     /**
      * Update the current $scope
      */
-    ctrl.update = function (options) {
-
+    ctrl.update = function(options) {
         ctrl.options = transformOptions(options);
         ctrl.ui.disconnected = false;
 
-        Pages.transform(pagesConfig["overview"], function ($section) {
+        Pages.transform(pagesConfig["overview"], function($section) {
             return $section;
         });
     };
@@ -129,7 +125,7 @@ function MainController ($scope, $rootScope, $location, $injector) {
      * React to disconnects
      */
     $rootScope.$on("ui:disconnect", ctrl.socketEvents.disconnect);
-    $rootScope.$on("ui:connection", function (evt, options) {
+    $rootScope.$on("ui:connection", function(evt, options) {
         ctrl.socketEvents.connection(options);
         $scope.$digest();
     });
@@ -141,7 +137,6 @@ function MainController ($scope, $rootScope, $location, $injector) {
  * @returns {*}
  */
 function transformOptions(options) {
-
     options.displayUrl = getDisplayUrl(options.urls);
 
     return options;
@@ -151,7 +146,7 @@ function transformOptions(options) {
  * @param urls
  * @returns {*}
  */
-function getDisplayUrl (urls) {
+function getDisplayUrl(urls) {
     if (!urls) {
         return false;
     }

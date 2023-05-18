@@ -52,10 +52,7 @@ export function initWindowName(window: Window) {
      */
     if (saved && saved.bs && saved.bs.hardReload && saved.bs.scroll) {
         const { x, y } = saved.bs.scroll;
-        return of<any>(
-            setScroll(x, y),
-            Log.consoleDebug(`[ScrollRestore] x = ${x} y = ${y}`)
-        );
+        return of<any>(setScroll(x, y), Log.consoleDebug(`[ScrollRestore] x = ${x} y = ${y}`));
     }
     return empty();
 }

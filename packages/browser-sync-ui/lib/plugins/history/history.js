@@ -1,8 +1,7 @@
-var url       = require("url");
+var url = require("url");
 var Immutable = require("immutable");
 
-module.exports.init = function (ui, bs) {
-
+module.exports.init = function(ui, bs) {
     var validUrls = Immutable.OrderedSet();
 
     var methods = {
@@ -10,7 +9,7 @@ module.exports.init = function (ui, bs) {
          * Send the url list to UI
          * @param urls
          */
-        sendUpdatedUrls: function (urls) {
+        sendUpdatedUrls: function(urls) {
             ui.socket.emit("ui:history:update", decorateUrls(urls));
         },
         /**
@@ -18,7 +17,7 @@ module.exports.init = function (ui, bs) {
          * @param current
          * @param temp
          */
-        sendUpdatedIfChanged: function (current, temp) {
+        sendUpdatedIfChanged: function(current, temp) {
             if (!Immutable.is(current, temp)) {
                 validUrls = temp;
                 methods.sendUpdatedUrls(validUrls);
@@ -29,13 +28,12 @@ module.exports.init = function (ui, bs) {
          * in case we need to limit/check anything.
          * @param data
          */
-        sendToUrl: function (data) {
-
+        sendToUrl: function(data) {
             var parsed = url.parse(data.path);
 
             data.override = true;
             data.path = parsed.path;
-            data.url  = parsed.href;
+            data.url = parsed.href;
 
             ui.clients.emit("browser:location", data);
         },
@@ -43,7 +41,7 @@ module.exports.init = function (ui, bs) {
          * Add a new path
          * @param data
          */
-        addPath: function (data) {
+        addPath: function(data) {
             var temp = addPath(validUrls, url.parse(data.href), bs.options.get("mode"));
             methods.sendUpdatedIfChanged(validUrls, temp, ui.socket);
         },
@@ -51,34 +49,34 @@ module.exports.init = function (ui, bs) {
          * Remove a path
          * @param data
          */
-        removePath: function (data) {
+        removePath: function(data) {
             var temp = removePath(validUrls, data.path);
             methods.sendUpdatedIfChanged(validUrls, temp, ui.socket);
         },
         /**
          * Get the current list
          */
-        getVisited: function () {
+        getVisited: function() {
             ui.socket.emit("ui:receive:visited", decorateUrls(validUrls));
         }
     };
 
-    ui.clients.on("connection", function (client) {
+    ui.clients.on("connection", function(client) {
         client.on("ui:history:connected", methods.addPath);
     });
 
-    ui.socket.on("connection", function (uiClient) {
+    ui.socket.on("connection", function(uiClient) {
         /**
          * Send urls on first connection
          */
-        uiClient.on("ui:get:visited",    methods.getVisited);
+        uiClient.on("ui:get:visited", methods.getVisited);
         methods.sendUpdatedUrls(validUrls);
     });
 
     ui.listen("history", {
-        "sendAllTo": methods.sendToUrl,
-        "remove":    methods.removePath,
-        "clear":     function () {
+        sendAllTo: methods.sendToUrl,
+        remove: methods.removePath,
+        clear: function() {
             validUrls = Immutable.OrderedSet([]);
             methods.sendUpdatedUrls(validUrls);
         }
@@ -91,15 +89,18 @@ module.exports.init = function (ui, bs) {
  * @param {Immutable.Set} urls
  * @returns {Array}
  */
-function decorateUrls (urls) {
+function decorateUrls(urls) {
     var count = 0;
-    return urls.map(function (value) {
-        count += 1;
-        return {
-            path: value,
-            key: count
-        };
-    }).toJS().reverse();
+    return urls
+        .map(function(value) {
+            count += 1;
+            return {
+                path: value,
+                key: count
+            };
+        })
+        .toJS()
+        .reverse();
 }
 
 /**
@@ -111,11 +112,7 @@ function decorateUrls (urls) {
  * @returns {Set}
  */
 function addPath(immSet, urlObj, mode) {
-    return immSet.add(
-        mode === "snippet"
-            ? urlObj.href
-            : urlObj.path
-    );
+    return immSet.add(mode === "snippet" ? urlObj.href : urlObj.path);
 }
 
 module.exports.addPath = addPath;

@@ -15,14 +15,9 @@ export type LinkReplacePayload = {
     basename: string;
 };
 
-export function linkReplaceDomEffect(
-    xs: Observable<LinkReplacePayload>,
-    inputs: Inputs
-) {
+export function linkReplaceDomEffect(xs: Observable<LinkReplacePayload>, inputs: Inputs) {
     return xs.pipe(
-        withLatestFrom<LinkReplacePayload, any>(
-            inputs.option$.pipe(pluck("injectNotification"))
-        ),
+        withLatestFrom<LinkReplacePayload, any>(inputs.option$.pipe(pluck("injectNotification"))),
         filter(([, inject]) => inject),
         map(([incoming, inject]) => {
             const message = `[LinkReplace] ${incoming.basename}`;

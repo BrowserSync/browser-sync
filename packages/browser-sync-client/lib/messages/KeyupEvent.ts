@@ -33,10 +33,7 @@ export function outgoing(
     ];
 }
 
-export function incomingKeyupHandler(
-    xs: Observable<IncomingPayload>,
-    inputs: Inputs
-) {
+export function incomingKeyupHandler(xs: Observable<IncomingPayload>, inputs: Inputs) {
     return xs.pipe(
         withLatestFrom(
             inputs.option$.pipe(pluck("ghostMode", "forms", "inputs")),

@@ -1,3 +1,3 @@
-define([], function () {
-    console.log('hey!');
+define([], function() {
+    console.log("hey!");
 });

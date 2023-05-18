@@ -1,37 +1,36 @@
+var eachSeries = require("async-each-series");
+var path = require("path");
+var logger = require("./logger");
+var ptor = require("./runProtractor");
+var chalk = require("chalk");
 
-var eachSeries  = require("async-each-series");
-var path        = require("path");
-var logger      = require("./logger");
-var ptor        = require("./runProtractor");
-var chalk       = require("chalk");
+var tests = require("./tests.single");
+var configFile = path.resolve(__dirname + "/config.single");
 
-var tests       = require("./tests.single");
-var configFile  = path.resolve(__dirname + "/config.single");
+eachSeries(
+    tests,
+    function(testFile, asyncCallback) {
+        logger.info("Running: {yellow:%s", testFile);
+        process.env["BS_TEST_FILE"] = "tests/" + testFile;
+        ptor({}, configFile, function(err, out) {
+            if (out) {
+                // console.log(out) //debugging
+            }
+            if (!err) {
+                logger.info("%s %s", chalk.green("Tests Passed:"), chalk.yellow(testFile));
+            }
+            if (err) {
+                return asyncCallback(err);
+            }
 
-eachSeries(tests, function (testFile, asyncCallback) {
-    logger.info("Running: {yellow:%s", testFile);
-    process.env["BS_TEST_FILE"] = "tests/" + testFile;
-    ptor({}, configFile, function (err, out) {
-        if (out) {
-            // console.log(out) //debugging
-        }
-        if (!err) {
-            logger.info(
-                "%s %s",
-                chalk.green("Tests Passed:"),
-                chalk.yellow(testFile)
-            )
-        }
+            asyncCallback();
+        });
+    },
+    function(err) {
         if (err) {
-            return asyncCallback(err);
+            logger.error(err.stdout || err.message);
+            process.exit(1);
         }
-
-        asyncCallback();
-    });
-}, function (err) {
-    if (err) {
-        logger.error(err.stdout || err.message);
-        process.exit(1);
+        process.exit(0);
     }
-    process.exit(0);
-});
+);

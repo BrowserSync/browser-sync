@@ -1,18 +1,20 @@
 var Immutable = require("immutable");
 
-module.exports.init = function (ui) {
-
+module.exports.init = function(ui) {
     var optPath = ["network-throttle"];
     var serverOptPath = optPath.concat(["servers"]);
     var listenHost = ui.options.get("listen");
-    ui.servers  = {};
+    ui.servers = {};
 
-    ui.setOptionIn(optPath, Immutable.fromJS({
-        name: "network-throttle",
-        title: "Network Throttle",
-        active: false,
-        targets: require("./targets")
-    }));
+    ui.setOptionIn(
+        optPath,
+        Immutable.fromJS({
+            name: "network-throttle",
+            title: "Network Throttle",
+            active: false,
+            targets: require("./targets")
+        })
+    );
 
     ui.setOptionIn(serverOptPath, Immutable.Map({}));
 
@@ -41,25 +43,29 @@ module.exports.init = function (ui) {
         /**
          * @param data
          */
-        "server:create": function (data) {
-
+        "server:create": function(data) {
             data.port = getPortArg(data.port);
-            data.cb   = data.cb || function () { /* noop */};
+            data.cb =
+                data.cb ||
+                function() {
+                    /* noop */
+                };
 
             /**
              * @param opts
              */
-            function saveThrottleInfo (opts) {
-
+            function saveThrottleInfo(opts) {
                 var urls = getUrls(ui.bs.options.set("port", opts.port).toJS());
 
-                ui.setOptionIn(serverOptPath.concat([opts.port]), Immutable.fromJS({
-                    urls: urls,
-                    speed: opts.speed
-                }));
+                ui.setOptionIn(
+                    serverOptPath.concat([opts.port]),
+                    Immutable.fromJS({
+                        urls: urls,
+                        speed: opts.speed
+                    })
+                );
 
-                setTimeout(function () {
-
+                setTimeout(function() {
                     ui.socket.emit("ui:network-throttle:update", {
                         servers: ui.getOptionIn(serverOptPath).toJS(),
                         event: "server:create"
@@ -68,17 +74,14 @@ module.exports.init = function (ui) {
                     ui.servers[opts.port] = opts.server;
 
                     data.cb(null, opts);
-
                 }, 300);
-
             }
 
             /**
              * @param err
              * @param port
              */
-            function createThrottle (err, port) {
-
+            function createThrottle(err, port) {
                 var target = getTargetUrl();
 
                 var args = {
@@ -88,13 +91,15 @@ module.exports.init = function (ui) {
                 };
 
                 if (ui.bs.getOption("scheme") === "https") {
-                    var httpsOpts = require("browser-sync/lib/server/utils").getHttpsOptions(ui.bs.options);
-                    args.key  = httpsOpts.key;
+                    var httpsOpts = require("browser-sync/lib/server/utils").getHttpsOptions(
+                        ui.bs.options
+                    );
+                    args.key = httpsOpts.key;
                     args.cert = httpsOpts.cert;
                 }
 
                 args.server = require("./throttle-server")(args, listenHost);
-                require('server-destroy')(args.server);
+                require("server-destroy")(args.server);
                 args.server.listen(port, listenHost);
 
                 saveThrottleInfo(args);
@@ -103,21 +108,26 @@ module.exports.init = function (ui) {
             /**
              * Try for a free port
              */
-            ui.bs.utils.portscanner.findAPortNotInUse(data.port, data.port + 100, (listenHost || "127.0.0.1"), function (err, port) {
-                if (err) {
-                    return createThrottle(err);
-                } else {
-                    createThrottle(null, port);
+            ui.bs.utils.portscanner.findAPortNotInUse(
+                data.port,
+                data.port + 100,
+                listenHost || "127.0.0.1",
+                function(err, port) {
+                    if (err) {
+                        return createThrottle(err);
+                    } else {
+                        createThrottle(null, port);
+                    }
                 }
-            });
+            );
         },
         /**
          * @param data
          */
-        "server:destroy": function (data) {
+        "server:destroy": function(data) {
             if (ui.servers[data.port]) {
                 ui.servers[data.port].destroy();
-                ui.setMany(function (item) {
+                ui.setMany(function(item) {
                     item.deleteIn(serverOptPath.concat([parseInt(data.port, 10)]));
                 });
                 delete ui.servers[data.port];
@@ -130,7 +140,7 @@ module.exports.init = function (ui) {
         /**
          * @param event
          */
-        event: function (event) {
+        event: function(event) {
             methods[event.event](event.data);
         }
     };
@@ -143,9 +153,8 @@ module.exports.init = function (ui) {
  * @param opts
  * @returns {List<T>|List<any>}
  */
-function getUrls (opts) {
-
-    var list    = [];
+function getUrls(opts) {
+    var list = [];
 
     var bsLocal = require("url").parse(opts.urls.local);
 

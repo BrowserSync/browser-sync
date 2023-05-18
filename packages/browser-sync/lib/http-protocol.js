@@ -5,7 +5,13 @@ var proto = exports;
 var instanceMethods = ["exit", "notify", "pause", "resume"];
 var getBody = require("raw-body");
 const { parseParams, serializeParams } = require("./utils");
-const permittedSocketEvents = ["file:reload", "browser:reload", "browser:notify", "browser:location", "options:set"];
+const permittedSocketEvents = [
+    "file:reload",
+    "browser:reload",
+    "browser:notify",
+    "browser:location",
+    "options:set"
+];
 
 /**
  * Does the requested method expect an instance of BrowserSync
@@ -30,9 +36,9 @@ function methodRequiresInstance(method) {
  * @returns {string}
  */
 proto.getUrl = function(args, url) {
-    return [url, require("./config").httpProtocol.path, "?",
-        serializeParams(args).toString()
-    ].join("");
+    return [url, require("./config").httpProtocol.path, "?", serializeParams(args).toString()].join(
+        ""
+    );
 };
 
 /**

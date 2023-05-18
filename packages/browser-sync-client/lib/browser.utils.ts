@@ -42,9 +42,7 @@ export function getBrowserScrollPosition(window, document): ICoords {
 /**
  * @returns {{x: number, y: number}}
  */
-export function getDocumentScrollSpace(
-    document: Document
-): ScrollEvent.ICoords {
+export function getDocumentScrollSpace(document: Document): ScrollEvent.ICoords {
     const dElement = document.documentElement;
     const dBody = document.body;
     return {
@@ -66,10 +64,7 @@ export function saveScrollPosition(window, document) {
  */
 export function restoreScrollPosition() {
     const pos = getDocument()
-        .cookie.replace(
-            /(?:(?:^|.*;\s*)bs_scroll_pos\s*\=\s*([^;]*).*$)|^.*$/,
-            "$1"
-        )
+        .cookie.replace(/(?:(?:^|.*;\s*)bs_scroll_pos\s*\=\s*([^;]*).*$)|^.*$/, "$1")
         .split(",");
     getWindow().scrollTo(Number(pos[0]), Number(pos[1]));
 }
@@ -151,8 +146,8 @@ export function forEach(coll, fn) {
  * @returns {boolean}
  */
 export function isOldIe() {
-  // @ts-ignore - Only IE < 11 has .attachEvent property
-  // https://docs.microsoft.com/en-us/previous-versions/windows/internet-explorer/ie-developer/platform-apis/aa703974(v=vs.85)
+    // @ts-ignore - Only IE < 11 has .attachEvent property
+    // https://docs.microsoft.com/en-us/previous-versions/windows/internet-explorer/ie-developer/platform-apis/aa703974(v=vs.85)
     return typeof getWindow().attachEvent !== "undefined";
 }
 
@@ -184,11 +179,7 @@ export function isUndefined(val) {
  * @param path
  */
 export function getByPath(obj, path) {
-    for (
-        var i = 0, tempPath = path.split("."), len = tempPath.length;
-        i < len;
-        i++
-    ) {
+    for (var i = 0, tempPath = path.split("."), len = tempPath.length; i < len; i++) {
         if (!obj || typeof obj !== "object") {
             return false;
         }
@@ -202,10 +193,7 @@ export function getByPath(obj, path) {
     return obj;
 }
 
-export function getScrollPosition(
-    window: Window,
-    document: Document
-): ScrollEvent.Data {
+export function getScrollPosition(window: Window, document: Document): ScrollEvent.Data {
     const pos = getBrowserScrollPosition(window, document);
     return {
         raw: pos, // Get px of x and y axis of scroll
@@ -213,9 +201,7 @@ export function getScrollPosition(
     };
 }
 
-export function getScrollPositionForElement(
-    element: HTMLElement
-): ScrollEvent.Data {
+export function getScrollPositionForElement(element: HTMLElement): ScrollEvent.Data {
     const raw: ICoords = {
         x: element.scrollLeft,
         y: element.scrollTop
@@ -236,10 +222,7 @@ export function getScrollTopPercentage(pos, document): number {
     return percentage.y;
 }
 
-export function getScrollPercentage(
-    scrollSpace: ICoords,
-    scrollPosition: ICoords
-): ICoords {
+export function getScrollPercentage(scrollSpace: ICoords, scrollPosition: ICoords): ICoords {
     const x = scrollPosition.x / scrollSpace.x;
     const y = scrollPosition.y / scrollSpace.y;
 

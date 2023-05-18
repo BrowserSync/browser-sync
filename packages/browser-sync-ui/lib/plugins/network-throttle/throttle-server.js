@@ -5,14 +5,13 @@ module.exports = throttle;
 /**
  *
  */
-function throttle (opts, listenHost) {
-
+function throttle(opts, listenHost) {
     var options = {
-        local_host:  listenHost,
+        local_host: listenHost,
         remote_host: listenHost,
-        upstream:    10*1024,
-        downstream:  opts.speed.speed * 1024,
-        keepalive:   false
+        upstream: 10 * 1024,
+        downstream: opts.speed.speed * 1024,
+        keepalive: false
     };
 
     var serverOpts = {
@@ -30,8 +29,7 @@ function throttle (opts, listenHost) {
         serverOpts.cert = opts.cert;
     }
 
-    return require(module).createServer(serverOpts, function (local) {
-
+    return require(module).createServer(serverOpts, function(local) {
         var remote = require(module)[method]({
             host: opts.target.hostname,
             port: opts.target.port,
@@ -45,16 +43,12 @@ function throttle (opts, listenHost) {
         var localThrottle = upThrottle.throttle();
         var remoteThrottle = downThrottle.throttle();
 
-        setTimeout(function () {
-            local
-                .pipe(localThrottle)
-                .pipe(remote);
+        setTimeout(function() {
+            local.pipe(localThrottle).pipe(remote);
         }, opts.speed.latency);
 
-        setTimeout(function () {
-            remote
-                .pipe(remoteThrottle)
-                .pipe(local);
+        setTimeout(function() {
+            remote.pipe(remoteThrottle).pipe(local);
         }, opts.speed.latency);
 
         local.on("error", function() {

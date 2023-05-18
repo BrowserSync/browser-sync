@@ -1,6 +1,6 @@
 interface Window {
-    ___browserSync___: any
-    attachEvent?: any
+    ___browserSync___: any;
+    attachEvent?: any;
 }
 
 interface IBrowserSyncOptions {
@@ -25,16 +25,16 @@ interface IBrowserSyncOptions {
     codeSync: boolean;
     watchEvents: string[];
     browser: string;
-    notify: boolean | { styles: {[index: string]: string} | string[]};
+    notify: boolean | { styles: { [index: string]: string } | string[] };
     open: boolean;
     reloadDelay: number;
     minify: boolean;
     rewriteRules: any[];
     injectFileTypes: string[];
-    injectNotification: boolean | ('console' | 'overlay');
+    injectNotification: boolean | ("console" | "overlay");
     cors: boolean;
     proxy: boolean;
-    tagNames: {[index: string]: string};
+    tagNames: { [index: string]: string };
     scrollRestoreTechnique: string;
     watch: boolean;
     watchOptions: IWatchOptions;
@@ -71,8 +71,7 @@ interface ISnippetOptions {
 interface IRule {
     match: IMatch;
 }
-interface IMatch {
-}
+interface IMatch {}
 interface IScriptPaths {
     path: string;
     versioned: string;

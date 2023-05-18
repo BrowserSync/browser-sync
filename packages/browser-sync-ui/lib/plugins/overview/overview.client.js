@@ -1,21 +1,16 @@
-(function (angular) {
-
+(function(angular) {
     const SECTION_NAME = "overview";
 
     angular
         .module("BrowserSync")
-        .controller("OverviewController", [
-            "options",
-            "pagesConfig",
-            OverviewController
-        ]);
+        .controller("OverviewController", ["options", "pagesConfig", OverviewController]);
 
     /**
      * @param options
      * @param pagesConfig
      */
-    function OverviewController (options, pagesConfig) {
-        var ctrl     = this;
+    function OverviewController(options, pagesConfig) {
+        var ctrl = this;
         ctrl.section = pagesConfig[SECTION_NAME];
         ctrl.options = options.bs;
         ctrl.ui = {
@@ -27,24 +22,17 @@
      * Url Info - this handles rendering of each server
      * info item
      */
-    angular
-        .module("BrowserSync")
-        .directive("urlInfo", function () {
-            return {
-                restrict: "E",
-                replace: true,
-                scope: {
-                    "options": "="
-                },
-                templateUrl: "url-info.html",
-                controller: [
-                    "$scope",
-                    "$rootScope",
-                    "Clients",
-                    urlInfoController
-                ]
-            };
-        });
+    angular.module("BrowserSync").directive("urlInfo", function() {
+        return {
+            restrict: "E",
+            replace: true,
+            scope: {
+                options: "="
+            },
+            templateUrl: "url-info.html",
+            controller: ["$scope", "$rootScope", "Clients", urlInfoController]
+        };
+    });
 
     /**
      * @param $scope
@@ -52,9 +40,8 @@
      * @param Clients
      */
     function urlInfoController($scope, $rootScope, Clients) {
-
         var options = $scope.options;
-        var urls    = options.urls;
+        var urls = options.urls;
 
         $scope.ui = {
             server: false,
@@ -102,7 +89,7 @@
         /**
          *
          */
-        $scope.sendAllTo = function (path) {
+        $scope.sendAllTo = function(path) {
             Clients.sendAllTo(path);
             $rootScope.$emit("notify:flash", {
                 heading: "Instruction sent:",
@@ -114,18 +101,20 @@
     /**
      * Display the snippet when in snippet mode
      */
-    angular
-        .module("BrowserSync")
-        .directive("snippetInfo", function () {
-            return {
-                restrict: "E",
-                replace: true,
-                scope: {
-                    "options": "="
-                },
-                templateUrl: "snippet-info.html",
-                controller: ["$scope", function snippetInfoController() {/*noop*/}]
-            };
-        });
-
+    angular.module("BrowserSync").directive("snippetInfo", function() {
+        return {
+            restrict: "E",
+            replace: true,
+            scope: {
+                options: "="
+            },
+            templateUrl: "snippet-info.html",
+            controller: [
+                "$scope",
+                function snippetInfoController() {
+                    /*noop*/
+                }
+            ]
+        };
+    });
 })(angular);

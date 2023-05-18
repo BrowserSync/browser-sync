@@ -1,13 +1,16 @@
-var fs         = require("fs");
-var path       = require("path");
+var fs = require("fs");
+var path = require("path");
 
-var pluginTmpl     = templateFile("/plugin.tmpl");
-var configTmpl     = templateFile("/config.tmpl");
-var configItem     = templateFile("/config.item.tmpl");
-var inlineTemp     = templateFile("/inline.template.tmpl");
-var pluginItemTmpl = fs.readFileSync(path.resolve(__dirname, "../", "templates/plugin.item.tmpl"), "utf-8");
+var pluginTmpl = templateFile("/plugin.tmpl");
+var configTmpl = templateFile("/config.tmpl");
+var configItem = templateFile("/config.item.tmpl");
+var inlineTemp = templateFile("/inline.template.tmpl");
+var pluginItemTmpl = fs.readFileSync(
+    path.resolve(__dirname, "../", "templates/plugin.item.tmpl"),
+    "utf-8"
+);
 
-function templateFile (filepath) {
+function templateFile(filepath) {
     return fs.readFileSync(path.join(__dirname, "/../templates", filepath || ""), "utf-8");
 }
 
@@ -20,31 +23,21 @@ module.exports = {
      * @param hooks
      * @param ui
      */
-    "page": function (hooks, ui) {
-
-        var config = hooks
-            .map(transformConfig)
-            .reduce(createConfigItem, {});
+    page: function(hooks, ui) {
+        var config = hooks.map(transformConfig).reduce(createConfigItem, {});
 
         return {
             /**
              * pagesConfig - This is the angular configuration such as routes
              */
             pagesConfig: configTmpl
-                .replace("%when%", hooks.reduce(
-                    createAngularRoutes,
-                    ""
-                ))
-                .replace("%pages%", JSON.stringify(
-                    config,
-                    null,
-                    4
-                )),
+                .replace("%when%", hooks.reduce(createAngularRoutes, ""))
+                .replace("%pages%", JSON.stringify(config, null, 4)),
             /**
              * pagesConfig in object form
              */
             pagesObj: config,
-            pageMarkup: function () {
+            pageMarkup: function() {
                 return preAngular(ui.pluginManager.plugins, config, ui);
             }
         };
@@ -54,7 +47,7 @@ module.exports = {
      * @param hooks
      * @returns {*}
      */
-    "markup": function (hooks) {
+    markup: function(hooks) {
         return hooks.reduce(pluginTemplate, "");
     },
     /**
@@ -62,24 +55,23 @@ module.exports = {
      * @param {UI} ui
      * @returns {*|string}
      */
-    "client:js": function (hooks, ui) {
-
+    "client:js": function(hooks, ui) {
         /**
          * Add client JS from Browsersync Plugins
          */
-        ui.bsPlugins.forEach(function (plugin) {
+        ui.bsPlugins.forEach(function(plugin) {
             if (plugin.has("client:js")) {
-                plugin.get("client:js").forEach(function (value) {
+                plugin.get("client:js").forEach(function(value) {
                     hooks.push(value);
                 });
             }
         });
 
-        var out = hooks.reduce(function (all, item) {
+        var out = hooks.reduce(function(all, item) {
             if (typeof item === "string") {
                 all += ";" + item;
             } else if (Array.isArray(item)) {
-                item.forEach(function (item) {
+                item.forEach(function(item) {
                     all += ";" + item;
                 });
             }
@@ -94,14 +86,12 @@ module.exports = {
      * @param {UI} ui
      * @returns {String}
      */
-    "templates": function (hooks, initial, ui) {
-
+    templates: function(hooks, initial, ui) {
         /**
          * Add templates from each Browsersync registered plugin
          * @type {string}
          */
-        var pluginDirectives = ui.bsPlugins.reduce(function (all, plugin) {
-
+        var pluginDirectives = ui.bsPlugins.reduce(function(all, plugin) {
             if (!plugin.has("templates")) {
                 return all;
             }
@@ -112,10 +102,11 @@ module.exports = {
              *    = test-browsersync-plugin
              * @type {string}
              */
-            var slug = plugin.get("name")
+            var slug = plugin
+                .get("name")
                 .trim()
                 .split(" ")
-                .map(function (word) {
+                .map(function(word) {
                     return word.trim().toLowerCase();
                 })
                 .join("-");
@@ -125,12 +116,11 @@ module.exports = {
              * the markup in the <script type="text/ng-template" id="{{slug}}"></script>
              * markup to result in the single output string.
              */
-            plugin.get("templates").forEach(function (value, key) {
-                all +=  angularWrap([slug, path.basename(key)].join("/"), value);
+            plugin.get("templates").forEach(function(value, key) {
+                all += angularWrap([slug, path.basename(key)].join("/"), value);
             });
 
             return all;
-
         }, "");
 
         /**
@@ -145,10 +135,10 @@ module.exports = {
      * @param hooks
      * @returns {{}}
      */
-    "elements": function (hooks) {
+    elements: function(hooks) {
         var obj = {};
-        hooks.forEach(function (elements) {
-            elements.forEach(function (item) {
+        hooks.forEach(function(elements) {
+            elements.forEach(function(item) {
                 if (!obj[item.name]) {
                     obj[item.name] = item;
                 }
@@ -162,13 +152,14 @@ module.exports = {
  * @param hooks
  * @returns {String}
  */
-function createInlineTemplates (hooks) {
-    return hooks.reduce(function (combined, item) {
-        return combined + item.reduce(function (all, filepath) {
-            return all + angularWrap(
-                path.basename(filepath),
-                fs.readFileSync(filepath));
-        }, "");
+function createInlineTemplates(hooks) {
+    return hooks.reduce(function(combined, item) {
+        return (
+            combined +
+            item.reduce(function(all, filepath) {
+                return all + angularWrap(path.basename(filepath), fs.readFileSync(filepath));
+            }, "")
+        );
     }, "");
 }
 
@@ -176,7 +167,7 @@ function createInlineTemplates (hooks) {
  * @param item
  * @returns {*}
  */
-function transformConfig (item) {
+function transformConfig(item) {
     return item;
 }
 
@@ -186,12 +177,15 @@ function transformConfig (item) {
  * @returns {*}
  */
 function createAngularRoutes(all, item) {
-    return all + configItem.replace(/%(.+)%/g, function () {
-        var key = arguments[1];
-        if (item[key]) {
-            return item[key];
-        }
-    });
+    return (
+        all +
+        configItem.replace(/%(.+)%/g, function() {
+            var key = arguments[1];
+            if (item[key]) {
+                return item[key];
+            }
+        })
+    );
 }
 
 /**
@@ -199,7 +193,7 @@ function createAngularRoutes(all, item) {
  * @param item
  * @returns {*}
  */
-function createConfigItem (joined, item) {
+function createConfigItem(joined, item) {
     if (item.path === "/") {
         joined["overview"] = item;
     } else {
@@ -211,7 +205,7 @@ function createConfigItem (joined, item) {
 /**
  * @returns {*}
  */
-function pluginTemplate (combined, item) {
+function pluginTemplate(combined, item) {
     return [combined, pluginTmpl.replace("%markup%", item)].join("\n");
 }
 
@@ -220,15 +214,14 @@ function pluginTemplate (combined, item) {
  * @param config
  * @returns {*}
  */
-function preAngular (plugins, config, ui) {
-
+function preAngular(plugins, config, ui) {
     return Object.keys(plugins)
-        .filter(function (key) {
+        .filter(function(key) {
             return config[key]; // only work on plugins that have pages
         })
-        .map(function (key) {
+        .map(function(key) {
             if (key === "plugins") {
-                var pluginMarkup = ui.bsPlugins.reduce(function (all, item, i) {
+                var pluginMarkup = ui.bsPlugins.reduce(function(all, item, i) {
                     all += pluginItemTmpl
                         .replace("%content%", item.get("markup") || "")
                         .replace(/%index%/g, i)
@@ -236,11 +229,17 @@ function preAngular (plugins, config, ui) {
 
                     return all;
                 }, "");
-                plugins[key].hooks.markup = plugins[key].hooks.markup.replace("%pluginlist%", pluginMarkup);
+                plugins[key].hooks.markup = plugins[key].hooks.markup.replace(
+                    "%pluginlist%",
+                    pluginMarkup
+                );
             }
-            return angularWrap(config[key].template, bindOnce(plugins[key].hooks.markup, config[key]));
+            return angularWrap(
+                config[key].template,
+                bindOnce(plugins[key].hooks.markup, config[key])
+            );
         })
-        .reduce(function (combined, item) {
+        .reduce(function(combined, item) {
             return combined + item;
         }, "");
 }
@@ -250,10 +249,8 @@ function preAngular (plugins, config, ui) {
  * @param markup
  * @returns {*}
  */
-function angularWrap (templateName, markup) {
-    return inlineTemp
-        .replace("%content%", markup)
-        .replace("%id%", templateName);
+function angularWrap(templateName, markup) {
+    return inlineTemp.replace("%content%", markup).replace("%id%", templateName);
 }
 
 /**
@@ -261,11 +258,10 @@ function angularWrap (templateName, markup) {
  * @param config
  * @returns {*|string}
  */
-function bindOnce (markup, config) {
-    return markup.toString().replace(/\{\{ctrl.section\.(.+?)\}\}/g, function ($1, $2) {
+function bindOnce(markup, config) {
+    return markup.toString().replace(/\{\{ctrl.section\.(.+?)\}\}/g, function($1, $2) {
         return config[$2] || "";
     });
 }
 
 module.exports.bindOnce = bindOnce;
-

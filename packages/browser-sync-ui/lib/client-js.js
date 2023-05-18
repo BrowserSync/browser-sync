@@ -1,15 +1,13 @@
 "use strict";
 
-(function (window, document, bs, undefined) {
-
+(function(window, document, bs, undefined) {
     var socket = bs.socket;
 
     var uiOptions = {
         bs: {}
     };
 
-    socket.on("ui:connection", function (options) {
-
+    socket.on("ui:connection", function(options) {
         uiOptions = options;
 
         bs.socket.emit("ui:history:connected", {
@@ -17,7 +15,7 @@
         });
     });
 
-    socket.on("ui:element:remove", function (data) {
+    socket.on("ui:element:remove", function(data) {
         if (data.id) {
             var elem = document.getElementById(data.id);
             if (elem) {
@@ -26,13 +24,13 @@
         }
     });
 
-    socket.on("highlight", function () {
+    socket.on("highlight", function() {
         var id = "__browser-sync-highlight__";
         var elem = document.getElementById(id);
         if (elem) {
             return removeElement(elem);
         }
-        (function (e) {
+        (function(e) {
             e.style.position = "fixed";
             e.style.zIndex = "1000";
             e.style.width = "100%";
@@ -47,8 +45,7 @@
         })(document.createElement("div"));
     });
 
-    socket.on("ui:element:add", function (data) {
-
+    socket.on("ui:element:add", function(data) {
         var elem = document.getElementById(data.id);
 
         if (!elem) {
@@ -65,11 +62,11 @@
     });
 
     bs.addDomNode = addDomNode;
-    bs.addJs      = addJs;
-    bs.addCss     = addJs;
+    bs.addJs = addJs;
+    bs.addCss = addJs;
 
     function addJs(data) {
-        (function (e) {
+        (function(e) {
             e.setAttribute("src", getAbsoluteUrl(data.src));
             e.setAttribute("id", data.id);
             document.getElementsByTagName("body")[0].appendChild(e);
@@ -77,10 +74,10 @@
     }
 
     function addCss(data) {
-        (function (e) {
-            e.setAttribute("rel",  "stylesheet");
+        (function(e) {
+            e.setAttribute("rel", "stylesheet");
             e.setAttribute("type", "text/css");
-            e.setAttribute("id",   data.id);
+            e.setAttribute("id", data.id);
             e.setAttribute("media", "all");
             e.setAttribute("href", getAbsoluteUrl(data.src));
             document.getElementsByTagName("head")[0].appendChild(e);
@@ -90,7 +87,7 @@
     function addDomNode(data) {
         var elem = document.createElement(data.tagName);
         for (var attr in data.attrs) {
-            elem.setAttribute(attr,  data.attrs[attr]);
+            elem.setAttribute(attr, data.attrs[attr]);
         }
         if (data.placement) {
             document.getElementsByTagName(data.placement)[0].appendChild(elem);
@@ -113,8 +110,9 @@
         return [window.location.protocol, "//", getHost(), path].join("");
     }
 
-    function getHost () {
-        return uiOptions.bs.mode === "snippet" ? window.location.hostname + ":" + uiOptions.bs.port : window.location.host;
+    function getHost() {
+        return uiOptions.bs.mode === "snippet"
+            ? window.location.hostname + ":" + uiOptions.bs.port
+            : window.location.host;
     }
-
 })(window, document, ___browserSync___);

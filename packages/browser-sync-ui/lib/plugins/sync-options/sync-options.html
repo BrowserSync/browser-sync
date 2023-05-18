@@ -16,10 +16,12 @@
         </button>
     </div>
 
-    <switch toggle="ctrl.toggleSyncItem(item)"
-            switchid="sync-options-{{$index}}"
-            active="item.value"
-            prop="value"
-            ng-repeat="item in ctrl.syncItems track by $index"
-            item="item"></switch>
+    <switch
+        toggle="ctrl.toggleSyncItem(item)"
+        switchid="sync-options-{{$index}}"
+        active="item.value"
+        prop="value"
+        ng-repeat="item in ctrl.syncItems track by $index"
+        item="item"
+    ></switch>
 </article>

@@ -1,6 +1,6 @@
 ///<reference path="types.ts"/>
-import "core-js/es/object/assign"
-import 'element-scroll-polyfill';
+import "core-js/es/object/assign";
+import "element-scroll-polyfill";
 import { Observable } from "rxjs/Observable";
 import { BehaviorSubject } from "rxjs/BehaviorSubject";
 import { zip } from "rxjs/observable/zip";
@@ -74,24 +74,14 @@ function getStream(name: string, inputs) {
     };
 }
 
-const combinedEffectHandler$ = zip(
-    effectOutputHandlers$,
-    scrollRestoreHandlers$,
-    (...args) => {
-        return args.reduce((acc, item) => ({ ...acc, ...item }), {});
-    }
-);
+const combinedEffectHandler$ = zip(effectOutputHandlers$, scrollRestoreHandlers$, (...args) => {
+    return args.reduce((acc, item) => ({ ...acc, ...item }), {});
+});
 
-const output$ = getStream("[socket]", inputs)(
-    socketHandlers$,
-    merge(inputs.socket$, outgoing$)
-);
+const output$ = getStream("[socket]", inputs)(socketHandlers$, merge(inputs.socket$, outgoing$));
 
 const effect$ = getStream("[effect]", inputs)(combinedEffectHandler$, output$);
-const dom$ = getStream("[dom-effect]", inputs)(
-    domHandlers$,
-    merge(effect$, names$)
-);
+const dom$ = getStream("[dom-effect]", inputs)(domHandlers$, merge(effect$, names$));
 
 const merged$ = merge(output$, effect$, dom$);
 

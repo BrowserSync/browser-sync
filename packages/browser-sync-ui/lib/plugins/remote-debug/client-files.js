@@ -9,7 +9,8 @@ var files = [
         served: false,
         name: "pesticide",
         src: "/browser-sync/pesticide.css",
-        tagline: "Add simple CSS outlines to all elements. (powered by <span style='text-decoration: line-through'>Pesticide.io</span>)",
+        tagline:
+            "Add simple CSS outlines to all elements. (powered by <span style='text-decoration: line-through'>Pesticide.io</span>)",
         hidden: ""
     },
     {
@@ -22,18 +23,19 @@ var files = [
         served: false,
         name: "pesticide-depth",
         src: "/browser-sync/pesticide-depth.css",
-        tagline: "Add CSS box-shadows to all elements. (powered by <span style='text-decoration: line-through'>Pesticide.io</span>)",
+        tagline:
+            "Add CSS box-shadows to all elements. (powered by <span style='text-decoration: line-through'>Pesticide.io</span>)",
         hidden: ""
     },
     {
-        type:    "js",
+        type: "js",
         context: "n/a",
-        id:      "__browser-sync-gridoverlay__",
-        active:  false,
-        file:    __dirname + "/overlay-grid/js/grid-overlay.js",
-        served:  false,
-        name:    "overlay-grid-js",
-        src:     "/browser-sync/grid-overlay-js.js"
+        id: "__browser-sync-gridoverlay__",
+        active: false,
+        file: __dirname + "/overlay-grid/js/grid-overlay.js",
+        served: false,
+        name: "overlay-grid-js",
+        src: "/browser-sync/grid-overlay-js.js"
     }
 ];
 

@@ -26,10 +26,7 @@ export function initNotify(options) {
     let elem;
 
     if (options.notify.styles) {
-        if (
-            Object.prototype.toString.call(options.notify.styles) ===
-            "[object Array]"
-        ) {
+        if (Object.prototype.toString.call(options.notify.styles) === "[object Array]") {
             // handle original array behavior, replace all styles with a joined copy
             cssStyles = options.notify.styles.join(";");
         } else {

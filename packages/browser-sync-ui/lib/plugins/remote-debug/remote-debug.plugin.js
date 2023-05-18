@@ -1,9 +1,9 @@
 //var compression     = require("./compression");
 //var noCachePlugin   = require("./no-cache");
-var overlayPlugin  = require("./overlay-grid/overlay-grid");
-var clientFiles    = require("./client-files");
+var overlayPlugin = require("./overlay-grid/overlay-grid");
+var clientFiles = require("./client-files");
 
-const PLUGIN_NAME  = "Remote Debug";
+const PLUGIN_NAME = "Remote Debug";
 
 /**
  * @type {{plugin: Function, plugin:name: string, markup: string}}
@@ -13,8 +13,7 @@ module.exports = {
      * @param ui
      * @param bs
      */
-    "plugin": function (ui, bs) {
-
+    plugin: function(ui, bs) {
         ui.overlayGrid = overlayPlugin.init(ui, bs);
 
         //ui.noCache     = noCachePlugin.init(ui, bs);
@@ -24,10 +23,10 @@ module.exports = {
          * Listen for file events
          */
         ui.listen("remote-debug:files", {
-            "enableFile": function (file) {
+            enableFile: function(file) {
                 ui.enableElement(file);
             },
-            "disableFile": function (file) {
+            disableFile: function(file) {
                 ui.disableElement(file);
             }
         });
@@ -40,16 +39,14 @@ module.exports = {
     /**
      * Hooks
      */
-    "hooks": {
-        "markup": fileContent("remote-debug.html"),
+    hooks: {
+        markup: fileContent("remote-debug.html"),
         "client:js": [
             fileContent("/remote-debug.client.js"),
             fileContent("/overlay-grid/overlay-grid.client.js")
         ],
-        "templates": [
-            getPath("/overlay-grid/overlay-grid.html")
-        ],
-        "page": {
+        templates: [getPath("/overlay-grid/overlay-grid.html")],
+        page: {
             path: "/remote-debug",
             title: PLUGIN_NAME,
             template: "remote-debug.html",
@@ -69,7 +66,7 @@ module.exports = {
  * @param filepath
  * @returns {*}
  */
-function getPath (filepath) {
+function getPath(filepath) {
     return require("path").join(__dirname, filepath);
 }
 
@@ -77,6 +74,6 @@ function getPath (filepath) {
  * @param filepath
  * @returns {*}
  */
-function fileContent (filepath) {
+function fileContent(filepath) {
     return require("fs").readFileSync(getPath(filepath), "utf-8");
 }

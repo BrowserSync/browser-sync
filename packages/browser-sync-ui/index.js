@@ -1,8 +1,8 @@
 "use strict";
 
-var UI          = require("./lib/UI");
-var config      = require("./lib/config");
-var Events      = require("events").EventEmitter;
+var UI = require("./lib/UI");
+var config = require("./lib/config");
+var Events = require("events").EventEmitter;
 
 /**
  * Hooks are for attaching functionality to BrowserSync
@@ -21,21 +21,25 @@ module.exports.hooks = {
  * @param {Function} cb
  * @returns {UI}
  */
-module.exports["plugin"] = function (opts, bs, cb) {
+module.exports["plugin"] = function(opts, bs, cb) {
     var ui = new UI(opts, bs, new Events());
     bs.setOption("session", new Date().getTime());
-    ui.cb = cb || function () { /*noop*/ };
+    ui.cb =
+        cb ||
+        function() {
+            /*noop*/
+        };
     ui.init();
     return ui;
 };
 
-module.exports["plugin:name"]       = config.defaults.pluginName;
+module.exports["plugin:name"] = config.defaults.pluginName;
 
 /**
  * @param filepath
  * @returns {*}
  */
-function getPath (filepath) {
+function getPath(filepath) {
     return require("path").join(__dirname, filepath);
 }
 
@@ -43,6 +47,6 @@ function getPath (filepath) {
  * @param filepath
  * @returns {*}
  */
-function fileContent (filepath) {
+function fileContent(filepath) {
     return require("fs").readFileSync(getPath(filepath));
 }

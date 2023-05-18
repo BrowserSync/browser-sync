@@ -1,10 +1,9 @@
-
 var init = require("../bs.init");
 
-describe("works with Socket IO on same page", function () {
+describe("works with Socket IO on same page", function() {
     var instance;
     var urls;
-    beforeEach(function () {
+    beforeEach(function() {
         browser.ignoreSynchronization = true;
         if (instance) {
             return;
@@ -20,33 +19,31 @@ describe("works with Socket IO on same page", function () {
             logLevel: "silent",
             ui: false
         };
-        init(protractor, config).then(function (bs) {
+        init(protractor, config).then(function(bs) {
             instance = bs;
             urls = instance.getOption("urls").toJS();
         });
     });
-    it("should leave window.io available to others people", function () {
-
+    it("should leave window.io available to others people", function() {
         browser.get(urls.local + "/socket.io.html");
 
         assertScripts();
 
         browser.sleep(1000);
 
-        browser.executeScript("return typeof window.io;").then(function (io) {
-
+        browser.executeScript("return typeof window.io;").then(function(io) {
             expect(io).toBe("function");
 
             var flow = protractor.promise.controlFlow();
 
-            flow.execute(function () {
+            flow.execute(function() {
                 instance.cleanup();
             });
         });
     });
 });
 
-function assertScripts () {
+function assertScripts() {
     expect(element(by.id("__bs_script__")).isPresent()).toBeTruthy();
     expect(element(by.id("__bs_notify__")).isPresent()).toBeTruthy();
 }

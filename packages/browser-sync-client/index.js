@@ -49,13 +49,14 @@ function notModified(res) {
 }
 
 function processItems(items) {
-    return [].concat(items)
+    return []
+        .concat(items)
         .filter(Boolean)
         .reduce((stringOutput, item) => {
-            if (typeof item === 'string') {
+            if (typeof item === "string") {
                 return stringOutput + item;
             }
-            if (typeof item === 'function') {
+            if (typeof item === "function") {
                 return stringOutput + item();
             }
             return stringOutput;

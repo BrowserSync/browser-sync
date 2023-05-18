@@ -33,9 +33,7 @@ export function getFormInputStream(
             return fromEvent(document.body, "keyup", true).pipe(
                 map((e: Event) => e.target || e.srcElement),
                 filter(
-                    (target: Element) =>
-                        target.tagName === "INPUT" ||
-                        target.tagName === "TEXTAREA"
+                    (target: Element) => target.tagName === "INPUT" || target.tagName === "TEXTAREA"
                 ),
                 withLatestFrom(canSync$),
                 filter(([, canSync]) => canSync),

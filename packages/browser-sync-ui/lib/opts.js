@@ -1,4 +1,4 @@
-var Immutable  = require("immutable");
+var Immutable = require("immutable");
 
 var defaults = Immutable.fromJS({
     port: 3001
@@ -8,7 +8,7 @@ var defaults = Immutable.fromJS({
  * @param {Object} obj
  * @returns {Map}
  */
-module.exports.merge = function (obj) {
+module.exports.merge = function(obj) {
     return defaults.mergeDeep(Immutable.fromJS(obj));
 };
 

@@ -44,9 +44,11 @@ export function getClickStream(
                 }),
                 withLatestFrom(canSync$),
                 filter(([, canSync]) => canSync),
-                map(([target]): OutgoingSocketEvent => {
-                    return ClickEvent.outgoing(getElementData(target));
-                })
+                map(
+                    ([target]): OutgoingSocketEvent => {
+                        return ClickEvent.outgoing(getElementData(target));
+                    }
+                )
             );
         })
     );

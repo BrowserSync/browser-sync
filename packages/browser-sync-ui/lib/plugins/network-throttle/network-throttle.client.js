@@ -1,5 +1,4 @@
-(function (angular) {
-
+(function(angular) {
     const SECTION_NAME = "network-throttle";
 
     angular
@@ -18,23 +17,22 @@
      * @param Socket
      * @param $scope
      */
-    function NetworkThrottleController (options, pagesConfig, Socket, $scope) {
+    function NetworkThrottleController(options, pagesConfig, Socket, $scope) {
+        var ctrl = this;
 
-        var ctrl         = this;
-
-        ctrl.section     = pagesConfig[SECTION_NAME];
-        ctrl.options     = options.bs;
-        ctrl.uiOptions   = options.ui;
+        ctrl.section = pagesConfig[SECTION_NAME];
+        ctrl.options = options.bs;
+        ctrl.uiOptions = options.ui;
         ctrl.clientFiles = options.ui.clientFiles || {};
-        ctrl.section     = pagesConfig[SECTION_NAME];
+        ctrl.section = pagesConfig[SECTION_NAME];
 
-        ctrl.throttle    = ctrl.uiOptions[SECTION_NAME];
-        ctrl.selected    = ctrl.throttle.targets[0].id;
-        ctrl.servers     = ctrl.throttle.servers;
-        ctrl.port        = "";
-        ctrl.portEntry   = "auto";
+        ctrl.throttle = ctrl.uiOptions[SECTION_NAME];
+        ctrl.selected = ctrl.throttle.targets[0].id;
+        ctrl.servers = ctrl.throttle.servers;
+        ctrl.port = "";
+        ctrl.portEntry = "auto";
         ctrl.serverCount = Object.keys(ctrl.servers).length;
-        ctrl.blurs       = [];
+        ctrl.blurs = [];
 
         ctrl.state = {
             success: false,
@@ -42,14 +40,12 @@
             classname: "ready"
         };
 
-        ctrl.createServer = function (selected, event) {
-
+        ctrl.createServer = function(selected, event) {
             if (ctrl.blurs.indexOf(event.target) === -1) {
                 ctrl.blurs.push(event.target);
             }
 
             var item = getByProp(ctrl.throttle.targets, "id", ctrl.selected);
-
 
             if (ctrl.portEntry === "auto") {
                 return send("");
@@ -75,14 +71,13 @@
             send(ctrl.port);
 
             function setError() {
-                ctrl.state.waiting   = false;
+                ctrl.state.waiting = false;
                 ctrl.state.portError = true;
             }
 
-            function send (port) {
-
+            function send(port) {
                 ctrl.state.classname = "waiting";
-                ctrl.state.waiting   = true;
+                ctrl.state.waiting = true;
 
                 Socket.uiEvent({
                     namespace: SECTION_NAME,
@@ -95,7 +90,7 @@
             }
         };
 
-        ctrl.destroyServer = function (item, port) {
+        ctrl.destroyServer = function(item, port) {
             Socket.uiEvent({
                 namespace: SECTION_NAME,
                 event: "server:destroy",
@@ -106,15 +101,14 @@
             });
         };
 
-        ctrl.toggleSpeed = function (item) {
+        ctrl.toggleSpeed = function(item) {
             if (!item.active) {
                 item.urls = [];
             }
         };
 
-        ctrl.update = function (data) {
-
-            ctrl.servers     = data.servers;
+        ctrl.update = function(data) {
+            ctrl.servers = data.servers;
             ctrl.serverCount = Object.keys(ctrl.servers).length;
 
             if (data.event === "server:create") {
@@ -125,25 +119,21 @@
         };
 
         function updateButtonState() {
-
             ctrl.state.success = true;
             ctrl.state.classname = "success";
 
-            setTimeout(function () {
-
-                ctrl.blurs.forEach(function (elem) {
+            setTimeout(function() {
+                ctrl.blurs.forEach(function(elem) {
                     elem.blur();
                 });
 
-                setTimeout(function () {
-                    ctrl.state.success   = false;
-                    ctrl.state.waiting   = false;
+                setTimeout(function() {
+                    ctrl.state.success = false;
+                    ctrl.state.waiting = false;
                     ctrl.state.classname = "ready";
 
                     $scope.$digest();
-
                 }, 500);
-
             }, 300);
         }
 
@@ -152,8 +142,8 @@
          * @param prop
          * @returns {*}
          */
-        function getByProp (collection, prop, name) {
-            var match = collection.filter(function (item) {
+        function getByProp(collection, prop, name) {
+            var match = collection.filter(function(item) {
                 return item[prop] === name;
             });
             if (match.length) {
@@ -163,7 +153,7 @@
         }
 
         Socket.on("ui:network-throttle:update", ctrl.update);
-        $scope.$on("$destroy", function () {
+        $scope.$on("$destroy", function() {
             Socket.off("ui:network-throttle:update", ctrl.update);
         });
     }
@@ -171,31 +161,26 @@
     /**
      * Display the snippet when in snippet mode
      */
-    angular
-        .module("BrowserSync")
-        .directive("throttle", function () {
-            return {
-                restrict: "E",
-                replace: true,
-                scope: {
-                    "target": "=",
-                    "options": "="
-                },
-                templateUrl: "network-throttle.directive.html",
-                controller: ["$scope", "Socket", throttleDirectiveControlller],
-                controllerAs: "ctrl"
-            };
-        });
+    angular.module("BrowserSync").directive("throttle", function() {
+        return {
+            restrict: "E",
+            replace: true,
+            scope: {
+                target: "=",
+                options: "="
+            },
+            templateUrl: "network-throttle.directive.html",
+            controller: ["$scope", "Socket", throttleDirectiveControlller],
+            controllerAs: "ctrl"
+        };
+    });
 
     /**
      * @param $scope
      */
-    function throttleDirectiveControlller ($scope) {
-
+    function throttleDirectiveControlller($scope) {
         var ctrl = this;
 
         ctrl.throttle = $scope.options[SECTION_NAME];
-
     }
-
 })(angular);

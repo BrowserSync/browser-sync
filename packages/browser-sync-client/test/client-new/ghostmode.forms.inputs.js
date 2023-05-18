@@ -1,37 +1,36 @@
-describe("The scroll Plugin", function () {
-
-    var forms   = window.__bs_inputs__;
-    var bs      = __bs_stub__;
-    var events  = __bs_events__;
+describe("The scroll Plugin", function() {
+    var forms = window.__bs_inputs__;
+    var bs = __bs_stub__;
+    var events = __bs_events__;
 
     var socketStub, socketStubEmit;
 
-    before(function () {
+    before(function() {
         socketStub = sinon.spy(bs.socket, "on");
         socketStubEmit = sinon.spy(bs.socket, "emit");
     });
-    afterEach(function () {
+    afterEach(function() {
         socketStub.reset();
         socketStubEmit.reset();
     });
-    after(function () {
+    after(function() {
         socketStub.restore();
         socketStubEmit.restore();
     });
 
-    describe("Init:", function(){
+    describe("Init:", function() {
         var eventStub, browserEventStub, socketEventStub;
-        before(function () {
+        before(function() {
             eventStub = sinon.stub(events, "addEvent");
             browserEventStub = sinon.stub(forms, "browserEvent").returns("browserEvent");
-            socketEventStub  = sinon.stub(forms, "socketEvent").returns("socketEvent");
+            socketEventStub = sinon.stub(forms, "socketEvent").returns("socketEvent");
         });
-        after(function () {
+        after(function() {
             eventStub.restore();
             browserEventStub.restore();
             socketEventStub.restore();
         });
-        beforeEach(function () {
+        beforeEach(function() {
             forms.init(bs, events);
         });
         it("should add browser Event", function() {
@@ -44,23 +43,23 @@ describe("The scroll Plugin", function () {
             assert.equal(args[0], "input:text");
             assert.equal(args[1], "socketEvent");
         });
-        it("should call browserEvent with BS object", function () {
+        it("should call browserEvent with BS object", function() {
             sinon.assert.calledWithExactly(browserEventStub, bs);
         });
-        it("should call browserEvent with BS object", function () {
+        it("should call browserEvent with BS object", function() {
             sinon.assert.calledWithExactly(socketEventStub, bs, events);
         });
     });
 
-    describe("browserEvent", function(){
+    describe("browserEvent", function() {
         var dataStub, eventMock;
-        before(function(){
+        before(function() {
             dataStub = sinon.stub(bs.utils, "getElementData").returns({
                 tagName: "INPUT",
                 index: 0
             });
         });
-        beforeEach(function(){
+        beforeEach(function() {
             eventMock = {
                 target: {
                     tagName: "INPUT",
@@ -68,14 +67,14 @@ describe("The scroll Plugin", function () {
                 }
             };
         });
-        after(function () {
+        after(function() {
             dataStub.restore();
         });
-        it("should return a function", function(){
+        it("should return a function", function() {
             var func = forms.browserEvent();
             assert.equal(typeof func === "function", true);
         });
-        it("should emit the event if element is text input or textarea", function () {
+        it("should emit the event if element is text input or textarea", function() {
             var func = forms.browserEvent(bs);
             func(eventMock);
             sinon.assert.calledWithExactly(socketStubEmit, "input:text", {
@@ -84,7 +83,7 @@ describe("The scroll Plugin", function () {
                 value: "text"
             });
         });
-        it("should emit the event if element is text input or textarea: (1)", function () {
+        it("should emit the event if element is text input or textarea: (1)", function() {
             var func = forms.browserEvent(bs);
 
             eventMock.target.value = "alt text";
@@ -96,7 +95,7 @@ describe("The scroll Plugin", function () {
                 value: "alt text"
             });
         });
-        it("should not emit the event if disabled & reset the flag", function () {
+        it("should not emit the event if disabled & reset the flag", function() {
             forms.canEmitEvents = false;
             var func = forms.browserEvent(bs);
             func(eventMock);
@@ -104,23 +103,23 @@ describe("The scroll Plugin", function () {
             assert.equal(forms.canEmitEvents, true);
         });
     });
-    describe("socketEvent(): ", function(){
+    describe("socketEvent(): ", function() {
         var func;
-        before(function () {
+        before(function() {
             func = forms.socketEvent(bs);
         });
-        it("should return a function", function(){
+        it("should return a function", function() {
             assert.equal(typeof func === "function", true);
         });
-        it("should return false if cannot sync", function () {
+        it("should return false if cannot sync", function() {
             var canSyncStub = sinon.stub(bs, "canSync").returns(false);
-            var actual = func({value: "kittie"});
+            var actual = func({ value: "kittie" });
             assert.equal(actual, false);
             canSyncStub.restore();
         });
-        it("should set the value of the element", function () {
+        it("should set the value of the element", function() {
             var elementStub = sinon.stub(bs.utils, "getSingleElement").returns({});
-            var actual = func({value: "kittie"});
+            var actual = func({ value: "kittie" });
             assert.equal(actual.value, "kittie");
             elementStub.restore();
         });

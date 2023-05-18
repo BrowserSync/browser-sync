@@ -1,17 +1,15 @@
 /*jshint -W079 */
 var browserSync = require("browser-sync");
-var bsui        = require("../../../index");
-var assert      = require("chai").assert;
-var request     = require("supertest");
+var bsui = require("../../../index");
+var assert = require("chai").assert;
+var request = require("supertest");
 
-describe.skip("Remote debug - No cache", function () {
-
+describe.skip("Remote debug - No cache", function() {
     var bs, ui;
 
     this.timeout(10000);
 
-    before(function (done) {
-
+    before(function(done) {
         browserSync.reset();
 
         browserSync.use(bsui);
@@ -23,17 +21,16 @@ describe.skip("Remote debug - No cache", function () {
             server: "test/fixtures"
         };
 
-        browserSync(config, function (err, out) {
+        browserSync(config, function(err, out) {
             ui = out.ui;
             bs = out;
             done();
         });
     });
-    after(function () {
+    after(function() {
         bs.cleanup();
     });
-    it("should disable browser cache with middlewares", function (done) {
-
+    it("should disable browser cache with middlewares", function(done) {
         var target = ui.options.getIn(["remote-debug", "no-cache"]).toJS();
 
         assert.equal(target.active, false);
@@ -48,8 +45,7 @@ describe.skip("Remote debug - No cache", function () {
             .get("/")
             .set("accept", "text/html")
             .expect(200)
-            .end(function (err, res) {
-
+            .end(function(err, res) {
                 assert.equal(res.headers["cache-control"], "no-cache, no-store, must-revalidate");
                 assert.equal(res.headers["pragma"], "no-cache");
                 assert.equal(res.headers["expires"], 0);
@@ -60,8 +56,7 @@ describe.skip("Remote debug - No cache", function () {
                     .get("/")
                     .set("accept", "text/html")
                     .expect(200)
-                    .end(function (err, res) {
-
+                    .end(function(err, res) {
                         assert.notInclude(res.headers["cache-control"], "no-cache");
                         assert.notInclude(res.headers["pragma"], "no-cache");
                         assert.notInclude(res.headers["expires"], 0);

@@ -1,8 +1,6 @@
-var angular = require('../angular');
+var angular = require("../angular");
 
-angular
-    .module("bsClients", ["bsSocket"])
-    .service("Clients", ["Socket", ClientsService]);
+angular.module("bsClients", ["bsSocket"]).service("Clients", ["Socket", ClientsService]);
 
 /**
  * @param Socket
@@ -10,12 +8,11 @@ angular
  * @constructor
  */
 function ClientsService(Socket) {
-
     var api = {
-        reloadAll: function () {
+        reloadAll: function() {
             Socket.clientEvent("browser:reload");
         },
-        sendAllTo: function (path) {
+        sendAllTo: function(path) {
             Socket.emit("ui", {
                 namespace: "history",
                 event: "sendAllTo",
@@ -24,7 +21,7 @@ function ClientsService(Socket) {
                 }
             });
         },
-        scrollAllTo: function () {
+        scrollAllTo: function() {
             Socket.clientEvent("scroll", {
                 position: {
                     raw: 0,
@@ -33,7 +30,7 @@ function ClientsService(Socket) {
                 override: true
             });
         },
-        highlight: function (connection) {
+        highlight: function(connection) {
             Socket.emit("ui:highlight", connection);
         }
     };

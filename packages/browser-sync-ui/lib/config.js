@@ -5,19 +5,19 @@ var Immutable = require("immutable");
  * @type {{pluginName: string, indexPage: string, socketJs: string, appJs: string, connector: string}}
  */
 var defaults = {
-    pluginName:  "UI",
-    indexPage:   "/index.html",
-    socketJs:    "/js/vendor/socket.js",
-    appJs:       "/js/dist/app.js",
-    app:         "/app.js",
-    appExtraJs:  "/js/app-extra.js",
-    connector:   "/js/connector.js",
+    pluginName: "UI",
+    indexPage: "/index.html",
+    socketJs: "/js/vendor/socket.js",
+    appJs: "/js/dist/app.js",
+    app: "/app.js",
+    appExtraJs: "/js/app-extra.js",
+    connector: "/js/connector.js",
     pagesConfig: "/js/pages-config.js",
     public: {
         svg: "/img/icons/icons.svg",
         css: "/css/core.min.css"
     },
-    clientJs:    "/lib/client-js.js",
+    clientJs: "/lib/client-js.js",
     socket: {
         namespace: "/browser-sync-cp"
     },
@@ -33,8 +33,6 @@ module.exports.defaults = defaults;
  * @param [userConfig]
  * @returns {Map}
  */
-module.exports.merge    = function (userConfig) {
-    return Immutable
-        .fromJS(defaults)
-        .mergeDeep(userConfig);
+module.exports.merge = function(userConfig) {
+    return Immutable.fromJS(defaults).mergeDeep(userConfig);
 };

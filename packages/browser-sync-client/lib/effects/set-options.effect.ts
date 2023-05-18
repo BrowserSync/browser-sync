@@ -11,10 +11,7 @@ import { consoleInfo } from "../log";
  * @param xs
  * @param inputs
  */
-export function setOptionsEffect(
-    xs: Observable<IBrowserSyncOptions>,
-    inputs: Inputs
-) {
+export function setOptionsEffect(xs: Observable<IBrowserSyncOptions>, inputs: Inputs) {
     return xs.pipe(
         tap(options => inputs.option$.next(options)),
         // map(() => consoleInfo('set options'))

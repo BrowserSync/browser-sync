@@ -1,4 +1,3 @@
-
 module.exports = [
     "actions.clicks.js",
     "actions.scroll.js",

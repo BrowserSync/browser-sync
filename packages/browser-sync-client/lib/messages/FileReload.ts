@@ -10,10 +10,7 @@ import { mergeMap } from "rxjs/operators/mergeMap";
 import { fileReload } from "../effects/file-reload.effect";
 import { reloadBrowserSafe } from "./BrowserReload";
 
-export function incomingFileReload(
-    xs: Observable<FileReloadEventPayload>,
-    inputs: Inputs
-) {
+export function incomingFileReload(xs: Observable<FileReloadEventPayload>, inputs: Inputs) {
     return xs.pipe(
         withLatestFrom(inputs.option$),
         filter(([event, options]) => options.codeSync),

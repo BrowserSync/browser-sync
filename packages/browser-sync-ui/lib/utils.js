@@ -1,5 +1,5 @@
-var url      = require("url");
-var http     = require("http");
+var url = require("url");
+var http = require("http");
 
 /**
  * @param localUrl
@@ -15,12 +15,11 @@ function createUrl(localUrl, urlPath) {
  * @param cb
  */
 function verifyUrl(url, cb) {
-
     url.headers = {
-        "accept": "text/html"
+        accept: "text/html"
     };
 
-    http.get(url, function (res) {
+    http.get(url, function(res) {
         if (res.statusCode === 200) {
             cb(null, res);
         } else {

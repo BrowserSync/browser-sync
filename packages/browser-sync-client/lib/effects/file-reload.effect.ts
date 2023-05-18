@@ -15,10 +15,7 @@ export function fileReload(event: FileReloadEventPayload) {
  * @param xs
  * @param inputs
  */
-export function fileReloadEffect(
-    xs: Observable<FileReloadEventPayload>,
-    inputs: Inputs
-) {
+export function fileReloadEffect(xs: Observable<FileReloadEventPayload>, inputs: Inputs) {
     return xs.pipe(
         withLatestFrom(inputs.option$, inputs.document$, inputs.navigator$),
         mergeMap(([event, options, document, navigator]) => {

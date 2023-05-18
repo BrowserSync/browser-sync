@@ -8,9 +8,8 @@ app.factory("Options", ["Socket", OptionsService]);
  * @constructor
  */
 function OptionsService(Socket) {
-
     return {
-        all: function () {
+        all: function() {
             return Socket.getData("options");
         }
     };

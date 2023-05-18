@@ -1,15 +1,13 @@
 /*jshint -W079 */
 var browserSync = require("browser-sync");
-var cp          = require("../../index");
-var assert      = require("chai").assert;
-var request     = require("supertest");
+var cp = require("../../index");
+var assert = require("chai").assert;
+var request = require("supertest");
 
 describe("Can be started with browserSync instance", function() {
-
     var bsInstance, ui;
 
-    before(function (done) {
-
+    before(function(done) {
         browserSync.use(cp);
 
         var config = {
@@ -17,13 +15,13 @@ describe("Can be started with browserSync instance", function() {
             logLevel: "silent",
             open: false
         };
-        bsInstance = browserSync(config, function (err, bs) {
+        bsInstance = browserSync(config, function(err, bs) {
             ui = bs.ui;
             done();
         }).instance;
     });
 
-    after(function () {
+    after(function() {
         bsInstance.cleanup();
     });
 
@@ -34,7 +32,7 @@ describe("Can be started with browserSync instance", function() {
         request(ui.server)
             .get("/")
             .expect(200)
-            .end(function (err, res) {
+            .end(function(err, res) {
                 assert.include(res.text, "<title>Browsersync</title>");
                 done();
             });
@@ -45,4 +43,3 @@ describe("Can be started with browserSync instance", function() {
         done();
     });
 });
-

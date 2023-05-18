@@ -3,8 +3,8 @@ module.exports = {
     testConfig: true,
     logLevel: "info",
     background: false,
-    reloadFileTypes: ['php', 'html', 'js', 'erb'],
-    injectFileTypes: ['css', 'png', 'jpg', 'svg', 'gif'],
+    reloadFileTypes: ["php", "html", "js", "erb"],
+    injectFileTypes: ["css", "png", "jpg", "svg", "gif"],
     host: null,
     ghostMode: {
         links: true,

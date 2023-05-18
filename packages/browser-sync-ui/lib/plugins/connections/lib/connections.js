@@ -5,22 +5,23 @@ var Immutable = require("immutable");
  * @param {UI} ui
  * @param {BrowserSync} bs
  */
-module.exports.init = function (ui, bs) {
-
+module.exports.init = function(ui, bs) {
     var uaParser = new bs.utils.UAParser();
 
     var currentConnections = [];
 
-    ui.clients.on("connection", function (client) {
-        client.on("client:heartbeat", function (data) {
+    ui.clients.on("connection", function(client) {
+        client.on("client:heartbeat", function(data) {
             var match;
-            if (currentConnections.some(function (item, index) {
+            if (
+                currentConnections.some(function(item, index) {
                     if (item.id === client.id) {
                         match = index;
                         return true;
                     }
                     return false;
-                })) {
+                })
+            ) {
                 if (typeof match === "number") {
                     currentConnections[match].timestamp = new Date().getTime();
                     currentConnections[match].data = data;
@@ -40,26 +41,32 @@ module.exports.init = function (ui, bs) {
     var temp;
     var initialSent;
 
-    var int = setInterval(function () {
-
+    var int = setInterval(function() {
         var sockets = ui.clients.sockets;
         var keys = Object.keys(sockets);
 
         if (keys.length) {
-            temp = Immutable.List(keys.map(function (clientKey) {
-                var currentClient = sockets[clientKey];
-                return Immutable.fromJS({
-                    id: currentClient.id,
-                    browser: uaParser.setUA(currentClient.handshake.headers["user-agent"]).getBrowser()
-                });
-            }));
+            temp = Immutable.List(
+                keys.map(function(clientKey) {
+                    var currentClient = sockets[clientKey];
+                    return Immutable.fromJS({
+                        id: currentClient.id,
+                        browser: uaParser
+                            .setUA(currentClient.handshake.headers["user-agent"])
+                            .getBrowser()
+                    });
+                })
+            );
             if (!registry) {
                 registry = temp;
                 sendUpdated(ui.socket, decorateClients(registry.toJS(), currentConnections));
             } else {
                 if (Immutable.is(registry, temp)) {
                     if (!initialSent) {
-                        sendUpdated(ui.socket, decorateClients(registry.toJS(), currentConnections));
+                        sendUpdated(
+                            ui.socket,
+                            decorateClients(registry.toJS(), currentConnections)
+                        );
                         initialSent = true;
                     }
                 } else {
@@ -70,14 +77,12 @@ module.exports.init = function (ui, bs) {
         } else {
             sendUpdated(ui.socket, []);
         }
-
     }, 1000);
 
-    bs.registerCleanupTask(function () {
+    bs.registerCleanupTask(function() {
         clearInterval(int);
     });
 };
-
 
 /**
  * Use heart-beated data to decorate clients
@@ -86,8 +91,8 @@ module.exports.init = function (ui, bs) {
  * @returns {*}
  */
 function decorateClients(clients, clientsInfo) {
-    return clients.map(function (item) {
-        clientsInfo.forEach(function (client) {
+    return clients.map(function(item) {
+        clientsInfo.forEach(function(client) {
             if (client.id === item.id) {
                 item.data = client.data;
                 return false;
