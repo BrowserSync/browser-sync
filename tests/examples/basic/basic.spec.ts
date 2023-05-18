@@ -152,3 +152,36 @@ test.describe("basic", () => {
         expect(style).toContain("?browsersync");
     });
 });
+
+test.describe("UI", () => {
+    test("remote debugger", async ({ context, page, bs }) => {
+        await page.goto(bs.url);
+        const request = makesRequestIn(page, {
+            matches: {
+                pathname: "/browser-sync/pesticide.css"
+            }
+        });
+
+        // open the UI
+        const ui = await context.newPage();
+        await ui.goto(bs.uiUrl);
+        await ui.getByRole("button", { name: "Remote Debug" }).click();
+        await ui
+            .locator("label")
+            .first()
+            .click();
+
+        // back to the main page
+        await page.bringToFront();
+
+        // ensure the CSS file was requested
+        await request;
+    });
+});
+
+test.describe("Overlays", () => {
+    test("should flash Connected message", async ({ context, page, bs }) => {
+        await page.goto(bs.url);
+        await page.locator("#__bs_notify__").waitFor({ timeout: 5000 });
+    });
+});

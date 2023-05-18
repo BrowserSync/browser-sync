@@ -6,7 +6,6 @@ bs.init(
     {
         server: serverDir,
         open: false,
-        notify: false,
         watch: true,
         online: false
     },

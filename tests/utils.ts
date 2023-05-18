@@ -8,7 +8,8 @@ const messageSchema = z.discriminatedUnion("kind", [
     z.object({
         kind: z.literal("ready"),
         urls: z.object({
-            local: z.string()
+            local: z.string(),
+            ui: z.string()
         }),
         cwd: z.string()
     })
@@ -22,6 +23,7 @@ interface NextArgs {
 export const test = base.extend<{
     bs: {
         url: string;
+        uiUrl: string;
         child: any;
         stdout: string[];
         touch: (path: string) => void;
@@ -86,6 +88,7 @@ export const test = base.extend<{
 
         await use({
             url: msg.urls.local,
+            uiUrl: msg.urls.ui,
             child,
             stdout,
             touch: (path: string) => {
