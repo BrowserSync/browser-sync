@@ -2,11 +2,17 @@
     //<![CDATA[
     (function() {
         try {
+            var self = document.getElementById("__bs_script__");
             var script = document.createElement("script");
             if ("%async%") {
                 script.async = true;
             }
             script.src = "%script%".replace("HOST", location.hostname);
+            script.onload = function() {
+                if (script.isConnected) {
+                    script.remove();
+                }
+            };
             if (document.body) {
                 document.body.appendChild(script);
             } else if (document.head) {
@@ -14,6 +20,9 @@
             }
         } catch (e) {
             console.error("Browsersync: could not append script tag", e);
+        }
+        if (self.parentNode && self.isConnected) {
+            self.parentNode.removeChild(self);
         }
     })();
     //]]>

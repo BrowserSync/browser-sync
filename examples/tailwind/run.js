@@ -4,7 +4,7 @@ bs.init(
     {
         server: ".",
         open: false,
-        notify: false,
+        notify: true,
         runners: [
             {
                 at: "startup",

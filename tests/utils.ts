@@ -2,6 +2,7 @@ import { Page, test as base, Response as PlaywrightResponse } from "@playwright/
 import { join, relative } from "node:path";
 import { fork, execSync } from "node:child_process";
 import * as z from "zod";
+// @ts-expect-error
 import strip from "strip-ansi";
 
 const messageSchema = z.discriminatedUnion("kind", [

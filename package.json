@@ -19,17 +19,11 @@
     "@playwright/test": "^1.33.0",
     "prettier": "^1.9.2",
     "zod": "^3.21.4",
-    "strip-ansi": "^7.0.1"
+    "strip-ansi": "^6.0.1"
   },
   "prettier": {
     "tabWidth": 4,
     "singleQuote": false,
     "printWidth": 100
-  },
-  "workspaces": {
-    "packages": [
-      "examples/tailwind",
-      "packages/*"
-    ]
   }
 }
