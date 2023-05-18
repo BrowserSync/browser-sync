@@ -49,7 +49,10 @@ export const test = base.extend<{
             stdio: "pipe"
         });
 
-        child.stdout.on("data", d => stdout.push(d.toString()));
+        child.stdout.on("data", d => {
+            stdout.push(d.toString());
+            // console.log(d.toString());
+        });
         child.stderr.on("data", d => console.error(d.toString()));
 
         const msg = await new Promise<Msg>((res, rej) => {

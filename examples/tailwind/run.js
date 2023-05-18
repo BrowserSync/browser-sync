@@ -12,7 +12,7 @@ bs.init(
             },
             {
                 at: "runtime",
-                files: ["index.html"],
+                when: [{ files: ["index.html"] }],
                 run: [{ npm: ["build"] }, { bs: "reload" }]
             }
         ]

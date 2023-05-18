@@ -32,15 +32,7 @@ export function convertRunnerOption(incoming: BsTempOptions): FilesNamespaces | 
 
     const parser = z.array(runnerOption);
     const incomingOpt = incoming.get("runners").toJS();
-    const parsed = parser.safeParse(incomingOpt);
-
-    if (!parsed.success) {
-        // todo: what to do in this case?
-        console.log("failed to parse input", parsed.error);
-        return null;
-    }
-
-    const runnerData = parsed.data;
+    const runnerData = parser.parse(incomingOpt);
     const output: FilesNamespaces = {};
 
     runnerData.forEach((runner, index) => {
@@ -50,12 +42,16 @@ export function convertRunnerOption(incoming: BsTempOptions): FilesNamespaces | 
             globs: [],
             objs: []
         };
-        runner.files.forEach(fileOption => {
-            if (typeof fileOption === "string") {
-                next.globs.push(fileOption);
+        for (let whenElement of runner.when) {
+            if ("files" in whenElement) {
+                whenElement.files.forEach(fileOption => {
+                    next.globs.push(fileOption);
+                });
+                output["__unstable_runner_" + index] = next;
+            } else {
+                throw new Error("unreachable - only when.files supported currently");
             }
-        });
-        output["__unstable_runner_" + index] = next;
+        }
     });
     return output;
 }

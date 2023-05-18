@@ -37,17 +37,22 @@ export type FilesNamespace = { globs: string[]; objs: FilesObject[]; index?: num
 export type FilesNamespaces = { [name: string]: FilesNamespace };
 
 // prettier-ignore
+export type Trigger =
+    | { files: string[] }
+    | { bs: "started" }
+
+// prettier-ignore
 export type RunnerOption =
-  | { at: "startup";  run: Runner[]; }
-  | { at: "runtime"; files: string[]; run: Runner[]; }
+    | { at: "startup";  run: Runner[]; }
+    | { at: "runtime"; when: Trigger[]; run: Runner[]; }
 
 // prettier-ignore
 export type Runner =
-  | { sh: { cmd: string } }
-  | { sh: string }
-  | { bs: "reload" }
-  | { bs: "inject"; files: string[] }
-  | { npm: string[], parallel?: boolean }
+    | { sh: { cmd: string } }
+    | { sh: string }
+    | { bs: "reload" }
+    | { bs: "inject"; files: string[] }
+    | { npm: string[], parallel?: boolean }
 
 const runnerParser = z.union([
     z.object({
@@ -71,9 +76,14 @@ export const startupRunnerOption = z.object({
     run: z.array(runnerParser)
 });
 
+export const triggerSchema = z.union([
+    z.object({ files: z.array(z.string()) }),
+    z.object({ bs: z.literal("started") })
+]);
+
 export const runtimeRunnerOption = z.object({
     at: z.literal("runtime"),
-    files: z.array(z.string()),
+    when: z.array(triggerSchema),
     run: z.array(runnerParser)
 });
 
