@@ -19,6 +19,9 @@
     "zod": "^3.21.4"
   },
   "workspaces": {
-    "packages": ["examples/tailwind"]
+    "packages": [
+      "examples/tailwind",
+      "packages/*"
+    ]
   }
 }
