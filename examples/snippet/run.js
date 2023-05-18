@@ -4,6 +4,7 @@ bs.init(
         server: ".",
         open: false,
         notify: false,
+        watch: true,
         snippetOptions: {
             rule: {
                 match: /<\/head>/i,
