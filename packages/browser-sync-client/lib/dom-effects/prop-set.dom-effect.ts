@@ -17,9 +17,7 @@ export function propSetDomEffect(xs: Observable<PropSetPayload>) {
             const { target, prop, value } = event;
             target[prop] = value;
         }),
-        map(e =>
-            Log.consoleInfo(`[PropSet]`, e.target, `${e.prop} = ${e.pathname}`)
-        )
+        map(e => Log.consoleInfo(`[PropSet]`, e.target, `${e.prop} = ${e.pathname}`))
     );
 }
 

@@ -1,6 +1,7 @@
+// @ts-check
 "use strict";
 var logger = require("../logger").logger;
-var chalk  = require("chalk");
+var chalk = require("chalk");
 
 /**
  * $ browser-sync recipe <name> <options>
@@ -9,7 +10,6 @@ var chalk  = require("chalk");
  * or one given with the --output flag
  *
  * @param opts
- * @returns {Function}
  */
 module.exports = function(opts) {
     var path = require("path");
@@ -22,7 +22,7 @@ module.exports = function(opts) {
         var dirs = fs.readdirSync(path.join(dir, "recipes"));
         logger.info(
             "Install one of the following with %s\n",
-            chalk.cyan('browser-sync recipe <name>')
+            chalk.cyan("browser-sync recipe <name>")
         );
         dirs.forEach(function(name) {
             console.log("    " + name);
@@ -42,15 +42,11 @@ module.exports = function(opts) {
 
     input = input[0];
     var flags = opts.cli.flags;
-    var output = flags.output
-        ? path.resolve(flags.output)
-        : path.join(process.cwd(), input);
+    var output = flags.output ? path.resolve(flags.output) : path.join(process.cwd(), input);
     var targetDir = path.join(dir, "recipes", input);
 
     if (fs.existsSync(output)) {
-        return opts.cb(
-            new Error("Target folder exists remove it first and then try again")
-        );
+        return opts.cb(new Error("Target folder exists remove it first and then try again"));
     }
 
     if (fs.existsSync(targetDir)) {
@@ -59,18 +55,12 @@ module.exports = function(opts) {
                 opts.cb(err);
             } else {
                 logger.info("Recipe copied into %s", chalk.cyan(output));
-                logger.info(
-                    "Next, inside that folder, run %s",
-                    chalk.cyan("npm i && npm start")
-                );
+                logger.info("Next, inside that folder, run %s", chalk.cyan("npm i && npm start"));
                 opts.cb(null);
             }
         });
     } else {
-        logger.info(
-            "Recipe %s not found. The following are available though",
-            chalk.cyan(input)
-        );
+        logger.info("Recipe %s not found. The following are available though", chalk.cyan(input));
         logRecipes();
         opts.cb();
     }

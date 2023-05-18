@@ -1,14 +1,13 @@
-
 var connect = require("connect");
 var utils = require("../../dist/server/utils");
-var Immutable  = require("immutable");
+var Immutable = require("immutable");
 
-function getApp (bs, options) {
-
-    var html = "<!doctype html><html lang=\"en-US\"><head><meta charset=\"UTF-8\"><title>Browsersync</title></head><body>BS</body></html>";
+function getApp(bs, options) {
+    var html =
+        '<!doctype html><html lang="en-US"><head><meta charset="UTF-8"><title>Browsersync</title></head><body>BS</body></html>';
     var app = connect();
 
-    app.use("/", function (req, res) {
+    app.use("/", function(req, res) {
         res.setHeader("content-type", "text/html");
         res.end(html.replace("BS", bs.getOption("snippet")));
     });
@@ -47,7 +46,7 @@ module.exports = {
             logLevel: "silent"
         }
     },
-    "Server": {
+    Server: {
         bsConfig: {
             server: "./test/fixtures",
             open: false,
@@ -62,12 +61,12 @@ module.exports = {
             https: true
         }
     },
-    "Snippet": {
+    Snippet: {
         bsConfig: {
             logLevel: "silent"
         },
-        before: function (bs, cb) {
-            var app = getApp(bs, Immutable.Map({scheme: "http"}));
+        before: function(bs, cb) {
+            var app = getApp(bs, Immutable.Map({ scheme: "http" }));
             app.server.listen();
             process.env["BS_BASE"] = "http://localhost:" + app.server.address().port;
             cb();
@@ -78,9 +77,8 @@ module.exports = {
             logLevel: "silent",
             https: true
         },
-        before: function (bs, cb) {
-
-            var app = getApp(bs, Immutable.Map({scheme: "http"}));
+        before: function(bs, cb) {
+            var app = getApp(bs, Immutable.Map({ scheme: "http" }));
             app.server.listen();
             process.env["BS_BASE"] = "http://localhost:" + app.server.address().port;
             cb();
@@ -91,9 +89,8 @@ module.exports = {
             logLevel: "silent",
             https: true
         },
-        before: function (bs, cb) {
-
-            var app = getApp(bs, Immutable.Map({scheme: "https"}));
+        before: function(bs, cb) {
+            var app = getApp(bs, Immutable.Map({ scheme: "https" }));
             app.server.listen();
             process.env["BS_BASE"] = "https://localhost:" + app.server.address().port;
             cb();

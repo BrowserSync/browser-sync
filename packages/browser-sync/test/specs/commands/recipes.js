@@ -9,7 +9,7 @@ var assert = require("chai").assert;
 var cli = require(path.resolve(pkg.bin)).default;
 var fs = require("fs");
 var rim = require("rimraf").sync;
-var chalk       = require("chalk");
+var chalk = require("chalk");
 
 describe("E2E CLI `recipes` command", function() {
     it("works with no output flag", function(done) {
@@ -40,7 +40,7 @@ describe("E2E CLI `recipes` command", function() {
                 sinon.assert.calledWith(
                     stub1,
                     "Install one of the following with %s\n",
-                    chalk.cyan('browser-sync recipe <name>')
+                    chalk.cyan("browser-sync recipe <name>")
                 );
 
                 logger.info.restore();
@@ -111,10 +111,11 @@ describe("E2E CLI `recipes` command", function() {
             },
             cb: function(err) {
                 var call1 = stub1.getCall(0).args;
-                sinon.assert.calledWith(stub1,
+                sinon.assert.calledWith(
+                    stub1,
                     "Recipe %s not found. The following are available though",
                     chalk.cyan("beepboop")
-                )
+                );
 
                 var calls = stub2.getCalls().map(function(call) {
                     return call.args[0].trim();

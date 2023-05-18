@@ -26,11 +26,7 @@ export default function(opts) {
             const conf = require(maybeconf);
             input = _.merge({}, conf, flags);
         } else {
-            utils.fail(
-                true,
-                new Error(`Configuration file '${flags.config}' not found`),
-                opts.cb
-            );
+            utils.fail(true, new Error(`Configuration file '${flags.config}' not found`), opts.cb);
         }
     } else {
         if (existsSync(maybepkg)) {
@@ -52,11 +48,10 @@ export default function(opts) {
  * @returns {*}
  */
 function preprocessFlags(flags) {
-    return [
-        stripUndefined,
-        legacyFilesArgs,
-        removeWatchBooleanWhenFalse
-    ].reduce((flags, fn) => fn.call(null, flags), flags);
+    return [stripUndefined, legacyFilesArgs, removeWatchBooleanWhenFalse].reduce(
+        (flags, fn) => fn.call(null, flags),
+        flags
+    );
 }
 
 /**
@@ -82,10 +77,7 @@ function stripUndefined(subject) {
  */
 function legacyFilesArgs(flags) {
     if (flags.files && flags.files.length) {
-        flags.files = flags.files.reduce(
-            (acc, item) => acc.concat(explodeFilesArg(item)),
-            []
-        );
+        flags.files = flags.files.reduce((acc, item) => acc.concat(explodeFilesArg(item)), []);
     }
     return flags;
 }

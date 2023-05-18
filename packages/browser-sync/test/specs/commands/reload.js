@@ -120,10 +120,7 @@ describe("E2E CLI `reload` with no files arg", function() {
             },
             cb: function(err) {
                 assert.equal(err.code, "ECONNREFUSED");
-                assert.equal(
-                    err.message,
-                    "Browsersync not running at http://localhost:3000"
-                );
+                assert.equal(err.message, "Browsersync not running at http://localhost:3000");
                 done();
             }
         });
@@ -136,10 +133,7 @@ describe("E2E CLI `reload` with no files arg", function() {
             },
             cb: function(err) {
                 assert.equal(err.code, "ECONNREFUSED");
-                assert.equal(
-                    err.message,
-                    "Browsersync not running at http://localhost:3000"
-                );
+                assert.equal(err.message, "Browsersync not running at http://localhost:3000");
                 done();
             }
         });

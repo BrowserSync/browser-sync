@@ -1,9 +1,8 @@
-
 var exec = require("child_process").exec;
 
-function runTests (config, configFile, cb) {
+function runTests(config, configFile, cb) {
     var out = "";
-    exec("protractor " + configFile, function (err, stdout) {
+    exec("protractor " + configFile, function(err, stdout) {
         if (err) {
             doCallback({
                 code: 1,
@@ -14,12 +13,15 @@ function runTests (config, configFile, cb) {
             process.exit(1);
         }
         out += stdout;
-    }).on("close", function (code) {
+    }).on("close", function(code) {
         if (code !== 0) {
-            doCallback({
-                code: code,
-                message: "Protractor tests failed, Details below"
-            }, out);
+            doCallback(
+                {
+                    code: code,
+                    message: "Protractor tests failed, Details below"
+                },
+                out
+            );
         } else {
             doCallback(null, out);
         }
@@ -27,7 +29,7 @@ function runTests (config, configFile, cb) {
 
     function doCallback(err, out) {
         if (config.after) {
-            config.after(function () {
+            config.after(function() {
                 cb(err, out);
             });
         } else {

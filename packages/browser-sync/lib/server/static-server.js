@@ -1,3 +1,4 @@
+// @ts-check
 var serverUtils = require("./utils.js");
 var resolve = require("path").resolve;
 var utils = require("../utils.js");
@@ -5,7 +6,7 @@ var serveStatic = require("./serve-static-wrapper").default();
 var serveIndex = require("serve-index");
 
 /**
- * @param {BrowserSync} bs
+ * @param {import("../browser-sync")} bs
  * @returns {*}
  */
 module.exports = function createServer(bs) {
@@ -42,9 +43,7 @@ module.exports = function createServer(bs) {
                 basedirs.map(function(root) {
                     return {
                         route: "",
-                        id:
-                            "Browsersync Server ServeStatic Middleware - " +
-                            _serveStatic++,
+                        id: "Browsersync Server ServeStatic Middleware - " + _serveStatic++,
                         handle: serveStatic(resolve(root), serveStaticOptions)
                     };
                 })
@@ -66,9 +65,7 @@ module.exports = function createServer(bs) {
                     }
                     return {
                         route: urlPath,
-                        id:
-                            "Browsersync Server Routes Middleware - " +
-                            _routes++,
+                        id: "Browsersync Server Routes Middleware - " + _routes++,
                         handle: serveStatic(resolve(root))
                     };
                 })

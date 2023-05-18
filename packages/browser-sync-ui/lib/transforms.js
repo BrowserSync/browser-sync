@@ -1,5 +1,5 @@
 module.exports = {
-    "mode": function (obj) {
+    mode: function(obj) {
         if (obj.get("server")) {
             return "Server";
         }

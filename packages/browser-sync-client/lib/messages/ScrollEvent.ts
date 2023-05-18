@@ -35,16 +35,10 @@ export function outgoing(
     index: number,
     mappingIndex: number = -1
 ): [OutgoingSocketEvents.Scroll, OutgoingPayload] {
-    return [
-        OutgoingSocketEvents.Scroll,
-        { position: data, tagName, index, mappingIndex }
-    ];
+    return [OutgoingSocketEvents.Scroll, { position: data, tagName, index, mappingIndex }];
 }
 
-export function incomingScrollHandler(
-    xs: Observable<IncomingPayload>,
-    inputs: Inputs
-) {
+export function incomingScrollHandler(xs: Observable<IncomingPayload>, inputs: Inputs) {
     return xs.pipe(
         withLatestFrom(
             inputs.option$.pipe(pluck("ghostMode", "scroll")),

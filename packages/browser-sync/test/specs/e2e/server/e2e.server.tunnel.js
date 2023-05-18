@@ -24,10 +24,7 @@ describe.skip("Tunnel e2e tests", function() {
     });
 
     it("should call init on the tunnel", function() {
-        assert.include(
-            instance.options.getIn(["urls", "tunnel"]),
-            "localtunnel.me"
-        );
+        assert.include(instance.options.getIn(["urls", "tunnel"]), "localtunnel.me");
     });
 });
 
@@ -53,10 +50,7 @@ describe.skip("Tunnel e2e tests with subdomain", function() {
     });
 
     it("should call init on the tunnel", function() {
-        assert.include(
-            instance.options.getIn(["urls", "tunnel"]),
-            "localtunnel.me"
-        );
+        assert.include(instance.options.getIn(["urls", "tunnel"]), "localtunnel.me");
     });
 });
 

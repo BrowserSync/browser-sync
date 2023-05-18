@@ -42,10 +42,7 @@ describe("API: .watch() - Public watch method", function() {
         var bs = browserSync.create("test");
 
         fs.writeFile(tempFile, tempFileContent, function() {
-            var watcher = bs.watch(tempFile, { ignoreInitial: true }, function(
-                event,
-                file
-            ) {
+            var watcher = bs.watch(tempFile, { ignoreInitial: true }, function(event, file) {
                 assert.equal(event, "change");
                 assert.equal(file, tempFile);
                 watcher.close();
@@ -63,13 +60,11 @@ describe("API: .watch() - Public watch method", function() {
         var bs = browserSync.create("test");
 
         fs.writeFile(tempFile, tempFileContent, function() {
-            var watcher = bs
-                .watch(tempFile, { ignoreInitial: true })
-                .on("change", function(file) {
-                    assert.equal(file, tempFile);
-                    watcher.close();
-                    done();
-                });
+            var watcher = bs.watch(tempFile, { ignoreInitial: true }).on("change", function(file) {
+                assert.equal(file, tempFile);
+                watcher.close();
+                done();
+            });
 
             writeFileWait(tempFile, tempFileContent + " changed");
         });

@@ -80,8 +80,7 @@ export const numberOfMatchingSegments = function(path1, path2) {
     return eqCount;
 };
 
-export const pathsMatch = (path1, path2) =>
-    numberOfMatchingSegments(path1, path2) > 0;
+export const pathsMatch = (path1, path2) => numberOfMatchingSegments(path1, path2) > 0;
 
 export function getLocation(url: string) {
     var location = document.createElement("a");

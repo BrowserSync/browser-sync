@@ -1,29 +1,28 @@
-var http        = require("http");
-var fs          = require("fs");
-var path        = require("path");
-var config      = require("./config");
-var svg         = publicFile(config.defaults.public.svg);
-var indexPage   = publicFile(config.defaults.indexPage);
+var http = require("http");
+var fs = require("fs");
+var path = require("path");
+var config = require("./config");
+var svg = publicFile(config.defaults.public.svg);
+var indexPage = publicFile(config.defaults.indexPage);
 //var css         = publicFile(config.defaults.public.css);
-var header      = staticFile(config.defaults.components.header);
-var footer      = staticFile(config.defaults.components.footer);
-var zlib        = require("zlib");
+var header = staticFile(config.defaults.components.header);
+var footer = staticFile(config.defaults.components.footer);
+var zlib = require("zlib");
 
 /**
  * @param {UI} ui
  * @returns {*}
  */
 function startServer(ui) {
-
-    var connect     = ui.bs.utils.connect;
+    var connect = ui.bs.utils.connect;
     var serveStatic = ui.bs.utils.serveStatic;
 
     /**
      * Create a connect server
      */
-    var app         = connect();
-    var socketJs    = getSocketJs(ui);
-    var jsFilename  = "/" + md5(socketJs, 10) + ".js";
+    var app = connect();
+    var socketJs = getSocketJs(ui);
+    var jsFilename = "/" + md5(socketJs, 10) + ".js";
     //var cssFilename = "/" + md5(css, 10)   + ".css";
 
     /**
@@ -36,7 +35,7 @@ function startServer(ui) {
     app.use(serveFile(config.defaults.pagesConfig, "js", ui.pagesConfig));
 
     //
-    app.use(serveFile(config.defaults.clientJs, "js",    ui.clientJs));
+    app.use(serveFile(config.defaults.clientJs, "js", ui.clientJs));
 
     /**
      * Add any markup from plugins/hooks/templates
@@ -89,16 +88,14 @@ function startServer(ui) {
  * @param markup
  */
 function insertPageMarkupFromHooks(app, pages, markup) {
-
     var cached;
 
-    app.use(function (req, res, next) {
-
+    app.use(function(req, res, next) {
         if (req.url === "/" || pages[req.url.slice(1)]) {
-            res.writeHead(200, {"Content-Type": "text/html", "Content-Encoding": "gzip"});
+            res.writeHead(200, { "Content-Type": "text/html", "Content-Encoding": "gzip" });
             if (!cached) {
                 var buf = Buffer.from(markup, "utf-8");
-                zlib.gzip(buf, function (_, result) {
+                zlib.gzip(buf, function(_, result) {
                     cached = result;
                     res.end(result);
                 });
@@ -119,10 +116,10 @@ function insertPageMarkupFromHooks(app, pages, markup) {
 var gzipCache = {};
 function serveFile(path, type, string) {
     var typemap = {
-        js:  "application/javascript",
+        js: "application/javascript",
         css: "text/css"
     };
-    return function (req, res, next) {
+    return function(req, res, next) {
         if (req.url !== path) {
             return next();
         }
@@ -131,31 +128,27 @@ function serveFile(path, type, string) {
             "Content-Type": typemap[type],
             "Content-Encoding": "gzip",
             "Cache-Control": "no-cache, no-store, must-revalidate",
-            "Expires": 0,
-            "Pragma": "no-cache"
+            Expires: 0,
+            Pragma: "no-cache"
         });
 
         if (gzipCache[path]) {
             return res.end(gzipCache[path]);
         }
         var buf = Buffer.from(string, "utf-8");
-        zlib.gzip(buf, function (_, result) {
+        zlib.gzip(buf, function(_, result) {
             gzipCache[path] = result;
             res.end(result);
         });
     };
 }
 
-
 /**
  * @param cp
  * @returns {string}
  */
-function getSocketJs (cp) {
-
-    return [
-        cp.bs.getExternalSocketConnector({namespace: "/browser-sync-cp"})
-    ].join(";");
+function getSocketJs(cp) {
+    return [cp.bs.getExternalSocketConnector({ namespace: "/browser-sync-cp" })].join(";");
 }
 
 ///**
@@ -172,7 +165,10 @@ function getSocketJs (cp) {
  */
 function md5(src, length) {
     var crypto = require("crypto");
-    var hash   = crypto.createHash("md5").update(src, "utf8").digest("hex");
+    var hash = crypto
+        .createHash("md5")
+        .update(src, "utf8")
+        .digest("hex");
     return hash.slice(0, length);
 }
 
@@ -181,7 +177,7 @@ function md5(src, length) {
  * @param {string} filepath
  * @returns {string}
  */
-function publicDir (filepath) {
+function publicDir(filepath) {
     return path.join(__dirname, "/../public" + filepath) || "";
 }
 
@@ -189,7 +185,7 @@ function publicDir (filepath) {
  * @param {string} filepath
  * @returns {string|string}
  */
-function staticDir (filepath) {
+function staticDir(filepath) {
     return path.join(__dirname, "/../static" + filepath) || "";
 }
 
@@ -213,7 +209,7 @@ function staticFile(filepath) {
  * @param {string} filepath
  * @returns {string}
  */
-function packageDir (filepath) {
+function packageDir(filepath) {
     return path.join(__dirname, "/../" + filepath);
 }
 

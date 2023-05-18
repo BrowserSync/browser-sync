@@ -2,19 +2,17 @@
  * Plugins page
  */
 var assert = require("chai").assert;
-var path   = require("path");
-var init   = require("./../bs-init");
-var utils  = require("./../test-utils");
+var path = require("path");
+var init = require("./../bs-init");
+var utils = require("./../test-utils");
 
 describe("Plugins page", function() {
-
     var bs;
     var ui;
     var bsUrl;
     var cpUrl;
 
-    beforeEach(function () {
-
+    beforeEach(function() {
         browser.ignoreSynchronization = true;
 
         var plugin = {
@@ -24,37 +22,38 @@ describe("Plugins page", function() {
         init(protractor, {
             server: "./test/fixtures",
             logLevel: "silent",
-            open:   false,
+            open: false,
             online: false,
             plugins: [plugin]
-        }).then(function (out) {
-            bs    = out.bs;
-            ui    = out.ui;
+        }).then(function(out) {
+            bs = out.bs;
+            ui = out.ui;
             bsUrl = bs.options.getIn(["urls", "local"]);
             cpUrl = bs.options.getIn(["urls", "ui"]);
         });
     });
 
-    afterEach(function () {
+    afterEach(function() {
         bs.cleanup();
     });
 
     it("Should list registered plugins", function() {
-
         browser.get(cpUrl + "/plugins");
         browser.sleep(500);
 
-        var switchElement = by.id('plugin-section-0');
-        var pluginSwitch  = element(by.id("plugin-switch-0"));
+        var switchElement = by.id("plugin-section-0");
+        var pluginSwitch = element(by.id("plugin-switch-0"));
 
         expect(pluginSwitch.isPresent()).toBeTruthy();
 
         /**
          * Not auto-disabled on page load
          */
-        element(switchElement).getAttribute('class').then(function (attr) {
-            assert.notInclude(attr, 'disabled');
-        });
+        element(switchElement)
+            .getAttribute("class")
+            .then(function(attr) {
+                assert.notInclude(attr, "disabled");
+            });
 
         /**
          * Assert that BrowserSync reports this plugin as active
@@ -64,17 +63,16 @@ describe("Plugins page", function() {
         /**
          * De-activate by clicking the switch
          */
-        element(by.css("label[for='plugin-switch-0']"))
-            .click();
+        element(by.css("label[for='plugin-switch-0']")).click();
 
         browser.sleep(500);
 
-        var flow     = protractor.promise.controlFlow();
+        var flow = protractor.promise.controlFlow();
 
         /**
          * Assert that BrowserSync reports this plugin as inactive
          */
-        flow.execute(function () {
+        flow.execute(function() {
             assert.isFalse(bs.getUserPlugins()[1].active);
         });
 
@@ -87,6 +85,6 @@ describe("Plugins page", function() {
         /**
          * Assert that the class `disabled` is applied to the element for styling
          */
-        expect(element(switchElement).getAttribute('class')).toMatch('disabled');
+        expect(element(switchElement).getAttribute("class")).toMatch("disabled");
     });
 });

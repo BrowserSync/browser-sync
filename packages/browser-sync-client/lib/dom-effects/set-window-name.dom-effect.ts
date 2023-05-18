@@ -13,8 +13,6 @@ export function setWindowNameDomEffect(xs: Observable<string>, inputs: Inputs) {
     );
 }
 
-export function setWindowName(
-    incoming: string
-): [Events.SetWindowName, string] {
+export function setWindowName(incoming: string): [Events.SetWindowName, string] {
     return [Events.SetWindowName, incoming];
 }

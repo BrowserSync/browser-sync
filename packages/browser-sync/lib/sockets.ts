@@ -1,4 +1,4 @@
-import {Server} from "socket.io";
+import { Server } from "socket.io";
 import * as utils from "./server/utils";
 
 /**
@@ -12,17 +12,14 @@ export function plugin(server, clientEvents, bs) {
 /**
  * @param {http.Server} server
  * @param clientEvents
- * @param {BrowserSync} bs
+ * @param {import("./browser-sync")} bs
  */
 export function init(server, clientEvents, bs) {
     var emitter = bs.events;
 
     var socketConfig = bs.options.get("socket").toJS();
 
-    if (
-        bs.options.get("mode") === "proxy" &&
-        bs.options.getIn(["proxy", "ws"])
-    ) {
+    if (bs.options.get("mode") === "proxy" && bs.options.getIn(["proxy", "ws"])) {
         server = utils.getServer(null, bs.options).server;
         server.listen(bs.options.getIn(["socket", "port"]));
         bs.registerCleanupTask(function() {
@@ -35,17 +32,17 @@ export function init(server, clientEvents, bs) {
 
     const io = new Server();
     io.attach(server, {
-      ...socketIoConfig,
-      pingTimeout: socketConfig.clients.heartbeatTimeout,
-      cors: {
-          credentials: true,
-          "origin": (origin, cb) => {
-            return cb(null, origin)
-          },
-      }
+        ...socketIoConfig,
+        pingTimeout: socketConfig.clients.heartbeatTimeout,
+        cors: {
+            credentials: true,
+            origin: (origin, cb) => {
+                return cb(null, origin);
+            }
+        }
     });
 
-    io.of(socketConfig.namespace).on('connection', (socket) => {
+    io.of(socketConfig.namespace).on("connection", socket => {
         handleConnection(socket);
     });
 
@@ -80,7 +77,7 @@ export function init(server, clientEvents, bs) {
     }
 
     // @ts-ignore
-    io.sockets = io.of(socketConfig.namespace)
+    io.sockets = io.of(socketConfig.namespace);
 
     return io;
 }

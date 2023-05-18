@@ -1,9 +1,6 @@
 import { createTimedBooleanSwitch } from "../utils";
 import { IncomingSocketNames, OutgoingSocketEvent } from "../socket-messages";
-import {
-    getScrollPosition,
-    getScrollPositionForElement
-} from "../browser.utils";
+import { getScrollPosition, getScrollPositionForElement } from "../browser.utils";
 import { Observable } from "rxjs/Observable";
 import * as ScrollEvent from "../messages/ScrollEvent";
 import { filter } from "rxjs/operators/filter";
@@ -34,9 +31,7 @@ export function getScrollStream(
      */
     const elemMap$ = option$.pipe(
         pluck("scrollElementMapping"),
-        map((selectors: string[]) =>
-            selectors.map(selector => document.querySelector(selector))
-        )
+        map((selectors: string[]) => selectors.map(selector => document.querySelector(selector)))
     );
 
     return option$.pipe(
@@ -59,10 +54,7 @@ export function getScrollStream(
                     }
 
                     const elems = document.getElementsByTagName(target.tagName);
-                    const index = Array.prototype.indexOf.call(
-                        elems || [],
-                        target
-                    );
+                    const index = Array.prototype.indexOf.call(elems || [], target);
 
                     return ScrollEvent.outgoing(
                         getScrollPositionForElement(target),

@@ -14,12 +14,12 @@
 "use strict";
 
 var browserSync = require("browser-sync").create();
-var express = require('express');
-var proxy = require('http-proxy-middleware');
+var express = require("express");
+var proxy = require("http-proxy-middleware");
 
 var app = express();
 
-app.use('/api', proxy({target: 'http://www.example.org', changeOrigin: true}));
+app.use("/api", proxy({ target: "http://www.example.org", changeOrigin: true }));
 
 browserSync.init({
     server: ".",

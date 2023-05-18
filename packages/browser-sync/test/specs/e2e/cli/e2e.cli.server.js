@@ -121,9 +121,7 @@ describe("E2E CLI server test with extensions option - single", function() {
             "index.html"
         );
         assert.deepEqual(
-            instance.options
-                .getIn(["server", "serveStaticOptions", "extensions"])
-                .toJS(),
+            instance.options.getIn(["server", "serveStaticOptions", "extensions"]).toJS(),
             ["html"]
         );
     });
@@ -161,9 +159,7 @@ describe("E2E CLI server test with extensions option - multiple", function() {
             "index.html"
         );
         assert.deepEqual(
-            instance.options
-                .getIn(["server", "serveStaticOptions", "extensions"])
-                .toJS(),
+            instance.options.getIn(["server", "serveStaticOptions", "extensions"]).toJS(),
             ["html", "css"]
         );
     });

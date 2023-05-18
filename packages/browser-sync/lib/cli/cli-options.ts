@@ -93,11 +93,10 @@ export function explodeFilesArg(string): string {
 
 /**
  * @param value
- * @returns {{globs: Array, objs: Array}}
  */
 export function makeFilesArg(value) {
-    let globs = [];
-    let objs = [];
+    let globs: string[] = [];
+    let objs: any[] = [];
 
     if (_.isString(value)) {
         globs = globs.concat(explodeFilesArg(value));

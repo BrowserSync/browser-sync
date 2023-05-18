@@ -16,16 +16,11 @@ export interface IncomingPayload extends ElementData {
     pathname: string;
 }
 
-export function outgoing(
-    data: ElementData
-): [OutgoingSocketEvents.Click, ElementData] {
+export function outgoing(data: ElementData): [OutgoingSocketEvents.Click, ElementData] {
     return [OutgoingSocketEvents.Click, data];
 }
 
-export function incomingHandler$(
-    xs: Observable<IncomingPayload>,
-    inputs: Inputs
-) {
+export function incomingHandler$(xs: Observable<IncomingPayload>, inputs: Inputs) {
     return xs.pipe(
         withLatestFrom(
             inputs.option$.pipe(pluck("ghostMode", "clicks")),

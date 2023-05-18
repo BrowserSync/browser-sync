@@ -58,10 +58,7 @@ describe("Utils: creating URLs", function() {
         });
         var out = utils.getUrlOptions(opts);
         assert.equal(out.get("local"), "https://127.0.0.1.xip.io:3000");
-        assert.equal(
-            out.get("external"),
-            "https://" + external + ".xip.io:3000"
-        );
+        assert.equal(out.get("external"), "https://" + external + ".xip.io:3000");
     });
     it("should return the URLs when OFFLINE & XIP set", function() {
         var [opts, errors] = merge({

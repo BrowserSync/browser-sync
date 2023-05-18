@@ -1,3 +1,4 @@
+// @ts-check
 "use strict";
 
 /**
@@ -7,7 +8,6 @@
  * & Optionally UI.
  *
  * @param opts
- * @returns {Function}
  */
 module.exports = function(opts) {
     var flags = opts.cli.flags;

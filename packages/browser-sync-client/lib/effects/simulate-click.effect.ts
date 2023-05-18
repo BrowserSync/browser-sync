@@ -7,10 +7,7 @@ import { withLatestFrom } from "rxjs/operators/withLatestFrom";
 import { EffectNames } from "../effects";
 import { IncomingPayload } from "../messages/ClickEvent";
 
-export function simulateClickEffect(
-    xs: Observable<ClickEvent.IncomingPayload>,
-    inputs: Inputs
-) {
+export function simulateClickEffect(xs: Observable<ClickEvent.IncomingPayload>, inputs: Inputs) {
     return xs.pipe(
         withLatestFrom(inputs.window$, inputs.document$),
         tap(([event, window, document]) => {

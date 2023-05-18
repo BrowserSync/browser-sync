@@ -1,15 +1,14 @@
-var angular = require('../angular');
+var angular = require("../angular");
 
-angular
-    .module('bsNotify', [])
-    .directive("notifyElem", function () {
-        return {
-            restrict: "E",
-            scope: {},
-            template: "<div bs-notify ng-class=\"{\'active\': ui.visible}\">\n    <p class=\"notification__text\">{{ui.heading}} <span class=\"color--lime\">{{ui.message}}</span></p>\n</div>",
-            controller: ["$scope", "$rootScope", notifyController]
-        };
-    });
+angular.module("bsNotify", []).directive("notifyElem", function() {
+    return {
+        restrict: "E",
+        scope: {},
+        template:
+            '<div bs-notify ng-class="{\'active\': ui.visible}">\n    <p class="notification__text">{{ui.heading}} <span class="color--lime">{{ui.message}}</span></p>\n</div>',
+        controller: ["$scope", "$rootScope", notifyController]
+    };
+});
 
 /**
  * Notify
@@ -17,7 +16,6 @@ angular
  * @param $rootScope
  */
 function notifyController($scope, $rootScope) {
-
     /**
      * Default settings
      */
@@ -40,8 +38,7 @@ function notifyController($scope, $rootScope) {
      * @param evt
      * @param data
      */
-    $scope.show = function (evt, data) {
-
+    $scope.show = function(evt, data) {
         data = data || {};
 
         /**
@@ -74,7 +71,7 @@ function notifyController($scope, $rootScope) {
     /**
      * Reset the UI
      */
-    $scope.reset = function () {
+    $scope.reset = function() {
         $scope.ui.visible = false;
         $scope.$digest();
     };

@@ -1,4 +1,4 @@
-import {IncomingSocketNames} from "../socket-messages";
+import { IncomingSocketNames } from "../socket-messages";
 
 export type FileReloadEventPayload = {
     url?: string;
@@ -6,7 +6,7 @@ export type FileReloadEventPayload = {
     path: string;
     basename: string;
     event: string;
-    type: 'inject' | 'reload';
-}
+    type: "inject" | "reload";
+};
 
 export type FileReloadEvent = [IncomingSocketNames.FileReload, FileReloadEventPayload];

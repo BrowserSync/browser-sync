@@ -8,25 +8,22 @@ module.exports = {
      * @param ui
      * @param bs
      */
-    "plugin": function (ui, bs) {
-
+    plugin: function(ui, bs) {
         ui.listen("plugins", {
-
-            "set": function (data) {
+            set: function(data) {
                 bs.events.emit("plugins:configure", data);
             },
 
-            "setMany": function (data) {
-
+            setMany: function(data) {
                 if (data.value !== true) {
                     data.value = false;
                 }
 
                 bs.getUserPlugins()
-                    .filter(function (item) {
+                    .filter(function(item) {
                         return item.name !== "UI    "; // todo dupe code server/client
                     })
-                    .forEach(function (item) {
+                    .forEach(function(item) {
                         item.active = data.value;
                         bs.events.emit("plugins:configure", item);
                     });
@@ -36,13 +33,13 @@ module.exports = {
     /**
      * Hooks
      */
-    "hooks": {
-        "markup": fileContent("plugins.html"),
+    hooks: {
+        markup: fileContent("plugins.html"),
         "client:js": fileContent("/plugins.client.js"),
-        "templates": [
+        templates: [
             //getPath("plugins.directive.html")
         ],
-        "page": {
+        page: {
             path: "/plugins",
             title: PLUGIN_NAME,
             template: "plugins.html",
@@ -61,7 +58,7 @@ module.exports = {
  * @param filepath
  * @returns {*}
  */
-function getPath (filepath) {
+function getPath(filepath) {
     return require("path").join(__dirname, filepath);
 }
 
@@ -69,6 +66,6 @@ function getPath (filepath) {
  * @param filepath
  * @returns {*}
  */
-function fileContent (filepath) {
+function fileContent(filepath) {
     return require("fs").readFileSync(getPath(filepath), "utf-8");
 }

@@ -1,3 +1,4 @@
+// @ts-check
 var url = require("url");
 
 module.exports.rewriteLinks = function(userServer) {
@@ -89,13 +90,7 @@ module.exports.rewriteLinks = function(userServer) {
             /**
              * Finally append all of parsed url
              */
-            return [
-                captured,
-                pre,
-                proxyUrl,
-                out.path || "",
-                out.hash || ""
-            ].join("");
+            return [captured, pre, proxyUrl, out.path || "", out.hash || ""].join("");
         }
     };
 };
@@ -106,9 +101,7 @@ module.exports.rewriteLinks = function(userServer) {
  */
 module.exports.checkCookies = function checkCookies(res) {
     if (typeof res.headers["set-cookie"] !== "undefined") {
-        res.headers["set-cookie"] = res.headers["set-cookie"].map(function(
-            item
-        ) {
+        res.headers["set-cookie"] = res.headers["set-cookie"].map(function(item) {
             return rewriteCookies(item);
         });
     }

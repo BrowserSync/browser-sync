@@ -1,5 +1,4 @@
-(function (angular) {
-
+(function(angular) {
     const SECTION_NAME = "sync-options";
 
     angular
@@ -18,12 +17,11 @@
      * @constructor
      */
     function SyncOptionsController(Socket, options, pagesConfig) {
-
         var ctrl = this;
         ctrl.options = options.bs;
         ctrl.section = pagesConfig[SECTION_NAME];
 
-        ctrl.setMany = function (value) {
+        ctrl.setMany = function(value) {
             Socket.uiEvent({
                 namespace: SECTION_NAME,
                 event: "setMany",
@@ -31,7 +29,7 @@
                     value: value
                 }
             });
-            ctrl.syncItems = ctrl.syncItems.map(function (item) {
+            ctrl.syncItems = ctrl.syncItems.map(function(item) {
                 item.value = value;
                 return item;
             });
@@ -41,12 +39,12 @@
          * Toggle Options
          * @param item
          */
-        ctrl.toggleSyncItem = function (item) {
+        ctrl.toggleSyncItem = function(item) {
             Socket.uiEvent({
                 namespace: SECTION_NAME,
                 event: "set",
                 data: {
-                    path:  item.path,
+                    path: item.path,
                     value: item.value
                 }
             });
@@ -55,28 +53,39 @@
         ctrl.syncItems = [];
 
         var taglines = {
-            clicks:  "Mirror clicks across devices",
-            scroll:  "Mirror scroll position across devices",
-            "ghostMode.submit":  "Form Submissions will be synced",
-            "ghostMode.inputs":  "Text inputs (including text-areas) will be synced",
+            clicks: "Mirror clicks across devices",
+            scroll: "Mirror scroll position across devices",
+            "ghostMode.submit": "Form Submissions will be synced",
+            "ghostMode.inputs": "Text inputs (including text-areas) will be synced",
             "ghostMode.toggles": "Radio + Checkboxes changes will be synced",
-            codeSync:            "Reload or Inject files when they change"
+            codeSync: "Reload or Inject files when they change"
         };
 
         // If watching files, add the code-sync toggle
-        ctrl.syncItems.push(addItem("codeSync", ["codeSync"], ctrl.options.codeSync, taglines["codeSync"]));
+        ctrl.syncItems.push(
+            addItem("codeSync", ["codeSync"], ctrl.options.codeSync, taglines["codeSync"])
+        );
 
-        Object.keys(ctrl.options.ghostMode).forEach(function (item) {
+        Object.keys(ctrl.options.ghostMode).forEach(function(item) {
             if (item !== "forms" && item !== "location") {
-                ctrl.syncItems.push(addItem(item, ["ghostMode", item], ctrl.options.ghostMode[item], taglines[item]));
+                ctrl.syncItems.push(
+                    addItem(item, ["ghostMode", item], ctrl.options.ghostMode[item], taglines[item])
+                );
             }
         });
 
-        Object.keys(ctrl.options.ghostMode.forms).forEach(function (item) {
-            ctrl.syncItems.push(addItem("Forms: " + item, ["ghostMode", "forms", item], ctrl.options.ghostMode["forms"][item], taglines["ghostMode." + item]));
+        Object.keys(ctrl.options.ghostMode.forms).forEach(function(item) {
+            ctrl.syncItems.push(
+                addItem(
+                    "Forms: " + item,
+                    ["ghostMode", "forms", item],
+                    ctrl.options.ghostMode["forms"][item],
+                    taglines["ghostMode." + item]
+                )
+            );
         });
 
-        function addItem (item, path, value, tagline) {
+        function addItem(item, path, value, tagline) {
             return {
                 value: value,
                 name: item,
@@ -87,8 +96,7 @@
         }
     }
 
-    function ucfirst (string) {
+    function ucfirst(string) {
         return string.charAt(0).toUpperCase() + string.slice(1);
     }
-
 })(angular);

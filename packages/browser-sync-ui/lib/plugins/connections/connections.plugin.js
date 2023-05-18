@@ -10,17 +10,15 @@ module.exports = {
      * @param {UI} ui
      * @param {BrowserSync} bs
      */
-    "plugin": function (ui, bs) {
+    plugin: function(ui, bs) {
         connections.init(ui, bs);
     },
     /**
      * Hooks
      */
-    "hooks": {
+    hooks: {
         "client:js": fileContent("/connections.client.js"),
-        "templates": [
-            getPath("/connections.directive.html")
-        ]
+        templates: [getPath("/connections.directive.html")]
     },
     /**
      * Plugin name
@@ -32,7 +30,7 @@ module.exports = {
  * @param filepath
  * @returns {*}
  */
-function getPath (filepath) {
+function getPath(filepath) {
     return require("path").join(__dirname, filepath);
 }
 
@@ -40,6 +38,6 @@ function getPath (filepath) {
  * @param filepath
  * @returns {*}
  */
-function fileContent (filepath) {
+function fileContent(filepath) {
     return require("fs").readFileSync(getPath(filepath), "utf-8");
 }

@@ -20,10 +20,7 @@ describe("CLI: reading config file from disk", function() {
                 }
             },
             cb: function(err, bs) {
-                assert.equal(
-                    bs.options.getIn(["server", "baseDir", 0]),
-                    "test/fixtures"
-                );
+                assert.equal(bs.options.getIn(["server", "baseDir", 0]), "test/fixtures");
                 bs.cleanup();
                 done();
             }

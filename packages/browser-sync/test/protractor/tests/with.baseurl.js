@@ -1,10 +1,9 @@
-
 var init = require("../bs.init");
 
-describe("works when base url set in HTML", function () {
+describe("works when base url set in HTML", function() {
     var instance;
     var urls;
-    beforeEach(function () {
+    beforeEach(function() {
         browser.ignoreSynchronization = true;
         if (instance) {
             return;
@@ -18,23 +17,23 @@ describe("works when base url set in HTML", function () {
             },
             open: false,
             logLevel: "silent",
-            scriptPath: function (path, port, options) {
+            scriptPath: function(path, port, options) {
                 return options.get("absolute");
             },
             ui: false
         };
-        init(protractor, config).then(function (bs) {
+        init(protractor, config).then(function(bs) {
             instance = bs;
             urls = instance.getOption("urls").toJS();
         });
     });
-    it("should have script tags", function () {
+    it("should have script tags", function() {
         browser.get(urls.local + "/base.html");
         assertScripts();
     });
 });
 
-function assertScripts () {
+function assertScripts() {
     expect(element(by.id("__bs_script__")).isPresent()).toBeTruthy();
     expect(element(by.id("__bs_notify__")).isPresent()).toBeTruthy();
 }

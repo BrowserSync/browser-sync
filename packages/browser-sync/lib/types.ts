@@ -1,5 +1,5 @@
-import * as url from "url";
 import { Map } from "immutable";
+import { z } from "zod";
 
 export type ServerIncoming = string | string[] | IServerOption;
 
@@ -33,5 +33,139 @@ export type PortsOption = {
 };
 
 export type FilesObject = { match: string[]; fn?: Function; options?: any };
-export type FilesNamespace = { globs: string[]; objs: FilesObject[] };
+export type FilesNamespace = { globs: string[]; objs: FilesObject[]; index?: number };
 export type FilesNamespaces = { [name: string]: FilesNamespace };
+
+// prettier-ignore
+export type Trigger =
+    | { files: string[] }
+    | { bs: "started" }
+
+// prettier-ignore
+export type RunnerOption =
+    | { at: "startup";  run: Runner[]; }
+    | { at: "runtime"; when: Trigger[]; run: Runner[]; }
+
+// prettier-ignore
+export type Runner =
+    | { sh: { cmd: string } }
+    | { sh: string }
+    | { bs: "reload" }
+    | { bs: "inject"; files: string[] }
+    | { npm: string[], parallel?: boolean }
+
+const runnerParser = z.union([
+    z.object({
+        sh: z.string()
+    }),
+    z.object({
+        bs: z.literal("reload")
+    }),
+    z.object({
+        bs: z.literal("inject"),
+        files: z.array(z.string())
+    }),
+    z.object({
+        npm: z.array(z.string()),
+        parallel: z.boolean().optional()
+    })
+]);
+
+export const startupRunnerOption = z.object({
+    at: z.literal("startup"),
+    run: z.array(runnerParser)
+});
+
+export const triggerSchema = z.union([
+    z.object({ files: z.array(z.string()) }),
+    z.object({ bs: z.literal("started") })
+]);
+
+export const runtimeRunnerOption = z.object({
+    at: z.literal("runtime"),
+    when: z.array(triggerSchema),
+    run: z.array(runnerParser)
+});
+
+export const runnerOption = z.discriminatedUnion("at", [startupRunnerOption, runtimeRunnerOption]);
+
+export function toRunnerOption(input: unknown): RunnerOption | null {
+    const parsed = runnerOption.safeParse(input);
+    // todo: give good errors on format mistakes here
+    return parsed.success ? parsed.data : null;
+}
+
+// prettier-ignore
+export type BsSideEffect =
+  | { type: "reload"; files: any[] }
+  | { type: "inject"; files: {path: string, event: string}[] }
+
+const sideEffectParser = z.discriminatedUnion("type", [
+    z.object({ type: z.literal("reload"), files: z.array(z.any()) }),
+    z.object({ type: z.literal("inject"), files: z.array(z.any()) })
+]);
+
+export function toSideEffect(sideEffect: BsSideEffect): BsSideEffect {
+    return sideEffectParser.parse(sideEffect);
+}
+
+// prettier-ignore
+export type RunnerNotification =
+  | { status: 'start'; effects: BsSideEffect[]; runner: Runner }
+  | { status: 'end'; effects: BsSideEffect[]; runner: Runner }
+
+const notificationParser = z.discriminatedUnion("status", [
+    z.object({
+        runner: runnerParser,
+        status: z.literal("start"),
+        effects: z.array(sideEffectParser)
+    }),
+    z.object({ runner: runnerParser, status: z.literal("end"), effects: z.array(sideEffectParser) })
+]);
+
+export function toRunnerNotification(input: RunnerNotification): RunnerNotification {
+    return notificationParser.parse(input);
+}
+
+///
+
+const fileChangedEventParser = z.object({
+    event: z.string(),
+    path: z.string(),
+    log: z.boolean().optional(),
+    namespace: z.string(),
+    index: z.number().optional()
+});
+
+export type FileChangedEvent = z.infer<typeof fileChangedEventParser>;
+
+export function toChangeEvent(evt: FileChangedEvent): FileChangedEvent {
+    return fileChangedEventParser.parse(evt);
+}
+
+/// Browser Reload Event
+
+const browserReloadEvent = z.object({
+    files: z.array(z.union([z.string(), fileChangedEventParser]))
+});
+
+export type ReloadEvent = z.infer<typeof browserReloadEvent>;
+
+export function toReloadEvent(reload: ReloadEvent): ReloadEvent {
+    browserReloadEvent.parse(reload);
+    return reload;
+}
+
+/// Inject File info
+
+const injectFileInfo = z.object({
+    ext: z.string(),
+    path: z.string(),
+    basename: z.string(),
+    event: z.unknown(), // You may want to replace this with a more specific type
+    type: z.enum(["inject", "reload"]),
+    url: z.string().optional(),
+    log: z.unknown() // You may want to replace this with a more specific type
+});
+
+export type InjectFileInfo = z.infer<typeof injectFileInfo>;

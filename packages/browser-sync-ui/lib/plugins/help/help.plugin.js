@@ -7,17 +7,15 @@ module.exports = {
     /**
      * Plugin init
      */
-    "plugin": function () {},
+    plugin: function() {},
     /**
      * Hooks
      */
-    "hooks": {
-        "markup": fileContent("/../../../static/content/help.content.html"),
+    hooks: {
+        markup: fileContent("/../../../static/content/help.content.html"),
         "client:js": fileContent("/help.client.js"),
-        "templates": [
-            getPath("/help.directive.html")
-        ],
-        "page": {
+        templates: [getPath("/help.directive.html")],
+        page: {
             path: "/help",
             title: PLUGIN_NAME,
             template: "help.html",
@@ -36,7 +34,7 @@ module.exports = {
  * @param filepath
  * @returns {*}
  */
-function getPath (filepath) {
+function getPath(filepath) {
     return require("path").join(__dirname, filepath);
 }
 
@@ -44,6 +42,6 @@ function getPath (filepath) {
  * @param filepath
  * @returns {*}
  */
-function fileContent (filepath) {
+function fileContent(filepath) {
     return require("fs").readFileSync(getPath(filepath), "utf-8");
 }

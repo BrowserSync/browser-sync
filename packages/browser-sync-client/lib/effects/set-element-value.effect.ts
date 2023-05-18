@@ -5,10 +5,7 @@ import { tap } from "rxjs/operators/tap";
 import { withLatestFrom } from "rxjs/operators/withLatestFrom";
 import { EffectNames } from "../effects";
 
-export function setElementValueEffect(
-    xs: Observable<KeyupEvent.IncomingPayload>,
-    inputs: Inputs
-) {
+export function setElementValueEffect(xs: Observable<KeyupEvent.IncomingPayload>, inputs: Inputs) {
     return xs.pipe(
         withLatestFrom(inputs.document$),
         tap(([event, document]) => {

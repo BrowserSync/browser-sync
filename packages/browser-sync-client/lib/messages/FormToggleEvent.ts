@@ -35,10 +35,7 @@ export function outgoing(
     ];
 }
 
-export function incomingInputsToggles(
-    xs: Observable<IncomingPayload>,
-    inputs: Inputs
-) {
+export function incomingInputsToggles(xs: Observable<IncomingPayload>, inputs: Inputs) {
     return xs.pipe(
         withLatestFrom(
             inputs.option$.pipe(pluck("ghostMode", "forms", "toggles")),

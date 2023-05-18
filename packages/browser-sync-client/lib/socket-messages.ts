@@ -54,21 +54,14 @@ export const socketHandlers$ = new BehaviorSubject({
     [OutgoingSocketEvents.Scroll]: emitWithPathname(IncomingSocketNames.Scroll),
     [OutgoingSocketEvents.Click]: emitWithPathname(IncomingSocketNames.Click),
     [OutgoingSocketEvents.Keyup]: emitWithPathname(IncomingSocketNames.Keyup),
-    [OutgoingSocketEvents.InputToggle]: emitWithPathname(
-        IncomingSocketNames.InputToggle
-    )
+    [OutgoingSocketEvents.InputToggle]: emitWithPathname(IncomingSocketNames.InputToggle)
 });
 
 function emitWithPathname(name) {
     return function(xs, inputs) {
         return xs.pipe(
-            withLatestFrom(
-                inputs.io$,
-                inputs.window$.pipe(pluck("location", "pathname"))
-            ),
-            tap(([event, io, pathname]) =>
-                io.emit(name, { ...event, pathname })
-            ),
+            withLatestFrom(inputs.io$, inputs.window$.pipe(pluck("location", "pathname"))),
+            tap(([event, io, pathname]) => io.emit(name, { ...event, pathname })),
             ignoreElements()
         );
     };

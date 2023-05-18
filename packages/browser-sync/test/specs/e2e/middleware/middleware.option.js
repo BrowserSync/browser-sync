@@ -29,11 +29,7 @@ describe("Accepting middleware as an option (1)", function() {
     });
 
     it("should accept middlewares when given as top-level", function() {
-        assert.equal(
-            bs.options.get("middleware").size,
-            2,
-            "1 custom + 1 serve static"
-        );
+        assert.equal(bs.options.get("middleware").size, 2, "1 custom + 1 serve static");
     });
 });
 
@@ -67,11 +63,7 @@ describe("Accepting middleware as an option (2)", function() {
     });
 
     it("should accept middlewares when given as top-level", function() {
-        assert.equal(
-            bs.options.get("middleware").size,
-            3,
-            "2 custom + 1 serve static"
-        );
+        assert.equal(bs.options.get("middleware").size, 3, "2 custom + 1 serve static");
     });
 });
 

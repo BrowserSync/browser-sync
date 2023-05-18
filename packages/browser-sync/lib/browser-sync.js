@@ -1,14 +1,17 @@
-"use strict";
+// @ts-check
 
+// @ts-ignore
 var hooks = require("./hooks");
 var asyncTasks = require("./async-tasks");
 var config = require("./config");
+var immutable = require("immutable");
 var connectUtils = require("./connect-utils");
 var utils = require("./utils");
 var logger = require("./logger");
-var chalk  = require("chalk");
+var chalk = require("chalk");
 
 var eachSeries = utils.eachSeries;
+// @ts-expect-error
 var _ = require("./lodash.custom");
 var EE = require("easy-extender");
 
@@ -45,6 +48,9 @@ var BrowserSync = function(emitter) {
     bs._cleanupTasks = [];
     bs._browserReload = false;
 
+    /** @type {import("immutable").Map<string, any>} */
+    bs.options = immutable.fromJS({});
+
     // Plugin management
     bs.pluginManager = new EE(defaultPlugins, hooks);
 };
@@ -58,14 +64,15 @@ BrowserSync.prototype.callback = function(name) {
     var cb = bs.options.getIn(["callbacks", name]);
 
     if (_.isFunction(cb)) {
+        // @ts-expect-error
         cb.apply(bs.publicInstance, _.toArray(arguments).slice(1));
     }
 };
 
 /**
- * @param {Map} options
+ * @param {import("immutable").Map<string, any>} options
  * @param {Function} cb
- * @returns {BrowserSync}
+ * @returns {BrowserSync|undefined}
  */
 BrowserSync.prototype.init = function(options, cb) {
     /**
@@ -91,15 +98,13 @@ BrowserSync.prototype.init = function(options, cb) {
 
     /**
      * Save a reference to the original options
-     * @type {Map}
-     * @private
      */
     bs._options = options;
 
     /**
      * Set additional options that depend on what the
      * user may of provided
-     * @type {Map}
+     * @type {import("immutable").Map<string, any>}
      */
     bs.options = options;
 
@@ -128,7 +133,7 @@ BrowserSync.prototype.init = function(options, cb) {
  * Each task is a pure function.
  * They can return options or instance properties to set,
  * but they cannot set them directly.
- * @param {BrowserSync} bs
+ * @param {import("./browser-sync")} bs
  * @returns {Function}
  */
 function taskRunner(bs) {
@@ -220,7 +225,7 @@ function setOptions(bs, options) {
 
 /**
  * At this point, ALL async tasks have completed
- * @param {BrowserSync} bs
+ * @param {import("./browser-sync")} bs
  * @returns {Function}
  */
 function tasksComplete(bs) {
@@ -263,14 +268,14 @@ function tasksComplete(bs) {
         /**
          * Finally, call the user-provided callback given as last arg
          */
-        bs.cb(null, bs);
+        bs.cb?.(null, bs);
     };
 }
 
 /**
  * @param module
  * @param opts
- * @param cb
+ * @param [cb]
  */
 BrowserSync.prototype.registerPlugin = function(module, opts, cb) {
     var bs = this;
@@ -301,16 +306,12 @@ BrowserSync.prototype.getUserPlugin = function(name) {
 };
 
 /**
- * @param {Function} [filter]
+ * @param {() => boolean} [filter]
  */
 BrowserSync.prototype.getUserPlugins = function(filter) {
     var bs = this;
 
-    filter =
-        filter ||
-        function() {
-            return true;
-        };
+    filter = filter || (_ => true);
 
     /**
      * Transform Plugins option
@@ -376,6 +377,7 @@ BrowserSync.prototype._addMiddlewareToStack = function(entry) {
      * this is to allow the proxy middlewares to remain,
      * and the directory index to remain in serveStatic/snippet modes
      */
+    // @ts-expect-error
     bs.app.stack.splice(bs.app.stack.length - 1, 0, entry);
 };
 
@@ -383,6 +385,7 @@ var _addMiddlewareCount = 0;
 BrowserSync.prototype.addMiddleware = function(route, handle, opts) {
     var bs = this;
 
+    // @ts-expect-error
     if (!bs.app) {
         return;
     }
@@ -420,11 +423,11 @@ BrowserSync.prototype.addMiddleware = function(route, handle, opts) {
 /**
  * Remove middlewares on the fly
  * @param {String} id
- * @returns {Server}
  */
 BrowserSync.prototype.removeMiddleware = function(id) {
     var bs = this;
 
+    // @ts-expect-error
     if (!bs.app) {
         return;
     }
@@ -489,7 +492,7 @@ BrowserSync.prototype.getOptionIn = function(path) {
 };
 
 /**
- * @returns {BrowserSync.options}
+ * @returns {BrowserSync['options']}
  */
 BrowserSync.prototype.getOptions = function() {
     return this.options;
@@ -503,7 +506,7 @@ BrowserSync.prototype.getLogger = logger.getLogger;
 /**
  * @param {String} name
  * @param {*} value
- * @returns {BrowserSync.options|*}
+ * @returns {BrowserSync['options']}
  */
 BrowserSync.prototype.setOption = function(name, value, opts) {
     var bs = this;
@@ -528,18 +531,14 @@ BrowserSync.prototype.setOption = function(name, value, opts) {
  * @param path
  * @param value
  * @param opts
- * @returns {Map|*|BrowserSync.options}
+ * @returns {BrowserSync['options']}
  */
 BrowserSync.prototype.setOptionIn = function(path, value, opts) {
     var bs = this;
 
     opts = opts || {};
 
-    bs.debug(
-        "Setting Option: {cyan:%s} - {magenta:%s",
-        path.join("."),
-        value.toString()
-    );
+    bs.debug("Setting Option: {cyan:%s} - {magenta:%s", path.join("."), value.toString());
     bs.options = bs.options.setIn(path, value);
     if (!opts.silent) {
         bs.events.emit("options:set", {
@@ -602,12 +601,12 @@ BrowserSync.prototype.setRewriteRules = function(rules) {
 
 /**
  * Add a new rewrite rule to the stack
- * @param {Object} rule
  */
 BrowserSync.prototype.resetMiddlewareStack = function() {
     var bs = this;
-    var middlewares = require("./server/utils").getMiddlewares(bs, bs.options);
+    var middlewares = require("./server/utils").getMiddlewares(bs);
 
+    // @ts-expect-error
     bs.app.stack = middlewares;
 };
 
@@ -634,8 +633,11 @@ BrowserSync.prototype.cleanup = function(cb) {
     }
 
     // Close any core file watchers
+    // @ts-expect-error
     if (bs.watchers) {
+        // @ts-expect-error
         Object.keys(bs.watchers).forEach(function(key) {
+            // @ts-expect-error
             bs.watchers[key].watchers.forEach(function(watcher) {
                 watcher.close();
             });

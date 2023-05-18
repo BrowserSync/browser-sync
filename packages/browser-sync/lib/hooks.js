@@ -1,5 +1,6 @@
-"use strict";
+// @ts-check
 
+// @ts-expect-error
 var _ = require("./lodash.custom");
 var Immutable = require("immutable");
 var snippetUtils = require("./snippet").utils;
@@ -7,7 +8,7 @@ var snippetUtils = require("./snippet").utils;
 module.exports = {
     /**
      *
-     * @this {BrowserSync}
+     * @this {import("./browser-sync")}
      * @returns {String}
      */
     "client:js": function(hooks, data) {
@@ -24,7 +25,7 @@ module.exports = {
         );
     },
     /**
-     * @this {BrowserSync}
+     * @this {import("./browser-sync")}
      * @returns {Array}
      */
     "client:events": function(hooks, clientEvents) {
@@ -70,7 +71,7 @@ module.exports = {
     },
     /**
      * @param {Array} hooks
-     * @param {Map|List} initial
+     * @param {import("immutable").Map | import("immutable").List} initial
      * @param pluginOptions
      * @returns {any}
      */
@@ -85,9 +86,7 @@ module.exports = {
                 }
                 var files = value.get("files");
                 if (files) {
-                    var fileArg = require("./cli/cli-options").makeFilesArg(
-                        files
-                    );
+                    var fileArg = require("./cli/cli-options").makeFilesArg(files);
                     if (fileArg) {
                         initial = initial.set(key, Immutable.fromJS(fileArg));
                     }

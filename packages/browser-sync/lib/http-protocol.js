@@ -1,3 +1,4 @@
+// @ts-check
 "use strict";
 
 var proto = exports;
@@ -35,17 +36,14 @@ function methodRequiresInstance(method) {
  * @returns {string}
  */
 proto.getUrl = function(args, url) {
-    return [
-        url,
-        require("./config").httpProtocol.path,
-        "?",
-        serializeParams(args).toString()
-    ].join("");
+    return [url, require("./config").httpProtocol.path, "?", serializeParams(args).toString()].join(
+        ""
+    );
 };
 
 /**
  * Return a middleware for handling the requests
- * @param {BrowserSync} bs
+ * @param {import("./browser-sync")} bs
  * @returns {Function}
  */
 proto.middleware = function(bs) {
@@ -59,11 +57,10 @@ proto.middleware = function(bs) {
                 }
                 try {
                     const [name, payload] = JSON.parse(body.toString());
+                    // @ts-expect-error
                     bs.io.sockets.emit(name, payload);
                     return res.end(
-                        `Browsersync HTTP Protocol received: ${name} ${JSON.stringify(
-                            payload
-                        )}`
+                        `Browsersync HTTP Protocol received: ${name} ${JSON.stringify(payload)}`
                     );
                 } catch (e) {
                     const output = [`Error: ${e.message}`];
@@ -87,13 +84,9 @@ proto.middleware = function(bs) {
         }
 
         try {
-            var bsOrEmitter = methodRequiresInstance(params.method)
-                ? bs
-                : bs.events;
+            var bsOrEmitter = methodRequiresInstance(params.method) ? bs : bs.events;
 
-            require("./public/" + params.method)(bsOrEmitter).apply(null, [
-                params.args
-            ]);
+            require("./public/" + params.method)(bsOrEmitter).apply(null, [params.args]);
 
             output = [
                 "Called public API method `.%s()`".replace("%s", params.method),

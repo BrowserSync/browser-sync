@@ -91,10 +91,7 @@ export function getUrls(external, local, scheme, options) {
     };
 
     if (external !== local) {
-        urls.external = getUrl(
-            _makeUrl(scheme, external, options.get("port")),
-            options
-        );
+        urls.external = getUrl(_makeUrl(scheme, external, options.get("port")), options);
     }
 
     return urls;
@@ -161,7 +158,7 @@ export function getUaString(ua) {
  * Open the page in browser
  * @param {String} url
  * @param {Object} options
- * @param {BrowserSync} bs
+ * @param {import("./browser-sync")} bs
  */
 export function openBrowser(url, options, bs) {
     const open = options.get("open");
@@ -272,6 +269,7 @@ export function getConfigErrors(options) {
     var errors = [];
 
     if (options.get("server") && options.get("proxy")) {
+        // @ts-expect-error
         errors.push(messages["server+proxy"]);
     }
 

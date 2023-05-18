@@ -35,10 +35,7 @@ describe("HTTP protocol", function() {
     });
 
     it("responds to reload event with no args", function(done) {
-        var url = proto.getUrl(
-            { method: "reload" },
-            bs.options.getIn(["urls", "local"])
-        );
+        var url = proto.getUrl({ method: "reload" }, bs.options.getIn(["urls", "local"]));
 
         request(url, function(e, r, body) {
             scheduler.advanceTo(500);

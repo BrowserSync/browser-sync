@@ -1,10 +1,11 @@
+// @ts-check
 "use strict";
 
 var connectUtils = require("./connect-utils");
 var config = require("./config");
 
 var lrSnippet = require("resp-modifier");
-var path = require("path");
+// @ts-expect-error
 var _ = require("./lodash.custom");
 var utils = require("./utils");
 var fs = require("fs");
@@ -34,7 +35,7 @@ var snippetUtils = {
     /**
      * @param {String} snippet
      * @param {Object} options
-     * @returns {{match: RegExp, fn: Function}}
+     * @returns {{match: RegExp, fn: Function, once: boolean, id: string}}
      */
     getRegex: function(snippet, options) {
         var fn = options.getIn(["rule", "fn"]);
@@ -49,9 +50,7 @@ var snippetUtils = {
         };
     },
     getSnippetMiddleware: function(snippet, options, rewriteRules) {
-        return lrSnippet.create(
-            snippetUtils.getRules(snippet, options, rewriteRules)
-        );
+        return lrSnippet.create(snippetUtils.getRules(snippet, options, rewriteRules));
     },
     getRules: function(snippet, options, rewriteRules) {
         var rules = [snippetUtils.getRegex(snippet, options)];
@@ -67,7 +66,6 @@ var snippetUtils = {
         };
     },
     /**
-     * @param {Object} req
      * @param {Array} [excludeList]
      * @returns {Object}
      */
@@ -77,6 +75,7 @@ var snippetUtils = {
             var match = /MSIE (\d)\.\d/.exec(ua);
             if (match) {
                 if (parseInt(match[1], 10) < 9) {
+                    // @ts-expect-error
                     if (!snippetUtils.isExcluded(req.url, excludeList)) {
                         req.headers["accept"] = "text/html";
                     }
@@ -87,8 +86,8 @@ var snippetUtils = {
     },
     /**
      * @param {Number} port
-     * @param {BrowserSync.options} options
-     * @returns {String}
+     * @param {import("./browser-sync")['options']} options
+     * @returns {() => string}
      */
     getClientJs: function(port, options) {
         return () => {

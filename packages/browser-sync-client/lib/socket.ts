@@ -1,8 +1,8 @@
 import io from "socket.io-client";
-import {Observable} from "rxjs/Observable";
-import {BehaviorSubject} from "rxjs/BehaviorSubject";
-import {of} from "rxjs/observable/of";
-import {share} from "rxjs/operators/share";
+import { Observable } from "rxjs/Observable";
+import { BehaviorSubject } from "rxjs/BehaviorSubject";
+import { of } from "rxjs/observable/of";
+import { share } from "rxjs/operators/share";
 
 /**
  * Alias for socket.emit
@@ -27,42 +27,42 @@ import {share} from "rxjs/operators/share";
 // }
 
 export function initWindow() {
-  return of(window);
+    return of(window);
 }
 
 export function initDocument() {
-  return of(document);
+    return of(document);
 }
 
 export function initNavigator() {
-  return of(navigator);
+    return of(navigator);
 }
 
 export function initOptions() {
-  return new BehaviorSubject(window.___browserSync___.options);
+    return new BehaviorSubject(window.___browserSync___.options);
 }
 
 export function initSocket() {
-  /**
-   * @type {{emit: emit, on: on}}
-   */
-  const socketConfig = window.___browserSync___.socketConfig;
-  const socketUrl = window.___browserSync___.socketUrl;
-  const socket = io(socketUrl, socketConfig);
+    /**
+     * @type {{emit: emit, on: on}}
+     */
+    const socketConfig = window.___browserSync___.socketConfig;
+    const socketUrl = window.___browserSync___.socketUrl;
+    const socket = io(socketUrl, socketConfig);
 
-  const socket$ = Observable.create(obs => {
-    socket.onAny((...args) => {
-      obs.next(args)
-    })
-  }).pipe(share());
+    const socket$ = Observable.create(obs => {
+        socket.onAny((...args) => {
+            obs.next(args);
+        });
+    }).pipe(share());
 
-  const io$ = new BehaviorSubject(socket);
+    const io$ = new BehaviorSubject(socket);
 
-  /**
-   * *****BACK-COMPAT*******
-   * Scripts that come after Browsersync may rely on the previous window.___browserSync___.socket
-   */
-  window.___browserSync___.socket = socket;
+    /**
+     * *****BACK-COMPAT*******
+     * Scripts that come after Browsersync may rely on the previous window.___browserSync___.socket
+     */
+    window.___browserSync___.socket = socket;
 
-  return {socket$, io$};
+    return { socket$, io$ };
 }

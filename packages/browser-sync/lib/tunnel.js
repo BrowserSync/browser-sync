@@ -1,10 +1,12 @@
+// @ts-check
 "use strict";
 
+// @ts-expect-error
 var _ = require("./lodash.custom");
 var utils = require("util");
 
 /**
- * @param {BrowserSync} bs
+ * @param {import("./browser-sync")} bs
  * @param {Function} cb
  */
 module.exports = function(bs, cb) {
@@ -17,10 +19,7 @@ module.exports = function(bs, cb) {
     }
 
     bs.debug("Requesting a tunnel connection on port: {magenta:%s}", port);
-    bs.debug(
-        "Requesting a tunnel connection with options: {magenta:%s}",
-        utils.inspect(opts)
-    );
+    bs.debug("Requesting a tunnel connection with options: {magenta:%s}", utils.inspect(opts));
 
     require("localtunnel")(port, opts, function(err, tunnel) {
         if (err) {
@@ -29,9 +28,7 @@ module.exports = function(bs, cb) {
 
         tunnel.on("error", function(err) {
             bs.logger.info("Localtunnel issue: " + err.message);
-            bs.logger.info(
-                "Oops! The localtunnel appears to have disconnected. Reconnecting..."
-            );
+            bs.logger.info("Oops! The localtunnel appears to have disconnected. Reconnecting...");
         });
 
         return cb(null, tunnel);

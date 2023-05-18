@@ -1,14 +1,15 @@
 #! /usr/bin/env node
-"use strict";
+// @ts-check
 
 /**
  * @module BrowserSync
  */
+// @ts-expect-error
 var pjson = require("../package.json");
 var BrowserSync = require("./browser-sync");
 var publicUtils = require("./public/public-utils");
 var events = require("events");
-var chalk  = require("chalk");
+var chalk = require("chalk");
 var PassThrough = require("stream").PassThrough;
 var logger = require("eazy-logger").Logger({
     useLevelPrefixes: true
@@ -19,7 +20,7 @@ var singletonPlugins = [];
 var instances = [];
 
 /**
- * @type {boolean|EventEmitter}
+ * @type {boolean|import("events").EventEmitter}
  */
 var singletonEmitter = false;
 
@@ -43,9 +44,7 @@ module.exports.get = function(name) {
     if (instance) {
         return instance;
     }
-    throw new Error(
-        "An instance with the name `%s` was not found.".replace("%s", name)
-    );
+    throw new Error("An instance with the name `%s` was not found.".replace("%s", name));
 };
 
 /**
@@ -83,7 +82,7 @@ module.exports.init = initSingleton;
  * @param {Object} module The object to be `required`.
  * @param {Function} [cb] A callback function that will return any errors.
  */
-module.exports.use = function() {
+module.exports.use = function(name, module, cb) {
     var args = Array.prototype.slice.call(arguments);
     singletonPlugins.push({
         args: args
@@ -117,7 +116,7 @@ module.exports.stream = noop("stream");
  * Helper method for browser notifications
  *
  * @method notify
- * @param {String|HTML} msg Can be a simple message such as 'Connected' or HTML
+ * @param {String} msg Can be a simple message such as 'Connected' or HTML
  * @param {Number} [timeout] How long the message will remain in the browser. @since 1.3.0
  */
 module.exports.notify = noop("notify");
@@ -192,7 +191,7 @@ Object.defineProperties(module.exports, {
 
 /**
  * Event emitter factory
- * @returns {EventEmitter}
+ * @returns {import("events").EventEmitter}
  */
 function newEmitter() {
     var emitter = new events.EventEmitter();
@@ -202,10 +201,11 @@ function newEmitter() {
 
 /**
  * Get the singleton's emitter, or a new one.
- * @returns {EventEmitter}
+ * @returns {import("events").EventEmitter}
  */
 function getSingletonEmitter() {
     if (singletonEmitter) {
+        // @ts-expect-error
         return singletonEmitter;
     }
     singletonEmitter = newEmitter();
@@ -254,17 +254,17 @@ function initSingleton() {
         }
     }
     var args = Array.prototype.slice.call(arguments);
+    // @ts-expect-error
     singleton = create("singleton", getSingletonEmitter());
 
     if (singletonPlugins.length) {
         singletonPlugins.forEach(function(obj) {
-            singleton.instance.registerPlugin.apply(
-                singleton.instance,
-                obj.args
-            );
+            // @ts-expect-error
+            singleton.instance.registerPlugin.apply(singleton.instance, obj.args);
         });
     }
 
+    // @ts-expect-error
     singleton.init.apply(null, args);
     return singleton;
 }
@@ -301,7 +301,7 @@ function getSingle(name) {
 /**
  * Create an instance of Browsersync
  * @param {String} [name]
- * @param {EventEmitter} [emitter]
+ * @param {import("events").EventEmitter} [emitter]
  * @returns {{init: *, exit: (exit|exports), notify: *, reload: *, cleanup: *, emitter: (Browsersync.events|*), use: *}}
  */
 
@@ -327,8 +327,7 @@ module.exports.instances = instances;
 /**
  * Create an instance of Browsersync
  * @param {String} [name]
- * @param {EventEmitter} [emitter]
- * @returns {{init: *, exit: (exit|exports), notify: *, reload: *, cleanup: *, emitter: (Browsersync.events|*), use: *}}
+ * @param {import("events").EventEmitter} [emitter]
  */
 module.exports.create = create;
 function create(name, emitter) {
@@ -353,7 +352,10 @@ function create(name, emitter) {
         watch: require("./file-watcher").watch
     };
 
+    // @ts-expect-error
     browserSync.publicInstance = instance;
+
+    // @ts-expect-error
     instance.init = require("./public/init")(browserSync, name, pjson);
 
     Object.defineProperty(instance, "active", {
@@ -381,6 +383,7 @@ function create(name, emitter) {
                     on: function() {}
                 };
             } else {
+                // @ts-expect-error
                 return browserSync.io.sockets;
             }
         }

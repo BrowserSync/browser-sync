@@ -1,7 +1,11 @@
+// @ts-check
 /**
  * @module BrowserSync.options
  */
 module.exports = {
+    /**
+     */
+    runners: [],
     /**
      * Browsersync includes a user-interface that is accessed via a separate port.
      * The UI allows to controls all devices, push sync updates and much more.
@@ -20,7 +24,7 @@ module.exports = {
      * be injected into the page (CSS & images) or will cause all browsers to do
      * a full-page refresh.
      * @property files
-     * @type Array|String
+     * @type Array|String|false
      * @default false
      */
     files: false,
@@ -126,7 +130,7 @@ module.exports = {
 
     /**
      * @property middleware
-     * @type Function|Array
+     * @type Function|Array|boolean
      * @default false
      */
     middleware: false,
@@ -248,7 +252,7 @@ module.exports = {
     /**
      * Log the snippet to the console when you're in snippet mode (no proxy/server)
      * @property logSnippet
-     * @type: Boolean
+     * @type Boolean
      * @default true
      * @since 1.5.2
      */
@@ -473,7 +477,7 @@ module.exports = {
 
     /**
      * @property host
-     * @type String
+     * @type String|null
      * @default null
      */
     host: null,

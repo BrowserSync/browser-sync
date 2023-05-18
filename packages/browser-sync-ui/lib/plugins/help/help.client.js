@@ -1,14 +1,9 @@
-(function (angular) {
-
+(function(angular) {
     const SECTION_NAME = "history";
 
     angular
         .module("BrowserSync")
-        .controller("HelpAboutController", [
-            "options",
-            "pagesConfig",
-            helpAboutController
-        ]);
+        .controller("HelpAboutController", ["options", "pagesConfig", helpAboutController]);
 
     /**
      * @param options
@@ -19,6 +14,4 @@
         ctrl.options = options.bs;
         ctrl.section = pagesConfig[SECTION_NAME];
     }
-
 })(angular);
-

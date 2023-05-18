@@ -9,7 +9,7 @@ module.exports = {
     /**
      * Plugin init
      */
-    "plugin": function (ui, bs) {
+    plugin: function(ui, bs) {
         ui.throttle = networkThrottle.init(ui, bs);
         ui.listen("network-throttle", ui.throttle);
     },
@@ -17,11 +17,11 @@ module.exports = {
     /**
      * Hooks
      */
-    "hooks": {
-        "markup": fileContent("/network-throttle.html"),
+    hooks: {
+        markup: fileContent("/network-throttle.html"),
         "client:js": [fileContent("/network-throttle.client.js")],
-        "templates": [],
-        "page": {
+        templates: [],
+        page: {
             path: "/network-throttle",
             title: PLUGIN_NAME,
             template: "network-throttle.html",
@@ -40,7 +40,7 @@ module.exports = {
  * @param filepath
  * @returns {*}
  */
-function getPath (filepath) {
+function getPath(filepath) {
     return require("path").join(__dirname, filepath);
 }
 
@@ -48,6 +48,6 @@ function getPath (filepath) {
  * @param filepath
  * @returns {*}
  */
-function fileContent (filepath) {
+function fileContent(filepath) {
     return require("fs").readFileSync(getPath(filepath));
 }

@@ -2,12 +2,14 @@
     <div bs-panel-content>
         <div bs-panel-icon="switch">
             <div class="switch">
-                <input id="cmn-form-{{ctrl.noCache.name}}"
-                       ng-model="ctrl.noCache.active"
-                       ng-change="ctrl.toggleLatency(ctrl.noCache)"
-                       class="cmn-toggle cmn-toggle-round"
-                       type="checkbox"
-                       checked="">
+                <input
+                    id="cmn-form-{{ctrl.noCache.name}}"
+                    ng-model="ctrl.noCache.active"
+                    ng-change="ctrl.toggleLatency(ctrl.noCache)"
+                    class="cmn-toggle cmn-toggle-round"
+                    type="checkbox"
+                    checked=""
+                />
                 <label for="cmn-form-{{ctrl.noCache.name}}"></label>
             </div>
         </div>

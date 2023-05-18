@@ -133,10 +133,7 @@ describe("E2E snippet custom regex", function() {
             .set("accept", "text/html")
             .expect(200)
             .end(function(err, res) {
-                assert.include(
-                    res.text,
-                    "<head>" + instance.options.get("snippet")
-                );
+                assert.include(res.text, "<head>" + instance.options.get("snippet"));
                 done();
             });
     });
@@ -151,7 +148,7 @@ describe("E2E snippet: false", function() {
                 baseDir: "test/fixtures"
             },
             open: false,
-            snippet: false,
+            snippet: false
         };
         instance = browserSync(config, done).instance;
     });
@@ -184,7 +181,7 @@ describe("E2E snippet: true", function() {
                 baseDir: "test/fixtures"
             },
             open: false,
-            snippet: true,
+            snippet: true
         };
         instance = browserSync(config, done).instance;
     });

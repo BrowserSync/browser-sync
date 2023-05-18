@@ -19,10 +19,7 @@ describe("isExcluded spec", function() {
         assert.isTrue(actual);
     });
     it("should return true if request contains queryString", function() {
-        var actual = isExcluded(
-            "/imgs/img.jpg?rel=12322&test=2&34=q",
-            blackList
-        );
+        var actual = isExcluded("/imgs/img.jpg?rel=12322&test=2&34=q", blackList);
         assert.isTrue(actual);
     });
     it("should return FALSE for requests with no file noname (dir)", function() {

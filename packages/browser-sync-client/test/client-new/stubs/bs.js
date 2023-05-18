@@ -13,21 +13,23 @@ var __bs_stub__ = {
         }
     },
     utils: {
-        getScrollSpace: function () {},
-        getBrowserScrollPosition: function () {},
-        getBody: function () {},
-        getSingleElement: function () {},
-        getElementData: function () {},
-        forceChange: function () {}
+        getScrollSpace: function() {},
+        getBrowserScrollPosition: function() {},
+        getBody: function() {},
+        getSingleElement: function() {},
+        getElementData: function() {},
+        forceChange: function() {}
     },
     socket: {
-        on: function(){},
-        emit: function(){}
+        on: function() {},
+        emit: function() {}
     },
-    canSync: function(){ return true }
+    canSync: function() {
+        return true;
+    }
 };
 
 var __bs_events__ = {
-    addEvent: function(){},
-    triggerClick: function(){}
+    addEvent: function() {},
+    triggerClick: function() {}
 };

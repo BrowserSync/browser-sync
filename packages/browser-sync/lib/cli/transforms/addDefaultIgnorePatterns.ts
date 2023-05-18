@@ -10,9 +10,7 @@ const defaultIgnorePatterns = [
     ".idea"
 ];
 
-export function addDefaultIgnorePatterns(
-    incoming: BsTempOptions
-): TransformResult {
+export function addDefaultIgnorePatterns(incoming: BsTempOptions): TransformResult {
     if (!incoming.get("watch")) {
         return [incoming, []];
     }
@@ -23,6 +21,7 @@ export function addDefaultIgnorePatterns(
             .filter(Boolean)
             .toSet();
 
+        // @ts-expect-error
         const merged = userIgnored.merge(defaultIgnorePatterns);
 
         return watchOptions.merge({

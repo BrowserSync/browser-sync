@@ -1,12 +1,23 @@
+// @ts-check
 "use strict";
+
+import { execRunner } from "./runner";
 
 var utils = require("./utils");
 var fileUtils = require("./file-utils");
 var Rx = require("rx");
+var z = require("zod");
 var fromEvent = Rx.Observable.fromEvent;
 var fileHandler = require("./file-event-handler");
+const {
+    toRunnerOption,
+    toRunnerNotification,
+    toSideEffect,
+    FileChangedEvent,
+    toReloadEvent
+} = require("./types");
 
-module.exports = function(bs) {
+export default function internalEvents(bs) {
     var events = {
         /**
          * File reloads
@@ -36,12 +47,7 @@ module.exports = function(bs) {
             var mode = bs.options.get("mode");
             var open = bs.options.get("open");
 
-            if (
-                mode === "proxy" ||
-                mode === "server" ||
-                open === "ui" ||
-                open === "ui-external"
-            ) {
+            if (mode === "proxy" || mode === "server" || open === "ui" || open === "ui-external") {
                 utils.openBrowser(data.url, bs.options, bs);
             }
 
@@ -84,10 +90,7 @@ module.exports = function(bs) {
     });
 
     var reloader = fileHandler
-        .applyReloadOperators(
-            fromEvent(bs.events, "_browser:reload"),
-            bs.options
-        )
+        .applyReloadOperators(fromEvent(bs.events, "_browser:reload"), bs.options)
         .subscribe(function() {
             bs.events.emit("browser:reload");
         });
@@ -102,24 +105,106 @@ module.exports = function(bs) {
 
     var handler = fileHandler
         .fileChanges(coreNamespacedWatchers, bs.options)
-        .subscribe(function(x) {
-            if (x.type === "reload") {
-                bs.events.emit("browser:reload", x);
-            }
-            if (x.type === "inject") {
-                x.files.forEach(function(data) {
-                    if (!bs.paused && data.namespace === "core") {
-                        bs.events.emit(
-                            "file:reload",
-                            fileUtils.getFileInfo(data, bs.options)
-                        );
-                    }
+        .map(function(/** @type {FileChangedEvent[]} */ items) {
+            const paths = items.map(x => x.path);
+            console.log(JSON.stringify(items, null, 2));
+
+            if (utils.willCauseReload(paths, bs.options.get("injectFileTypes").toJS())) {
+                return toSideEffect({
+                    type: "reload",
+                    files: items
                 });
             }
+            return toSideEffect({
+                type: "inject",
+                files: items
+            });
+        })
+        .subscribe(function(/** @type {import("./types").BsSideEffect} */ effect) {
+            bsSideEffect(effect);
         });
+
+    const runnerWatchers = fromEvent(bs.events, "file:changed").filter(function(x) {
+        return x.namespace?.startsWith("__unstable_runner");
+    });
+
+    var runnerHandler = fileHandler
+        .fileChanges(runnerWatchers, bs.options)
+        .flatMapFirst(
+            /** @type {FileChangedEvent[]} */ events => {
+                if (!events || events.length === 0) {
+                    console.log("missing events..");
+                    return Rx.Observable.empty();
+                }
+                const uniqueCount = new Set(events.map(e => e.index)).size;
+
+                if (uniqueCount > 1) {
+                    console.warn("overlapping watchers not supported yet");
+                    return Rx.Observable.empty();
+                }
+
+                const matchingRunner = bs.options
+                    .get("runners")
+                    .get(events[0].index)
+                    .toJS();
+
+                const parsed = toRunnerOption(matchingRunner);
+                if (!parsed) return Rx.Observable.empty();
+
+                const runner = execRunner(parsed);
+                return runner.catch(e => {
+                    // todo: handle/print errors nicely
+                    bs.events.emit("runners:runtime-error", { runner, error: e });
+                    return Rx.Observable.empty();
+                });
+            }
+        )
+        .subscribe(sideEffects);
+
+    function sideEffects(/** @type {import("./types").RunnerNotification} */ statusNotification) {
+        switch (statusNotification.status) {
+            case "start": {
+                console.log(statusNotification);
+                break;
+            }
+            case "end": {
+                statusNotification.effects.forEach(effect => {
+                    bsSideEffect(effect);
+                });
+                break;
+            }
+        }
+    }
+
+    /**
+     * @param {import("./types").BsSideEffect} effect
+     */
+    function bsSideEffect(effect) {
+        switch (effect.type) {
+            case "reload": {
+                bs.events.emit(
+                    "browser:reload",
+                    toReloadEvent({
+                        files: effect.files
+                    })
+                );
+                break;
+            }
+            case "inject": {
+                effect.files.forEach(function(data) {
+                    if (!bs.paused) {
+                        const injectInfo = fileUtils.getInjectFileInfo(data, bs.options);
+                        bs.events.emit("file:reload", injectInfo);
+                    }
+                });
+                break;
+            }
+        }
+    }
 
     bs.registerCleanupTask(function() {
         handler.dispose();
         reloader.dispose();
+        runnerHandler.dispose();
     });
-};
+}

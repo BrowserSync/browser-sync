@@ -1,5 +1,7 @@
+// @ts-check
 "use strict";
 
+// @ts-expect-error
 var _ = require("./lodash.custom");
 var fs = require("fs");
 var config = require("./config");
@@ -15,18 +17,18 @@ function getPath(options, relative, port) {
 var connectUtils = {
     /**
      * Allow users to disable the Browsersync snippet
-     * @param {Immutable.Map} options
+     * @param {import("immutable").Map} options
      * @returns {Boolean}
      */
     enabled: function(options) {
         const userValue = options.get("snippet");
         if (typeof userValue === "boolean") {
-            return userValue
+            return userValue;
         }
-        return true
+        return true;
     },
     /**
-     * @param {Immutable.Map} options
+     * @param {import("immutable").Map} options
      * @returns {String}
      */
     scriptTags: function(options) {
@@ -53,9 +55,7 @@ var connectUtils = {
              *
              */
             if (_.isFunction(options.get("scriptPath"))) {
-                return options
-                    .get("scriptPath")
-                    .apply(null, getScriptArgs(options, scriptPath));
+                return options.get("scriptPath").apply(null, getScriptArgs(options, scriptPath));
             }
 
             /**
@@ -69,10 +69,7 @@ var connectUtils = {
                     return scriptDomain.call(null, options) + scriptPath;
                 }
                 if (scriptDomain.match(/\{port\}/)) {
-                    return (
-                        scriptDomain.replace("{port}", options.get("port")) +
-                        scriptPath
-                    );
+                    return scriptDomain.replace("{port}", options.get("port")) + scriptPath;
                 }
                 return scriptDomain + scriptPath;
             }
@@ -116,7 +113,7 @@ var connectUtils = {
             .replace("%async%", async ? "async" : "");
     },
     /**
-     * @param {Map} options
+     * @param {import("./browser-sync")['options']} options
      * @returns {String}
      */
     socketConnector: function(options) {
@@ -142,7 +139,7 @@ var connectUtils = {
     },
     /**
      * @param {Object} socketOpts
-     * @param {Map} options
+     * @param {import("./browser-sync")['options']} options
      * @returns {String|Function}
      */
     getNamespace: function(socketOpts, options) {
@@ -159,7 +156,7 @@ var connectUtils = {
         return namespace;
     },
     /**
-     * @param {Map} options
+     * @param {import("./browser-sync")['options']} options
      * @returns {string}
      */
     getConnectionUrl: function(options) {
@@ -167,8 +164,7 @@ var connectUtils = {
         var namespace = connectUtils.getNamespace(socketOpts, options);
 
         var protocol = "";
-        var withHostnamePort =
-            "'{protocol}' + location.hostname + ':{port}{ns}'";
+        var withHostnamePort = "'{protocol}' + location.hostname + ':{port}{ns}'";
         var withHost = "'{protocol}' + location.host + '{ns}'";
         var withDomain = "'{domain}{ns}'";
         var port = options.get("port");
@@ -191,11 +187,7 @@ var connectUtils = {
         socketOpts.domain = (function() {
             if (options.get("localOnly")) {
                 string = withDomain;
-                return [
-                    options.get("scheme"),
-                    "://localhost:",
-                    options.get("port")
-                ].join("");
+                return [options.get("scheme"), "://localhost:", options.get("port")].join("");
             }
             if (socketOpts.domain) {
                 string = withDomain;
@@ -215,11 +207,14 @@ var connectUtils = {
             return "";
         })();
 
-        return string
-            .replace("{protocol}", protocol)
-            .replace("{port}", port)
-            .replace("{domain}", socketOpts.domain.replace("{port}", port))
-            .replace("{ns}", namespace);
+        return (
+            string
+                .replace("{protocol}", protocol)
+                .replace("{port}", port)
+                .replace("{domain}", socketOpts.domain.replace("{port}", port))
+                // @ts-expect-error
+                .replace("{ns}", namespace)
+        );
     },
     /**
      * @param {Object} [options]
@@ -228,8 +223,7 @@ var connectUtils = {
     clientScript: function(options, both) {
         var prefix = options.getIn(["socket", "clientPath"]);
         var script = prefix + "/browser-sync-client.js";
-        var versioned =
-            prefix + "/browser-sync-client.js?v=" + options.get("version");
+        var versioned = prefix + "/browser-sync-client.js?v=" + options.get("version");
 
         if (both) {
             return {
@@ -247,8 +241,7 @@ var connectUtils = {
  * @returns {*[]}
  */
 function getScriptArgs(options, scriptPath) {
-    var abspath =
-        options.get("scheme") + "://HOST:" + options.get("port") + scriptPath;
+    var abspath = options.get("scheme") + "://HOST:" + options.get("port") + scriptPath;
     return [scriptPath, options.get("port"), options.set("absolute", abspath)];
 }
 

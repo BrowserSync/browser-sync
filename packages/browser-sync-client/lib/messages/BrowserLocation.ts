@@ -11,10 +11,7 @@ export interface IncomingPayload {
     path?: number;
 }
 
-export function incomingBrowserLocation(
-    xs: Observable<IncomingPayload>,
-    inputs: Inputs
-) {
+export function incomingBrowserLocation(xs: Observable<IncomingPayload>, inputs: Inputs) {
     return xs.pipe(
         withLatestFrom(inputs.option$.pipe(pluck("ghostMode", "location"))),
         filter(([, canSyncLocation]) => canSyncLocation === true),

@@ -1,9 +1,8 @@
 /**
  *
  */
-(function (angular) {
-
-    var SECTION_NAME          = "plugins";
+(function(angular) {
+    var SECTION_NAME = "plugins";
 
     angular
         .module("BrowserSync")
@@ -21,25 +20,25 @@
      * @constructor
      */
     function PluginsPageController(options, Socket, pagesConfig) {
-
-
         var ctrl = this;
         ctrl.section = pagesConfig[SECTION_NAME];
 
-        ctrl.options     = options.bs;
-        ctrl.uiOptions   = options.ui;
+        ctrl.options = options.bs;
+        ctrl.uiOptions = options.ui;
 
         /**
          * Don't show this UI as user plugin
          */
-        var filtered = ctrl.options.userPlugins.filter(function (item) {
-            return item.name !== "UI";
-        }).map(function (item) {
-            item.title = item.name;
-            return item;
-        });
+        var filtered = ctrl.options.userPlugins
+            .filter(function(item) {
+                return item.name !== "UI";
+            })
+            .map(function(item) {
+                item.title = item.name;
+                return item;
+            });
 
-        var named = filtered.reduce(function (all, item) {
+        var named = filtered.reduce(function(all, item) {
             all[item.name] = item;
             return all;
         }, {});
@@ -56,7 +55,7 @@
         /**
          * Toggle a pluginrs
          */
-        ctrl.togglePlugin = function (plugin) {
+        ctrl.togglePlugin = function(plugin) {
             Socket.uiEvent({
                 namespace: SECTION_NAME,
                 event: "set",
@@ -68,18 +67,16 @@
          * Set the state of many options
          * @param value
          */
-        ctrl.setMany = function (value) {
+        ctrl.setMany = function(value) {
             Socket.uiEvent({
                 namespace: SECTION_NAME,
                 event: "setMany",
                 data: value
             });
-            ctrl.ui.plugins = ctrl.ui.plugins.map(function (item) {
+            ctrl.ui.plugins = ctrl.ui.plugins.map(function(item) {
                 item.active = value;
                 return item;
             });
         };
     }
-
 })(angular);
-

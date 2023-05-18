@@ -1,3 +1,4 @@
+// @ts-check
 "use strict";
 
 var fs = require("fs");
@@ -11,6 +12,7 @@ var Map = require("immutable").Map;
 var fromJS = require("immutable").fromJS;
 var List = require("immutable").List;
 var snippet = require("./../snippet").utils;
+// @ts-expect-error
 var _ = require("../lodash.custom");
 var serveStatic = require("./serve-static-wrapper").default();
 var serveIndex = require("serve-index");
@@ -38,15 +40,11 @@ function getCa(options) {
 }
 
 function getKey(options) {
-    return fs.readFileSync(
-        options.getIn(["https", "key"]) || join(certPath, "server.key")
-    );
+    return fs.readFileSync(options.getIn(["https", "key"]) || join(certPath, "server.key"));
 }
 
 function getCert(options) {
-    return fs.readFileSync(
-        options.getIn(["https", "cert"]) || join(certPath, "server.crt")
-    );
+    return fs.readFileSync(options.getIn(["https", "cert"]) || join(certPath, "server.crt"));
 }
 
 function getHttpsServerDefaults(options) {
@@ -67,7 +65,6 @@ function getPFXDefaults(options) {
 var serverUtils = {
     /**
      * @param options
-     * @returns {{key, cert}}
      */
     getHttpsOptions: function(options) {
         var userOption = options.get("https");
@@ -88,10 +85,7 @@ var serverUtils = {
             server: (function() {
                 var httpModule = serverUtils.getHttpModule(options);
 
-                if (
-                    options.get("scheme") === "https" ||
-                    options.get("httpModule") === "http2"
-                ) {
+                if (options.get("scheme") === "https" || options.get("httpModule") === "http2") {
                     var opts = serverUtils.getHttpsOptions(options);
                     return httpModule.createServer(opts.toJS(), app);
                 }
@@ -144,9 +138,7 @@ var serverUtils = {
             {
                 id: "Browsersync IE8 Support",
                 route: "",
-                handle: snippet.isOldIe(
-                    bs.options.get("excludedFileTypes").toJS()
-                )
+                handle: snippet.isOldIe(bs.options.get("excludedFileTypes").toJS())
             },
             {
                 id: "Browsersync Response Modifier",
@@ -207,7 +199,7 @@ var serverUtils = {
                 withErrors.forEach(function(item) {
                     logger.logger.error(
                         "%s %s",
-                        chalk.red("Warning!"),
+                        require("chalk").red("Warning!"),
                         item.getIn(["errors", 0, "data", "message"])
                     );
                 });
@@ -215,10 +207,7 @@ var serverUtils = {
 
             if (withoutErrors.size) {
                 withoutErrors.forEach(function(item) {
-                    defaultMiddlewares.push.apply(
-                        defaultMiddlewares,
-                        item.get("items").toJS()
-                    );
+                    defaultMiddlewares.push.apply(defaultMiddlewares, item.get("items").toJS());
                 });
             }
         }
@@ -250,6 +239,7 @@ var serverUtils = {
             );
 
         const mwStack = []
+            // @ts-expect-error
             .concat(beforeMiddlewares, defaultMiddlewares, afterMiddlewares)
             .filter(Boolean);
 
@@ -300,17 +290,12 @@ var serverUtils = {
             .concat(bs.options.getIn(["snippetOptions", "blacklist"]))
             .filter(Boolean);
 
-        var whitelist = List([]).concat(
-            bs.options.getIn(["snippetOptions", "whitelist"])
-        );
+        var whitelist = List([]).concat(bs.options.getIn(["snippetOptions", "whitelist"]));
 
         // Snippet
         if (bs.options.get("snippet")) {
             rules.push(
-                snippetUtils.getRegex(
-                    bs.options.get("snippet"),
-                    bs.options.get("snippetOptions")
-                )
+                snippetUtils.getRegex(bs.options.get("snippet"), bs.options.get("snippetOptions"))
             );
         }
 
@@ -346,16 +331,10 @@ var serverUtils = {
             res.setHeader("Access-Control-Allow-Origin", "*");
 
             // Request methods you wish to allow
-            res.setHeader(
-                "Access-Control-Allow-Methods",
-                "GET, POST, OPTIONS, PUT, PATCH, DELETE"
-            );
+            res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, PATCH, DELETE");
 
             // Request headers you wish to allow
-            res.setHeader(
-                "Access-Control-Allow-Headers",
-                "X-Requested-With,content-type"
-            );
+            res.setHeader("Access-Control-Allow-Headers", "X-Requested-With,content-type");
 
             // Set to true if you need the website to include cookies in the requests sent
             // to the API (e.g. in case you use sessions)
@@ -389,7 +368,7 @@ var serverUtils = {
              *       This means we need to create a middle for each route + dir combo
              */
             if (Immutable.Map.isMap(dir)) {
-                return getFromMap(dir, i);
+                return getFromMap(dir);
             }
 
             /**
@@ -488,17 +467,19 @@ var serverUtils = {
                         });
                     }
 
+                    // @ts-expect-error
                     return route.reduce(function(acc, routeString) {
                         /**
                          * For each 'route' item, also iterate through 'dirs'
-                         * @type {Immutable.Iterable<K, M>}
                          */
                         var perDir = _dir.map(function(dirString) {
                             return Map({
+                                // @ts-expect-error
                                 route: getRoute(routeString),
                                 dir: dirString
                             });
                         });
+                        // @ts-expect-error
                         return acc.concat(perDir);
                     }, List([]));
                 })();

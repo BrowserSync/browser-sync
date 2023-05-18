@@ -1,11 +1,14 @@
+// @ts-check
 "use strict";
 
 var messages = require("./connect-utils");
 var utils = require("./utils");
+// @ts-expect-error
 var _ = require("./lodash.custom");
 var chalk = require("chalk");
+const { toReloadEvent } = require("./types");
 
-var template = (prefix) => "[" + chalk.blue(prefix) + "] "
+var template = prefix => "[" + chalk.blue(prefix) + "] ";
 
 var logger = require("eazy-logger").Logger({
     useLevelPrefixes: false
@@ -19,7 +22,7 @@ module.exports.logger = logger;
  */
 module.exports.getLogger = function(name) {
     return logger.clone(function(config) {
-        config.prefix = config.prefix + template(name)
+        config.prefix = config.prefix + template(name);
         return config;
     });
 };
@@ -30,7 +33,7 @@ module.exports.getLogger = function(name) {
 module.exports.callbacks = {
     /**
      * Log when file-watching has started
-     * @param {BrowserSync} bs
+     * @param {import("./browser-sync")} bs
      * @param data
      */
     "file:watching": function(bs, data) {
@@ -40,7 +43,7 @@ module.exports.callbacks = {
     },
     /**
      * Log when a file changes
-     * @param {BrowserSync} bs
+     * @param {import("./browser-sync")} bs
      * @param data
      */
     "file:reload": function(bs, data) {
@@ -52,11 +55,7 @@ module.exports.callbacks = {
                 );
             }
 
-            logger.info(
-                chalk.cyan("File event [%s] : %s"),
-                data.event,
-                chalk.magenta(data.path),
-            );
+            logger.info(chalk.cyan("File event [%s] : %s"), data.event, chalk.magenta(data.path));
         }
     },
     /**
@@ -68,16 +67,19 @@ module.exports.callbacks = {
     /**
      *
      */
-    "browser:reload": function(bs, data = {}) {
-        if (canLogFileChange(bs)) {
-            if (data.files && data.files.length > 1) {
-                return logger.info(
-                    chalk.cyan(`Reloading Browsers... (buffered %s events)`),
-                    data.files.length
-                );
+    "browser:reload": function(bs, data = { files: [] }) {
+        try {
+            if (canLogFileChange(bs)) {
+                const evt = toReloadEvent(data);
+                if (evt.files && evt.files.length > 1) {
+                    return logger.info(
+                        chalk.cyan(`Reloading Browsers... (buffered %s events)`),
+                        evt.files.length
+                    );
+                }
+                logger.info(chalk.cyan("Reloading Browsers..."));
             }
-            logger.info(chalk.cyan("Reloading Browsers..."));
-        }
+        } catch (e) {}
     },
     /**
      *
@@ -85,13 +87,13 @@ module.exports.callbacks = {
     "browser:error": function() {
         logger.error(
             "Couldn't open browser (if you are using BrowserSync in a " +
-            "headless environment, you might want to set the %s option to %s)",
+                "headless environment, you might want to set the %s option to %s)",
             chalk.cyan("open"),
-            chalk.cyan("false"),
+            chalk.cyan("false")
         );
     },
     /**
-     * @param {BrowserSync} bs
+     * @param {import("./browser-sync")} bs
      * @param data
      */
     "stream:changed": function(bs, data) {
@@ -108,7 +110,7 @@ module.exports.callbacks = {
     },
     /**
      * Client connected logging
-     * @param {BrowserSync} bs
+     * @param {import("./browser-sync")} bs
      * @param data
      */
     "client:connected": function(bs, data) {
@@ -124,7 +126,7 @@ module.exports.callbacks = {
     },
     /**
      * Main logging when the service is running
-     * @param {BrowserSync} bs
+     * @param {import("./browser-sync")} bs
      * @param data
      */
     "service:running": function(bs, data) {
@@ -153,17 +155,18 @@ module.exports.callbacks = {
         }
 
         if (type === "proxy") {
-            logger.info(
-                "Proxying: %s",
-                chalk.cyan(bs.options.getIn(["proxy", "target"]))
-            );
+            logger.info("Proxying: %s", chalk.cyan(bs.options.getIn(["proxy", "target"])));
             logUrls(bs.options.get("urls").toJS());
         }
 
         if (type === "snippet") {
             if (bs.options.get("logSnippet")) {
                 logger.info(
-                    chalk.bold(`Copy the following snippet into your website, just before the closing ${chalk.cyan('</body>')} tag`)
+                    chalk.bold(
+                        `Copy the following snippet into your website, just before the closing ${chalk.cyan(
+                            "</body>"
+                        )} tag`
+                    )
                 );
 
                 logger.unprefixed("info", messages.scriptTags(bs.options));
@@ -187,8 +190,8 @@ module.exports.callbacks = {
 
 /**
  * Plugin interface for BrowserSync
- * @param {EventEmitter} emitter
- * @param {BrowserSync} bs
+ * @param {import("events").EventEmitter} emitter
+ * @param {import("./browser-sync")} bs
  * @returns {Object}
  */
 module.exports.plugin = function(emitter, bs) {
@@ -298,7 +301,7 @@ function getKeyName(key) {
 /**
  * Determine if file changes should be logged
  * @param bs
- * @param data
+ * @param [data]
  * @returns {boolean}
  */
 function canLogFileChange(bs, data) {

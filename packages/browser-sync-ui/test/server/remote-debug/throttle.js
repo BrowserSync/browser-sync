@@ -1,19 +1,17 @@
 /*jshint -W079 */
 var browserSync = require("browser-sync");
-var bsui        = require("../../../index");
-var assert      = require("chai").assert;
-var request     = require("supertest");
+var bsui = require("../../../index");
+var assert = require("chai").assert;
+var request = require("supertest");
 
-describe("Remote debug - Throttle HTTP", function () {
-
+describe("Remote debug - Throttle HTTP", function() {
     var bs, ui;
 
     this.timeout(10000);
 
     process.env.NODE_TLS_REJECT_UNAUTHORIZED = 0;
 
-    before(function (done) {
-
+    before(function(done) {
         browserSync.reset();
 
         browserSync.use(bsui);
@@ -25,22 +23,21 @@ describe("Remote debug - Throttle HTTP", function () {
             server: "test/fixtures"
         };
 
-        browserSync(config, function (err, out) {
+        browserSync(config, function(err, out) {
             ui = out.ui;
             bs = out;
             done();
         });
     });
-    after(function () {
+    after(function() {
         bs.cleanup();
     });
-    it("should init DSL speed", function (done) {
-
+    it("should init DSL speed", function(done) {
         var target = ui.options.getIn(["network-throttle", "targets"]).toJS()[0];
 
         target.active = true;
 
-        var cb = function (err, out) {
+        var cb = function(err, out) {
             assert.isDefined(out.server);
             assert.isDefined(out.port);
             assert.isDefined(ui.servers[out.port]);
@@ -54,7 +51,7 @@ describe("Remote debug - Throttle HTTP", function () {
                 .get("/")
                 .set("accept", "text/html")
                 .expect(200)
-                .end(function (err, res) {
+                .end(function(err, res) {
                     if (err) {
                         return done(err);
                     }

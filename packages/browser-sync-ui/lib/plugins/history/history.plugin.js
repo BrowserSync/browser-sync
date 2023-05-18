@@ -10,19 +10,17 @@ module.exports = {
      * @param ui
      * @param bs
      */
-    "plugin": function (ui, bs) {
+    plugin: function(ui, bs) {
         ui.history = historyPlugin.init(ui, bs);
     },
     /**
      * Hooks
      */
-    "hooks": {
-        "markup": fileContent("history.html"),
+    hooks: {
+        markup: fileContent("history.html"),
         "client:js": fileContent("/history.client.js"),
-        "templates": [
-            getPath("/history.directive.html")
-        ],
-        "page": {
+        templates: [getPath("/history.directive.html")],
+        page: {
             path: "/history",
             title: PLUGIN_NAME,
             template: "history.html",
@@ -41,7 +39,7 @@ module.exports = {
  * @param filepath
  * @returns {*}
  */
-function getPath (filepath) {
+function getPath(filepath) {
     return require("path").join(__dirname, filepath);
 }
 
@@ -49,6 +47,6 @@ function getPath (filepath) {
  * @param filepath
  * @returns {*}
  */
-function fileContent (filepath) {
+function fileContent(filepath) {
     return require("fs").readFileSync(getPath(filepath), "utf-8");
 }
