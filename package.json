@@ -9,6 +9,7 @@
     "test.e2e": "playwright test",
     "test.e2e.headed": "playwright test --headed",
     "pretest.e2e": "lerna run build",
+    "pretest.e2e.headed": "lerna run build",
     "prettier": "prettier '{packages,tests,examples}/**/*.{js,ts,html,yml,css}'",
     "prettier.write": "npm run prettier -- --write"
   },

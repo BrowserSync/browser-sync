@@ -24,6 +24,7 @@ interface NextArgs {
 export const test = base.extend<{
     bs: {
         url: string;
+        cwd: string;
         uiUrl: string;
         child: any;
         stdout: string[];
@@ -93,6 +94,7 @@ export const test = base.extend<{
         await use({
             url: msg.urls.local,
             uiUrl: msg.urls.ui,
+            cwd: msg.cwd,
             child,
             stdout,
             touch: (path: string) => {

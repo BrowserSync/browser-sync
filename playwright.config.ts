@@ -52,6 +52,13 @@ export default defineConfig({
                 ...devices["Desktop Chrome"]
             },
             testDir: "tests/examples/basic"
+        },
+        {
+            name: "html-inject",
+            use: {
+                ...devices["Desktop Chrome"]
+            },
+            testDir: "tests/examples/html-inject"
         }
 
         // {
