@@ -25,11 +25,11 @@
         "node": ">=8.0.0"
     },
     "scripts": {
-        "postinstall": "patch-package",
+        "_postinstall": "patch-package",
         "build": "npm run clean && webpack",
         "clean": "rm -rf dist",
         "watch": "npm run build -- --watch",
-        "prepublishOnly": "npm run build",
+        "prepublishOnly": "npm run _postinstall && npm run build",
         "tsc": "rm -rf dist/* dist2/* && tsc"
     },
     "devDependencies": {
