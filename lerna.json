@@ -1,4 +1,4 @@
 {
     "packages": ["packages/*", "examples/tailwind"],
-    "version": "2.30.0-alpha.1"
+    "version": "2.30.0-alpha.2"
 }
