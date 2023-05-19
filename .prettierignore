@@ -5,6 +5,7 @@ playwright-report
 node_modules
 dist
 packages/browser-sync-ui/public
+packages/browser-sync-ui/static
 packages/browser-sync/templates/cli-template.js
 packages/browser-sync/lib/lodash.custom.js
 packages/browser-sync-ui/lib/plugins/remote-debug/overlay-grid/css/grid-overlay-horizontal.css

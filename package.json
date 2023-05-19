@@ -8,7 +8,7 @@
     "test.unit": "npm run build && lerna run test --scope browser-sync",
     "test.e2e": "playwright test",
     "test.e2e.headed": "playwright test --headed",
-    "pretest.e2e": "if [ \\\"$CI\\\" == \\\"true\\\" ]; then lerna run build; else lerna run build --since HEAD; fi",
+    "pretest.e2e": "lerna run build",
     "prettier": "prettier '{packages,tests,examples}/**/*.{js,ts,html,yml,css}'",
     "prettier.write": "npm run prettier -- --write"
   },
