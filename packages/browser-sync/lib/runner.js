@@ -53,6 +53,11 @@ export function bsRunner(runner) {
             type: "reload",
             files: []
         });
+    } else if (runner.bs === "inject-html") {
+        effects.push({
+            type: "inject-html",
+            selectors: runner.selectors || []
+        });
     }
     return Rx.Observable.concat(
         Rx.Observable.just(

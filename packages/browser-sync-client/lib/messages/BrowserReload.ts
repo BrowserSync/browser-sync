@@ -8,6 +8,8 @@ import { of } from "rxjs/observable/of";
 import { browserReload, preBrowserReload } from "../effects/browser-reload.effect";
 import { subscribeOn } from "rxjs/operators/subscribeOn";
 import { async } from "rxjs/scheduler/async";
+import { browserInjectHTML } from "../effects/browser-inject-html.effect";
+import { map } from "rxjs/operators/map";
 
 export function incomingBrowserReload(xs: Observable<any>, inputs: Inputs) {
     return xs.pipe(
@@ -27,5 +29,20 @@ export function reloadBrowserSafe() {
          * On the next tick, perform the reload
          */
         of(browserReload()).pipe(subscribeOn(async))
+    );
+}
+
+export function incomingBrowserInjectHTML(xs: Observable<any>, inputs: Inputs) {
+    return xs.pipe(
+        withLatestFrom(inputs.option$, inputs.window$),
+        filter(([event, options, window]) => {
+            // bail early if fetch is not available
+            if (typeof window.fetch === "undefined") {
+                return false;
+            }
+            // otherwise, just check that codeSync is enabled
+            return options.codeSync;
+        }),
+        map(([event]) => browserInjectHTML(event))
     );
 }

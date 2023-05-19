@@ -52,6 +52,7 @@ export type Runner =
     | { sh: string }
     | { bs: "reload" }
     | { bs: "inject"; files: string[] }
+    | { bs: "inject-html"; selectors?: string[] }
     | { npm: string[], parallel?: boolean }
 
 const runnerParser = z.union([
@@ -64,6 +65,10 @@ const runnerParser = z.union([
     z.object({
         bs: z.literal("inject"),
         files: z.array(z.string())
+    }),
+    z.object({
+        bs: z.literal("inject-html"),
+        selectors: z.array(z.string()).default([])
     }),
     z.object({
         npm: z.array(z.string()),
@@ -99,10 +104,12 @@ export function toRunnerOption(input: unknown): RunnerOption | null {
 export type BsSideEffect =
   | { type: "reload"; files: any[] }
   | { type: "inject"; files: {path: string, event: string}[] }
+  | { type: "inject-html"; selectors: string[] }
 
 const sideEffectParser = z.discriminatedUnion("type", [
     z.object({ type: z.literal("reload"), files: z.array(z.any()) }),
-    z.object({ type: z.literal("inject"), files: z.array(z.any()) })
+    z.object({ type: z.literal("inject"), files: z.array(z.any()) }),
+    z.object({ type: z.literal("inject-html"), selectors: z.array(z.string()) })
 ]);
 
 export function toSideEffect(sideEffect: BsSideEffect): BsSideEffect {

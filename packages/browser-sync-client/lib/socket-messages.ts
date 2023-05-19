@@ -8,7 +8,7 @@ import { incomingHandler$ } from "./messages/ClickEvent";
 import { incomingKeyupHandler } from "./messages/KeyupEvent";
 import { incomingBrowserNotify } from "./messages/BrowserNotify";
 import { incomingBrowserLocation } from "./messages/BrowserLocation";
-import { incomingBrowserReload } from "./messages/BrowserReload";
+import { incomingBrowserInjectHTML, incomingBrowserReload } from "./messages/BrowserReload";
 import { incomingFileReload } from "./messages/FileReload";
 import { incomingConnection } from "./messages/Connection";
 import { incomingDisconnect } from "./messages/Disconnect";
@@ -20,6 +20,7 @@ export enum IncomingSocketNames {
     Disconnect = "disconnect",
     FileReload = "file:reload",
     BrowserReload = "browser:reload",
+    BrowserInjectHTML = "browser:inject-html",
     BrowserLocation = "browser:location",
     BrowserNotify = "browser:notify",
     Scroll = "scroll",
@@ -44,6 +45,7 @@ export const socketHandlers$ = new BehaviorSubject({
     [IncomingSocketNames.Disconnect]: incomingDisconnect,
     [IncomingSocketNames.FileReload]: incomingFileReload,
     [IncomingSocketNames.BrowserReload]: incomingBrowserReload,
+    [IncomingSocketNames.BrowserInjectHTML]: incomingBrowserInjectHTML,
     [IncomingSocketNames.BrowserLocation]: incomingBrowserLocation,
     [IncomingSocketNames.BrowserNotify]: incomingBrowserNotify,
     [IncomingSocketNames.Scroll]: incomingScrollHandler,

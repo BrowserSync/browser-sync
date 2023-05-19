@@ -231,3 +231,5 @@ export function getScrollPercentage(scrollSpace: ICoords, scrollPosition: ICoord
         y: y
     };
 }
+
+console.log('here 3')

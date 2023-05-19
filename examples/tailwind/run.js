@@ -5,6 +5,7 @@ bs.init(
         server: ".",
         open: false,
         notify: true,
+        injectNotification: "console",
         runners: [
             {
                 at: "startup",
@@ -12,8 +13,12 @@ bs.init(
             },
             {
                 at: "runtime",
-                when: [{ files: ["index.html"] }],
-                run: [{ npm: ["build"] }, { bs: "reload" }]
+                when: [{ files: ["*.html", "tailwind.config.js"] }],
+                run: [
+                    { npm: ["build"] },
+                    { bs: "inject-html", selectors: ["body"] },
+                    { bs: "inject", files: ["*.css"] }
+                ]
             }
         ]
     },

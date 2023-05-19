@@ -7,11 +7,13 @@ import { setElementValueEffect } from "./effects/set-element-value.effect";
 import { setElementToggleValueEffect } from "./effects/set-element-toggle-value.effect";
 import { setScrollEffect } from "./effects/set-scroll";
 import { browserReloadEffect } from "./effects/browser-reload.effect";
+import { browserInjectHTMLEffect } from "./effects/browser-inject-html.effect";
 
 export enum EffectNames {
     FileReload = "@@FileReload",
     PreBrowserReload = "@@PreBrowserReload",
     BrowserReload = "@@BrowserReload",
+    BrowserInjectHTML = "@@BrowserInjectHTML",
     BrowserSetLocation = "@@BrowserSetLocation",
     BrowserSetScroll = "@@BrowserSetScroll",
     SetOptions = "@@SetOptions",
@@ -24,6 +26,7 @@ export const effectOutputHandlers$ = new BehaviorSubject({
     [EffectNames.SetOptions]: setOptionsEffect,
     [EffectNames.FileReload]: fileReloadEffect,
     [EffectNames.BrowserReload]: browserReloadEffect,
+    [EffectNames.BrowserInjectHTML]: browserInjectHTMLEffect,
     [EffectNames.BrowserSetLocation]: browserSetLocationEffect,
     [EffectNames.SimulateClick]: simulateClickEffect,
     [EffectNames.SetElementValue]: setElementValueEffect,

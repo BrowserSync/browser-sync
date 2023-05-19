@@ -33,6 +33,12 @@ export default function internalEvents(bs) {
             bs.io.sockets.emit("browser:reload");
         },
         /**
+         * HTML Injection
+         */
+        "browser:inject-html": function(data) {
+            bs.io.sockets.emit("browser:inject-html", data);
+        },
+        /**
          * Browser Notify
          * @param data
          */
@@ -169,6 +175,7 @@ export default function internalEvents(bs) {
             }
             case "end": {
                 statusNotification.effects.forEach(effect => {
+                    console.log("effect...", effect);
                     bsSideEffect(effect);
                 });
                 break;
@@ -181,6 +188,10 @@ export default function internalEvents(bs) {
      */
     function bsSideEffect(effect) {
         switch (effect.type) {
+            case "inject-html": {
+                bs.events.emit("browser:inject-html", { selectors: effect.selectors });
+                break;
+            }
             case "reload": {
                 bs.events.emit(
                     "browser:reload",

@@ -15,6 +15,8 @@
   "license": "ISC",
   "devDependencies": {
     "tailwindcss": "^3.3.2",
+    "@tailwindcss/forms": "^0.5.3",
+    "@tailwindcss/aspect-ratio": "^0.4.2",
     "source-map-support": "^0.5.21"
   }
 }

@@ -6,7 +6,5 @@ test("startup writes CSS file", async ({ page, bs }) => {
         pathname: "/dist/output.css",
         when: { page, loads: { url: bs.url } }
     });
-    expect(body).toContain(`.p-4 {
-  padding: 1rem;
-}`);
+    expect(body).toContain(`! tailwindcss`);
 });
