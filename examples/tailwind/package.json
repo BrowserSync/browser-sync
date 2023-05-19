@@ -1,5 +1,6 @@
 {
     "name": "tailwind",
+    "private": true,
     "version": "2.30.0-alpha.0",
     "description": "",
     "main": "index.js",
