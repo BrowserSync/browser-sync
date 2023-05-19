@@ -1,64 +1,64 @@
 {
-	"name": "browser-sync-ui",
-	"description": "User Interface for BrowserSync",
-	"version": "2.29.3",
-	"homepage": "http://www.browsersync.io/",
-	"author": {
-		"name": "Shane Osbourne"
-	},
-	"repository": "BrowserSync/UI",
-	"files": [
-		"index.js",
-		"lib",
-		"public",
-		"static",
-		"templates"
-	],
-	"scripts": {
-		"build": "npm run build:static && npm run build:bundle",
-		"build:static": "node tasks/crossbow.js",
-		"build:bundle": "esbuild src/scripts/app.js --bundle --outdir=public/js --minify",
-		"prepublishOnly": "npm run build",
-		"watch": "npm run build:webpack -- --watch"
-	},
-	"license": "Apache-2.0",
-	"dependencies": {
-		"async-each-series": "0.1.1",
-		"chalk": "4.1.2",
-		"connect-history-api-fallback": "^1",
-		"immutable": "^3",
-		"server-destroy": "1.0.1",
-		"socket.io-client": "^4.4.1",
-		"stream-throttle": "^0.1.3"
-	},
-	"devDependencies": {
-		"angular": "^1.8.2",
-		"angular-route": "~1.8.2",
-		"angular-sanitize": "^1.8.2",
-		"angular-touch": "^1.8.2",
-		"bs-snippet-injector": "^2.0.1",
-		"chai": "^3",
-		"compression": "^1",
-		"crossbow-sites": "^1.0.1",
-		"easy-svg": "^3.0.0",
-		"esbuild": "^0.14.27",
-		"jshint": "^2.8.0",
-		"mocha": "^8.2.0",
-		"no-abs": "0.0.0",
-		"object-path": "^0.11.5",
-		"parallelshell": "^2.0.0",
-		"pretty-js": "^0.1.8",
-		"request": "^2",
-		"sinon": "^1",
-		"store": "^1.3.20",
-		"supertest": "^3",
-		"uglify-js": "^2.6.1",
-		"vinyl-fs": "3.0.3"
-	},
-	"keywords": [
-		"browser sync",
-		"live reload",
-		"css injection",
-		"action sync"
-	]
+    "name": "browser-sync-ui",
+    "description": "User Interface for BrowserSync",
+    "version": "2.30.0-alpha.0",
+    "homepage": "http://www.browsersync.io/",
+    "author": {
+        "name": "Shane Osbourne"
+    },
+    "repository": "BrowserSync/UI",
+    "files": [
+        "index.js",
+        "lib",
+        "public",
+        "static",
+        "templates"
+    ],
+    "scripts": {
+        "build": "npm run build:static && npm run build:bundle",
+        "build:static": "node tasks/crossbow.js",
+        "build:bundle": "esbuild src/scripts/app.js --bundle --outdir=public/js --minify",
+        "prepublishOnly": "npm run build",
+        "watch": "npm run build:webpack -- --watch"
+    },
+    "license": "Apache-2.0",
+    "dependencies": {
+        "async-each-series": "0.1.1",
+        "chalk": "4.1.2",
+        "connect-history-api-fallback": "^1",
+        "immutable": "^3",
+        "server-destroy": "1.0.1",
+        "socket.io-client": "^4.4.1",
+        "stream-throttle": "^0.1.3"
+    },
+    "devDependencies": {
+        "angular": "^1.8.2",
+        "angular-route": "~1.8.2",
+        "angular-sanitize": "^1.8.2",
+        "angular-touch": "^1.8.2",
+        "bs-snippet-injector": "^2.0.1",
+        "chai": "^3",
+        "compression": "^1",
+        "crossbow-sites": "^1.0.1",
+        "easy-svg": "^3.0.0",
+        "esbuild": "^0.14.27",
+        "jshint": "^2.8.0",
+        "mocha": "^8.2.0",
+        "no-abs": "0.0.0",
+        "object-path": "^0.11.5",
+        "parallelshell": "^2.0.0",
+        "pretty-js": "^0.1.8",
+        "request": "^2",
+        "sinon": "^1",
+        "store": "^1.3.20",
+        "supertest": "^3",
+        "uglify-js": "^2.6.1",
+        "vinyl-fs": "3.0.3"
+    },
+    "keywords": [
+        "browser sync",
+        "live reload",
+        "css injection",
+        "action sync"
+    ]
 }
