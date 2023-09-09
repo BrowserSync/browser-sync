@@ -5,15 +5,18 @@
 		"bootstrap": "lerna bootstrap",
 		"postinstall": "npm run bootstrap",
 		"test": "lerna run build && lerna run test --scope browser-sync",
-		"test:e2e": "cb cy:file-reloading cy:ui-remote-debug cy:connection-notify"
+		"test:e2e": "echo skipping cypress",
+		"test:playwright": "playwright test"
 	},
 	"devDependencies": {
 		"lerna": "^6.1.0"
 	},
 	"dependencies": {
+		"@playwright/test": "^1.37.1",
 		"crossbow": "^4.6.0",
 		"cypress": "^9.5.1",
-		"rxjs": "^7.5.4"
+		"rxjs": "^7.5.4",
+		"zod": "^3.22.2"
 	},
-  "nx": {}
+	"nx": {}
 }
