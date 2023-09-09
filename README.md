@@ -1,13 +1,9 @@
 <p align="center">
-<a href="https://travis-ci.org/BrowserSync/browser-sync" title="Travis branch">
- <img src="https://img.shields.io/travis/BrowserSync/browser-sync/master.svg?style=flat-square&label=linux" />
-</a><a href="https://www.npmjs.com/package/browser-sync">
- <img src="https://img.shields.io/npm/dm/browser-sync.svg?style=flat-square" />
-</a>
-</p>
-<p align="center">
 <a href="https://www.npmjs.com/package/browser-sync" title="NPM version">
  <img src="https://img.shields.io/npm/v/browser-sync.svg?style=flat-square" />
+</a>
+<a href="https://www.npmjs.com/package/browser-sync">
+ <img src="https://img.shields.io/npm/dm/browser-sync.svg?style=flat-square" />
 </a>
 </p>
 <p align="center"><a href="https://www.browsersync.io"><img src="https://raw.githubusercontent.com/BrowserSync/browsersync.github.io/master/public/img/logo-gh.png" /></a></p>
