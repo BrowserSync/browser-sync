@@ -37,12 +37,10 @@ jobs:
         run: npm ci
       - name: Test
         run: npm test
-      - name: Test E2E
-        run: npm run test:e2e
       - name: Install Playwright Browsers
         run: npx playwright install --with-deps
       - name: Run Playwright tests
-        run: npm test:playwright
+        run: npm test:e2e
       - uses: actions/upload-artifact@v3
         if: always()
         with:

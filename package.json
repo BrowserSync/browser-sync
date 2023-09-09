@@ -13,8 +13,6 @@
 	},
 	"dependencies": {
 		"@playwright/test": "^1.37.1",
-		"crossbow": "^4.6.0",
-		"cypress": "^9.5.1",
 		"rxjs": "^7.5.4",
 		"zod": "^3.22.2"
 	},
