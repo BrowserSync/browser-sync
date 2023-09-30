@@ -1,9 +1,9 @@
 "use strict";
 
-var queryString = require("qs");
 var proto = exports;
 var instanceMethods = ["exit", "notify", "pause", "resume"];
 var getBody = require("raw-body");
+const { parseParams, serializeParams } = require("./utils");
 const permittedSocketEvents = [
     "file:reload",
     "browser:reload",
@@ -39,7 +39,7 @@ proto.getUrl = function(args, url) {
         url,
         require("./config").httpProtocol.path,
         "?",
-        queryString.stringify(args)
+        serializeParams(args).toString()
     ].join("");
 };
 
@@ -72,7 +72,8 @@ proto.middleware = function(bs) {
                 }
             });
         }
-        var params = queryString.parse(req.url.replace(/^.*\?/, ""));
+        var split = req.url.split("?");
+        var params = parseParams(split[1]);
         var output;
 
         if (!Object.keys(params).length) {

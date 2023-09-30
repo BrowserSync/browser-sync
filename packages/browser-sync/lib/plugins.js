@@ -2,9 +2,9 @@ var Immutable = require("immutable");
 var Map = Immutable.Map;
 var isMap = Immutable.Map.isMap;
 var List = Immutable.List;
-var qs = require("qs");
 var path = require("path");
 var fs = require("fs");
+const { parseParams } = require("./utils");
 
 var Plugin = Immutable.Record({
     moduleName: "",
@@ -175,7 +175,8 @@ function getFromString(string) {
 
     if (split.length > 1) {
         return outGoing.update("options", function(opts) {
-            return opts.mergeDeep(qs.parse(split[1]));
+            const parsed = parseParams(split[1]);
+            return opts.mergeDeep(parsed);
         });
     }
 

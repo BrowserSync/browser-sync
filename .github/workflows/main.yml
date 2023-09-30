@@ -11,10 +11,14 @@ on:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This workflow contains a single job called "build" boo2
+  # This workflow contains a single job called "build"
   build:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [16, 18, 20]
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
@@ -24,18 +28,13 @@ jobs:
       - name: Setup Node.js environment
         uses: actions/setup-node@v2.5.0
         with:
-          # Version Spec of the version to use.  Examples: 12.x, 10.15.1, >=10.15.0
-          node-version: 16
-          # Used to specify a package manager for caching in the default directory. Supported values: npm, yarn, pnpm
+          node-version: ${{ matrix.node-version }}
           cache: npm
-          # Used to specify the path to a dependency file: package-lock.json, yarn.lock, etc. Supports wildcards or a list of file names for caching multiple dependencies.
           cache-dependency-path: package-lock.json
 
       # Runs a single command using the runners shell
       - name: Install
         run: npm ci
-      - name: Build
-        run: npm run build
       - name: Test
         run: npm test
       - name: Test E2E
