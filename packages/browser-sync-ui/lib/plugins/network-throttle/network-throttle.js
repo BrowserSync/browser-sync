@@ -88,7 +88,7 @@ module.exports.init = function (ui) {
                 };
 
                 if (ui.bs.getOption("scheme") === "https") {
-                    var httpsOpts = require("browser-sync/lib/server/utils").getHttpsOptions(ui.bs.options);
+                    var httpsOpts = require("browser-sync/dist/server/utils").getHttpsOptions(ui.bs.options);
                     args.key  = httpsOpts.key;
                     args.cert = httpsOpts.cert;
                 }
