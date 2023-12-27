@@ -25,3 +25,7 @@ client/dist/index.js
 client/dist/index.js.map
 client/dist/index.min.js
 client/dist/index.min.js.map
+node_modules/
+/test-results/
+/playwright-report/
+/playwright/.cache/

@@ -37,5 +37,13 @@ jobs:
         run: npm ci
       - name: Test
         run: npm test
-      - name: Test E2E
+      - name: Install Playwright Browsers
+        run: npx playwright install --with-deps
+      - name: Run Playwright tests
         run: npm run test:e2e
+      - uses: actions/upload-artifact@v3
+        if: always()
+        with:
+          name: playwright-report
+          path: playwright-report/
+          retention-days: 30
