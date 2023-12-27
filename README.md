@@ -8,8 +8,8 @@
 </p>
 <p align="center"><a href="https://www.browsersync.io"><img src="https://raw.githubusercontent.com/BrowserSync/browsersync.github.io/master/public/img/logo-gh.png" /></a></p>
 <p align="center">Keep multiple browsers & devices in sync when building websites.</p>
-
 <p align="center">Follow <a href="https://twitter.com/browsersync">@Browsersync</a> on twitter for news & updates.</p>
+<p align="center">Ask questions on <a href="https://discord.gg/2d2xUThp">Discord</a></p>
 
 ## Features
 
