@@ -1,7 +1,7 @@
 {
 	"name": "browser-sync-client",
 	"description": "Client-side scripts for BrowserSync",
-	"version": "3.0.0-alpha.0",
+	"version": "3.0.0-alpha.1",
 	"homepage": "https://github.com/shakyshane/browser-sync-client",
 	"author": "Shane Osbourne <shane.osbourne8@gmail.com>",
 	"repository": {
