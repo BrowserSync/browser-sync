@@ -1,7 +1,7 @@
 {
 	"name": "browser-sync",
 	"description": "Live CSS Reload & Browser Syncing",
-	"version": "2.29.3",
+	"version": "3.0.0-alpha.0",
 	"homepage": "https://browsersync.io/",
 	"author": {
 		"name": "Shane Osbourne"
@@ -35,8 +35,8 @@
 		"serve:fixtures": "node dist/bin test/fixtures -w --no-open"
 	},
 	"dependencies": {
-		"browser-sync-client": "^2.29.3",
-		"browser-sync-ui": "^2.29.3",
+		"browser-sync-client": "^3.0.0-alpha.0",
+		"browser-sync-ui": "^3.0.0-alpha.0",
 		"bs-recipes": "1.3.4",
 		"chalk": "4.1.2",
 		"chokidar": "^3.5.1",
@@ -85,9 +85,9 @@
 		"typescript": "^4.6.2",
 		"vinyl": "1.2.0"
 	},
-  "peerDependencies": {
-    "localtunnel": "^2.0.2"
-  },
+	"peerDependencies": {
+		"localtunnel": "^2.0.2"
+	},
 	"keywords": [
 		"browser sync",
 		"css",
