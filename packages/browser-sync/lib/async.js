@@ -225,6 +225,9 @@ module.exports = {
             var localTunnel = require("./tunnel");
             localTunnel(bs, function(err, tunnel) {
                 if (err) {
+                    if (err.code === "MODULE_NOT_FOUND") {
+                        return utils.fail(true, err, bs.cb);
+                    }
                     return done(err);
                 } else {
                     return done(null, {
