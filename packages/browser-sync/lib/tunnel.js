@@ -8,6 +8,17 @@ var utils = require("util");
  * @param {Function} cb
  */
 module.exports = function(bs, cb) {
+    var localtunnel;
+    try {
+        localtunnel = require("localtunnel");
+    } catch (e) {
+        if (e.code === "MODULE_NOT_FOUND") {
+            var error = new Error("Could not find package `localtunnel`. From Browsersync version 3.0 you'll need to install this manually.");
+            error.code = e.code;
+            return cb(error);
+        }
+        return cb(e);
+    }
     var opts = {};
     var options = bs.options;
     var port = options.get("port");
@@ -22,7 +33,7 @@ module.exports = function(bs, cb) {
         utils.inspect(opts)
     );
 
-    require("localtunnel")(port, opts, function(err, tunnel) {
+    localtunnel(port, opts, function(err, tunnel) {
         if (err) {
             return cb(err);
         }

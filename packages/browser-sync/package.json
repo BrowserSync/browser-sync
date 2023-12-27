@@ -85,14 +85,6 @@
 		"typescript": "^4.6.2",
 		"vinyl": "1.2.0"
 	},
-	"optionalDependencies": {
-		"localtunnel": "^2.0.2"
-	},
-	"peerDependenciesMeta": {
-		"localtunnel": {
-			"optional": true
-		}
-	},
 	"keywords": [
 		"browser sync",
 		"css",
