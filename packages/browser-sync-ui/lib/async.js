@@ -69,7 +69,7 @@ module.exports = {
         };
 
         if (bsUrls.external) {
-            var externalListen = listenHost || url.parse(bsUrls.external).hostname;
+            var externalListen = url.parse(bsUrls.external).hostname || listenHost;
             urls["ui-external"] = ["http://", externalListen, ":", port].join("");
         }
 
