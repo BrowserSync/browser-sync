@@ -60,7 +60,6 @@ interface IBrowserSyncOptions {
     serveStatic: any[];
     scrollElementMapping: any[];
     scrollProportionally: boolean;
-    xip: boolean;
 }
 interface ISnippetOptions {
     async: boolean;

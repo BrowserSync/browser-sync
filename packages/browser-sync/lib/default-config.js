@@ -304,14 +304,6 @@ module.exports = {
      */
 
     /**
-     * Some features of Browsersync (such as `xip` & `tunnel`) require an internet connection, but if you're
-     * working offline, you can reduce start-up time by setting this option to `false`
-     * @property online
-     * @type Boolean
-     * @default undefined
-     */
-
-    /**
      * Decide which URL to open automatically when Browsersync starts. Defaults to "local" if none set.
      * Can be `true`, `local`, `external`, `ui`, `ui-external`, `tunnel` or `false`
      * @property open
@@ -335,15 +327,6 @@ module.exports = {
      * @since 2.16.0
      */
     cors: false,
-
-    /**
-     * Requires an internet connection - useful for services such as [Typekit](https://typekit.com/)
-     * as it allows you to configure domains such as `*.xip.io` in your kit settings
-     * @property xip
-     * @type Boolean
-     * @default false
-     */
-    xip: false,
 
     hostnameSuffix: false,
 
