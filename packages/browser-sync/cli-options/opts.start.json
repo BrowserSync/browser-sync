@@ -75,10 +75,6 @@
     "type": "boolean",
     "desc": "Show a directory listing for the server"
   },
-  "xip": {
-    "type": "boolean",
-    "desc": "Use xip.io domain routing"
-  },
   "tunnel": {
     "desc": "Use a public URL"
   },

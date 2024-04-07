@@ -27,7 +27,6 @@
     },
     "open": false,
     "browser": "default",
-    "xip": false,
     "hostnameSuffix": false,
     "notify": true,
     "scrollProportionally": true,

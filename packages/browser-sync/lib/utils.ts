@@ -46,14 +46,8 @@ export function getUrlOptions(options: BsTempOptions): Map<string, string> {
     }
 
     const fn: typeof getHostIp = exports.getHostIp;
-    const external = xip(fn(options, devIp()), options);
-    let localhost = "localhost";
-
-    if (options.get("xip")) {
-        localhost = "127.0.0.1";
-    }
-
-    localhost = xip(localhost, options);
+    const external = hostnameSuffix(fn(options, devIp()), options);
+    const localhost = hostnameSuffix("localhost", options);
 
     return Immutable.fromJS(getUrls(external, localhost, scheme, options));
 }
@@ -231,16 +225,13 @@ export function fail(kill, errMessage, cb) {
 }
 
 /**
- * Add support for xip.io urls
+ * hostnameSuffix
  * @param {String} host
  * @param {Object} options
  * @returns {String}
  */
-export function xip(host, options) {
+export function hostnameSuffix(host, options) {
     var suffix = options.get("hostnameSuffix");
-    if (options.get("xip")) {
-        return host + ".xip.io";
-    }
     if (suffix) {
         return host + suffix;
     }

@@ -56,7 +56,6 @@ export interface InitOptions {
     serveStatic: any[];
     scrollElementMapping: any[];
     scrollProportionally: boolean;
-    xip: boolean;
 }
 
 interface ISnippetOptions {

@@ -48,33 +48,6 @@ describe("Utils: creating URLs", function() {
             external: "http://" + external + ":3000"
         });
     });
-    it("should return the external/local with xip", function() {
-        var [opts, errors] = merge({
-            port: 3000,
-            server: true,
-            https: true,
-            online: true,
-            xip: true
-        });
-        var out = utils.getUrlOptions(opts);
-        assert.equal(out.get("local"), "https://127.0.0.1.xip.io:3000");
-        assert.equal(
-            out.get("external"),
-            "https://" + external + ".xip.io:3000"
-        );
-    });
-    it("should return the URLs when OFFLINE & XIP set", function() {
-        var [opts, errors] = merge({
-            port: 3000,
-            server: true,
-            scheme: "http",
-            online: false,
-            xip: true
-        });
-        assert.deepEqual(utils.getUrlOptions(opts).toJS(), {
-            local: "http://localhost:3000"
-        });
-    });
     it("should NOT ALLOW 'listen' and 'host' options if they differ", function() {
         var [opts, errors] = merge({
             port: 3000,
