@@ -1,7 +1,7 @@
 {
 	"name": "browser-sync",
 	"description": "Live CSS Reload & Browser Syncing",
-	"version": "3.0.2",
+	"version": "3.0.3",
 	"homepage": "https://browsersync.io/",
 	"author": {
 		"name": "Shane Osbourne"
@@ -35,8 +35,8 @@
 		"serve:fixtures": "node dist/bin test/fixtures -w --no-open"
 	},
 	"dependencies": {
-		"browser-sync-client": "^3.0.2",
-		"browser-sync-ui": "^3.0.2",
+		"browser-sync-client": "^3.0.3",
+		"browser-sync-ui": "^3.0.3",
 		"bs-recipes": "1.3.4",
 		"chalk": "4.1.2",
 		"chokidar": "^3.5.1",
