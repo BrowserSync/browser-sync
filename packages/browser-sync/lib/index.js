@@ -10,7 +10,7 @@ var publicUtils = require("./public/public-utils");
 var events = require("events");
 var chalk  = require("chalk");
 var PassThrough = require("stream").PassThrough;
-var logger = require("eazy-logger").Logger({
+var logger = require("eazy-consola").Logger({
     useLevelPrefixes: true
 });
 

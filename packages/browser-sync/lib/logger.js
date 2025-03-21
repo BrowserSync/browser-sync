@@ -7,7 +7,7 @@ var chalk = require("chalk");
 
 var template = (prefix) => "[" + chalk.blue(prefix) + "] "
 
-var logger = require("eazy-logger").Logger({
+var logger = require("eazy-consola").Logger({
     useLevelPrefixes: false
 });
 
