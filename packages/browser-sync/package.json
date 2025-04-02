@@ -44,7 +44,7 @@
 		"connect-history-api-fallback": "^1",
 		"dev-ip": "^1.0.1",
 		"easy-extender": "^2.3.4",
-		"eazy-logger": "^4.0.1",
+		"eazy-logger": "^4.1.0",
 		"etag": "^1.8.1",
 		"fresh": "^0.5.2",
 		"fs-extra": "3.0.1",
