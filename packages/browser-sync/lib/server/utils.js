@@ -114,6 +114,9 @@ var serverUtils = {
              * the error message good enough.
              */
             var maybe = require.resolve(httpModule);
+            if (httpModule.createSecureServer) {
+                return httpModule.createSecureServer(opts.toJS(), app);
+            }
             return require(maybe);
         }
 
