@@ -11,7 +11,7 @@
 <p align="center">Follow <a href="https://twitter.com/browsersync">@Browsersync</a> on twitter for news & updates.</p>
 <p align="center">Ask questions on <a href="https://discord.gg/2d2xUThp">Discord</a></p>
 
-## Features
+## Amazing Features
 
 Please visit [browsersync.io](https://browsersync.io) for a full run-down of features
 
