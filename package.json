@@ -17,8 +17,8 @@
 		"zod": "^3.22.2"
 	},
 	"overrides": {
-		"yargs": "^17.7.2",
-		"yargs-parser": "^21.1.1"
+		"yargs": "^18.0.0",
+		"yargs-parser": "^22.0.0"
 	},
 	"nx": {}
 }
