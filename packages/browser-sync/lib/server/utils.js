@@ -1,5 +1,6 @@
 "use strict";
 
+var chalk = require("chalk");
 var fs = require("fs");
 var path = require("path");
 var join = require("path").join;
