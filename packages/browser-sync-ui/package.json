@@ -26,7 +26,7 @@
 		"async-each-series": "0.1.1",
 		"chalk": "4.1.2",
 		"connect-history-api-fallback": "^1",
-		"immutable": "^3",
+		"immutable": "^4.3.8",
 		"server-destroy": "1.0.1",
 		"socket.io-client": "^4.4.1",
 		"stream-throttle": "^0.1.3"

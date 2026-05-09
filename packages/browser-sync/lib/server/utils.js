@@ -1,5 +1,6 @@
 "use strict";
 
+var chalk = require("chalk");
 var fs = require("fs");
 var path = require("path");
 var join = require("path").join;
@@ -30,8 +31,9 @@ function getCa(options) {
         return fs.readFileSync(caOption);
     }
     // if an array was given, read all
-    if (List.isList(caOption)) {
-        return caOption.toArray().map(function(x) {
+    if (List.isList(caOption) || Array.isArray(caOption)) {
+        var arr = List.isList(caOption) ? caOption.toArray() : caOption;
+        return arr.map(function(x) {
             return fs.readFileSync(x);
         });
     }
@@ -50,7 +52,7 @@ function getCert(options) {
 }
 
 function getHttpsServerDefaults(options) {
-    return fromJS({
+    return Map({
         key: getKey(options),
         cert: getCert(options),
         ca: getCa(options),
@@ -59,7 +61,7 @@ function getHttpsServerDefaults(options) {
 }
 
 function getPFXDefaults(options) {
-    return fromJS({
+    return Map({
         pfx: fs.readFileSync(options.getIn(["https", "pfx"]))
     });
 }

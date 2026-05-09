@@ -93,13 +93,15 @@ export function setStartPath(incoming: BsTempOptions): TransformResult {
  * @param incoming
  */
 export function setNamespace(incoming: BsTempOptions): TransformResult {
-    var namespace = incoming.getIn(["socket", "namespace"]);
+    var namespace = incoming.getIn(["socket", "namespace"]) as unknown;
 
     if (_.isFunction(namespace)) {
         return [
             incoming.setIn(
                 ["socket", "namespace"],
-                namespace((defaultConfig.socket as any).namespace)
+                (namespace as (n: string) => string)(
+                    (defaultConfig.socket as any).namespace
+                )
             ),
             []
         ];
@@ -169,17 +171,21 @@ export function fixRewriteRules(incoming: BsTempOptions): TransformResult {
 export function fixSnippetIgnorePaths(
     incoming: BsTempOptions
 ): TransformResult {
-    var ignorePaths = incoming.getIn(["snippetOptions", "ignorePaths"]);
+    var ignorePaths = incoming.getIn([
+        "snippetOptions",
+        "ignorePaths"
+    ]) as string | string[] | undefined;
 
     if (ignorePaths) {
-        if (_.isString(ignorePaths)) {
-            ignorePaths = [ignorePaths];
-        }
-        ignorePaths = ignorePaths.map(ensureSlash);
+        const paths: string[] =
+            typeof ignorePaths === "string"
+                ? [ignorePaths]
+                : (ignorePaths as string[]);
+        const normalized = paths.map(ensureSlash);
         return [
             incoming.setIn(
                 ["snippetOptions", "blacklist"],
-                Immutable.List(ignorePaths)
+                Immutable.List(normalized)
             ),
             []
         ];
@@ -190,7 +196,10 @@ export function fixSnippetIgnorePaths(
 export function fixSnippetIncludePaths(
     incoming: BsTempOptions
 ): TransformResult {
-    var includePaths = incoming.getIn(["snippetOptions", "whitelist"]);
+    var includePaths = incoming.getIn([
+        "snippetOptions",
+        "whitelist"
+    ]) as string[] | undefined;
     if (includePaths) {
         includePaths = includePaths.map(ensureSlash);
         return [
