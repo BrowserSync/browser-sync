@@ -5,7 +5,7 @@ import * as portScanner from "portscanner";
 import * as path from "path";
 import * as UAParser from "ua-parser-js";
 import * as Immutable from "immutable";
-import { List } from "immutable";
+import { List, Map as ImMap } from "immutable";
 
 const _ = require("./lodash.custom");
 const parser = new UAParser();
@@ -32,7 +32,7 @@ export function getHostIp(options: BsTempOptions, devIp: string[]) {
 /**
  * Set URL Options
  */
-export function getUrlOptions(options: BsTempOptions): Map<string, string> {
+export function getUrlOptions(options: BsTempOptions): ImMap<string, string> {
     const scheme = options.get("scheme");
 
     const port = options.get("port");
@@ -42,14 +42,16 @@ export function getUrlOptions(options: BsTempOptions): Map<string, string> {
     if (options.get("online") === false || listen) {
         const host = listen || "localhost";
         urls.local = getUrl(`${scheme}://${host}:${port}`, options);
-        return Immutable.fromJS(urls);
+        return Immutable.fromJS(urls) as ImMap<string, string>;
     }
 
     const fn: typeof getHostIp = exports.getHostIp;
     const external = hostnameSuffix(fn(options, devIp()), options);
     const localhost = hostnameSuffix("localhost", options);
 
-    return Immutable.fromJS(getUrls(external, localhost, scheme, options));
+    return Immutable.fromJS(
+        getUrls(external, localhost, scheme, options)
+    ) as ImMap<string, string>;
 }
 
 /**
@@ -170,9 +172,12 @@ export function openBrowser(url, options, bs) {
     const fn: typeof opnWrapper = exports.opnWrapper;
     if (open) {
         if (browser !== "default") {
-            if (isList(browser)) {
-                browser.forEach(function(browser) {
-                    fn(url, browser, bs);
+            if (List.isList(browser) || Array.isArray(browser)) {
+                const browsers = List.isList(browser)
+                    ? (browser as Immutable.List<string>).toArray()
+                    : (browser as string[]);
+                browsers.forEach(function (browserName) {
+                    fn(url, browserName, bs);
                 });
             } else {
                 fn(url, browser, bs); // single
@@ -196,6 +201,9 @@ export function opnWrapper(url, name, bs) {
         }
         if (Immutable.Map.isMap(name)) {
             return name.toJS();
+        }
+        if (name && typeof name === "object" && !Array.isArray(name)) {
+            return name;
         }
         return {};
     })();

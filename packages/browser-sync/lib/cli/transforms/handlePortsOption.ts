@@ -18,8 +18,14 @@ export function handlePortsOption(incoming: BsTempOptions): TransformResult {
             obj.max = null;
         }
     } else {
-        obj.min = value.get("min");
-        obj.max = value.get("max") || null;
+        if (Map.isMap(value)) {
+            obj.min = (value.get("min") as number) ?? null;
+            obj.max = (value.get("max") as number | undefined) || null;
+        } else {
+            const o = value as { min?: number; max?: number | null };
+            obj.min = o.min != null ? o.min : null;
+            obj.max = o.max != null ? o.max : null;
+        }
     }
 
     return [incoming.set("ports", Map(obj)), []];

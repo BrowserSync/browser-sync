@@ -103,14 +103,19 @@ export function makeFilesArg(value) {
         globs = globs.concat(explodeFilesArg(value));
     }
 
-    if (List.isList(value) && value.size) {
-        value.forEach(function(value) {
-            if (_.isString(value)) {
-                globs.push(value);
-            } else {
-                if (Map.isMap(value)) {
-                    objs.push(value);
-                }
+    const iterable =
+        List.isList(value) && value.size
+            ? value
+            : Array.isArray(value) && value.length
+            ? value
+            : null;
+
+    if (iterable) {
+        iterable.forEach(function(item) {
+            if (_.isString(item)) {
+                globs.push(item);
+            } else if (Map.isMap(item)) {
+                objs.push(item);
             }
         });
     }

@@ -24,19 +24,25 @@ export function handleServerOption(incoming: BsTempOptions): TransformResult {
         return [incoming.set("server", fromJS(obj)), []];
     }
 
-    if (List.isList(value)) {
+    if (List.isList(value) || Array.isArray(value)) {
+        const baseDir = List.isList(value)
+            ? (value as List<string>).toArray()
+            : (value as string[]);
         const obj: IServerOption = {
-            baseDir: value
+            baseDir
         };
         return [incoming.set("server", fromJS(obj)), []];
     }
 
-    if (Map.isMap(value)) {
+    if (value && typeof value === "object" && !Array.isArray(value)) {
+        const mapVal: Map<string, any> = Map.isMap(value)
+            ? (value as Map<string, any>)
+            : (fromJS(value) as Map<string, any>);
         const dirs = List([])
-            .concat(value.get("baseDir", "./"))
+            .concat(mapVal.get("baseDir", "./"))
             .filter(Boolean);
 
-        const merged = value.merge({ baseDir: dirs });
+        const merged = mapVal.merge({ baseDir: dirs });
 
         return [incoming.set("server", merged), []];
     }
