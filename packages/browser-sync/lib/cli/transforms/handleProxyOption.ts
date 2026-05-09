@@ -1,5 +1,5 @@
 import * as url from "url";
-import { Map } from "immutable";
+import { Map, fromJS } from "immutable";
 import { BrowsersyncProxy } from "../../types";
 import { BsTempOptions, TransformResult } from "../cli-options";
 
@@ -13,8 +13,12 @@ export function handleProxyOption(incoming: BsTempOptions): TransformResult {
     }
 
     if (typeof value !== "string") {
-        target = value.get("target");
-        mw = value.get("middleware");
+        const mapVal = Map.isMap(value)
+            ? (value as Map<string, any>)
+            : (fromJS(value) as Map<string, any>);
+        target = mapVal.get("target");
+        mw = mapVal.get("middleware");
+        value = mapVal;
     } else {
         target = value;
         value = Map({});

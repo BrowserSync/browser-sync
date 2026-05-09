@@ -47,3 +47,4 @@ jobs:
           name: playwright-report-node-${{ matrix.node-version }}
           path: playwright-report/
           retention-days: 30
+          if-no-files-found: ignore
